@@ -1,9 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="eli5" width="100%" />
+  <img src="assets/banner.png" alt="eli5" width="100%">
 </p>
 
-# eli5
-
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> eli5</h1>
 Ask it to explain something hard, and you get back a page you can poke at: a diagram
 that moves when you change something, a question that makes you commit a guess before it
 shows you the answer, and a plain statement of where its own comparison stops being true.

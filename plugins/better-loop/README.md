@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="better-loop: a porcelain icon of a bearing needle circling a fixed watch-point, one vermilion tick per pass, beside the wordmark and the line: a loop worth leaving alone" width="100%" />
+  <img src="assets/banner.png" alt="better-loop: a porcelain icon of a bearing needle circling a fixed watch-point, one vermilion tick per pass, beside the wordmark and the line: a loop worth leaving alone" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> better-loop</h1>

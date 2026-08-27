@@ -1,6 +1,5 @@
-# mac-design-digest
-
-<p align="center"><img src="assets/banner.png" alt="mac-design-digest: a graphite certificate plate carrying three pale measurement bars, with a vermilion wax seal seated in a countersink at its lower-right corner and hanging out over the plate edge, beside the wordmark and the provenance marks (measured)(canon), with the same plate repeated at reading size on the right, fading in from the left and showing its sealed corner" width="100%" /></p>
+<h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> mac-design-digest</h1>
+<p align="center"><img src="assets/banner.png" alt="mac-design-digest: a graphite certificate plate carrying three pale measurement bars, with a vermilion wax seal seated in a countersink at its lower-right corner and hanging out over the plate edge, beside the wordmark and the provenance marks (measured)(canon), with the same plate repeated at reading size on the right, fading in from the left and showing its sealed corner" width="100%"></p>
 
 <p align="center">
   <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">

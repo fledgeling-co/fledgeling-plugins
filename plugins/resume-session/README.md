@@ -1,9 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="resume-session: When your agent crashes, compacts, or runs out of tokens. Resume the work without losing the thread." width="100%" />
+  <img src="assets/banner.png" alt="resume-session: When your agent crashes, compacts, or runs out of tokens. Resume the work without losing the thread." width="100%">
 </p>
 
-# resume-session
-
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> resume-session</h1>
 <p align="center">
   <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
   <img alt="SWE skill: session recovery" src="https://img.shields.io/badge/SWE_skill-session_recovery-434A55">

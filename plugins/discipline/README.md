@@ -1,7 +1,8 @@
-<img src="assets/banner.png" alt="discipline" width="100%" />
+<p align="center">
+  <img src="assets/banner.png" alt="discipline" width="100%">
+</p>
 
-# discipline
-
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> discipline</h1>
 **Stop an agent buying cheap tokens with worse work.** A ~220-token block for the start of a session, plus the measured reason every line of it says what it says.
 
 <p align="center">

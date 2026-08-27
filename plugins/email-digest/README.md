@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="email-digest: three stacked graphite cards on porcelain, the top one carrying a vermilion bar and two lines of body, the next two a single row each, and beneath them a tail of six thin rules running off the frame, beside the wordmark email-digest whose hyphen is that same vermilion bar in miniature and the line 'Twenty-four items was never the defect. Treating all twenty-four identically was.'" width="100%" />
+  <img src="assets/banner.png" alt="email-digest: three stacked graphite cards on porcelain, the top one carrying a vermilion bar and two lines of body, the next two a single row each, and beneath them a tail of six thin rules running off the frame, beside the wordmark email-digest whose hyphen is that same vermilion bar in miniature and the line 'Twenty-four items was never the defect. Treating all twenty-four identically was.'" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> email-digest</h1>

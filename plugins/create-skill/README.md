@@ -1,6 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="create-skill: molten vermilion pouring into a porcelain casting flask, beside the wordmark" width="100%" />
+  <img src="assets/banner.png" alt="create-skill: molten vermilion pouring into a porcelain casting flask, beside the wordmark" width="100%">
 </p>
+
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> create-skill</h1>
 
 <p align="center"><strong>Build a new skill properly, from the interview outward.</strong></p>
 

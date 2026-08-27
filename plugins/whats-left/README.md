@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="what’s left: a porcelain icon of a short to-do list, three ticked bars receding up the tile and one card standing forward carrying a filled vermilion dial, beside the wordmark and the line: where the project actually stands, and every decision that is waiting on you, on one page" width="100%" />
+  <img src="assets/banner.png" alt="what’s left: a porcelain icon of a short to-do list, three ticked bars receding up the tile and one card standing forward carrying a filled vermilion dial, beside the wordmark and the line: where the project actually stands, and every decision that is waiting on you, on one page" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> whats-left</h1>

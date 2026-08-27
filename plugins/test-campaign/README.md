@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="test-campaign: a porcelain icon of a three-by-three grid of captured frames, one filled vermilion and the ninth cell an empty socket pressed into the tile, beside the wordmark and the line: a test campaign, and a page that shows what it actually proved" width="100%" />
+  <img src="assets/banner.png" alt="test-campaign: a porcelain icon of a three-by-three grid of captured frames, one filled vermilion and the ninth cell an empty socket pressed into the tile, beside the wordmark and the line: a test campaign, and a page that shows what it actually proved" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> test-campaign</h1>

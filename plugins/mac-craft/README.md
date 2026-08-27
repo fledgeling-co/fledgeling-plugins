@@ -1,9 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="mac-craft: a porcelain app icon of a chamfered window frame around a pale glass panel, held in a dark gauge whose jaw closes on a vermilion bar, beside the wordmark and the line: built to the platform's own published values, with contrast computed rather than claimed. To the right, the same assembly at scale, marked set 58 of 116, specified, canon." width="100%" />
+  <img src="assets/banner.png" alt="mac-craft: a porcelain app icon of a chamfered window frame around a pale glass panel, held in a dark gauge whose jaw closes on a vermilion bar, beside the wordmark and the line: built to the platform's own published values, with contrast computed rather than claimed. To the right, the same assembly at scale, marked set 58 of 116, specified, canon." width="100%">
 </p>
 
-# mac-craft
-
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> mac-craft</h1>
 <p align="center">
   <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
   <img alt="SWE skill: design" src="https://img.shields.io/badge/SWE_skill-design-434A55">

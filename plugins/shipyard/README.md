@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="shipyard: a porcelain icon of a ship hull mid-build on a slipway cradle, its next plank glowing ember as it arrives, beside the wordmark and the line 'where features get built, stage by stage'" width="100%" />
+  <img src="assets/banner.png" alt="shipyard: a porcelain icon of a ship hull mid-build on a slipway cradle, its next plank glowing ember as it arrives, beside the wordmark and the line 'where features get built, stage by stage'" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> shipyard</h1>

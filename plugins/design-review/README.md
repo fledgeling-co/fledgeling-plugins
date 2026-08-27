@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="design-review: a porcelain app icon showing a UI surface with one column knocked off its shared rail and a vermilion registration mark set on the break, beside the wordmark and the line: the last pass before a human looks at AI-built UI" width="100%" />
+  <img src="assets/banner.png" alt="design-review: a porcelain app icon showing a UI surface with one column knocked off its shared rail and a vermilion registration mark set on the break, beside the wordmark and the line: the last pass before a human looks at AI-built UI" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon-masked.svg" alt="" width="34" valign="middle" /> design-review</h1>

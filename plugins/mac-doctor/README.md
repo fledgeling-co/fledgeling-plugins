@@ -2,8 +2,7 @@
   <img src="assets/banner.png" alt="mac-doctor: your Mac fills up a hundred reasonable decisions at a time" width="100%">
 </p>
 
-# mac-doctor
-
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> mac-doctor</h1>
 <p align="center">
   <img alt="Version 1.0.3" src="https://img.shields.io/badge/version-1.0.3-D33C21">
   <img alt="SWE skill: maintenance" src="https://img.shields.io/badge/SWE_skill-maintenance-434A55">

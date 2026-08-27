@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="warrant: a porcelain tile holding five slate bars of decreasing width, the narrowest one lit in teal and resting on the surface while the wider ones float above it, beside the wordmark and the line 'delegated authority, revoked automatically'" width="100%" />
+  <img src="assets/banner.png" alt="warrant: a porcelain tile holding five slate bars of decreasing width, the narrowest one lit in teal and resting on the surface while the wider ones float above it, beside the wordmark and the line 'delegated authority, revoked automatically'" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> warrant</h1>

@@ -1,9 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="anvil-errand: a porcelain app icon of a graphite anvil with a glowing vermilion billet resting on its face and an arc arriving over it, beside the wordmark and the line: send an agent to do the work on another machine, it names the missing piece before anything starts, not halfway through a container start. To the right, the same billet lands on a bare graphite ledge." width="100%" />
+  <img src="assets/banner.png" alt="anvil-errand: a porcelain app icon of a graphite anvil with a glowing vermilion billet resting on its face and an arc arriving over it, beside the wordmark and the line: send an agent to do the work on another machine, it names the missing piece before anything starts, not halfway through a container start. To the right, the same billet lands on a bare graphite ledge." width="100%">
 </p>
 
-# anvil-errand
-
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> anvil-errand</h1>
 <p align="center">
   <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
   <img alt="SWE skill: orchestration" src="https://img.shields.io/badge/SWE_skill-orchestration-434A55">

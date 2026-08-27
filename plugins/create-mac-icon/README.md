@@ -1,6 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="create-mac-icon: a vermilion gel tile lifting out of its mould beside the wordmark" width="100%" />
+  <img src="assets/banner.png" alt="create-mac-icon: a vermilion gel tile lifting out of its mould beside the wordmark" width="100%">
 </p>
+
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> create-mac-icon</h1>
 
 <p align="center"><strong>macOS app icons, measured against the reference instead of eyeballed.</strong></p>
 

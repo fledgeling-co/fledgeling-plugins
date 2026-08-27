@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="braindump: a compressed graphite core banded with glowing vermilion seams beside the wordmark, with the tagline: get everything load-bearing out of your head and onto the page, before the context holding it is thrown away" width="100%" />
+  <img src="assets/banner.png" alt="braindump: a compressed graphite core banded with glowing vermilion seams beside the wordmark, with the tagline: get everything load-bearing out of your head and onto the page, before the context holding it is thrown away" width="100%">
 </p>
 
 <h1><img src="assets/icon.svg" alt="" width="30" valign="middle" /> braindump</h1>

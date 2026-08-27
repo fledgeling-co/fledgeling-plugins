@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="launch-craft: a porcelain icon of a telemetry gantry holding an amber-gilded multi-platform beacon, beside the wordmark and the line 'product synthesis and interactive launch conductor'" width="100%" />
+  <img src="assets/banner.png" alt="launch-craft: a porcelain icon of a telemetry gantry holding an amber-gilded multi-platform beacon, beside the wordmark and the line 'product synthesis and interactive launch conductor'" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> launch-craft</h1>

@@ -1,9 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="design-craft: a porcelain app icon of three overlapping paddle shapes fanned into a V, two of them pale and dark grey and the third a glossy vermilion with a dark pivot stud, beside the wordmark and the line: names the rut and its predictable opposite, then derives past both and commits. To the right, the same fan of three at scale." width="100%" />
+  <img src="assets/banner.png" alt="design-craft: a porcelain app icon of three overlapping paddle shapes fanned into a V, two of them pale and dark grey and the third a glossy vermilion with a dark pivot stud, beside the wordmark and the line: names the rut and its predictable opposite, then derives past both and commits. To the right, the same fan of three at scale." width="100%">
 </p>
 
-# design-craft
-
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> design-craft</h1>
 <p align="center">
   <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
   <img alt="SWE skill: making" src="https://img.shields.io/badge/SWE_skill-making-434A55">

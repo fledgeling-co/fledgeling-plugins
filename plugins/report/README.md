@@ -1,6 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="report: a session in, a document you can send out" width="800">
+  <img src="assets/banner.png" alt="report: a session in, a document you can send out" width="100%">
 </p>
+
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> report</h1>
 
 <p align="center">
   <strong>Get what you just worked out written up, with the receipts still attached.</strong>

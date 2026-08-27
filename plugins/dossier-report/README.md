@@ -1,6 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="dossier-report: a research question in, one published page out" width="800">
+  <img src="assets/banner.png" alt="dossier-report: a research question in, one published page out" width="100%">
 </p>
+
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> dossier-report</h1>
 
 <p align="center">
   <strong>Ask a question. Get a published page that can prove what it says.</strong>

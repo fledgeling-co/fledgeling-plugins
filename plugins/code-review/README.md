@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="code-review: the porcelain icon of a dark graphite slab with engraved rows and a vermilion-walled aperture cut through it, beside the wordmark code review whose hyphen is that same aperture in miniature, the line 'Every angle, three verdicts. And what it never checked.', and four graphite rows running in from the left and stopping short of an upright vermilion-walled hole" width="100%" />
+  <img src="assets/banner.png" alt="code-review: the porcelain icon of a dark graphite slab with engraved rows and a vermilion-walled aperture cut through it, beside the wordmark code review whose hyphen is that same aperture in miniature, the line 'Every angle, three verdicts. And what it never checked.', and four graphite rows running in from the left and stopping short of an upright vermilion-walled hole" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> code-review</h1>

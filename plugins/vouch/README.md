@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="vouch: a ledger row above, the source document below, and one lit thread running from the row into the page, beside the wordmark and the line: every claimed charge traced back to the supplier's own invoice" width="100%" />
+  <img src="assets/banner.png" alt="vouch: a ledger row above, the source document below, and one lit thread running from the row into the page, beside the wordmark and the line: every claimed charge traced back to the supplier's own invoice" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> vouch</h1>

@@ -1,6 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="deck-craft: a porcelain app icon of four slide plates stepped back in echelon, each ruled with one vermilion line, the frontmost plate graphite and the rest pale, beside the wordmark and the line: the running order is written first, because the titles read in order are the deck's argument. To the right, the same four plates at scale." width="100%" />
+  <img src="assets/banner.png" alt="deck-craft: a porcelain app icon of four slide plates stepped back in echelon, each ruled with one vermilion line, the frontmost plate graphite and the rest pale, beside the wordmark and the line: the running order is written first, because the titles read in order are the deck's argument. To the right, the same four plates at scale." width="100%">
 </p>
+
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> deck-craft</h1>
 
 # Deck Craft
 

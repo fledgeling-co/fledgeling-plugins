@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="improve-skill: a worn plane blade mid-pass across a surface, the strip behind it trued and the strip ahead still rough, beside the wordmark and the line: rebuild a skill you already have, and prove the rebuild" width="100%" />
+  <img src="assets/banner.png" alt="improve-skill: a worn plane blade mid-pass across a surface, the strip behind it trued and the strip ahead still rough, beside the wordmark and the line: rebuild a skill you already have, and prove the rebuild" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon-128.png" alt="" width="34" valign="middle" /> improve-skill</h1>

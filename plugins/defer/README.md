@@ -1,5 +1,8 @@
-# defer
+<p align="center">
+  <img src="assets/banner.png" alt="defer" width="100%">
+</p>
 
+<h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> defer</h1>
 Handing work to another model is three decisions, and skills that make them
 inline get them subtly wrong: **which model**, **at what effort**, and **how you
 know it really ran**. `defer` holds all three in one place, so every skill routes

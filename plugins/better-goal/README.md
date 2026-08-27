@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="better-goal: a porcelain icon of a bearing needle locked on a mark, held by a vermilion ratchet, beside the wordmark and the line: a goal that survives the night" width="100%" />
+  <img src="assets/banner.png" alt="better-goal: a porcelain icon of a bearing needle locked on a mark, held by a vermilion ratchet, beside the wordmark and the line: a goal that survives the night" width="100%">
 </p>
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> better-goal</h1>
