@@ -286,7 +286,7 @@ half-works, and the export-rewrite route is the default.
 ### 4.4 The rebuilt gate, checked against its own inputs
 
 `scripts/lint_explainer.py --self-test`: 29 of 29 rules proved able to fail against broken
-fixtures, with the reference fixture passing all 29.
+fixtures, with the reference fixture passing all 29. §4.7 adds a thirtieth.
 
 Two gate defects were found by running it rather than by reading it. `motion-steppable`
 searched the whole page for the word `step`, so the prose *"each step moves one packet"*
@@ -323,3 +323,41 @@ At 90° of pitch in that rebuild, the yaw and roll axis labels landed on the sam
 drew on top of each other. Every one of the 29 checks passed. This is §1.9 exactly — the
 markup was valid and the geometry was wrong — and it is why the skill's last step is to open
 the file and look. The fix collapses the two labels into one below 12° of separation.
+
+### 4.7 The gate could not see the failure the skill is named for
+
+`done-to-verified.html`, rebuilt with 0.2.0, passed 24 of 24 checks at 200 words of prose,
+no block over 28, three visual scenes, four interaction kinds. It was unreadable to anybody
+outside the project it describes.
+
+What shipped: *"193 of 200 cards carry evidence that bites. Verified is a different axis."*
+and *"which classes to add, each one's oracle, and the closure count with its window."* The
+terms *card*, *class*, *rung*, *oracle*, *assay*, *closure*, *escape* and *coverage* are
+ordinary English words carrying private meanings, which is the hardest jargon to notice
+because none of it looks technical. The page defined none of them.
+
+Two measurements decided how to gate this.
+
+**Readability metrics do not separate the two cases.** The unreadable artifact and a
+readable one built the same day:
+
+| | mean sentence | sentences ≤ 8 words | terms defined |
+|---|---|---|---|
+| `done-to-verified.html` | 8.0 words | 66% | 0 |
+| gimbal reference | 8.5 words | 59% | 0 |
+
+A sentence-length or short-sentence rule would fire identically on both, so the gate does not
+carry one.
+
+**Both pages defined nothing.** That is the signal, and it is checkable. `defines-its-terms`
+fails on zero `<dfn>`, fails on a term used before its definition, and warns below three.
+
+**The 0.2.0 prose budgets caused part of this.** Capping the page at 350 words and any block
+at 50 pushed compression rather than cutting, and compressing a hard idea produces the
+aphorism register — a conclusion with the mechanism removed. Text inside `<dfn>` is now
+exempt from both budgets, exactly as text inside `<svg>` is, so defining a term costs the
+author nothing and there is no incentive to compress instead.
+
+→ Rules: the reader is named in SKILL.md as a curious sixteen-year-old or a sharp adult who
+has never worked on this; every topic-specific word is defined at first use or replaced;
+aphorisms are named as the compression failure rather than left implicit.

@@ -32,10 +32,43 @@ This skill builds a **single self-contained HTML file** that does that. Every ru
 a row in `references/evidence.md`, which carries the citations from a four-backend research
 panel and marks where the panel disagreed.
 
-Three things it refuses. It does not talk down — the register is a brilliant colleague from
-a different field. It does not ship an analogy without its boundary, because an unbounded
-analogy is how a confident misconception gets installed. And it does not ship a document
-with a diagram in it: the reader operates the mechanism, and prose is what is left over.
+Three things it refuses. It does not ship an analogy without its boundary, because an
+unbounded analogy is how a confident misconception gets installed. It does not ship a
+document with a diagram in it: the reader operates the mechanism, and prose is what is left
+over. And it does not write for someone who already knows.
+
+## Who is reading, and it decides everything else
+
+**A curious sixteen-year-old, or an adult who is sharp and has never worked on this.** They
+can follow a real mechanism. They do not know your vocabulary, and they will not look
+anything up — they will close the page.
+
+That has one consequence, and it is the rule the whole skill turns on: **every word specific
+to this topic is defined where it first appears, or replaced with a plain one.** Mark each
+definition with `<dfn>`. Definitions cost nothing against the prose budget, so there is never
+a reason to leave one out.
+
+The failure this replaces was not baby-talk. It was the opposite, and the gate could not see
+it — one artifact passed every check at 200 words while reading like this:
+
+| What shipped | What the reader needed |
+|---|---|
+| "193 of 200 cards carry evidence that bites. Verified is a different axis." | "193 of the 200 tasks now have a test behind them. That was never what was blocking us." |
+| "which classes to add, each one's oracle, and the closure count with its window" | "which kinds of bug to look for, how you would know you had found one, and how long to watch" |
+| "every class at rung zero · coverage 65.9%" | "no category has got past the first of four levels. Two thirds of the code is watched." |
+
+Every term in that left column — *card*, *class*, *rung*, *oracle*, *assay*, *closure*,
+*escape*, *coverage* — is an ordinary English word carrying a private meaning. That is the
+hardest kind of jargon to notice, because nothing about it looks technical.
+
+**Aphorisms are not explanations.** *"Verified is a different axis."* is a sentence somebody
+writes when they already understand. It states a conclusion and shows no mechanism, and it
+is what compression produces when a hard idea meets a word budget. Meet the budget by cutting
+claims and moving explanation onto the diagram, never by shortening sentences until they turn
+into slogans. One line in the whole page may land like that; a page of them explains nothing.
+
+The register is still not baby-talk: no "grown-up word", no magic, no cartoon monsters in
+your RAM. Same reading age as before. The difference is that the reader can follow it.
 
 ## What is fixed, and what is yours
 
@@ -191,7 +224,7 @@ annotation in the wrong place.
 
 | Budget | Warns | Fails |
 |---|---|---|
-| Prose on the page | 250 | **350** |
+| Prose on the page | 300 | **350** |
 | Any single text block | 35 | **50** |
 | Unbroken run between two things to look at or touch | 80 | **120** |
 | Words before the reader can do anything | 60 | **90** |
@@ -199,6 +232,11 @@ annotation in the wrong place.
 The block cap is the one that changes how a page reads. A page can sit inside its total and
 still open with a wall: measured on an artifact that passed at 367 words, the three blocks a
 reader called wordy ran 73, 48 and 38, against captions of 14 to 22 that drew no complaint.
+
+**Text inside `<dfn>` is exempt, like text inside `<svg>`.** These budgets exist to cut the
+number of claims a page makes, not to make each claim terser. A page that meets them by
+compressing produces the aphorism register above, which is a worse failure than the length
+it fixed — plain language costs more words than a slogan, and that trade is the right one.
 
 Alongside them, floors: at least **three visual scenes** and at least **two distinct kinds of
 interaction** among drag, slider, step, pick, scroll, orbit and keyboard.
@@ -224,7 +262,7 @@ the pointer, animation-frame and network scans along with the library.
 python3 scripts/lint_explainer.py <file.html>     # must exit 0
 ```
 
-Twenty-nine checks across five families — containment, geometry, interaction, pedagogy and
+Thirty checks across five families — containment, geometry, interaction, pedagogy and
 composition. `--self-test` proves every rule can fail against built-in fixtures; run it once
 on a new machine, because a gate whose checked count has quietly gone to zero reports green
 on everything.

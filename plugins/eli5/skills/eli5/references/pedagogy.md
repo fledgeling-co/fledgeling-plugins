@@ -139,12 +139,28 @@ reader be able to answer one fewer question?* If not, delete it.
 
 ## The register, held under pressure
 
-The failure is subtle in the middle of a page. Symptoms:
+It fails in two directions, and the second one is the harder to catch because it reads as
+competence.
 
-- Exclamation marks doing the work that clarity should do
-- "Simply", "just", "easy" — all of which tell a stuck reader they are stupid
-- Rhetorical questions the page immediately answers ("So what's going on here? Well…")
-- Diminutives: "a little bit of data", "our tiny message"
+**Talking down.** Exclamation marks doing the work clarity should do. "Simply", "just",
+"easy", all of which tell a stuck reader they are stupid. Rhetorical questions the page
+answers itself ("So what's going on here? Well…"). Diminutives: "a little bit of data", "our
+tiny message".
 
-The replacement is not formality. It is **concrete physical verbs**: holds, passes, locks,
-routes, blocks, spills, waits, echoes. They carry mechanism, and they are shorter.
+**Writing for someone who already knows.** Ordinary words carrying private meanings — one
+measured artifact used *card*, *class*, *rung*, *oracle*, *assay*, *closure* and *escape*,
+none defined, and nothing about them looks like jargon. Percentages with no statement of what
+they are a percentage of. And conclusions stated as aphorisms: *"Verified is a different
+axis"*, *"approval is a one-way door"*. Each of those is true and each shows no mechanism.
+
+The replacement for both is the same: **concrete physical verbs** — holds, passes, locks,
+routes, blocks, spills, waits, echoes — and a definition at first use for every word specific
+to the topic. The verbs carry mechanism and they are shorter. The definitions cost nothing
+against the prose budget, so leaving one out buys the page nothing.
+
+### The test that catches the second failure
+
+Read the page as somebody who has never seen the project. Every time you meet a word whose
+meaning depends on knowing this system, that word needs a `<dfn>` or a plainer replacement.
+Readability scores will not find these: measured across a readable artifact and an unreadable
+one, both ran a mean sentence of 8 words and about 60% short sentences (`evidence.md` §4.7).
