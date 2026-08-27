@@ -2,7 +2,7 @@
 """
 lint_explainer.py -- deterministic gate for eli5 explainer artifacts.
 
-Thirty-three checks in five families. Exits 1 on any FAIL.
+Thirty-four checks in five families. Exits 1 on any FAIL.
 
     python3 lint_explainer.py artifact.html
     python3 lint_explainer.py --self-test      # prove every rule can fail
@@ -258,6 +258,33 @@ def check_geometry(html: str) -> List[Check]:
             if px else "no fixed pixel dimensions on <svg>",
             len(px),
         ))
+
+    # Reach. Four artifacts in a row drew with SVG and CSS alone and passed everything,
+    # because every library rule was written as a bar to clear rather than a default.
+    # An explainer may still be SVG-only; it has to say so on purpose.
+    surfaces = []
+    if re.search(r"<canvas\b", h, re.I):
+        surfaces.append("canvas")
+    if re.search(r"\bTHREE\s*\.", h):
+        surfaces.append("three.js")
+    if re.search(r"\bgsap\s*\.|\bScrollTrigger\b", h):
+        surfaces.append("gsap")
+    if re.search(r"<video\b", h, re.I):
+        surfaces.append("clip")
+    if re.search(r'<img\b[^>]*src\s*=\s*["\']data:', h, re.I):
+        surfaces.append("image")
+    declared = re.search(r"<!--\s*surface\s*:", html, re.I)
+    if surfaces:
+        st, msg = PASS, f"draws with {', '.join(surfaces)} beyond SVG and CSS"
+    elif declared:
+        st, msg = PASS, "SVG and CSS only, declared deliberately in a `surface:` comment"
+    else:
+        st, msg = FAIL, ("SVG and CSS only. Reach for the surface the mechanism wants -- canvas "
+                         "past ~500 elements, three.js where a flat view loses the invariant or "
+                         "for a second lens, gsap to orchestrate a state change, a clip for what "
+                         "cannot be computed live. To keep it SVG-only, say why in a "
+                         "`<!-- surface: ... -->` comment")
+    out.append(Check("surface-reach", "geometry", "§1.2 / §1.7", st, msg, len(surfaces)))
 
     if canvases:
         unlabelled = [c for c in canvases if not re.search(r"\baria-label(?:ledby)?\s*=", c, re.I)]
@@ -828,6 +855,7 @@ FIXTURES = [
                              .replace("getElementById('step')", "getElementById('go')")),
     ("reduced-motion", GOOD.replace("@media (prefers-reduced-motion: reduce){*{animation:none}}", "")),
     ("theme-aware", GOOD.replace("@media (prefers-color-scheme: dark){:root{--bg:#111}}", "")),
+    ("surface-reach", GOOD.replace('<canvas id="field" aria-label="diffusion field, 64 by 64 cells"></canvas>', "")),
     ("video-inline-and-scrubbable", GOOD.replace("<canvas", '<video src="clip.mp4" autoplay></video><canvas')),
     ("state-change-signalled", GOOD.replace(".pulse{animation:p .3s}", "")
                                    .replace("h=requestAnimationFrame(draw)", "draw()")
