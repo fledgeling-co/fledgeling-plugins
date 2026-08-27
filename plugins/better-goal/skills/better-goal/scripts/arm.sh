@@ -46,7 +46,18 @@ ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GUARD="$HERE/guard.sh"
 WATCH="$HERE/watch.sh"
+SENTINEL="$HERE/sentinel.sh"
 SETTINGS="$ROOT/.claude/settings.local.json"
+
+# Claude Code's settings watcher only watches directories that already held a
+# settings file when the session started, so a hook written into an empty
+# .claude/ mid-session is written correctly and never loaded. Record which case
+# this is BEFORE writing, because after the write both look identical. The
+# recovery is the user opening /hooks once or restarting; the model cannot do it.
+PRELOADED=0
+for f in "$ROOT/.claude/settings.json" "$ROOT/.claude/settings.local.json"; do
+  [ -f "$f" ] && PRELOADED=1
+done
 STATE="$ROOT/.claude/goals/${SLUG}.json"
 SID="${CLAUDE_CODE_SESSION_ID:-$(jq -r '.session_id // ""' "$SRC")}"
 # The guard refuses to act on a state file with no session id, so arming without
@@ -62,20 +73,42 @@ if [ -f "$SETTINGS" ] && ! jq -e . "$SETTINGS" >/dev/null 2>&1; then
   exit 2
 fi
 
-# Remember any cap the user already had, so disarm can put it back.
-PRIOR_CAP="$(jq -r '.env.CLAUDE_CODE_STOP_HOOK_BLOCK_CAP // ""' "$SETTINGS" 2>/dev/null || true)"
+# Remember any cap the user already had, so disarm can put it back — but only on
+# the FIRST arming in this repo. After that the cap on disk is the one arm.sh
+# wrote, and recording it as "prior" made disarm restore the harness's own
+# override instead of removing it, so the raised cap outlived every run.
+PRIOR_CAP=""
+if ! jq -e --arg re 'better-goal.*guard\.sh' \
+      '[(.hooks.Stop // [])[] | (.hooks // [])[] | .command? // ""] | map(test($re)) | any' \
+      "$SETTINGS" >/dev/null 2>&1; then
+  PRIOR_CAP="$(jq -r '.env.CLAUDE_CODE_STOP_HOOK_BLOCK_CAP // ""' "$SETTINGS" 2>/dev/null || true)"
+fi
+
+# Matching by exact path let a version bump register a SECOND guard beside the
+# first, because the plugin cache path carries the version: `graft` ran every
+# gate twice a turn for exactly this reason (24 ledger rows for 12 turns). Match
+# the same way disarm.sh does, on the script rather than on its full path.
+STALE_RE='(better-goal|goal-harness).*(guard|goal-guard|sentinel)\.sh'
 
 NEW_SETTINGS="$(
   { [ -f "$SETTINGS" ] && cat "$SETTINGS" || echo '{}'; } | jq \
-    --arg guard "$GUARD" --arg cap "$CAP" '
+    --arg guard "$GUARD" --arg sentinel "$SENTINEL" --arg cap "$CAP" --arg re "$STALE_RE" '
+    def drop_ours: map(select(((.hooks // []) | map(.command? // "")
+                               | map(test($re)) | any) | not));
     .env = ((.env // {}) | .CLAUDE_CODE_STOP_HOOK_BLOCK_CAP = $cap)
     | .hooks = (.hooks // {})
-    | .hooks.Stop = (
-        ((.hooks.Stop // []) | map(select(
-           (.hooks // []) | map(.command? // "") | index($guard) | not )))
+    | .hooks.Stop = ((.hooks.Stop // []) | drop_ours
         + [{ hooks: [{ type: "command", command: $guard, timeout: 1200,
-                       statusMessage: "better-goal: verifying gates" }] }]
-      )'
+                       statusMessage: "better-goal: verifying gates" }] }])
+    | .hooks.StopFailure = ((.hooks.StopFailure // []) | drop_ours
+        + [{ hooks: [{ type: "command", command: $guard, timeout: 120,
+                       statusMessage: "better-goal: recording an API-error stop" }] }])
+    | .hooks.SessionEnd = ((.hooks.SessionEnd // []) | drop_ours
+        + [{ hooks: [{ type: "command", command: $guard, timeout: 120,
+                       statusMessage: "better-goal: recording the session ending" }] }])
+    | .hooks.SessionStart = ((.hooks.SessionStart // []) | drop_ours
+        + [{ hooks: [{ type: "command", command: $sentinel, timeout: 60,
+                       statusMessage: "better-goal: checking for stalled runs" }] }])'
 )"
 
 echo "── settings: $SETTINGS"
@@ -86,9 +119,14 @@ else
 fi
 
 NEW_STATE="$(jq --arg s "$SID" --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --arg c "$ROOT" --arg pc "$PRIOR_CAP" \
+  --argjson pre "$PRELOADED" \
   '.armed=true | .session_id=$s | .started_at=$t | .cwd=$c | .iteration=0
    | .repeat_count=0 | .escalated=false | .last_fingerprint="" | .last_failing=""
-   | .stuck_after=(.stuck_after // 3) | .prior_block_cap=$pc' "$SRC")"
+   | .set_repeat_count=0 | .set_escalated=false | .last_failing_set=""
+   | .stuck_after=(.stuck_after // 3)
+   | .set_stuck_after=(.set_stuck_after // 8)
+   | .settings_preexisted=($pre == 1)
+   | .hook_live="unproven" | .prior_block_cap=$pc' "$SRC")"
 
 echo
 echo "── state: $STATE"
@@ -122,7 +160,20 @@ grep -qxF '.claude/goals/' "$ROOT/.gitignore" 2>/dev/null || \
 
 echo
 echo "armed: $SLUG  session=$SID  gates=$(jq -r '.verify | length' "$STATE")  stuck_after=$(jq -r '.stuck_after' "$STATE")"
+echo "hooks:  Stop + StopFailure + SessionEnd -> guard.sh; SessionStart -> sentinel.sh"
 echo "backups: ${SETTINGS}.bak.${STAMP}"
+echo
+if [ "$PRELOADED" -eq 1 ]; then
+  echo "hook load: $ROOT/.claude/ already held a settings file when this session started,"
+  echo "           so the guard should load live. It stays hook_live=unproven until it writes"
+  echo "           its first ledger row; status.sh and the watcher both report that."
+else
+  echo "HOOK NOT LOADED YET — $ROOT/.claude/ held no settings file when this session started."
+  echo "  Claude Code only watches directories that already had one, so the guard is written"
+  echo "  correctly and will not fire in this session. Open /hooks once (that reloads the"
+  echo "  config) or restart the session. Nothing else here can do it: /hooks is a UI menu."
+  echo "  Until then the run is NOT armed, whatever the state file says."
+fi
 echo
 echo "Arm the out-of-band watcher next — the guard cannot see a run that dies mid-turn:"
 echo "  Monitor({ command: \"$WATCH $SLUG\", description: \"goal $SLUG liveness\", persistent: true })"

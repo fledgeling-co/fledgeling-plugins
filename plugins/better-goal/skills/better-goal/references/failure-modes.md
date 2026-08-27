@@ -1,9 +1,15 @@
 # Failure modes, and what fixes each
 
-Every row below was observed in real runs — 114 `/goal` invocations across 13
-projects between 2026-06-07 and 2026-08-09, read from `~/.claude/history.jsonl`
-together with the prompts typed immediately afterwards. The follow-up prompt is
-the evidence: it is what someone types when the run has just failed them.
+Every row below was observed in real runs. Modes 1-15 come from 114 `/goal`
+invocations across 13 projects between 2026-06-07 and 2026-08-09, read from
+`~/.claude/history.jsonl` together with the prompts typed immediately afterwards;
+the follow-up prompt is the evidence, because it is what someone types when the
+run has just failed them.
+
+Modes 16-18 come from a second corpus: 22 better-goal runs across 14 projects
+between 2026-08-13 and 2026-08-27, read from their own state files, ledgers and
+session transcripts. That corpus is why the harness now registers four hook
+events rather than one.
 
 ## 1. The run stops and reports nothing
 
@@ -84,10 +90,11 @@ agents doing the work are alive. Both can be false at once and only one is being
 watched. Worse, a run that dies mid-turn never reaches its Stop hook at all, so
 the guard is not merely wrong — it is never asked.
 
-**Fix:** this is what `watch.sh` exists for. It runs outside the turn loop and
-emits STALL when the ledger stops moving, naming the recovery path. Add a
-liveness command to `verify[]` as well; the Stop hook input carries
-`background_tasks` and `session_crons`.
+**Fix:** `watch.sh` runs outside the turn loop and emits STALL when the run stops
+breathing, naming the recovery path. Add a liveness command to `verify[]` as
+well; the Stop hook input carries `background_tasks` and `session_crons`. The
+watcher covers only the deaths that happen while its own session lives — mode 17
+is what covers the rest.
 
 ## 6. No progress visibility
 
@@ -218,9 +225,60 @@ instruction and carries on as though it had.
 invoke and reports which are model-invocable. Where one is not, make it a gate
 command instead, or name the plugin-qualified skill.
 
+## 16. The guard was registered and never ran
+
+**Evidence:** *"The stall signal is the known mechanical gap — the guard's Stop
+hook was registered mid-session and Claude Code reads hook config at session
+start, so nothing has been appending rows while I've been working."* And, from
+the same run: *"proven by running `guard.sh` by hand, which emitted…"* — the
+script was correct; it was never invoked.
+
+**Cause:** Claude Code's settings watcher watches only directories that already
+held a settings file when the session started, so a hook written into an empty
+`.claude/` mid-session never loads. Both cases look identical after the write.
+
+**Fix:** `arm.sh` records `settings_preexisted` before writing and prints which
+case it is; `preflight.sh` warns on it; the state carries `hook_live: "unproven"`
+until the guard's first firing stamps it `proven`, and `status.sh`, `watch.sh`
+(`NOTLIVE`) and `sentinel.sh` all report the unproven state. The recovery is the
+user opening `/hooks` once or restarting — a UI menu the model cannot open.
+
+## 17. The run died on an API error, and the guard was never asked
+
+**Evidence:** a run whose transcript ends `API Error: Connection refused`,
+interrupted by the user, with its state reading `armed: true` at turn 17 of 800
+fourteen days later. A second run ended mid-tool-result with its ledger eleven
+minutes old — inside the stale threshold — so no STALL was ever emitted, and sat
+armed for six days.
+
+**Cause:** `StopFailure` fires *instead of* `Stop` when an API error ends a turn,
+so the guard never runs. `Monitor` dies with the session, so the watcher that
+would have noticed is inside the thing that died — and where it survived long
+enough to speak, it spoke into a session that could no longer act.
+
+**Fix:** `guard.sh` is registered on `StopFailure` and `SessionEnd` as well as
+`Stop`, so both endings write a ledger row and a distinct `end_reason` instead of
+leaving the run armed. `sentinel.sh` runs on `SessionStart` and reports armed
+runs whose session is gone to the next session that opens the repo, which is the
+first mechanism here that outlives the run it watches.
+
+## 18. The watcher woke a run that was working
+
+**Evidence:** *"Watcher woke me — the ledger went stale because my turn ended"*,
+twice in one run. Across 14 runs, 56 STALLs were delivered and 34 arrived within
+ten minutes of an assistant message, 22 of them in the same minute.
+
+**Cause:** a fixed 25-minute staleness threshold read from the ledger alone,
+against runs whose median gap between ledger rows was 28.5 minutes in one case
+and 95.7 in another. A long turn and a dead run look the same from the ledger.
+
+**Fix:** the watcher reads the session transcript's mtime and stays silent while
+the session is writing, and derives its threshold from the run's own median turn
+length rather than a constant.
+
 ---
 
-## The pattern behind all fifteen
+## The pattern behind all eighteen
 
 Most are the same shape: **the run's model of the world and the world itself
 diverged, and nothing checked.** The condition said work was done, or agents were
@@ -228,5 +286,7 @@ alive, or the skill had run, and the only thing that could have noticed was a
 small model reading a story the run told about itself.
 
 The fix that generalises is not a better condition. It is putting a command
-between the run and the exit — and a second one outside the turn loop, for the
-turns that never end.
+between the run and the exit, a second one outside the turn loop for the turns
+that never end, and a third outside the session entirely — because the last three
+modes are all the same discovery, that every part of a harness living inside the
+run dies with it.

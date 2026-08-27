@@ -93,10 +93,25 @@ run, so two runs in a repo do not overwrite each other's gates.
 }
 ```
 
-`arm.sh` adds `repeat_count`, `escalated`, `last_fingerprint`, `last_failing` and
-`prior_block_cap`; the guard maintains them. `verify[]` entries run in order, in
-the repo root, and are judged on exit code alone. `detail` runs only when `cmd`
-fails and is withheld on a repeat.
+`arm.sh` adds `repeat_count`, `escalated`, `last_fingerprint`, `last_failing`,
+`last_failing_set`, `set_repeat_count`, `prior_block_cap`, `settings_preexisted`
+and `hook_live`; the guard maintains them. `verify[]` entries run in order, in the
+repo root, and are judged on exit code alone. `detail` runs only when `cmd` fails
+and is withheld on a repeat.
+
+Three of those change what the surfaces report rather than what the guard does:
+
+- **`hook_live`** is `"unproven"` from arming until the guard's first real firing
+  stamps it `"proven"`. Report it rather than `armed`, because a hook registered
+  mid-session into a `.claude/` that held no settings file at session start is
+  written correctly and never fires, and the two flags disagree exactly there.
+- **`set_repeat_count`** counts consecutive turns with the same failing gate set,
+  which the output fingerprint misses whenever a count or a path moves. From
+  `set_notice_after` turns (default 10) the block reason names the streak. It
+  never disarms: a 57-turn streak on a backlog gate being drained is normal.
+- **`stop_failures`** counts consecutive turns that ended on an API error rather
+  than on a `Stop`. Three disarms the run as `api_error`; any real `Stop` resets
+  it to zero.
 
 The file is gitignored, and must stay so: its `verify[]` commands are executed by
 a Stop hook.

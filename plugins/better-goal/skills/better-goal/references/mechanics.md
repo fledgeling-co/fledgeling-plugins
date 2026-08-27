@@ -1,20 +1,87 @@
 # How the harness works
 
 Ground truth for every claim in `SKILL.md`. Sources: the Claude Code binary
-(`~/.local/share/claude/versions/2.1.229`, extracted strings),
+(`~/.local/share/claude/versions/2.1.229` and `2.1.247`, extracted strings),
 <https://code.claude.com/docs/en/hooks.md>, and
 <https://code.claude.com/docs/en/goal.md> for the built-in this skill replaces.
 
 ## The mechanism in one paragraph
 
-`arm.sh` writes `.claude/goals/<slug>.json` and registers one **command** Stop
-hook in `.claude/settings.local.json`. At the end of every turn Claude Code runs
-`guard.sh`, which reads the state file, runs each gate's shell command, and
-either allows the stop or answers `{"decision":"block","reason":…}` — feeding
-the reason back as the run's next instruction. In parallel, `watch.sh` runs
-under `Monitor` and emits a line only when the run's liveness changes. Two
-halves, both created here: the guard sees the end of every turn, the watcher
-sees the turns that never end.
+`arm.sh` writes `.claude/goals/<slug>.json` and registers `guard.sh` as a
+**command** hook on `Stop`, `StopFailure` and `SessionEnd`, plus `sentinel.sh` on
+`SessionStart`, in `.claude/settings.local.json`. At the end of every turn Claude
+Code runs `guard.sh`, which reads the state file, runs each gate's shell command,
+and either allows the stop or answers `{"decision":"block","reason":…}` — feeding
+the reason back as the run's next instruction. In parallel, `watch.sh` runs under
+`Monitor` and emits a line only when the run's liveness changes. The guard sees
+the end of every turn, the watcher sees the turns that never end, and the
+sentinel sees the runs whose session is already gone.
+
+## The hook may be written correctly and never load
+
+Claude Code snapshots hook configuration and then watches for changes, but the
+watcher **only watches directories that already held a settings file when the
+session started**. The wording is Anthropic's own, from the `update-config` skill
+bundled in the 2.1.247 binary:
+
+> the settings watcher isn't watching `.claude/` — it only watches directories
+> that had a settings file when this session started. The hook is written
+> correctly. Tell the user to open `/hooks` once (reloads config) or restart —
+> you can't do this yourself; `/hooks` is a user UI menu and opening it ends this
+> turn.
+
+So arming into a repo whose `.claude/` was empty at session start produces a run
+that looks armed and verifies nothing. Observed on 2026-08-26: a run proved it
+in-session by piping a payload to `guard.sh` by hand and getting the block
+decision the harness had never produced on its own, then spent the rest of its
+life running the gates manually.
+
+The same skill notes that `Stop` fires outside the turn, so the in-turn proof it
+prescribes for `PreToolUse`/`PostToolUse` hooks does not exist here. The proof is
+the first ledger row instead: `arm.sh` writes `hook_live: "unproven"`, the guard
+stamps `proven` on its first real firing, and `status.sh`, `watch.sh` and
+`sentinel.sh` each report the unproven state rather than assuming it works.
+
+`arm.sh` records `settings_preexisted` before it writes, because afterwards both
+cases look identical.
+
+## The events a Stop hook does not cover
+
+| Event | Fires when | What the guard does |
+|---|---|---|
+| `Stop` | a turn ends normally | runs the gates, blocks or allows |
+| `StopFailure` | *instead of* `Stop`, when an API error ended the turn | records the error; disarms as `api_error` on the third consecutive one |
+| `SessionEnd` | the session is ending | disarms as `session_ended` |
+| `SessionStart` | any session opens in the repo | `sentinel.sh` reports armed runs nobody is watching |
+
+`StopFailure`'s own description in the binary: *"Fires instead of Stop when an
+API error (rate limit, auth failure, etc.) ended the turn. Fire-and-forget —
+hook output and exit codes are ignored."* Its matcher values include
+`rate_limit`, `overloaded`, `authentication_failed`, `billing_error`,
+`invalid_request` and `account_on_hold`. Because output is ignored it can record
+but never instruct, which is why the disarm-on-third rule lives in the guard
+rather than in a block reason.
+
+`SIGKILL` reaches none of these, so the sentinel re-checks state at every session
+start rather than trusting the events alone.
+
+## Liveness comes from the transcript
+
+A session's transcript at `$CLAUDE_CONFIG_DIR/projects/*/<session_id>.jsonl` is
+appended to as the turn runs; measured on a live session, its mtime was 6 seconds
+old mid-turn. That is the only liveness signal readable from outside the session,
+and it separates a long turn from a dead run — which the ledger alone cannot do.
+
+The cost of not having it: across 14 real runs, 56 `STALL` notifications were
+delivered, 34 of them within ten minutes of an assistant message and 22 in the
+same minute. Two turns in one run answered the alert with *"Watcher woke me — the
+ledger went stale because my turn ended."* Each of those wakes re-bills the whole
+session prefix.
+
+The stale threshold is now derived from the run's own cadence — three times the
+median of its last ten inter-row gaps, floored at 25 minutes and capped at 240 —
+because a fixed 25 was shorter than the median turn length of several real runs
+(28.5 minutes on one, 95.7 on another).
 
 ## Why the guard is a command hook
 
@@ -82,8 +149,10 @@ appending to a log. Claude Code's own PR-watcher uses this shape.
 Two consequences:
 
 - **Every emitted line costs a full turn's input.** Waking a session re-bills its
-  accumulated prefix. `watch.sh` therefore emits only on a transition — STALL,
-  RESUMED, DONE, ENDED, GONE — and a healthy run produces no output at all.
+  accumulated prefix. `watch.sh` therefore emits only on a transition — NOTLIVE,
+  STALL, RESUMED, DONE, ENDED, GONE. Emitting on a transition is not by itself
+  enough: measured, 34 of 56 delivered STALLs were transitions of the ledger while
+  the session was mid-turn, which is why liveness now comes from the transcript.
 - **A filter matching only success is silent through a crash**, and silence is
   indistinguishable from still-running. The watcher's terminal states cover
   stuck, deadline and max_iterations as well as met.

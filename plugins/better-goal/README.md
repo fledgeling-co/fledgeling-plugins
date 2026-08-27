@@ -35,11 +35,15 @@ And `/goal /create-fleet-goal`, typed 13 times, which sets the condition to the 
 
 ## What it does
 
-It arms its own mechanism rather than borrowing one. Two pieces, both created here:
+It arms its own mechanism rather than borrowing one. Three pieces, all created here:
 
 **A `command` Stop hook** (`guard.sh`), which runs your gate commands at the end of every turn and decides on exit codes. If they pass, the turn ends and the run is over. If they fail, it blocks with the failing gate, its output, the iteration count, the remaining budget and the path to the brief. That reason text becomes the run's next instruction, so it is written as one.
 
-**A stall watcher** (`watch.sh` under `Monitor`) for the failure the guard structurally cannot see. A guard fires when a turn *ends*; a run wedged on a permission prompt at 3am never ends one, so no hook runs and nothing is reported. The watcher reads the ledger's timestamp from outside and emits a line when it goes stale, which wakes the session.
+**The two events a Stop hook never sees.** `StopFailure` fires *instead of* `Stop` when an API error ends a turn, so a rate limit or a dropped connection used to leave the guard unasked; the same script is registered there and on `SessionEnd`, and each writes a ledger row and its own `end_reason` rather than leaving the run reading `armed: true`. That is not hypothetical: one run sat armed at turn 17 of 800 for fourteen days after `API Error: Connection refused`, and a second for six days after its session ended mid-turn.
+
+**A stall watcher** (`watch.sh` under `Monitor`) plus **a sentinel** (`sentinel.sh` on `SessionStart`). The watcher covers a run wedged mid-turn on a permission prompt at 3am, which fires no event at all — but a `Monitor` dies with its session, so the sentinel reports whatever is still armed and cold to the next session that opens the repo. It is the only part of the harness that outlives the run.
+
+Liveness comes from the session's own transcript rather than the ledger alone. Of 56 stall alerts measured across 14 real runs, 34 arrived within ten minutes of an assistant message: the watcher was waking a working session to ask whether it had died, at the price of the whole session prefix each time.
 
 It stops at arming. It does not start the work; the armed run does that.
 
@@ -50,13 +54,15 @@ It stops at arming. It does not start the work; the armed run does that.
 | **Writes the brief** | `docs/goals/goal-<slug>.md`: the worklist with IDs, the gate commands, the blocked-item policy, the resource ledger, the concurrency cap, the stop conditions |
 | **Preflights** | The settings that end a run without an error, listed below |
 | **Shows the diff** | Every settings change printed before/after. `arm.sh --dry-run` writes nothing |
-| **Arms** | The guard, then the watcher, then the ledger |
+| **Arms** | The guard on `Stop`, `StopFailure` and `SessionEnd`, the sentinel on `SessionStart`, then the watcher, then the ledger |
+| **Proves the hook loaded** | Claude Code watches only a `.claude/` that already held a settings file at session start, so a hook armed into an empty one never fires. The state reads `hook_live: "unproven"` until the guard's first ledger row, and every surface reports that rather than assuming |
 
 ### The preflight
 
 | Check | Why |
 |---|---|
 | Trust dialog, `disableAllHooks`, `allowManagedHooksOnly` | The guard is a hook; any of these and it never runs |
+| A settings file already in `.claude/` | Claude Code watches only directories that held one at session start; without it the hook is written correctly and never fires |
 | Permission mode | A goal changes no permissions, so default mode stalls the run |
 | `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` | Default 8, then override. `arm.sh` raises it and records the prior value so `disarm.sh` can put it back |
 | Every skill named in a gate reason | The model cannot invoke a `disable-model-invocation` skill from a guard reason. `/verify` and `/code-review` are both in that set |
@@ -128,19 +134,22 @@ skills/better-goal/
   references/
     mechanics.md      how the guard, the block cap and /goal actually work,
                       with the binary and doc citations
-    failure-modes.md  fifteen observed failures, each mapped to its fix
+    failure-modes.md  eighteen observed failures, each mapped to its fix
     gate-craft.md     turning a claim into a command that exits non-zero
     presets.md        the two recipes people type most often
     templates.md      the brief, the state file, the ledger, the settings block
   scripts/
     preflight.sh      the checks; read-only, exits 1 if anything blocks
-    arm.sh            writes per-slug state, registers the guard, raises the
+    arm.sh            writes per-slug state, registers the four hooks, raises the
                       block cap, prints the Monitor call; --dry-run shows the diff
-    guard.sh          the Stop hook: runs the gates, writes the ledger,
-                      blocks, escalates on a repeat, disarms when stuck
-    watch.sh          the stall watcher: STALL / RESUMED / DONE / ENDED / GONE
-    status.sh         reads every armed run's state and ledger
-    disarm.sh         <slug> | --all; restores the prior block cap
+    guard.sh          Stop: runs the gates, writes the ledger, blocks, escalates
+                      on a repeat, disarms when stuck. StopFailure / SessionEnd:
+                      records the endings a Stop hook never sees
+    sentinel.sh       SessionStart: reports armed runs nobody is watching
+    watch.sh          the stall watcher: NOTLIVE / STALL / RESUMED / DONE /
+                      ENDED / GONE, with liveness read from the transcript
+    status.sh         reads every armed run's state, ledger and hook_live
+    disarm.sh         <slug> | --all; removes all four hooks, restores the cap
 evals/evals.json      six cases plus the process evals
 EVALS.md              the measured result against the no-skill baseline
 ```

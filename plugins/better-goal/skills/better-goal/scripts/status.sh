@@ -27,7 +27,30 @@ for STATE in "${STATES[@]}"; do
   case "$LEDGER" in /*) : ;; *) LEDGER="$ROOT/$LEDGER";; esac
 
   if [ "$ARMED" = "true" ]; then
-    echo "goal: $SLUG — ARMED"
+    LIVE="$(jq -r '.hook_live // "unknown"' "$STATE")"
+    if [ "$LIVE" = "proven" ]; then
+      echo "goal: $SLUG — ARMED (guard proven live at $(jq -r '.hook_proven_at // "?"' "$STATE"))"
+    else
+      echo "goal: $SLUG — ARMED, BUT THE GUARD HAS NEVER FIRED (hook_live=$LIVE)"
+      echo "      A hook registered mid-session only loads if .claude/ already held a settings"
+      echo "      file when that session started. Open /hooks once, or restart, or re-arm from"
+      echo "      a session that started after the file existed. Nothing is verifying anything."
+    fi
+    SID="$(jq -r '.session_id // ""' "$STATE")"
+    if [ -n "$SID" ]; then
+      CFG="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+      NEWEST=0
+      shopt -s nullglob 2>/dev/null || true
+      for t in "$CFG"/projects/*/"$SID".jsonl; do
+        M="$(stat -f %m "$t" 2>/dev/null || stat -c %Y "$t" 2>/dev/null || echo 0)"
+        [ "$M" -gt "$NEWEST" ] && NEWEST="$M"
+      done
+      if [ "$NEWEST" -gt 0 ]; then
+        echo "session: $SID last wrote $(( ( $(date +%s) - NEWEST ) / 60 ))m ago"
+      else
+        echo "session: $SID — no transcript found; the owning session is gone"
+      fi
+    fi
   else
     STUCK="$(jq -r '.stuck_on // ""' "$STATE")"
     echo "goal: $SLUG — ended ($(jq -r '.end_reason // "unknown"' "$STATE")${STUCK:+ on $STUCK}) at $(jq -r '.ended_at // "?"' "$STATE")"
@@ -37,6 +60,10 @@ for STATE in "${STATES[@]}"; do
   echo "gates: $(jq -r '[.verify[]?.name] | join(", ")' "$STATE")"
   RC="$(jq -r '.repeat_count // 0' "$STATE")"
   [ "$RC" -gt 1 ] 2>/dev/null && echo "repeat: the same failure has held for $RC turns (stuck limit $(jq -r '.stuck_after // 3' "$STATE"))"
+  SR="$(jq -r '.set_repeat_count // 0' "$STATE")"
+  [ "$SR" -gt 3 ] 2>/dev/null && echo "same set: [$(jq -r '.last_failing_set // "?"' "$STATE")] red for $SR consecutive turns"
+  SF="$(jq -r '.stop_failures // 0' "$STATE")"
+  [ "$SF" -gt 0 ] 2>/dev/null && echo "api errors: $SF consecutive turn(s) ended on $(jq -r '.last_stop_failure // "an API error"' "$STATE") — 3 disarms the run"
 
   if [ -f "$LEDGER" ]; then
     # A ledger whose last row is old answers "is it still going" too: that is a

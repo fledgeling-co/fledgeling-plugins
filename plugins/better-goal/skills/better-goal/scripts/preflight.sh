@@ -56,6 +56,18 @@ else
   ok "hooks" "enabled"
 fi
 
+# 1b. will the hook actually load? ----------------------------------------------
+# Claude Code's settings watcher only watches directories that already held a
+# settings file when the session started, so a Stop hook written into an empty
+# .claude/ mid-session is written correctly and never fires. One run spent its
+# whole life like this, with the model running the gates by hand. Creating the
+# file now does not help: the snapshot was taken before this check ran.
+if [ -f "$ROOT/.claude/settings.json" ] || [ -f "$ROOT/.claude/settings.local.json" ]; then
+  ok "hook load" "$ROOT/.claude/ already has a settings file, so a hook written now should load"
+else
+  warn "hook load" "$ROOT/.claude/ has no settings file, so a hook armed in this session will NOT fire. Arm anyway, then ask the user to open /hooks once or restart — the model cannot do either. The guard stays hook_live=unproven until it writes its first ledger row."
+fi
+
 # 2. permission mode ------------------------------------------------------------
 PM="$(setting '.permissions.defaultMode' 2>/dev/null || true)"
 case "${PM:-default}" in
