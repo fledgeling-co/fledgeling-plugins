@@ -2,7 +2,7 @@
 """
 lint_explainer.py -- deterministic gate for eli5 explainer artifacts.
 
-Thirty checks in five families. Exits 1 on any FAIL.
+Thirty-one checks in five families. Exits 1 on any FAIL.
 
     python3 lint_explainer.py artifact.html
     python3 lint_explainer.py --self-test      # prove every rule can fail
@@ -477,6 +477,39 @@ def check_defined_terms(html: str, text: str) -> Check:
     return Check("defines-its-terms", "pedagogy", "§1.11", PASS, f"{n} term(s) defined at first use", n)
 
 
+
+# Slogan shapes, from agent-voice's ai-writing-signs.md 1.7 ("the epigram used in place of
+# a plain statement") and 2.3 (negative parallelism). Run over ALL visible text including
+# <svg> labels: exempting diagram text from the WORD BUDGET must not exempt it from the
+# register, and one measured artifact kept its densest slogans there where nothing looked.
+SLOGAN = {
+    "appositive contrast": re.compile(r"\b[a-z]{4,}, not (?:a |an |the )?[a-z]{3,}", re.I),
+    "not-just parallel": re.compile(
+        r"(?i)\b(?:it'?s not just|isn'?t just|not only .{3,60} but also|not (?:the|a|an) \w+, but)"),
+    "abstract copula": re.compile(
+        r"(?i)\b\w+ (?:is|are) (?:a |an )?(?:different|one-way|external|another|the same)\b"),
+}
+
+
+def check_plain_statements(html: str) -> Check:
+    """An epigram states a conclusion and shows no mechanism. One per page is a flourish; a
+    page of them explains nothing, and it is what a word budget produces when it meets a hard
+    idea. Measured over two artifacts of comparable length: 5 distinct shapes in the one a
+    reader called cryptic, 1 in the one they did not (evidence.md 4.8, n=2)."""
+    text = re.sub(r"<[^>]+>", " ", DEFN.sub(" ", _strip_code(html)))
+    text = re.sub(r"\s+", " ", text)
+    hits = sorted({m.group(0).strip() for pat in SLOGAN.values() for m in pat.finditer(text)})
+    n = len(hits)
+    if n >= 4:
+        st, msg = FAIL, (f"{n} slogan-shaped lines: {hits}. Each states a conclusion and shows no "
+                         f"mechanism; say what happens instead")
+    elif n >= 2:
+        st, msg = WARN, f"{n} slogan-shaped lines: {hits}; roughly one landing line per page"
+    else:
+        st, msg = PASS, f"{n} slogan-shaped line(s)"
+    return Check("plain-statements", "pedagogy", "ai-signs 1.7", st, msg, n)
+
+
 def check_pedagogy(html: str) -> List[Check]:
     text = visible_text(html)
     h = strip_comments(html)
@@ -529,6 +562,7 @@ def check_pedagogy(html: str) -> List[Check]:
     ))
 
     out.append(check_defined_terms(html, text))
+    out.append(check_plain_statements(html))
 
     passes = set(re.findall(r'data-pass\s*=\s*["\']?([1-9])', h, re.I))
     n = len(passes)
@@ -757,6 +791,9 @@ FIXTURES = [
                                     .replace("<p data-predict>", "<p>")),
     ("register", GOOD.replace("Pressure drives", "Grown-ups call this the magic rule; pressure drives")),
     ("defines-its-terms", GOOD.replace("<dfn>", "<span>").replace("</dfn>", "</span>")),
+    ("plain-statements", GOOD.replace("Pressure drives flow through a constriction.",
+                                      "Pressure is a different axis. Flow is external. "
+                                      "Wide, not narrow. Resistance is another thing.")),
     ("disclosure-tiers", GOOD.replace('data-pass="2"', "id=b").replace('data-pass="3"', "id=c")),
     ("skip-ahead", GOOD.replace("Jump to this section for the numbers.", "These are the numbers.")),
     ("coherence-no-emoji-diagrams", GOOD.replace("<p>Each step moves", "<p>" + "🔥" * 13 + " Each step moves")),
