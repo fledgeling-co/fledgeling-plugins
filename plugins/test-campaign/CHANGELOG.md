@@ -2,6 +2,59 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.16.0 — 2026-08-28
+
+**A board is a different starting question from a diff.** "Is this product
+correct" selects by surface; "these 228 tasks say they are done, prove it"
+selects by task, and the campaign had no entry point for the second. It has one
+now, measured over 228 closed cards on one product across three weeks.
+
+`references/task-bound-flows.md` carries the chain: discovering the flows a task
+corpus needs, binding a task to a flow, extending a flow without breaking the
+precondition that walks it, reading a mock for intent, and comparing the result.
+The findings that changed how it is written:
+
+- **Binding by route is not evidence.** One card bound to 67 flows, another to
+  55. That says the card touches a page some flows visit — shared vocabulary, not
+  a check. A binding is a card id in the title of ONE live case whose assertion
+  fails when that card's producer breaks. A card id in a COMMENT over-reported by
+  18 cards, because comments are invisible to the runner.
+- **One contract entry failed eighteen specs.** An entry pointed at a region the
+  pinned tenant could never render; the warm-up precondition waited its full 90s
+  ceiling and Playwright skipped every dependent spec. All eighteen reported
+  `passed=4 failed=1`, identical — and identical counts across independent specs
+  mean one shared cause. Read the counts before the verdicts.
+- **A written assertion can measure nothing.** One case asserted no sparkline
+  painted a flat rule, passed, was armed against the exact defect, and passed
+  again: it had matched 107 ICON paths and parsed arc parameters as coordinates,
+  over a surface that rendered no sparkline at all. Only arming finds this.
+- **An environmental fault contaminates every verdict.** 44 failures across one
+  suite traced to a single endpoint 400ing on an exhausted model credential — 36
+  of one spec's 52. Those specs were not broken, and a run in that state cannot
+  say whether they are.
+- **A tracked-file gate cannot see an untracked file.** Instruments enumerating
+  via `git ls-files` are blind to a new spec until it is staged.
+
+`scripts/geometry-gate.py` is new and portable by construction — pure image maths
+over a pair of same-size images, no browser and no project layout. It decides a
+visual difference on its bounding box and the fill density inside it rather than
+a whole-frame ratio, because a real one-step spacing change is 558 pixels of
+1,296,000: a ratio of 0.00043 that every threshold passes, in a 114x13 box at
+density 0.377 that is unmistakable. `--stable` scores two renders and reports
+`agrees` / `defect` / `unstable`, because a defect needs two renders that agree.
+7 of 7 selftest rules fire without any files.
+
+Also: a third capture verdict. A picture that cannot prove its subject is
+`invalid-capture` — not a pass, not a failure. On its first run it caught a
+capture of `/dashboard?settings=account` filed as `/settings`, which is real
+redirect behaviour rather than a gate to relax.
+
+And a third CI state, because the two that existed were both bad: wired, where
+one environmental red trains everyone to ignore the build, or not run at all —
+which is how an 867-step flow apparatus came to exist and execute nowhere. A
+suite can now run and record without being able to fail the job, and earns the
+blocking list by running clean.
+
 ## 0.14.0 — 2026-08-24
 
 **Seven projects, one week, the same false finish.** Each was orchestrated to a

@@ -102,6 +102,30 @@ Three rungs, first match wins, and the rung that fired is recorded:
    refactor. Any of those, run full — and say which one you inferred.
 3. **Default** — selective, against the last full run.
 
+**A fourth entry point, when the run starts from a BOARD rather than a diff.**
+"These tasks say they are done — prove it" is a different starting question from
+"is this product correct", and it selects differently: the axes come from the
+task corpus, not from the surface map. Take it when someone hands you closed
+cards, a Done column, a features-to-triage folder, or a set of specs and plans
+whose work has already shipped.
+
+It runs the same phases with two changes, and `references/task-bound-flows.md`
+carries the method:
+
+- **Phase 1 reads the task corpus first.** Each task yields a route, the exact
+  strings it added or removed, and the affordance involved. Tasks cluster hard —
+  on the measured run, 9 of 18 remaining cards touched four routes — so cluster
+  before writing anything, and the output is a short list of flows to extend and
+  flows to write.
+- **Phase 5 binds per STEP.** A task's binding is its id in the title of ONE live
+  case whose assertion fails when that task's producer breaks. Binding by route
+  put one card on 67 flows, which is binding to nothing, and a card id in a
+  comment over-reported by 18 cards because comments are invisible to the runner.
+
+Everything else — the oracle ladder, capture lineage, the sweeps, the design-of-
+record measurement — is unchanged. What changes is which cases exist and what
+each one is evidence *for*.
+
 ```bash
 python3 $S/campaign.py scope <dir> --full --max-full-age-days 14 \
     --decided-by "user asked for every gate"
@@ -791,6 +815,12 @@ run reported in the shape of a full one.
   window, and the boundary sweep that asks whether the product acts at all.
 - `references/differential.md` — measuring the build against its design of
   record; the four vectors and the three subtractions.
+- `references/task-bound-flows.md` — taking a CLOSED TASK to a flow that would go
+  red: discovering flows from the task corpus, binding per step rather than per
+  route (one card bound to 67 flows, which is binding to nothing), extending a
+  flow without breaking the precondition that walks it, reading a mock for intent
+  rather than pixels, the geometry gate, the third capture verdict, the four ways
+  a green lies, and letting a check run before it can block.
 - `references/on-glass.md` — proving the thing under test actually ran: the
   paper-versus-glass failure, the three proofs a `-glass` lane owes, why a
   missing binary is a build job rather than a `cannot-attach`, why the launch
@@ -841,6 +871,14 @@ run reported in the shape of a full one.
   publish one image.
 - `strict-check.py` — the verdict under *unchecked is failed*, with its ratchet
   and the one reason the ratchet may be lowered.
+- `geometry-gate.py` — decide a visual difference on its bounding box and the
+  fill density inside it, never on a whole-frame ratio: a real one-step spacing
+  change is 558 pixels of 1,296,000, a ratio of 0.00043 that every threshold
+  passes, in a 114x13 box at density 0.377 that is unmistakable. `--stable` scores
+  two renders of the same comparison and reports `agrees` / `defect` / `unstable`,
+  because a defect needs two renders that agree. Pure image maths over a pair of
+  same-size images — no browser, no project layout — so it moves between projects
+  unchanged. `--selftest` needs no files.
 - `capture-lineage.py` — the deterministic plane for pictures: unsourced, untied,
   shared, unaccounted and unjudged captures, the ratchet, and `--seed-swap` to
   watch the gate fail. A share is admissible only where every member names the
