@@ -49,6 +49,19 @@ Also: a third capture verdict. A picture that cannot prove its subject is
 capture of `/dashboard?settings=account` filed as `/settings`, which is real
 redirect behaviour rather than a gate to relax.
 
+**One manifest, not two.** test-campaign carried both `plugin.json` and
+`.claude-plugin/plugin.json`. The second is the one that counts —
+`site/scripts/build-catalogue.mjs` reads it and fails the build when it is
+missing, and nothing reads the root copy — so the root copy is gone. Its only
+extra key was `category`, which lives in marketplace.json where it is actually
+consumed. Manifest and marketplace now agree at 0.16.0, checked across all 52
+entries.
+
+Worth knowing if you maintain another plugin here: 22 of the 26 plugins carrying
+both files have drifted, and in every case the root copy is BEHIND the canonical
+one. Not one is ahead, which is what marks the root file as a copy that stopped
+being maintained rather than a second source.
+
 And a third CI state, because the two that existed were both bad: wired, where
 one environmental red trains everyone to ignore the build, or not run at all —
 which is how an 867-step flow apparatus came to exist and execute nowhere. A
