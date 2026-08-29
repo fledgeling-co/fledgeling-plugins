@@ -27,7 +27,7 @@ measure is not a class nobody can.
 
 ## The instrument, and why it is not a screenshot
 
-The lane drives the `proctor` skill, which owns native macOS applications. Three
+The lane drives the `proctor:proctor` skill, which owns native macOS applications. Three
 of its observation channels are the reason it is admissible here where a general
 screenshot tool is not:
 

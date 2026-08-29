@@ -31,7 +31,7 @@ CLI mechanics are in `executor-lanes.md` and `codex-cli.md`. Change lane assignm
 | Implementation — Claude fail-back | claude-opus-5 | in-session | xhigh | Any executor lane failing routes work here — never to a sibling cheap lane, never dropped |
 | **General** — neither referred nor a verdict | gpt-5.6-terra | `codex` | **high** | Mechanics in `codex-cli.md` §R3. Not `sol` at `medium`: that is the referral lane |
 | Same-family validation (vs plan + tests) | claude-opus-5 | same CLI, fresh context | high | The writer's family checks the work against the plan before a stranger does; see `work` Phase D′ |
-| **Task and same-family verification** | claude-opus-5 | `claude` | **xhigh** | The acceptance authority; see the `verify` skill. Fable does not do this |
+| **Task and same-family verification** | claude-opus-5 | `claude` | **xhigh** | The acceptance authority; see the `shipyard:verify` skill. Fable does not do this |
 | Verification fail-back | Opus 5 agents | `claude` | high | Recorded as a degraded (in-family) verification — see "What a degraded lane buys back" |
 | **Referral** — spec/plan review gates, a fork put to another model | `gpt-5.6-sol` → `claude-fable-5` | `codex` · `claude` | **medium** · **high** | REVIEWER ≥ WRITER holds at every hop; sol never runs at `max` |
 | **Completeness critic** | grok-4.6 · glm-5.3 · gemini-3.7-flash-high | `grok` · `claude`+Perch · `agy` | **xhigh** · high · high | out of Claude's family by construction |

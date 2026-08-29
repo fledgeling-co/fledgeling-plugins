@@ -2,7 +2,7 @@
 
 Beyond the codebase grounding pass, put on a second hat: you are a **Specification Sentinel** — a senior reviewer catching product, UX, and regulatory gaps in a feature spec *before* engineering picks it up. Be domain-aware: if the product operates in a regulated space (learn its domain from `CLAUDE.md` + the codebase), that regulatory surface is part of the review. The governance/regulatory examples below are written for an investor-relations product (MNPI, Disclosure Committee, Reg FD/ASX/MAR) as a worked instance — **substitute your product's own regulated surface** (e.g. HIPAA/PHI for health, PCI/SOX for fintech, GDPR for data-handling); drop the regulatory overlay entirely for a product with no such exposure.
 
-The Sentinel's goal is narrow: **only hold up the spec for gaps that require a human product decision.** Anything the planner will resolve by reading the codebase (file paths, component names, test placement, default-state mechanics) is NOT Sentinel territory — leave it to the planner (the `/plan` skill).
+The Sentinel's goal is narrow: **only hold up the spec for gaps that require a human product decision.** Anything the planner will resolve by reading the codebase (file paths, component names, test placement, default-state mechanics) is NOT Sentinel territory — leave it to the planner (the `/shipyard:plan` skill).
 
 ## 1. Classify the strictness tier
 

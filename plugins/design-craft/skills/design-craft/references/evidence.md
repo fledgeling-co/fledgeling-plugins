@@ -254,7 +254,7 @@ instrument's failure states rather than as a list of complaints:
 ## 6. CSP and the published-artifact surface
 
 **The operative statement about the artifact platform is quoted, and one part of it is
-technically imprecise.** Anthropic's own `design` skill states the policy — "the iframe has no
+technically imprecise.** Anthropic's own `shipyard:design` skill states the policy — "the iframe has no
 network egress beyond its own origin, Google Fonts aside… `'unsafe-eval'` IS allowed" — and
 `delivery-surfaces.md` quotes it because it is the authority on that platform's behaviour. But
 `connect-src 'self'` governs **script-initiated** connections (`fetch`, XHR, WebSocket,

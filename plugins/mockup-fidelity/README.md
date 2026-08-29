@@ -159,7 +159,7 @@ And it won't guess when honouring the design would delete something that works. 
 
 ## Where it came from
 
-This is a rebuild of the `mockup-fidelity` skill from Luke's `diolog-plugins` marketplace, which is where
+This is a rebuild of the `mockup-fidelity:mockup-fidelity` skill from Luke's `diolog-plugins` marketplace, which is where
 the method, the field log of real misses, and the detector set all originate. That original is genuinely
 good: the catalogue of self-deceptions a reviewer falls into, the standard that a citation must be
 external and pre-existing, and the critic that is kept blind to the interface so it cannot be talked into

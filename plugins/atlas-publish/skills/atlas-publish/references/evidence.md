@@ -12,7 +12,7 @@ of this marketplace, so every claim below is readable without leaving the repo.
 
 | Rule in the skill | Source | Status |
 |---|---|---|
-| Each lane announces a one-line pipeline contract before Step 1 | The Claude Code built-in `code-review` skill states a budget line per effort tier (`high effort → 8 inline angles → dedup (no verify) → ≤10 findings`) at the top of its run | Adapted; `docs/deep-research/code-review-claude-code-builtin.md` |
+| Each lane announces a one-line pipeline contract before Step 1 | The Claude Code built-in `code-review:code-review` skill states a budget line per effort tier (`high effort → 8 inline angles → dedup (no verify) → ≤10 findings`) at the top of its run | Adapted; `docs/deep-research/code-review-claude-code-builtin.md` |
 | Six irreversible steps each name the observable to read back | `silent` — a driver returned ok and nothing happened | Direct; `docs/deep-research/code-review-silent.md` |
 | Two witnesses that share a failure mode are not a cross-check | `silent` | Direct |
 | Gates report passed, failed and not-run as three states | `vacuous` — a suite passed a guarantee it never ran | Direct; `docs/deep-research/code-review-vacuous.md` |

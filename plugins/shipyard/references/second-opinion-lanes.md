@@ -16,7 +16,7 @@
 > second copy of it.
 
 **Canonical for the whole pipeline.** Triage, plan, design, and both conductors route open
-decisions through this file. It carries the `clarify` skill's referral gate into the pipeline as
+decisions through this file. It carries the `clarify:clarify` skill's referral gate into the pipeline as
 an ordered lane set plus a panel protocol, so the pipeline defers decisions to models instead of
 stalling on a human — and so the deferral is evidence-shaped rather than vibes.
 

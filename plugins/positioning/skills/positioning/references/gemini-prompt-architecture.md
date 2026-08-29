@@ -1,6 +1,6 @@
 # Gemini Deep Research prompt architecture
 
-The framework for the two prompts this skill emits. (If the `deep-research-prompt-creator` skill is installed you may invoke it to draft/refine each prompt; this reference keeps the skill self-contained.) Both prompts are the **competitive / market** archetype.
+The framework for the two prompts this skill emits. (If the `deep-research-prompt-creator:deep-research-prompt-creator` skill is installed you may invoke it to draft/refine each prompt; this reference keeps the skill self-contained.) Both prompts are the **competitive / market** archetype.
 
 ## Why pseudo-XML
 Gemini's attention uses the tags to separate instruction from context and they survive the plan-compression step better than markdown headings. Use them verbatim.

@@ -110,7 +110,7 @@ Never delegate: architectural or data-model decisions; security-sensitive code o
 maker≠checker and idempotency logic; provenance-honesty judgment calls; contract-version changes;
 cross-cutting refactors; merge-conflict resolution; e2e debugging; anything the plan marks
 "investigate"; and **design work** (page assembly, composites, anything aesthetic — executor
-design ability is weak; design routes per the `design` skill). Two failed verify-fix cycles on a
+design ability is weak; design routes per the `shipyard:design` skill). Two failed verify-fix cycles on a
 task → take it back to Claude and note it; executor thrash costs more than it saves.
 
 ## Egress and the repo opt-out (checked per invocation)
@@ -200,7 +200,7 @@ After each executor invocation:
 1. `git diff` — read the whole diff. Out-of-scope files touched → revert those hunks.
 2. Run the repo gates that cover the change (typecheck, affected tests, lint).
 3. Judge against spec/plan/design — correctness, not just compilation — and hold the slice to
-   the self-certification bar in the `work` skill (checklist rows at `file:line`, a real caller,
+   the self-certification bar in the `shipyard:work` skill (checklist rows at `file:line`, a real caller,
    the real-path exercise for critical seams).
 4. Small gaps → fix directly (don't round-trip trivia). Substantive gaps → one executor retry
    with the failure quoted. Second failure → Claude rewrites; log `<lane>: reverted`.

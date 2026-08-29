@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.1 - 2026-08-30
+
+Every skill name written in a prompt or a cross-reference now carries its full
+`plugin:skill` form. A bare name is not resolvable by the Skill tool, so a runner told to
+invoke one gets `Unknown skill` and carries on without it.
+
+Measured across 51,763 session transcripts over 21 days: 53 of 77 Skill invocations failed,
+a 68% failure rate. Bare names were 27 of those. Four more came from agents that knew a
+prefix was needed and invented one (`plugin:`, or the marketplace name).
+
 ## 0.6.0 - 2026-08-27
 
 The vendoring step shipped requiring a path to a local `.js`, and the docs pointed at

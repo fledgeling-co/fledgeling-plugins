@@ -364,7 +364,7 @@ aphorisms are named as the compression failure rather than left implicit.
 
 ### 4.8 agent-voice's field guide applies; its gate does not
 
-Asked whether eli5 should route its artifact prose through the `agent-voice` skill, both
+Asked whether eli5 should route its artifact prose through the `agent-voice:agent-voice` skill, both
 halves were measured rather than assumed.
 
 **Its gate does not catch this failure.** Prose extracted from `done-to-verified.html` and

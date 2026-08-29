@@ -8,7 +8,7 @@ This guide details the strategic product positioning for home network admins and
 
 Before drafting marketing copy, establishing category labels, or finalizing pricing hooks:
 1. **Audit `docs/positioning/`**: Check if `docs/positioning/00-decision.md` or `docs/positioning/10-territory-*.md` exists.
-2. **Invoke `/positioning:positioning` if Missing**: If no positioning documents exist in `docs/positioning/`, trigger the `positioning` skill (`/positioning:positioning`). It runs Dossier deep-research panels (free CLI + paid API), tests candidate territories under trawl frames, enforces shipped-truth bindings in a claim ledger, and produces the complete 9-document report suite and interactive decision aid in `docs/positioning/`.
+2. **Invoke `/positioning:positioning` if Missing**: If no positioning documents exist in `docs/positioning/`, trigger the `positioning:positioning` skill (`/positioning:positioning`). It runs Dossier deep-research panels (free CLI + paid API), tests candidate territories under trawl frames, enforces shipped-truth bindings in a claim ledger, and produces the complete 9-document report suite and interactive decision aid in `docs/positioning/`.
 3. **Anchor to Decision of Record**: Extract the recommended territory, the single word to own, the named enemy, and the beachhead persona from `docs/positioning/00-decision.md` and use them as the immutable baseline for all copy generation.
 
 ---

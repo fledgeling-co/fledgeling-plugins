@@ -171,7 +171,7 @@ reference; guard the empty-race and null-return rules from shipyard's
 `references/operational-rules.md`).
 
 Each slot = one Opus runner (verified lane, first-action self-check, transcript-verified) whose
-prompt invokes **`ship-feature`** on its item with: the item's paths and resume state, the
+prompt invokes **`ship-feature:ship-feature`** on its item with: the item's paths and resume state, the
 matched mock, the context contract below, the lane-routing propagation block — and **two stop
 rules**:
 
@@ -245,13 +245,13 @@ in this list has a number like that behind it.
 permitted tool can write one, fail before the model is invoked. That check costs nothing and is the only
 intervention here that stops a run rather than explaining it afterwards. A workflow that
 reports `completed` with dead agents, or a fan-out lost to rate limits mid-run, is the
-`workflow-resume` skill's job — use it before relaunching anything, because a manual relaunch
+`workflow-resume:workflow-resume` skill's job — use it before relaunching anything, because a manual relaunch
 cold-starts and re-pays for work the journal already holds. Discovered children join the DAG.
 At the end: every item `Done` / parked-with-reason, statuses final, hierarchy refreshed, and
 the backlog reconciled against the test campaign with `reckon` to ensure no unmeasured or unbuilt
 scope was silently dropped. Needs-input items and undecided forks are handed over as decisions
 rather than a list — in an attended run one consolidated round; for a long unattended run's
-accumulated questions, the `whats-left` skill builds the decision page. For a fleet expected to run
+accumulated questions, the `whats-left:whats-left` skill builds the decision page. For a fleet expected to run
 to a verifiable finish line unattended, arm it with `better-goal` at launch — the built-in stop
 mechanisms fail silently past eight blocked turns, and a fleet is exactly the run length that trips them.
 

@@ -1,6 +1,6 @@
 # create-skill icon - spec, decisions and audit notes
 
-Direction **"The Pour"**. Built with the `create-mac-icon` skill, dogfooded:
+Direction **"The Pour"**. Built with the `create-mac-icon:create-mac-icon` skill, dogfooded:
 its `icon-directions.md` pipeline (three engines, written audit sheet),
 `material-recipes.md` for the constructions, `assets/squircle-path.txt` for
 the mask, and `scripts/fidelity.py` for the measured loop.

@@ -1,6 +1,6 @@
 # create-luke-content icon — spec, decisions, and audit notes
 
-Direction **"Voice over Craft"**. Built with the `create-mac-icon` skill: its
+Direction **"Voice over Craft"**. Built with the `create-mac-icon:create-mac-icon` skill: its
 `icon-directions.md` pipeline (three engines, written audit sheet),
 `material-recipes.md` for Tahoe gel-glass constructions,
 `assets/squircle-path.txt` for the shared marketplace superellipse, and

@@ -301,7 +301,7 @@ package and the reason `dialects.md` exists.
 
 ### The response-compression benchmark
 
-Source: the `discipline` skill in this repository, `references/evidence.md`, measuring a
+Source: the `discipline:discipline` skill in this repository, `references/evidence.md`, measuring a
 caveman-style response-compression style as a paired arm on the operator's own agentic coding
 benchmark.
 
@@ -332,7 +332,7 @@ the same sentence.
 
 ### The categorical-scope failure
 
-Source: the `geminify` skill in this repository, `references/evidence.md`. One recorded Gemini run
+Source: the `geminify:geminify` skill in this repository, `references/evidence.md`. One recorded Gemini run
 on a rich brief delivered **every one of the twelve explicitly named features** and satisfied every
 requirement named *categorically* with exactly one instance:
 
@@ -353,7 +353,7 @@ run**.
 
 ### The interruption cost
 
-Source: research cited in the `clarify` skill in this repository. After an interruption, only
+Source: research cited in the `clarify:clarify` skill in this repository. After an interruption, only
 **10% of programming sessions resume work in under a minute**, and only 7% resume without
 navigating around first to rebuild context. This is the evidence behind treating the reader's
 attention as the scarce resource rather than the token budget.
@@ -371,7 +371,7 @@ This is the reason `terminal-reply.md` states a 1–6 line target and a 15-line 
 
 ### The lane-verification fact
 
-Source: measured on this machine, 16 August 2026, recorded in the `clarify` skill. The `codex` CLI
+Source: measured on this machine, 16 August 2026, recorded in the `clarify:clarify` skill. The `codex` CLI
 accepts any `-m` model name and any `model_reasoning_effort` string **without validating either** —
 `-m bogus` prints `model: bogus` in its header and fails later at the API. Its header echoes what
 was configured rather than what the API served. This is the source of `subagent-brief.md`'s rule
@@ -381,7 +381,7 @@ that a lane's routing is verified from its output rather than from the command t
 
 ## `[ai-signs]` — the bundled field guide
 
-`ai-writing-signs.md` in this directory, copied verbatim from the `create-voice-persona` skill,
+`ai-writing-signs.md` in this directory, copied verbatim from the `create-voice-persona:create-voice-persona` skill,
 which distilled it from Wikipedia's "Signs of AI writing" field guide (WikiProject AI Cleanup,
 mid-2026) and augmented it in July 2026 with a quantified layer from 2023–2026 corpus studies and
 perception experiments. The numbers this package leans on hardest:

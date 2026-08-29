@@ -30,7 +30,7 @@ Four evidence streams, merged in August 2026:
    (github.com/mattpocock/skills, MIT) — fog-of-war deferral, the facts/decisions split,
    tracer-bullet slices, seam-agreed testing, the two-axis review; the Vercel Labs
    eve-software-factory-template (MIT) — the acceptance-criteria contract graded with evidence,
-   physical verifier isolation, thread-as-ledger crash-safe counters; and the `clarify` skill's
+   physical verifier isolation, thread-as-ledger crash-safe counters; and the `clarify:clarify` skill's
    evidence corpus for the decision gate.
 
 ## Rule-by-rule sourcing

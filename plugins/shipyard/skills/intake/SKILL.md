@@ -52,7 +52,7 @@ generous — divergent, exploratory, audience-minded — because everything afte
    is its own `proposed-by-ai` brief, never a default silently attached to someone else's
    feature.
 
-4. **Ideate past the ask.** Run the `trawl` skill for a divergent pass over the idea, then write
+4. **Ideate past the ask.** Run the `trawl:trawl` skill for a divergent pass over the idea, then write
    the additional features/concepts the **target audience would likely want or benefit from** —
    the standard companion features (settings, onboarding, sharing, offline, notifications where
    they genuinely fit), the second-order ideas the research surfaced, the thing a specialist in

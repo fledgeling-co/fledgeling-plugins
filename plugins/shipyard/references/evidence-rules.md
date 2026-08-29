@@ -74,7 +74,7 @@ machine (`obscura serve --port 9222` over CDP, or the obscura MCP; localhost nee
 `--allow-private-network` before the subcommand), or whatever the repo's CLAUDE.md names — with
 the serving ladder for the recurring "worktree isn't served" blocker: (i) serve the worktree app;
 (ii) if already merged to the served branch, verify on the merged stack *before* posting
-behavioural claims; (iii) the browser MCP. For UI verification at scale, the `proctor` skill
+behavioural claims; (iii) the browser MCP. For UI verification at scale, the `proctor:proctor` skill
 governs computer/browser use. Two Obscura facts that change verdicts: CSS animations and
 transitions never execute there, and web fonts never load — treat a pixel diff as a tripwire, not
 a verdict, and suspect the engine before the page when a capture looks wrong.

@@ -72,4 +72,4 @@ The organizing principle: **prefer native primitives over JS reimplementations**
 - **Fonts at build time** (config plugin) so there's no async font flash at launch.
 - Wrap all strings in `<Text>`; never `&&` with a possibly-falsy left operand in JSX (renders a literal `0` on web, crashes RN).
 
-Deeper performance rules belong to the `code-review` skill — flag, don't duplicate.
+Deeper performance rules belong to the `code-review:code-review` skill — flag, don't duplicate.

@@ -2,7 +2,7 @@
 
 Distilled from a five-backend Dossier deep-research panel (2026-08-27, 232k characters, 208 cited sources across OpenAI gpt-5.6-sol, Perplexity Sonar Deep Research, Google Gemini Deep Research, and Claude Code).
 
-This reference provides the empirical evidence base for the **marketing route** of the `create-luke-content` skill. It separates replicated findings from direct-response folklore so no rule is encoded on the strength of a famous name.
+This reference provides the empirical evidence base for the **marketing route** of the `create-luke-content:create-luke-content` skill. It separates replicated findings from direct-response folklore so no rule is encoded on the strength of a famous name.
 
 ---
 

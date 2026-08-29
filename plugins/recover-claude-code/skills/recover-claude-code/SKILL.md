@@ -276,5 +276,5 @@ Scripts, in the order they are used: `scan_crashed.py` (see what is there), `kil
 per interrupted item.
 
 For a workflow run that *completed* while losing agents to API errors — a different failure,
-with opposite handling — use the `workflow-resume` skill. This one is for the case where the
+with opposite handling — use the `workflow-resume:workflow-resume` skill. This one is for the case where the
 process itself died.

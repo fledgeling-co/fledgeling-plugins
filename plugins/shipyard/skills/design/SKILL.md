@@ -57,7 +57,7 @@ Skip only when the feature has no user-facing surface, and write "design: not ap
    the candidates with the panel's recommendation marked.
 
 4. **Build the mocks.**
-   - **iPhone / iPad / Mac**: through the `mac-design-studio` skill — it owns native-correct
+   - **iPhone / iPad / Mac**: through the `mac-design-studio:mac-design-studio` skill — it owns native-correct
      idiom, the corpus, and the HIG routing. One mock set per platform; shared vocabulary,
      platform-correct chrome.
    - **Windows** (when in scope): start from the mac set's structure, then apply a Windows 11
