@@ -4,6 +4,33 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-30
+
+### All plugins: skill names written in full, `plugin:skill`
+
+- **Every skill name in a prompt or cross-reference now carries its `plugin:skill` form.** The
+  Skill tool resolves that and nothing else, so a bare name fails with `Unknown skill` and the
+  runner continues without the skill it was told to use. Nothing raises an error to anyone.
+- **Measured across 51,763 session transcripts over 21 days: 53 of 77 Skill invocations failed,
+  a 68% failure rate.**
+  - *Bare names, 27 failures.* `ship-feature` alone was 17, tracing to one line of ship-fleet's
+    SKILL.md telling a conductor its runner prompt should invoke `ship-feature`. ship-feature's
+    own stage list had five more, so a runner that guessed the qualified form would still have
+    hit `Unknown skill: triage` at stage 1 — the pipeline was unreachable from its first step.
+  - *Invented prefixes, 4 failures.* `plugin:agent-voice:agent-voice`,
+    `fledgeling-plugins:ship-feature`. Agents that knew a prefix was needed guessed the
+    marketplace name or the literal word `plugin:`; omitting it leaves the right form
+    undiscoverable rather than merely absent.
+  - *Correctly-formed names for skills that no longer exist, 13 failures.*
+    `create-test-suite:create-test-suite` failed 10 times against a skill in neither
+    marketplace; `goal-harness` is now `better-goal`; `mac-studio-dossier` exists nowhere.
+    Left in place and flagged rather than repointed at a plausible successor.
+- Prose is treated the same as imperatives: a model acting on "the `whats-left` skill" fails
+  exactly as one told "Invoke `whats-left`". Records are left alone — changelog entries,
+  eval-run answers and committed research reports say what was written at the time.
+- 108 references qualified across 80 files, plus four stage invocations carrying an `<ID>`
+  argument. 21 plugins bumped a patch version.
+
 ## 2026-08-27
 
 ### create-luke-content 3.0.0: empirical B2B copywriting craft layer under marketing route

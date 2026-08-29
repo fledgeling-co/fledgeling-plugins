@@ -94,4 +94,4 @@ Obscura only. Playwright, Puppeteer, chrome-devtools-mcp, Playwright MCP and bro
 
 ## Credit
 
-Rebuilt from the `ux-craft` skill in the `diolog-plugins` marketplace, which supplied the canon, the review playbook, the psychology reference and the measured live-site defects that most of these rules are built on. The predecessor's two-tier evidence taxonomy with a declared `n=1`, its find-wide-then-filter-hard rule, its section arguing against its own citations, and its provenance reference are kept here largely as they were written, because they were better than anything a rewrite would have produced.
+Rebuilt from the `ux-craft:ux-craft` skill in the `diolog-plugins` marketplace, which supplied the canon, the review playbook, the psychology reference and the measured live-site defects that most of these rules are built on. The predecessor's two-tier evidence taxonomy with a declared `n=1`, its find-wide-then-filter-hard rule, its section arguing against its own citations, and its provenance reference are kept here largely as they were written, because they were better than anything a rewrite would have produced.

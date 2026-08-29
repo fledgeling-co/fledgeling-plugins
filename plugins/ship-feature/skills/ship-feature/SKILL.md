@@ -88,26 +88,26 @@ skill's own references: `references/orchestration-model.md` (read first),
 
 ## The phases
 
-**0 — Intake & grounding.** A rough idea → invoke `intake` (briefs, trawl ideation,
+**0 — Intake & grounding.** A rough idea → invoke `shipyard:intake` (briefs, trawl ideation,
 proposed-by-ai siblings, research); pick the brief(s) to ship this run — siblings queue for the
 fleet, they don't widen this feature. Then ground: success criteria, the repo's moving parts
 (design system, docs/board, e2e harness, `INT`), the substrate lane
 (tracker adapter). Attended + genuinely ambiguous → one consolidated question round now, in
 clarify's shape — never scope discovered one phase at a time.
 
-**1 — Triage.** Invoke `triage`. Capture the `<ID>`. NEEDS IMPROVEMENT → surface the Essential
+**1 — Triage.** Invoke `shipyard:triage`. Capture the `<ID>`. NEEDS IMPROVEMENT → surface the Essential
 Questions (attended) or park (unattended) and resume on answers. Confirm the out-of-family spec
 review ran and was dispositioned — a missing verdict is a skipped gate, send it back; a logged
 `unavailable → in-family` downgrade carries into the pre-merge evidence.
 
-**2 ∥ 3 — Plan and Design, in parallel.** Invoke `plan <ID>`; for user-facing work invoke
-`design <ID>` alongside (its mocks + state matrix are the worker's UI truth and the test
+**2 ∥ 3 — Plan and Design, in parallel.** Invoke `shipyard:plan <ID>`; for user-facing work invoke
+`shipyard:design <ID>` alongside (its mocks + state matrix are the worker's UI truth and the test
 strategy's coverage bar; its design-review + be-my-witness findings must be actioned before
 handoff). Verify both artifacts landed: the committed plan sha + gate note with findings
 dispositioned; the mock index with no unwaived empty matrix cells. `Ready for AI` flips only
 when both exist (or design was skipped with its recorded reason).
 
-**4 — Work.** Invoke `work <ID>`. When it finishes, read the completion record: the Reachability
+**4 — Work.** Invoke `shipyard:work <ID>`. When it finishes, read the completion record: the Reachability
 + Clause tables (every row ✅), the executor + critic accounting (a missing critic line means the
 last reviewer was skipped or lost to an unlogged fallback — chase it), the D′ same-family
 validation outcome, the Reviewing-models line. Status `Developer Review`.
@@ -117,10 +117,10 @@ validation outcome, the Reviewing-models line. Status `Developer Review`.
 substantial new scope → child triage → plan → work **on the parent's branch**. Keep every child
 id — e2e and verify must cover them.
 
-**5 — Gap-fix.** Invoke `gap-fix <ID>` — the belt-and-braces finisher before tests; run it even
+**5 — Gap-fix.** Invoke `shipyard:gap-fix <ID>` — the belt-and-braces finisher before tests; run it even
 when work looked complete (a prior self-review commit certifies nothing).
 
-**6 — Acceptance e2e.** Invoke `test-campaign` where it is installed, otherwise `acceptance-e2e`,
+**6 — Acceptance e2e.** Invoke `test-campaign:test-campaign` where it is installed, otherwise `acceptance-e2e`,
 with **all** requirement sources (description, spec + children, plans, the mock index/state
 matrix — a menu the mock shows but the AC list omits is still a flow to cover). Run against the
 branch's app locally, specs authored on the branch, green **twice**, tractable bugs fixed.

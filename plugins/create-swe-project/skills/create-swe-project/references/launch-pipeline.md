@@ -8,7 +8,7 @@ Deep research and positioning are the grounding layers for four consumers: the *
 
 Before establishing marketing hooks, category labels, or product scope:
 1. **Audit `docs/positioning/`**: Check if `docs/positioning/00-decision.md` or `docs/positioning/10-territory-*.md` exists.
-2. **Invoke `/positioning:positioning` if Missing**: If no positioning documents exist in `docs/positioning/`, execute the `positioning` skill (`/positioning:positioning`). It runs Dossier deep-research panels (free CLI + paid API), discovers customer pain points and competitor lines, evaluates candidate territories under trawl frames, tests product-truth claimability, and writes the 9-document report suite and interactive decision surface to `docs/positioning/`.
+2. **Invoke `/positioning:positioning` if Missing**: If no positioning documents exist in `docs/positioning/`, execute the `positioning:positioning` skill (`/positioning:positioning`). It runs Dossier deep-research panels (free CLI + paid API), discovers customer pain points and competitor lines, evaluates candidate territories under trawl frames, tests product-truth claimability, and writes the 9-document report suite and interactive decision surface to `docs/positioning/`.
 3. **Anchor to Decision of Record**: Read the recommended territory, hero line, category frame, and target beachhead from `docs/positioning/00-decision.md` as the authoritative source of truth for `PRD.md`, `OVERVIEW.md`, and all marketing copy.
 
 ## Phase R — deep research (starts first, runs in the background)
@@ -28,7 +28,7 @@ When the panel settles:
 
 ## Phase B — seed the feature backlog (immediately, from the owner's context)
 
-From the idea and interview answers, write the first briefs into `docs/features-to-triage/` using `BRIEF-TEMPLATE.md` (name: `<slug>.md`), and add index rows to its README. The template is the format the `intake` skill writes, so a brief seeded here and a brief intake adds later read the same. Seed only what the owner actually described plus the structural certainties (e.g. "port the marketing mock into apps/web" is always the first web brief once Phase M runs). 5–12 briefs is the usual seed; don't pad.
+From the idea and interview answers, write the first briefs into `docs/features-to-triage/` using `BRIEF-TEMPLATE.md` (name: `<slug>.md`), and add index rows to its README. The template is the format the `shipyard:intake` skill writes, so a brief seeded here and a brief intake adds later read the same. Seed only what the owner actually described plus the structural certainties (e.g. "port the marketing mock into apps/web" is always the first web brief once Phase M runs). 5–12 briefs is the usual seed; don't pad.
 
 **After Phase R lands**, revisit: revise briefs the research contradicts, add the briefs the research surfaces (competitor table-stakes, gaps worth owning), and cite the exported report on each brief's `research:` line. A brief the research surfaced rather than the owner asking for it carries `proposed-by-ai: true`, so the owner vetoes an idea by deleting the file instead of answering a question. Ledger IDs stay unallocated — triage owns that write.
 

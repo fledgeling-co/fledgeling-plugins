@@ -157,7 +157,7 @@ control, not audit criteria — so each is cited to its own primary source.
 
 | Rule | Type | Source | URL |
 |---|---|---|---|
-| Breadth before depth (present / divergent / absent for every reference element, filled before any property is measured), the inverted burden of proof, and the requirement that a citation be external and pre-existing | Direct | The `mockup-fidelity` skill, whose method this reuses | `/Users/lukerhodes/Dev/diolog-plugins/plugins/mockup-fidelity/skills/mockup-fidelity/SKILL.md` |
+| Breadth before depth (present / divergent / absent for every reference element, filled before any property is measured), the inverted burden of proof, and the requirement that a citation be external and pre-existing | Direct | The `mockup-fidelity:mockup-fidelity` skill, whose method this reuses | `/Users/lukerhodes/Dev/diolog-plugins/plugins/mockup-fidelity/skills/mockup-fidelity/SKILL.md` |
 | Enumerating build-side extras, not only reference-side absences | Direct | Same skill, its sixth blocking-gate rule | Same path |
 
 ---

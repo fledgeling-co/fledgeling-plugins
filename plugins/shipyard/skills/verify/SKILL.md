@@ -64,7 +64,7 @@ while reading as complete. This stage exists to be the stranger.
 
 2. **Gather the evidence, deterministically.** Serve the branch (the serving ladder in
    `evidence-rules.md`), then per requirement kind:
-   - **Visual** → measure with the browser lane (Obscura; the `proctor` skill governs
+   - **Visual** → measure with the browser lane (Obscura; the `proctor:proctor` skill governs
      computer/browser use): `getComputedStyle` **longhands**, `getBoundingClientRect`,
      `elementFromPoint`, at a realistic viewport and a narrow one where layout is the claim.
      Judge against the design mock index where one exists. Never grade a visual item from source.
@@ -79,7 +79,7 @@ while reading as complete. This stage exists to be the stranger.
    - **Behavioural** → exercise: click the path; replay the exact request; record verbatim
      status + body fragment; confirm persistence by re-reading, then restore.
    - **Persistence** → the producer at `file:line` plus a stored row / fired job / received
-     message from a real run — the `spec-validation` skill's REAL/AUTHORED/MOCK bar; invoke it
+     message from a real run — the `spec-validation:spec-validation` skill's REAL/AUTHORED/MOCK bar; invoke it
      where installed rather than re-deriving its rubric.
    - **Static** → `file:line`.
    - **Tests** → run the feature's acceptance suite via `/test-campaign` where it is installed,

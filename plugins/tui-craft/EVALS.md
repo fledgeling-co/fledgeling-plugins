@@ -213,7 +213,7 @@ reasoning on top of it.
 
 # Round 1: the original against no skill at all
 
-Covers the `tui-craft` skill as it stood on 16 Aug 2026.
+Covers the `tui-craft:tui-craft` skill as it stood on 16 Aug 2026.
 
 Measured against **no skill at all**, which is the honest baseline for something
 new: it answers "does this earn its place in the context window", rather than

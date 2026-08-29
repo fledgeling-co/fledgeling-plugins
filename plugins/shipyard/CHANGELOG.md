@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.1 - 2026-08-30
+
+Every skill name written in a prompt or a cross-reference now carries its full
+`plugin:skill` form. A bare name is not resolvable by the Skill tool, so a runner told to
+invoke one gets `Unknown skill` and carries on without it.
+
+Measured across 51,763 session transcripts over 21 days: 53 of 77 Skill invocations failed,
+a 68% failure rate. Bare names were 27 of those. Four more came from agents that knew a
+prefix was needed and invented one (`plugin:`, or the marketplace name).
+
 ## 0.4.0 - 2026-08-21
 
 Lane assignments move to `defer`. This skill no longer names a model or an effort of its own — it points at `lane_pick.py` for the model, the effort and the argv, and at `lane_run.sh` to run and wire-verify one in a step. A pinned lane restated in seven files is a policy nobody can change, and this one had already drifted.

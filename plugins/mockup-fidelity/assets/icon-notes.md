@@ -1,6 +1,6 @@
 # mockup-fidelity icon - spec, decisions and audit notes
 
-Direction **"The Overlay"**. Built with the `create-mac-icon` skill: its
+Direction **"The Overlay"**. Built with the `create-mac-icon:create-mac-icon` skill: its
 `icon-directions.md` pipeline (three engines, written audit sheet),
 `material-recipes.md` for the constructions, `assets/squircle-path.txt` for the
 family silhouette, and `scripts/fidelity.py` for the measured rounds.

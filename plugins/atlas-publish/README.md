@@ -79,7 +79,7 @@ Ask in plain language ("ship an Atlas release", "push a JS-only update", "can I 
 
 ## What it's built on
 
-The pipeline shape is adapted from the `code-review` skill built into the Claude Code CLI, which turned out to be the most useful reference available: the idea that a run states its own budget up front, before anyone can mistake what it did for what it was asked to do.
+The pipeline shape is adapted from the `code-review:code-review` skill built into the Claude Code CLI, which turned out to be the most useful reference available: the idea that a run states its own budget up front, before anyone can mistake what it did for what it was asked to do.
 
 The rest came out of research reports. The read-back rule is [silent](https://dossier.fledgeling.app/silent), on a driver that returned ok and did nothing. The shard reconciliation is [workflows](https://dossier.fledgeling.app/workflows), on a fan-out where a third of the agents never came back. The argument for the founder gate is [cadence](https://dossier.fledgeling.app/cadence), which is about matching how much checking a thing gets to how reproducible it is; the "probe the tier, don't trust a generic green" rule is [dispatch](https://dossier.fledgeling.app/dispatch); and the credentialed-Mac note is [egress](https://dossier.fledgeling.app/egress).
 

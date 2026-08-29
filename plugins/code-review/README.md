@@ -119,12 +119,12 @@ handles the pattern-decidable half of the prepush gate.
 
 ## What it's built on
 
-The pipeline architecture is adapted from the `code-review` skill built into the Claude Code CLI:
+The pipeline architecture is adapted from the `code-review:code-review` skill built into the Claude Code CLI:
 the per-depth budget lines, the named orthogonal angles, the three-verdict verify, the gap sweep and
 the finding floor all come from there.
 
 The sharding architecture, the verifier fan-out, the suppressions file, the mitigating-controls map,
-the severity taxonomy and the six framework checklists come from the `code-review` skill in
+the severity taxonomy and the six framework checklists come from the `code-review:code-review` skill in
 `diolog-plugins`, which this supersedes. Two things that repo's project-specific fork had dropped
 are restored: the NestJS checklist, which a general reviewer cannot assume away, and the
 multi-tenancy section of the logic-bugs checklist.
