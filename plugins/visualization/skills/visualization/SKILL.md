@@ -8,7 +8,7 @@ metadata:
 
 # Visualization
 
-Charts and diagrams as self-contained HTML with inline SVG, in one opinionated
+Charts and diagrams as single-file HTML with inline SVG, in one opinionated
 editorial system. Fifty-three forms. Details load from `references/` only when
 selected.
 
@@ -312,8 +312,15 @@ typography register, and the fidelity ledger.
 
 ## 9. Output
 
-Always one self-contained `.html` file: embedded CSS (Google Fonts the only
-external), inline SVG, no external images. Static by default; minimal inline JS
+Always one `.html` file: embedded CSS, inline SVG, no external images.
+
+**Say "single-file", not "self-contained", and name the font dependency.** The
+default templates link Google Fonts, so the file is one document with one
+external stylesheet — describing that as self-contained in the same sentence that
+admits an external reference is a contradiction a reader will catch. When it
+matters (offline, air-gapped, embedded in another system), either embed the faces
+as base64 in the `<style>` block or fall back to the system stack, and say which
+you did. Static by default; minimal inline JS
 only for explicit animation controls or a chart's hover layer, and the complete
 meaning must render without JavaScript. Under `prefers-reduced-motion: reduce`,
 show the complete static frame and hide playback controls.
