@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 126.5">
+<!-- SVG created with Arrow, by QuiverAI (https://quiver.ai) -->
+  <style type="text/css">.cls-0 {fill:url(#SVGID_1_);}
+.cls-1 {fill:#FFFFFF;}
+.cls-2 {fill:url(#SVGID_2_);}
+.cls-3 {fill:url(#SVGID_3_);}
+.cls-4 {fill:url(#SVGID_4_);}
+.cls-5 {fill:url(#SVGID_5_);}</style>
+  <linearGradient id="SVGID_1_" x1="80" x2="80" y1="126.1" y2="-9.095e-13" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#DDDAD3" offset="0"/>
+    <stop stop-color="#F0EFEB" offset="1"/>
+  </linearGradient>
+  <radialGradient id="SVGID_2_" cx="79.7" cy="83.4" r="65.3" gradientTransform="matrix(1 0 0 .543 0 38.27)" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FFE5D0" offset="0"/>
+    <stop stop-color="#EAE6DE" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <path d="m145 83.4c0 9.1-29.2 16.5-65.3 16.5s-65.3-7.3-65.3-16.5 29.2-16.5 65.3-16.5 65.3 7.4 65.3 16.5z" fill="url(#SVGID_2_)"/>
+  <g stroke="#fff" stroke-width=".5">
+    <linearGradient id="SVGID_3_" x1="79.8" x2="79.8" y1="86.1" y2="78.6" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B4170A" offset="0"/>
+      <stop stop-color="#EE5123" offset="1"/>
+    </linearGradient>
+    <path d="m133.4 86.1h-106.7c-0.7 0-1.4-0.6-1.4-1.4v-4.4c0-0.8 0.7-1.6 1.6-1.6h106.5c0.8 0 1.5 0.7 1.5 1.4v4.6c-0.1 0.7-0.8 1.4-1.5 1.4z" fill="url(#SVGID_3_)"/>
+    <linearGradient id="SVGID_4_" x1="48.7" x2="48.7" y1="74" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DA4622" offset="0"/>
+      <stop stop-color="#1C2426" offset=".5"/>
+      <stop stop-color="#434F51" offset="1"/>
+    </linearGradient>
+    <path d="m58.8 24h-20.5c-0.9 0-1.9 0.7-2 1.6v48.4h24.2v-48.2c0-1-0.8-1.8-1.7-1.8z" fill="url(#SVGID_4_)" stroke-linejoin="round"/>
+    <linearGradient id="SVGID_5_" x1="80.1" x2="80.1" y1="74" y2="6.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DA4622" offset="0"/>
+      <stop stop-color="#1C2426" offset=".4242"/>
+      <stop stop-color="#434F51" offset="1"/>
+    </linearGradient>
+    <path d="m92 8.5c0-1.1-0.8-1.9-1.7-1.9l-20.3-0.1c-0.9 0-1.8 0.8-1.8 1.7v65.8h23.8v-65.5z" fill="url(#SVGID_5_)" stroke-linejoin="round"/>
+    <linearGradient id="SVGID_6_" x1="111.6" x2="111.6" y1="74" y2="36.1" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DA4622" offset="0"/>
+      <stop stop-color="#1C2426" offset=".55"/>
+      <stop stop-color="#434F51" offset="1"/>
+    </linearGradient>
+    <path d="m122.2 36.1h-20.8c-0.8 0-1.7 0.7-1.7 1.8v36h24v-36c0-0.9-0.7-1.8-1.5-1.8z" fill="url(#SVGID_6_)" stroke-linejoin="round"/>
+  </g>
+</svg>

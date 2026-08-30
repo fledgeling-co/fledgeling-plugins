@@ -7,6 +7,7 @@ A skill for Claude Code that picks the right form for your data, proves its colo
   <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
   <img alt="53 forms" src="https://img.shields.io/badge/forms-53-434A55">
   <img alt="12 shipped gates" src="https://img.shields.io/badge/gates-12_shipped-756E60">
+  <img alt="Blind panel 5-2" src="https://img.shields.io/badge/blind_panel-5--2-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
 
@@ -46,7 +47,10 @@ Its docs told the agent to run twenty of them, and an installed agent had none.
 Every one of those rules quietly became prose. Twelve now ship inside the skill
 and run against the file just written.
 
-Full numbers, method and the honest losses are in [EVALS.md](EVALS.md).
+Both were then run against the same eight prompts and scored blind by judges from
+four model families. The report card is 9 to 7; the panel is 5 to 2 with one
+split, and one judge inverted the result entirely. Full numbers, method and the
+honest losses are in [EVALS.md](EVALS.md).
 
 ## The three rules worth knowing
 

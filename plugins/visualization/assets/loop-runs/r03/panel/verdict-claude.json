@@ -1,0 +1,74 @@
+{
+  "runs": {
+    "bundle": {
+      "verdict": {
+        "overall": "B",
+        "material": "tie",
+        "silhouette": "B",
+        "smallsize": "B",
+        "rationale": {
+          "overall": "The two takes share essentially the same volumetric shading and warm transmitted gradient, so the decision falls to proportion \u2014 B's wider baseplate reproduces the REFERENCE's bars-on-a-glowing-rail read, where A's shortened rail makes the bars dominate a plinth that no longer extends past them.",
+          "material": "Both render the same frosted dark-slate bars with a warm bottom transmission and a soft pink bloom under the rail, and neither reaches the REFERENCE's emissive neon core, so the material quality is indistinguishable between them.",
+          "silhouette": "The REFERENCE's rail overhangs the outer bars by a wide margin at both ends and B matches that overhang closely, while A's rail is cropped in to roughly the bar span and loses the horizontal anchor.",
+          "smallsize": "At 32px and 16px B's fuller baseline stays a continuous, legible rail beneath the three bars \u2014 the REFERENCE's core read \u2014 whereas A's shorter rail shrinks to a stub that the bars visually swallow, though B does run its rail closer to the squircle edge than is comfortable."
+        }
+      },
+      "resolved": {
+        "overall": "candidate",
+        "material": "tie",
+        "silhouette": "candidate",
+        "smallsize": "candidate"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "claude -p (opus)"
+      },
+      "order": {
+        "A": "baseline",
+        "B": "candidate"
+      }
+    },
+    "bundle-swapped": {
+      "verdict": {
+        "overall": "B",
+        "material": "B",
+        "silhouette": "A",
+        "smallsize": "A",
+        "rationale": {
+          "overall": "B's emissive plinth and the warm light it throws into the surrounding surface come closer to the REFERENCE's lit-from-below read, and that material behaviour is the dominant impression at full size.",
+          "material": "B carries a broader, softer bloom around and beneath the orange bar with warm transmission climbing into the bar feet, which reads as an actual light source the way the REFERENCE does, where A's glow is clipped tight to the bar and leaves the charcoal bars looking flat and opaque.",
+          "silhouette": "A's plinth spans nearly the full width beneath the columns, matching the REFERENCE's wide shelf proportion, while B's is noticeably inset and makes the group read narrower than the original.",
+          "smallsize": "At 32px and 16px A holds a cleaner, higher-contrast baseline under three distinct columns, whereas B's heavier halo smears into the background and softens the bar into a fuzzy band."
+        }
+      },
+      "resolved": {
+        "overall": "baseline",
+        "material": "baseline",
+        "silhouette": "candidate",
+        "smallsize": "candidate"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "claude -p (opus)"
+      },
+      "order": {
+        "A": "candidate",
+        "B": "baseline"
+      }
+    }
+  },
+  "resolved": {
+    "overall": "tie",
+    "material": "tie",
+    "silhouette": "candidate",
+    "smallsize": "candidate"
+  },
+  "passes_ran": 2,
+  "passes_asked": 2,
+  "swap_flipped": [
+    "overall",
+    "material"
+  ],
+  "swap_consistent": false,
+  "status": "ok"
+}

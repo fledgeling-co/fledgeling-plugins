@@ -1,0 +1,34 @@
+{
+  "0": {
+    "A": "baseline",
+    "B": "candidate"
+  },
+  "1": {
+    "A": "candidate",
+    "B": "baseline"
+  },
+  "2": {
+    "A": "candidate",
+    "B": "baseline"
+  },
+  "3": {
+    "A": "candidate",
+    "B": "baseline"
+  },
+  "4": {
+    "A": "candidate",
+    "B": "baseline"
+  },
+  "5": {
+    "A": "baseline",
+    "B": "candidate"
+  },
+  "6": {
+    "A": "candidate",
+    "B": "baseline"
+  },
+  "7": {
+    "A": "baseline",
+    "B": "candidate"
+  }
+}
