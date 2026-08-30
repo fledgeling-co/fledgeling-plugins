@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="visualization: a porcelain app icon of three graphite bars standing on a single vermilion rule that glows white-hot at its core, beside the wordmark on its own lit rule and the line: charts and diagrams that survive being checked, twelve gates ship inside the skill so the thing doing the drawing can run them. To the right, the same three bars stand on the same lit rule." width="100%">
+</p>
+
 <h1 align="center">visualization</h1>
 
 <p align="center"><strong>Charts and diagrams that survive being checked.</strong><br />
