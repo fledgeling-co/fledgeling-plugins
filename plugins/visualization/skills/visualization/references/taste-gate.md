@@ -50,6 +50,9 @@ Only for quantitative output. Full rules in `chart-honesty.md`.
 - [ ] Thin marks (2px lines, small dots) carrying identity given a heavier mark
       or secondary encoding, since a passing palette does not cover them?
 - [ ] Every drawn value traceable to the source; derived values shown as derived?
+- [ ] If the data wasn't supplied: placeholders marked in all four places, or the
+      chart deliberately not drawn because the invented numbers would invent the
+      finding?
 - [ ] If a length encoding has a non-zero baseline: direct labels on every mark,
       a break indicator, the full range visible, AND a declared retrieval task?
 - [ ] Table view present?

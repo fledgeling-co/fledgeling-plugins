@@ -101,6 +101,24 @@ appear in the table view as given. Derived values (percentages, deltas, indices,
 totals) are shown as derived, with the base they were derived from. If a number
 in the chart cannot be pointed at in the source, it does not go in the chart.
 
+## When there is no data
+
+A request often names the series and the window but carries no numbers. Never
+present invented values as the user's. Two honest moves:
+
+- **Draw it with plainly-marked placeholders**, said in four places a reader
+  might look: on the page above the chart, in the `<desc>`, in the source line,
+  and in the table view's caption. Then ask for the real numbers. Use this when
+  the layout is the thing being reviewed.
+- **Don't draw it at all**, when the invented numbers would be inventing the
+  answer. If the question is "do these two series move together" or "which of
+  these is growing fastest", a placeholder doesn't illustrate the form; it
+  fabricates the finding the chart exists to show. Say so, name the form you'd
+  use, and ask for the series.
+
+The dividing line: placeholders are legitimate when the *shape* is the
+deliverable, and dishonest when the *reading* is.
+
 ## Colour must not carry the claim alone
 
 Every quantitative claim survives greyscale. Identity comes from a legend and
