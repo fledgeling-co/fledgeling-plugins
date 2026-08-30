@@ -1326,7 +1326,20 @@ def build_waves(work_rows, blockers, max_concurrency=OBSERVED_CONCURRENCY_CEILIN
         w = _cost_wave(i, rows_in, blocks_in, max_concurrency)
         w["has_cycle"] = any(n.get("_cycle") for n in members)
         costed.append(w)
-    return {"waves": costed, "edges": edges, "decisions": [r["id"] for r in decisions]}
+    # Bookkeeping is accounted for the way decision work is: named, not scheduled.
+    # A retirable row is already done to a standard that can carry the claim, so
+    # closing it is a person editing a ledger; giving it a wall-clock figure would
+    # report a filing job as an agent being busy.
+    #
+    # Before this list existed the conservation check in `check` could not be
+    # satisfied by any ledger holding a single retirable row. build_waves schedules
+    # product-work and evidence-work and names decision-work, and `bookkeeping` fell
+    # through all three, so `reckon build` refused every project the moment it had
+    # something to retire -- measured on graft, 2026-08-31: 83 of 199 work items
+    # lost, and the build reported "is not a run" for a partition that was sound.
+    return {"waves": costed, "edges": edges,
+            "decisions": [r["id"] for r in decisions],
+            "bookkeeping": [r["id"] for r in work_rows if r["kind"] == "bookkeeping"]}
 
 
 def _cost_wave(index, members, blockers, max_concurrency):
@@ -1637,7 +1650,8 @@ def gate(ledger, weak_join_ratio=0.5):
                                "is counted twice in the total."
                                % (len(dupes_sched), ", ".join(sorted(set(dupes_sched))[:8]))))
         decisions = set(sched.get("decisions") or [])
-        accounted = scheduled | decisions
+        bookkeeping = set(sched.get("bookkeeping") or [])
+        accounted = scheduled | decisions | bookkeeping
         lost = (work_ids | blocker_ids) - accounted
         if lost:
             violations.append(("conservation",
