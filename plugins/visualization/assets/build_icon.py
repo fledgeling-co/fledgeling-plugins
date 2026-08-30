@@ -157,11 +157,19 @@ EDGE_CATCH = "#B9C6D6"  # the frosted catch on each turned edge. Cool, and light
 
 # Vermilion, kin to Fledgeling's #C4622D and deliberately redder than `should-compact`'s
 # #FF7A2E so the two accents are not mistaken for one another at a glance.
-RULE_DEEP = "#8C2E0F"
-RULE_BODY = "#C43F16"
-RULE_MID = "#E85F22"
-RULE_HOT = "#FF9A4E"
-RULE_LIP = "#FFE3C4"
+# The rule's face (r05). The lower three stops are FITTED to C1's own face column
+# rather than typed by eye — measured over 205 columns clear of the bars, at the same
+# five offsets this gradient uses. C1 holds R at 252-254 through t=0.63 and only then
+# falls to ~202; the pre-r05 face fell away from t=0.42 and bottomed at #8C2E0F, a dark
+# rust, which dragged the 256px rule-band mean red to 225 against C1's 252.
+# Each fitted stop takes C1's red at that depth, sets blue so R-B lands on the target
+# band, and preserves C1's own G-B gap at that depth — which is what keeps the face
+# orange rather than turning it red as the red rises.
+RULE_DEEP = "#CA3F34"   # the underside. C1 R=202, R-B=150 (was #8C2E0F: R=140, R-B=125)
+RULE_BODY = "#DB3E29"   # body lower. C1 R=219, R-B=178 (was #C43F16: R=196, R-B=174)
+RULE_MID = "#FC784A"    # body upper. C1 R=252, R-B=178 (was #E85F22: R=232, R-B=198)
+RULE_HOT = "#FF9A4E"    # the specular — HELD. This part read correctly.
+RULE_LIP = "#FFE3C4"    # the top lip — HELD.
 GLOW = "#F26A28"
 
 RIM = "#FFFFFF"

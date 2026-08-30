@@ -18,7 +18,7 @@ all three touching one rule, and the accent is the rule. Shelf check over 53 ico
 the closest structural pair at 0.687 against a 0.80 flag, and warrant is not in the top
 twelve.
 
-## Three findings worth keeping
+## Four findings worth keeping
 
 **1. A datum is defined by its overhang, and the number is measurable.** The concept says
 the baseline is wider than the data it carries; the first draft spent 46px on that and it
@@ -60,6 +60,18 @@ reference's "porcelain" at a column that actually sits on its rule, so the halo 
 fitted half the size it should have been. Only the third was a material constant, and
 it was a sign error: the graphite ramp darkened toward the rule, so the warm bounce was
 being painted onto near-black and read as rust rather than illumination.
+
+**4. Lighting what a source touches is not the same as lighting the source.** r04 fixed
+the bloom, the bounce and the ramp direction, and the icon still read as less vibrant
+than the reference — because none of those touch the face of the rule. Its lower stops
+ran `#C43F16` at 78% and `#8C2E0F` at the base, a dark rust, so the face fell away from
+t≈0.20 and bottomed at red 147 where the reference holds 252-254 through t=0.63. Fitted
+from the reference's own face column at the same offsets (its red at that depth, blue
+set for the target R-B, its G-B gap preserved so the face stays orange as the red
+rises), face mean red went 211 to 234 against the reference's 240, and all five sizes
+improved. The generalisation: when an emitter still looks dim after its environment is
+correct, measure the emitter's own cross-section — the environment and the source are
+separate fits.
 
 **The trade that would not dissolve, recorded rather than buried.** `self_contrast`
 watches the p10 luminance bin, and that bin is entirely bar interior — no porcelain in
