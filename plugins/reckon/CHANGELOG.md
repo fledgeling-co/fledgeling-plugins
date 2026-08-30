@@ -1,5 +1,31 @@
 # Changelog
 
+## 1.9.2 - 2026-08-31
+
+Two retirement-entitlement fixes, both found on one project in one morning.
+
+**Briefs citing CASE and REQ ids resolved to no oracle at all.** The retirement rung is
+computed from `case_by_surface`, which was indexed only by a case's `surface`. A brief
+cites what somebody wrote in it, and that is routinely a CASE or a REQ; such a citation
+resolved to nothing, `best_rung` fell to -1, and the row was reported as "the strongest
+oracle behind it is 'none', below the outcome floor" -- an absent reading rendered in the
+words of a weak one. Measured on graft: two briefs citing CASE-0053 (`outcome`) and
+CASE-0107 (`effect-witness`) directly were both held `undecided` and routed to
+spec-validation, which read the real evidence and ruled RETIRE on both. The index now
+carries each case under its own id and its req ids beside its surface.
+
+**A brief that declares its own status was never asked before being retired.** The
+classifier computed whether the registry's evidence read done and never compared that to
+the brief's declared `status:`. A brief filed an hour earlier, citing passing cases as
+context for the refusals it exists to fix, classed as `retirable`. A declared status that
+is not a done-or-waived word now blocks retirement and the row lands `undecided` with the
+disagreement named -- the document and the evidence disagree, a person rules. Empty status
+is honoured as no claim: most queues carry none, and their behaviour is unchanged.
+
+Both directions were observed on the same run: two briefs wrongly held `undecided` moved
+to `retirable`; six briefs wrongly `retirable` moved to `broken` because the newly-visible
+citations included failing cases. The join now sees what the briefs actually cite.
+
 ## 1.9.1 - 2026-08-31
 
 `reckon build` refused any project that had something to retire.

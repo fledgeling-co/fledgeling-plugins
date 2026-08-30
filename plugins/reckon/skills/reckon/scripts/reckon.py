@@ -770,6 +770,18 @@ def classify(briefs, campaign, edges, join_is_weak):
         })
         if c.get("surface"):
             case_by_surface[c["surface"]].append((st, c.get("oracle")))
+        # A brief cites what somebody wrote in it, and that is routinely a CASE or a
+        # REQ rather than a SURF. Indexing only by surface made every such citation
+        # resolve to nothing, and `best_rung` then fell to -1 and was reported as
+        # "the strongest oracle behind it is 'none'" -- an ABSENT reading rendered in
+        # the words of a weak one, which sends work that is done to spec-validation.
+        # Measured on graft, 2026-08-31: two briefs citing CASE-0053 (outcome) and
+        # CASE-0107 (effect-witness) directly were both held `undecided` on "none".
+        if c.get("id"):
+            case_by_surface[c["id"]].append((st, c.get("oracle")))
+        for _r in ([c["req"]] if isinstance(c.get("req"), str) else (c.get("req") or [])):
+            if _r:
+                case_by_surface[_r].append((st, c.get("oracle")))
 
     # --- requirements ------------------------------------------------------
     #
@@ -1007,7 +1019,19 @@ def classify(briefs, campaign, edges, join_is_weak):
                 best_cls = "undecided"
                 best_why = "the requirement this brief maps to is contradicted or vacuous; the document and the build disagree"
             elif any(e in EVIDENCE_OBSERVED for e in req_ev) or any_pass:
-                if best_rung >= rung_index(RETIREMENT_RUNG) and cited and not join_is_weak:
+                # A brief that declares a status the tool can read says whether the
+                # work is done, and a status that is not a done-or-waived word says
+                # it is not. Retiring it anyway reported the registry's reading over
+                # the brief's own -- a fresh brief citing passing cases as CONTEXT
+                # (what it exists to fix) classed as already done, measured on graft
+                # 2026-08-31: two briefs filed an hour earlier read `retirable`.
+                # Empty status is honoured as no claim: most queues carry none.
+                if b["status"] and b["status"] not in WAIVED_DECLARED:
+                    best_cls = "undecided"
+                    best_why = ("the brief declares status %r while the registry's evidence reads done -- "
+                                "the document and the evidence disagree; a person rules, an instrument cannot"
+                                % b["status"])
+                elif best_rung >= rung_index(RETIREMENT_RUNG) and cited and not join_is_weak:
                     best_cls = "retirable"
                     best_why = ("observed at rung %r, at or above the %r floor, on a cited join — "
                                 "the work this brief asks for appears already done"
