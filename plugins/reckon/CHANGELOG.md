@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.9.1 - 2026-08-31
+
+`reckon build` refused any project that had something to retire.
+
+1.9.0 added a conservation check over the schedule: every work item must be in a wave or on
+the decision list, or the total is a figure about a subset. But `build_waves` only ever
+placed three of the four work kinds — it schedules `product-work` and `evidence-work` and
+names `decision-work`, and `bookkeeping` was in none of them. So a `retirable` row, which
+is a row already done well enough to close, was counted as work and then accounted for
+nowhere, and the build exited 1 saying the directory "is not a run".
+
+That made the check unsatisfiable rather than strict: the only projects it passed were the
+ones with nothing to retire. Measured on graft, 2026-08-31 — 83 of 199 work items lost, over
+a partition that was otherwise sound.
+
+`build_waves` now returns a `bookkeeping` list beside `decisions`, and the check counts it
+as accounted. Bookkeeping is named rather than scheduled for the same reason decision work
+is: closing a retirable row is a person editing a ledger, and giving it a wall-clock figure
+would report a filing job as an agent being busy. The check is otherwise unchanged — a
+product-work or evidence-work item that falls out of every wave is still a violation.
+
 ## 1.9.0 - 2026-08-30
 
 Reckon now schedules what it finds, and publishes a board somebody can show a room.
