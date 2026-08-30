@@ -1140,6 +1140,208 @@ expect("circular source evidence classed done fails gate",
                  "evidence": "source", "title": "circ req", "why": "", "is_work_item": False}],
        1, "circular or self-reported evidence cannot retire a requirement", "placement")
 
+# --- 20. the schedule is conserved the same way the partition is -----------
+#
+# The board is the half people look at, and a board that disagrees with the
+# rows it was built from is exactly the failure this tool exists to prevent,
+# arriving through its own presentation layer. Each gate below is shown firing
+# on a bad schedule and silent on a good one.
+
+def _sched_ledger(schedule, rows=None):
+    led = ledger(rows if rows is not None else clean)
+    led["schedule"] = schedule
+    led["blockers"] = []
+    return led
+
+# The work items in `clean` are the two briefs.
+_work = [r["id"] for r in clean if r.get("is_work_item")]
+
+_good_sched = {
+    "waves": [{"wave": 1, "members": _work, "blockers": [], "n": 2, "slots": 2, "batches": 1,
+               "low_min": 10, "high_min": 40, "serial_min": 30, "bound_by": "slowest-member",
+               "note": "n"}],
+    "edges": [], "decisions": [],
+    "project": {"low_min": 10, "high_min": 40, "serial_min": 30, "speedup": 3.0,
+                "speedup_exceeds_measured": False, "basis": "b"},
+    "max_concurrency": 8,
+}
+expect("a sound schedule passes", _sched_ledger(_good_sched), 0, "")
+
+import copy as _copy
+
+_dupe = _copy.deepcopy(_good_sched)
+_dupe["waves"].append(dict(_dupe["waves"][0], wave=2))
+_dupe["project"] = {"low_min": 20, "high_min": 80, "serial_min": 60, "speedup": 3.0,
+                    "speedup_exceeds_measured": False, "basis": "b"}
+expect("an item in two waves is caught", _sched_ledger(_dupe),
+       1, "more than one wave", "conservation")
+
+_lost = _copy.deepcopy(_good_sched)
+_lost["waves"][0]["members"] = _work[:1]
+_lost["waves"][0]["n"] = 1
+expect("work in no wave is caught", _sched_ledger(_lost),
+       1, "in no wave and on no decision list", "conservation")
+
+_lost_ok = _copy.deepcopy(_lost)
+_lost_ok["decisions"] = _work[1:]
+expect("...unless it is on the decision list", _sched_ledger(_lost_ok), 0, "")
+
+_phantom = _copy.deepcopy(_good_sched)
+_phantom["waves"][0]["members"] = _work + ["BRIEF-does-not-exist"]
+_phantom["waves"][0]["n"] = 3
+expect("a scheduled item that is not work is caught", _sched_ledger(_phantom),
+       1, "not work in this ledger", "conservation")
+
+_badsum = _copy.deepcopy(_good_sched)
+_badsum["project"]["high_min"] = 999
+expect("a total that is not the sum of its waves is caught", _sched_ledger(_badsum),
+       2, "not the sum of its waves", "disclosure")
+
+_inverted = _copy.deepcopy(_good_sched)
+_inverted["waves"][0]["low_min"] = 99
+_inverted["project"]["low_min"] = 99
+expect("a wave whose low exceeds its high is caught", _sched_ledger(_inverted),
+       2, "low bound above its high bound", "disclosure")
+
+_fast = _copy.deepcopy(_good_sched)
+_fast["project"]["speedup"] = 19.0
+_fast["project"]["speedup_exceeds_measured"] = True
+_led_fast = _sched_ledger(_fast)
+_v, _w = R.gate(_led_fast)
+_ok = R.verdict(_v) == 0 and any("measured p90" in m for m in _w)
+print("%-46s %s" % ("an unmeasurable speedup warns, not blocks", "ok" if _ok else "FAILED"))
+if not _ok:
+    FAILURES.append("speedup warning: code=%r warnings=%r" % (R.verdict(_v), _w))
+
+_est_on_nonwork = _copy.deepcopy(clean)
+for _r in _est_on_nonwork:
+    if _r["id"] == "CASE-1":
+        _r["estimate"] = {"tier": "M", "low_min": 7, "median_min": 15, "high_min": 56}
+expect("time against corroboration is caught",
+       _sched_ledger(_good_sched, _est_on_nonwork),
+       2, "carries a duration estimate but is not work", "disclosure")
+
+_bad_tier = _copy.deepcopy(clean)
+for _r in _bad_tier:
+    if _r.get("is_work_item"):
+        _r["estimate"] = {"tier": "XXL", "low_min": 7, "median_min": 15, "high_min": 56}
+        break
+expect("an estimate tier outside the table is caught",
+       _sched_ledger(_good_sched, _bad_tier),
+       2, "is not one of", "disclosure")
+
+# A ledger written before the schedule existed carries no `schedule` key, and
+# must pass — refusing there would report the ledger's age as a project defect.
+_old = ledger(clean)
+_old.pop("schedule", None)
+expect("a ledger with no schedule still passes", _old, 0, "")
+
+
+# --- 21. the estimator itself ----------------------------------------------
+#
+# Estimates are the only figures here not derived from the ledger, so the
+# properties that keep them honest are asserted rather than assumed.
+
+_est_checks = []
+_r_broken = {"id": "X", "class": "broken", "kind": "product-work", "is_work_item": True,
+             "title": "a thing", "note": ""}
+_e = R.estimate_row(_r_broken)
+_est_checks.append(("a work row gets a range, not a number",
+                    _e["low_min"] < _e["median_min"] < _e["high_min"]))
+_est_checks.append(("corroboration gets no estimate at all",
+                    R.estimate_row(dict(_r_broken, is_work_item=False)) is None))
+_e_big = R.estimate_row(dict(_r_broken, title="rewrite the entire pipeline end to end"))
+_est_checks.append(("wording that spans surfaces sizes up",
+                    R.TIER_ORDER.index(_e_big["tier"]) > R.TIER_ORDER.index(_e["tier"])))
+_e_small = R.estimate_row(dict(_r_broken, title="a one-line tooltip copy change"))
+_est_checks.append(("wording that is contained sizes down",
+                    R.TIER_ORDER.index(_e_small["tier"]) < R.TIER_ORDER.index(_e["tier"])))
+_est_checks.append(("every tier is a strictly widening range",
+                    all(R.SIZE_TIERS[t][0] < R.SIZE_TIERS[t][1] < R.SIZE_TIERS[t][2]
+                        for t in R.TIER_ORDER)))
+_est_checks.append(("tiers are ordered by median",
+                    [R.SIZE_TIERS[t][1] for t in R.TIER_ORDER]
+                    == sorted(R.SIZE_TIERS[t][1] for t in R.TIER_ORDER)))
+_b = R.estimate_blocker({"id": "BLOCK-0001", "unblocks": 12, "cases": ["C"] * 12})
+_b1 = R.estimate_blocker({"id": "BLOCK-0002", "unblocks": 1, "cases": ["C"]})
+_est_checks.append(("a blocker is sized by its hook, not its case count",
+                    _b["high_min"] < R.SIZE_TIERS["XL"][2] and _b1["high_min"] <= _b["high_min"]))
+for _name, _res in _est_checks:
+    print("%-46s %s" % (_name, "ok" if _res else "FAILED"))
+    if not _res:
+        FAILURES.append("estimator: %s" % _name)
+
+# A wave may never claim a speedup better than the best ever measured. This is
+# the property that stops the schedule printing a duration nothing has achieved.
+_many = [{"id": "W%d" % i, "estimate": {"tier": "M", "low_min": 7, "median_min": 15,
+                                        "high_min": 56}, "kind": "product-work",
+          "class": "broken", "title": "t", "is_work_item": True, "surface": None}
+         for i in range(40)]
+# Every wave size, not one: rounding the low bound down by half a minute is
+# enough to beat the ceiling, and a ceiling that rounding can beat is not one.
+_worst, _worst_n = 0.0, 0
+for _n in range(1, 61):
+    _w = R._cost_wave(1, [{"id": "W%d" % i,
+                           "estimate": {"tier": "M", "low_min": 7, "median_min": 15,
+                                        "high_min": 56}} for i in range(_n)], [], 8)
+    _imp = _w["serial_min"] / _w["low_min"] if _w["low_min"] else 0
+    if _imp > _worst:
+        _worst, _worst_n = _imp, _n
+_ok = _worst <= R.MEASURED_SPEEDUP_P90
+print("%-46s %s" % ("no wave size can beat the measured ceiling", "ok" if _ok else "FAILED"))
+if not _ok:
+    FAILURES.append("wave speedup: %d members implied %.3fx over p90 %.1fx"
+                    % (_worst_n, _worst, R.MEASURED_SPEEDUP_P90))
+
+# Decision work carries no duration: a person reading two documents is not an
+# agent being busy, and scheduling one as though it were is the failure.
+_mixed = [{"id": "D1", "kind": "decision-work", "class": "undecided", "title": "t",
+           "is_work_item": True, "estimate": R.estimate_row(
+               {"id": "D1", "class": "undecided", "kind": "decision-work",
+                "is_work_item": True, "title": "t", "note": ""})},
+          {"id": "P1", "kind": "product-work", "class": "broken", "title": "t",
+           "is_work_item": True, "surface": None,
+           "estimate": R.estimate_row({"id": "P1", "class": "broken", "kind": "product-work",
+                                       "is_work_item": True, "title": "t", "note": ""})}]
+_s = R.build_waves(_mixed, [])
+_ok = _s["decisions"] == ["D1"] and all("D1" not in w["members"] for w in _s["waves"])
+print("%-46s %s" % ("decision work is never given agent time", "ok" if _ok else "FAILED"))
+if not _ok:
+    FAILURES.append("decision scheduling: %r" % _s)
+
+# An inferred edge orders work; only a cited edge is a sub-task, because a
+# guess drawn as a decomposition puts invented structure on a page.
+_rows_sub = [{"id": "BRIEF-x", "entity": "brief", "is_work_item": True, "kind": "product-work",
+              "class": "unbuilt", "title": "t",
+              "edges": [{"target": "REQ-1", "method": "cited"},
+                        {"target": "REQ-2", "method": "overlap"}]},
+             {"id": "REQ-1", "entity": "requirement", "is_work_item": True,
+              "kind": "evidence-work", "class": "unmeasured", "title": "t"}]
+_subs = R.subtasks_of(_rows_sub[0], _rows_sub)
+_ok = [x["id"] for x in _subs] == ["REQ-1"]
+print("%-46s %s" % ("only a citation counts as a sub-task", "ok" if _ok else "FAILED"))
+if not _ok:
+    FAILURES.append("subtasks: %r" % _subs)
+
+# The HTML is the presentable half and must render from a ledger without
+# throwing, and must not invent a headline figure the ledger does not hold.
+_html_led = _sched_ledger(_good_sched)
+_html_led["blockers"] = []
+_html = R.render_html(_html_led)
+_ok = ("<title>" in _html and "estimate" in _html.lower()
+       and "Wave 1" in _html and "<script" not in _html.lower())
+print("%-46s %s" % ("the html renders, carries no script", "ok" if _ok else "FAILED"))
+if not _ok:
+    FAILURES.append("render_html: %r" % _html[:200])
+
+# The page must not carry a colour that only exists inside a media query, or it
+# borrows the host's theme when the viewer has no preference set.
+_ok = "--ink:" in R.HTML_CSS.split("@media")[0] and "background:var(--paper)" in R.HTML_CSS
+print("%-46s %s" % ("every colour is defined on bare :root", "ok" if _ok else "FAILED"))
+if not _ok:
+    FAILURES.append("css: light palette not on bare :root")
+
+
 print()
 if FAILURES:
     print("%d self-test failure(s):" % len(FAILURES))

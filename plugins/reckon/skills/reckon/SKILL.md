@@ -16,10 +16,19 @@ description: >-
   floor, refuses to retire stated intent on weak-oracle or guessed evidence, refuses to let
   a requirement leave never-measured on its own evidence word when no passing case cites it,
   keeps waivers visible as exceptions rather than folding them into done, and gates the
-  whole ledger with an exit code so a report that lost an item cannot pass. Use whenever someone asks what is
+  whole ledger with an exit code so a report that lost an item cannot pass. Then schedules
+  what remains: ship-fleet's wave model over the ledger, so items whose dependencies are
+  met run in parallel, with sub-tasks nested under the item that cites them and a
+  wall-clock range per item and per wave drawn from 1,842 measured Opus 4.8 and Opus 5
+  agent runs — always a range and never a number, because the measured p90 is over three
+  times the median, and never a schedule implying a speedup better than the 4.0x ever
+  observed. Emits three artifacts from one gated ledger: ledger.json, a comprehensive
+  technical reckoning.md, and a self-contained reckoning.html board showing shipped
+  features beside remaining ones and the waves between them. Use whenever someone asks what is
   left, what still needs doing, where the project stands, what the test campaign leaves
   open, whether a feature is actually finished, which briefs are stale, what to work on
-  next, or asks to reconcile specs against test results — and after any test-campaign run,
+  next, how long the remaining work will take, what can be built in parallel, or asks to
+  reconcile specs against test results — and after any test-campaign run,
   to turn its findings into work. Not for producing the evidence (test-campaign), tracing a
   spec to the code that produces its data (spec-validation), a whole-product survey against
   a stated goal (product-gap-analysis), a tracker-board sweep (stocktake), or a decision
@@ -110,6 +119,56 @@ deferred or scoped out at triage, keep those outer capabilities tracked as
 `undecided` or `unbuilt` rather than retiring the full intent on in-tree unit test
 evidence alone.
 
+## Waves, and what a duration is
+
+The ledger says what remains. The schedule says what can happen at the same time
+and roughly how long it takes, using **`ship-fleet:ship-fleet`'s model** so the two skills
+describe one shape of work rather than two: nodes are work items, edges are
+dependencies, and a wave is everything whose dependencies all sit in earlier
+waves.
+
+Two things differ from ship-fleet, and both are about entitlement.
+
+**Edges here are weaker, and they are labelled.** That skill reads specs with
+"depends on" lines. reckon reads a ledger, so a `cited` edge is a citation
+somebody wrote into the registry and it blocks, while an `inferred` edge is this
+tool reading a shared surface and it only *orders* the work. A false edge costs
+somebody's parallelism, and this tool is not entitled to spend that on a guess.
+
+**Decision work is never scheduled.** An `undecided` or `unjoined` row is a
+person reading two documents and ruling. It has no agent duration, and giving it
+one would report waiting on a human as though an agent were busy. Those rows are
+listed beside the waves as what gates them.
+
+### Where the durations come from
+
+A corpus of **1,842 measured Opus 4.8 and Opus 5 subagent runs** across 88
+sessions and 31 projects, taken from Claude Code's own transcripts. Full
+provenance, method, tables and limits: `references/estimation.md`.
+
+Three properties are load-bearing, and each exists because its absence produces
+a specific lie:
+
+- **Everything is a range, never a number.** Measured p90 ÷ median is 3.4 for
+  build work and 3.1 for research. A point estimate is wrong by a factor of
+  three in the ordinary case and reads as precision.
+- **A wave costs its slowest member, and no schedule may beat what was
+  observed.** Measured wall-clock ÷ slowest member is 1.05 at the median and 1.8
+  at p90 over 253 real waves; measured speedup over serial is 2.2× median, 4.0×
+  p90. The wave estimator holds its low bound to that ceiling, because perfect
+  packing across eight slots is arithmetic that no run has achieved and printing
+  it would put a duration on the page that has never happened.
+- **Wall-clock includes waiting, and carries no failure rate.** These answer how
+  long an agent will be busy — not how much model time it costs, and not how long
+  until the work is accepted.
+
+The measured concurrency ceiling is 8 (peak reached: median 5, p90 10). Above it
+the slowest-member property degrades to 1.55, so a wave larger than that widens
+its own upper bound and says so.
+
+Re-measure when the corpus has grown or a new model lands; the method is written
+down at the end of `references/estimation.md`.
+
 ## Running it
 
 ### 1 · Find the inputs
@@ -134,8 +193,25 @@ python3 $S/reckon.py build \
     --out docs/reckoning/<date>
 ```
 
-This writes `ledger.json` (every row, with the reason for its class) and
-`reckoning.md` (the readable report), and returns the gate's exit code.
+This writes three files and returns the gate's exit code:
+
+- **`ledger.json`** — every row, the reason for its class, the estimate attached
+  to each work item and the wave schedule. Everything else is rendered from it.
+- **`reckoning.md`** — the comprehensive technical record. Every row, every
+  dependency edge with how it was made, the per-wave item tables, the join's
+  near-misses, and what this reckoning could not classify.
+- **`reckoning.html`** — one self-contained page, no build step and no external
+  assets: what is shipped, what remains, what can run in parallel and roughly
+  how long each wave takes. It is the artifact somebody shows a room.
+
+The two reports are deliberately different documents rather than one document at
+two lengths. The markdown is the record an engineer works from and it holds
+everything. The HTML is the same data at a distance somebody can read across a
+room, and it is rendered **from `ledger.json` alone** — which is what keeps the
+presentable half from drifting away from the gated half.
+
+`--max-concurrency N` sets how many agents may run at once (default 8, the
+measured ceiling). `--no-html` skips the page.
 
 ### 3 · Adjudicate what the script could not
 
@@ -159,11 +235,30 @@ them, and split any it over-grouped. Every case id stays listed under its
 cluster, so regrouping loses nothing.
 
 Where a brief's status is genuinely undetermined and it matters, route it to
-`spec-validation` rather than deciding from the documents. That skill traces a
+`spec-validation:spec-validation` rather than deciding from the documents. That skill traces a
 claim to the code that produces its data; this one reconciles claims against
 evidence and is not entitled to that verdict.
 
-### 4 · Re-gate and report
+### 4 · Check the estimates against what you know
+
+The schedule is generated, and it reads a row's wording rather than the work
+behind it. Two things are worth a minute:
+
+**The tiers.** Each work item carries `S`/`M`/`L`/`XL` with a p25–p90 range, and
+the `basis` field says why it landed there. Where you know a row is bigger or
+smaller than its wording suggests, change its tier in `ledger.json` and re-gate —
+the gate checks the arithmetic, not your judgement.
+
+**The inferred edges.** A `cited` edge is a citation somebody wrote and it blocks.
+An `inferred` edge is this tool reading a shared surface, and it only orders the
+work. Cut the inferred ones you disagree with; each costs parallelism if wrong
+and nothing else.
+
+Every duration is wall-clock for one agent unit, drawn from 1,842 measured Opus
+4.8 and Opus 5 runs. `references/estimation.md` carries the corpus, the method
+and what the figures cannot say — read it before defending a number to anybody.
+
+### 5 · Re-gate and report
 
 ```bash
 python3 $S/reckon.py check docs/reckoning/<date>/ledger.json   # exit 0 required
@@ -228,10 +323,37 @@ documents can measure.
 remains. "83 pieces of work remain, over 43% of the designed cases" is honest;
 the first half alone is not.
 
-Match the report length to what the task needs: the markdown report is generated,
-and what you add to it is a short, concise assessment of what it means — the two
-or three high-leverage items worth doing first and why, in a few paragraphs. Do
-not pad with filler or restate the tables in prose.
+**Say what a duration is a duration of.** Every estimate on either report is
+wall-clock for one agent unit, it is a range and not a number, and it carries no
+failure rate — an agent that ran an hour and produced work later rejected counts
+the same as one that landed. Both reports print those three qualifications
+already; do not restate them in prose, and do not narrow a printed range to a
+point when you talk about it.
+
+Match the report length to what the task needs. Both reports are generated. What
+you add is a short assessment of what they mean — the two or three high-leverage
+items worth doing first and why, in a few paragraphs. Do not pad with filler or
+restate the tables in prose.
+
+Once the HTML exists, open it: `open -a "Google Chrome" docs/reckoning/<date>/reckoning.html`,
+and say in one sentence what to look at.
+
+### The two reports are for different readers
+
+They hold the same data and they are not two lengths of one document.
+
+**`reckoning.md` is the technical record.** It holds every row, every dependency
+edge with how it was made, the per-wave item table with each item's tier and the
+basis for it, the join's near-misses, the requirements standing on the project's
+own word, and every input the tool could not classify. It is what somebody works
+from and what somebody argues with. Length is not a virtue here, but completeness
+is: nothing in the ledger is too small for it.
+
+**`reckoning.html` is the picture.** Shipped on one side, remaining on the other,
+the waves in the middle with their sub-tasks and their ranges, and the caveats
+where a reader will hit them rather than in a footnote. It shows the leading
+items per section and points at the ledger for the rest, because a page nobody
+scrolls to the end of has not communicated its tail anyway.
 
 ## Writing briefs back
 
@@ -258,21 +380,21 @@ the hook is the work.
 
 Route rather than reimplement — each of these is a dedicated skill:
 
-- **Producing the evidence** → `test-campaign`. This reads its registry; it
+- **Producing the evidence** → `test-campaign:test-campaign`. This reads its registry; it
   never runs tests.
 - **Deciding whether a claimed-done feature is genuinely implemented** →
-  `spec-validation`, which traces a field to its producer with file:line.
-- **A whole-product survey against a stated goal** → `product-gap-analysis`.
-- **A tracker-board sweep, card by card** → `stocktake`.
-- **A page and a questionnaire for a non-technical owner** → `whats-left`.
+  `spec-validation:spec-validation`, which traces a field to its producer with file:line.
+- **A whole-product survey against a stated goal** → `product-gap-analysis:product-gap-analysis`.
+- **A tracker-board sweep, card by card** → `stocktake:stocktake`.
+- **A page and a questionnaire for a non-technical owner** → `whats-left:whats-left`.
   Hand it `docs/reckoning/<date>/ledger.json` directly: `undecided` rows become
   its decision questions, `unmeasured` blocker clusters become evidence items,
   and `unbuilt`/`broken` rows become product items.
-- **Executing the work** → `ship-fleet`, or `shipyard` per stage.
+- **Executing the work** → `ship-fleet:ship-fleet`, or `shipyard:shipyard` per stage.
 
 Reading source is not part of this skill's job and stays capped where it
 happens: identifiers from a brief may be grepped to demote a claim or route it
-to `spec-validation`, never to promote something to done. A grep hit is weak
+to `spec-validation:spec-validation`, never to promote something to done. A grep hit is weak
 evidence, and letting weak evidence close an item is the failure this skill
 exists to prevent.
 
@@ -294,6 +416,8 @@ double-check your own work.
   step is the weak one, and how to strengthen it in a repo.
 - `references/no-campaign.md` — running against briefs alone, and how the
   report must weaken its claims when it has no evidence to reconcile against.
+- `references/estimation.md` — the corpus behind every duration, how it was
+  measured, the tier and wave tables, and what the figures cannot say.
 - `references/evidence.md` — the standards and measured results behind every
   rule above, with citations.
 - `scripts/selftest.py` — proves each gate fires on a bad fixture and stays
