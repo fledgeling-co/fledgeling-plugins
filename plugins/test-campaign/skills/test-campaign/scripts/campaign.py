@@ -986,6 +986,13 @@ def audit(d: Path) -> dict:
         s["id"]: [str(x) for x in (s.get("controls") or [])]
         for s in surfaces if s.get("controls")}
     actuated: dict[str, set[str]] = {sid: set() for sid in declared_controls}
+    # Driven is a weaker fact than actuated and it is the one that separates the
+    # two ways a surface can sit at zero: a control nobody has touched, and a
+    # control that was pressed and did nothing. Any case naming a declared control
+    # under `actuates` drove it, whatever its rung and whatever its status —
+    # a failing case that pressed a button and found the button dead is the whole
+    # measurement, and reading it as "nobody looked" is the report defect below.
+    driven: dict[str, set[str]] = {sid: set() for sid in declared_controls}
     unknown_actuations: list[str] = []
     for c in cases:
         names = c.get("actuates") or []
@@ -1003,6 +1010,7 @@ def audit(d: Path) -> dict:
             unknown_actuations.append(
                 f"{c['id']} actuates {capped(strays, 4)} — not among "
                 f"{sid}'s declared controls")
+        driven[sid] |= (set(names) & known)
         # Only a passing case at an effect rung actuated anything. A presence-rung
         # pass that clicked a control and asserted the control is still there has
         # measured the click and not the effect.
@@ -1013,6 +1021,27 @@ def audit(d: Path) -> dict:
     surfaces_inert = [
         f"{sid} ({len(declared_controls[sid])} control(s) declared, 0 actuated)"
         for sid in sorted(declared_controls) if not actuated[sid]]
+    # Both halves of that list still block, and neither is a waiver: the split is
+    # in what the refusal SAYS, not in what it decides. It exists because one
+    # sentence covered two findings that owe opposite work. A surface nobody drove
+    # owes a RUN — the campaign has not looked. A surface whose every declared
+    # control was driven and where not one drive produced a passing effect-rung
+    # result owes a REPAIR — the campaign looked, and the product is what failed.
+    # Telling the second it has not been actuated is the report defect: it reads
+    # as an incomplete campaign when it is a complete measurement of dead controls.
+    # There is no per-surface field behind this. A surface moves between the two
+    # lines only by a case naming its controls, which the stray check above already
+    # governs, and neither line is a route to a green verdict.
+    declared_count = {sid: len(set(v)) for sid, v in declared_controls.items()}
+    surfaces_inert_undriven = [
+        f"{sid} ({declared_count[sid]} declared, {len(driven[sid])} driven, "
+        f"{declared_count[sid] - len(driven[sid])} never driven)"
+        for sid in sorted(declared_controls)
+        if not actuated[sid] and len(driven[sid]) < declared_count[sid]]
+    surfaces_inert_measured = [
+        f"{sid} ({len(driven[sid])} of {declared_count[sid]} control(s) driven, 0 actuated)"
+        for sid in sorted(declared_controls)
+        if not actuated[sid] and len(driven[sid]) >= declared_count[sid]]
 
     # ── DESTINATION DISTINCTNESS ────────────────────────────────────────────
     #
@@ -1323,11 +1352,18 @@ def audit(d: Path) -> dict:
         blockers_advisory.append(
             f"{len(lanes_presence_only)} lane(s) whose every passing case sits below "
             f"`outcome` ({capped(lanes_presence_only, 3)}) — proved to render, not to work")
-    if surfaces_inert:
-        blockers.append(f"{len(surfaces_inert)} surface(s) declaring controls that no passing "
-                        f"effect-rung case actuates ({capped(surfaces_inert, 3)}) — a control "
-                        f"renders, carries a name and accepts a click whether or not its "
-                        f"handler does anything")
+    if surfaces_inert_undriven:
+        blockers.append(f"{len(surfaces_inert_undriven)} surface(s) declaring control(s) "
+                        f"nothing has driven ({capped(surfaces_inert_undriven, 3)}) — a "
+                        f"control renders, carries a name and accepts a click whether or "
+                        f"not its handler does anything, so this owes a RUN")
+    if surfaces_inert_measured:
+        blockers.append(f"{len(surfaces_inert_measured)} surface(s) whose every declared "
+                        f"control was driven and not one drive produced a passing "
+                        f"effect-rung result ({capped(surfaces_inert_measured, 3)}) — the "
+                        f"campaign pressed them and read nothing back, so this owes a "
+                        f"REPAIR rather than a run, and stays red until the control does "
+                        f"something a case can pass on")
     if unknown_actuations:
         blockers.append(f"{len(unknown_actuations)} case(s) actuating a control their surface "
                         f"never declared ({capped(unknown_actuations, 2)}) — add the control "
@@ -1488,6 +1524,8 @@ def audit(d: Path) -> dict:
         "controlsActuated": controls_actuated,
         "surfacesDeclaringControls": len(declared_controls),
         "surfacesInert": surfaces_inert,
+        "surfacesInertUndriven": surfaces_inert_undriven,
+        "surfacesInertMeasured": surfaces_inert_measured,
         "unknownActuations": unknown_actuations,
         "navigationShells": {k: sorted(v) for k, v in shells.items()},
         "collapsedDestinations": collapsed_destinations,
