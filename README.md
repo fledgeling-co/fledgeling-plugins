@@ -135,6 +135,14 @@ For apps that run in a terminal window. It does the character counting nobody ge
 
 <br clear="left" />
 
+<a href="plugins/visualization/README.md"><img src="plugins/visualization/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [visualization](plugins/visualization/README.md)
+
+Draws the chart or the diagram, and can prove the result rather than asking you to trust it. Thirty-nine diagram types and fourteen chart forms, one self-contained HTML file, and twelve checkers that ship inside the skill so the thing doing the drawing can run them against what it just wrote. Colour for more than one series is computed against a perceptual gate instead of chosen, because the five hand-picked colours it inherited turned out to be five greys with a tint. It will not give you a truncated bar chart, a second y-axis, or a one-bar bar chart, and it says why.
+
+<br clear="left" />
+
 <a href="plugins/ux-craft/README.md"><img src="plugins/ux-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [ux-craft](plugins/ux-craft/README.md)
@@ -320,7 +328,7 @@ Works out what your product should stand for, and can show its working. It runs 
 
 ### [reckon](plugins/reckon/README.md)
 
-Answers what is actually left, and refuses to blur not done with nobody checked. Every item lands in exactly one category so nothing quietly falls off the list, and it never hands you a single percentage that averages the difference away.
+Answers what is actually left, and refuses to blur not done with nobody checked. Every item lands in exactly one category so nothing quietly falls off the list, and it never hands you a single percentage that averages the difference away. Then it schedules the remainder into parallel waves and puts a time range on each, drawn from 1,842 measured Opus agent runs — always a range, and never a plan implying a speedup faster than anything ever observed.
 
 <br clear="left" />
 

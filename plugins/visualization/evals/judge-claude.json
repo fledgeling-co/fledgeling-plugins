@@ -1,0 +1,8 @@
+[{"eval_id": 0, "winner": "B", "confidence": "medium"},
+{"eval_id": 1, "winner": "A", "confidence": "medium"},
+{"eval_id": 2, "winner": "A", "confidence": "high"},
+{"eval_id": 3, "winner": "B", "confidence": "medium"},
+{"eval_id": 4, "winner": "A", "confidence": "low"},
+{"eval_id": 5, "winner": "B", "confidence": "low"},
+{"eval_id": 6, "winner": "A", "confidence": "low"},
+{"eval_id": 7, "winner": "A", "confidence": "low"}]

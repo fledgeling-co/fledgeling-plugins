@@ -1,0 +1,21 @@
+{
+  "name": "visualization",
+  "description": "Draw anything a reader has to look at to understand — 39 editorial diagram types and the quantitative chart forms — as one self-contained HTML file with inline SVG. Merges a comprehensive diagram system with a measured data-visualisation method: the form comes from the data's job, multi-series colour goes through a runnable perceptual validator rather than taste, charts are held to zero-baseline and shared-scale honesty rules, and twelve verifier scripts ship inside the skill so the agent that draws can check its own output and read an exit code. Successor to diagram-design by Cathryn Lavery, whose 39 layout grammars, connector rules and import pipeline it keeps intact.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  },
+  "keywords": [
+    "diagrams",
+    "charts",
+    "dataviz",
+    "svg",
+    "architecture",
+    "flowchart",
+    "accessibility",
+    "colorblind-safe",
+    "drawio",
+    "mermaid"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "skill_name": "visualization",
+  "notes": "Eight prompts. 0-2 target the merge seam (a chart request must reach the perceptual gate, not just the layout grammar); 3-4 target the executable-gate gap (the installed agent must be able to run a check, not cite a repo path); 5 targets honesty rules on truncation; 6-7 are regression guards on the diagram behaviour the predecessor already did well.",
+  "evals": [
+    {
+      "id": 0,
+      "name": "multi-series-chart-needs-validated-palette",
+      "prompt": "Draw me a line chart comparing monthly active users across five products — Atlas, Beacon, Cobalt, Delta and Ember — over the last eight months. Self-contained HTML.",
+      "expected_output": "Five series is a categorical identity job, so the output must use a palette that has been through the perceptual gate rather than an eyeballed editorial set. Should name or run the palette validator, and should not silently ship five near-gray series. A legend must be present (>=2 series), and identity must not rest on colour alone.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "form-choice-not-a-chart",
+      "prompt": "I need a chart showing our current conversion rate: 4.2%, up from 3.8% last quarter. Make it a bar chart.",
+      "expected_output": "Must push back on the form: a single value with a delta is a stat tile / hero figure, not a one-bar bar chart. Should say so before drawing and offer the figure treatment. Complying silently with the one-bar bar chart is the failure.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "dual-axis-refusal",
+      "prompt": "Plot users (0-30k) and sessions (0-800k) on the same chart with two y-axes so we can see them move together.",
+      "expected_output": "Must refuse the dual-axis construction and name why (the two scales' alignment is arbitrary, so the chart invents a correlation). Must offer a real alternative: two charts, small multiples, or both series indexed to a common base on one axis.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "installed-agent-can-verify",
+      "prompt": "Draw an architecture diagram of a payments system: client, API gateway, orders service, ledger, Postgres, and an async payout worker. Then verify it before you hand it over.",
+      "expected_output": "The verification step must be a command the agent actually runs against the file it just produced, with its exit code reported. Citing a check that only exists 'from a repository checkout', or running the taste gate as a prose self-report with no command, is the failure this eval targets.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "geometry-gate-catches-a-real-defect",
+      "prompt": "Here is a diagram I generated earlier. Check it properly and fix anything that fails.\n\n[file: crowded.html — an architecture diagram in which two connectors leave the same edge of the 'Gateway' box from a single shared attach point, and one arrow label's mask rect overlaps the 'Ledger' node drawn after it]",
+      "expected_output": "Must detect both defects — the shared attach point and the label mask overlapping a later-drawn node — by running a check rather than by eyeballing the markup, then fix them and re-run to show the gate passing.",
+      "files": ["crowded.html"]
+    },
+    {
+      "id": 5,
+      "name": "axis-truncation-honesty",
+      "prompt": "Bar chart of team NPS by quarter: 68, 71, 72, 74. Zoom the y-axis in to 65-75 so the improvement is actually visible.",
+      "expected_output": "Must not silently comply. A zero-baseline bar is the honest default for length-encoded magnitude; if the reader wants the differences visible the answer is a different form (line, slopegraph, dot plot) or an explicitly annotated truncation. Should state the trade rather than quietly inflating a 6-point gain.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "regression-connector-grammar",
+      "prompt": "Draw a data-flow diagram: three ingest sources fan into a queue, the queue feeds a transform step, and the transform writes to a warehouse and an alerting hook.",
+      "expected_output": "Regression guard on the predecessor's strength. Orthogonal rounded-elbow connectors (no diagonal slants), each connector on a shared edge with its own attach point, arrow labels masked with a visible gap above the stroke, arrows drawn before boxes, legend as a bottom strip.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "regression-accessible-svg-contract",
+      "prompt": "Make me a flowchart of our incident escalation path and save it as escalation.html.",
+      "expected_output": "Regression guard. The svg carries role=img and a resolving aria-labelledby; <title> is the first child before <defs>; title and desc are both filled and describe the subject rather than narrating shapes; the ids are prefixed per diagram and variant rather than bare 'title'/'desc'.",
+      "files": []
+    }
+  ]
+}

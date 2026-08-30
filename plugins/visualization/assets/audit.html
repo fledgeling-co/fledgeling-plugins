@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>visualization icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; max-width: 900px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; white-space: normal; max-width: 200px; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .loop { margin-top: 28px; max-width: 900px; }
+  .loop h2 { font-size: 14px; color: #d7e3e7; margin: 0 0 10px; }
+  .loop table { min-width: 0; }
+  .loop td, .loop th { padding: 8px 14px; font-size: 12px; }
+  .num { font-variant-numeric: tabular-nums; text-align: right; }
+</style>
+</head>
+<body>
+<h1>visualization icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Tahoe Gel-Glass, sub-register (a) — porcelain cushion tile carrying a coloured gel object" · one shared spec, three engines per the create-mac-icon pipeline · five fidelity rounds · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16. The concept is <em>the lit baseline</em>: three graphite bars of unequal height standing on one vermilion rule that runs the full width and glows. The rule is the hero and the bars are the context, because a length-encoded bar only means anything measured from zero.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">A1 · icon.svg<small>Engine A — hand-authored layered SVG, after five fidelity rounds — SHIPS (16px and below from icon-small.svg)</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="A1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="A1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="A1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="A1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="A1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="A1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="A1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">12 / 12</td>
+    <td class="verdict">Checks 1–4 all clear on the real renders: designed inside the shared squircle from <code>squircle-path.txt</code> with no baked corner or shadow; optically centred at y=509; nameable filled black (three uprights on one rule); and the accent survives 16px at chroma 178 with figure-ground 15.1:1. Four named layers and one <code>userSpaceOnUse</code> light field shared by every bar. <strong>After r04 the rule reads as a source rather than a fill</strong> — the halo blooms onto the porcelain at 140 chroma against C1's 146 at dy 40, and each bar's foot gains luminance into the rule (145, against C1's 141) instead of darkening into it. <strong>After r05 its face holds the light too</strong>: red now tracks C1 within a few points down the whole face (face mean 234 against C1's 240, where it was 211) with R−B held at 175–177 through the body, so it stays a lit cylinder rather than flattening into a fill. Its 104px overhang is the reference's own measured mean and is what makes the rule a datum rather than a plinth. It remains less vibrant than C1 at the <em>bars</em>, deliberately and measurably — see the liabilities.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A2 · icon-A2-fourbar.svg<small>Engine A alternate — four bars at 104px on 62px gaps</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/a2-fourbar-1024.png" width="160" height="160" alt="A2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/a2-fourbar-256.png" width="128" height="128" alt="A2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a2-fourbar-128.png" width="64" height="64" alt="A2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a2-fourbar-96.png" width="48" height="48" alt="A2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/a2-fourbar-64.png" width="32" height="32" alt="A2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a2-fourbar-32.png" width="16" height="16" alt="A2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a2-fourbar-32.png" width="96" height="96" alt="A2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">Lost on check 4, which is non-negotiable. A fourth bar costs every bar 28px of width and every gap 16px, so at 16px a bar is 1.63px and a gap 0.97px — sub-pixel, and the ×6 magnification shows the middle pair merging into one mass while the outer two stay separate, which reads as an uneven four-bar chart rather than as three. Self-contrast at 32px also falls to 0.671 against A1's 0.706. Everything else it does, A1 does; the fourth bar buys no meaning, because the subject is the rule.</td>
+  </tr>
+
+  <tr>
+    <td class="take">A3 · icon-A3-edgebleed.svg<small>Engine A alternate — the rule bleeds off both edges of the tile</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/a3-edgebleed-1024.png" width="160" height="160" alt="A3 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/a3-edgebleed-256.png" width="128" height="128" alt="A3 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/a3-edgebleed-128.png" width="64" height="64" alt="A3 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/a3-edgebleed-96.png" width="48" height="48" alt="A3 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/a3-edgebleed-64.png" width="32" height="32" alt="A3 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/a3-edgebleed-32.png" width="16" height="16" alt="A3 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/a3-edgebleed-32.png" width="96" height="96" alt="A3 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">The strongest losing take and the closest call on the sheet. Running the rule to the mask edge is a sanctioned device (edge-bleed physicality, Contacts' index tabs) and it makes the "wider than its data" argument maximally: an axis with no visible end. It loses on check 4 and on personality. At 16px the rule becomes a full-width band touching both edges and the eye reads the tile's own bottom border, not an object — self-contrast drops to 0.522 against A1's 0.600. And an unbounded rule is the generic move: A1's finite overhang is what says <em>this</em> datum was chosen, which is the whole subject.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow-8b9a27.svg<small>Engine B — Arrow 1.1 vector take from the spec-as-brief</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/b-arrow-1024.png" width="160" height="160" alt="B hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/b-arrow-256.png" width="128" height="128" alt="B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/b-arrow-128.png" width="64" height="64" alt="B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/b-arrow-96.png" width="48" height="48" alt="B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/b-arrow-64.png" width="32" height="32" alt="B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/b-arrow-32.png" width="16" height="16" alt="B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/b-arrow-32.png" width="96" height="96" alt="B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Hard-fails check 1. It emits a <code>160 × 126.5</code> non-square viewBox with no background field, so it arrives field-less and letterboxes inside the mask — the renders above show it floating with white above and below where every sibling has a cushion tile. It also fails check 10 (zero named layers, so no layer plan survives to Icon Composer) and check 6: it puts the warm ramp on the <em>bars</em>, running each one from graphite into vermilion at its foot, which spends the accent on the context and leaves the rule flat red — the exact inversion of the concept. Salvaged into the master: nothing. Its one useful contribution was negative evidence, that a brief describing a bounce on the bars invites a generator to colour the bars.</td>
+  </tr>
+
+  <tr>
+    <td class="take">C1 · icon-engineC-22d450-2-masked.png<small>Engine C — GPT Image 2 raster, corpus-referenced (apple-26 / 31 / 19 / 23) · the material reference for the fidelity loop</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/c1-raster-1024.png" width="160" height="160" alt="C1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/c1-raster-256.png" width="128" height="128" alt="C1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c1-raster-128.png" width="64" height="64" alt="C1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c1-raster-96.png" width="48" height="48" alt="C1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/c1-raster-64.png" width="32" height="32" alt="C1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c1-raster-32.png" width="16" height="16" alt="C1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c1-raster-32.png" width="96" height="96" alt="C1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">Won the material read and lost the delivery, which is the expected result for this engine. Its bars are genuinely translucent and its rule genuinely emits — the halo on the porcelain reaches chroma 197 where the first master managed 19. But it is a flat pre-masked raster, so it hard-fails check 10 with no layers to survive Dark/Clear/Tinted, and its figure-ground is 8.7:1 against A1's 15.1:1, with self-contrast collapsing to 0.469 at 16px. This is the corpus's named trap: converging on it wholesale would have dragged the master below the rubric floor. It served as the loop's reference, not as a candidate.</td>
+  </tr>
+
+  <tr>
+    <td class="take fail">C2 · icon-engineC-273b7f-masked.png<small>Engine C second take — same prompt, same references</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/c2-raster-1024.png" width="160" height="160" alt="C2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/c2-raster-256.png" width="128" height="128" alt="C2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/c2-raster-128.png" width="64" height="64" alt="C2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/c2-raster-96.png" width="48" height="48" alt="C2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/c2-raster-64.png" width="32" height="32" alt="C2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/c2-raster-32.png" width="16" height="16" alt="C2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/c2-raster-32.png" width="96" height="96" alt="C2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">Lost to its own sibling. Same flat-raster #10 failure as C1, plus two of its own: the rule is pushed to chroma 250 and blooms into a neon tube rather than a lit datum, which breaks the single-light model (check 5) by making the accent read as a separate emissive source competing with the top light; and the bars are offset left of centre against a rule that is not, so the composition is off its own axis (check 2). Its bar tops are the crispest on the sheet, which is why it was kept and scored rather than discarded — but nothing was taken from it.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>SUPERSEDED &mdash; ship C2 (icon-engineC-273b7f-masked.png). The user compared the takes and chose C2 for its vibrancy; the shipped icon.png and every derived size are now C2, and the layered A1 master is preserved under assets/variant-source/ as the Dark/Clear/Tinted source. What that trades is on the record: C2 is a flat pre-masked raster with no layers and no re-renderable source, so it cannot produce the macOS variants or a new size, and it scored 7/12 against A1&rsquo;s 12/12 on this sheet. The recommendation below was the pipeline&rsquo;s; the decision was the user&rsquo;s, made with the trade stated. Original recommendation: ship A1 (icon.svg).</strong> It is the only take that clears all four non-negotiable checks on real renders while carrying the material: four named layers map 1:1 onto Icon Composer, the shared squircle keeps one silhouette across the marketplace shelf, and the accent survives the 16px squint at chroma 178 with 15.1:1 figure-ground. Its material provenance is measured rather than described — the halo well's falloff, the rule's 104px overhang, the bars' edge catch, the r04 emission curve and the r05 rule-face stops were each fitted to the C1 raster before being authored, with the bounce stops and the face's lower stops computed from measured columns rather than typed. Known liabilities to revisit: <strong>(1) A1 is still less vibrant than C1 at the bars, and this is a real trade rather than an unfinished one.</strong> <code>self_contrast</code> watches the p10 luminance bin, and that bin is entirely bar interior (bounding box x238..786, y297..700, measured, with no porcelain in it) — so brightening the ground is free and brightening the bars is not. Fitting the bounce to C1's measured +174 chroma needs <code>BOUNCE_PEAK</code> ≈ 0.62, which drops self-contrast from 0.737 to 0.663 at 1024 and 0.702 to 0.608 at 64. An eight-point sweep found the cost near-linear in the gain with no knee; 0.26 is the largest value holding every invariant, leaving bar chroma at 39 against C1's 121. Worth knowing why the gap is legitimate: C1's own self-contrast is 0.533 against A1's 0.737 — it buys vibrancy with figure-ground, because a flat pre-masked raster has no 16px obligation and no Dark/Clear/Tinted variants to survive. The options, if the remaining gap still matters: spend figure-ground deliberately by lightening <code>GRAPHITE_LOW</code>; add a third file for 256-and-above carrying the full bounce; or rebuild the bars as genuinely translucent, which is a different construction and its own commission. <strong>(2)</strong> The icon already ships as <em>two</em> files — <code>icon.svg</code> at 48px and above, <code>icon-small.svg</code> below — because the edge catch costs 0.078 of self-contrast at 32px; that split is measured and deliberate, but it is a second file that can drift and an edit to one must be made to both. <strong>(3)</strong> The rule spans 74.2% of the tile, above the 55–65% composition band; justified because a 52px-tall rule occupies 3.8% of tile area and the corpus-steered reference sits at 72.6%, but it is a deviation and the first thing to re-examine if the icon reads wide beside its siblings.</div>
+
+<div class="loop">
+<h2>The fidelity loop — what the measurements said, including where they said stop</h2>
+<table>
+  <tr><th scope="col">Round</th><th scope="col">Edit class</th><th scope="col">Gate</th><th scope="col" class="num">Net composite</th><th scope="col">Outcome</th></tr>
+  <tr><td>r00</td><td>baseline — master vs the C1 raster</td><td>—</td><td class="num">—</td><td>Reference established. Material metric engaged (torch installed), so the verdict covers material rather than structure alone.</td></tr>
+  <tr><td>r01</td><td>the halo well — the rule's light on the porcelain</td><td class="fail">REJECT</td><td class="num">−0.0298</td><td>Fitted the falloff to the reference's measured curve (chroma 197 / 153 / 77 / 34 / 13 / 0 at dy 0–110). Rejected at 128 / 32 / 16. Kept, because r02 identified the real cause.</td></tr>
+  <tr><td>r02</td><td>the overhang — one geometry constant</td><td class="ship">ACCEPT</td><td class="num">+0.0194</td><td>The reference overhangs its bar group by 98/110px against the master's 46, on bar groups within 3% of each other. Raising it to 104 cleared all three of r01's regressions.</td></tr>
+  <tr><td>r03</td><td>the edge catch — the bars' cross-section</td><td class="fail">REJECT</td><td class="num">+0.0111</td><td>Composite rose; self-contrast at 32px fell 0.598 → 0.535, past the floor. The gate was right and the similarity score was not.</td></tr>
+  <tr><td>r04</td><td>the emission — the rule as a source</td><td class="ship">ACCEPT</td><td class="num">+0.0150</td><td>Three edits: the contact shadow was drawn <em>over</em> the bloom and cancelling it (67 vs 107 chroma at dy 40); r01's halo measurement was contaminated by sampling on the reference's own rule, so the well was half the size it should be; and the graphite ramp darkened into its own light source, so the warm term read as rust. First round to take 256 above the r00 baseline: 0.7205 → 0.7237.</td></tr>
+  <tr><td>r05</td><td>the rule's face — three gradient stops</td><td class="ship">ACCEPT</td><td class="num">+0.0147</td><td>r04 lit everything the rule touches but not the rule itself: its face fell away from t≈0.20 and bottomed at <code>#8C2E0F</code>, a dark rust, where C1 holds red at 252–254 through t=0.63. The three lower stops refitted from C1's own face column — its red at each depth, blue set for the target R−B, its G−B gap preserved. Face mean red 211 → 234. <strong>All five sizes improved.</strong></td></tr>
+</table>
+<p class="rubric" style="margin-top:14px"><strong>What r05 cost.</strong> Self-contrast on the master at 32px fell 0.530 → 0.507. That size ships from <code>icon-small.svg</code>, not the master, so as delivered the movement is 0.607 → 0.603 — a 0.7% drop against the gate's 6% floor, with every other shipped size bit-identical to r04. A brighter face raises the render's 10th percentile slightly; it is a real cost and it is small. The 16px accent chroma also moves 198 → 178, because the fitted underside is lighter and less saturated than the rust it replaced while being far brighter in red.</p>
+
+<p class="rubric" style="margin-top:14px"><strong>What r04 found, and what it could not fix.</strong> The biggest single cause of the emission gap was not a material constant at all — the contact shadow was drawn on top of the bloom and eating 40 points of chroma in exactly the band where the glow is legible, a draw-order bug wearing the costume of a material problem. The second was a contaminated measurement: r01 had sampled the reference's "porcelain" at a column that actually sits on its rule, so the halo was fitted half the size it should have been. The third was a sign error — the graphite ramp darkened toward the rule, so the warm term was being painted onto near-black and read as rust rather than illumination. What r04 could <em>not</em> fix is the bar vibrancy, and that is reported rather than buried: the cost curve is near-linear with no knee, and the reference buys its own vibrancy with a self-contrast of 0.533 against A1's 0.737. See the recommendation for the three honest options.</p>
+
+<p class="rubric" style="margin-top:14px">The r03 rejection is the useful one. Four amplitudes (0.40 / 0.30 / 0.24 / 0.20) and three catch widths (2.2% / 3.5% / 5.5%) all returned <em>identically</em> 0.535, which is not a tuning curve — reading the 32px histogram directly, the catch lifts the 10th percentile from 0.392 to 0.476 while leaving the darkest pixels and the count below 0.35 unchanged. It was deleting mid-dark pixels, not brightening dark ones, because at 32px a 132px bar is 4.1 pixels and two lit edges plus a darker core is three values in four. Resolved by keeping the catch where there is resolution for it and flooring it below 48px, with the crossover measured per size rather than picked. A gate ACCEPT is evidence, never a verdict — and here a gate REJECT was the finding.</p>
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources, A1's sizes below 96 from <code>icon-small.svg</code>); verified by its <code>check</code> subcommand. Measurements in the verdicts are from the rendered PNGs above — self-contrast is p90−p10 of the composited greyscale, chroma is max(R−B), figure-ground is the WCAG ratio between the 2nd and 98th luminance percentiles.</div>
+</body>
+</html>

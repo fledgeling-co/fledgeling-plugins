@@ -1,0 +1,71 @@
+{
+  "runs": {
+    "bundle": {
+      "verdict": {
+        "overall": "B",
+        "material": "A",
+        "silhouette": "B",
+        "smallsize": "B",
+        "rationale": {
+          "overall": "The two takes are close, but B's baseline geometry and its stronger small-size read outweigh A's marginally softer glow treatment.",
+          "material": "A's bar sits in a broader diffuse peach bloom with no hard drop shadow, closer to the REFERENCE's purely emissive, light-bleeding rod, whereas B adds a crisp top specular and a cast shadow that reads as lit plastic rather than glowing glass.",
+          "silhouette": "The REFERENCE's orange rod extends well past the bar group on both sides, which B reproduces while A's is noticeably inset, shortening the horizontal anchor.",
+          "smallsize": "At 32px and 16px B's wider, thicker baseline survives downscaling as a continuous stroke, while A's narrower rod thins toward the ends and loses its grip on the bars."
+        }
+      },
+      "resolved": {
+        "overall": "candidate",
+        "material": "baseline",
+        "silhouette": "candidate",
+        "smallsize": "candidate"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "claude -p (opus)"
+      },
+      "order": {
+        "A": "baseline",
+        "B": "candidate"
+      }
+    },
+    "bundle-swapped": {
+      "verdict": {
+        "overall": "A",
+        "material": "B",
+        "silhouette": "A",
+        "smallsize": "A",
+        "rationale": {
+          "overall": "A carries the reference's composition and proportions more faithfully with a cleaner, better-anchored read, while B's only edge is a hazier bloom that muddies the background rather than reading as emission.",
+          "material": "B renders a broader warm bloom radiating from the base bar up onto the columns and out into the surround, which is closer to the reference's emissive neon quality, whereas A's glow is tighter and the base reads as flat painted orange.",
+          "silhouette": "A's base bar spans nearly the full width like the reference's, giving the same wide plinth-under-columns shape, while B's inset shorter bar leaves the outer columns close to its ends and narrows the overall footprint.",
+          "smallsize": "At 32px and 16px A's fuller-width base holds as a continuous stroke that anchors the three columns, while B's shorter base plus its softer halo blurs into the background and loses definition first."
+        }
+      },
+      "resolved": {
+        "overall": "candidate",
+        "material": "baseline",
+        "silhouette": "candidate",
+        "smallsize": "candidate"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "claude -p (opus)"
+      },
+      "order": {
+        "A": "candidate",
+        "B": "baseline"
+      }
+    }
+  },
+  "resolved": {
+    "overall": "candidate",
+    "material": "baseline",
+    "silhouette": "candidate",
+    "smallsize": "candidate"
+  },
+  "passes_ran": 2,
+  "passes_asked": 2,
+  "swap_flipped": [],
+  "swap_consistent": true,
+  "status": "ok"
+}

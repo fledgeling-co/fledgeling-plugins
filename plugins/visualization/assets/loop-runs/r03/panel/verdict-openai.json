@@ -1,0 +1,37 @@
+{
+  "runs": {
+    "bundle": {
+      "verdict": null,
+      "resolved": null,
+      "meta": {
+        "error": "no OPENAI_API_KEY (pass --env-file)"
+      },
+      "order": {
+        "A": "baseline",
+        "B": "candidate"
+      }
+    },
+    "bundle-swapped": {
+      "verdict": null,
+      "resolved": null,
+      "meta": {
+        "error": "no OPENAI_API_KEY (pass --env-file)"
+      },
+      "order": {
+        "A": "candidate",
+        "B": "baseline"
+      }
+    }
+  },
+  "resolved": {
+    "overall": null,
+    "material": null,
+    "silhouette": null,
+    "smallsize": null
+  },
+  "passes_ran": 0,
+  "passes_asked": 2,
+  "swap_flipped": [],
+  "swap_consistent": false,
+  "status": "failed"
+}

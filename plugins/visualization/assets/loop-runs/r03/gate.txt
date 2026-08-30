@@ -1,0 +1,2 @@
+REJECT  (net composite delta -0.0091 across 5 sizes)
+  - 32px self_contrast 0.535 fell more than 6% below baseline 0.598 (legibility loss the similarity score does not see)
