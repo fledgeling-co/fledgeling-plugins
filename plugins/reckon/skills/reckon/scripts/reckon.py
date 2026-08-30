@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import re
 import sys
@@ -692,6 +693,7 @@ def cluster_blockers(unmeasured_rows, total_cases, threshold=0.30):
             "summary": (notes[0] if notes else "")[:400],
             "cases": sorted(r["id"] for r in rows),
             "unblocks": len(rows),
+            "surfaces": sorted({r.get("surface") for r in rows if r.get("surface")}),
             "total_cases": total_cases,
             "coverage_gain_pct": round(100.0 * len(rows) / total_cases, 1) if total_cases else 0.0,
             "kind": "evidence-work",
@@ -1077,6 +1079,360 @@ def classify(briefs, campaign, edges, join_is_weak):
 
 
 # ---------------------------------------------------------------------------
+# Estimation — how long a unit of work is likely to occupy an agent
+#
+# These are the only figures in this pipeline not derived from the ledger. They
+# come from a measured corpus of 1,842 Opus 4.8/Opus 5 subagent units across 88
+# sessions and 31 projects (14 Jul – 30 Aug 2026), and their provenance, method
+# and limits are in references/estimation.md. Every one is WALL-CLOCK for one
+# agent unit, which includes waiting, and every one is rendered as a range.
+#
+# A point estimate would be a lie at this spread: measured p90/median is 3.4 for
+# build work and 3.1 for research, so a single number is wrong by a factor of
+# three in the ordinary case. The tiers below are p25 → p90 with the median
+# called out, and nothing here ever prints one number alone.
+# ---------------------------------------------------------------------------
+
+# tier -> (low_min, median_min, high_min, what shape earns it)
+SIZE_TIERS = {
+    "S":  (3,   8,  25),
+    "M":  (7,  15,  56),
+    "L":  (14, 25,  68),
+    "XL": (25, 45, 155),
+}
+
+TIER_SHAPE = {
+    "S": "read-only, or one or two files",
+    "M": "three to seven files, one subsystem",
+    "L": "eight to nineteen files, or crosses a seam",
+    "XL": "twenty or more files, or a new surface end to end",
+}
+TIER_ORDER = ("S", "M", "L", "XL")
+
+# What a class costs by default, before anything in the row moves it. Evidence
+# work sits low because the measured research+verify pool (n=621) runs a 5.6 min
+# median — building a hook is smaller than building the feature behind it, and
+# sizing it like a feature is how an evidence backlog gets deprioritised.
+DEFAULT_TIER = {
+    "unbuilt": "L",       # a brief nothing answers to is usually a whole feature
+    "broken": "M",        # a measured failure has a known shape
+    "unmeasured": "M",    # a hook or an oracle, not the feature behind it
+    "unjoined": "S",      # a ruling, not a build
+    "undecided": "S",     # a person deciding
+    "unnamed": "S",       # a person deciding whether it was meant to exist
+    "retirable": "S",     # bookkeeping — close the brief
+    "waived": "S",
+    "verified-done": "S",
+}
+
+# Words in a row's title or note that move it up a tier. Kept small and legible
+# on purpose: a long keyword table would imply the estimate reads the work,
+# and it does not — it reads what somebody wrote about the work.
+TIER_UP_HINTS = ("end to end", "end-to-end", "across", "every surface", "all surfaces",
+                 "migration", "migrate", "rewrite", "refactor", "redesign", "new surface",
+                 "whole", "entire", "pipeline", "architecture", "schema change")
+TIER_DOWN_HINTS = ("typo", "copy change", "rename", "one line", "one-line", "wording",
+                   "label", "tooltip", "colour", "color", "spacing", "alt text")
+
+
+def _bump(tier, n):
+    i = max(0, min(len(TIER_ORDER) - 1, TIER_ORDER.index(tier) + n))
+    return TIER_ORDER[i]
+
+
+def estimate_row(row):
+    """A tier and a wall-clock range for one ledger row.
+
+    Returns None for rows that are not work — a passing case is corroboration,
+    and putting an hour against it would inflate every total in the report.
+    """
+    if not row.get("is_work_item"):
+        return None
+    tier = DEFAULT_TIER.get(row["class"], "M")
+    blob = "%s %s" % (row.get("title") or "", row.get("note") or "")
+    blob = blob.lower()
+    reasons = ["%s work defaults to %s" % (row["class"], tier)]
+    if any(h in blob for h in TIER_UP_HINTS):
+        tier = _bump(tier, 1)
+        reasons.append("wording suggests it spans more than one surface")
+    if any(h in blob for h in TIER_DOWN_HINTS):
+        tier = _bump(tier, -1)
+        reasons.append("wording suggests a contained change")
+    # A defect that names a severity carries a better signal than its prose.
+    sev = (row.get("severity") or "").lower()
+    if sev in ("critical", "blocker", "high"):
+        tier = _bump(tier, 1)
+        reasons.append("severity %s" % sev)
+    lo, med, hi = SIZE_TIERS[tier]
+    return {"tier": tier, "low_min": lo, "median_min": med, "high_min": hi,
+            "basis": "; ".join(reasons), "shape": TIER_SHAPE[tier]}
+
+
+def estimate_blocker(blocker):
+    """A blocker cluster is sized by the hook it needs, not by the cases it
+    returns. Ten blocked cases behind one dead credential is one credential."""
+    n = blocker.get("unblocks", 1)
+    tier = "S" if n <= 3 else ("M" if n <= 10 else "L")
+    lo, med, hi = SIZE_TIERS[tier]
+    return {"tier": tier, "low_min": lo, "median_min": med, "high_min": hi,
+            "basis": "one cause behind %d case(s); sized by the hook, not the cases" % n}
+
+
+# ---------------------------------------------------------------------------
+# Waves — what can run at the same time
+#
+# Same model as ship-fleet: nodes are work items, edges are dependencies, and a
+# wave is everything whose dependencies all sit in earlier waves. The edges here
+# are weaker than ship-fleet's, because reckon reads a ledger rather than specs
+# with "depends on" lines, so every inferred edge is labelled as inferred and
+# the report says the ordering is a proposal.
+#
+# Wave arithmetic is measured (references/estimation.md, 253 multi-member
+# clusters): a wave costs its slowest member × 1.05 at the median and × 1.8 at
+# p90, and past about 8 concurrent members that property degrades to × 1.55 on
+# the median. Peak concurrency actually reached was median 5, p90 10.
+# ---------------------------------------------------------------------------
+
+WAVE_STRETCH_LOW = 1.05
+WAVE_STRETCH_HIGH = 1.8
+WAVE_STRETCH_WIDE = 2.2      # waves above the observed concurrency ceiling
+MEASURED_SPEEDUP_P90 = 4.0   # sum of member durations / wall-clock, p90 over 253 waves
+OBSERVED_CONCURRENCY_CEILING = 8
+
+
+def subtasks_of(row, work_rows):
+    """The ids this row visibly decomposes into.
+
+    A brief's cited edges are the requirements and defects somebody wrote into
+    it, so they are the brief's sub-tasks in the only sense this tool can
+    defend: a person named them. Token-overlap edges are excluded — a guess is
+    not a decomposition, and drawing one as a sub-task would put invented
+    structure on a page people read at a distance.
+    """
+    ids = {r["id"] for r in work_rows}
+    out = []
+    for e in row.get("edges") or []:
+        if e.get("method") == "cited" and e.get("target") and e["target"] != row["id"]:
+            out.append({"id": e["target"], "known": e["target"] in ids})
+    for t in row.get("rolls_up_to") or []:
+        if t != row["id"]:
+            out.append({"id": t, "known": t in ids})
+    seen, uniq = set(), []
+    for x in out:
+        if x["id"] not in seen:
+            seen.add(x["id"])
+            uniq.append(x)
+    return uniq
+
+
+def _dep_edges(work_rows, blockers):
+    """Dependency edges, each labelled with how it was made.
+
+    Two sources and they are not equal. A citation somebody wrote in the
+    registry is firm. A same-surface inference is this tool's, and it only ever
+    ORDERS work — it never blocks it — because a false edge costs somebody's
+    parallelism and this tool is not entitled to spend that on a guess. The
+    renderer says which is which rather than presenting them as one thing.
+    """
+    by_id = {r["id"]: r for r in work_rows}
+    edges = []
+
+    # A brief that cites a requirement or defect cannot be finished before the
+    # thing it named. This is a citation, so it is firm.
+    for r in work_rows:
+        for sub in subtasks_of(r, work_rows):
+            if sub["known"] and sub["id"] != r["id"]:
+                edges.append({"from": sub["id"], "to": r["id"], "method": "cited",
+                              "why": "%s cites %s" % (r["id"], sub["id"])})
+
+    # Evidence before the product work it will judge: you cannot rule on a fix
+    # to a surface nobody can reach. Blockers carry the surfaces of the cases
+    # behind them, so this edge is available and is the useful one.
+    blocked_surfaces = {}
+    for b in blockers:
+        for surf in b.get("surfaces") or []:
+            blocked_surfaces.setdefault(surf, []).append(b["id"])
+    for r in work_rows:
+        surf = r.get("surface")
+        if not surf or r["kind"] != "product-work":
+            continue
+        for bid in blocked_surfaces.get(surf, []):
+            edges.append({"from": bid, "to": r["id"], "method": "inferred",
+                          "why": "%s is blocked on surface %r — the measurement has to work "
+                                 "before a fix on it can be judged" % (bid, surf)})
+
+    seen, out = set(), []
+    for e in edges:
+        k = (e["from"], e["to"])
+        if k not in seen:
+            seen.add(k)
+            out.append(e)
+    return out
+
+
+def build_waves(work_rows, blockers, max_concurrency=OBSERVED_CONCURRENCY_CEILING):
+    """Topologically sort work into waves, and cost each wave.
+
+    Blockers are scheduled as nodes rather than pinned to a wave of their own,
+    because an evidence job that unblocks nothing on a surface anybody is fixing
+    does not have to come first. The edges decide, and where there are none the
+    blockers land in wave 1 anyway.
+
+    Decision work is deliberately NOT scheduled. It has no agent duration — it
+    is a person reading two documents and ruling — and giving it a wall-clock
+    figure would report waiting on a human as though an agent were busy. It is
+    returned alongside as what gates the rest.
+    """
+    schedulable = [r for r in work_rows if r["kind"] in ("product-work", "evidence-work")]
+    decisions = [r for r in work_rows if r["kind"] == "decision-work"]
+
+    # Blockers enter the graph as nodes carrying their own estimate.
+    nodes = list(schedulable) + [
+        {"id": b["id"], "kind": "evidence-work", "class": "unmeasured",
+         "title": b["summary"][:120], "estimate": b.get("estimate"),
+         "surface": None, "_blocker": b} for b in blockers]
+
+    edges = _dep_edges(schedulable, blockers)
+    ids = {n["id"] for n in nodes}
+    incoming = defaultdict(set)
+    for e in edges:
+        if e["from"] in ids and e["to"] in ids:
+            incoming[e["to"]].add(e["from"])
+
+    unblocks = Counter(e["from"] for e in edges)
+
+    waves, placed, remaining = [], set(), list(nodes)
+    guard = 0
+    while remaining and guard < 200:
+        guard += 1
+        ready = [n for n in remaining if not (incoming[n["id"]] - placed)]
+        if not ready:
+            # A cycle means the items are really one unit. ship-fleet's rule is
+            # to combine them; the same applies here, and the wave is flagged.
+            ready = list(remaining)
+            for n in ready:
+                n["_cycle"] = True
+        ready.sort(key=lambda n: (-unblocks[n["id"]],
+                                  -TIER_ORDER.index((n.get("estimate") or {}).get("tier", "M")),
+                                  str(n["id"])))
+        waves.append(ready)
+        placed |= {n["id"] for n in ready}
+        remaining = [n for n in remaining if n["id"] not in placed]
+
+    costed = []
+    for i, members in enumerate(waves, start=1):
+        rows_in = [n for n in members if not n.get("_blocker")]
+        blocks_in = [n["_blocker"] for n in members if n.get("_blocker")]
+        w = _cost_wave(i, rows_in, blocks_in, max_concurrency)
+        w["has_cycle"] = any(n.get("_cycle") for n in members)
+        costed.append(w)
+    return {"waves": costed, "edges": edges, "decisions": [r["id"] for r in decisions]}
+
+
+def _cost_wave(index, members, blockers, max_concurrency):
+    """Cost one wave from its members' ranges and the measured stretch factors.
+
+    Two lower bounds, and the wave costs the larger. The first is the measured
+    one: a wave costs its slowest member × 1.05. The second is arithmetic that
+    the first can violate — n items across k slots cannot finish faster than the
+    total work divided by k, however fast the slowest single member is. Without
+    that floor a wave of twenty items on eight slots reports a speedup no run in
+    the corpus has ever achieved, and the number reads as a measurement.
+    """
+    ests = [r["estimate"] for r in members if r.get("estimate")]
+    ests += [b["estimate"] for b in blockers if b.get("estimate")]
+    n = len(ests)
+    if not ests:
+        return {"wave": index, "members": [], "blockers": [], "n": 0,
+                "low_min": 0, "high_min": 0, "serial_min": 0, "slots": 0, "batches": 0,
+                "note": "empty"}
+
+    slots = max(1, min(max_concurrency, n))
+    slowest_low = max(e["low_min"] for e in ests)
+    slowest_high = max(e["high_min"] for e in ests)
+    stretch_high = WAVE_STRETCH_WIDE if n > OBSERVED_CONCURRENCY_CEILING else WAVE_STRETCH_HIGH
+
+    # Three lower bounds, and the wave costs the largest of them.
+    #   1. measured — a wave costs its slowest member x 1.05
+    #   2. capacity — n items on k slots cannot beat the work divided by k
+    #   3. observed — the schedule may not imply a speedup better than the best
+    #      ever measured on this corpus (p90 = 4.0x). Bound 2 is a theoretical
+    #      optimum that assumes perfect packing and zero start skew, and no real
+    #      wave has achieved it; printing it as the low end of a range would put
+    #      a number on the page that has never happened.
+    low_measured = slowest_low * WAVE_STRETCH_LOW
+    low_capacity = sum(e["low_min"] for e in ests) / slots
+    low_observed = sum(e["median_min"] for e in ests) / MEASURED_SPEEDUP_P90
+    low = max(low_measured, low_capacity, low_observed)
+
+    high_measured = slowest_high * stretch_high
+    high_capacity = sum(e["high_min"] for e in ests) / slots
+    high = max(high_measured, high_capacity)
+
+    note = ("costs its slowest member — measured wall-clock ÷ slowest member was 1.05 at the "
+            "median and 1.8 at p90 across 253 real waves")
+    if low_observed >= max(low_measured, low_capacity):
+        note += ("; with %d item(s) the slowest-member figure would imply a speedup better than "
+                 "the %.1fx p90 ever measured here, so the low end is held to that instead"
+                 % (n, MEASURED_SPEEDUP_P90))
+    elif low_capacity > low_measured:
+        note += ("; %d item(s) across %d slot(s) cannot finish faster than the work divided by "
+                 "the slots, so this wave is bounded by capacity rather than by its slowest member"
+                 % (n, slots))
+    if n > OBSERVED_CONCURRENCY_CEILING:
+        note += ("; %d members is above the observed concurrency ceiling of %d, where the "
+                 "slowest-member property degrades, so the upper bound is widened"
+                 % (n, OBSERVED_CONCURRENCY_CEILING))
+    return {
+        "wave": index,
+        "members": [r["id"] for r in members],
+        "blockers": [b["id"] for b in blockers],
+        "n": n,
+        "slots": slots,
+        "batches": math.ceil(n / slots),
+        # A bound rounds away from optimism. Rounding the low end down by half a
+        # minute is enough to print a schedule fractionally faster than the
+        # ceiling it was just held to, and a ceiling that rounding can beat is
+        # not a ceiling.
+        "low_min": int(math.ceil(low)),
+        "high_min": int(round(high)),
+        "serial_min": int(round(sum(e["median_min"] for e in ests))),
+        "bound_by": ("observed-speedup-ceiling" if low_observed >= max(low_measured, low_capacity)
+                     else "capacity" if low_capacity > low_measured else "slowest-member"),
+        "note": note,
+    }
+
+
+def project_estimate(waves):
+    """Sum the waves. This is a schedule under a stated concurrency, not a
+    duration, and the label travels with the number everywhere it is printed."""
+    low = sum(w["low_min"] for w in waves)
+    high = sum(w["high_min"] for w in waves)
+    serial = sum(w["serial_min"] for w in waves)
+    speedup = round(serial / low, 1) if low else None
+    basis = ("wall-clock for %d wave(s) at up to %d concurrent agents, summed."
+             % (len(waves), OBSERVED_CONCURRENCY_CEILING))
+    over = speedup is not None and speedup > MEASURED_SPEEDUP_P90
+    if over:
+        basis += (" This plan's arithmetic implies a %.1fx speedup over running the same work one "
+                  "at a time, and the measured speedup on this corpus was 2.2x at the median and "
+                  "%.1fx at p90 — so the low end of this range is the plan's arithmetic rather "
+                  "than anything observed, and the high end is the figure to plan against."
+                  % (speedup, MEASURED_SPEEDUP_P90))
+    else:
+        basis += (" The implied speedup over running the same work serially is %sx, within the "
+                  "2.2x median / %.1fx p90 measured on this corpus."
+                  % (speedup, MEASURED_SPEEDUP_P90))
+    return {
+        "low_min": int(round(low)), "high_min": int(round(high)),
+        "serial_min": int(round(serial)),
+        "speedup": speedup,
+        "speedup_exceeds_measured": over,
+        "basis": basis,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Denominators
 #
 # Reported per axis and never blended, because the axes disagree and a single
@@ -1261,6 +1617,70 @@ def gate(ledger, weak_join_ratio=0.5):
             "word a rule or correct the rows; a longer list would only move the edge."
             % (u["field"], u["value"], u["count"], ", ".join(u["ids"][:8]), u["placed_in"])))
 
+    # The schedule is the presentable half of this ledger, and a presentable
+    # artifact that drifts from the gated one is the failure this whole tool is
+    # against — a board that says "two days" over rows that say something else.
+    # So the schedule is conserved the same way the partition is.
+    sched = ledger.get("schedule")
+    if sched:
+        work_ids = {r["id"] for r in rows if r.get("is_work_item")}
+        blocker_ids = {b["id"] for b in ledger.get("blockers") or []}
+        scheduled, dupes_sched = set(), []
+        for w in sched.get("waves", []):
+            for i in list(w.get("members", [])) + list(w.get("blockers", [])):
+                if i in scheduled:
+                    dupes_sched.append(i)
+                scheduled.add(i)
+        if dupes_sched:
+            violations.append(("conservation",
+                               "%d item(s) appear in more than one wave: %s. An item scheduled twice "
+                               "is counted twice in the total."
+                               % (len(dupes_sched), ", ".join(sorted(set(dupes_sched))[:8]))))
+        decisions = set(sched.get("decisions") or [])
+        accounted = scheduled | decisions
+        lost = (work_ids | blocker_ids) - accounted
+        if lost:
+            violations.append(("conservation",
+                               "%d work item(s) are in no wave and on no decision list: %s. The "
+                               "schedule has to account for every piece of work or its total is a "
+                               "figure about a subset."
+                               % (len(lost), ", ".join(sorted(map(str, lost))[:8]))))
+        phantom = accounted - (work_ids | blocker_ids)
+        if phantom:
+            violations.append(("conservation",
+                               "%d scheduled item(s) are not work in this ledger: %s"
+                               % (len(phantom), ", ".join(sorted(map(str, phantom))[:8]))))
+
+        proj = sched.get("project") or {}
+        wave_low = sum(w.get("low_min", 0) for w in sched.get("waves", []))
+        wave_high = sum(w.get("high_min", 0) for w in sched.get("waves", []))
+        if proj and (proj.get("low_min") != wave_low or proj.get("high_min") != wave_high):
+            violations.append(("disclosure",
+                               "the project estimate (%s–%s min) is not the sum of its waves "
+                               "(%s–%s min)" % (proj.get("low_min"), proj.get("high_min"),
+                                                wave_low, wave_high)))
+        if proj.get("low_min") is not None and proj.get("high_min") is not None \
+                and proj["low_min"] > proj["high_min"]:
+            violations.append(("disclosure", "the project estimate's low bound exceeds its high bound"))
+        for w in sched.get("waves", []):
+            if w.get("n") and w.get("low_min", 0) > w.get("high_min", 0):
+                violations.append(("disclosure", "wave %s has a low bound above its high bound"
+                                   % w.get("wave")))
+        if proj.get("speedup_exceeds_measured"):
+            warnings.append("the schedule implies a %sx speedup over serial and the measured p90 on "
+                            "this corpus is %.1fx — the low end of the range is arithmetic rather "
+                            "than an observation, so plan against the high end."
+                            % (proj.get("speedup"), MEASURED_SPEEDUP_P90))
+        for r in rows:
+            est = r.get("estimate")
+            if est and not r.get("is_work_item"):
+                violations.append(("disclosure",
+                                   "%s carries a duration estimate but is not work. Putting time "
+                                   "against corroboration inflates every total on the page." % r["id"]))
+            if est and est.get("tier") not in SIZE_TIERS:
+                violations.append(("disclosure", "%s has estimate tier %r, which is not one of %s"
+                                   % (r["id"], est.get("tier"), "/".join(TIER_ORDER))))
+
     counts = Counter(r["class"] for r in rows)
     stated = ledger.get("summary", {}).get("counts")
     if stated and stated != dict(counts):
@@ -1425,6 +1845,109 @@ def render(ledger):
                                           b["summary"][:150].replace("|", "／")))
         A("")
 
+    sched = ledger.get("schedule") or {}
+    waves = [w for w in (sched.get("waves") or []) if w["n"]]
+    if waves:
+        proj = sched.get("project") or {}
+        by_id = {r["id"]: r for r in ledger["rows"]}
+        blockers_by_id = {b["id"]: b for b in ledger.get("blockers") or []}
+
+        A("## The schedule")
+        A("")
+        A("Every duration below is **wall-clock for one agent unit**, from a corpus of 1,842 "
+          "measured Opus 4.8 and Opus 5 subagent runs across 88 sessions and 31 projects "
+          "(14 Jul – 30 Aug 2026). Ranges are p25–p90 and are printed as ranges because the "
+          "measured spread demands it: p90 ÷ median is 3.4 for build work and 3.1 for research, "
+          "so any single number would be wrong by a factor of three in the ordinary case. "
+          "Provenance, method and limits: `references/estimation.md`.")
+        A("")
+        A("**%s across %d wave(s) at up to %d concurrent agents**, against roughly %s if the same "
+          "work ran one item at a time. %s"
+          % (_range(proj.get("low_min"), proj.get("high_min")), len(waves),
+             sched.get("max_concurrency", OBSERVED_CONCURRENCY_CEILING),
+             _hours(proj.get("serial_min")), proj.get("basis", "")))
+        A("")
+        A("These figures do not carry a failure rate. A unit that ran forty minutes and produced "
+          "work that was later rejected is counted the same as one that landed, so this answers "
+          "how long an agent will be busy, not how long until the work is accepted.")
+        A("")
+        A("| Wave | Items | Slots | Range | Serial | Bounded by |")
+        A("|---:|---:|---:|---|---|---|")
+        for w in waves:
+            A("| %d | %d | %d | %s | %s | %s |"
+              % (w["wave"], w["n"], w["slots"], _range(w["low_min"], w["high_min"]),
+                 _hours(w["serial_min"]), w.get("bound_by", "slowest-member")))
+        A("")
+
+        for w in waves:
+            A("### Wave %d — %s" % (w["wave"], _range(w["low_min"], w["high_min"])))
+            A("")
+            A("%s." % w["note"])
+            if w.get("has_cycle"):
+                A("")
+                A("**This wave contains a dependency cycle.** The items in it depend on each other, "
+                  "which means they are really one unit of work; ship-fleet's rule is to combine "
+                  "them into a single run or to ask how to split them, and the same applies here.")
+            A("")
+            A("| Item | Kind | Tier | Range | Sub-tasks | Why this tier |")
+            A("|---|---|---|---|---|---|")
+            for bid in w["blockers"]:
+                b = blockers_by_id.get(bid)
+                if not b:
+                    continue
+                e = b.get("estimate") or {}
+                A("| `%s` %s | evidence | %s | %s | %d case(s): %s | %s |"
+                  % (b["id"], b["summary"][:70].replace("|", "／"), e.get("tier"),
+                     _range(e.get("low_min"), e.get("high_min")), len(b["cases"]),
+                     ", ".join(b["cases"][:4]) + ("…" if len(b["cases"]) > 4 else ""),
+                     e.get("basis", "")))
+            work_rows = [r for r in ledger["rows"] if r.get("is_work_item")]
+            for mid in w["members"]:
+                r = by_id.get(mid)
+                if not r:
+                    continue
+                e = r.get("estimate") or {}
+                subs = subtasks_of(r, work_rows)
+                A("| `%s` %s | %s | %s | %s | %s | %s |"
+                  % (r["id"], (r.get("title") or "")[:70].replace("|", "／"), r["kind"],
+                     e.get("tier"), _range(e.get("low_min"), e.get("high_min")),
+                     ", ".join(x["id"] for x in subs[:4]) + ("…" if len(subs) > 4 else "") or "—",
+                     e.get("basis", "")))
+            A("")
+
+        edges = sched.get("edges") or []
+        if edges:
+            cited = [e for e in edges if e["method"] == "cited"]
+            inferred = [e for e in edges if e["method"] != "cited"]
+            A("#### Dependency edges (%d cited, %d inferred)" % (len(cited), len(inferred)))
+            A("")
+            A("A **cited** edge is a citation somebody wrote into the registry, and it blocks: the "
+              "item downstream cannot start first. An **inferred** edge is this tool's reading of "
+              "a shared surface, and it only orders the work — it never blocks it, because a false "
+              "edge costs somebody's parallelism and this tool is not entitled to spend that on a "
+              "guess. Read the inferred ones before treating this ordering as a plan.")
+            A("")
+            A("| From | To | How | Why |")
+            A("|---|---|---|---|")
+            for e in edges[:40]:
+                A("| `%s` | `%s` | %s | %s |" % (e["from"], e["to"], e["method"], e["why"][:110]))
+            if len(edges) > 40:
+                A("| … | | | _%d more in ledger.json_ |" % (len(edges) - 40))
+            A("")
+
+        if sched.get("decisions"):
+            A("#### Not in any wave (%d)" % len(sched["decisions"]))
+            A("")
+            A("These are decisions — a person reading two documents and ruling — and they have no "
+              "agent duration. Putting a wall-clock figure on them would report waiting on a human "
+              "as though an agent were busy. They gate the waves rather than sitting inside them.")
+            A("")
+            for did in sched["decisions"][:25]:
+                r = by_id.get(did)
+                if r:
+                    A("- **%s** — %s" % (r["id"], (r.get("title") or "")[:120]))
+            A("")
+
     for cls in ("broken", "unbuilt", "unjoined", "undecided", "unnamed", "retirable"):
         items = [r for r in ledger["rows"] if r["class"] == cls and r.get("is_work_item")]
         if not items:
@@ -1490,6 +2013,370 @@ def render(ledger):
 
 
 # ---------------------------------------------------------------------------
+# The HTML board
+#
+# One self-contained file, no build step, no external assets. It is the
+# shipped-and-remaining picture somebody shows a room: what is done, what is
+# left, what can run at the same time, and how long each wave is likely to take.
+#
+# It renders FROM ledger.json and nothing else. Every figure on the page exists
+# in the ledger, which is what stops the presentable artifact from drifting away
+# from the gated one — the failure mode where the board says 80% and the ledger
+# says nothing of the sort. The markdown report stays the detailed technical
+# record; this is the same data at a distance somebody can read across a room.
+# ---------------------------------------------------------------------------
+
+def _esc(x):
+    return (str(x if x is not None else "")
+            .replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            .replace('"', "&quot;"))
+
+
+def _hours(mins):
+    """Ranges are read at a glance, so past two hours they read as hours."""
+    if mins is None:
+        return "—"
+    if mins < 90:
+        return "%d min" % int(round(mins))
+    h = mins / 60.0
+    if h < 10:
+        return "%.1f h" % h
+    if h < 40:
+        return "%d h" % int(round(h))
+    return "%.1f days" % (h / 8.0)      # a working day of agent time
+
+
+def _range(lo, hi):
+    return "%s – %s" % (_hours(lo), _hours(hi))
+
+
+HTML_CSS = """
+:root{
+  --ink:#14161a; --ink-2:#4a5058; --ink-3:#7c848f;
+  --paper:#fbfaf7; --card:#ffffff; --line:#e4e1da;
+  --done:#1f7a5c; --done-bg:#e7f4ee;
+  --left:#8a5a1a; --left-bg:#fdf1df;
+  --evid:#4a4599; --evid-bg:#ecebf9;
+  --dec:#8a2f4d; --dec-bg:#fbe9ef;
+  --waive:#5c6068; --waive-bg:#f0efec;
+  --accent:#b4531f;
+  --shadow:0 1px 2px rgba(20,22,26,.05),0 8px 24px -12px rgba(20,22,26,.18);
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ink:#eceae5; --ink-2:#b0aca4; --ink-3:#847f76;
+  --paper:#14150f; --card:#1c1e18; --line:#2e3129;
+  --done:#5fc79c; --done-bg:#16281f;
+  --left:#e0a055; --left-bg:#2a2013;
+  --evid:#9d99e8; --evid-bg:#1d1c31;
+  --dec:#e58aa8; --dec-bg:#2c1620;
+  --waive:#9a958c; --waive-bg:#22231d;
+  --accent:#f0824a;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --ink:#eceae5; --ink-2:#b0aca4; --ink-3:#847f76;
+  --paper:#14150f; --card:#1c1e18; --line:#2e3129;
+  --done:#5fc79c; --done-bg:#16281f;
+  --left:#e0a055; --left-bg:#2a2013;
+  --evid:#9d99e8; --evid-bg:#1d1c31;
+  --dec:#e58aa8; --dec-bg:#2c1620;
+  --waive:#9a958c; --waive-bg:#22231d;
+  --accent:#f0824a;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:15px/1.55 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;}
+.wrap{max-width:1180px;margin:0 auto;padding:48px 28px 96px}
+h1,h2,h3{font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;letter-spacing:-.015em;margin:0}
+h1{font-size:34px;font-weight:600;line-height:1.15}
+h2{font-size:13px;font-weight:650;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);
+  margin:56px 0 18px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.lede{font-size:18px;line-height:1.5;color:var(--ink-2);max-width:70ch;margin:16px 0 0}
+.stamp{font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink-3);margin-top:22px}
+.caveat{margin:26px 0 0;padding:15px 18px;border-left:3px solid var(--accent);
+  background:var(--card);border-radius:0 8px 8px 0;font-size:14.5px;color:var(--ink-2);max-width:76ch;
+  box-shadow:var(--shadow)}
+.caveat strong{color:var(--ink)}
+.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:12px;margin-top:26px}
+.axis{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:15px 16px;
+  box-shadow:var(--shadow)}
+.axis .n{font:600 27px/1 "Avenir Next",system-ui,sans-serif;letter-spacing:-.02em}
+.axis .of{font-size:13px;color:var(--ink-3);margin-left:3px}
+.axis .lbl{font-size:12.5px;color:var(--ink-2);margin-top:7px;line-height:1.4}
+.bar{height:4px;border-radius:2px;background:var(--line);margin-top:11px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--done);border-radius:2px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+@media (max-width:820px){.cols{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 0;
+  box-shadow:var(--shadow);overflow:hidden}
+.panel h3{font-size:14px;font-weight:650;padding:16px 18px 12px;display:flex;gap:9px;align-items:baseline}
+.panel h3 .c{font:12px/1 ui-monospace,Menlo,monospace;color:var(--ink-3);font-weight:400}
+.feat{display:flex;gap:11px;padding:9px 18px;align-items:flex-start;border-top:1px solid var(--line)}
+.feat:first-of-type{border-top:1px solid var(--line)}
+.tick{flex:0 0 17px;height:17px;border-radius:50%;margin-top:2px;display:grid;place-items:center;
+  font-size:10px;font-weight:700;color:#fff}
+.tick.d{background:var(--done)} .tick.l{background:var(--left)}
+.tick.e{background:var(--evid)} .tick.x{background:var(--dec)} .tick.w{background:var(--waive)}
+.feat .t{flex:1;min-width:0;font-size:14px}
+.feat .t small{display:block;color:var(--ink-3);font-size:12.5px;margin-top:2px;line-height:1.45}
+.est{flex:0 0 auto;font:12px/1 ui-monospace,Menlo,monospace;color:var(--ink-2);
+  background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:4px 7px;white-space:nowrap}
+.more{padding:11px 18px;font-size:13px;color:var(--ink-3);border-top:1px solid var(--line)}
+.wave{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  box-shadow:var(--shadow);overflow:hidden}
+.wave>header{display:flex;flex-wrap:wrap;gap:14px;align-items:baseline;padding:15px 18px;
+  border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--paper),transparent)}
+.wave>header .n{font:650 15px/1 "Avenir Next",system-ui,sans-serif}
+.wave>header .r{font:13px/1 ui-monospace,Menlo,monospace;color:var(--accent);font-weight:600}
+.wave>header .m{font-size:12.5px;color:var(--ink-3);margin-left:auto}
+.lanes{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:11px;padding:15px 18px}
+.item{border:1px solid var(--line);border-radius:9px;padding:11px 12px;background:var(--paper)}
+.item .id{font:11.5px/1 ui-monospace,Menlo,monospace;color:var(--ink-3)}
+.item .h{font-size:13.5px;margin:5px 0 0;line-height:1.4}
+.item .f{display:flex;gap:7px;align-items:center;margin-top:9px;flex-wrap:wrap}
+.pill{font:10.5px/1 "Avenir Next",system-ui,sans-serif;font-weight:650;letter-spacing:.045em;
+  text-transform:uppercase;padding:3.5px 7px;border-radius:4px}
+.pill.p{background:var(--left-bg);color:var(--left)}
+.pill.e{background:var(--evid-bg);color:var(--evid)}
+.pill.d{background:var(--dec-bg);color:var(--dec)}
+.pill.k{background:var(--done-bg);color:var(--done)}
+.item .f .t{font:11.5px/1 ui-monospace,Menlo,monospace;color:var(--ink-2);margin-left:auto}
+.sub{margin:9px 0 0;padding:0 0 0 13px;border-left:2px solid var(--line);list-style:none}
+.sub li{font-size:12px;color:var(--ink-3);padding:2.5px 0;line-height:1.4}
+.wavenote{padding:0 18px 15px;font-size:12.5px;color:var(--ink-3);line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin-top:6px}
+th{text-align:left;font:600 11.5px/1 "Avenir Next",system-ui,sans-serif;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--ink-3);padding:9px 11px;border-bottom:1px solid var(--line)}
+td{padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+td.n,th.n{text-align:right;font-family:ui-monospace,Menlo,monospace}
+.scroll{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  box-shadow:var(--shadow)}
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--ink-3);line-height:1.6;max-width:76ch}
+code{font:12.5px ui-monospace,Menlo,monospace;background:var(--paper);border:1px solid var(--line);
+  padding:1px 4px;border-radius:4px}
+"""
+
+CLASS_TICK = {"verified-done": "d", "retirable": "d", "broken": "l", "unbuilt": "l",
+              "unmeasured": "e", "undecided": "x", "unjoined": "x", "unnamed": "x", "waived": "w"}
+KIND_PILL = {"product-work": ("p", "product"), "evidence-work": ("e", "evidence"),
+             "decision-work": ("d", "decision"), "bookkeeping": ("k", "close it"),
+             "exception": ("w", "waived"), "none": ("k", "done")}
+
+
+def render_html(ledger):
+    d = ledger["denominators"]
+    rows = ledger["rows"]
+    sched = ledger.get("schedule") or {}
+    waves = sched.get("waves") or []
+    proj = sched.get("project") or {}
+    by_id = {r["id"]: r for r in rows}
+    blockers_by_id = {b["id"]: b for b in ledger.get("blockers") or []}
+    counts = Counter(r["class"] for r in rows)
+    H = []
+    A = H.append
+
+    A("<title>%s — what is done, what is left</title>" % _esc(ledger["project"]))
+    A("<style>%s</style>" % HTML_CSS)
+    A('<div class="wrap">')
+
+    # --- masthead ----------------------------------------------------------
+    done_n = counts.get("verified-done", 0) + counts.get("retirable", 0)
+    # Computed from the rows rather than read from the summary, so a ledger
+    # written by an older copy of this tool still renders rather than throwing.
+    work_n = (ledger.get("summary") or {}).get(
+        "work_items", sum(1 for r in rows if r.get("is_work_item")) + len(ledger.get("blockers") or []))
+    A("<h1>%s</h1>" % _esc(ledger["project"]))
+    A('<p class="lede">%d piece(s) of work remain and %d thing(s) are settled. '
+      "Everything below is what somebody proved, or an honest statement that nobody did — "
+      "the two are kept apart on purpose.</p>" % (work_n, done_n))
+    schedulable = [w for w in waves if w["n"]]
+    if proj and schedulable:
+        A('<p class="lede" style="margin-top:14px"><strong>%s of agent wall-clock</strong> across '
+          "%d wave(s) at up to %d concurrent agents — about %s if the same work ran one item at a "
+          "time. Plan against the upper figure.</p>"
+          % (_esc(_range(proj["low_min"], proj["high_min"])), len(schedulable),
+             sched.get("max_concurrency", OBSERVED_CONCURRENCY_CEILING), _esc(_hours(proj["serial_min"]))))
+    elif work_n:
+        A('<p class="lede" style="margin-top:14px">Nothing here carries a duration. Every remaining '
+          "item is a decision for a person rather than a task for an agent, and putting a "
+          "wall-clock figure on one would report waiting on somebody as though a machine were "
+          "busy.</p>")
+    A('<div class="caveat"><strong>Every time on this page is an estimate, and every one is a '
+      "range.</strong> They come from 1,842 measured Opus 4.8 and Opus 5 agent runs across 88 "
+      "sessions and 31 projects, and they are wall-clock — the time an agent was busy, waiting "
+      "included. They do not carry a failure rate: an agent that ran for an hour and produced "
+      "work that was later rejected counts the same as one that landed. Treat a range as a "
+      "planning figure, never as a commitment.</div>")
+    A('<p class="stamp">campaign: %s · briefs: %s · %d ledger rows</p>'
+      % (_esc(ledger.get("campaign_dir") or "none"), _esc(ledger.get("briefs_dir") or "—"), len(rows)))
+
+    # --- what it can speak for --------------------------------------------
+    A("<h2>What this can speak for</h2>")
+    A('<div class="axes">')
+    for key, label in (("cases_adjudicated", "cases reached a verdict"),
+                       ("requirements_observed", "requirements independently observed"),
+                       ("surfaces_spoken_for", "surfaces with any evidence"),
+                       ("briefs_joined", "briefs tied to the registry"),
+                       ("decisions_taken", "cases ruled out by decision")):
+        v = d[key]
+        pct = 0 if v["pct"] is None else v["pct"]
+        A('<div class="axis"><div class="n">%s<span class="of">/%s</span></div>'
+          '<div class="lbl">%s</div><div class="bar"><i style="width:%.1f%%"></i></div></div>'
+          % (v["n"], v["of"], _esc(label), pct))
+    A("</div>")
+    A('<div class="caveat" style="margin-top:16px">%s <strong>There is no single percentage here '
+      "on purpose</strong> — these axes disagree with each other, and one blended number would "
+      "hide whichever is weakest.</div>" % _esc(d["floor_note"]))
+
+    # --- shipped / remaining ----------------------------------------------
+    A("<h2>Shipped, and remaining</h2>")
+    A('<div class="cols">')
+
+    settled = [r for r in rows if r["class"] in ("verified-done", "retirable")
+               and r["entity"] in ("requirement", "surface", "brief", "defect")]
+    A('<div class="panel"><h3>Settled <span class="c">%d</span></h3>' % len(settled))
+    if not settled:
+        A('<div class="more">Nothing here is settled to a standard that carries the claim.</div>')
+    for r in settled[:14]:
+        cls = "d"
+        note = "retire the brief — the campaign proved it" if r["class"] == "retirable" else "measured, and it held"
+        A('<div class="feat"><span class="tick %s">✓</span><span class="t">%s<small>%s</small></span></div>'
+          % (cls, _esc((r.get("title") or r["id"])[:110]), _esc(note)))
+    if len(settled) > 14:
+        A('<div class="more">…and %d more in the ledger</div>' % (len(settled) - 14))
+    A("</div>")
+
+    work = [r for r in rows if r.get("is_work_item")]
+    A('<div class="panel"><h3>Remaining <span class="c">%d + %d blockers</span></h3>'
+      % (len(work), len(ledger.get("blockers") or [])))
+    order = {"broken": 0, "unbuilt": 1, "unmeasured": 2, "undecided": 3, "unjoined": 4, "unnamed": 5, "retirable": 6}
+    for r in sorted(work, key=lambda r: (order.get(r["class"], 9), str(r["id"])))[:14]:
+        est = r.get("estimate")
+        A('<div class="feat"><span class="tick %s">•</span><span class="t">%s<small>%s</small></span>%s</div>'
+          % (CLASS_TICK.get(r["class"], "l"), _esc((r.get("title") or r["id"])[:110]),
+             _esc((r.get("why") or "")[:130]),
+             ('<span class="est">%s</span>' % _esc(_range(est["low_min"], est["high_min"]))) if est else ""))
+    if len(work) > 14:
+        A('<div class="more">…and %d more, every one of them in the ledger</div>' % (len(work) - 14))
+    A("</div></div>")
+
+    # --- the waves ---------------------------------------------------------
+    if schedulable:
+        A("<h2>What can run at the same time</h2>")
+        A('<p class="lede">A wave is everything whose dependencies all sit in an earlier wave, so '
+          "its members run in parallel. A wave costs its slowest member, not the sum of its "
+          "members — measured wall-clock divided by slowest member was 1.05 at the median and 1.8 "
+          "at p90 across 253 real waves. Dependency edges drawn from a registry citation are firm; "
+          "edges this reckoning inferred only order the work, they never block it.</p>")
+        for w in schedulable:
+            A('<div class="wave"><header><span class="n">Wave %d</span>'
+              '<span class="r">%s</span><span class="m">%d item(s)%s</span></header>'
+              % (w["wave"], _esc(_range(w["low_min"], w["high_min"])), w["n"],
+                 (" · %d slots" % w["slots"]) if w["n"] > w["slots"] else ""))
+            A('<div class="lanes">')
+            for bid in w["blockers"]:
+                b = blockers_by_id.get(bid)
+                if not b:
+                    continue
+                est = b.get("estimate") or {}
+                A('<div class="item"><div class="id">%s</div><p class="h">%s</p>'
+                  % (_esc(b["id"]), _esc(b["summary"][:120])))
+                A('<ul class="sub">')
+                for cid in b["cases"][:5]:
+                    A("<li>%s</li>" % _esc(cid))
+                if len(b["cases"]) > 5:
+                    A("<li>…and %d more case(s) behind this one cause</li>" % (len(b["cases"]) - 5))
+                A("</ul>")
+                A('<div class="f"><span class="pill e">evidence</span>'
+                  '<span class="pill k">+%.1f pts coverage</span>'
+                  '<span class="t">%s</span></div></div>'
+                  % (b["coverage_gain_pct"], _esc(_range(est.get("low_min"), est.get("high_min")))))
+            for mid in w["members"]:
+                r = by_id.get(mid)
+                if not r:
+                    continue
+                est = r.get("estimate") or {}
+                pc, pl = KIND_PILL.get(r["kind"], ("p", r["kind"]))
+                A('<div class="item"><div class="id">%s</div><p class="h">%s</p>'
+                  % (_esc(r["id"]), _esc((r.get("title") or "")[:110])))
+                subs = subtasks_of(r, work)
+                if subs:
+                    A('<ul class="sub">')
+                    for sub in subs[:5]:
+                        t = by_id.get(sub["id"])
+                        A("<li>%s%s</li>" % (_esc(sub["id"]),
+                                             (" — " + _esc((t.get("title") or "")[:52])) if t and t.get("title") else ""))
+                    if len(subs) > 5:
+                        A("<li>…and %d more</li>" % (len(subs) - 5))
+                    A("</ul>")
+                A('<div class="f"><span class="pill %s">%s</span>'
+                  '<span class="pill k">%s</span><span class="t">%s</span></div></div>'
+                  % (pc, _esc(pl), _esc(est.get("tier", "?")),
+                     _esc(_range(est.get("low_min"), est.get("high_min")))))
+            A("</div>")
+            A('<p class="wavenote">%s</p></div>' % _esc(w["note"]))
+
+        if sched.get("decisions"):
+            A('<div class="caveat" style="margin-top:22px"><strong>%d item(s) are not in any '
+              "wave.</strong> They are decisions — a person reading two documents and ruling — and "
+              "they have no agent duration. Giving them one would report waiting on a human as "
+              "though an agent were busy. They gate the waves rather than sitting inside them.</div>"
+              % len(sched["decisions"]))
+
+    # --- the blockers table -------------------------------------------------
+    if ledger.get("blockers"):
+        A("<h2>What unblocks the most</h2>")
+        A('<p class="lede">Blocked cases cluster. Twenty of them are usually a handful of causes, '
+          "and each row here is a cause with the coverage that resolving it returns.</p>")
+        A('<div class="scroll"><table><thead><tr><th>Cause</th><th class="n">Cases</th>'
+          '<th class="n">Coverage</th><th class="n">Estimate</th><th>What it is</th></tr></thead><tbody>')
+        for b in ledger["blockers"][:12]:
+            est = b.get("estimate") or {}
+            A("<tr><td><code>%s</code></td><td class=\"n\">%d</td><td class=\"n\">+%.1f pts</td>"
+              '<td class="n">%s</td><td>%s</td></tr>'
+              % (_esc(b["id"]), b["unblocks"], b["coverage_gain_pct"],
+                 _esc(_range(est.get("low_min"), est.get("high_min"))), _esc(b["summary"][:150])))
+        A("</tbody></table></div>")
+
+    # --- the partition ------------------------------------------------------
+    A("<h2>Every item, in exactly one class</h2>")
+    A('<p class="lede">Nothing was filtered out of this list, because there is nowhere to filter '
+      "to. That is what makes the counts above mean something.</p>")
+    A('<div class="scroll"><table><thead><tr><th>Class</th><th class="n">Work</th>'
+      '<th class="n">Rows</th><th>Whose job</th><th>What it means</th></tr></thead><tbody>')
+    blurb = {"unbuilt": "named in a brief; nothing in the registry answers to it",
+             "unjoined": "named in a brief; the join reached nothing either way",
+             "broken": "measured, and the answer was no",
+             "unmeasured": "nobody found out — the work is becoming able to tell",
+             "unnamed": "the campaign found it; no document claims it",
+             "undecided": "the documents and the evidence disagree",
+             "retirable": "already done to a standard that carries the claim — close it",
+             "waived": "somebody decided not to; it stays visible because the reason expires",
+             "verified-done": "not remaining; kept so the denominator is honest"}
+    wc = Counter(r["class"] for r in rows if r.get("is_work_item"))
+    for cls in CLASSES:
+        if not counts.get(cls):
+            continue
+        w = wc.get(cls, 0)
+        if cls == "unmeasured" and ledger.get("blockers"):
+            w = "%d + %d blockers" % (w, len(ledger["blockers"]))
+        A("<tr><td><code>%s</code></td><td class=\"n\">%s</td><td class=\"n\">%d</td><td>%s</td><td>%s</td></tr>"
+          % (_esc(cls), w, counts[cls], _esc(KIND_OF[cls]), _esc(blurb[cls])))
+    A("</tbody></table></div>")
+
+    A("<footer>Generated by <code>reckon</code> from <code>ledger.json</code>; every figure on this "
+      "page exists in that file. The full technical record — every row, the reason for its class, "
+      "the join edges and what this reckoning could not classify — is in "
+      "<code>reckoning.md</code> beside it. Estimate provenance and its limits: "
+      "<code>references/estimation.md</code>.</footer>")
+    A("</div>")
+    return "\n".join(H) + "\n"
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -1516,6 +2403,22 @@ def cmd_build(args):
     # twenty blocked cases behind one dead credential are one piece of work
     # too. What a person schedules is the second number.
     work = [r for r in rows if r.get("is_work_item")]
+
+    # Estimates and waves. Every figure here is wall-clock for one agent unit,
+    # from the measured corpus in references/estimation.md, and every one is a
+    # range. They are attached to the rows rather than computed in the renderer
+    # so that ledger.json carries them and the HTML cannot invent a number the
+    # ledger does not hold.
+    for r in work:
+        est = estimate_row(r)
+        if est:
+            r["estimate"] = est
+    for b in blockers:
+        b["estimate"] = estimate_blocker(b)
+    schedule = build_waves(work, blockers, max_concurrency=args.max_concurrency)
+    schedule["project"] = project_estimate(schedule["waves"])
+    schedule["max_concurrency"] = args.max_concurrency
+
     work_counts = Counter(r["class"] for r in work)
     kind_counts = Counter(r["kind"] for r in work)
     kind_counts["evidence-work"] += len(blockers)
@@ -1562,6 +2465,7 @@ def cmd_build(args):
                  "pct": round(join_pct, 1), "weak": join_is_weak,
                  "note": "cited edges are citations somebody wrote; overlap edges are guesses and cannot retire a brief"},
         "blockers": blockers,
+        "schedule": schedule,
         "unclassified": unclassified,
         "rows": rows,
     }
@@ -1571,6 +2475,9 @@ def cmd_build(args):
         json.dump(ledger, fh, indent=1, ensure_ascii=False)
     with open(os.path.join(args.out, "reckoning.md"), "w", encoding="utf-8") as fh:
         fh.write(render(ledger))
+    if not getattr(args, "no_html", False):
+        with open(os.path.join(args.out, "reckoning.html"), "w", encoding="utf-8") as fh:
+            fh.write(render_html(ledger))
 
     v, w = gate(ledger, weak_join_ratio=args.weak_join)
     for kind, msg in v:
@@ -1578,7 +2485,8 @@ def cmd_build(args):
     for msg in w:
         print("warning: %s" % msg, file=sys.stderr)
     print("%s · %d rows · %s" % (ledger["project"], len(rows), headline))
-    print("wrote %s" % os.path.join(args.out, "ledger.json"))
+    wrote = ["ledger.json", "reckoning.md"] + ([] if getattr(args, "no_html", False) else ["reckoning.html"])
+    print("wrote %s in %s" % (", ".join(wrote), args.out))
     return verdict(v)
 
 
@@ -1624,6 +2532,11 @@ def main(argv=None):
     b.add_argument("--weak-join", type=float, default=0.5)
     b.add_argument("--blocker-threshold", type=float, default=0.30,
                    help="token overlap at which two blocked cases are treated as one cause")
+    b.add_argument("--max-concurrency", type=int, default=OBSERVED_CONCURRENCY_CEILING,
+                   help="agents that may run at once; the measured ceiling on this corpus is 8 "
+                        "(peak reached: median 5, p90 10)")
+    b.add_argument("--no-html", action="store_true",
+                   help="skip reckoning.html (the marketing-facing board)")
     b.set_defaults(fn=cmd_build)
 
     c = sub.add_parser("check", help="gate an existing ledger")

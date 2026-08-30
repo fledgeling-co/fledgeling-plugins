@@ -105,6 +105,40 @@ also **caught a real defect**: the first banner drew the hollow rod's ring with
 `inset box-shadow`, which this engine accepts and never paints. That banner
 would have rendered with no ring at all and passed every other check.
 
+## The estimates (1.9.0)
+
+The durations the schedule prints were measured, not assumed. The corpus, the
+method and the exclusions are in `skills/reckon/references/estimation.md`:
+2,230 subagent transcript files parsed, 2,572 units extracted, 1,842 on Opus 4.8
+or Opus 5 inside the analysis band, over 88 sessions and 31 projects, 14 Jul –
+30 Aug 2026.
+
+What that measurement supports, and what it does not:
+
+- **Supported.** The stage and edit-volume tables, the tier ranges, and the wave
+  arithmetic (wall-clock ÷ slowest member 1.05 median / 1.8 p90 over 253 real
+  waves; speedup over serial 2.2× median / 4.0× p90; peak concurrency reached
+  median 5, p90 10, max 16).
+- **Pooled deliberately.** Opus 5 and Opus 4.8 are one population. Within the
+  30–80 tool-call band their medians are 10.5 and 11.2 minutes, a gap smaller
+  than the spread inside either, so separate tables would imply a precision the
+  data does not carry.
+- **Not measured.** Whether these figures transfer to another machine, operator
+  or repo; no correction factor is offered because none was measured. Whether a
+  tier assigned from a row's *wording* matches the work behind it — the tiering
+  heuristic is unvalidated and the `basis` field exists so a reader can overrule
+  it. Whether the estimate improves anybody's planning.
+- **Structurally absent.** A failure rate. A unit that ran 40 minutes and
+  produced work later rejected counts identically to one that landed.
+
+The scheduler's own arithmetic is verified rather than assumed: a randomised
+audit over 500 trials with 1–40 items per run checks that no wave inverts its
+bounds, that every work item lands in exactly one wave or on the decision list,
+and that no wave size — including under rounding — implies a speedup better than
+the 4.0× p90 measured. That last property caught a real defect: rounding the low
+bound down produced a 4.03× schedule, fractionally faster than the ceiling it had
+just been held to.
+
 ## What is not verified
 
 - **Whether the skill changes model behaviour.** See above. This is the
@@ -116,6 +150,13 @@ would have rendered with no ring at all and passed every other check.
   habit will join worse, and how much worse is unmeasured.
 - **Behaviour on tracker-board projects** rather than markdown brief queues.
   `stocktake` covers that shape; reckon has not been run against one.
+- **Whether a tier read off a row's wording matches the work behind it.** The
+  keyword heuristic is legible and unvalidated; that is why every estimate
+  carries the reason it landed where it did.
+- **Whether the HTML board is read the way it is meant to be.** It renders
+  correctly in Chromium in both themes at 1280px and 420px with no console
+  errors and no horizontal overflow, which is a rendering check rather than a
+  comprehension one.
 
 ### The three tasks that would settle it
 
