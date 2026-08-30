@@ -95,13 +95,44 @@ AO_H = 16.0            # contact darkening on the rule at each bar's foot
 
 RULE_TOP = 698.0       # solved for an optical centre of y=500: the figure runs from
                        # RULE_TOP - max(BAR_H) = 268 to RULE_TOP + RULE_H = 732.
-BLOOM_RY = 118.0       # the halo well's vertical reach (r01). The reference's warm chroma
-                       # on the porcelain is 197 at the rule and 0 by dy=110, so a well this
-                       # tight is what the measurement says — not the 182 first drafted.
+BLOOM_RY = 150.0       # the halo well's vertical reach. r01 set it to 118 from a probe that
+                       # was contaminated: the sample column sat ON the reference's own rule
+                       # (which spans 142..885) rather than on porcelain, so it read the
+                       # rule's falloff instead of the ground's. Re-measured on genuine
+                       # porcelain below the rule, C1 runs 190/146/76/36/10 at dy
+                       # 20/40/60/80/110 — a well half again as tall as r01 concluded.
 BLOOM_OVER = 26.0      # how far the well spreads past the rule's ends. The reference falls
                        # from 64 to 9 within 20px past the end, so the glow is bounded by
                        # the object rather than floating free of it.
-BOUNCE_H = 120.0       # how far the rule's light climbs each bar. At 168 with the stops
+# ── emission (r04) ──────────────────────────────────────────────────────────────────────
+# The rule is a light source, and these four constants are what make it read as one rather
+# than as a coloured fill. All fitted to the C1 raster, sampled inside all three bars and
+# averaged so one bar's local shading could not set the curve. Reference chroma (R-B) by
+# height above the rule: 174 at 18px, 154 at 28, 121 at 40, 94 at 55, 64 at 75, 37 at 100,
+# 15 at 130, ~0 at 165. The pre-r04 master reached +37 at its peak and was flat by 50px.
+BOUNCE_PEAK = 0.26     # opacity at the bar's foot, and the one constant in this file set by
+                       # a CONSTRAINT rather than by the reference. Fitting it to C1's
+                       # measured +174 chroma needs ~0.62, and 0.62 costs self-contrast at
+                       # every size (1024: 0.737 -> 0.663; 64: 0.702 -> 0.608), because
+                       # self_contrast watches the p10 bin and that bin IS the bar interiors
+                       # — bounding box x238..786 y297..700, measured, with no porcelain in
+                       # it. Swept 0.62/0.55/0.48/0.40/0.34/0.30/0.26/0.22: the cost is
+                       # near-linear in the gain, so there is no free knee, and 0.26 is the
+                       # largest value that holds every invariant. See loop-runs/r04/brief.md
+                       # — this is a real trade the loop could not dissolve, not a tuning win.
+BOUNCE_TAIL = 165.0    # the reference's measured reach, kept as the fitted curve's domain.
+                       # BOUNCE_H is shorter than this because the curve is scaled down to
+                       # BOUNCE_PEAK; the old 120 was never the problem, the stop layout was
+                       # — almost all the energy sat in the last 20%, so a 120px constant
+                       # produced a ~50px effect. The stops are now computed from REF_BOUNCE.
+FOOT_LIT = 0.06        # where the graphite ramp turns around, as a fraction of bar height.
+                       # THE SIGN ERROR r04 exists to fix: the reference's bar foot GAINS
+                       # luminance toward the rule (81 -> 105 -> 141 at t = 0.78 / 0.88 /
+                       # 0.94) while the old master LOST it (39 -> 47 -> 63 from a darker
+                       # start). A surface lit from below gets brighter toward the light; a
+                       # warm tint painted onto a ramp that darkens into the source reads as
+                       # rust, not as illumination. The ramp itself has to turn.
+BOUNCE_H = 118.0       # how far the rule's light climbs each bar. At 168 with the stops
                        # below at .40 the feet read as rust rather than as reflected light —
                        # the warm term stayed visible through the 32px downsample as a brown
                        # band, and a graphite bar that goes brown has changed material.
@@ -115,6 +146,9 @@ GRAPHITE_TOP = "#59636E"
 GRAPHITE_UP = "#39424C"
 GRAPHITE_MID = "#262E37"
 GRAPHITE_LOW = "#1A2027"
+GRAPHITE_LIT = "#221819"  # the foot, turned back toward the light. Warm because the only
+                          # thing lighting it is the rule; kept dark enough that the bar is
+                          # still a graphite object rather than an orange one.
 EDGE_DARK = "#0E1319"   # the darkened core between the two edge catches
 EDGE_CATCH = "#B9C6D6"  # the frosted catch on each turned edge. Cool, and lighter than
                         # GRAPHITE_TOP, so the catch reads as light passing through the
@@ -147,6 +181,13 @@ ROUND_FLOOR = """      <stop offset="0" stop-color="{EDGE_DARK}" stop-opacity=".
       <stop offset=".18" stop-color="{EDGE_DARK}" stop-opacity=".05"/>
       <stop offset=".62" stop-color="{EDGE_DARK}" stop-opacity="0"/>
       <stop offset="1" stop-color="{EDGE_DARK}" stop-opacity=".30"/>"""
+
+
+# The C1 reference's bounce, measured 2026-08-30: px above the rule -> warm chroma (R-B),
+# sampled inside all three bars and averaged. This is the shape the emission is fitted to;
+# BOUNCE_PEAK scales it, BOUNCE_TAIL is where it reaches zero.
+REF_BOUNCE = [(0.0, 174.0), (18.0, 174.0), (28.0, 154.0), (40.0, 121.0), (55.0, 94.0),
+              (75.0, 64.0), (100.0, 37.0), (130.0, 15.0), (165.0, 0.0)]
 
 
 def squircle() -> str:
@@ -191,6 +232,32 @@ def defs(fig_top: float, rule_top: float, rule_h: float, small: bool = False) ->
     """
     round_stops = (ROUND_FLOOR if small else ROUND_CATCH).format(
         EDGE_CATCH=EDGE_CATCH, EDGE_DARK=EDGE_DARK)
+
+    # The bounce stops are COMPUTED from the reference curve rather than typed, so the
+    # gradient cannot drift away from the measurement it came from. REF_BOUNCE is the
+    # chroma profile read off C1 (px above the rule -> R-B); each stop's opacity is that
+    # chroma normalised to the peak and scaled by BOUNCE_PEAK. Changing BOUNCE_PEAK
+    # rescales the whole curve while keeping its measured shape.
+    peak = max(c for _, c in REF_BOUNCE)
+    def bo(dy: float) -> float:
+        """Opacity at dy px above the rule, linearly interpolated on the fitted curve."""
+        pts = sorted(REF_BOUNCE)
+        if dy <= pts[0][0]:
+            c = pts[0][1]
+        elif dy >= pts[-1][0]:
+            c = pts[-1][1]
+        else:
+            for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+                if x0 <= dy <= x1:
+                    c = y0 + (y1 - y0) * (dy - x0) / (x1 - x0)
+                    break
+        return max(0.0, c / peak * BOUNCE_PEAK)
+
+    # offsets 0.21/0.39/0.55/0.70/0.83/0.93/1.0 of BOUNCE_H, as px above the rule
+    bo_09, bo_22, bo_37 = bo(BOUNCE_H * 0.79), bo(BOUNCE_H * 0.61), bo(BOUNCE_H * 0.45)
+    bo_54, bo_70 = bo(BOUNCE_H * 0.30), bo(BOUNCE_H * 0.17)
+    bo_88, bo_100 = bo(BOUNCE_H * 0.07), bo(0.0)
+    dark_at = 1.0 - FOOT_LIT
     return f"""
     <clipPath id="tile"><path d="{squircle()}"/></clipPath>
 
@@ -215,8 +282,9 @@ def defs(fig_top: float, rule_top: float, rule_h: float, small: bool = False) ->
                     x1="0" y1="{fig_top:.1f}" x2="0" y2="{rule_top:.1f}">
       <stop offset="0" stop-color="{GRAPHITE_TOP}"/>
       <stop offset=".30" stop-color="{GRAPHITE_UP}"/>
-      <stop offset=".70" stop-color="{GRAPHITE_MID}"/>
-      <stop offset="1" stop-color="{GRAPHITE_LOW}"/>
+      <stop offset=".62" stop-color="{GRAPHITE_MID}"/>
+      <stop offset="{dark_at:.3f}" stop-color="{GRAPHITE_LOW}"/>
+      <stop offset="1" stop-color="{GRAPHITE_LIT}"/>
     </linearGradient>
 
     <!-- The edge catch (r03), and the one relationship on this icon that was authored
@@ -248,8 +316,13 @@ def defs(fig_top: float, rule_top: float, rule_h: float, small: bool = False) ->
     <linearGradient id="bounce" gradientUnits="userSpaceOnUse"
                     x1="0" y1="{rule_top - BOUNCE_H:.1f}" x2="0" y2="{rule_top:.1f}">
       <stop offset="0" stop-color="{GLOW}" stop-opacity="0"/>
-      <stop offset=".55" stop-color="{GLOW}" stop-opacity=".06"/>
-      <stop offset="1" stop-color="{RULE_HOT}" stop-opacity=".26"/>
+      <stop offset=".21" stop-color="{GLOW}" stop-opacity="{bo_09:.3f}"/>
+      <stop offset=".39" stop-color="{GLOW}" stop-opacity="{bo_22:.3f}"/>
+      <stop offset=".55" stop-color="{RULE_MID}" stop-opacity="{bo_37:.3f}"/>
+      <stop offset=".70" stop-color="{RULE_MID}" stop-opacity="{bo_54:.3f}"/>
+      <stop offset=".83" stop-color="{RULE_HOT}" stop-opacity="{bo_70:.3f}"/>
+      <stop offset=".93" stop-color="{RULE_HOT}" stop-opacity="{bo_88:.3f}"/>
+      <stop offset="1" stop-color="{RULE_LIP}" stop-opacity="{bo_100:.3f}"/>
     </linearGradient>
 
     <!-- the datum, in cross-section: lip at the lit top edge, hot core just under it,
@@ -276,17 +349,27 @@ def defs(fig_top: float, rule_top: float, rule_h: float, small: bool = False) ->
          0 / 20 / 40 / 60 / 80 / 110, so the stops below are that curve and BLOOM_RY is
          that reach. The first draft had a faint 182px veil peaking at chroma 19 against
          the reference's 198 — a coloured bar rather than an emitter. -->
+    <!-- The halo well. Fitted to the reference twice: r01 set its reach, r04 set its
+         mid-field. Chroma on the porcelain below the rule, C1 vs the r03 master, was
+         190/146/76/36/10 against 170/67/37/21/9 at dy 20/40/60/80/110 — matched at the
+         rule and less than half the reference by dy 40, so the well was falling off far
+         too fast through exactly the band where the glow is legible.
+         This is the emission budget that is FREE. self_contrast watches the p10 bin, and
+         that bin is entirely bar interior (bounding box x238..786 y297..700, measured) —
+         porcelain never enters it. So brightening the ground costs nothing the gate is
+         watching, while brightening the bars costs it directly. Spend here first. -->
     <radialGradient id="bloom" cx=".5" cy=".5" r=".5">
-      <stop offset="0" stop-color="{RULE_HOT}" stop-opacity=".82"/>
-      <stop offset=".18" stop-color="{GLOW}" stop-opacity=".60"/>
-      <stop offset=".37" stop-color="{GLOW}" stop-opacity=".28"/>
-      <stop offset=".62" stop-color="{GLOW}" stop-opacity=".09"/>
+      <stop offset="0" stop-color="{RULE_HOT}" stop-opacity=".95"/>
+      <stop offset=".20" stop-color="{RULE_HOT}" stop-opacity=".82"/>
+      <stop offset=".38" stop-color="{GLOW}" stop-opacity=".55"/>
+      <stop offset=".55" stop-color="{GLOW}" stop-opacity=".28"/>
+      <stop offset=".74" stop-color="{GLOW}" stop-opacity=".09"/>
       <stop offset="1" stop-color="{GLOW}" stop-opacity="0"/>
     </radialGradient>
 
     <radialGradient id="contact" cx=".5" cy=".5" r=".5">
-      <stop offset="0" stop-color="{SHADOW}" stop-opacity=".30"/>
-      <stop offset=".58" stop-color="{SHADOW}" stop-opacity=".09"/>
+      <stop offset="0" stop-color="{SHADOW}" stop-opacity=".18"/>
+      <stop offset=".58" stop-color="{SHADOW}" stop-opacity=".05"/>
       <stop offset="1" stop-color="{SHADOW}" stop-opacity="0"/>
     </radialGradient>
 
@@ -341,10 +424,18 @@ def svg(bar_h=BAR_H, bar_w=BAR_W, gap=BAR_GAP, edge_bleed=False, small=False,
     <g id="mid">
       <!-- the datum's light reaching the porcelain, and the shadow it still casts. Drawn
            BELOW the bars so they occlude it: light spills around them, not over them. -->
+      <!-- The contact shadow, drawn UNDER the bloom rather than over it (r04). It used to
+           sit on top, and it was cancelling the glow in exactly the band where the glow is
+           legible: measured with and without it, chroma at dy 40 below the rule read 67 vs
+           107 against the reference's 146. A shadow over a light source is a contradiction
+           the eye reads instantly as "coloured object" rather than "emitter", and it cost
+           more of the emission than any gradient stop in this file. It is also narrower and
+           lighter now: a lit rule sitting ON porcelain occludes very little, and the
+           reference's own contact darkening is barely present. -->
+      <ellipse cx="{rule_cx:.1f}" cy="{RULE_TOP + RULE_H + 14:.1f}" rx="{rule_w * 0.46:.1f}" ry="30"
+               fill="url(#contact)"/>
       <ellipse cx="{rule_cx:.1f}" cy="{RULE_TOP + RULE_H / 2:.1f}"
                rx="{rule_w / 2 + BLOOM_OVER:.1f}" ry="{BLOOM_RY:.1f}" fill="url(#bloom)"/>
-      <ellipse cx="{rule_cx:.1f}" cy="{RULE_TOP + RULE_H + 20:.1f}" rx="{rule_w * 0.54:.1f}" ry="46"
-               fill="url(#contact)"/>
     </g>
 
     <g id="fg">
