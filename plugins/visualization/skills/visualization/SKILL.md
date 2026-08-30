@@ -230,8 +230,11 @@ Type-specific anti-patterns live in each type reference.
 
 ## 6. Connector rules — non-negotiable
 
-Six rules, unchanged from the predecessor and verified by
-`scripts/verify-geometry.py`:
+Six rules, unchanged from the predecessor. **Only rule 6 has a checker**:
+`scripts/verify-geometry.py` finds label masks clipped by later-drawn nodes.
+Rules 1–5 are held by construction while drawing, and by measurement when
+auditing a file somebody else generated — reading the markup for them is the
+eyeballing they exist to replace.
 
 1. **Rounded right-angle connectors are mandatory.** No diagonal slants between
    off-axis nodes; every bend is a quarter-arc at `r=8` (`r=6` when tight).
@@ -364,6 +367,13 @@ Declared rather than discovered. Each of these is a real gap, not a caveat.
 - **No label-collision threshold exists in the literature**, so
   `verify-geometry.py` implements the binary form (overlap or not) rather than a
   percentage. That is the defensible design, not a shortcut.
+- **Five of the six connector rules have no checker.** `verify-geometry.py`
+  covers rule 6 (masks clipped by later-drawn nodes). Diagonal slants, label
+  gaps, overlapping connectors, shared attach points and transit behind
+  non-endpoint boxes are held by construction and by the taste gate. Auditing an
+  existing file for rules 1–5 means measuring coordinates, not reading markup.
+  An attach-point checker for rule 4 is tractable and is the next gate worth
+  writing after the per-mark colour one.
 - **The 39 diagram types have no shipped chart-style verifiers**, and most have
   no verifier at all. Twelve types are covered; the rest rest on the connector
   rules, `self_check.py` and the taste gate.
