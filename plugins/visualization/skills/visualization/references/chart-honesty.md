@@ -16,9 +16,27 @@ as a sixfold difference. If the differences genuinely matter and are small, the
 answer is a different form (line, slopegraph, dot plot) whose encoding is
 position rather than length, not a zoomed bar.
 
+The effect is large and it survives being warned about: across five studies,
+83.5% of participants judged differences in truncated charts as larger, and
+warning them reduced but did not eliminate it.
+
+**A break glyph does not rescue a truncated bar.** This is the part that
+contradicts the intuition. Broken-axis and gradient mitigations were tested and
+did not reliably work (F(2,60)=3.1, p=0.05), so drawing a zigzag on the axis is
+not remediation, it is a label on the distortion.
+
+**The narrow exception.** Newer work adds task dependence: truncation increases
+ratio-calculation error but can improve value *retrieval* or filtering, and
+direct labels materially mitigate. So a non-zero baseline on a length encoding is
+permitted only with all four of: a direct label on every mark, a conspicuous
+break indicator, the full numeric range visible, and a declared retrieval or
+filtering task. Absent any of those, it is an error.
+
 Position-encoded forms (line, scatter, dumbbell, slopegraph) may use a non-zero
 domain, and the domain then follows the data's range rather than its observed
-extremes. Taking `min` and `max` as the bounds *is* the truncation.
+extremes. Taking `min` and `max` as the bounds *is* the truncation. For these
+forms a non-zero domain is a warning rather than a failure, provided the axis
+minimum, maximum, ticks and units are all visible.
 
 **Never a dual axis.** Two y-scales on one plot invent a correlation: the
 alignment of the two scales is arbitrary, so the crossing point is a drawing
@@ -69,6 +87,19 @@ Don't print more significant figures than the measurement carries, don't render 
 projection in the same weight as an observation, and don't let a smooth
 interpolation imply sampling that didn't happen. Where a value is an estimate,
 the chart says so on the chart, not in a caption somebody may not read.
+
+## The numbers must be traceable
+
+A chart that renders perfectly from mis-extracted numbers is the most dangerous
+failure available here, because nothing about it looks wrong. Measured on
+generated charts: an execution rate of 78.2% against a visual-accuracy score of
+44.7% on the same set, and a 6% direct hallucination rate in rendered data
+despite 95.4% execution success. The code ran; the numbers were not the data.
+
+So every value a chart draws is traceable to what was supplied. Stated values
+appear in the table view as given. Derived values (percentages, deltas, indices,
+totals) are shown as derived, with the base they were derived from. If a number
+in the chart cannot be pointed at in the source, it does not go in the chart.
 
 ## Colour must not carry the claim alone
 

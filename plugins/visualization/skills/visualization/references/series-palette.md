@@ -82,6 +82,28 @@ then let *order* separate what stepping cannot:
 The families are the predecessor's. What changed is that they are now saturated
 enough to encode identity, and ordered so that no two neighbours collapse.
 
+## The gate is necessary, not sufficient
+
+A passing palette does not guarantee a readable chart, because the threshold
+moves with the mark. Colour difference required for discrimination rises as mark
+size falls, and points are more sensitive than elongated bars and lines: modelled
+per-mark thresholds put a 6px scatter point at ΔE 8.37 on L\* but 19.46 on b\*,
+and a 2px line at 19.47 on b\*. Two panel lanes reported this independently.
+
+The validator measures the palette in isolation, so it cannot see this. What
+follows for authoring:
+
+- **Thin marks need help the palette can't give them.** A 2px line, a small
+  scatter dot or a hairline mark carrying series identity gets a heavier stroke,
+  a larger marker, or secondary encoding (direct label, shape, dash) regardless
+  of a passing palette.
+- **Bars and areas are the easy case.** A 24px bar at a passing ΔE is the
+  situation the gate models best.
+- **Not encoded.** Doing this mechanically means reading the smallest rendered
+  dimension per series out of the SVG and evaluating pairwise against a per-mark
+  threshold. That verifier does not exist here. It is named in Known limits
+  rather than claimed, and it is the most valuable thing to build next.
+
 ## Rules that come with the palette
 
 - **Assign slots in fixed order, never cycled.** A sixth series is not a
