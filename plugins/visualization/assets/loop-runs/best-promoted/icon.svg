@@ -26,8 +26,9 @@
                     x1="0" y1="268.0" x2="0" y2="698.0">
       <stop offset="0" stop-color="#59636E"/>
       <stop offset=".30" stop-color="#39424C"/>
-      <stop offset=".70" stop-color="#262E37"/>
-      <stop offset="1" stop-color="#1A2027"/>
+      <stop offset=".62" stop-color="#262E37"/>
+      <stop offset="0.940" stop-color="#1A2027"/>
+      <stop offset="1" stop-color="#221819"/>
     </linearGradient>
 
     <!-- The edge catch (r03), and the one relationship on this icon that was authored
@@ -63,10 +64,15 @@
 
     <!-- THE SIGNATURE, in material: the rule's light climbing every bar. -->
     <linearGradient id="bounce" gradientUnits="userSpaceOnUse"
-                    x1="0" y1="578.0" x2="0" y2="698.0">
+                    x1="0" y1="580.0" x2="0" y2="698.0">
       <stop offset="0" stop-color="#F26A28" stop-opacity="0"/>
-      <stop offset=".55" stop-color="#F26A28" stop-opacity=".06"/>
-      <stop offset="1" stop-color="#FF9A4E" stop-opacity=".26"/>
+      <stop offset=".21" stop-color="#F26A28" stop-opacity="0.066"/>
+      <stop offset=".39" stop-color="#F26A28" stop-opacity="0.102"/>
+      <stop offset=".55" stop-color="#E85F22" stop-opacity="0.146"/>
+      <stop offset=".70" stop-color="#E85F22" stop-opacity="0.200"/>
+      <stop offset=".83" stop-color="#FF9A4E" stop-opacity="0.254"/>
+      <stop offset=".93" stop-color="#FF9A4E" stop-opacity="0.260"/>
+      <stop offset="1" stop-color="#FFE3C4" stop-opacity="0.260"/>
     </linearGradient>
 
     <!-- the datum, in cross-section: lip at the lit top edge, hot core just under it,
@@ -93,17 +99,27 @@
          0 / 20 / 40 / 60 / 80 / 110, so the stops below are that curve and BLOOM_RY is
          that reach. The first draft had a faint 182px veil peaking at chroma 19 against
          the reference's 198 — a coloured bar rather than an emitter. -->
+    <!-- The halo well. Fitted to the reference twice: r01 set its reach, r04 set its
+         mid-field. Chroma on the porcelain below the rule, C1 vs the r03 master, was
+         190/146/76/36/10 against 170/67/37/21/9 at dy 20/40/60/80/110 — matched at the
+         rule and less than half the reference by dy 40, so the well was falling off far
+         too fast through exactly the band where the glow is legible.
+         This is the emission budget that is FREE. self_contrast watches the p10 bin, and
+         that bin is entirely bar interior (bounding box x238..786 y297..700, measured) —
+         porcelain never enters it. So brightening the ground costs nothing the gate is
+         watching, while brightening the bars costs it directly. Spend here first. -->
     <radialGradient id="bloom" cx=".5" cy=".5" r=".5">
-      <stop offset="0" stop-color="#FF9A4E" stop-opacity=".82"/>
-      <stop offset=".18" stop-color="#F26A28" stop-opacity=".60"/>
-      <stop offset=".37" stop-color="#F26A28" stop-opacity=".28"/>
-      <stop offset=".62" stop-color="#F26A28" stop-opacity=".09"/>
+      <stop offset="0" stop-color="#FF9A4E" stop-opacity=".95"/>
+      <stop offset=".20" stop-color="#FF9A4E" stop-opacity=".82"/>
+      <stop offset=".38" stop-color="#F26A28" stop-opacity=".55"/>
+      <stop offset=".55" stop-color="#F26A28" stop-opacity=".28"/>
+      <stop offset=".74" stop-color="#F26A28" stop-opacity=".09"/>
       <stop offset="1" stop-color="#F26A28" stop-opacity="0"/>
     </radialGradient>
 
     <radialGradient id="contact" cx=".5" cy=".5" r=".5">
-      <stop offset="0" stop-color="#241F1C" stop-opacity=".30"/>
-      <stop offset=".58" stop-color="#241F1C" stop-opacity=".09"/>
+      <stop offset="0" stop-color="#241F1C" stop-opacity=".18"/>
+      <stop offset=".58" stop-color="#241F1C" stop-opacity=".05"/>
       <stop offset="1" stop-color="#241F1C" stop-opacity="0"/>
     </radialGradient>
 
@@ -125,10 +141,18 @@
     <g id="mid">
       <!-- the datum's light reaching the porcelain, and the shadow it still casts. Drawn
            BELOW the bars so they occlude it: light spills around them, not over them. -->
-      <ellipse cx="512.0" cy="724.0"
-               rx="406.0" ry="118.0" fill="url(#bloom)"/>
-      <ellipse cx="512.0" cy="770.0" rx="410.4" ry="46"
+      <!-- The contact shadow, drawn UNDER the bloom rather than over it (r04). It used to
+           sit on top, and it was cancelling the glow in exactly the band where the glow is
+           legible: measured with and without it, chroma at dy 40 below the rule read 67 vs
+           107 against the reference's 146. A shadow over a light source is a contradiction
+           the eye reads instantly as "coloured object" rather than "emitter", and it cost
+           more of the emission than any gradient stop in this file. It is also narrower and
+           lighter now: a lit rule sitting ON porcelain occludes very little, and the
+           reference's own contact darkening is barely present. -->
+      <ellipse cx="512.0" cy="764.0" rx="349.6" ry="30"
                fill="url(#contact)"/>
+      <ellipse cx="512.0" cy="724.0"
+               rx="406.0" ry="150.0" fill="url(#bloom)"/>
     </g>
 
     <g id="fg">
