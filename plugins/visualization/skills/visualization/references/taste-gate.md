@@ -47,6 +47,11 @@ Only for quantitative output. Full rules in `chart-honesty.md`.
 - [ ] No more significant figures than the measurement carries?
 - [ ] Multi-series palette validated — and the **exit code** read, not the
       piped output?
+- [ ] Thin marks (2px lines, small dots) carrying identity given a heavier mark
+      or secondary encoding, since a passing palette does not cover them?
+- [ ] Every drawn value traceable to the source; derived values shown as derived?
+- [ ] If a length encoding has a non-zero baseline: direct labels on every mark,
+      a break indicator, the full range visible, AND a declared retrieval task?
 - [ ] Table view present?
 
 ## Technical
@@ -56,6 +61,8 @@ Only for quantitative output. Full rules in `chart-honesty.md`.
       filled?
 - [ ] IDs prefixed per diagram and variant — never bare `title` / `desc`?
 - [ ] `<desc>` describes the content, not the geometry?
+- [ ] `<desc>` states what is shown without editorialising, interpreting, or
+      drawing the conclusion for the reader?
 - [ ] Arrows drawn before boxes?
 - [ ] Every off-axis connector a rounded elbow — no diagonal slants?
 - [ ] Every arrow label masked, with a visible 6–10px gap above its stroke?
