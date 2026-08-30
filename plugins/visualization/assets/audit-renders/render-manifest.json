@@ -1,0 +1,64 @@
+{
+  "takes": {
+    "a2-fourbar": {
+      "source": "icon-A2-fourbar.svg",
+      "kind": "svg",
+      "source_sha256": "a96ceb87491fcc19f7f5e68a3ac05c4449b50106d2b9166462e67866c309aaad",
+      "source_mtime": 1788073060.5049734,
+      "rendered_at": 1788073722.8614001
+    },
+    "a3-edgebleed": {
+      "source": "icon-A3-edgebleed.svg",
+      "kind": "svg",
+      "source_sha256": "a5a4a389e9b9eca288197f570dadbe4b21a3fe39a777ca6c46ebef640adfdf19",
+      "source_mtime": 1788073060.5051208,
+      "rendered_at": 1788073723.009909
+    },
+    "b-arrow": {
+      "source": "icon-engineB-arrow-8b9a27.svg",
+      "kind": "svg",
+      "source_sha256": "11e7d92bf8e51386ef0921b902ccdcc6b4f4521646a5c19ca04c2ff40c879be2",
+      "source_mtime": 1788072444.011713,
+      "rendered_at": 1788073723.1329842
+    },
+    "c1-raster": {
+      "source": "icon-engineC-22d450-2-masked.png",
+      "kind": "png",
+      "source_sha256": "40d8864bab86eb0cce60fb26e5f8e2758f5f199d4bd281b0531fa1eef6025ab4",
+      "source_mtime": 1788072479.4448292,
+      "rendered_at": 1788073723.296503
+    },
+    "c2-raster": {
+      "source": "icon-engineC-273b7f-masked.png",
+      "kind": "png",
+      "source_sha256": "9444678c0c8a8792db08264f6568d327039d420b3dfda637e8a46884003f0962",
+      "source_mtime": 1788072479.3461187,
+      "rendered_at": 1788073723.459593
+    },
+    "master": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_sha256": "8f9950e777c67b09da9153e6a29b96025c7551de0a655547548c3c1ea7c0e6b5",
+      "source_mtime": 1788073060.5045679,
+      "rendered_at": 1788073723.607328,
+      "small_source": "icon-small.svg",
+      "small_below": 96,
+      "small_source_sha256": "7e006921811017d8be98a3103fa4427dc900a7052b0ef7a5d83fb4e821b0b05a"
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}
