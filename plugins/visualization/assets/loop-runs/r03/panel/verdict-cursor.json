@@ -1,0 +1,75 @@
+{
+  "runs": {
+    "bundle": {
+      "verdict": {
+        "overall": "B",
+        "material": "A",
+        "silhouette": "B",
+        "smallsize": "B",
+        "rationale": {
+          "overall": "B matches the reference's chart-on-a-wide-datum read and stays legible when shrunk, which outweighs A's slightly closer glow.",
+          "material": "A's orange reads as an emissive, light-bleeding rod with a warm bloom up the columns, closer to the reference's neon gel, while B's base looks more like a lit plastic capsule with a harder top specular and a cooler drop shadow.",
+          "silhouette": "The reference's orange rule extends well past the outer columns, which B reproduces, whereas A's rule is inset and reads as a plinth cut to the bar group.",
+          "smallsize": "At 32px and 16px B's longer, thicker baseline survives as a continuous stroke under all three bars, while A's shorter rod thins at the ends and loses that anchor."
+        }
+      },
+      "resolved": {
+        "overall": "candidate",
+        "material": "baseline",
+        "silhouette": "candidate",
+        "smallsize": "candidate"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "cursor-agent (grok-4.6)"
+      },
+      "order": {
+        "A": "baseline",
+        "B": "candidate"
+      }
+    },
+    "bundle-swapped": {
+      "verdict": {
+        "overall": "B",
+        "material": "B",
+        "silhouette": "B",
+        "smallsize": "tie",
+        "rationale": {
+          "overall": "B is closer to the reference at full size: the orange reads as a glowing datum with light climbing the bars, not a shorter matte plinth, and that is the reference's whole read.",
+          "material": "B's base emits into the bars and onto the porcelain with rim-lit charcoal edges, matching the reference's volumetric gel-and-neon lighting better than A's thicker, more shadow-weighted slab.",
+          "silhouette": "B's thinner orange rule running past the outer bars matches the reference's chart-on-a-datum composition, while A's shorter, thicker plinth reads as a base cut to fit the bars.",
+          "smallsize": "At 32px and 16px both strips still read as three dark columns on an orange line with similar contrast, and neither is clearly more legible once pixelated."
+        }
+      },
+      "resolved": {
+        "overall": "baseline",
+        "material": "baseline",
+        "silhouette": "baseline",
+        "smallsize": "tie"
+      },
+      "meta": {
+        "exit": 0,
+        "harness": "cursor-agent (grok-4.6)"
+      },
+      "order": {
+        "A": "candidate",
+        "B": "baseline"
+      }
+    }
+  },
+  "resolved": {
+    "overall": "tie",
+    "material": "baseline",
+    "silhouette": "tie",
+    "smallsize": "tie"
+  },
+  "passes_ran": 2,
+  "passes_asked": 2,
+  "swap_flipped": [
+    "overall",
+    "silhouette",
+    "smallsize"
+  ],
+  "swap_consistent": false,
+  "status": "ok"
+}

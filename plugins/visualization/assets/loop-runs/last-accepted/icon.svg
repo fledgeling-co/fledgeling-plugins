@@ -68,8 +68,8 @@
       <stop offset="0" stop-color="#F26A28" stop-opacity="0"/>
       <stop offset=".21" stop-color="#F26A28" stop-opacity="0.066"/>
       <stop offset=".39" stop-color="#F26A28" stop-opacity="0.102"/>
-      <stop offset=".55" stop-color="#E85F22" stop-opacity="0.146"/>
-      <stop offset=".70" stop-color="#E85F22" stop-opacity="0.200"/>
+      <stop offset=".55" stop-color="#FC784A" stop-opacity="0.146"/>
+      <stop offset=".70" stop-color="#FC784A" stop-opacity="0.200"/>
       <stop offset=".83" stop-color="#FF9A4E" stop-opacity="0.254"/>
       <stop offset=".93" stop-color="#FF9A4E" stop-opacity="0.260"/>
       <stop offset="1" stop-color="#FFE3C4" stop-opacity="0.260"/>
@@ -81,17 +81,17 @@
                     x1="0" y1="698.0" x2="0" y2="750.0">
       <stop offset="0" stop-color="#FFE3C4"/>
       <stop offset=".16" stop-color="#FF9A4E"/>
-      <stop offset=".42" stop-color="#E85F22"/>
-      <stop offset=".78" stop-color="#C43F16"/>
-      <stop offset="1" stop-color="#8C2E0F"/>
+      <stop offset=".42" stop-color="#FC784A"/>
+      <stop offset=".78" stop-color="#DB3E29"/>
+      <stop offset="1" stop-color="#CA3F34"/>
     </linearGradient>
 
     <!-- the ends fall off, so the rule reads as one lit length rather than a painted bar -->
     <linearGradient id="ruleEnds" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#8C2E0F" stop-opacity=".55"/>
-      <stop offset=".07" stop-color="#8C2E0F" stop-opacity="0"/>
-      <stop offset=".93" stop-color="#8C2E0F" stop-opacity="0"/>
-      <stop offset="1" stop-color="#8C2E0F" stop-opacity=".55"/>
+      <stop offset="0" stop-color="#CA3F34" stop-opacity=".55"/>
+      <stop offset=".07" stop-color="#CA3F34" stop-opacity="0"/>
+      <stop offset=".93" stop-color="#CA3F34" stop-opacity="0"/>
+      <stop offset="1" stop-color="#CA3F34" stop-opacity=".55"/>
     </linearGradient>
 
     <!-- the halo well (r01). Fitted to the reference rather than eyeballed: chroma on
