@@ -104,6 +104,57 @@ leave one cause wearing two descriptions. Every case id stays listed under its
 cluster, so merging them by hand loses nothing — the script does the
 mechanical pass and stops where judgement starts.
 
+## Then it schedules what is left
+
+A remaining-work list is not a plan until you know what can happen at the same
+time and roughly how long it takes. So the ledger becomes a wave schedule, using
+the same model as `ship-fleet`: nodes are work items, edges are dependencies, and
+a wave is everything whose dependencies all sit in earlier waves.
+
+| Wave | Items | Slots | Range | Serial | Bounded by |
+|---:|---:|---:|---|---|---|
+| 1 | 20 | 8 | 78 min – 2.5 h | 5.2 h | observed-speedup-ceiling |
+| 2 | 3 | 3 | 15 min – 2.0 h | 55 min | slowest-member |
+
+Every duration comes from **1,842 measured Opus 4.8 and Opus 5 agent runs**
+across 88 sessions and 31 projects, parsed from Claude Code's own transcripts.
+Three rules keep those numbers honest:
+
+**Always a range, never a number.** Measured p90 ÷ median is 3.4 for build work
+and 3.1 for research. A single figure is wrong by a factor of three in the
+ordinary case, and it reads as precision.
+
+**A wave costs its slowest member — and no schedule may beat what was measured.**
+Wall-clock ÷ slowest member came out at 1.05 median and 1.8 at p90 over 253 real
+waves; speedup over serial was 2.2× median and 4.0× at p90. Twenty items across
+eight slots can be *arithmetically* fast; it has never actually happened, so the
+low bound is held to the observed ceiling rather than printing a duration nobody
+has achieved.
+
+**Decision work gets no duration at all.** An `undecided` row is a person reading
+two documents and ruling. Scheduling it as an agent task reports waiting on a
+human as though a machine were busy, so those rows sit beside the waves as what
+gates them.
+
+Dependency edges are labelled by how they were made. A **cited** edge is a
+citation somebody wrote and it blocks. An **inferred** edge is the tool reading a
+shared surface, and it only *orders* the work — because a false edge costs your
+parallelism, and a guess is not entitled to spend it.
+
+## Three artifacts, one gated ledger
+
+`ledger.json` is the source, and the other two are rendered from it — which is
+what stops the presentable half drifting from the gated half.
+
+`reckoning.md` is the technical record: every row, every edge with its
+provenance, per-wave item tables with each tier and why it landed there, the
+join's near-misses, and everything the tool could not classify.
+
+`reckoning.html` is one self-contained page with no build step: shipped features
+beside remaining ones, the waves between them with sub-tasks nested under the
+item that cites them, and the caveats placed where a reader hits them rather than
+in a footnote.
+
 ## It publishes what it cannot speak for
 
 One blended "percent complete" hides whichever axis is weakest, so there
@@ -132,9 +183,15 @@ That ratchet matters more than it looks. A snapshot gate catches a bad run;
 the ratchet catches the slow version, where an item is quietly reclassified
 across runs until nothing remembers it was never checked.
 
-Twenty-one self-tests prove each gate fires on a deliberately broken ledger
-and stays silent on a sound one — because a gate nobody has seen fail is
-indistinguishable from a gate that cannot.
+The schedule is gated the same way the partition is: an item in two waves, an
+item in none, a total that is not the sum of its waves, or a duration attached to
+something that is not work all fail the gate. A board that disagrees with the
+rows it was built from is this tool's own failure mode arriving through its
+presentation layer.
+
+The self-tests prove each gate fires on a deliberately broken ledger and stays
+silent on a sound one — because a gate nobody has seen fail is indistinguishable
+from a gate that cannot.
 
 ## What it will not do
 
@@ -165,6 +222,11 @@ The empirical case is measured. Status reports carry optimistic bias in
 weakly with suite effectiveness once size is controlled (Inozemtseva & Holmes,
 31,000 suites over five systems up to 724k lines). At Google, **84%** of
 pass-to-fail transitions involved a flaky test.
+
+The estimates are measured rather than assumed, and
+`skills/reckon/references/estimation.md` carries the corpus, the method, the
+exclusions and what the figures cannot say — including that they are wall-clock
+so they include waiting, and that they carry no failure rate.
 
 Full citations in `skills/reckon/references/evidence.md`, including where two
 reviewers disagreed and why one won. The corpus — three deep-research panel

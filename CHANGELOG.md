@@ -6,6 +6,67 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-08-30
 
+### reckon 1.9.0: the remaining work, scheduled into waves with measured durations
+
+- **The ledger becomes a wave plan**, using `ship-fleet:ship-fleet`'s model so the two skills
+  describe one shape of work rather than two: nodes are work items, edges are dependencies,
+  and a wave is everything whose dependencies sit in earlier waves. Two things differ, and
+  both are about entitlement. A `cited` edge is a citation somebody wrote into the registry
+  and it blocks; an `inferred` edge is reckon reading a shared surface and it only *orders*
+  the work, because a false edge costs somebody's parallelism and a guess is not entitled to
+  spend it. And decision work is never scheduled at all — an `undecided` row is a person
+  reading two documents and ruling, so giving it an agent duration would report waiting on a
+  human as though a machine were busy.
+- **Durations are measured, not assumed.** A new corpus, parsed from Claude Code's own
+  transcripts: 2,230 subagent transcript files, 2,572 units extracted, **1,842 on Opus 4.8 or
+  Opus 5** inside the analysis band, over 88 sessions and 31 projects, 14 Jul – 30 Aug 2026.
+  A unit is one sidechain tree, timed first record to last. Provenance, method, exclusions and
+  limits in `skills/reckon/references/estimation.md`.
+  - *Edit volume predicts duration better than stage label does.* Read-only units run a 3.0 min
+    median; 1–4 files 7.9; 5–14 19.2; 15–39 32.0; 40+ **63.7**. That drives the S/M/L/XL tiers.
+  - *Everything is a range, never a number.* Measured p90 ÷ median is 3.4 for build work and
+    3.1 for research, so a point estimate is wrong by a factor of three in the ordinary case
+    and reads as precision.
+  - *Opus 5 and Opus 4.8 are pooled, and the data says to.* Within the 30–80 tool-call band
+    their medians are 10.5 and 11.2 minutes — a gap smaller than the spread inside either, so
+    separate tables would imply precision the corpus does not carry.
+  - *Wave arithmetic, from 253 real overlapping clusters.* Wall-clock ÷ slowest member is 1.05
+    at the median and 1.8 at p90; speedup over serial is 2.2× median and 4.0× p90; peak
+    concurrency actually reached was median 5, p90 10, max 16. Above 8 members the
+    slowest-member property degrades to 1.55, and a wave that large widens its own upper bound
+    and says so.
+- **No schedule may beat what was observed.** Twenty items across eight slots can be
+  arithmetically fast; it has never happened, so the wave estimator holds its low bound to the
+  4.0× measured ceiling rather than to perfect packing. A randomised audit over 500 trials
+  caught a real defect before release: rounding a low bound *down* by half a minute produced a
+  4.03× schedule, fractionally faster than the ceiling it had just been held to. Bounds now
+  round away from optimism, and the self-test checks every wave size from 1 to 60 rather than
+  one.
+- **Three artifacts from one gated ledger.** `ledger.json` is the source and the other two
+  render from it, which is what stops the presentable half drifting from the gated half.
+  `reckoning.md` keeps everything and grows per-wave item tables with each tier and the basis
+  for it, the dependency edges with their provenance, and the rows excluded from scheduling.
+  `reckoning.html` is new: one self-contained page, no build step and no external assets, with
+  shipped features beside remaining ones, the waves between them with sub-tasks nested under
+  the item that cites them, and the caveats placed where a reader hits them rather than in a
+  footnote. `--no-html` skips it; `--max-concurrency` sets the slots.
+- **The gate covers the schedule too.** An item in two waves, an item in none, a scheduled id
+  that is not work in the ledger, a total that is not the sum of its waves, an inverted bound,
+  a tier outside the table, or a duration attached to corroboration all fail it. A board that
+  disagrees with the rows it was built from is this tool's own failure mode arriving through
+  its presentation layer. A ledger written before the schedule existed still passes, because
+  refusing there would report the ledger's age as a defect in the project.
+- **Wall-clock includes waiting and carries no failure rate**, and both reports say so where a
+  reader meets a number. A unit that ran forty minutes and produced work later rejected counts
+  the same as one that landed: these answer how long an agent will be busy, not how long until
+  the work is accepted.
+- Nine skill cross-references in reckon's SKILL.md qualified to `plugin:skill` — the file was
+  missed by the sweep below.
+- `plugins/reckon/.claude-plugin/plugin.json` reaches 1.9.0, which also closes a mismatch the
+  marketplace manifest had carried alone: it named reckon 1.9.0 while the plugin still said
+  1.8.0, and `build-catalogue.mjs` fails on exactly that. The gate stops at its first finding,
+  so it is worth enumerating the rest rather than reading one line as the whole answer.
+
 ### All plugins: skill names written in full, `plugin:skill`
 
 - **Every skill name in a prompt or cross-reference now carries its `plugin:skill` form.** The
