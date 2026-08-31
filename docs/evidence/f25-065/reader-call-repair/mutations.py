@@ -7,11 +7,14 @@ SOURCE=ROOT/'plugins/test-campaign/skills/test-campaign/scripts/vacuity-check.py
 original=SOURCE.read_text(); before=hashlib.sha256(SOURCE.read_bytes()).hexdigest()
 mutants=[
  ('drop-call-syntax',
-  'r"\\w*\\s*(?:\\{|\\((?!\\s*(?:(?:_|[A-Za-z]\\w*)\\s*:\\s*)+\\)))"',
+  'r"\\w*\\s*\\((?!\\s*(?:(?:_|[A-Za-z]\\w*)\\s*:\\s*)+\\))"',
   'r"\\w*"'),
  ('allow-function-reference-placeholder',
-  'r"\\w*\\s*(?:\\{|\\((?!\\s*(?:(?:_|[A-Za-z]\\w*)\\s*:\\s*)+\\)))"',
-  'r"\\w*\\s*(?:\\(|\\{)"'),
+  'r"\\w*\\s*\\((?!\\s*(?:(?:_|[A-Za-z]\\w*)\\s*:\\s*)+\\))"',
+  'r"\\w*\\s*\\("'),
+ ('allow-reader-trailing-closure',
+  'r"\\w*\\s*\\((?!\\s*(?:(?:_|[A-Za-z]\\w*)\\s*:\\s*)+\\))"',
+  'r"\\w*\\s*(?:\\{|\\((?!\\s*(?:(?:_|[A-Za-z]\\w*)\\s*:\\s*)+\\)))"'),
  ('drop-invocation-context',
   'if any(reader_invocation_context(source, match.start())',
   'if any(True'),

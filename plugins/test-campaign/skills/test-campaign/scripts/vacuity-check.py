@@ -197,8 +197,14 @@ def reader_invocation_context(source: str, start: int) -> bool:
     stripped = prefix.rstrip()
     if not stripped or not prefix.rsplit("\n", 1)[-1].strip():
         return True
-    if stripped.endswith(("#", ";", "{", "}", "=")):
+    if stripped.endswith(("#", ";", "{", "}")):
         return True
+    if stripped.endswith("="):
+        statement = re.split(r"[;\n{}]", stripped)[-1].strip()
+        binding = (r"(?:let|var)\s+(?:\([^)]*\)|[A-Za-z_]\w*)"
+                   r"(?:\s*:\s*[^=]+)?\s*=")
+        assignment = r"(?:_|[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)\s*="
+        return re.fullmatch(rf"(?:{binding}|{assignment})", statement) is not None
     return re.search(r"\b(?:return|try|await)\s*$", stripped) is not None
 
 
@@ -209,14 +215,14 @@ def has_reader_call(source: str, readers: tuple[str, ...]) -> bool:
     substring such as ``already`` and a bare identifier such as ``read`` are not
     calls and cannot justify removing the helper's mutation from the census.
     Reader vocabulary remains stem-based. A reader-shaped identifier must use
-    parenthesized or trailing-closure call syntax and begin in a conservative
+    parenthesized call syntax and begin in a conservative
     invocation context. The context rule, rather than overlapping token guards,
     refuses qualified shapes, control conditions, declarations and nested method
     references.
     """
     for reader in readers:
         pattern = (re.escape(reader)
-                   + r"\w*\s*(?:\{|\((?!\s*(?:(?:_|[A-Za-z]\w*)\s*:\s*)+\)))")
+                   + r"\w*\s*\((?!\s*(?:(?:_|[A-Za-z]\w*)\s*:\s*)+\))")
         if any(reader_invocation_context(source, match.start())
                for match in re.finditer(pattern, source)):
             return True

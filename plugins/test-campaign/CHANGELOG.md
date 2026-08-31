@@ -15,9 +15,9 @@ schema integers and configured-but-falsy scope paths fail closed. A bound caller
 contain an executable configured reader call after the named helper call: arbitrary identifier
 substrings, bare reader names, control conditions such as `if read {}`, enum-case patterns such as
 `.read(let x)`, and nested references such as `#selector(read(_:))` cannot justify attribution.
-Configured readers require call syntax at a conservative statement, assignment, return or
-assertion-macro context; parenthesized and trailing-closure calls are accepted there, while Swift
-function-reference placeholders such as `read(_:)` are refused. Target and caller records bind
+Configured readers require parenthesized call syntax at a conservative statement, simple
+assignment, return or assertion-macro context. Swift function-reference placeholders such as
+`read(_:)`, accessor declarations such as `get {}`, and nested default arguments are refused. Target and caller records bind
 their current explicit-test posture, and helper caller bindings accept parenthesized or
 trailing-closure Swift calls. Caller calls must remain executable after comments and literals are
 masked. No mutator name is

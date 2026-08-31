@@ -46,7 +46,7 @@ A third cumulative primary proved that unqualified parenthesized syntax alone wa
 valid Swift `#selector(read(_:))` references a method without invoking it. Reader evidence therefore
 begins at a conservative statement, assignment, return/try/await, or assertion-macro boundary.
 That one contextual rule refuses qualified patterns, control conditions, declarations and selector
-references while allowing parenthesized or trailing-closure calls at a proved boundary. Other nested
+references while allowing parenthesized calls at a proved boundary. Other nested
 contexts are refused rather than interpreted. This is intentionally incomplete and fail-closed; the
 ordinary unscoped blind-pass heuristic remains broader.
 
@@ -55,5 +55,13 @@ Swift but does not invoke `read`. The call-shape guard now refuses parentheses c
 more argument-label placeholders and no values. A real assigned call such as
 `let value = read(label: input)` remains accepted. This distinction is independent of the context
 guard and has its own actual-source mutant.
+
+A fifth cumulative primary proved that a trailing-closure-shaped configured reader can instead be
+a valid computed-property accessor: `get { 1 }` declares an accessor and performs no observation.
+Configured readers are now parenthesized only; this does not affect the separately bound helper,
+which continues to accept trailing-closure calls. Assignment context is limited to a simple binding
+or assignment statement, while the balanced-body parser independently prevents a nested function's
+default argument from lending reader credit to its parent before that function is called. Both are
+permanent public-CLI fixtures; the accessor refusal has its own actual-source mutant.
 
 Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.
