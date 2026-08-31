@@ -1,0 +1,56 @@
+{
+  "reviewedSourceSHA256": "9d79120884b50fc759c61825b4ea4da540ef69d8498ba1ee672fc1e86e82a45e",
+  "booleanRecord": {
+    "configuredValue": "scopes.json",
+    "exitCode": 0,
+    "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=0, direct-output=1, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-cli-l7fr_zx_/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+    "invalidScopeReported": false,
+    "case": "version:true and callOffset:true",
+    "failOpen": true
+  },
+  "unboundAttributedHelper": {
+    "configuredValue": "scopes.json",
+    "exitCode": 0,
+    "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-cli-7_f40rnu/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+    "invalidScopeReported": false,
+    "case": "attributed helper with no named source-bound caller",
+    "failOpen": true
+  },
+  "falsyConfiguredValues": [
+    {
+      "configuredValue": false,
+      "exitCode": 0,
+      "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=1 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-cli-rat559xz/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+      "invalidScopeReported": false,
+      "case": "falsy configured non-string blindScopeFile",
+      "failOpen": true
+    },
+    {
+      "configuredValue": 0,
+      "exitCode": 0,
+      "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=1 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-cli-d0nor2kh/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+      "invalidScopeReported": false,
+      "case": "falsy configured non-string blindScopeFile",
+      "failOpen": true
+    },
+    {
+      "configuredValue": {},
+      "exitCode": 0,
+      "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=1 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-cli-aw_2usnj/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+      "invalidScopeReported": false,
+      "case": "falsy configured non-string blindScopeFile",
+      "failOpen": true
+    },
+    {
+      "configuredValue": [],
+      "exitCode": 0,
+      "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=1 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-cli-ckr0cdjc/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+      "invalidScopeReported": false,
+      "case": "falsy configured non-string blindScopeFile",
+      "failOpen": true
+    }
+  ],
+  "invalidBooleanClearsPublicGate": true,
+  "unboundAttributedHelperClearsPublicGate": true,
+  "allFalsyConfiguredValuesClearPublicGateWithoutDiagnostic": true
+}

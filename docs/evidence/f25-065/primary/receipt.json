@@ -1,0 +1,20 @@
+{
+  "verdict": "FAIL",
+  "reviewedHead": "83aed5312078f4cb58153f39c4645b895e0c88fd",
+  "reviewedSourceSHA256": "9d79120884b50fc759c61825b4ea4da540ef69d8498ba1ee672fc1e86e82a45e",
+  "reviewedTestSHA256": "a2d083a3773f87633fc08c6a687bb06cf698b8d5a3fec5dd0445dc9574a90ac6",
+  "fullRuns": [
+    {"path": "full-1.log", "passed": 114, "failed": 0, "focusedPassed": 17},
+    {"path": "full-2.log", "passed": 114, "failed": 0, "focusedPassed": 17}
+  ],
+  "independentFaults": {
+    "versionTrueAndCallOffsetTrueClearPublicGate": true,
+    "falsyConfiguredNonStringPathsClearWithoutDiagnostic": [false, 0, {}, []],
+    "unboundAttributedHelperClearsPublicGate": true,
+    "catalogueVersion": "0.16.1",
+    "manifestVersions": ["0.16.2", "0.16.2"]
+  },
+  "authorMutantsInspected": 3,
+  "trackedSourceRestored": true,
+  "reviewLane": "same-family degraded; reused unrelated prior context; distinct additional review owed"
+}
