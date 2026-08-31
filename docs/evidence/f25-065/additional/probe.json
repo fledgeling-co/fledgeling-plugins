@@ -1,0 +1,49 @@
+{
+  "verdict": "PASS",
+  "reviewedHead": "68c0c5b74b0d143b8738fc7e1c4283a0e2c89b6c",
+  "sourceSHA256BeforeAndAfter": "3921b034f2d166820c1313a2f262ff69081999f753c65db7774d3028ecf344b7",
+  "observations": {
+    "rawDenominatorPreserved": true,
+    "targetTestEntryDriftRejectedOutsideUnchangedBody": true,
+    "exactCallOffsetRequired": true,
+    "qualifiedTrailingClosureCallerAccepted": true,
+    "readerBeforeCallerRejected": true,
+    "nonExecutableCallerSpellingRejected": true,
+    "noGlobalVerbExclusion": true
+  },
+  "strictSchema": {
+    "unknownRecordField": [
+      "scope[0] has unexpected schema fields"
+    ],
+    "inapplicableCallersField": [
+      "scope[0] has unexpected schema fields"
+    ],
+    "unknownTopLevelField": [
+      "scope file /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-schema-sm4igqsf/scopes.json must contain version 1 and a scopes array"
+    ]
+  },
+  "actualSourceMutants": [
+    {
+      "name": "drop-raw-mutating-denominator",
+      "sourceChanged": true,
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed",
+      "sourceRestored": true
+    },
+    {
+      "name": "ignore-exact-call-offset",
+      "sourceChanged": true,
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed",
+      "sourceRestored": true
+    },
+    {
+      "name": "globally-exclude-four-verbs",
+      "sourceChanged": true,
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed",
+      "sourceRestored": true
+    }
+  ],
+  "sourceRestored": true
+}
