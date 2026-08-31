@@ -22,12 +22,22 @@ Condensed verification passes. Run the matching list before calling any build/mo
 
 ## Flow
 
+- [ ] Category-default sequence named and either varied on one axis or kept with a stated reason (`flow-shape-variety.md`); session and project ledger recorded if this is not the first flow of the session
 - [ ] Entry, steps, completion, and every exit (back/cancel/abandon/resume) mapped
 - [ ] One decision per step; ≤4–7 fields visible per step; progress shown for 3+ steps
 - [ ] Back preserves entered data; long flows auto-save
 - [ ] Nothing asked twice; nothing asked before it's needed and justified
 - [ ] Failure at each step preserves prior work and offers recovery
 - [ ] Completion screen: what happened + what happens next (peak–end)
+
+
+## Persuade (landing, campaign, pricing, waitlist only)
+
+- [ ] One-sentence offer, audience, and primary action written before the section list (`persuade-conversion.md`)
+- [ ] Primary call to action visible without scrolling at 1280px and 375px
+- [ ] Proof beside the claim it supports, or an honest placeholder; no invented logos or metrics
+- [ ] Final call to action uses the same label as the first viewport
+- [ ] This list was not applied to Operate, Read, Experience, checkout, auth, or payment
 
 ## Form
 

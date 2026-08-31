@@ -8,7 +8,7 @@
 An SWE skill for Claude Code that renders the surface, runs the checks that are deterministic, judges the ones that aren't, and tells you plainly which is which.</p>
 
 <p align="center">
-  <img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-E33B21">
+  <img alt="Version 2.3.0" src="https://img.shields.io/badge/version-2.3.0-E33B21">
   <img alt="SWE skill" src="https://img.shields.io/badge/type-SWE_skill-2C4C74">
   <img alt="Pipeline: 12 stages" src="https://img.shields.io/badge/pipeline-12_stages-51657C">
   <img alt="Engine: Obscura" src="https://img.shields.io/badge/engine-Obscura-6E8296">
@@ -26,6 +26,8 @@ Then a person opens it. The plan cards aren't sitting on the rail they're meant 
 Every one of those was computable. None of them got probed, because the checks that ran were the WCAG ones and layout integrity wasn't in the set.
 
 design-review runs the rest of them, judges what's left over, and separates the two. It's built around one habit: **a green result proves nothing until you can say what it examined.**
+
+When distinctiveness is in scope, craft also scores the first viewport against a named comparison set. Counts can become findings; "looks generic" without a denominator stays an open question.
 
 ## Install
 
@@ -143,7 +145,7 @@ plugins/design-review/
 │   │                               envelope, the gates, layout integrity, severity
 │   ├── scripts/                    probes, runners, analysis, the coverage ledger
 │   ├── assets/report-template.md   the report skeleton
-│   └── evals/                      thirteen task evals plus a trigger set
+│   └── evals/                      fourteen task evals plus a trigger set
 └── assets/                         icon, banner, icon audit
 ```
 
@@ -164,7 +166,7 @@ The scripts, in the order a review reaches for them:
 
 <br />
 
-`skills/design-review/evals/` holds thirteen task evals plus a 32-query trigger set for tuning the description.
+`skills/design-review/evals/` holds fourteen task evals plus a 32-query trigger set for tuning the description.
 
 They cover the awkward cases rather than the easy one: a seeded landing page, a repo with no browser available at all, a scoped diff, an 11-screen coverage contract, and a run told up front that there's only time for part of the job.
 

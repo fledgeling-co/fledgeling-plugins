@@ -74,7 +74,7 @@ pass … is likely trying to accomplish too much."* `All surfaces, states, menus
 five cognitive actions over five ambiguous nouns, so the collapse is over-determined. §10 already
 knows this — a categorical instruction (`"all states accessible"`) is `improvised to zero, and has
 been` — but here that sentence governs the **build**, not the audit. The scan found **124** such
-quantifiers over countable deliverables across this skill and its 33 references, led by §2.5 (`every
+quantifiers over countable deliverables across this skill and its 37 references, led by §2.5 (`every
 unit`, `each capture`), §10 (`every control`, `every animation`), §14 (`each component`) and §17
 (`all interaction` states). Write the inventory in before the markup:
 

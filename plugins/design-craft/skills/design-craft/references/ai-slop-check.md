@@ -208,4 +208,6 @@ Apply fixes directly. For decisions where multiple options are reasonable (e.g. 
 
 **The 80/20 soul rule.** Slop removal isn't the same as soul. Aim for ~80% proven patterns + ~20% distinctive choice: one bold visual move, voice in the microcopy ("Start tracking" beats "Get started"), one memorable micro-interaction, one detail only someone who used the product would add. The screenshot test: if someone outside the project can look at a screenshot and say which product it is, the design has soul; if not, you shipped a template.
 
-When done, summarize: tropes found by category; fixes applied; open questions for the user (font choice, asset replacement, etc.).
+**Session lookalike is a separate gate.** A page can clear every trope above and still be the previous commission with the nouns swapped. `lookalike-gate.md` scores the first viewport against this session, the category default, and a named neighbour. Run it before calling the slop pass done on greenfield work.
+
+When done, summarize: tropes found by category; lookalike score (`n/4 MET` or `n/a` with reason); fixes applied; open questions for the user (font choice, asset replacement, etc.).

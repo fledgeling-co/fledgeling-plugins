@@ -1,7 +1,7 @@
 ---
 name: ux-craft
 description: >-
-  Book-grounded UX engine for implementing, mocking, and reviewing web and mobile UIs, layouts, and user flows, plus marketing and transactional emails — grounded in the UX canon (Norman, Nielsen, Krug, Yablonski, Refactoring UI) and the psychology behind it, with a deterministic gate that refuses what prose only asks. Use whenever the user is building or mocking a screen, page, flow, form, onboarding, checkout, navigation, dashboard, mobile screen, or email and wants it to work for real users — or asks for a UX review, usability audit, "why do users drop off", "is this intuitive", cognitive-load check, accessibility floor check, or conversion friction pass. Trigger on — "review the UX", "audit this flow", "make this easier to use", "will users understand this", "improve this form", or any request to apply UX principles or psychology to an interface or email, even without the word UX. NOT for polished visual artifacts (use design-craft), pixel-matching an implementation (use mockup-fidelity), Figma email graphics (use email-mockups), or research strategy (use intent-layer or discovery-sentinel).
+  Book-grounded UX engine for implementing, mocking, and reviewing web and mobile UIs, layouts, and user flows, plus marketing and transactional emails — grounded in the UX canon (Norman, Nielsen, Krug, Yablonski, Refactoring UI) and the psychology behind it, with a deterministic gate that refuses what prose only asks. Use whenever the user is building or mocking a screen, page, flow, form, onboarding, checkout, navigation, dashboard, mobile screen, or email and wants it to work for real users — or asks for a UX review, usability audit, "why do users drop off", "is this intuitive", cognitive-load check, accessibility floor check, or conversion friction pass. Trigger on — "review the UX", "audit this flow", "make this easier to use", "will users understand this", "improve this form", or any request to apply UX principles or psychology to an interface or email, even without the word UX. NOT for visual artifact production (use design-craft), pixel-matching an implementation (use mockup-fidelity), Figma email graphics (use email-mockups), or research strategy (use intent-layer or discovery-sentinel).
 ---
 
 # UX Craft
@@ -13,7 +13,7 @@ Two convictions anchor everything:
 1. **Krug's law.** A screen should be self-evident. Every moment a user has to think about the interface (instead of their task) is a cost, and users pay costs by leaving. When you review, you are hunting for those moments. When you build, you are preventing them.
 2. **Norman's discipline.** When a user fails, the design failed. Never explain a problem as "users will learn it" — fix the affordance, the signifier, the feedback, or the mapping instead.
 
-This skill is the **UX brain**. `design-craft` is the visual hands (aesthetics, anti-slop, artifact production). When a task needs both — "design the onboarding flow" — do the UX thinking here (flow shape, states, copy, psychology), and apply design-craft's visual craft for the artifact itself. Never let visual polish override a usability call; surface must serve skeleton (Garrett).
+This skill is the **UX brain**. `design-craft:design-craft` is the visual hands (aesthetics, anti-slop, artifact production). When a task needs both — "design the onboarding flow" — do the UX thinking here (flow shape, states, copy, psychology), and apply design-craft:design-craft's visual craft for the artifact itself. Never let visual polish override a usability call; surface must serve skeleton (Garrett).
 
 **Two quick exits.** If the request is empty, ask in one line what surface this is and whether it exists yet, then stop. If it is ambiguous between evaluating something that exists and designing something new, ask once — the two produce different work, and guessing wastes the whole pass. Everything else is a brief: do it.
 
@@ -33,7 +33,8 @@ Pick the mode from the shape of the input, then load only the references that mo
 
 Surface references:
 
-- Web/desktop flows, forms, navigation, states → `references/flows-and-forms.md`
+- Web/desktop flows, forms, navigation, states → `references/flows-and-forms.md` plus `references/flow-shape-variety.md` when the sequence is still open
+- Persuade surfaces only (landing, campaign, pricing, waitlist) → `references/persuade-conversion.md`. Do not load it for Operate, Read, Experience, checkout, auth, or payment
 - Mobile (native, React Native, responsive-mobile) → `references/mobile-ux.md`
 - Marketing or transactional email → `references/email-ux.md`
 - AI-powered features (prompts, agents, generation, AI trust/control) → `references/ai-product-ux.md`
@@ -75,7 +76,7 @@ The judgment in this skill is only as good as the shape it arrives in. Nine cali
 
 You already know these books. `references/evidence.md` maps each author's load-bearing ideas to the file that operationalizes them, and carries the citations, the replication status of every behavioural claim, and the provenance of every measured number here. Read it when you need to justify a call or check whether a claim is as strong as its popular framing.
 
-The short version of the map: Krug and Wathan/Schoger drive `review-playbook.md` and `ux-writing.md`; Norman, Yablonski, Weinschenk, Lidwell and Kahneman drive `psychology-laws.md`; Cooper, Tidwell and Wroblewski drive `flows-and-forms.md` and `mobile-ux.md`; Garrett supplies the review altitudes; Gothelf's mock-to-learn drives Build mode. Portigal and Torres — research and continuous discovery — are **out of scope**: route to `intent-layer` or `discovery-sentinel`.
+The short version of the map: Krug and Wathan/Schoger drive `review-playbook.md` and `ux-writing.md`; Norman, Yablonski, Weinschenk, Lidwell and Kahneman drive `psychology-laws.md`; Cooper, Tidwell and Wroblewski drive `flows-and-forms.md` and `mobile-ux.md`; Garrett supplies the review altitudes; Gothelf's mock-to-learn drives Build mode. Portigal and Torres — research and continuous discovery — are **out of scope**: route to the research-strategy and discovery skills.
 
 **Cite the mechanism, not the book title.** "Choice count drives decision time roughly logarithmically — cut the visible options" beats "Hick's Law says…". Never fabricate a study; if you can't ground a claim, say it's practitioner judgment. The same rule governs this skill's own machinery vocabulary in anything a user reads:
 
@@ -93,7 +94,7 @@ The short version of the map: Krug and Wathan/Schoger drive `review-playbook.md`
 
 These are the calls you make the same way every time. Everything else is context-dependent and lives in the references. **Each rule states its silent symptom** — what appears in the artifact when it is broken — because a rule whose breach is invisible is a rule that gets improvised away.
 
-The symptoms below marked with a measurement come from one recorded run (`Egress Gemini`, 2026-08-17, a two-platform CI-runner app built by this skill plus `design-craft`, probed afterwards) unless tagged otherwise. That is **n=1** — one honest data point, not a law, and it is named so you can weigh it. Full provenance for every measured claim in this skill, including the two whose run was never recorded, is in `references/evidence.md`.
+The symptoms below marked with a measurement come from one recorded run (`Egress Gemini`, 2026-08-17, a two-platform CI-runner app built by this skill plus `design-craft:design-craft`, probed afterwards) unless tagged otherwise. That is **n=1** — one honest data point, not a law, and it is named so you can weigh it. Full provenance for every measured claim in this skill, including the two whose run was never recorded, is in `references/evidence.md`.
 
 1. **One primary action per screen/email.** Everything else is visually and semantically subordinate. *Symptom:* two filled buttons of equal weight in one card or page header, often with the destructive one first in reading order. Measured on one generated app, a card header carried `Cancel All Runners` (red) beside `Set Max Concurrency` (blue) at identical weight. Count the filled buttons per region; more than one is the finding.
 2. **The interface answers three questions at every moment** (Krug's trunk test, generalized): Where am I? What can I do here? What happens next? A screen that fails any one is a High-severity finding. *Symptom:* a step indicator that disagrees with the body it sits above — a 4-step rail highlighting step 2 while the content shows step 1's choices fails "where am I" inside a single frame, with no user action required.
@@ -116,13 +117,13 @@ The symptoms below marked with a measurement come from one recorded run (`Egress
 
 8. **Convention is a prediction the user already made.** Deviate from platform/web convention only when the deviation carries information worth its cost — and classify your own deviations as intentional so a reviewer doesn't misread them. *Symptom:* the deviation appears once. Applied consistently it reads as style; applied to one instance of a repeated element it reads as a bug, and a reviewer will file it as one.
 9. **Smart defaults serve the user's most likely intent, never the business's preferred outcome.** The test: would ~80% choose this anyway? *Symptom:* a checkbox that is checked when the page loads and whose beneficiary is not the user. Pre-checked consent, pre-selected upsells and confirmshaming are defects — and pre-checked marketing consent is illegal under GDPR, not merely rude.
-10. **Real content, real states.** Never design or review against lorem ipsum, "John Doe", or the happy path only. *Symptom:* the layout only holds at the demo data — a column sized to "Acme Ltd" that overlaps its neighbour silently at a real 40-character company name, with no scrollbar and no warning. Copy length, empty lists, 100-item lists and slow networks change layout decisions; test the heading at 360 px.
+10. **Real content, real states.** Never design or review against placeholder Latin text, "John Doe", or the happy path only. *Symptom:* the layout only holds at the demo data — a column sized to "Acme Ltd" that overlaps its neighbour silently at a real 40-character company name, with no scrollbar and no warning. Copy length, empty lists, 100-item lists and slow networks change layout decisions; test the heading at 360 px.
 11. **Persistent chrome reserves its own space; it never floats over content.** A control bar, progress rail or floating dock that overlaps the content box is occlusion even when it happens to miss the last line of text — and it hides whatever the next revision puts there. Reserve the band in the layout and size the content against the reduced box. The reserve is arithmetic, not a round number that felt safe: on a centred surface, `reserve / 2 > dockOffset + dockHeight + 20px`. *Symptom:* a text-versus-dock check passes while the dock sits squarely on the artwork. A 156 px reserve against a 76 px dock left **2 px** of clearance — a pass on paper and touching on screen `[measured · run not recorded — see evidence.md]`. Measure the boxes.
 12. **Never show the reader your verification output, and never let the artifact assert its own verification.** A surface built to satisfy a checker starts printing the checker's working where the disclosure belongs: `Constant ratio 1.1765%` appeared beside the legitimate axis note on three slides of one investor deck `[measured · run not recorded — see evidence.md]`. Its twin is worse — a shipped `DESIGN.md` whose review matrix read "Verified & Tested" on every row, including a contrast row the artifact fails on every primary button `[measured · Egress Gemini, 2026-08-17, n=1]`. *Symptom:* any claim of conformance in a reader-facing surface. The reader is owed provenance (source, as-at date, what the axis does); your proof that you complied is not provenance, occupies the position of one, and tells them the artifact was built for a gate rather than for them. Record what was run, or record nothing.
 
 ### The ethics gate
 
-Persuasion (Fogg, Cialdini, Eyal) is in scope; manipulation is not. Before recommending any persuasive pattern, run three tests: **Alignment** (do user and business goals converge here?), **Sincerity** (does what's shown match what's delivered — real deadlines, real scarcity, real social proof?), **Golden Rule** (would you be comfortable on the receiving end?). A polished surface making an unverifiable claim is *worse* than an ugly one — fluent design makes claims feel more true, so it weaponizes trust. Flag dark patterns in reviews at High severity even when nobody asked; in regulated investor-comms contexts, treat consent, disclosure and unsubscribe integrity as compliance issues, not preferences.
+Persuasion (Fogg, Cialdini, Eyal) is in scope; manipulation is not. Before recommending any persuasive pattern, run three tests: **Alignment** (do user and business goals converge here?), **Sincerity** (does what's shown match what's delivered — real deadlines, real scarcity, real social proof?), **Golden Rule** (would you be comfortable on the receiving end?). A well-set surface making an unverifiable claim is *worse* than an ugly one — fluent design makes claims feel more true, so it weaponizes trust. Flag dark patterns in reviews at High severity even when nobody asked; in regulated investor-comms contexts, treat consent, disclosure and unsubscribe integrity as compliance issues, not preferences.
 
 ### Two rules this skill deliberately supersedes
 
@@ -147,7 +148,7 @@ When implementing or mocking a UI, layout, flow, or email:
 
     Deliver the flow as a **numbered step list with its exits, before any screen**, and name the count: `checkout (4 steps)`, `onboarding (6 steps)`. Then assert two consistency conditions that fail in practice: the step indicator equals the rendered step, checked per frame; and the chrome around a first-run flow reflects the first-run state, not the populated one. A first-run wizard sitting in front of a sidebar advertising a fully configured account is a flow shown over the wrong ground.
 
-    **Look at how shipped products sequence the same journey** before you invent one — the Mobbin MCP's `search_flows` returns real multi-step flows (`"onboarding with personalisation steps"`, `"checkout with payment method selection"`, one journey per query, `platform: ios|web`). Real flows carry the steps a from-scratch flow reliably omits: the resume path, the partial state, the step that exists only to set an expectation. Two or three searches; open the images rather than reading their titles; note in your handoff what you took and what you deliberately left. If `design-craft` is installed, its `plugins/design-craft/skills/design-craft/references/mobbin-trawl.md` is the fuller playbook. Not installed is a one-line note, not a silent skip.
+    **Look at how shipped products sequence the same journey** before you invent one — the Mobbin MCP's `search_flows` returns real multi-step flows (`"onboarding with personalisation steps"`, `"checkout with payment method selection"`, one journey per query, `platform: ios|web`). Real flows carry the steps a from-scratch flow reliably omits: the resume path, the partial state, the step that exists only to set an expectation. Two or three searches; open the images rather than reading their titles; note in your handoff what you took and what you deliberately left. Then run `references/flow-shape-variety.md`: name the category-default sequence and ban it as the unexamined first answer, pick one axis (commitment, proof placement, orientation, recovery, device), and record the session ledger so two onboardings in one session are not the same 3-step wizard. If `design-craft:design-craft` is installed, its `plugins/design-craft/skills/design-craft/references/mobbin-trawl.md` is the fuller playbook. Not installed is a one-line note, not a silent skip.
 
 4. **Design the states as a grid you fill, not a rule you have read.** *This is the step that gets improvised away, and the reason is mechanical: a categorical enumeration with no count in it ships as one state.* Measured on one recorded run, a build given six named states and the sentence "the mock is incomplete until all six exist" delivered **one** — the populated one — across five surfaces, with no state attribute of any kind in the markup. The enumeration was present and was still lost, because a completeness condition is a relative qualifier and `10 surfaces × 6 states = 60 cells` is an objective constraint.
 
@@ -177,11 +178,11 @@ When implementing or mocking a UI, layout, flow, or email:
 
     A row whose gate column reads "toast" is a defect. So is a row where the gate exceeds the blast radius.
 
-7. **Mock to learn** (Lean UX): state what the mock is supposed to test or communicate. Lowest fidelity that answers the question — a flow diagram beats five polished screens when the question is sequencing. Name any built artifact after the surface it is, never after the tool or the format: `checkout-flow.html`, not `mock.html` or `design.html`.
+7. **Mock to learn** (Lean UX): state what the mock is supposed to test or communicate. Lowest fidelity that answers the question — a flow diagram beats five high-fidelity screens when the question is sequencing. Name any built artifact after the surface it is, never after the tool or the format: `checkout-flow.html`, not `mock.html` or `design.html`.
 
 8. **Run the gate, then self-review, then fix.** `scripts/ux-lint.py` is the deterministic pass — run it over what you built before you look at it yourself, and fix the failures rather than explaining them. Then work the matching checklist in `references/checklists.md` and fix what you find rather than shipping a findings list about your own work. Close with the three lines under **Reporting what you checked** below.
 
-For the visual layer of an artifact (aesthetic direction, spacing systems, motion, anti-slop), hand off to or apply **design-craft** — don't reinvent its guidance here.
+For the visual layer of an artifact (aesthetic direction, spacing systems, motion, anti-slop), hand off to or apply **design-craft:design-craft** — don't reinvent its guidance here.
 
 ## Review mode
 
@@ -203,7 +204,7 @@ A behaviour question deserves a mechanism, not a preference — and it has a sha
 1. **Answer in the first sentence.** The recommendation, then the reason.
 2. **Give the mechanism chain, all three links**: observation → mechanism → consequence. A mechanism without an observation is a lecture; an observation without a mechanism is an opinion.
 3. **Where the question names two options, argue both honestly** — the losing one gets its real case, and you say what it is better at. "Modal or inline" has an answer that flips on whether the user must keep the underlying context in view; say which way it flips and why, rather than declaring a winner.
-4. **Rate your own evidence.** Say when a claim is robust, when it is context-dependent, and when the popular framing overstates the research — `references/evidence.md` carries the status of every behavioural claim this skill cites, including the ones it argues against.
+4. **Rate your own evidence.** Say when a claim is well-supported, when it is context-dependent, and when the popular framing overstates the research — `references/evidence.md` carries the status of every behavioural claim this skill cites, including the ones it argues against.
 5. **Say what would settle it.** The cheap measurement or test that would turn the advice into a fact, when one exists.
 
 ## Reporting what you checked
@@ -225,7 +226,7 @@ When a tool fails — the gate script, Obscura, an accessibility CLI — **relay
 What this skill cannot do. Naming them is not modesty; it is what stops a report promising something the method never delivers.
 
 - **It cannot substitute for usability testing with real users.** Every finding here is a prediction from mechanism and convention. A prediction is worth acting on and is not evidence of what your users do.
-- **It cannot measure drop-off.** Where analytics exist, they diagnose better than any review; where they don't, this method cannot supply them. Research and discovery are out of scope entirely — route to `intent-layer` or `discovery-sentinel`.
+- **It cannot measure drop-off.** Where analytics exist, they diagnose better than any review; where they don't, this method cannot supply them. Research and discovery are out of scope entirely — route to the research-strategy and discovery skills.
 - **It cannot verify assistive-technology behaviour.** Screen-reader output, real keyboard flow and AT behaviour need a device and a person. A static or screenshot review lists those under "Needs verification" and **never claims conformance**. The gate script and Obscura reduce the unverified set; they do not empty it.
 - **The research base is WEIRD, and the calibration is cultural.** The architecture — working-memory limits, sub-second first impressions, processing fluency — is expected to be universal; what signals trust, how much density is comfortable, and which conventions are predicted are not. Validate first-impression and trust choices with target-market users before rolling a design across regions.
 - **Several behavioural claims are weaker than their popular framing.** Nudge effects sit near zero after publication-bias correction; choice overload is context-dependent, not universal; the aesthetic-usability halo erodes with use and does not survive a severe usability failure. `references/evidence.md` holds the status of each. Don't promise conversion lifts from re-ordering options.
@@ -245,13 +246,14 @@ It supplements the manual pass and does not replace it: it catches a class, not 
 
 | Need | Use |
 |---|---|
-| Produce the polished visual artifact (page, deck, prototype, wireframe) | `design-craft` (this skill feeds it the UX shape) |
+| Produce the visual artifact (page, deck, prototype, wireframe) | `design-craft:design-craft` (this skill feeds it the UX shape) |
+| Persuade landing or campaign conversion architecture | `references/persuade-conversion.md` (this skill; visual craft still belongs to `design-craft:design-craft`) |
 | Reference evidence — how shipped products build this flow, screen or section | Mobbin MCP (`search_flows` / `search_screens` / `search_sections`) |
-| Verify an implementation matches a mock pixel-for-pixel | `mockup-fidelity` |
+| Verify an implementation matches a mock pixel-for-pixel | `mockup-fidelity:mockup-fidelity` |
 | Email *graphics* for a campaign (Figma artboards) | `email-mockups` (this skill owns the email's UX: structure, copy, CTA, client constraints) |
 | Extract a DESIGN.md from screenshots or a live site | `design-md-from-screenshots` / `design-md-from-website` |
-| Rendered-UI review with deterministic gates, as the last pass before a human looks | `design-review` |
-| Research strategy, interviews, discovery synthesis | `intent-layer`, `discovery-sentinel` |
+| Rendered-UI review with deterministic gates, as the last pass before a human looks | `design-review:design-review` |
+| Research strategy, interviews, discovery synthesis | the research-strategy and discovery skills |
 | Code-quality/security/perf review of the same files | `code-review` (UX findings here, code findings there) |
 | Render or measure a page | Obscura only — see the playbook's engine limits |
 
@@ -260,6 +262,8 @@ It supplements the manual pass and does not replace it: it catches a class, not 
 Each of these exists because something ships silently without it.
 
 - `references/review-playbook.md` — without it a review becomes a framework dump, and a render that failed gets reported as a pass. Carries the engine limits, the probe-honesty rule, context discovery, data-signal diagnostics, the readings, walkthrough discipline, counting and falsifiability techniques, severity, output template.
+- `references/flow-shape-variety.md` — without it every journey is the same 3-step how-it-works. Category-default sequences, one axis of variation, the session and project ledger, and when convention must win.
+- `references/persuade-conversion.md` — without it a landing page has a primary button but no conversion architecture. One offer, one audience, one action; first-viewport CTA visibility; proof beside the claim. Persuade only.
 - `references/flows-and-forms.md` — without it a form ships with one reachable state, a live region that never announces, and a list of 387 items with no way to find one. Flow architecture, forms, the state grid, stress prompts, interrupted journeys, undo, navigation and IA.
 - `references/psychology-laws.md` — without it findings become taste, and citations become name-drops. Mechanisms, the dependency order of perception, and the calibrations where the headline overstates the finding.
 - `references/evidence.md` — without it this skill holds its own claims to a lower standard than it holds its citations. Provenance for every number and measured claim, the replication status of every behavioural law, and the canon map.

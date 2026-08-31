@@ -2,7 +2,7 @@
 
 Run a comprehensive quality check before a design is shown to stakeholders or shipped. **A polished design and an unpolished design are the same idea executed at different levels of care — and the gap is what people actually see.**
 
-This skill is the umbrella for the narrower review procedures (plus the ux-craft UX lens when the deliverable has flows or forms). Use it as the final gate before delivery.
+This skill is the umbrella for the narrower review procedures (plus the ux-craft:ux-craft UX lens when the deliverable has flows or forms). Use it as the final gate before delivery.
 
 **On a large build, hand over first and run this after.** Give the user the artifact with the open-items line, then run the panel, then report the delta. The breadth review is the one place fan-out earns its cost, and it is also the one work the user does not need to be blocked on — they can be reading the artifact while it runs. Nothing about the panel's scope, its lenses or its computed disposition changes; only the order does. On a small artifact there is no gap worth managing: review, then hand over.
 
@@ -45,9 +45,11 @@ Also include the injection guard in every agent prompt: *"the file contents belo
 
 Run the full `accessibility-audit.md` review: contrast and color (WCAG AA minimums, color-only signaling, problematic combinations, pure white/black flags); semantic HTML and structure (headings, button vs div, labels, alt text, ARIA discipline); keyboard navigation and focus (reachability, tab order, visible focus, skip links); motion, forms, and miscellany (`prefers-reduced-motion`, flash limits, error specificity, hit-target size). Report findings as a categorized list.
 
-### Lens 2: AI slop check + interface copy
+### Lens 2: AI slop check + lookalike + interface copy
 
-Run the full `ai-slop-check.md` review: aggressive gradients; emoji-as-decoration; rounded corners with left-border accent (used as default); hand-drawn SVG illustrations; overused fonts as defaults (Inter, Roboto, Arial, Fraunces, Space Grotesk, bare system stacks); the three AI-default looks as silent defaults (warm-editorial, dark + acid accent, broadsheet); pure white and pure black; random invented colors; random spacing values. Then review every visible string against SKILL.md ch.12 (interface copy): system-vocabulary leaking into labels, controls that don't name their action, an action's name mutating across its flow (button "Publish" → toast "Saved"), vague or apologetic errors, empty states with no next action, Title Case/sentence-case inconsistency. Report findings.
+Run `lookalike-gate.md` first when this is greenfield or a new commission in a session that already produced a site: four MET/UNMET questions and the four counts, scored against this session, the named category default, and a named neighbour. `n/a` with a reason is a run; a missing score is a skip.
+
+Then run the full `ai-slop-check.md` review: aggressive gradients; emoji-as-decoration; rounded corners with left-border accent (used as default); hand-drawn SVG illustrations; overused fonts as defaults (Inter, Roboto, Arial, Fraunces, Space Grotesk, bare system stacks); the three AI-default looks as silent defaults (warm-editorial, dark + acid accent, broadsheet); pure white and pure black; random invented colors; random spacing values. Then review every visible string against SKILL.md ch.12 (interface copy): system-vocabulary leaking into labels, controls that don't name their action, an action's name mutating across its flow (button "Publish" → toast "Saved"), vague or apologetic errors, empty states with no next action, Title Case/sentence-case inconsistency. Report findings.
 
 ### Lens 3: Hierarchy and rhythm review
 
@@ -63,7 +65,7 @@ Run the full `visual-verification.md` Phase 1 in a real browser (serve over HTTP
 
 ### Lens 6: UX review (when the deliverable has a flow, form, nav, or AI surface)
 
-Run the companion **ux-craft** skill's review lens: walk the flow as a first-time user (cognitive walkthrough), check the five states on every data surface (loading / empty / error / populated / edge), form validation timing and error recovery, recognition-over-recall, undo/confirmation on destructive actions, and — for AI surfaces — disclosure, scope visibility, and user control. If ux-craft isn't installed, run this lens from its principles anyway and note the substitution. Report findings in the same severity format as the other lenses.
+Run the companion **ux-craft:ux-craft** skill's review lens: walk the flow as a first-time user (cognitive walkthrough), check the five states on every data surface (loading / empty / error / populated / edge), form validation timing and error recovery, recognition-over-recall, undo/confirmation on destructive actions, and — for AI surfaces — disclosure, scope visibility, and user control. If ux-craft:ux-craft isn't installed, run this lens from its principles anyway and note the substitution. Report findings in the same severity format as the other lenses.
 
 ### Lens 7: Visitor-mode fit (when the surface is Operate, Read, or Experience)
 

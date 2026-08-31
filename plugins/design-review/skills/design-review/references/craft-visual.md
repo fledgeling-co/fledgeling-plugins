@@ -188,3 +188,35 @@ So start from `probeComponentInventory()` (stage 5), not from the screenshot. It
 For each crop opened, the finding (or clearance) carries: the component, the viewport, the DPR, what was checked, and the three failure modes considered. A clearance with no named failure modes is not a clearance.
 
 Types you did not open go in the report's Coverage block as the unopened remainder. Never as silence.
+
+---
+
+## Lookalike (when the brief asked for a distinct site, or more than one site exists)
+
+This is the review-time counterpart of design-craft:design-craft:design-craft's `lookalike-gate.md`. It does not replace systematisation (stage 8), which measures specification vs default. It asks whether *this* first viewport is the previous one, the category default, or a named neighbour with the nouns swapped.
+
+**When it applies.** Greenfield marketing or Experience surfaces; a session or repo that already holds another site from the same generator; a brief that named distinctiveness. **When it does not.** Operate and Read surfaces matching an incumbent system; a user who asked for the category standard played straight. Mark `n/a: <reason>` on the worklist craft cell's notes rather than skipping the rest of craft.
+
+**Comparison set, written before judging.** (1) sibling pages in this repo or session, (2) the category-default arrangement named in one sentence, (3) one named neighbour if Mobbin, a URL, or a screenshot exists. An empty set is `n/a: no comparison`, not a pass.
+
+**Four questions, MET or UNMET**, scored from crops of the first viewport, not from thumbnails:
+
+1. Topology sentence transfers unchanged.
+2. Same display family or pairing logic as the sibling / default.
+3. Same signature-move class (italic word-accent, acid underline, three-card bento, kinetic marquee, mesh hero).
+4. Swap test: change nouns and accent hex, still reads as the neighbour.
+
+`n/4 MET`. 4/4 is distinct. 3/4 is a documented deviation. 2/4 or below is a Tier 2 Medium finding with the four counts below as evidence, never a Blocker and never a High on taste alone.
+
+**Counts that decide it** (these may rise to Medium because they are counts, not vibes):
+
+| Count | Fail |
+|---|---|
+| Distinct layout families on the page | 8 sections, fewer than 4 families; any family used twice |
+| First-viewport element count vs neighbour | Neighbour ≥8, ours 4, with no density reason |
+| Accent moments in the first 100vh | >2 under a restrained palette |
+| Display face vs sibling greenfield page | Same family on two consecutive sites |
+
+Paste the score and the four numbers into the report's craft section. A lookalike paragraph with no numbers is a Tier 3 prompt, and it belongs in Open Questions.
+
+Do not recommend cloning the neighbour as the fix. UNMET means change topology, type, signature class or subject-mining.
