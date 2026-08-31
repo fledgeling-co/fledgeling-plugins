@@ -225,3 +225,11 @@ artifact *as* a probe artifact instead of scoping around it. A prose caveat and 
 are not substitutes for each other; the gate makes the common case cheap, and the caveat is
 what a reader does when the gate and their eyes disagree. Teardown P1 says make it code. It
 does not say delete the reasoning.
+
+## Content-area ideation — added 2026-08-31
+
+`references/content-area-ideation.md` does not add kit values. Chrome remains `(specified)` from the kit and HIG. The file is a routing note: `trawl:trawl` may run on the content-area world at `--any`, never on titlebar or control geometry, and Warm Paper / Terminal Dark stay the runner-up on a free aesthetic axis because they are simultaneously corpus-proven and the two looks models default to (`design-directions.md` calibration, already sourced).
+
+## Content-area ledger — added 2026-08-31
+
+`content-area-ideation.md` consumes the project-local diversity ledger from `design-craft:design-craft`. The ledger is a rotation aid, not a platform-conformance claim. Native chrome values remain governed by the kit, HIG, and corpus precedence already recorded above.

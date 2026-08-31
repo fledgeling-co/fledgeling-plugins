@@ -68,7 +68,7 @@ An unrecognised cell value counts as `open` deliberately: an ambiguous cell is n
 | 4 | /billing       | open  | open   | open   | open      | open  | open | open   | open   |
 ```
 
-**Stopping early is a decision you declare, never a place you drift to.** If you must stop, the reply and the report both say *"3 of 14 surfaces reviewed, resuming at 4"*, and the ledger is on disk. Never compress fourteen surfaces' worth of scope into three surfaces' worth of report.
+**Stopping early is a decision you declare, never a place you drift to.** If early stopping is unavoidable, the reply and the report both say *"3 of 14 surfaces reviewed, resuming at 4"*, and the ledger is on disk. Never compress fourteen surfaces' worth of scope into three surfaces' worth of report.
 
 **Sampling is legitimate; silent sampling is not.** On a 200-page site, reviewing every page is the wrong call. Then sampling is a stage-0 decision with a stated basis — which surfaces, chosen how (highest traffic, each distinct template, the primary task path), and what the sample cannot speak for. A declared sample of 6 is a finished review of 6. An undeclared 6 out of 40 is an unfinished review of 40.
 
@@ -95,13 +95,13 @@ The tier decides what a finding is allowed to do. Without this the review either
 
 The layout set is newer than the rest and exists because of a specific failure: a review that passed every WCAG gate on a surface carrying a 250px rail misalignment, a 75px column break, a zero-gap section boundary, a 242px void and two settings lists made of non-interactive labels. All of it was computable. None of it was probed. See `references/layout-integrity.md`.
 
-**Tier 2 — Calibrated findings.** Judged, evidence-required, severity-scored. Hierarchy, density, state coverage, copy, flow, forms, resilience. These advise by default and escalate to blocking only when two independent lenses land on the same element.
+**Tier 2 — Calibrated findings.** Judged, evidence-required, severity-scored. Hierarchy, density, state coverage, copy, flow, forms, resilience, and the lookalike *counts* (layout-family tally, first-viewport element count, accent moments, display-face collision with a sibling). These advise by default and escalate to blocking only when two independent lenses land on the same element.
 
-**Tier 3 — Prompts for attention.** Aesthetic direction, distinctiveness, "does this look generic". Surfaced as questions in an Open Questions section. These never gate and never carry a severity.
+**Tier 3 — Prompts for attention.** Aesthetic direction, and a lookalike *judgement* that has no counts behind it ("does this look generic"). Surfaced as questions in an Open Questions section. These never gate and never carry a severity. The counted lookalike failures live in Tier 2; an adjective without a denominator stays here.
 
 Tier 3 exists because the "AI slop" tell-list has no systematic evidence behind it, and there is a live disagreement about whether it names a property of artifacts or of observers. See `references/reliability-envelope.md`. The version of that intuition that survives either position is the systematisation check at stage 8 — measuring whether design decisions were *specified* rather than defaulted.
 
-## What you may judge, and what you must defer
+## What you may judge, and what to defer
 
 Automated detection has hard ceilings, and stating them is part of the deliverable. Read `references/reliability-envelope.md` before your first review; the numbers there set what you may assert.
 
@@ -121,7 +121,7 @@ Twelve stages. Stages 2–9 feed one unfiltered finding pool, and each runs **pe
 | 3 | Structural render | capture + look | `references/capture-protocol.md` |
 | 4 | State matrix | drive + capture | `references/states-and-resilience.md` |
 | 5 | Component inventory | script | `references/layout-integrity.md` |
-| 6 | Craft | crops + judgment | `references/craft-visual.md` |
+| 6 | Craft | crops + judgment | `references/craft-visual.md` (hierarchy, type, and the lookalike score when distinctiveness is in scope) |
 | 7 | Flow, forms, copy | walkthrough | `references/flows-forms-copy.md` |
 | 8 | Systematisation | scripts | `references/systematisation.md` |
 | 9 | Intent conformance | diff vs target | `references/intent-conformance.md` |
@@ -255,6 +255,8 @@ Work the inventory from stage 5. Three rules make it work:
 
 When a crop leaves you unsure, take another crop. Looking is cheaper than reasoning about what you would see. Numerics in `references/craft-visual.md`.
 
+When distinctiveness is in scope, fill the **Distinctiveness** block in `assets/report-template.md` from the lookalike questions in `references/craft-visual.md`. Write the comparison set before judging. Counts may become a Medium finding; an adjective without a denominator stays in Open questions. If the surface is an incumbent Operate or Read system, write `n/a` in Coverage and drop the section.
+
 ### 7 — Flow, forms, copy
 
 Walk each key task asking four questions per step: does the user realise they need to act here at all; is the control findable; does the label predict what happens; after acting, do they know it worked. A "no" on the first is the most severe — they will not even try. Two or more nos in a step means expect abandonment.
@@ -326,7 +328,7 @@ If Obscura is not on PATH, say so plainly in the summary, give the one-line fix 
 | Gate fix-verify | 3 per issue | Passes, or reported as diagnosis-wrong |
 | Viewport sweep | 1 pass + recheck of changed areas | All widths captured and opened |
 | State drive | 1 pass per surface | Nine states accounted for or marked N/A |
-| Component crops | as many as needed | Every component crop opened |
+| Component crops | every crop selected by the stage-5 inventory rule | Every selected component crop opened |
 | Task walkthrough | 1 per key task | Four questions answered per step |
 | **Surface sweep** | **no budget — the worklist is the exit** | **Every row `done` or `n/a` with a reason** |
 | Whole review | 3 rounds | Findings shrinking, no must-fix open, **and no open ledger cell** |

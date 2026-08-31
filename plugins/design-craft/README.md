@@ -4,7 +4,7 @@
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> design-craft</h1>
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
+  <img alt="Version 1.4.0" src="https://img.shields.io/badge/version-1.4.0-D33C21">
   <img alt="SWE skill: making" src="https://img.shields.io/badge/SWE_skill-making-434A55">
   <img alt="Gate assertions: 23 to 9" src="https://img.shields.io/badge/gate_assertions-23_to_9-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -50,7 +50,7 @@ The panel also found two arithmetic defects in this version's own pixel-median f
 
 **What the comparison has that no sibling here does: a predecessor you can run.** The version this replaces is committed at `skills/design-craft/evals/old/design-lint.py` and the runner's paths are relative, so the 9 against 23 is reproducible rather than a record. Of the nine skills audited alongside this one, it is the only plugin that ships the version it replaces.
 
-**What none of it establishes.** Twenty-five assertions measure a lint script's behaviour, and three families preferring this version's prose says nothing about whether that script is correct. Neither layer measures whether the designs this skill produces are any good. The eight authoring prompts written to ask that question, from a brand-matched dashboard against an existing token file through to a print deliverable, have never been run: no outputs and no grading, and three of them point at working directories that no fixture in the repository creates. Both layers are single runs, one per version per assertion and one judgement per family per case, so nothing here is a rate.
+**What none of it establishes.** Twenty-five assertions measure a lint script's behaviour, and three families preferring this version's prose says nothing about whether that script is correct. Neither layer measures whether the designs this skill produces are any good. The twelve authoring prompts written to ask that question, from a brand-matched dashboard against an existing token file through to a print deliverable, have never been run: no outputs and no grading, and the original cases point at working directories that no fixture in the repository creates. Both layers are single runs, one per version per assertion and one judgement per family per case, so nothing here is a rate.
 
 The full tables, the judges' own words, all seven findings and the rest of the caveats are in [EVALS.md](EVALS.md).
 
@@ -64,7 +64,7 @@ So motion, print, reduced-motion and type fidelity are declared **unchecked**. T
 
 ## What it doesn't do
 
-It does not review a rendered page in a browser; that is `design-review`, and it is the last pass before a human looks at AI-built UI. It does not measure a build against a mock by reading the DOM; that is `mockup-fidelity`. It does not own flows, forms, interface copy or UX review, which belong to `ux-craft`; the two are a standing pair, and this half is the visual hands.
+It does not review a rendered page in a browser; that is `design-review:design-review`, and it is the last pass before a human looks at AI-built UI. It does not measure a build against a mock by reading the DOM; that is `mockup-fidelity:mockup-fidelity`. It does not own flows, forms, interface copy or UX review, which belong to `ux-craft:ux-craft`; the two are a standing pair, and this half is the visual hands.
 
 ## Install
 
@@ -75,4 +75,4 @@ It does not review a rendered page in a browser; that is `design-review`, and it
 
 ## Deeper
 
-Thirty phased procedures live in `skills/design-craft/references/`. The ones worth knowing by name: `visual-verification.md` for why rendering is not seeing and how a gate can be downstream of the findings that motivated it, `ai-slop-check.md` for the structure and vocabulary tells that two blind judges ranked ahead of every visual difference, `delivery-surfaces.md` for what each delivery surface refuses, and `evidence.md` for every rule traced to its source, including the three places the research contradicts itself and the figure this skill could not reconcile with its own record.
+The phased procedures live in `skills/design-craft/references/`. The ones worth knowing by name: `aesthetic-ideation.md` for running `trawl:trawl` before a look is chosen, `lookalike-gate.md` for proving this page is not the last one, `aesthetic-worlds.md` for 24 anchored directions and its 10 lazy-loaded recipes, `diversity-ledger.md` for cross-session rotation, `visual-verification.md` for why rendering is not seeing, `ai-slop-check.md` for the structure and vocabulary tells, `delivery-surfaces.md` for what each delivery surface refuses, and `evidence.md` for every rule traced to its source.
