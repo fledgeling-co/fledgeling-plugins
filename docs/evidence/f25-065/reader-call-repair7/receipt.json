@@ -1,0 +1,58 @@
+{
+  "item": "F25-065",
+  "slice": "upstream accessor/default-argument reader repair author",
+  "status": "repair complete; fresh primary and distinct additional reviews owed",
+  "base": "db6ded00ca8f6faa2ac8e5fd280b0c9e8b310071",
+  "closedFalseGreen": "seed(); var value: Int { get { 1 } }",
+  "readerPosture": "configured readers require parenthesized calls in conservative executable contexts; helper bindings still accept trailing closures",
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "2cb9271f439b93e35f83f0d297783858e47a467a95d07fc61860fd4e1799d274"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "7bfdfc103936dc1cfe2813cd59e3998cf5fb5de8afcf3a69b0c43d725af02b7f"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "dd963d1a93e7f92a873f367bf3847ac243a7dbd77d96b7704bc38d635b00f5a7"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "4032b752ce80074ac36d027b395e000d9e323c7eeaf2e8e4ec1fd77474c8b3c9"
+    }
+  ],
+  "mutants": {
+    "count": 4,
+    "allRejected": true,
+    "restored": true,
+    "path": "mutations.json",
+    "sha256": "c76089ca46773c76c25923da05a06973183e3ebca2d574114b4aa8ff53c8de1d"
+  },
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "exit": 1,
+    "invalidScopes": 0,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "defaultArgumentTypecheck": {
+    "exit": 0,
+    "path": "default-argument-valid.swift",
+    "sha256": "8c81957ea389af994acd0e6d905029361eaf1a82c4e153c564bb0a21e0b19311"
+  },
+  "limitations": "Bounded lexical proof; ambiguous nested calls can false-negative. No receiver resolution, reader independence or output causality. No install, publish, cache edit, push, merge, native app, provider, Keychain or live campaign."
+}

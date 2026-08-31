@@ -22,12 +22,13 @@ class SwiftBodies(unittest.TestCase):
         row = next(plugin for plugin in catalogue['skills'] if plugin['name'] == 'test-campaign')
         self.assertEqual(row['version'], manifest['version'])
 
-    def scan(self, source, extras=None, mutators=('write', 'store'), scopes=None):
+    def scan(self, source, extras=None, mutators=('write', 'store'), scopes=None,
+             readers=('read', 'load', 'expect')):
         with tempfile.TemporaryDirectory(prefix='swift-body-tests-') as directory:
             root = Path(directory)
             (root / 'ExampleTests.swift').write_text(source)
             for name, text in (extras or {}).items(): (root / name).write_text(text)
-            return SCAN.pass_blind(root, mutators, ('read', 'load', 'expect'), scopes)
+            return SCAN.pass_blind(root, mutators, readers, scopes)
 
     def scope(self, source, call, classification='failure-sentinel'):
         parsed = SCAN.swift_body_spans(source)['blocks'][0]
@@ -181,15 +182,21 @@ class SwiftBodies(unittest.TestCase):
              '@Test func measure() { seed(); let selector = #selector(read(_:)) }'),
             ('private func seed() { write() }\n'
              '@Test func measure() { seed(); let function = read(_:) }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { seed(); var value: Int { get { 1 } } }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { seed(); func local(value: Int = read()) {} }'),
         ]
         for source in invalid:
             with self.subTest(source=source):
                 scope = attributed_scope(source)
-                direct = self.scan(source, scopes=[scope])
+                readers = ('read', 'get') if ' get {' in source else ('read', 'load', 'expect')
+                direct = self.scan(source, scopes=[scope], readers=readers)
                 self.assertTrue(any('no read after' in finding
                                     for finding in direct['scopeFindings']))
                 cli = self.cli({'ExampleTests.swift': source},
-                    {'blindScopeFile': 'scopes.json'}, {
+                    {'blindScopeFile': 'scopes.json', 'blindVocabulary': {
+                        'only': True, 'mutators': ['write'], 'readers': list(readers)}}, {
                         'producer.swift': producer,
                         'scopes.json': json.dumps({'version': 1, 'scopes': [scope]}),
                     })
@@ -200,7 +207,7 @@ class SwiftBodies(unittest.TestCase):
             ('private func seed() { write() }\n'
              '@Test func measure() { Fixtures.seed(); read() }', 'seed('),
             ('private func seed(_ body: () -> Void) { write(); body() }\n'
-             '@Test func measure() { Fixtures.seed { configure() }; read {} }', 'seed {'),
+             '@Test func measure() { Fixtures.seed { configure() }; read() }', 'seed {'),
             ('private func seed() { write() }\n'
              '@Test func measure() { Fixtures.seed(); let value = read(label: input) }', 'seed('),
         ]
