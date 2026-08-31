@@ -1,0 +1,32 @@
+{
+  "nested_assertion": {
+    "examined": 1,
+    "mutating": 1,
+    "blind": 1,
+    "findings": [
+      "testReadsMutationResult \u2014 last mutator 'store', no read after it (ExampleTests.swift:1)"
+    ]
+  },
+  "following_private_helper": {
+    "examined": 2,
+    "mutating": 1,
+    "blind": 1,
+    "findings": [
+      "fixture \u2014 last mutator 'write', no read after it (ExampleTests.swift:5)"
+    ]
+  },
+  "real_blind": {
+    "examined": 1,
+    "mutating": 1,
+    "blind": 1,
+    "findings": [
+      "testReallyBlind \u2014 last mutator 'store', no read after it (ExampleTests.swift:1)"
+    ]
+  },
+  "separate_read": {
+    "examined": 1,
+    "mutating": 1,
+    "blind": 0,
+    "findings": []
+  }
+}

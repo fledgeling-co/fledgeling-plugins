@@ -1,0 +1,11 @@
+{
+  "exitCode": 1,
+  "namedFailureObserved": true,
+  "sourceSHA256": "3bc32825f99d55b6dc88a8ff05a3b18dc0e38ea0f1901a89d7cde3a2429e9764",
+  "mutatedSourceSHA256": "6cf18009ae873e5417458ebd3b43ae33b459a9cf3f3387f3344a913894f66708",
+  "sourceUnchanged": true,
+  "substitution": {
+    "before": "body = swift[\"blocks\"][i][\"body\"] if swift is not None else src[pos:end]",
+    "after": "body = src[pos:end]"
+  }
+}
