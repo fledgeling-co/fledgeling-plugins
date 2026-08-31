@@ -31,16 +31,23 @@ version is kept at 0.16.2 with both manifests.
 
 A fresh cumulative primary review then found that the later-reader check accepted `already` and a
 bare `read` expression for configured reader `read`. Both false greens are now permanent public-CLI
-fixtures. Attribution requires a masked reader-shaped identifier at an identifier boundary followed
-by parenthesized call syntax. A trailing-closure-shaped reader is deliberately refused because
-`if read {}` is lexically ambiguous with a control condition.
+fixtures. Attribution requires a masked reader-shaped identifier with call syntax in a conservative
+invocation context.
 Helper-call bindings still accept Swift trailing closures. This remains a lexical call-shape check,
 not receiver resolution or output causality.
 
 A subsequent cumulative primary found the same ambiguity in qualified syntax: `.read(let x)` in a
-Swift enum associated-value pattern was accepted as a call. Reader evidence is therefore
-conservatively limited to an unqualified parenthesized call. Qualified shapes are refused because
-this bounded lexer cannot distinguish member calls from enum construction or destructuring. This
-restriction does not apply to the separately bound helper call.
+Swift enum associated-value pattern was accepted as a call. The interim repair limited readers to
+unqualified parenthesized syntax; the contextual repair below supersedes that syntax detail while
+retaining the qualified-shape refusal. This restriction does not apply to the separately bound
+helper call.
+
+A third cumulative primary proved that unqualified parenthesized syntax alone was still insufficient:
+valid Swift `#selector(read(_:))` references a method without invoking it. Reader evidence therefore
+begins at a conservative statement, assignment, return/try/await, or assertion-macro boundary.
+That one contextual rule refuses qualified patterns, control conditions, declarations and selector
+references while allowing parenthesized or trailing-closure calls at a proved boundary. Other nested
+contexts are refused rather than interpreted. This is intentionally incomplete and fail-closed; the
+ordinary unscoped blind-pass heuristic remains broader.
 
 Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.

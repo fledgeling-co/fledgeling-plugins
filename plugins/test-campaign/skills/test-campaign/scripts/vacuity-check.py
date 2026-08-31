@@ -184,22 +184,42 @@ def call_fingerprint(body: str, start: int, end: int) -> str:
     return hashlib.sha256(spelling.encode()).hexdigest()
 
 
+def reader_invocation_context(source: str, start: int) -> bool:
+    """Whether a reader-shaped token begins in a conservative call context.
+
+    A parenthesized identifier is not necessarily invoked: ``#selector(read(_:))``
+    references a method, and nested contextual syntax has more shapes than this
+    bounded lexer can prove. Accept statement starts, assignment/statement
+    delimiters, return/try/await positions and assertion-macro names. Refuse other
+    nested positions rather than granting an explicit scope false credit.
+    """
+    prefix = source[:start]
+    stripped = prefix.rstrip()
+    if not stripped or not prefix.rsplit("\n", 1)[-1].strip():
+        return True
+    if stripped.endswith(("#", ";", "{", "}", "=")):
+        return True
+    return re.search(r"\b(?:return|try|await)\s*$", stripped) is not None
+
+
 def has_reader_call(source: str, readers: tuple[str, ...]) -> bool:
     """Whether masked Swift source contains a configured reader-shaped call.
 
     Attributed helpers need an executable observation in each bound caller. A
     substring such as ``already`` and a bare identifier such as ``read`` are not
     calls and cannot justify removing the helper's mutation from the census.
-    Reader vocabulary remains stem-based, but the stem must begin an unqualified
-    identifier and that identifier must use parenthesized call syntax. Qualified
-    shapes are refused because an enum pattern such as ``case .read(let x)`` is
-    lexically indistinguishable from a member call here. Swift trailing-closure
-    shape is not accepted here because ``if read {}`` is indistinguishable
-    lexically from such a call.
+    Reader vocabulary remains stem-based. A reader-shaped identifier must use
+    parenthesized or trailing-closure call syntax and begin in a conservative
+    invocation context. The context rule, rather than overlapping token guards,
+    refuses qualified shapes, control conditions, declarations and nested method
+    references.
     """
-    return any(re.search(
-        r"(?<![.\w`])" + re.escape(reader) + r"\w*\s*\(", source
-    ) for reader in readers)
+    for reader in readers:
+        pattern = re.escape(reader) + r"\w*\s*(?:\(|\{)"
+        if any(reader_invocation_context(source, match.start())
+               for match in re.finditer(pattern, source)):
+            return True
+    return False
 
 # ── what a provider has to resolve to ───────────────────────────────────────
 #
