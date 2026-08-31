@@ -8,8 +8,10 @@ original=SOURCE.read_text(); before=hashlib.sha256(SOURCE.read_bytes()).hexdiges
 mutants=[
  ('drop-identifier-boundary', 'r"(?<![\\w`])" + re.escape(reader)',
   'r"" + re.escape(reader)'),
- ('drop-call-syntax', 're.escape(reader) + r"\\w*\\s*(?:\\(|\\{)"',
+ ('drop-parenthesized-call-syntax', 're.escape(reader) + r"\\w*\\s*\\("',
   're.escape(reader) + r"\\w*"'),
+ ('allow-trailing-closure-reader', 're.escape(reader) + r"\\w*\\s*\\("',
+  're.escape(reader) + r"\\w*\\s*(?:\\(|\\{)"'),
 ]
 rows=[]
 try:
