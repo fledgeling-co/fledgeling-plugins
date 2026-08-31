@@ -33,5 +33,33 @@
     "failedAsRequired": true,
     "replacements": 1,
     "log": "plugins/test-campaign/docs/evidence/call-scopes/blind-bound-caller.log"
+  },
+  {
+    "name": "drop-target-test-entry",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/drop-target-test-entry.log"
+  },
+  {
+    "name": "drop-caller-test-entry",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/drop-caller-test-entry.log"
+  },
+  {
+    "name": "drop-trailing-closure-caller",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/drop-trailing-closure-caller.log"
+  },
+  {
+    "name": "drop-test-entry-schema",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/drop-test-entry-schema.log"
   }
 ]

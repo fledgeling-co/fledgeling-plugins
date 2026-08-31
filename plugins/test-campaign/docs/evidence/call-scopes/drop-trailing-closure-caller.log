@@ -1,0 +1,21 @@
+.................F..
+======================================================================
+FAIL: test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-4dpfjn6j/plugins/test-campaign/tests/test_swift_bodies.py", line 125, in test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity
+    self.assertEqual(result['scopeFindings'], [])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['ExampleTests.swift:seed caller scope does not bind its named helper call'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'ExampleTests.swift:seed caller scope does not bind its named helper call'
+
+- ['ExampleTests.swift:seed caller scope does not bind its named helper call']
++ []
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.649s
+
+FAILED (failures=1)

@@ -114,8 +114,8 @@ def load_blind_scopes(campaign_dir: Path, raw: object) -> tuple[list[dict], list
         error_count = len(errors)
         if not isinstance(row, dict):
             errors.append(f"{label} is not an object"); continue
-        required = ("file", "name", "bodySHA256", "callOffset", "callSHA256", "mutator",
-                    "classification", "rationale", "references")
+        required = ("file", "name", "bodySHA256", "testEntry", "callOffset", "callSHA256",
+                    "mutator", "classification", "rationale", "references")
         missing = [key for key in required if key not in row]
         if missing:
             errors.append(f"{label} lacks {', '.join(missing)}"); continue
@@ -126,16 +126,20 @@ def load_blind_scopes(campaign_dir: Path, raw: object) -> tuple[list[dict], list
             errors.append(f"{label} has a non-string identity field")
         if type(row["callOffset"]) is not int or row["callOffset"] < 0:
             errors.append(f"{label} has an invalid call offset")
+        if type(row["testEntry"]) is not bool:
+            errors.append(f"{label} has an invalid test-entry posture")
         if row["classification"] == "attributed-helper":
             callers = row.get("callers")
             if not isinstance(callers, list) or not callers:
                 errors.append(f"{label} attributed helper has no bound caller")
             else:
-                caller_keys = {"file", "name", "bodySHA256", "callOffset", "callSHA256"}
+                caller_keys = {"file", "name", "bodySHA256", "testEntry", "callOffset",
+                               "callSHA256"}
                 for caller in callers:
                     if (not isinstance(caller, dict) or set(caller) != caller_keys or
                             not all(isinstance(caller[key], str) and caller[key]
-                                    for key in caller_keys - {"callOffset"}) or
+                                    for key in caller_keys - {"callOffset", "testEntry"}) or
+                            type(caller.get("testEntry")) is not bool or
                             type(caller.get("callOffset")) is not int or caller["callOffset"] < 0):
                         errors.append(f"{label} has a malformed caller binding")
         if len(errors) == error_count:
@@ -660,7 +664,7 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
     scope_errors: list[str] = []
     scoped_counts = {name: 0 for name in sorted(SCOPE_CLASSES)}
     scoped_only_bodies = 0
-    body_records: dict[tuple[str, str, str], list[tuple[str, str]]] = {}
+    body_records: dict[tuple[str, str, str], list[tuple[str, str, bool]]] = {}
     scope_identities = [(row.get("file"), row.get("name"), row.get("bodySHA256"),
                          row.get("callOffset")) for row in scopes]
     if len(scope_identities) != len(set(scope_identities)):
@@ -725,9 +729,13 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                            if swift is not None else body)
             rel = f.relative_to(root).as_posix()
             body_digest = hashlib.sha256(source_body.encode()).hexdigest()
-            body_records.setdefault((rel, name, body_digest), []).append((source_body, body))
+            test_entry = (bool(swift["blocks"][i]["testEntry"]) if swift is not None
+                          else kind == "spec" or name.startswith("test"))
+            body_records.setdefault((rel, name, body_digest), []).append(
+                (source_body, body, test_entry))
             body_scopes = [row for row in scopes if row.get("file") == rel and
-                           row.get("name") == name and row.get("bodySHA256") == body_digest]
+                           row.get("name") == name and row.get("bodySHA256") == body_digest and
+                           row.get("testEntry") == test_entry]
             if kind == "decl" and name in helpers and not any(
                     row.get("classification") == "attributed-helper" for row in body_scopes):
                 continue
@@ -780,13 +788,15 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
             for caller in row.get("callers", []):
                 bodies = body_records.get((caller.get("file"), caller.get("name"),
                                            caller.get("bodySHA256")), [])
+                bodies = [body for body in bodies if body[2] == caller.get("testEntry")]
                 if len(bodies) != 1:
                     scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
                                         "does not bind exactly one current body")
                     continue
-                caller_body, masked_caller = bodies[0]
+                caller_body, masked_caller, _ = bodies[0]
                 offset = caller.get("callOffset")
-                match = (re.match(re.escape(str(row.get("name"))) + r"\s*\(", caller_body[offset:])
+                match = (re.match(re.escape(str(row.get("name"))) + r"\s*(?:\(|\{)",
+                                  caller_body[offset:])
                          if isinstance(offset, int) and offset < len(caller_body) else None)
                 if (match is None or call_fingerprint(caller_body, offset, offset + match.end()) !=
                         caller.get("callSHA256")):
