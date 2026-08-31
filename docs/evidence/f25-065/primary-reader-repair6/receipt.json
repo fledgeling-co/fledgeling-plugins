@@ -1,0 +1,215 @@
+{
+  "item": "F25-065",
+  "slice": "upstream accessor/default repair fresh primary",
+  "verdict": "FAIL",
+  "reviewedHead": "4fabc428be3ee0a0edc5a12633bbb33524b21b54",
+  "retainedPrimaryFailures": [
+    "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+    "4c5ed872410051e0bfa5d3634a49d03f32efc014",
+    "78895b88a46510d893a699cb79ea789828f7509e",
+    "824e9aa0c891d7a61bbf663dc3ee93a9df821750",
+    "9b09eca75af7ae70b26841e705c73e3661aa69af",
+    "db6ded00ca8f6faa2ac8e5fd280b0c9e8b310071"
+  ],
+  "sameFamilyDegraded": true,
+  "contextDisclosure": "Reviewer performed six related earlier primary failures and reused unrelated context; this repeated review is same-family degraded and makes no out-of-family claim.",
+  "blockingFalseGreen": {
+    "claim": "Function-reference placeholder grammar is ASCII-only and accepts a valid Swift Unicode-label reference without invocation.",
+    "source": "private func seed() { store() }\n@Test func measure() { seed(); let function = read(\u03bb:) }\nfunc read(\u03bb value: Int) -> Int { value }",
+    "cliExit": 0
+  },
+  "compiledUnicodeReference": {
+    "exit": 0,
+    "source": "unicode-label-reference-valid.swift",
+    "sourceSHA256": "3e47369a1dfb4764263e11c8dd11827c51b809d754a3eec39953c782479215cf",
+    "log": "unicode-label-reference-typecheck.log",
+    "logSHA256": "19eaf43821a7660ec323a87c8457bf74823beb296c39f5e01aa8a683aa50f061"
+  },
+  "compiledConservativeControls": {
+    "splitDefaultExit": 0,
+    "splitDeclarationExit": 0,
+    "publicCLIExits": {
+      "splitDefault": 1,
+      "splitDeclaration": 1
+    }
+  },
+  "publicCLIBoundaries": {
+    "unqualifiedParenthesizedReader": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "helperTrailingClosureWithReader": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "readerBefore": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "commentOnlyReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "stringOnlyReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "identifierSubstringOnly": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "bareReaderNameOnly": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "readerShapedControlCondition": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "nestedReaderDeclaration": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "enumReaderPattern": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "selectorReaderReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "assignedReaderFunctionReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "multipleLabelReaderFunctionReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "assignedLabeledReaderCall": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "assignedMultipleLabeledReaderCall": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "escapedLabelReaderFunctionReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "localGetterDeclaration": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "sameLineDefaultArgument": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "splitLineDefaultArgument": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "splitLineReaderDeclaration": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "unicodeLabelReaderFunctionReference": {
+      "exit": 0,
+      "invalidScope": false
+    }
+  },
+  "strictSchemaCases": {
+    "configuredFalse": 1,
+    "configuredZero": 1,
+    "configuredObject": 1,
+    "configuredArray": 1,
+    "boolVersion": 1,
+    "boolCallOffset": 1,
+    "integerTestEntry": 1,
+    "unknownTopField": 1,
+    "unknownRowField": 1,
+    "emptyReferenceHash": 1,
+    "unknownClassification": 1,
+    "staleBody": 1,
+    "staleCallFingerprint": 1,
+    "staleCallOffset": 1,
+    "unmatchedFile": 1,
+    "duplicateScope": 1
+  },
+  "fourSourceMutants": [
+    {
+      "name": "drop-call-syntax",
+      "failedAsRequired": true,
+      "assertion": "bare reader name accepted as reader call"
+    },
+    {
+      "name": "allow-function-reference-placeholder",
+      "failedAsRequired": true,
+      "assertion": "function-reference placeholder accepted as invocation"
+    },
+    {
+      "name": "allow-reader-trailing-closure",
+      "failedAsRequired": true,
+      "assertion": "accessor accepted after restoring reader trailing-closure shape"
+    },
+    {
+      "name": "drop-invocation-context",
+      "failedAsRequired": true,
+      "assertion": "enum pattern accepted after removing invocation context"
+    }
+  ],
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "8e34104d2fd8cda6d581b9500b47d0a9d7e717b3b597c14773f5a9561a7c97a7"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "8938ca2394079edd0eb26ac9414e2f421095e9696d7fad6a7043a40f53700f4d"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "1e1030cb5f66cf0c26697402e653e7876df494f1f10fc14adc5f330ec72f8c1d"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "95540416e85b85f0f0c2f0a8d9e3d706a129c887d192cdf2c052b3f29e61f43e"
+    }
+  ],
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "req056": 1,
+    "invalidScopes": 0,
+    "exit": 1,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "versions": {
+    "plugin": "0.16.2",
+    "marketplace": "0.16.2",
+    "catalogue": "0.16.2",
+    "catalogueRegenerationChangedBytes": false,
+    "path": "catalogue.log",
+    "sha256": "f90a65f6dbbc754e2446fe371f2182e935ded122bc1de9cb7b77e260a5b4f954"
+  },
+  "probe": {
+    "path": "probe.json",
+    "sha256": "0f6ca630e67d13e263ed22e9c24a4b73efd790232a1b097894417c240bf8003f",
+    "scannerSHA256": "86b9446fabbde925878d4b6d49590e19d94d46603143e7ed5a0f6ec7655ce7e8",
+    "sourceRestored": true
+  },
+  "limitations": "Lexical grammar/context review plus Swift typechecks; deliberately false-negatives ambiguous nested calls and does not resolve reader independence/output causality. No install, publish, cache edit, push, merge, rebase, native app, provider, Keychain, or live campaign."
+}
