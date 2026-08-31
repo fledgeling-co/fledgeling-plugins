@@ -22,7 +22,7 @@ try:
 finally:
     marketplace.write_bytes(original)
 output = run.stdout + run.stderr
-(evidence / 'child060-catalogue-mutant.log').write_text(output)
+(evidence / 'child060-catalogue-mutant.log').write_text(output.rstrip() + '\n')
 observed = run.returncode == 1 and ('generate-investor-portal: version mismatch — plugin.json says 1.3.0, '
                                   'marketplace.json says 1.2.0') in output
 receipt = {'exitCode': run.returncode, 'namedFailureObserved': observed,

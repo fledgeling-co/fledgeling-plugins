@@ -9,7 +9,7 @@ all. A campaign with 220 armed cases had run the first direction 220 times and
 the second never, and recorded "runner communication is outbound pull only via
 HTTPS/WSS on TCP 443" as observed over a product with no HTTP client.
 
-Three passes, all exact, none needing a model:
+Three mechanical passes, with a name-based blind heuristic, none needing a model:
 
   unclassed   a requirement whose text names an effect outside the process and
               carries no `effect` field. Deliberately over-flags: it prompts the
@@ -335,14 +335,234 @@ def _spec_label(src: str, pos: int) -> str:
     return m.group(1) if m else "<unnamed spec>"
 
 
+# Swift is lexed separately: a following declaration is not a body's closing brace.
+class SwiftScanError(ValueError):
+    def __init__(self, position: int, reason: str):
+        self.position, self.reason = position, reason
+        super().__init__(reason)
+
+
+class SwiftLexicalMask:
+    """Keep offsets/newlines and executable interpolation; erase only literal/comment text.
+
+    This is a bounded lexer, not a compiler. Ambiguous slash/regex forms and malformed
+    delimiters fail the file's measurement rather than manufacturing executable text.
+    """
+    def __init__(self, source: str):
+        self.source = source
+        self.output = list(source)
+        self.escaped_identifiers: set[int] = set()
+
+    def erase(self, start: int, end: int) -> None:
+        for i in range(start, end):
+            if self.output[i] not in "\r\n":
+                self.output[i] = " "
+
+    def code(self, i: int = 0, interpolation: bool = False, depth: int = 0) -> int:
+        if depth > 128:
+            raise SwiftScanError(i, "interpolation nesting exceeds the supported limit (128)")
+        s, parens = self.source, 0
+        while i < len(s):
+            if s.startswith("//", i):
+                end = s.find("\n", i)
+                end = len(s) if end < 0 else end
+                self.erase(i, end); i = end; continue
+            if s.startswith("/*", i):
+                start, nesting = i, 1
+                i += 2
+                while i < len(s) and nesting:
+                    if s.startswith("/*", i): nesting += 1; i += 2
+                    elif s.startswith("*/", i): nesting -= 1; i += 2
+                    else: i += 1
+                if nesting:
+                    raise SwiftScanError(start, "unterminated block comment")
+                self.erase(start, i); continue
+            if s.startswith("*/", i):
+                raise SwiftScanError(i, "unmatched block-comment terminator")
+            if s[i] == '`':
+                end = s.find('`', i + 1)
+                if end < 0 or not re.fullmatch(r"[^\W\d]\w*", s[i + 1:end], re.UNICODE):
+                    raise SwiftScanError(i, "unsupported or unterminated escaped identifier")
+                self.escaped_identifiers.add(i + 1)
+                self.erase(i, i + 1); self.erase(end, end + 1)
+                i = end + 1; continue
+            hashes = 0
+            if s[i] == '#':
+                while i + hashes < len(s) and s[i + hashes] == '#': hashes += 1
+                if s.startswith('/', i + hashes):
+                    raise SwiftScanError(i, "Swift regex literal is not measured")
+            if s.startswith('"', i + hashes):
+                i = self.string(i, hashes, depth); continue
+            if s[i] == '/':
+                # Ordinary arithmetic is distinguishable after a simple operand. Other slash
+                # fixity (including regex) needs Swift's expression grammar: refuse to guess.
+                prefix = ''.join(self.output[:i]).rstrip()
+                before = re.search(r"([\w]+|[)\]}])$", prefix)
+                after = s[i + 1:].lstrip()
+                word = before.group(1) if before else ''
+                if (not before or word in {'return', 'throw', 'try', 'await', 'case', 'in', 'yield'}
+                        or not re.match(r"(?:[\w(]|[+-]\s*[\w(]|=\s*[\w(])", after)):
+                    raise SwiftScanError(i, "ambiguous slash/operator or bare regex is not measured")
+            if s[i] == "'":
+                raise SwiftScanError(i, "single-quoted literal is not supported Swift syntax")
+            if interpolation:
+                if s[i] == '(': parens += 1
+                elif s[i] == ')':
+                    if not parens: return i + 1
+                    parens -= 1
+            i += 1
+        if interpolation:
+            raise SwiftScanError(i, "unterminated string interpolation")
+        return i
+
+    def string(self, start: int, hashes: int, depth: int) -> int:
+        s = self.source
+        quote = start + hashes
+        width = 3 if s.startswith('"""', quote) else 1
+        close = '"' * width + '#' * hashes
+        escape = '\\' + '#' * hashes
+        i = quote + width
+        self.erase(start, i)
+        while i < len(s):
+            if s.startswith(close, i):
+                self.erase(i, i + len(close)); return i + len(close)
+            if s.startswith(escape, i):
+                following = i + len(escape)
+                if following >= len(s): break
+                if s[following] == '(':
+                    self.erase(i, following)
+                    i = self.code(following + 1, interpolation=True, depth=depth + 1)
+                    continue
+                if width == 1 and s[following] in '\r\n':
+                    raise SwiftScanError(i, "newline in single-line string")
+                self.erase(i, following + 1); i = following + 1; continue
+            if width == 1 and s[i] in '\r\n':
+                raise SwiftScanError(i, "newline in single-line string")
+            self.erase(i, i + 1); i += 1
+        raise SwiftScanError(start, "unterminated string literal")
+
+
+def swift_body_spans(source: str) -> dict:
+    """Return lexical function bodies and explicit measurement failures, never next-decl slices.
+
+    Every named body is a candidate, not necessarily a runnable test. Called-helper exclusions
+    remain heuristic; @Test and test* names are explicit entry points and cannot be excluded.
+    Nested named declarations are erased from parents, without resolving helper calls.
+    """
+    lexer = SwiftLexicalMask(source)
+    result: dict = {"masked": "", "blocks": [], "diagnostics": [], "bodyless": 0}
+    try:
+        lexer.code()
+        masked = ''.join(lexer.output)
+        result['masked'] = masked
+        pairs, stack = {}, []
+        for i, ch in enumerate(masked):
+            if ch in '([{': stack.append((ch, i))
+            elif ch in ')]}':
+                if not stack or stack[-1][0] != {')': '(', ']': '[', '}': '{'}[ch]:
+                    raise SwiftScanError(i, "unmatched or mismatched delimiter")
+                _, start = stack.pop(); pairs[start] = i
+        if stack:
+            raise SwiftScanError(stack[-1][1], "unterminated delimiter")
+
+        def skip_space(i: int) -> int:
+            while i < len(masked) and masked[i].isspace(): i += 1
+            return i
+
+        # Attributes can contain parentheses/default closures. Associate @Test only with the
+        # declaration that follows its balanced attribute/modifier sequence, not a previous test.
+        test_entries = set()
+        declaration_prefixes = {}
+        modifier = re.compile(r"(?:private|fileprivate|internal|public|open|package|static|class|final|"
+                              r"override|mutating|nonmutating|nonisolated|isolated|distributed|"
+                              r"borrowing|consuming|optional|dynamic)\b")
+        for annotation in re.finditer(r"@[\w.]+", masked):
+            is_test = annotation.group(0) in {'@Test', '@Testing.Test'}
+            i = skip_space(annotation.end())
+            if i < len(masked) and masked[i] == '(': i = pairs[i] + 1
+            while True:
+                i = skip_space(i)
+                attr = re.match(r"@[\w.]+", masked[i:])
+                mod = modifier.match(masked, i)
+                if attr: i += attr.end()
+                elif mod: i = mod.end()
+                else: break
+                i = skip_space(i)
+                if i < len(masked) and masked[i] == '(': i = pairs[i] + 1
+            if re.match(r"(?:func|struct|class|enum|actor|protocol|extension)\b", masked[i:]):
+                declaration_prefixes[i] = min(annotation.start(), declaration_prefixes.get(i, i))
+                if is_test: test_entries.add(i)
+
+        # A protocol requirement has no executable body; distinguish that supported absence
+        # from a malformed bodyless test declaration. Named type ranges also mask local types.
+        types = []
+        for match in re.finditer(r"\b(struct|class|enum|actor|protocol|extension)\s+[^\W\d]\w*", masked):
+            i = match.end()
+            while i < len(masked) and masked[i] not in '{};':
+                if masked[i] in '([': i = pairs[i]
+                i += 1
+            if i < len(masked) and masked[i] == '{':
+                types.append((match.start(), i, pairs[i], match.group(1)))
+
+        declarations = []
+        for match in re.finditer(r"\bfunc\b", masked):
+            if match.start() in lexer.escaped_identifiers: continue
+            i = skip_space(match.end())
+            name_match = re.match(r"(?:[^\W\d]\w*|[=+*/%<>!&|^~?.-]+)", masked[i:])
+            if not name_match:
+                raise SwiftScanError(i, "function name is not supported")
+            name = name_match.group(0)
+            i = skip_space(i + name_match.end())
+            if i < len(masked) and masked[i] == '<':
+                opening, angle = i, 1; i += 1
+                while i < len(masked) and angle:
+                    if masked[i] == '<': angle += 1
+                    elif masked[i] == '>' and masked[i - 1] != '-': angle -= 1
+                    i += 1
+                if angle: raise SwiftScanError(opening, "unterminated generic signature")
+                i = skip_space(i)
+            if i >= len(masked) or masked[i] != '(':
+                raise SwiftScanError(i, "function parameter clause is not supported")
+            i = pairs[i] + 1
+            while i < len(masked):
+                i = skip_space(i)
+                if i >= len(masked) or masked[i] in '{};': break
+                if re.compile(r"\b(?:func|var|let|init|subscript|struct|class|enum|actor|protocol)\b").match(masked, i): break
+                if masked[i] in '([': i = pairs[i] + 1
+                else: i += 1
+            if i >= len(masked) or masked[i] != '{':
+                if any(a < match.start() < end and kind == 'protocol' for a, _, end, kind in types):
+                    result['bodyless'] += 1; continue
+                raise SwiftScanError(match.start(), "function declaration has no measurable body")
+            declarations.append({"name": name, "start": match.start(), "bodyStart": i + 1,
+                                 "end": pairs[i], "line": source.count('\n', 0, match.start()) + 1,
+                                 "testEntry": match.start() in test_entries or name.startswith('test')})
+        for block in declarations:
+            body = list(masked[block['bodyStart']:block['end']])
+            nested = [(declaration_prefixes.get(child['start'], child['start']), child['end'] + 1) for child in declarations
+                      if block['bodyStart'] <= child['start'] < block['end']]
+            nested += [(declaration_prefixes.get(a, a), end + 1) for a, _, end, _ in types if block['bodyStart'] <= a < block['end']]
+            for start, end in nested:
+                for i in range(start - block['bodyStart'], end - block['bodyStart']):
+                    if body[i] not in '\r\n': body[i] = ' '
+            block['body'] = ''.join(body)
+        result['blocks'] = declarations
+    except (SwiftScanError, RecursionError) as error:
+        pos = error.position if isinstance(error, SwiftScanError) else 0
+        reason = error.reason if isinstance(error, SwiftScanError) else "lexer nesting limit exceeded"
+        result['diagnostics'] = [{"line": source.count('\n', 0, pos) + 1, "reason": reason}]
+        result['blocks'] = []
+    return result
+
+
 def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) -> dict:
     """After the last mutating call in a test body, does any reader appear?
 
     Name-based and deliberately generous: a reader called for an unrelated
     reason still counts, so the error runs toward reporting fewer blind tests
-    than there are. A test that mutates and never reads again can only be
-    asserting the call's own return value, which is the shape that let a daemon
-    verb report success while changing nothing.
+    than there are. A candidate with a mutator name and no later reader name
+    needs source review: it may assert only the return value, or the name may
+    describe a fixture factory/failure sentinel rather than a product mutation.
     """
     files = [f for f in root.rglob("*")
              if f.is_file() and f.suffix in {".rs", ".py", ".ts", ".js", ".go", ".swift", ".cs"}
@@ -350,23 +570,42 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
     examined = mutating = reread = 0
     decl_blocks = spec_blocks = 0
     findings: list[str] = []
+    not_measured: list[str] = []
+    swift_files = swift_measured = swift_entries = swift_helpers = swift_bodyless = 0
     # Which declared verbs appear anywhere in this corpus at all. A vocabulary
     # for another language half-matches — the generic verbs hit, the project's
     # own never do — and half-matching is what made 32 findings against a foreign
     # tree indistinguishable from 32 real ones. Recorded per run, not per test.
     seen_verbs: set[str] = set()
     for f in files:
+        is_swift = f.suffix == ".swift"
+        swift_files += int(is_swift)
         try:
-            src = f.read_text(errors="replace")
-        except OSError:
+            src = f.read_text(encoding="utf-8", errors="strict" if is_swift else "replace")
+        except (OSError, UnicodeError) as error:
+            if is_swift:
+                not_measured.append(f"{f}:1 — Swift source could not be read ({type(error).__name__})")
             continue
+        swift = swift_body_spans(src) if is_swift else None
+        if swift is not None:
+            if swift["diagnostics"]:
+                not_measured.extend(f"{f}:{d['line']} — {d['reason']}" for d in swift["diagnostics"])
+                continue
+            swift_measured += 1
+            swift_bodyless += swift["bodyless"]
+            src = swift["masked"]
         for v in mutators:
             if v not in seen_verbs and re.search(
                     r"(?<![A-Za-z0-9_])" + re.escape(v) + r"\w*\s*\(", src):
                 seen_verbs.add(v)
-        decls = [(m.start(), m.group(1), "decl") for m in DECL_RE.finditer(src)]
-        specs = [(m.start(), _spec_label(src, m.end()), "spec")
-                 for m in SPEC_HEAD_RE.finditer(src)]
+        if swift is not None:
+            decls = [(block["start"], block["name"], "decl") for block in swift["blocks"]]
+            specs = []
+            swift_entries += sum(block["testEntry"] for block in swift["blocks"])
+        else:
+            decls = [(m.start(), m.group(1), "decl") for m in DECL_RE.finditer(src)]
+            specs = [(m.start(), _spec_label(src, m.end()), "spec")
+                     for m in SPEC_HEAD_RE.finditer(src)]
         starts = sorted(decls + specs)
         decl_blocks += len(decls)
         spec_blocks += len(specs)
@@ -382,9 +621,12 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
         # called by name, so it has nothing to be excluded by.
         helpers = {n for _, n, k in starts if k == "decl"
                    and len(re.findall(r"(?<![A-Za-z0-9_])" + re.escape(n) + r"\s*\(", src)) > 1}
+        if swift is not None:
+            helpers -= {block["name"] for block in swift["blocks"] if block["testEntry"]}
+            swift_helpers += sum(block["name"] in helpers for block in swift["blocks"])
         for i, (pos, name, kind) in enumerate(starts):
             end = starts[i + 1][0] if i + 1 < len(starts) else len(src)
-            body = src[pos:end]
+            body = swift["blocks"][i]["body"] if swift is not None else src[pos:end]
             if kind == "decl" and name in helpers:
                 continue
             examined += 1
@@ -408,11 +650,15 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
             if any(re.search(re.escape(rd) + r"\w*", tail) for rd in readers):
                 reread += 1
             else:
+                location = f"{f}:{swift['blocks'][i]['line']}" if swift is not None else str(f)
                 findings.append(f"{name} — last mutator '{which}', no read after it "
-                                f"({f})")
+                                f"({location})")
     return {"files": len(files), "examined": examined, "mutating": mutating,
             "reread": reread, "findings": findings, "seenVerbs": seen_verbs,
-            "declBlocks": decl_blocks, "specBlocks": spec_blocks}
+            "declBlocks": decl_blocks, "specBlocks": spec_blocks,
+            "notMeasured": not_measured, "swiftFiles": swift_files,
+            "swiftMeasuredFiles": swift_measured, "swiftTestEntries": swift_entries,
+            "swiftExcludedHelpers": swift_helpers, "swiftBodylessRequirements": swift_bodyless}
 
 
 # ── the control ─────────────────────────────────────────────────────────────
@@ -591,6 +837,15 @@ def main() -> int:
                 muts = rds = ()
             if muts and rds:
                 res = pass_blind(root, muts, rds)
+                if res["swiftFiles"]:
+                    print(f"  Swift: files={res['swiftFiles']} measured-files={res['swiftMeasuredFiles']} "
+                          f"unmeasured-files={len(res['notMeasured'])} "
+                          f"explicit-test-entries={res['swiftTestEntries']} "
+                          f"called-helpers-excluded={res['swiftExcludedHelpers']} "
+                          f"bodyless-protocol-requirements={res['swiftBodylessRequirements']}")
+                    print("  Swift discovery: uncalled named functions remain candidates, not proven test entries; "
+                          "nested declarations supply no parent calls. Helper effects and reader independence "
+                          "are not resolved.")
                 # The corroboration. Only the verbs the project (or the operator)
                 # CLAIMED are evidence about fit: the defaults are a grab-bag and
                 # some of them match every language. Fewer than a quarter of the
@@ -624,18 +879,16 @@ def main() -> int:
                     print(f"  readers: {', '.join(rds)}")
                     for line in blind_findings[:20]:
                         print(f"  · {line}")
-                    # An examined count of zero over a corpus with files in it is
-                    # a failed measurement, not a clean one, and the two print
-                    # identically without this line. The measured case: a regex
-                    # that saw only named declarations reported blind=0 over a
-                    # repository whose 4,741 test blocks were all arrow-style.
-                    if res["files"] and not res["examined"]:
-                        print(f"blind:      NOT MEASURED — {res['files']} file(s) scanned and "
-                              f"0 test blocks recognised, so `blind=0` is a statement about "
-                              f"nothing. Check that {root} is the corpus you meant.")
-                        blind_findings = [
-                            f"the blind pass recognised 0 test blocks in {res['files']} "
-                            f"file(s) under {root} — a result over an empty population"]
+                # Missing measurements are independent of vocabulary fit and cannot be erased by
+                # clean findings from other files (or by a vocabulary warning).
+                for diagnostic in res["notMeasured"]:
+                    print(f"blind:      NOT MEASURED — {diagnostic}")
+                blind_findings.extend(res["notMeasured"])
+                if not res["examined"]:
+                    print(f"blind:      NOT MEASURED — {res['files']} file(s) scanned and "
+                          "0 test blocks recognised; an empty measured population cannot clear.")
+                    blind_findings.append(f"the blind pass recognised 0 test blocks in {res['files']} "
+                                          f"file(s) under {root} — a result over an empty population")
 
     findings = len(unclassed) + len(uncensused) + len(blind_findings)
     print(f"\nvacuity: requirements={total} external={declared} findings={findings}")

@@ -2,6 +2,28 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.16.1 — 2026-09-01
+
+Swift blind-pass candidates now use balanced function bodies. A following private
+helper no longer contributes its writes to the preceding test; nested declarations
+cannot supply their parent with readers. Comments and literal text are masked,
+while executable ordinary/raw/multiline string interpolation remains visible.
+Modifiers, attributes, generic signatures and default closures retain body boundaries.
+
+The gate reports unsupported or malformed Swift files as NOT MEASURED, with a
+file/reason and a separate denominator, including mixed corpora. Empty scans fail.
+Regex and ambiguous slash operators remain outside the bounded lexer; ordinary
+arithmetic division is supported. Named functions are candidates, not a test-runner
+census: called-helper exclusions remain heuristic, while @Test and test* entries
+are retained. This does not establish control flow, transitive effects or reader
+independence. Other-language extraction and provider rules are unchanged.
+
+The portable fixture group runs in the standing gate. An actual next-declaration
+mutant fails the nested-body falsifier. Two stale control-diagnostic expectations
+now name their respective missing-drive and driven-without-passing-effect errors;
+an actual structural-actuation-credit mutant still fails. The historical pinned
+baseline remains 111 passed / 2 failed, rather than being rewritten as green.
+
 ## 0.16.0 — 2026-08-28
 
 **A board is a different starting question from a diff.** "Is this product

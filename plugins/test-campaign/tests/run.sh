@@ -1648,5 +1648,11 @@ else
   echo "FAIL  add should refuse an unknown plane"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
 fi
 
+if python3 "$HERE/test_swift_bodies.py"; then
+  say "ok    Swift lexical/body and public CLI fixtures"; PASS=$((PASS+1))
+else
+  echo "FAIL  Swift lexical/body and public CLI fixtures"; FAIL=$((FAIL+1))
+fi
+
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1

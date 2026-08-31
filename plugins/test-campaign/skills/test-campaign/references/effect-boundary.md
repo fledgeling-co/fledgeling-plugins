@@ -211,6 +211,35 @@ Seventeen of twenty-one. Five of them in a file named `supervisor_effect_tests.r
 Run this before reaching for a tracer; it is a `grep` and it finds the same class
 of hollow pass one level in.
 
+### Swift body boundaries and measurement limits (0.16.1)
+
+For Swift, this pass lexes comments and ordinary/raw/multiline strings, preserves
+executable interpolation recursively, then balances each named function's body.
+Signatures (including generic clauses and default closures) are outside its body.
+Nested named functions/types, including their attributes, are removed from the
+parent body and analysed as separate named-function candidates where applicable.
+A following private helper therefore cannot donate a write or reader to a test.
+
+The denominator is **candidate bodies**, not discovered runnable tests. All named
+bodies enter discovery; the existing same-file name-occurrence helper heuristic
+can exclude helpers, except explicit `@Test`/`@Testing.Test` or `test*` entries.
+An uncalled private helper remains a candidate. The output separately reports
+named bodies, explicit entries, excluded helpers, protocol requirements without
+bodies, and measured/unmeasured Swift files. Overloads and indirect helper calls
+are not resolved. A closure's lexical calls remain visible even when execution
+would depend on invocation. No control-flow, macro-expansion, type, transitive
+helper-effect or independent-reader proof is claimed; names such as `Issue.record`
+and fixture factories can still create candidates that require source review.
+
+Malformed delimiters, unreadable Swift input, unsupported regex literals or
+ambiguous slash/operator syntax produce `NOT MEASURED` with the file and reason.
+That entire file is excluded from measured-body counts, and `--gate` exits 1 even
+when other supported files are clean. Ordinary division after a simple operand is
+supported. This is a bounded lexer/body extractor, not a Swift compiler: semantic
+and other grammar validity are not certified. Zero candidate bodies also fails.
+Other languages retain their existing extractor; provider/requirement rules do
+not change. A finding is a review candidate, never an automatic defect verdict.
+
 ---
 
 ## 6. The control: strengthen the specification and watch it break
