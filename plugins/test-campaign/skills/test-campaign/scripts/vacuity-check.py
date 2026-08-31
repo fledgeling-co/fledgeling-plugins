@@ -795,10 +795,15 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                     continue
                 caller_body, masked_caller, _ = bodies[0]
                 offset = caller.get("callOffset")
-                match = (re.match(re.escape(str(row.get("name"))) + r"\s*(?:\(|\{)",
-                                  caller_body[offset:])
+                pattern = re.escape(str(row.get("name"))) + r"\s*(?:\(|\{)"
+                match = (re.match(pattern, caller_body[offset:])
                          if isinstance(offset, int) and offset < len(caller_body) else None)
-                if (match is None or call_fingerprint(caller_body, offset, offset + match.end()) !=
+                executable_match = (re.match(pattern, masked_caller[offset:])
+                                    if isinstance(offset, int) and offset < len(masked_caller)
+                                    else None)
+                if (match is None or executable_match is None or
+                        executable_match.end() != match.end() or
+                        call_fingerprint(caller_body, offset, offset + match.end()) !=
                         caller.get("callSHA256")):
                     scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
                                         "does not bind its named helper call")

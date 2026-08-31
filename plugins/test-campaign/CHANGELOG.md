@@ -14,7 +14,7 @@ fingerprint, so a helper cannot borrow an unrelated reader as its justification.
 schema integers and configured-but-falsy scope paths fail closed. A bound caller must itself
 contain a configured reader after the named helper call. Target and caller records bind their
 current explicit-test posture, and caller bindings accept parenthesized or trailing-closure Swift
-calls. No mutator name is
+calls. Caller calls must remain executable after comments and literals are masked. No mutator name is
 excluded globally, and raw candidate artifacts remain valid.
 
 ## 0.16.1 — 2026-09-01

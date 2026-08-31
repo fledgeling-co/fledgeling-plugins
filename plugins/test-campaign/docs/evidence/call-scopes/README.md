@@ -10,6 +10,8 @@ the raw mutating-body denominator and count scoped calls by classification.
 Target and caller records bind the parser's explicit-test posture so removing `@Test` outside an
 otherwise identical body invalidates the scope. Caller bindings recognize parenthesized and Swift
 trailing-closure invocations; this remains lexical and does not claim overload or receiver identity.
+The exact caller call must also survive the Swift comment/literal mask, so a matching spelling in
+non-executable text cannot justify attribution.
 
 Twenty focused tests and the complete114-test plugin gate pass. Three original disposable actual-source
 faults are red: ignoring the call fingerprint, suppressing the whole body, and globally excluding
@@ -22,7 +24,7 @@ slice after F25-064. Nothing was installed or published.
 Primary review found three author gaps: Python booleans passed as integer schema fields,
 configured-but-falsy scope paths were treated as absent, and attributed helpers did not bind their
 named callers. The repaired suite exercises all three through the public loader or CLI and rejects an
-arbitrary non-caller body. Follow-up CP §7 and Perch corpus review added five repair mutants: caller-later-reader,
+arbitrary non-caller body. Follow-up CP §7 and Perch corpus review added six repair mutants: caller-later-reader,
 target and caller test-entry posture, strict posture schema, and trailing-closure caller matching.
-Fresh fixtures reject all five, including a reader placed only before the helper call. The generated catalogue
+Fresh fixtures reject all six, including a reader placed only before the helper call and a helper spelling that exists only in a comment. The generated catalogue
 version is kept at 0.16.2 with both manifests.

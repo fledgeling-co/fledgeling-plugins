@@ -124,6 +124,24 @@ class SwiftBodies(unittest.TestCase):
         result = self.scan(trailing, scopes=[trailing_scope])
         self.assertEqual(result['scopeFindings'], [])
 
+        commented = 'private func seed() { write() }\nfunc testCaller() { /* seed() */ read() }'
+        blocks = SCAN.swift_body_spans(commented)['blocks']
+        helper_body = commented[blocks[0]['bodyStart']:blocks[0]['end']]
+        caller_body = commented[blocks[1]['bodyStart']:blocks[1]['end']]
+        caller_offset = caller_body.index('seed(')
+        comment_scope = dict(helper_scope,
+            bodySHA256=hashlib.sha256(helper_body.encode()).hexdigest(),
+            callOffset=helper_body.index('write('),
+            callSHA256=SCAN.call_fingerprint(helper_body, helper_body.index('write('),
+                                              helper_body.index('write(') + len('write(')),
+            callers=[dict(helper_scope['callers'][0],
+                bodySHA256=hashlib.sha256(caller_body.encode()).hexdigest(),
+                callOffset=caller_offset,
+                callSHA256=SCAN.call_fingerprint(
+                    caller_body, caller_offset, caller_offset + len('seed(')))])
+        result = self.scan(commented, scopes=[comment_scope])
+        self.assertTrue(any('named helper call' in finding for finding in result['scopeFindings']))
+
     def test_scope_binds_target_and_caller_test_entry_posture(self):
         source = '@Test func measure() { write() }'
         scope = self.scope(source, 'write(')

@@ -61,5 +61,12 @@
     "failedAsRequired": true,
     "replacements": 1,
     "log": "plugins/test-campaign/docs/evidence/call-scopes/drop-test-entry-schema.log"
+  },
+  {
+    "name": "nonexecutable-caller-spelling",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/nonexecutable-caller-spelling.log"
   }
 ]
