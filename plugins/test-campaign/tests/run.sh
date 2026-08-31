@@ -1322,7 +1322,7 @@ python3 "$S/campaign.py" add "$INERT" --kind case --file "$WORK/ic.json" >/dev/n
 python3 "$S/campaign.py" set "$INERT" --case CASE-0001 --status pass \
   --evidence "shots/ws.png" --armed >/dev/null
 expect "a surface whose declared controls nothing actuates does not clear" 1 "$INERT" \
-  "declaring controls that no passing effect-rung case actuates"
+  "declaring control(s) nothing has driven"
 
 # The denominator prints whether or not it blocks — the campaign that produced
 # this rule was green, and the number nobody printed was the whole finding.
@@ -1343,7 +1343,7 @@ c[0]["actuates"]=["Open Mock Folder…","Pull Proof","Copy Swift"]
 json.dump(c,open(p,"w"),indent=2)
 PY2
 expect "a below-outcome case does not actuate anything" 1 "$INERT" \
-  "declaring controls that no passing effect-rung case actuates"
+  "whose every declared control was driven and not one drive produced a passing effect-rung result"
 
 # Raised to an effect rung, the same case clears it.
 python3 - "$INERT/cases.json" <<'PY2'
@@ -1646,6 +1646,12 @@ if grep -qF -- "is not a plane" <<<"$out"; then
   say "ok    an unrecognised plane is refused at add"; PASS=$((PASS+1))
 else
   echo "FAIL  add should refuse an unknown plane"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+if python3 "$HERE/test_swift_bodies.py"; then
+  say "ok    Swift lexical/body and public CLI fixtures"; PASS=$((PASS+1))
+else
+  echo "FAIL  Swift lexical/body and public CLI fixtures"; FAIL=$((FAIL+1))
 fi
 
 echo "campaign gate tests: $PASS passed, $FAIL failed"

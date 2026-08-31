@@ -1,0 +1,11 @@
+{
+  "exitCode": 1,
+  "namedFailureObserved": true,
+  "productionSourceSHA256": "12babba6f3daf79a79d8eca67d6251e38228050db1cd20463929716ca9407966",
+  "mutatedSourceSHA256": "594bfb33c8e6958257c2efc56e24cb949de38e638004f208aa5cf333cb4a2425",
+  "productionSourceUnchanged": true,
+  "substitution": {
+    "before": "if state_of(c.get(\"status\", \"open\")) == \"pass\" and c.get(\"oracle\") in EFFECT_RUNGS:\n            actuated[sid]",
+    "after": "if state_of(c.get(\"status\", \"open\")) == \"pass\":\n            actuated[sid]"
+  }
+}

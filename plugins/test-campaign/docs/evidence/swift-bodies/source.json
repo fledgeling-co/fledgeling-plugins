@@ -1,0 +1,6 @@
+{
+  "source": "plugins/test-campaign/skills/test-campaign/scripts/vacuity-check.py",
+  "sha256": "3bc32825f99d55b6dc88a8ff05a3b18dc0e38ea0f1901a89d7cde3a2429e9764",
+  "baseCommit": "65119b6",
+  "validation": "author only; fresh review pending"
+}
