@@ -1,0 +1,55 @@
+{
+  "reviewedSourceSHA256": "1e3e94ba7f4a2b1fa686f9035a74573e56d9d91a5e492c357548eba01f69f759",
+  "checks": {
+    "versionBooleanRejected": true,
+    "offsetBooleanRejected": true,
+    "falsyConfiguredValuesRejected": true,
+    "unboundHelperRejected": true,
+    "qualifiedValidCallerAccepted": true,
+    "callerFingerprintDriftRejected": true
+  },
+  "cases": {
+    "versionBoolean": {
+      "exitCode": 1,
+      "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=0 blind=1\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-5s5ty9uf/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n  \u00b7 testBlind \u2014 last mutator 'write', no read after it (/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-5s5ty9uf/tests/ExampleTests.swift:1)\nblind:      INVALID SCOPE \u2014 scope file /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-5s5ty9uf/scopes.json must contain version 1 and a scopes array\n\nvacuity: requirements=1 external=0 findings=2\n"
+    },
+    "offsetBoolean": {
+      "exitCode": 1,
+      "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=0 blind=1\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-181ute24/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n  \u00b7 testBlind \u2014 last mutator 'write', no read after it (/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-181ute24/tests/ExampleTests.swift:1)\nblind:      INVALID SCOPE \u2014 scope[0] has an invalid call offset\n\nvacuity: requirements=1 external=0 findings=2\n"
+    },
+    "falsyConfiguredValues": [
+      {
+        "exitCode": 1,
+        "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=1 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-kyigin88/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 blindScopeFile must be a nonempty string when configured\n\nvacuity: requirements=1 external=0 findings=1\n",
+        "configuredValue": false
+      },
+      {
+        "exitCode": 1,
+        "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=1 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-6r5qh23v/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 blindScopeFile must be a nonempty string when configured\n\nvacuity: requirements=1 external=0 findings=1\n",
+        "configuredValue": 0
+      },
+      {
+        "exitCode": 1,
+        "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=1 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-0sj0jtkr/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 blindScopeFile must be a nonempty string when configured\n\nvacuity: requirements=1 external=0 findings=1\n",
+        "configuredValue": {}
+      },
+      {
+        "exitCode": 1,
+        "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=1 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-4vx8ps92/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 blindScopeFile must be a nonempty string when configured\n\nvacuity: requirements=1 external=0 findings=1\n",
+        "configuredValue": []
+      }
+    ],
+    "unboundHelper": {
+      "exitCode": 1,
+      "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=0 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-l5xgbg3e/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 scope[0] attributed helper has no bound caller\n\nvacuity: requirements=1 external=0 findings=1\n"
+    },
+    "qualifiedValidCaller": {
+      "exitCode": 0,
+      "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-3waht6oc/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n"
+    },
+    "driftedCallerFingerprint": {
+      "exitCode": 1,
+      "output": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f65-primary-repair-fv36o4z7/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind its named helper call\n\nvacuity: requirements=1 external=0 findings=1\n"
+    }
+  }
+}
