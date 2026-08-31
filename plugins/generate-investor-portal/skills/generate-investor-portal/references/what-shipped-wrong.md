@@ -264,3 +264,90 @@ one was found by **opening a generated tenant's footer and reading it**:
 
 `ABN ᴹ` is also the accessibility failure the research names independently: an unavailable state has
 to be readable text, not a colour-only or glyph-only marker (`references/evidence.md`, E5).
+
+## The section kind that asserted eleven documents nobody published
+
+Measured 2026-08-31 on an unlisted Australian software company's portal. Its
+`/corporate-governance` rendered **"5 documents"** and **"6 documents"** as headings, with a **PDF
+badge on every one of the eleven rows** and a date column beside them.
+
+None of them was a document. Five were prose commitments off the company's about page; six were
+third-party standards published by AASB, ISSB and the GHG Protocol. The company's own overview said
+the opposite in terms: *"No lodged company documents… The only PDFs on the site are third-party
+regulator and standard-setter publications cited in articles."*
+
+**The mechanism is the one worth carrying.** `governanceGroup`'s `docs[]` is a list of *lodged
+documents*: the renderer draws a PDF affordance per row, counts the rows into an "N documents"
+heading, and reserves a date column. Prose passed into that array inherits all three claims, and
+nothing in the record says it should not — the array validates, the page returns 200, the tokens are
+right, and the surface makes a false statement about what a company has published.
+
+So: **a kind's props are a set of claims, not a set of fields.** Before choosing one, read what its
+renderer *asserts* about the data — a count, an affordance, a date column, a marker — and ask
+whether every one of those is true of what you are about to put in it. The two sections above became
+`values`, which renders a name and a body and asserts nothing about a document existing. The page
+also lost 900px of reserved-but-empty date column, a 375px horizontal overflow, and 5 of its 13
+undersized targets, none of which had been diagnosed as the same defect.
+
+## The disclosure marker that could never fire
+
+`CompanyFacts` marked an illustrative row with `f.from === 'mock'`. `ValueProvenanceSchema` is
+`record | illustrative | unavailable` — **`'mock'` is not a value the contract can carry**, so the
+test was false on every row of every tenant and the marker was dead code.
+
+The line above it printed *"N of M rows are illustrative and are marked"*, which was then a false
+claim on the same slide as the unmarked rows. An illustrative row rendered identically to a recorded
+one, and the page said it had not.
+
+This is the shape to look for elsewhere: a predicate compared against a **stale enum value**. It
+fails silently, it fails in the direction that reads as success, and grepping for the marker finds
+the code that was supposed to draw it.
+
+## The four footer literals that outlived the fix for the footer literals
+
+The venue derivation — *read `ASX` from the listing code rather than hard-coding it* — was itself
+the repair for an earlier defect. It fell back to the string `'the exchange'` when a record held no
+listing, so on an **unlisted** company every page read *"the authoritative version of any disclosure
+is the document lodged with the exchange."* The company is admitted to no exchange and lodges
+nothing. **A fallback reintroduced the defect the derivation removed, for exactly the tenants the
+derivation existed to protect.**
+
+Two more on the same footer, both found by reading it rather than by any gate:
+
+- **A sourced ABN wearing the illustrative marker.** `<Mock what="the ABN">` was applied
+  unconditionally, so a value carried `from: 'record'`, dated, and sourced to the company's own page
+  rendered as `ABN 28 694 427 579 ᴹ`. This is `ABN ᴹ` inverted: the earlier defect was a marker with
+  no value, this is a marker on a value that had earned the opposite. It discredits the one fact on
+  the page a reader can check independently. The marker now follows the **ledger**, which is the
+  record's own definition of what is illustrative.
+- **A heading over the wrong value.** With no address on the record, the block still rendered
+  **"Registered office"** above an ABN — asserting that the ABN was one. `hasOffice` was true because
+  *any* of office, phone or ABN was present. Label a block by what it holds.
+
+## The 4:3 box that cropped the diagrams
+
+`.unit__media img` set `aspect-ratio: 4/3; object-fit: cover`. Measured on a tenant whose unit media
+are all product screenshots: natural ratios **1.79, 2.36 and 1.79** forced into 1.33, cropping
+**26%, 44% and 26%** of their width. The 44% one lost four of its seven chart categories.
+
+Cropping a photograph loses scenery. Cropping a diagram loses **data**, and the renderer cannot tell
+them apart from the record. Sizing to the image's own ratio crops nothing and letterboxes nothing;
+the cost is that media height varies between units, which on a one-unit-per-row split is the honest
+outcome rather than a defect.
+
+The general form, and it is in `imagery.md` already for a different reason: **an image's medium
+decides its treatment.** A screenshot or diagram aspect-fits on a ground; only a photograph may
+aspect-fill.
+
+## Two target-size classes, and the probe that under-reports two more
+
+Footer nav links measured **17px** against WCAG 2.5.8's 24px floor — a 15px link in an 8px-gap grid,
+on every page of every tenant. The renderer already carried a pseudo-element hit-area extension
+(`top:-7px; bottom:-7px`) for `.mk`, `.cites a`, `.ftr__dio` and `.facts .f-s a`, and `.ftr__list a`
+was simply **not in that selector list**.
+
+The half worth knowing is the other one. A probe measuring `getBoundingClientRect()` **cannot see an
+absolutely-positioned `::before`**, so it reports those four classes at 15–20px while their real hit
+area is 14px larger. Two of the "findings" in that sweep were the instrument, not the page. Before
+enlarging a target, check whether the extension already exists — and if you add padding anyway,
+report it as making the measurement honest rather than as fixing an accessibility defect.

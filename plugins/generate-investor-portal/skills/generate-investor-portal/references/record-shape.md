@@ -84,6 +84,55 @@ Two rules generalise out of them:
   taking it from there rather than adding a prop also fixes every record written before the
   field existed.
 
+## `composition` and the two proportion axes: absence is a choice, not a default
+
+Three fields added to the contract after the convergence problem was counted. All three are
+optional, and all three have a default that IS the reference build — which is exactly why leaving
+them out is not neutral. A record that states none of them renders as the tenant every other thin
+record renders as.
+
+**`section.composition`** — which of a kind's layouts to draw. Four kinds offer a set today, and
+`SECTION_COMPOSITIONS` in `portal-contract.ts` is the vocabulary rather than anything written here,
+so read it there before emitting:
+
+```
+hero          editorialSplit | statement | dataForward | index
+companyFacts  table | definitionGrid | ledger
+unitList      mediaRows | stack | indexRows
+quickLinks    tiles | list | marquee
+```
+
+The first value of each list is what that kind drew before the field existed. A value the kind does
+not offer is refused at record level, not reverted — a silent revert is indistinguishable from
+never having asked, which is the failure this whole file is written against.
+
+**`theme.structure.density`** — `comfortable` | `compact` | `editorial`. Moves the container, the
+prose measure and the SECTION rhythm. It deliberately does not move the micro-spacing steps: a
+button whose padding shrank because the brand asked for a denser page is a component regression
+wearing a brand's name.
+
+**`theme.structure.typeScale`** — `classic` | `tight` | `dramatic`. The display-to-body ratio, and
+the axis that survives a change of typeface.
+
+### Deriving them, and what the derivation may claim
+
+`design-md-from-website` measures both proportion inputs and writes them down — a container width in
+the layout tokens, a display size in the type table. Read the company's own figure and record the
+bucket. The record carries the bucket, never the number: a measured length piped into a custom
+property is the `measuredGrid` defect, which stays forbidden.
+
+One trap, measured. The display size sits on a line whose earlier value is itself a token
+reference — `display: { fontFamily: "{typography.font-display}", fontSize: "60px", … }` — so a
+regex bounded by `[^}]*` stops at the brace inside that reference and never reaches the size. It
+returns null silently and the axis resolves to `classic` on every brand forever, which is the
+silent-default failure these fields exist to remove. Scope the match to the line.
+
+**Say what the boundaries are.** They are placed relative to the reference build's own 1200px
+container and 72px display cap. They are NOT medians over a corpus the way
+`SITE_BOUNDARIES.editorialSplitMajor` is, and a corpus run on 31 Aug 2026 reached one of five sites
+— the rest now refuse automated access or no longer resolve. Use them, and do not describe them as
+measured.
+
 ## Sections switch off; they do not empty
 
 `enabled: false` is the mechanism for "this company has no video". A section rendered with
@@ -168,3 +217,61 @@ words, in the section's `sub`.
 
 Do not derive figures either. Market capitalisation from price × shares is arithmetic, not data;
 if either input is unavailable, the output is `unavailable`, not approximate.
+
+## A kind's props are claims, not fields
+
+The most expensive defect this generator has shipped was not an invented figure. It was prose put
+into `governanceGroup.docs[]`, whose renderer draws a PDF affordance per row, counts the rows into an
+**"N documents"** heading, and reserves a date column. Eleven prose items became eleven documents a
+company does not publish, on the page where that claim matters most. The array validated, the route
+returned 200, and the tokens were right.
+
+So before choosing a kind, read what its renderer **asserts** about whatever you hand it — a count,
+an affordance, a date, a marker, a badge — and check each assertion against the material. A field
+that merely *accepts* your data is not a field that *means* your data.
+
+Three that carry claims worth checking against the source every time:
+
+| Kind | What it asserts beyond the values |
+|---|---|
+| `governanceGroup` | these are lodged documents; there are N of them; each has a date and a PDF |
+| `latestDisclosures`, `announcementTimeline`, `reportIndex` | these were released to a market operator |
+| `companyFacts` with `leadFigures` | these are the figures a reader should carry away |
+
+Where the material is prose the company publishes rather than documents it lodges, `values` renders a
+name and a body and asserts nothing about a document existing.
+
+## Six shapes that look like data and are typography
+
+Each of these is a field whose *rendering contract* is not what its type suggests, and each has
+produced a visible defect:
+
+- **A hero `headline` array is LINES.** The line-mask wraps every element in its own
+  `display:block`, so `['We build the system underneath ', 'sustainability', '.']` gives the full
+  stop a line of its own. Two elements, and the stop travels with the word it ends.
+- **`identity.freeHeadline` is the OPPOSITE** — `[before, emphasised, after]`, inline runs, where a
+  trailing `'.'` is correct. Same-shaped array, opposite semantics, and nothing in the record
+  distinguishes them.
+- **`prose` renders one `<span>{props.body}</span>` and no eyebrow or heading.** An array body
+  renders run-on with no separators, and an eyebrow or `index` on it is written and never drawn.
+- **A `§` ordinal only counts if its kind renders an eyebrow.** Put one on a kind that does not and
+  the *rendered* index gains a gap, which is the completeness claim the ordinal exists to make.
+  Which kinds render one is empirical — read it off a capture, not off the record.
+- **A `badge`, `chip` or `eyebrowBadge` string does not wrap.** A 68-character eyebrow measured 471px
+  inside a 375px viewport and scrolled the whole document sideways. Write them to fit a phone.
+- **The `ledger` is joined to the page by LABEL.** A ledger entry whose label qualifies the figure's
+  own label ("AASB S2 readiness, governance" against a figure labelled "Governance") does not match,
+  and the value reads as undisclosed. Generate the ledger **from the values** rather than writing it
+  beside them, and the join cannot drift.
+
+## Writing `chrome` replaces it, so carry every field it had
+
+`chrome.header` is an override, and it is taken **wholesale**: the layout uses
+`header ?? headerFromRecord(record)`. Omit one field and you get the component's default, which on at
+least one field is the reference tenant's own literal — a header written without `mark` published
+`AE`, Alfabs' monogram, on another company's masthead.
+
+The footer merges (`{...footerFromRecord(record)} {...(footer ?? {})}`) and the header does not, so
+the two behave differently from the same-looking record edit. Prefer writing no `chrome` at all and
+letting the layout derive it; write one only where derivation gives the wrong answer, and then carry
+every field the derived version would have set.

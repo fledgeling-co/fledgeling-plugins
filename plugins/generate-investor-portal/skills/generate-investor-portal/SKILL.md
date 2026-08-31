@@ -244,9 +244,79 @@ six codes are in `references/record-shape.md`; the disagreement this leaves open
 
 ### 5. Emit sections, not markup
 
-Each page is an ordered list of `{ id, kind, enabled, order, band, divider, motion, props }`. `kind`
-comes from the contract's enumerated vocabulary; a kind it does not declare cannot render, and the
-renderer throws rather than dropping it silently.
+Each page is an ordered list of
+`{ id, kind, enabled, order, band, divider, motion, composition, props }`. `kind` comes from the
+contract's enumerated vocabulary; a kind it does not declare cannot render, and the renderer throws
+rather than dropping it silently.
+
+#### Choose the COMPOSITION, or every portal you write has the same silhouette
+
+`kind` says what a section is about. `composition` says what shape it takes, and until you set it
+the kind draws the one layout it has always drawn.
+
+This is the single largest reason generated portals read as one template. Counted on the renderer:
+its structural vocabulary carried ten axes and twenty-two values, and **nine of the ten changed a
+treatment rather than a composition** — eyebrow case, heading case, depth, table rules, corner
+shape, split ratio, accent wash, lockup, nav side. Only `peopleShape` changed what a section was
+shaped like. So two records differed in hue, font, radius and where the nav sat, while sharing
+section order, band rhythm and the internal layout of fifty-one of the fifty-two kinds. A reader
+identifies a page by its silhouette long before they read a hex value, and the motion gate had
+already measured the same thing from the other end: cross-tenant distance 1.169 against a floor of
+1.9, of which **0.927 of the entire distance is hue**.
+
+Four kinds now name a set. `SECTION_COMPOSITIONS` in the contract is the vocabulary and the first
+value of each is the reference build, so omitting it is not neutral — it is choosing the layout
+every other tenant already has:
+
+| kind | compositions |
+|---|---|
+| `hero` | `editorialSplit` · `statement` · `dataForward` · `index` |
+| `companyFacts` | `table` · `definitionGrid` · `ledger` |
+| `unitList` | `mediaRows` · `stack` · `indexRows` |
+| `quickLinks` | `tiles` · `list` · `marquee` |
+
+Choose from the company's own surfaces, and cite the sentence the way every other axis here is
+cited. A brand whose site opens on one sentence takes `statement`; one whose own facts page is a
+specification sheet rather than a report table takes `definitionGrid`; a set of units whose
+pictures carry the argument takes `stack`, and a long set a reader scans takes `indexRows`. A
+composition a kind does not offer is REFUSED at record level rather than reverted, because a
+silent revert renders identically to never having asked.
+
+#### And two proportion axes on the theme
+
+`structure.density` (`comfortable` · `compact` · `editorial`) and `structure.typeScale`
+(`classic` · `tight` · `dramatic`). Both are bounded enums, never lengths — the record still may
+not state a number, and `measuredGrid` is still forbidden.
+
+They are the axes a DESIGN.md answers directly, because `design-md-from-website` measures both and
+writes them down: a container width in the layout tokens, a display size in the type table. Read
+the company's own figure and record the bucket it fell in. `typeScale` is the one that survives a
+change of typeface — two portals in different families on the same ramp still read as one
+template, because what a reader registers first is how far the headline sits above the body.
+
+Know what these boundaries are and are not. They are placed relative to the reference build's own
+1200px container and 72px display cap, NOT against a measured distribution like
+`SITE_BOUNDARIES.editorialSplitMajor`, which is a median over eleven sites with its clearance
+stated. A corpus run attempted on 31 Aug 2026 reached one of five sites — the other four now
+refuse automated access or have gone — so the placement stands and is honest about its own
+standing. Do not quote it as measured.
+
+#### A kind's props are CLAIMS, not fields
+
+The most expensive defect this generator has shipped was not an invented figure. It was prose put
+into `governanceGroup.docs[]` — an array whose renderer draws a PDF affordance per row, counts the
+rows into an **"N documents"** heading, and reserves a date column. Eleven prose commitments and
+third-party standards became eleven documents an unlisted company does not publish, on its own
+governance page, while its source material said in terms that it publishes none. The array
+validated, the route returned 200, the tokens were right, and a reader found it by looking.
+
+So read what a kind's renderer **asserts** about whatever you hand it — a count, an affordance, a
+date, a marker — and check each assertion against the source before choosing it. A field that
+*accepts* your data is not a field that *means* your data. `references/record-shape.md` carries the
+three kinds that assert most, and six more fields whose rendering contract is not what their type
+suggests: the hero headline array is LINES while `freeHeadline` is inline runs, `prose` draws no
+eyebrow, a `§` ordinal on a kind that renders none puts a gap in the rendered index, a badge string
+does not wrap, and the ledger joins to the page by label.
 
 #### Sections switch off; they do not empty
 
