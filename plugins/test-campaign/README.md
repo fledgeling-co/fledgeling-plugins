@@ -142,6 +142,21 @@ The desktop rows exist because the alternative is inventing them. A few of the f
 
 Where a lane's tooling is genuinely absent, that's a blocker to report rather than a licence to eyeball. Windows is thinner than it looks: WinAppDriver has had no stable release since 2020 and can't be forked, White is archived, and Playwright's desktop support is Electron-only.
 
+## Swift blind-pass measurement
+
+The blind pass uses balanced Swift function bodies, so private helpers and nested
+declarations cannot donate calls to another test. It masks comments and literal
+text while keeping executable string interpolation. Its printed denominator is
+candidate bodies: explicit `@Test`/`test*` entries are retained, called helpers are
+excluded heuristically, and uncalled helpers can remain candidates.
+
+Unsupported or malformed Swift files are **NOT MEASURED**, with a file/reason and
+separate counts; even a mixed clean/unsupported scan fails `--gate`. The bounded
+lexer supports ordinary arithmetic division, but does not certify Swift grammar
+or measure regex/ambiguous operators. It does not prove reader independence,
+control flow or transitive helper effects. See the
+[effect-boundary contract](skills/test-campaign/references/effect-boundary.md#swift-body-boundaries-and-measurement-limits-0161).
+
 ## What it won't do
 
 Worth saying plainly, since the gaps are the point of the whole thing.
