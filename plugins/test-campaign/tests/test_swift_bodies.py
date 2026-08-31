@@ -9,12 +9,19 @@ import tempfile
 import unittest
 
 SCRIPT = Path(__file__).resolve().parents[1] / 'skills/test-campaign/scripts/vacuity-check.py'
+REPO = Path(__file__).resolve().parents[3]
 SPEC = importlib.util.spec_from_file_location('vacuity_swift_tests', SCRIPT)
 SCAN = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(SCAN)
 
 
 class SwiftBodies(unittest.TestCase):
+    def test_generated_catalogue_matches_canonical_plugin_version(self):
+        manifest = json.loads((REPO / 'plugins/test-campaign/.claude-plugin/plugin.json').read_text())
+        catalogue = json.loads((REPO / 'site/lib/catalogue.json').read_text())
+        row = next(plugin for plugin in catalogue['skills'] if plugin['name'] == 'test-campaign')
+        self.assertEqual(row['version'], manifest['version'])
+
     def scan(self, source, extras=None, mutators=('write', 'store'), scopes=None):
         with tempfile.TemporaryDirectory(prefix='swift-body-tests-') as directory:
             root = Path(directory)
@@ -58,13 +65,25 @@ class SwiftBodies(unittest.TestCase):
         helper = 'private func seed() { write() }\nfunc testCaller() { seed(); read() }'
         parsed = SCAN.swift_body_spans(helper)['blocks'][0]
         body = helper[parsed['bodyStart']:parsed['end']]
+        caller_parsed = SCAN.swift_body_spans(helper)['blocks'][1]
+        caller_body = helper[caller_parsed['bodyStart']:caller_parsed['end']]
+        caller_offset = caller_body.index('seed(')
         helper_scope = {'file': 'ExampleTests.swift', 'name': 'seed',
             'bodySHA256': hashlib.sha256(body.encode()).hexdigest(), 'callOffset': body.index('write('),
             'callSHA256': SCAN.call_fingerprint(body, body.index('write('), body.index('write(')+6),
             'mutator': 'write', 'classification': 'attributed-helper', 'rationale': 'caller reads',
-            'references': [{'path': 'unused', 'sha256': '0' * 64}]}
+            'references': [{'path': 'unused', 'sha256': '0' * 64}], 'callers': [{
+                'file': 'ExampleTests.swift', 'name': 'testCaller',
+                'bodySHA256': hashlib.sha256(caller_body.encode()).hexdigest(),
+                'callOffset': caller_offset,
+                'callSHA256': SCAN.call_fingerprint(
+                    caller_body, caller_offset, caller_offset + len('seed('))}]}
         result = self.scan(helper, scopes=[helper_scope])
         self.assertEqual(result['scopedCounts']['attributed-helper'], 1)
+        arbitrary = dict(helper_scope)
+        arbitrary['callers'] = [dict(helper_scope['callers'][0], name='seed')]
+        result = self.scan(helper, scopes=[arbitrary])
+        self.assertTrue(any('caller scope' in finding for finding in result['scopeFindings']))
 
     def test_scope_file_schema_and_reference_hashes_fail_closed(self):
         with tempfile.TemporaryDirectory(prefix='swift-scope-load-') as directory:
@@ -80,18 +99,33 @@ class SwiftBodies(unittest.TestCase):
             (root / 'producer.swift').write_text('drift')
             _, errors = SCAN.load_blind_scopes(root, 'scopes.json')
             self.assertTrue(any('drifted' in error for error in errors))
+            for value in [False, 0, {}, []]:
+                _, errors = SCAN.load_blind_scopes(root, value)
+                self.assertTrue(errors)
+            payload = {'version': True, 'scopes': [dict(scope, callOffset=True)]}
+            (root / 'scopes.json').write_text(json.dumps(payload))
+            rows, errors = SCAN.load_blind_scopes(root, 'scopes.json')
+            self.assertEqual(rows, []); self.assertTrue(errors)
+            payload = {'version': 1, 'scopes': [dict(scope, classification='attributed-helper')]}
+            (root / 'scopes.json').write_text(json.dumps(payload))
+            rows, errors = SCAN.load_blind_scopes(root, 'scopes.json')
+            self.assertEqual(rows, []); self.assertTrue(any('caller' in error for error in errors))
 
     def names(self, result):
         return [item.split(' — ')[0] for item in result['findings']]
 
-    def cli(self, files):
+    def cli(self, files, campaign_extra=None, root_files=None):
         with tempfile.TemporaryDirectory(prefix='swift-body-cli-tests-') as directory:
             root = Path(directory)
             (root / 'tests').mkdir()
             (root / 'inventory.json').write_text(json.dumps({'requirement': [
                 {'id': 'REQ-001', 'title': 'Counter', 'effect': 'none'}]}))
-            (root / 'campaign.json').write_text(json.dumps({'testRoot': 'tests',
-                'blindVocabulary': {'only': True, 'mutators': ['write'], 'readers': ['read']}}))
+            campaign = {'testRoot': 'tests',
+                'blindVocabulary': {'only': True, 'mutators': ['write'], 'readers': ['read']}}
+            campaign.update(campaign_extra or {})
+            (root / 'campaign.json').write_text(json.dumps(campaign))
+            for name, text in (root_files or {}).items():
+                (root / name).write_text(text)
             for name, text in files.items():
                 path = root / 'tests' / name
                 if isinstance(text, bytes): path.write_bytes(text)
@@ -263,6 +297,19 @@ func caller() { measured([1]) }
                 result = self.cli(files)
                 self.assertEqual(result.returncode, code, result.stdout + result.stderr)
                 self.assertIn(phrase, result.stdout)
+
+    def test_public_cli_rejects_invalid_scope_configuration(self):
+        source = 'func testBlind() { write() }'
+        for value in [False, 0, {}, []]:
+            with self.subTest(value=value):
+                result = self.cli({'BlindTests.swift': source}, {'blindScopeFile': value})
+                self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+                self.assertIn('blindScopeFile must be a nonempty string', result.stdout)
+        payload = {'version': True, 'scopes': []}
+        result = self.cli({'BlindTests.swift': source}, {'blindScopeFile': 'scopes.json'},
+                          {'scopes.json': json.dumps(payload)})
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn('must contain version 1', result.stdout)
 
     def test_other_languages_remain_on_their_existing_extractor(self):
         result = self.scan('func testClean() { write(); read() }', {

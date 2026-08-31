@@ -1,0 +1,30 @@
+[
+  {
+    "name": "boolean-schema",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 3,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/boolean-schema.log"
+  },
+  {
+    "name": "falsy-scope",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/falsy-scope.log"
+  },
+  {
+    "name": "unbound-helper-caller",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/unbound-helper-caller.log"
+  },
+  {
+    "name": "stale-catalogue-version",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/stale-catalogue-version.log"
+  }
+]

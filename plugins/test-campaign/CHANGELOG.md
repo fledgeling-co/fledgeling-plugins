@@ -9,7 +9,10 @@ Swift blind-pass findings can now carry explicit per-call scopes from a campaign
 or contract hashes. Only that call is removed before earlier mutators are reconsidered;
 stale, ambiguous, duplicate or unjustified records fail the gate. Reports count scoped
 failure sentinels, fixture/value calls, direct-output contracts and attributed helpers
-separately. No mutator name is excluded globally, and raw candidate artifacts remain valid.
+separately. Attributed helpers also bind the exact current caller body and helper-call
+fingerprint, so a helper cannot borrow an unrelated reader as its justification. Boolean
+schema integers and configured-but-falsy scope paths fail closed. No mutator name is
+excluded globally, and raw candidate artifacts remain valid.
 
 ## 0.16.1 — 2026-09-01
 

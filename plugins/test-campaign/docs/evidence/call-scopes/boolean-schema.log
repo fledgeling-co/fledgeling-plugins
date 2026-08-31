@@ -1,0 +1,14 @@
+.............F....
+======================================================================
+FAIL: test_public_cli_rejects_invalid_scope_configuration (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_public_cli_rejects_invalid_scope_configuration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-bzqpzbt8/plugins/test-campaign/tests/test_swift_bodies.py", line 305, in test_public_cli_rejects_invalid_scope_configuration
+    self.assertIn('must contain version 1', result.stdout)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'must contain version 1' not found in "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=0 blind=1\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-waviojtd/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 · arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only — defaults not applied — 1 mutator(s), 1 reader(s)\n  readers: read\n  · testBlind — last mutator 'write', no read after it (/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-waviojtd/tests/BlindTests.swift:1)\n\nvacuity: requirements=1 external=0 findings=1\n"
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.645s
+
+FAILED (failures=1)

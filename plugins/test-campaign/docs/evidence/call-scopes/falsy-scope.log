@@ -1,0 +1,50 @@
+.............FFFF..F.
+======================================================================
+FAIL: test_public_cli_rejects_invalid_scope_configuration (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_public_cli_rejects_invalid_scope_configuration) (value=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-im3b4txq/plugins/test-campaign/tests/test_swift_bodies.py", line 300, in test_public_cli_rejects_invalid_scope_configuration
+    self.assertIn('blindScopeFile must be a nonempty string', result.stdout)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'blindScopeFile must be a nonempty string' not found in "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=0 blind=1\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-u4acpg_9/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 · arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only — defaults not applied — 1 mutator(s), 1 reader(s)\n  readers: read\n  · testBlind — last mutator 'write', no read after it (/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-u4acpg_9/tests/BlindTests.swift:1)\n\nvacuity: requirements=1 external=0 findings=1\n"
+
+======================================================================
+FAIL: test_public_cli_rejects_invalid_scope_configuration (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_public_cli_rejects_invalid_scope_configuration) (value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-im3b4txq/plugins/test-campaign/tests/test_swift_bodies.py", line 300, in test_public_cli_rejects_invalid_scope_configuration
+    self.assertIn('blindScopeFile must be a nonempty string', result.stdout)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'blindScopeFile must be a nonempty string' not found in "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=0 blind=1\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-mipa3cx8/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 · arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only — defaults not applied — 1 mutator(s), 1 reader(s)\n  readers: read\n  · testBlind — last mutator 'write', no read after it (/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-mipa3cx8/tests/BlindTests.swift:1)\n\nvacuity: requirements=1 external=0 findings=1\n"
+
+======================================================================
+FAIL: test_public_cli_rejects_invalid_scope_configuration (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_public_cli_rejects_invalid_scope_configuration) (value={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-im3b4txq/plugins/test-campaign/tests/test_swift_bodies.py", line 300, in test_public_cli_rejects_invalid_scope_configuration
+    self.assertIn('blindScopeFile must be a nonempty string', result.stdout)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'blindScopeFile must be a nonempty string' not found in "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=0 blind=1\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-k8t0b3ib/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 · arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only — defaults not applied — 1 mutator(s), 1 reader(s)\n  readers: read\n  · testBlind — last mutator 'write', no read after it (/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-k8t0b3ib/tests/BlindTests.swift:1)\n\nvacuity: requirements=1 external=0 findings=1\n"
+
+======================================================================
+FAIL: test_public_cli_rejects_invalid_scope_configuration (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_public_cli_rejects_invalid_scope_configuration) (value=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-im3b4txq/plugins/test-campaign/tests/test_swift_bodies.py", line 300, in test_public_cli_rejects_invalid_scope_configuration
+    self.assertIn('blindScopeFile must be a nonempty string', result.stdout)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'blindScopeFile must be a nonempty string' not found in "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=0 blind=1\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-xw_qrqv8/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 1 · arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only — defaults not applied — 1 mutator(s), 1 reader(s)\n  readers: read\n  · testBlind — last mutator 'write', no read after it (/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-xw_qrqv8/tests/BlindTests.swift:1)\n\nvacuity: requirements=1 external=0 findings=1\n"
+
+======================================================================
+FAIL: test_scope_file_schema_and_reference_hashes_fail_closed (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_scope_file_schema_and_reference_hashes_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-im3b4txq/plugins/test-campaign/tests/test_swift_bodies.py", line 97, in test_scope_file_schema_and_reference_hashes_fail_closed
+    self.assertTrue(errors)
+    ~~~~~~~~~~~~~~~^^^^^^^^
+AssertionError: [] is not true
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.671s
+
+FAILED (failures=5)
