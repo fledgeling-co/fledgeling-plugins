@@ -36,6 +36,7 @@ class SwiftBodies(unittest.TestCase):
         end = start + len(call)
         return {'file': 'ExampleTests.swift', 'name': parsed['name'],
                 'bodySHA256': hashlib.sha256(body.encode()).hexdigest(),
+                'testEntry': parsed['testEntry'],
                 'callOffset': start, 'callSHA256': SCAN.call_fingerprint(body, start, end),
                 'mutator': call.split('(')[0].split('.')[-1], 'classification': classification,
                 'rationale': 'test fixture', 'references': [{'path': 'unused', 'sha256': '0' * 64}]}
@@ -69,12 +70,14 @@ class SwiftBodies(unittest.TestCase):
         caller_body = helper[caller_parsed['bodyStart']:caller_parsed['end']]
         caller_offset = caller_body.index('seed(')
         helper_scope = {'file': 'ExampleTests.swift', 'name': 'seed',
-            'bodySHA256': hashlib.sha256(body.encode()).hexdigest(), 'callOffset': body.index('write('),
+            'bodySHA256': hashlib.sha256(body.encode()).hexdigest(), 'testEntry': False,
+            'callOffset': body.index('write('),
             'callSHA256': SCAN.call_fingerprint(body, body.index('write('), body.index('write(')+6),
             'mutator': 'write', 'classification': 'attributed-helper', 'rationale': 'caller reads',
             'references': [{'path': 'unused', 'sha256': '0' * 64}], 'callers': [{
                 'file': 'ExampleTests.swift', 'name': 'testCaller',
                 'bodySHA256': hashlib.sha256(caller_body.encode()).hexdigest(),
+                'testEntry': True,
                 'callOffset': caller_offset,
                 'callSHA256': SCAN.call_fingerprint(
                     caller_body, caller_offset, caller_offset + len('seed('))}]}
@@ -84,7 +87,7 @@ class SwiftBodies(unittest.TestCase):
         arbitrary['callers'] = [dict(helper_scope['callers'][0], name='seed')]
         result = self.scan(helper, scopes=[arbitrary])
         self.assertTrue(any('caller scope' in finding for finding in result['scopeFindings']))
-        blind_helper = 'private func seed() { write() }\nfunc testCaller() { seed() }'
+        blind_helper = 'private func seed() { write() }\nfunc testCaller() { read(); seed() }'
         blocks = SCAN.swift_body_spans(blind_helper)['blocks']
         helper_body = blind_helper[blocks[0]['bodyStart']:blocks[0]['end']]
         caller_body = blind_helper[blocks[1]['bodyStart']:blocks[1]['end']]
@@ -102,12 +105,57 @@ class SwiftBodies(unittest.TestCase):
         result = self.scan(blind_helper, scopes=[blind_scope])
         self.assertTrue(any('no read after' in finding for finding in result['scopeFindings']))
 
+        trailing = ('private func seed(_ body: () -> Void) { write(); body() }\n'
+                    '@Test func measure() { seed { read() } }')
+        blocks = SCAN.swift_body_spans(trailing)['blocks']
+        helper_body = trailing[blocks[0]['bodyStart']:blocks[0]['end']]
+        caller_body = trailing[blocks[1]['bodyStart']:blocks[1]['end']]
+        caller_offset = caller_body.index('seed ')
+        trailing_scope = dict(helper_scope,
+            bodySHA256=hashlib.sha256(helper_body.encode()).hexdigest(),
+            callOffset=helper_body.index('write('),
+            callSHA256=SCAN.call_fingerprint(helper_body, helper_body.index('write('),
+                                              helper_body.index('write(') + len('write(')),
+            callers=[{'file': 'ExampleTests.swift', 'name': 'measure',
+                'bodySHA256': hashlib.sha256(caller_body.encode()).hexdigest(),
+                'testEntry': True, 'callOffset': caller_offset,
+                'callSHA256': SCAN.call_fingerprint(
+                    caller_body, caller_offset, caller_offset + len('seed {'))}])
+        result = self.scan(trailing, scopes=[trailing_scope])
+        self.assertEqual(result['scopeFindings'], [])
+
+    def test_scope_binds_target_and_caller_test_entry_posture(self):
+        source = '@Test func measure() { write() }'
+        scope = self.scope(source, 'write(')
+        result = self.scan(source.replace('@Test ', ''), scopes=[scope])
+        self.assertTrue(result['scopeFindings'])
+
+        helper = 'private func seed() { write() }\n@Test func measure() { seed(); read() }'
+        blocks = SCAN.swift_body_spans(helper)['blocks']
+        helper_body = helper[blocks[0]['bodyStart']:blocks[0]['end']]
+        caller_body = helper[blocks[1]['bodyStart']:blocks[1]['end']]
+        offset = caller_body.index('seed(')
+        helper_scope = {'file': 'ExampleTests.swift', 'name': 'seed',
+            'bodySHA256': hashlib.sha256(helper_body.encode()).hexdigest(), 'testEntry': False,
+            'callOffset': helper_body.index('write('),
+            'callSHA256': SCAN.call_fingerprint(helper_body, helper_body.index('write('),
+                                                helper_body.index('write(') + len('write(')),
+            'mutator': 'write', 'classification': 'attributed-helper', 'rationale': 'caller reads',
+            'references': [{'path': 'unused', 'sha256': '0' * 64}], 'callers': [{
+                'file': 'ExampleTests.swift', 'name': 'measure',
+                'bodySHA256': hashlib.sha256(caller_body.encode()).hexdigest(), 'testEntry': True,
+                'callOffset': offset,
+                'callSHA256': SCAN.call_fingerprint(caller_body, offset, offset + len('seed('))}]}
+        result = self.scan(helper.replace('@Test ', ''), scopes=[helper_scope])
+        self.assertTrue(any('caller scope' in finding for finding in result['scopeFindings']))
+
     def test_scope_file_schema_and_reference_hashes_fail_closed(self):
         with tempfile.TemporaryDirectory(prefix='swift-scope-load-') as directory:
             root = Path(directory); (root / 'producer.swift').write_text('producer')
             ref = {'path': 'producer.swift',
                    'sha256': hashlib.sha256(b'producer').hexdigest()}
             scope = {'file': 'x', 'name': 'x', 'bodySHA256': '0' * 64, 'callOffset': 0,
+                     'testEntry': True,
                      'callSHA256': '0' * 64, 'mutator': 'write', 'classification': 'direct-output',
                      'rationale': 'return is the contract', 'references': [ref]}
             (root / 'scopes.json').write_text(json.dumps({'version': 1, 'scopes': [scope]}))
@@ -123,6 +171,10 @@ class SwiftBodies(unittest.TestCase):
             (root / 'scopes.json').write_text(json.dumps(payload))
             rows, errors = SCAN.load_blind_scopes(root, 'scopes.json')
             self.assertEqual(rows, []); self.assertTrue(errors)
+            payload = {'version': 1, 'scopes': [dict(scope, testEntry=1)]}
+            (root / 'scopes.json').write_text(json.dumps(payload))
+            rows, errors = SCAN.load_blind_scopes(root, 'scopes.json')
+            self.assertEqual(rows, []); self.assertTrue(any('test-entry' in error for error in errors))
             payload = {'version': 1, 'scopes': [dict(scope, classification='attributed-helper')]}
             (root / 'scopes.json').write_text(json.dumps(payload))
             rows, errors = SCAN.load_blind_scopes(root, 'scopes.json')

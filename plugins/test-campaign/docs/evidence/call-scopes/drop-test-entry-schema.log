@@ -1,0 +1,14 @@
+..................F.
+======================================================================
+FAIL: test_scope_file_schema_and_reference_hashes_fail_closed (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_scope_file_schema_and_reference_hashes_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-b313pxrw/plugins/test-campaign/tests/test_swift_bodies.py", line 177, in test_scope_file_schema_and_reference_hashes_fail_closed
+    self.assertEqual(rows, []); self.assertTrue(any('test-entry' in error for error in errors))
+                                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.660s
+
+FAILED (failures=1)
