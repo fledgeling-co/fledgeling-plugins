@@ -1,0 +1,68 @@
+{
+  "item": "F25-065",
+  "slice": "upstream reader-call repair author",
+  "status": "repair complete; fresh primary and additional review owed",
+  "base": "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+  "retainedPrimaryFailure": "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+  "scannerSHA256": "80f86e148dfe4c000102023a954fb89a7321657470ea93b232f402d95179e29a",
+  "falseGreensClosed": [
+    "seed(); let already = 1",
+    "seed(); already()",
+    "seed(); read"
+  ],
+  "validCallsRetained": [
+    "qualified read()",
+    "trailing-closure read {}"
+  ],
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "d96dfe589880ffab3eaea6faca75156747439482eb56c4073da426c08bd8658f"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "22f995c0e72040d019b3d7dbc22566f229cbcf3b9b1c0a46dd37a518d7fc0ede"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "2d94396485e02341357086dd244c85e21b71c5483d09060503b0ee5c495c75f8"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "42b2fde6cedb2924f56d03aa0a81790f9c114422924c01fcd6bfecc2db6ed716"
+    }
+  ],
+  "mutants": {
+    "count": 2,
+    "allRejected": true,
+    "restored": true,
+    "path": "mutations.json",
+    "sha256": "1d28988e9c6bf0051cc5a7081ef24f80bd245855e0cf0f5087b019b1bff16f20"
+  },
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "exit": 1,
+    "invalidScopes": 0,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "catalogueGeneration": {
+    "exit": 0,
+    "trackedCatalogueChanged": false,
+    "path": "catalogue.log",
+    "sha256": "70189cd776ddb5d0b95211c021e0e4a4768f2753c507f0365e5df62d9e157c3a"
+  },
+  "limitations": "Lexical call-shape validation only; no receiver resolution, reader independence or output causality. No install, publish, cache edit, push, merge, native app, provider, Keychain or live campaign."
+}

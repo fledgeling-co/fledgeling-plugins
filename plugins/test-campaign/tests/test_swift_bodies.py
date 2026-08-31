@@ -142,6 +142,69 @@ class SwiftBodies(unittest.TestCase):
         result = self.scan(commented, scopes=[comment_scope])
         self.assertTrue(any('named helper call' in finding for finding in result['scopeFindings']))
 
+    def test_attributed_helper_requires_an_executable_later_reader_call(self):
+        producer = 'current producer contract\n'
+
+        def attributed_scope(source, helper_call='seed('):
+            blocks = SCAN.swift_body_spans(source)['blocks']
+            helper = source[blocks[0]['bodyStart']:blocks[0]['end']]
+            caller = source[blocks[1]['bodyStart']:blocks[1]['end']]
+            target_offset = helper.index('write(')
+            caller_offset = caller.index(helper_call)
+            return {
+                'file': 'ExampleTests.swift', 'name': 'seed',
+                'bodySHA256': hashlib.sha256(helper.encode()).hexdigest(),
+                'testEntry': False, 'callOffset': target_offset,
+                'callSHA256': SCAN.call_fingerprint(
+                    helper, target_offset, target_offset + len('write(')),
+                'mutator': 'write', 'classification': 'attributed-helper',
+                'rationale': 'caller reads after helper',
+                'references': [{'path': 'producer.swift',
+                    'sha256': hashlib.sha256(producer.encode()).hexdigest()}],
+                'callers': [{'file': 'ExampleTests.swift', 'name': 'measure',
+                    'bodySHA256': hashlib.sha256(caller.encode()).hexdigest(),
+                    'testEntry': True, 'callOffset': caller_offset,
+                    'callSHA256': SCAN.call_fingerprint(
+                        caller, caller_offset, caller_offset + len(helper_call))}],
+            }
+
+        invalid = [
+            'private func seed() { write() }\n@Test func measure() { seed(); let already = 1 }',
+            'private func seed() { write() }\n@Test func measure() { seed(); already() }',
+            'private func seed() { write() }\n@Test func measure() { seed(); read }',
+        ]
+        for source in invalid:
+            with self.subTest(source=source):
+                scope = attributed_scope(source)
+                direct = self.scan(source, scopes=[scope])
+                self.assertTrue(any('no read after' in finding
+                                    for finding in direct['scopeFindings']))
+                cli = self.cli({'ExampleTests.swift': source},
+                    {'blindScopeFile': 'scopes.json'}, {
+                        'producer.swift': producer,
+                        'scopes.json': json.dumps({'version': 1, 'scopes': [scope]}),
+                    })
+                self.assertEqual(cli.returncode, 1, cli.stdout + cli.stderr)
+                self.assertIn('INVALID SCOPE', cli.stdout)
+
+        valid = [
+            ('private func seed() { write() }\n'
+             '@Test func measure() { Fixtures.seed(); read() }', 'seed('),
+            ('private func seed(_ body: () -> Void) { write(); body() }\n'
+             '@Test func measure() { Fixtures.seed { configure() }; read {} }', 'seed {'),
+        ]
+        for source, helper_call in valid:
+            with self.subTest(source=source):
+                scope = attributed_scope(source, helper_call)
+                direct = self.scan(source, scopes=[scope])
+                self.assertEqual(direct['scopeFindings'], [])
+                cli = self.cli({'ExampleTests.swift': source},
+                    {'blindScopeFile': 'scopes.json'}, {
+                        'producer.swift': producer,
+                        'scopes.json': json.dumps({'version': 1, 'scopes': [scope]}),
+                    })
+                self.assertEqual(cli.returncode, 0, cli.stdout + cli.stderr)
+
     def test_scope_binds_target_and_caller_test_entry_posture(self):
         source = '@Test func measure() { write() }'
         scope = self.scope(source, 'write(')

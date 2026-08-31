@@ -183,6 +183,20 @@ def call_fingerprint(body: str, start: int, end: int) -> str:
     spelling = body[left:end]
     return hashlib.sha256(spelling.encode()).hexdigest()
 
+
+def has_reader_call(source: str, readers: tuple[str, ...]) -> bool:
+    """Whether masked Swift source contains a configured reader-shaped call.
+
+    Attributed helpers need an executable observation in each bound caller. A
+    substring such as ``already`` and a bare identifier such as ``read`` are not
+    calls and cannot justify removing the helper's mutation from the census.
+    Reader vocabulary remains stem-based, but the stem must begin an identifier
+    and that identifier must use parenthesized or trailing-closure call syntax.
+    """
+    return any(re.search(
+        r"(?<![\w`])" + re.escape(reader) + r"\w*\s*(?:\(|\{)", source
+    ) for reader in readers)
+
 # ── what a provider has to resolve to ───────────────────────────────────────
 #
 # A `provider` is a claim that something in PRODUCTION code can perform the
@@ -813,8 +827,7 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                         caller.get("callSHA256")):
                     scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
                                         "does not bind its named helper call")
-                elif not any(re.search(re.escape(reader) + r"\w*", masked_caller[
-                        offset + match.end():]) for reader in readers):
+                elif not has_reader_call(masked_caller[offset + match.end():], readers):
                     scope_errors.append(f"{row.get('file')}:{row.get('name')} bound caller "
                                         "has no read after its helper call")
     return {"files": len(files), "examined": examined, "mutating": mutating,
