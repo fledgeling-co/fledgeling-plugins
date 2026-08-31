@@ -2,6 +2,15 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.16.2 — 2026-09-01
+
+Swift blind-pass findings can now carry explicit per-call scopes from a campaign's
+`blindScopeFile`. Each record binds one body and call occurrence plus reviewed producer
+or contract hashes. Only that call is removed before earlier mutators are reconsidered;
+stale, ambiguous, duplicate or unjustified records fail the gate. Reports count scoped
+failure sentinels, fixture/value calls, direct-output contracts and attributed helpers
+separately. No mutator name is excluded globally, and raw candidate artifacts remain valid.
+
 ## 0.16.1 — 2026-09-01
 
 Swift blind-pass candidates now use balanced function bodies. A following private

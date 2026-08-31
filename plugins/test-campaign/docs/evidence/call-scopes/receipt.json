@@ -1,0 +1,26 @@
+{
+  "version": "0.16.2",
+  "unitTests": 17,
+  "fullGateRuns": [
+    {
+      "path": "/tmp/perch-f25-065-upstream-final1.log",
+      "sha256": "fc17e4769f6a5cd138a4cb52cbece6923f80b5e14d1a9f4c34fa30a31509e1ec",
+      "passed": 114,
+      "failed": 0
+    },
+    {
+      "path": "/tmp/perch-f25-065-upstream-final2.log",
+      "sha256": "f2544bec4536f2a4a27903896e1397c8b1e155f1d6ecacfb4a2c73922f837d99",
+      "passed": 114,
+      "failed": 0
+    }
+  ],
+  "mutationReceipt": "mutations.json",
+  "limits": "Scopes bind source but do not prove receiver identity or effect causality; human review and producer/contract references remain required. Perch corpus application follows F25-064.",
+  "focusedFinal": {
+    "path": "/tmp/perch-f25-065-upstream-focused-final.log",
+    "sha256": "d2373694be8e8587d08d3bb9854671952a55db0969370a8960498296cc8cb948",
+    "passed": 17,
+    "failed": 0
+  }
+}

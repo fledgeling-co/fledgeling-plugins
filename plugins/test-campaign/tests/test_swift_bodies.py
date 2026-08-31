@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Actual blind pass and public CLI fixtures; no Swift toolchain or third-party dependency."""
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -14,12 +15,71 @@ SPEC.loader.exec_module(SCAN)
 
 
 class SwiftBodies(unittest.TestCase):
-    def scan(self, source, extras=None):
+    def scan(self, source, extras=None, mutators=('write', 'store'), scopes=None):
         with tempfile.TemporaryDirectory(prefix='swift-body-tests-') as directory:
             root = Path(directory)
             (root / 'ExampleTests.swift').write_text(source)
             for name, text in (extras or {}).items(): (root / name).write_text(text)
-            return SCAN.pass_blind(root, ('write', 'store'), ('read', 'load', 'expect'))
+            return SCAN.pass_blind(root, mutators, ('read', 'load', 'expect'), scopes)
+
+    def scope(self, source, call, classification='failure-sentinel'):
+        parsed = SCAN.swift_body_spans(source)['blocks'][0]
+        body = source[parsed['bodyStart']:parsed['end']]
+        start = body.index(call)
+        end = start + len(call)
+        return {'file': 'ExampleTests.swift', 'name': parsed['name'],
+                'bodySHA256': hashlib.sha256(body.encode()).hexdigest(),
+                'callOffset': start, 'callSHA256': SCAN.call_fingerprint(body, start, end),
+                'mutator': call.split('(')[0].split('.')[-1], 'classification': classification,
+                'rationale': 'test fixture', 'references': [{'path': 'unused', 'sha256': '0' * 64}]}
+
+    def test_exact_call_scope_removes_only_that_occurrence_then_rechecks_earlier_calls(self):
+        source = 'func testScoped() { write(); read(); Issue.record("failure") }'
+        scope = self.scope(source, 'record(')
+        result = self.scan(source, mutators=('write', 'record'), scopes=[scope])
+        self.assertEqual(self.names(result), [])
+        self.assertEqual(result['scopedCounts']['failure-sentinel'], 1)
+        source = 'func testStillBlind() { write(); Issue.record("failure") }'
+        scope = self.scope(source, 'record(')
+        result = self.scan(source, mutators=('write', 'record'), scopes=[scope])
+        self.assertEqual(self.names(result), ['testStillBlind'])
+
+    def test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity(self):
+        source = 'func testScoped() { write(); Issue.record("failure") }'
+        scope = self.scope(source, 'record(')
+        stale = dict(scope, bodySHA256='0' * 64)
+        result = self.scan(source, mutators=('write', 'record'), scopes=[stale])
+        self.assertTrue(result['scopeFindings'])
+        wrong_call = dict(scope, callSHA256='0' * 64)
+        result = self.scan(source, mutators=('write', 'record'), scopes=[wrong_call])
+        self.assertTrue(result['scopeFindings'])
+        result = self.scan(source, mutators=('write', 'record'), scopes=[scope, dict(scope)])
+        self.assertTrue(result['scopeFindings'])
+        helper = 'private func seed() { write() }\nfunc testCaller() { seed(); read() }'
+        parsed = SCAN.swift_body_spans(helper)['blocks'][0]
+        body = helper[parsed['bodyStart']:parsed['end']]
+        helper_scope = {'file': 'ExampleTests.swift', 'name': 'seed',
+            'bodySHA256': hashlib.sha256(body.encode()).hexdigest(), 'callOffset': body.index('write('),
+            'callSHA256': SCAN.call_fingerprint(body, body.index('write('), body.index('write(')+6),
+            'mutator': 'write', 'classification': 'attributed-helper', 'rationale': 'caller reads',
+            'references': [{'path': 'unused', 'sha256': '0' * 64}]}
+        result = self.scan(helper, scopes=[helper_scope])
+        self.assertEqual(result['scopedCounts']['attributed-helper'], 1)
+
+    def test_scope_file_schema_and_reference_hashes_fail_closed(self):
+        with tempfile.TemporaryDirectory(prefix='swift-scope-load-') as directory:
+            root = Path(directory); (root / 'producer.swift').write_text('producer')
+            ref = {'path': 'producer.swift',
+                   'sha256': hashlib.sha256(b'producer').hexdigest()}
+            scope = {'file': 'x', 'name': 'x', 'bodySHA256': '0' * 64, 'callOffset': 0,
+                     'callSHA256': '0' * 64, 'mutator': 'write', 'classification': 'direct-output',
+                     'rationale': 'return is the contract', 'references': [ref]}
+            (root / 'scopes.json').write_text(json.dumps({'version': 1, 'scopes': [scope]}))
+            rows, errors = SCAN.load_blind_scopes(root, 'scopes.json')
+            self.assertEqual(len(rows), 1); self.assertEqual(errors, [])
+            (root / 'producer.swift').write_text('drift')
+            _, errors = SCAN.load_blind_scopes(root, 'scopes.json')
+            self.assertTrue(any('drifted' in error for error in errors))
 
     def names(self, result):
         return [item.split(' — ')[0] for item in result['findings']]
