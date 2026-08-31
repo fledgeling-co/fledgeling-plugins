@@ -35,7 +35,7 @@ Greenfield work with no incumbent surface skips this phase and runs `frontend-ae
 Common variation dimensions — pick 2–4 to vary across:
 
 - **Visual treatment** — color tone (warm / cool / neutral), density, shadow style, border radius, type weight
-- **Aesthetic family** — pull directions from different rows of the range map in `frontend-aesthetic-direction.md` (Swiss vs editorial vs neo-grotesque product vs brutalist…)
+- **Aesthetic family** — pull directions from different *groups* of `aesthetic-worlds.md` (grids, quiet-human, tools, motion-raw, genre), not three rows from one group. The short range map in `frontend-aesthetic-direction.md` is the fallback when you have not opened the worlds table
 - **Layout** — centered vs asymmetric, single-column vs multi-column, full-bleed vs inset, grid-heavy vs flowing
 - **Interaction model** — single page vs multi-step, modal vs inline, hover-revealed vs always-visible
 - **Motion & depth** — quiet vs one orchestrated entrance vs scroll-driven; flat vs textured vs dimensional (`motion-design.md`, `depth-and-3d.md`)

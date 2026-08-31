@@ -342,6 +342,19 @@ resolved. **Tier: measured, n=1.** The rule derived from it (`gsap.from` so the 
 end state, and never animate the conclusion) is a restatement of the existing static-frame
 requirement rather than a new constraint.
 
+## 9. Variety sources, 2026-08-31
+
+The lookalike complaint ("websites frequently look very similar to one another") is user-reported in this marketplace, not a measured rate. The files added to answer it borrow mechanism, not pixels, from three external skill repos read the same day:
+
+- **garden-skills** (`web-design-engineer`, MIT) — 6-school direction advisor, 25 anchored style recipes, and the five-dial calibration (variance, motion, density, plus asset-dependence and brand-fidelity). We took the school grouping, the extra two dials, the "one recipe at a time" rule, and the named anchors. We did not copy recipe token tables or trade dress.
+- **taste-skill 2.0** (`design-taste-frontend`, experimental) — premium-consumer beige+brass ban and its six rotations; eyebrow ration; zigzag cap; section-layout-repetition; "motion claimed, motion shown"; pin-at-top ScrollTrigger failure. Several of those already lived in `ai-slop-check.md`; the new work is the session lookalike gate and the palette-rotation table in `aesthetic-worlds.md`.
+- **ai-design-skills** (`landing-page-design`) — conversion structure (one offer, one audience, one action). Not imported as a visual system: its font whitelist (Geist, Manrope, Poppins) and hyphen ban would have been a new house style, which is the failure mode this change exists to prevent.
+- **`trawl:trawl`** — isolated parallel frames, baseline ban-list, boss-gate. `aesthetic-ideation.md` is a design-shaped brief for that skill, not a fork of it.
+
+`current-moves.md` is a mixed evidence index as-at 2026-08-31: rows marked `measured` point to a standard or API, rows marked `repeated-shipped` point to public work, and rows marked `practitioner` are permissions rather than findings. A move that becomes the new default belongs on the AI-default list in `ai-slop-check.md` §9, not in that file. The ten recipe files carry source-repo snapshot links and are instantiation aids, not independent evidence.
+
+---
+
 ## What this file is not
 
 None of the above makes a passing gate a verification. Every check in `design-lint.py` was
@@ -350,3 +363,7 @@ nobody has met yet — and the sourcing above raises confidence in the *threshol
 *coverage*. That is why the script prints its own "not checked" line, why the report shape in
 `visual-verification.md` Phase 4 separates what a machine asserts from what you assert, and why
 this skill's Known limits section exists at all.
+
+## 10. Project diversity ledger
+
+`references/diversity-ledger.md` and `scripts/diversity_ledger.py` are project-local machinery, not a taste claim. The ledger retains five recent entries, detects exact-axis collisions, and permits a recorded override when product truth wins. It never sends history outside the project, never deletes an existing file, and treats absent history as unavailable rather than as a pass.
