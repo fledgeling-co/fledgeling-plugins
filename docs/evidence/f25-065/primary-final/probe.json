@@ -1,0 +1,155 @@
+{
+  "verdict": "FAIL",
+  "reviewedHead": "68c0c5b74b0d143b8738fc7e1c4283a0e2c89b6c",
+  "laterEvidenceOnlyHead": "611bd1151b47f257069e184b7608f582f297200a",
+  "sourceSHA256": "3921b034f2d166820c1313a2f262ff69081999f753c65db7774d3028ecf344b7",
+  "blockingFalseGreen": {
+    "claim": "Attributed-helper reader validation accepts identifiers and bare names rather than an executable configured reader call.",
+    "identifierSubstringCLIExit": 0,
+    "bareReaderNameCLIExit": 0
+  },
+  "boundaries": {
+    "validParenthesized": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "validTrailingClosure": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "readerBefore": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "commentOnlyReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "stringOnlyReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "identifierSubstringOnly": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "bareReaderNameOnly": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    }
+  },
+  "strictSchemaCases": {
+    "configuredFalse": 1,
+    "configuredZero": 1,
+    "configuredObject": 1,
+    "configuredArray": 1,
+    "boolVersion": 1,
+    "boolCallOffset": 1,
+    "integerTestEntry": 1,
+    "unknownTopField": 1,
+    "unknownRowField": 1,
+    "emptyReferenceHash": 1,
+    "unknownClassification": 1,
+    "staleBody": 1,
+    "staleCallFingerprint": 1,
+    "staleCallOffset": 1,
+    "unmatchedFile": 1,
+    "duplicateScope": 1
+  },
+  "actualSourceMutants": [
+    {
+      "name": "suppress-whole-body-after-one-scope",
+      "failedAsRequired": true,
+      "assertion": "earlier write was suppressed with the scoped record"
+    },
+    {
+      "name": "accept-comment-only-caller-spelling",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    },
+    {
+      "name": "ignore-target-test-entry-posture",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    },
+    {
+      "name": "globally-suppress-four-verbs",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    }
+  ],
+  "laterCommitChangedPaths": [
+    "docs/evidence/f25-065/additional/catalogue.log",
+    "docs/evidence/f25-065/additional/focused-1.log",
+    "docs/evidence/f25-065/additional/focused-2.log",
+    "docs/evidence/f25-065/additional/full-1.log",
+    "docs/evidence/f25-065/additional/full-2.log",
+    "docs/evidence/f25-065/additional/probe.json",
+    "docs/evidence/f25-065/additional/probe.py",
+    "docs/evidence/f25-065/additional/receipt.json",
+    "docs/evidence/f25-065/additional/verification.md"
+  ],
+  "sourceRestored": true
+}
