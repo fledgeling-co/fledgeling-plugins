@@ -1,0 +1,59 @@
+{
+  "item": "F25-065",
+  "slice": "upstream reader-call control-condition repair author",
+  "status": "repair complete; fresh primary and distinct additional review owed",
+  "base": "4c5ed872410051e0bfa5d3634a49d03f32efc014",
+  "retainedPrimaryFailures": [
+    "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+    "4c5ed872410051e0bfa5d3634a49d03f32efc014"
+  ],
+  "scannerSHA256": "ed323c81268b660d0b871f6549185a203e545f231c7fffa0704865a7a993dea7",
+  "readerPosture": "configured reader identifier at a boundary followed by parenthesized call syntax; trailing-closure reader shape refused as control-condition ambiguous",
+  "helperCallerPosture": "parenthesized and Swift trailing-closure helper-call bindings remain accepted",
+  "closedFalseGreen": "seed(); let read = false; if read { print(\"x\") }",
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "05db7fea9bd0b3f987a7112349616094d72f27334c9fa16582afa7f11ed7f588"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "c380f9af1a9fb66e63d93b6e5e1c87a30f85908c9f9e9f13dbfc48924253a119"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "097dbfeb0b0a6f641e0f72221ee484606ae39bbb1c2c6d1062dfa21324691c52"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "36046164b26b77eb909f87f1c1cc3ddf4f79aa42805c46b59199a2ca6fda916a"
+    }
+  ],
+  "mutants": {
+    "count": 3,
+    "allRejected": true,
+    "restored": true,
+    "path": "mutations.json",
+    "sha256": "64bc5cf5cc8bcf91349fc830ea40b1529d8f994b14cfc85ede6b62372ac5ea65"
+  },
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "exit": 1,
+    "invalidScopes": 0,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "limitations": "Lexical parenthesized reader-call validation only; no receiver resolution, reader independence or output causality. No install, publish, cache edit, push, merge, native app, provider, Keychain or live campaign."
+}

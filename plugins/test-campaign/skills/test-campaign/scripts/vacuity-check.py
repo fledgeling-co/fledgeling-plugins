@@ -191,10 +191,12 @@ def has_reader_call(source: str, readers: tuple[str, ...]) -> bool:
     substring such as ``already`` and a bare identifier such as ``read`` are not
     calls and cannot justify removing the helper's mutation from the census.
     Reader vocabulary remains stem-based, but the stem must begin an identifier
-    and that identifier must use parenthesized or trailing-closure call syntax.
+    and that identifier must use parenthesized call syntax. Swift trailing-closure
+    shape is not accepted here because ``if read {}`` is indistinguishable
+    lexically from such a call.
     """
     return any(re.search(
-        r"(?<![\w`])" + re.escape(reader) + r"\w*\s*(?:\(|\{)", source
+        r"(?<![\w`])" + re.escape(reader) + r"\w*\s*\(", source
     ) for reader in readers)
 
 # ── what a provider has to resolve to ───────────────────────────────────────
