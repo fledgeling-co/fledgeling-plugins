@@ -105,7 +105,8 @@ def load_blind_scopes(campaign_dir: Path, raw: object) -> tuple[list[dict], list
         payload = json.loads(path.read_text())
     except (OSError, json.JSONDecodeError) as error:
         return [], [f"scope file {path} could not be read ({type(error).__name__})"]
-    if (not isinstance(payload, dict) or type(payload.get("version")) is not int or
+    if (not isinstance(payload, dict) or set(payload) != {"version", "scopes"} or
+            type(payload.get("version")) is not int or
             payload.get("version") != 1 or not isinstance(payload.get("scopes"), list)):
         return [], [f"scope file {path} must contain version 1 and a scopes array"]
     scopes, errors, identities = [], [], set()
@@ -121,6 +122,11 @@ def load_blind_scopes(campaign_dir: Path, raw: object) -> tuple[list[dict], list
             errors.append(f"{label} lacks {', '.join(missing)}"); continue
         if not isinstance(row["classification"], str) or row["classification"] not in SCOPE_CLASSES:
             errors.append(f"{label} has unknown classification {row['classification']!r}")
+        else:
+            allowed = set(required) | ({"callers"} if row["classification"] == "attributed-helper"
+                                       else set())
+            if set(row) != allowed:
+                errors.append(f"{label} has unexpected schema fields")
         if not all(isinstance(row[key], str) and row[key] for key in
                    ("file", "name", "bodySHA256", "callSHA256", "mutator")):
             errors.append(f"{label} has a non-string identity field")
@@ -170,7 +176,7 @@ def load_blind_scopes(campaign_dir: Path, raw: object) -> tuple[list[dict], list
 
 
 def call_fingerprint(body: str, start: int, end: int) -> str:
-    """Hash the receiver/name/open-paren spelling at one matched call occurrence."""
+    """Hash the receiver, name and call delimiter spelling at one matched occurrence."""
     left = start
     while left and (body[left - 1].isalnum() or body[left - 1] in "_.$"):
         left -= 1

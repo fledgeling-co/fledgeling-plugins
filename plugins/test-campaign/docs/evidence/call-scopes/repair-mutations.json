@@ -68,5 +68,19 @@
     "failedAsRequired": true,
     "replacements": 1,
     "log": "plugins/test-campaign/docs/evidence/call-scopes/nonexecutable-caller-spelling.log"
+  },
+  {
+    "name": "allow-top-level-schema-extras",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/allow-top-level-schema-extras.log"
+  },
+  {
+    "name": "allow-record-schema-extras",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/allow-record-schema-extras.log"
   }
 ]
