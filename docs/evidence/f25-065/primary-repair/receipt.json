@@ -1,0 +1,27 @@
+{
+  "verdict": "PASS",
+  "reviewedHead": "77b56328bf8de69789402a566ee2c64bc09ff2da",
+  "priorFailEvidenceCommit": "e3178a3f4832e07facb5776519308c52133ef1fa",
+  "sourceSHA256": "1e3e94ba7f4a2b1fa686f9035a74573e56d9d91a5e492c357548eba01f69f759",
+  "testSHA256": "263695b32cab09383cbda084db4da41b32ddc53163f554ba5ed8692e3cdffb8e",
+  "catalogueSHA256": "5a8e81704842ce2a8b65e1474beea889f3de6642217cff55b2c895a1b934452a",
+  "focusedRuns": [
+    {"path": "focused-1.log", "passed": 19, "failed": 0},
+    {"path": "focused-2.log", "passed": 19, "failed": 0}
+  ],
+  "fullRuns": [
+    {"path": "full-1.log", "passed": 114, "failed": 0, "focusedPassed": 19},
+    {"path": "full-2.log", "passed": 114, "failed": 0, "focusedPassed": 19}
+  ],
+  "independentChecks": {
+    "versionBooleanRejected": true,
+    "offsetBooleanRejected": true,
+    "falsyConfiguredValuesRejected": [false, 0, {}, []],
+    "unboundHelperRejected": true,
+    "qualifiedValidCallerAccepted": true,
+    "callerFingerprintDriftRejected": true,
+    "allVersionSurfaces": "0.16.2"
+  },
+  "trackedSourceRestored": true,
+  "reviewLane": "same-family degraded; reused unrelated prior context; distinct additional review owed"
+}
