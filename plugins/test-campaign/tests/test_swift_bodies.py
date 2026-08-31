@@ -84,6 +84,23 @@ class SwiftBodies(unittest.TestCase):
         arbitrary['callers'] = [dict(helper_scope['callers'][0], name='seed')]
         result = self.scan(helper, scopes=[arbitrary])
         self.assertTrue(any('caller scope' in finding for finding in result['scopeFindings']))
+        blind_helper = 'private func seed() { write() }\nfunc testCaller() { seed() }'
+        blocks = SCAN.swift_body_spans(blind_helper)['blocks']
+        helper_body = blind_helper[blocks[0]['bodyStart']:blocks[0]['end']]
+        caller_body = blind_helper[blocks[1]['bodyStart']:blocks[1]['end']]
+        caller_offset = caller_body.index('seed(')
+        blind_scope = dict(helper_scope,
+            bodySHA256=hashlib.sha256(helper_body.encode()).hexdigest(),
+            callOffset=helper_body.index('write('),
+            callSHA256=SCAN.call_fingerprint(helper_body, helper_body.index('write('),
+                                              helper_body.index('write(') + len('write(')),
+            callers=[dict(helper_scope['callers'][0],
+                bodySHA256=hashlib.sha256(caller_body.encode()).hexdigest(),
+                callOffset=caller_offset,
+                callSHA256=SCAN.call_fingerprint(
+                    caller_body, caller_offset, caller_offset + len('seed(')))])
+        result = self.scan(blind_helper, scopes=[blind_scope])
+        self.assertTrue(any('no read after' in finding for finding in result['scopeFindings']))
 
     def test_scope_file_schema_and_reference_hashes_fail_closed(self):
         with tempfile.TemporaryDirectory(prefix='swift-scope-load-') as directory:

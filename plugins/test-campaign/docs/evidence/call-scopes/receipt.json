@@ -3,14 +3,14 @@
   "unitTests": 19,
   "fullGateRuns": [
     {
-      "path": "/tmp/f25-065-repair-final-1.log",
-      "sha256": "f194c4ab0762883f5ced45f2de853ba6831c94f41ac673d310905bf7db2ff951",
+      "path": "/tmp/f25-065-caller-final-1.log",
+      "sha256": "34a68e173dfd53df5536574f43028387763325aaefee7efcbd61f503f025ba91",
       "passed": 114,
       "failed": 0
     },
     {
-      "path": "/tmp/f25-065-repair-final-2.log",
-      "sha256": "be2156f0a2cde90a60a031ccda2bc8442d7a1de57c634fea07934cd3f6bc759d",
+      "path": "/tmp/f25-065-caller-final-2.log",
+      "sha256": "b03a93b1929d4292fa5953c4b2409d26e0a281d8825092fd953fcb0f85af0679",
       "passed": 114,
       "failed": 0
     }
@@ -18,10 +18,11 @@
   "mutationReceipt": "mutations.json",
   "limits": "Scopes bind source but do not prove receiver identity or effect causality; human review and producer/contract references remain required. Perch corpus application follows F25-064.",
   "focusedFinal": {
-    "path": "/tmp/f25-065-repair-final-2.log",
-    "sha256": "be2156f0a2cde90a60a031ccda2bc8442d7a1de57c634fea07934cd3f6bc759d",
+    "path": "/tmp/f25-065-caller-final-2.log",
+    "sha256": "b03a93b1929d4292fa5953c4b2409d26e0a281d8825092fd953fcb0f85af0679",
     "passed": 19,
     "failed": 0
   },
-  "repairMutationReceipt": "repair-mutations.json"
+  "repairMutationReceipt": "repair-mutations.json",
+  "callerAttribution": "Every bound caller must contain a configured reader after the exact helper call; lexical source binding does not prove receiver identity or effect causality."
 }
