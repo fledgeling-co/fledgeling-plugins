@@ -1,0 +1,46 @@
+
+FAIL  a surface whose declared controls nothing actuates does not clear: exit 1 as wanted, but nothing said "declaring controls that no passing effect-rung case actuates"
+      Inert · lanes: web, macos-glass
+      Requirements: 1 inventoried, 0 with no case
+      Surfaces:   1 enumerated, 0 with no case
+      Cases:      1 pass · 0 fail · 0 skip · 0 n/a · 0 carried · 0 inconclusive · 0 unoracled · 0 blocked · 0 open  (of 1)
+      Observed:   1/1 cases produced a measurement · 0 could not be measured · 0 not attempted
+      On glass:   macos-glass → /var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/tmp.yWaIS5F7Qb/inert/build/App.app (pid 1 owns window 'App')
+      Oracles:    structural 1
+      Armed:      1/1 passing cases have been watched to fail
+      Lane:       macos-glass — 1 case(s) · 1 pass · 0 at an effect rung · 1 armed · structural:1
+      Planes:     NOT DECLARED — no case says what it was checked against, so a green suite over in-process doubles is indistinguishable from one over the running product.
+      Journeys:   NOT DECLARED — no multi-step task is modelled, so nothing here counts one. A journey is a history, and no per-surface count can see it.
+      Controls:   0 of 3 declared control(s) actuated by a passing effect-rung case, across 1 surface(s) that declare any
+      Scope:      FULL — every case in the campaign was run
+      
+      Worth reading, not blocking:
+        · 1 lane(s) whose every passing case sits below `outcome` (macos-glass (1 passing case(s), none above `structural`) (showing 1 of 1)) — proved to render, not to work
+      
+      Not ready to report:
+        · 1 surface(s) declaring control(s) nothing has driven (SURF-001 (3 declared, 0 driven, 3 never driven) (showing 1 of 1)) — a control renders, carries a name and accepts a click whether or not its handler does anything, so this owes a RUN
+      
+      Finish them, resolve each to skip:/n-a: with a reason, or declare the stop with its resume point — in the reply, the verdict line and the report. Never silently.
+FAIL  a below-outcome case does not actuate anything: exit 1 as wanted, but nothing said "declaring controls that no passing effect-rung case actuates"
+      Inert · lanes: web, macos-glass
+      Requirements: 1 inventoried, 0 with no case
+      Surfaces:   1 enumerated, 0 with no case
+      Cases:      1 pass · 0 fail · 0 skip · 0 n/a · 0 carried · 0 inconclusive · 0 unoracled · 0 blocked · 0 open  (of 1)
+      Observed:   1/1 cases produced a measurement · 0 could not be measured · 0 not attempted
+      On glass:   macos-glass → /var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/tmp.yWaIS5F7Qb/inert/build/App.app (pid 1 owns window 'App')
+      Oracles:    structural 1
+      Armed:      1/1 passing cases have been watched to fail
+      Lane:       macos-glass — 1 case(s) · 1 pass · 0 at an effect rung · 1 armed · structural:1
+      Planes:     NOT DECLARED — no case says what it was checked against, so a green suite over in-process doubles is indistinguishable from one over the running product.
+      Journeys:   NOT DECLARED — no multi-step task is modelled, so nothing here counts one. A journey is a history, and no per-surface count can see it.
+      Controls:   0 of 3 declared control(s) actuated by a passing effect-rung case, across 1 surface(s) that declare any
+      Scope:      FULL — every case in the campaign was run
+      
+      Worth reading, not blocking:
+        · 1 lane(s) whose every passing case sits below `outcome` (macos-glass (1 passing case(s), none above `structural`) (showing 1 of 1)) — proved to render, not to work
+      
+      Not ready to report:
+        · 1 surface(s) whose every declared control was driven and not one drive produced a passing effect-rung result (SURF-001 (3 of 3 control(s) driven, 0 actuated) (showing 1 of 1)) — the campaign pressed them and read nothing back, so this owes a REPAIR rather than a run, and stays red until the control does something a case can pass on
+      
+      Finish them, resolve each to skip:/n-a: with a reason, or declare the stop with its resume point — in the reply, the verdict line and the report. Never silently.
+campaign gate tests: 111 passed, 2 failed
