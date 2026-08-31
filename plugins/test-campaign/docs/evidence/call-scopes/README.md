@@ -24,7 +24,9 @@ slice after F25-064. Nothing was installed or published.
 Primary review found three author gaps: Python booleans passed as integer schema fields,
 configured-but-falsy scope paths were treated as absent, and attributed helpers did not bind their
 named callers. The repaired suite exercises all three through the public loader or CLI and rejects an
-arbitrary non-caller body. Follow-up CP §7 and Perch corpus review added six repair mutants: caller-later-reader,
+arbitrary non-caller body. Follow-up CP §7 and Perch corpus review added eight repair mutants: caller-later-reader,
 target and caller test-entry posture, strict posture schema, and trailing-closure caller matching.
-Fresh fixtures reject all six, including a reader placed only before the helper call and a helper spelling that exists only in a comment. The generated catalogue
+Fresh fixtures reject all eight, including a reader placed only before the helper call and a helper spelling that exists only in a comment. The generated catalogue
 version is kept at 0.16.2 with both manifests.
+
+Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.

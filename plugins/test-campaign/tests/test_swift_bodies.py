@@ -182,6 +182,7 @@ class SwiftBodies(unittest.TestCase):
             (root / 'producer.swift').write_text('drift')
             _, errors = SCAN.load_blind_scopes(root, 'scopes.json')
             self.assertTrue(any('drifted' in error for error in errors))
+            (root / 'producer.swift').write_text('producer')
             for value in [False, 0, {}, []]:
                 _, errors = SCAN.load_blind_scopes(root, value)
                 self.assertTrue(errors)
@@ -193,6 +194,14 @@ class SwiftBodies(unittest.TestCase):
             (root / 'scopes.json').write_text(json.dumps(payload))
             rows, errors = SCAN.load_blind_scopes(root, 'scopes.json')
             self.assertEqual(rows, []); self.assertTrue(any('test-entry' in error for error in errors))
+            for payload in [
+                {'version': 1, 'scopes': [dict(scope, surprise=True)]},
+                {'version': 1, 'scopes': [dict(scope, callers=[])]},
+                {'version': 1, 'scopes': [scope], 'extra': True},
+            ]:
+                (root / 'scopes.json').write_text(json.dumps(payload))
+                rows, errors = SCAN.load_blind_scopes(root, 'scopes.json')
+                self.assertEqual(rows, []); self.assertTrue(errors)
             payload = {'version': 1, 'scopes': [dict(scope, classification='attributed-helper')]}
             (root / 'scopes.json').write_text(json.dumps(payload))
             rows, errors = SCAN.load_blind_scopes(root, 'scopes.json')

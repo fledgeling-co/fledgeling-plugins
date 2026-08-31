@@ -1,0 +1,31 @@
+..................F.
+======================================================================
+FAIL: test_scope_file_schema_and_reference_hashes_fail_closed (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_scope_file_schema_and_reference_hashes_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-rby_22ep/plugins/test-campaign/tests/test_swift_bodies.py", line 204, in test_scope_file_schema_and_reference_hashes_fail_closed
+    self.assertEqual(rows, []); self.assertTrue(errors)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^
+AssertionError: Lists differ: [{'file': 'x', 'name': 'x', 'bodySHA256': [397 chars]'}]}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'file': 'x', 'name': 'x', 'bodySHA256': '0000000000000000000000000000000000000000000000000000000000000000', 'callOffset': 0, 'testEntry': True, 'callSHA256': '0000000000000000000000000000000000000000000000000000000000000000', 'mutator': 'write', 'classification': 'direct-output', 'rationale': 'return is the contract', 'references': [{'path': 'producer.swift', 'sha256': 'd1990f97a1f4fe7b8e86da8c03c9dd3f7d536c14aa4a6f9eedab07f34cd961b0'}]}
+
++ []
+- [{'bodySHA256': '0000000000000000000000000000000000000000000000000000000000000000',
+-   'callOffset': 0,
+-   'callSHA256': '0000000000000000000000000000000000000000000000000000000000000000',
+-   'classification': 'direct-output',
+-   'file': 'x',
+-   'mutator': 'write',
+-   'name': 'x',
+-   'rationale': 'return is the contract',
+-   'references': [{'path': 'producer.swift',
+-                   'sha256': 'd1990f97a1f4fe7b8e86da8c03c9dd3f7d536c14aa4a6f9eedab07f34cd961b0'}],
+-   'testEntry': True}]
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.649s
+
+FAILED (failures=1)

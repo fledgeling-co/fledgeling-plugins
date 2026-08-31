@@ -3,14 +3,14 @@
   "unitTests": 20,
   "fullGateRuns": [
     {
-      "path": "/tmp/f25-065-executable-caller-final-1.log",
-      "sha256": "9fd494009535291d8b0e1e5430caff775744be523ac2b4535b9fa917228df8f1",
+      "path": "/tmp/f25-065-final-schema-1.log",
+      "sha256": "71848325538517fc9efa42693917275a95167c3700652319adec0e95af180121",
       "passed": 114,
       "failed": 0
     },
     {
-      "path": "/tmp/f25-065-executable-caller-final-2.log",
-      "sha256": "d902f1661bcf37d811bfa8c8aabf03151586f4bc873527f9cd74a5fcad75b613",
+      "path": "/tmp/f25-065-final-schema-2.log",
+      "sha256": "69aeaa6a13b175be1bb59ae7f01fa093fa348e408b5bfda6d30b2b72cfcf9f64",
       "passed": 114,
       "failed": 0
     }
@@ -18,12 +18,13 @@
   "mutationReceipt": "mutations.json",
   "limits": "Scopes bind source but do not prove receiver identity or effect causality; human review and producer/contract references remain required. Perch corpus application follows F25-064.",
   "focusedFinal": {
-    "path": "/tmp/f25-065-executable-caller-final-2.log",
-    "sha256": "d902f1661bcf37d811bfa8c8aabf03151586f4bc873527f9cd74a5fcad75b613",
+    "path": "/tmp/f25-065-final-schema-2.log",
+    "sha256": "69aeaa6a13b175be1bb59ae7f01fa093fa348e408b5bfda6d30b2b72cfcf9f64",
     "passed": 20,
     "failed": 0
   },
   "repairMutationReceipt": "repair-mutations.json",
   "callerAttribution": "Every bound caller must bind an executable masked-source helper call and contain a configured reader after it; lexical source binding does not prove receiver identity or effect causality.",
-  "scopePosture": "Target and attributed-caller testEntry booleans are exact schema fields and must match the current Swift parser posture; trailing-closure caller bindings are accepted."
+  "scopePosture": "Target and attributed-caller testEntry booleans are exact schema fields and must match the current Swift parser posture; trailing-closure caller bindings are accepted.",
+  "strictSchema": "Only version/scopes top-level fields and classification-appropriate scope fields are accepted; schema mutation fixtures restore reference bytes before each independent assertion."
 }
