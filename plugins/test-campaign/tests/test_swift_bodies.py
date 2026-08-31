@@ -179,6 +179,8 @@ class SwiftBodies(unittest.TestCase):
              'case .read(let x): print(x); default: break } }'),
             ('private func seed() { write() }\n'
              '@Test func measure() { seed(); let selector = #selector(read(_:)) }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { seed(); let function = read(_:) }'),
         ]
         for source in invalid:
             with self.subTest(source=source):
@@ -199,6 +201,8 @@ class SwiftBodies(unittest.TestCase):
              '@Test func measure() { Fixtures.seed(); read() }', 'seed('),
             ('private func seed(_ body: () -> Void) { write(); body() }\n'
              '@Test func measure() { Fixtures.seed { configure() }; read {} }', 'seed {'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { Fixtures.seed(); let value = read(label: input) }', 'seed('),
         ]
         for source, helper_call in valid:
             with self.subTest(source=source):

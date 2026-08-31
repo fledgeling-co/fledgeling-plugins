@@ -6,8 +6,12 @@ ROOT=Path(__file__).resolve().parents[4]
 SOURCE=ROOT/'plugins/test-campaign/skills/test-campaign/scripts/vacuity-check.py'
 original=SOURCE.read_text(); before=hashlib.sha256(SOURCE.read_bytes()).hexdigest()
 mutants=[
- ('drop-call-syntax', 're.escape(reader) + r"\\w*\\s*(?:\\(|\\{)"',
-  're.escape(reader) + r"\\w*"'),
+ ('drop-call-syntax',
+  'r"\\w*\\s*(?:\\{|\\((?!\\s*(?:(?:_|[A-Za-z]\\w*)\\s*:\\s*)+\\)))"',
+  'r"\\w*"'),
+ ('allow-function-reference-placeholder',
+  'r"\\w*\\s*(?:\\{|\\((?!\\s*(?:(?:_|[A-Za-z]\\w*)\\s*:\\s*)+\\)))"',
+  'r"\\w*\\s*(?:\\(|\\{)"'),
  ('drop-invocation-context',
   'if any(reader_invocation_context(source, match.start())',
   'if any(True'),

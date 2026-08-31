@@ -50,4 +50,10 @@ references while allowing parenthesized or trailing-closure calls at a proved bo
 contexts are refused rather than interpreted. This is intentionally incomplete and fail-closed; the
 ordinary unscoped blind-pass heuristic remains broader.
 
+A fourth cumulative primary found assignment-reference syntax: `let function = read(_:)` is valid
+Swift but does not invoke `read`. The call-shape guard now refuses parentheses containing only one or
+more argument-label placeholders and no values. A real assigned call such as
+`let value = read(label: input)` remains accepted. This distinction is independent of the context
+guard and has its own actual-source mutant.
+
 Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.
