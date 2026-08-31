@@ -1,0 +1,163 @@
+{
+  "item": "F25-065",
+  "slice": "upstream invocation-context repair fresh primary",
+  "verdict": "FAIL",
+  "reviewedHead": "3524c0276bfe36747ed774e08e56d414b7aa9a23",
+  "retainedPrimaryFailures": [
+    "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+    "4c5ed872410051e0bfa5d3634a49d03f32efc014",
+    "78895b88a46510d893a699cb79ea789828f7509e",
+    "824e9aa0c891d7a61bbf663dc3ee93a9df821750"
+  ],
+  "sameFamilyDegraded": true,
+  "contextDisclosure": "Reviewer performed four related earlier primary failures and reused unrelated context; this repeated review is same-family degraded and makes no out-of-family claim.",
+  "blockingFalseGreen": {
+    "claim": "Accepted assignment context also matches a Swift labeled function reference and accepts a caller with no reader invocation.",
+    "source": "private func seed() { store() }\n@Test func measure() { seed(); let function = read(_:) }\nfunc read(_ value: Int) -> Int { value }",
+    "cliExit": 0
+  },
+  "compiledFunctionReferenceValidity": {
+    "exit": 0,
+    "source": "function-reference-valid.swift",
+    "sourceSHA256": "3bf90cdc205ad1de66c83f5c3fe890218ca79fab3ac00fb3cfcff069638d14d9",
+    "log": "function-reference-typecheck.log",
+    "logSHA256": "19eaf43821a7660ec323a87c8457bf74823beb296c39f5e01aa8a683aa50f061"
+  },
+  "publicCLIBoundaries": {
+    "unqualifiedParenthesizedReader": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "helperTrailingClosureWithReader": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "readerBefore": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "commentOnlyReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "stringOnlyReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "identifierSubstringOnly": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "bareReaderNameOnly": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "readerShapedControlCondition": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "nestedReaderDeclaration": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "enumReaderPattern": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "selectorReaderReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "assignedReaderFunctionReference": {
+      "exit": 0,
+      "invalidScope": false
+    }
+  },
+  "strictSchemaCases": {
+    "configuredFalse": 1,
+    "configuredZero": 1,
+    "configuredObject": 1,
+    "configuredArray": 1,
+    "boolVersion": 1,
+    "boolCallOffset": 1,
+    "integerTestEntry": 1,
+    "unknownTopField": 1,
+    "unknownRowField": 1,
+    "emptyReferenceHash": 1,
+    "unknownClassification": 1,
+    "staleBody": 1,
+    "staleCallFingerprint": 1,
+    "staleCallOffset": 1,
+    "unmatchedFile": 1,
+    "duplicateScope": 1
+  },
+  "twoPartContractMutants": [
+    {
+      "name": "drop-call-syntax",
+      "failedAsRequired": true,
+      "assertion": "bare reader name accepted as reader call"
+    },
+    {
+      "name": "drop-invocation-context",
+      "failedAsRequired": true,
+      "assertion": "selector reference accepted after removing invocation context"
+    }
+  ],
+  "discardedRedundantGuardAttempt": {
+    "allRejected": false,
+    "survivors": 3
+  },
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "e549f1c7145841d9a14ead77e0181416d479932408dbf2761c161a8e8be6e60e"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "c51d2f642c69f9d171b1c5512e4ec110ac493f708533057e2fb78cef1d8931e6"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "02bda6957a88019257bf9f7f00682fd971e79c2fd57ceae4c75e34c1d6554823"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "531d88d41ce4d240deaa773ea8c30112226226e260afe95890284362087b0352"
+    }
+  ],
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "req056": 1,
+    "invalidScopes": 0,
+    "exit": 1,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "versions": {
+    "plugin": "0.16.2",
+    "marketplace": "0.16.2",
+    "catalogue": "0.16.2",
+    "catalogueRegenerationChangedBytes": false,
+    "path": "catalogue.log",
+    "sha256": "f90a65f6dbbc754e2446fe371f2182e935ded122bc1de9cb7b77e260a5b4f954"
+  },
+  "probe": {
+    "path": "probe.json",
+    "sha256": "4294af9dae7b87771db3e6fcde6a28de6401056a6b2bea73a2775c068d8e1a2f",
+    "scannerSHA256": "10d73e33fb61d46f9b2289a1ec807ec974e7f0b958c16ba1968c01a044128130",
+    "sourceRestored": true
+  },
+  "limitations": "Lexical call/context review plus one Swift typecheck; intentionally refuses ambiguous nested or qualified calls and does not resolve reader independence/output causality. No install, publish, cache edit, push, merge, rebase, native app, provider, Keychain, or live campaign."
+}
