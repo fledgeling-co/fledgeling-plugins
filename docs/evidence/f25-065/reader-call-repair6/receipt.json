@@ -1,0 +1,62 @@
+{
+  "item": "F25-065",
+  "slice": "upstream function-reference reader repair author",
+  "status": "repair complete; fresh primary and distinct additional review owed",
+  "base": "9b09eca75af7ae70b26841e705c73e3661aa69af",
+  "retainedPrimaryFailures": [
+    "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+    "4c5ed872410051e0bfa5d3634a49d03f32efc014",
+    "78895b88a46510d893a699cb79ea789828f7509e",
+    "824e9aa0c891d7a61bbf663dc3ee93a9df821750",
+    "9b09eca75af7ae70b26841e705c73e3661aa69af"
+  ],
+  "scannerSHA256": "dbe4ac36b8495edc95828753539afe5ff6126c3facf4168fd3db56044f755f6e",
+  "readerPosture": "call syntax excluding label-only function-reference placeholders, at a conservative statement, assignment, return, try, await or assertion-macro context",
+  "closedFalseGreen": "seed(); let function = read(_:)",
+  "validAssignedCall": "seed(); let value = read(label: input)",
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "8828afa9e2e3233a3bd1b421982e2458e23ccd593b93004b086632baa37c6c2f"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "52a929592985f059b5c8b8229fd008b92fe9aed0491a47f15b2dc46ba637bede"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "eb9d5683ccad34007b707b4d0215f91f4676db481d2219bb17b71ab0e7149a7d"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "762e492400ed2b6063d2fac5b6338566de658a8156ca9bc7185ab1e498c71c3b"
+    }
+  ],
+  "mutants": {
+    "count": 3,
+    "allRejected": true,
+    "restored": true,
+    "path": "mutations.json",
+    "sha256": "ab1417fa84131365923ccefb98066cd08e9b4ab8cf6d81c2eccdbc6f218a4d3b"
+  },
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "exit": 1,
+    "invalidScopes": 0,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "limitations": "Bounded lexical proof; ambiguous nested calls can false-negative. No receiver resolution, reader independence or output causality. No install, publish, cache edit, push, merge, native app, provider, Keychain or live campaign."
+}

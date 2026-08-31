@@ -215,7 +215,8 @@ def has_reader_call(source: str, readers: tuple[str, ...]) -> bool:
     references.
     """
     for reader in readers:
-        pattern = re.escape(reader) + r"\w*\s*(?:\(|\{)"
+        pattern = (re.escape(reader)
+                   + r"\w*\s*(?:\{|\((?!\s*(?:(?:_|[A-Za-z]\w*)\s*:\s*)+\)))")
         if any(reader_invocation_context(source, match.start())
                for match in re.finditer(pattern, source)):
             return True
