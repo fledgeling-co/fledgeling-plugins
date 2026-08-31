@@ -12,7 +12,8 @@ failure sentinels, fixture/value calls, direct-output contracts and attributed h
 separately. Attributed helpers also bind the exact current caller body and helper-call
 fingerprint, so a helper cannot borrow an unrelated reader as its justification. Boolean
 schema integers and configured-but-falsy scope paths fail closed. A bound caller must itself
-contain a configured reader after the named helper call. Target and caller records bind their
+contain an executable configured reader call after the named helper call: arbitrary identifier
+substrings and bare reader names cannot justify attribution. Target and caller records bind their
 current explicit-test posture, and caller bindings accept parenthesized or trailing-closure Swift
 calls. Caller calls must remain executable after comments and literals are masked. No mutator name is
 excluded globally, unknown top-level/record fields fail the versioned schema, and raw candidate

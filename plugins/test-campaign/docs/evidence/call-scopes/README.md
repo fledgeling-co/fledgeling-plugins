@@ -29,4 +29,10 @@ target and caller test-entry posture, strict posture schema, and trailing-closur
 Fresh fixtures reject all eight, including a reader placed only before the helper call and a helper spelling that exists only in a comment. The generated catalogue
 version is kept at 0.16.2 with both manifests.
 
+A fresh cumulative primary review then found that the later-reader check accepted `already` and a
+bare `read` expression for configured reader `read`. Both false greens are now permanent public-CLI
+fixtures. Attribution requires a masked reader-shaped identifier at an identifier boundary followed
+by parenthesized or trailing-closure call syntax; qualified `read()` and `read {}` remain accepted.
+This is still a lexical call-shape check, not receiver resolution or output causality.
+
 Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.
