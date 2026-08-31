@@ -190,13 +190,15 @@ def has_reader_call(source: str, readers: tuple[str, ...]) -> bool:
     Attributed helpers need an executable observation in each bound caller. A
     substring such as ``already`` and a bare identifier such as ``read`` are not
     calls and cannot justify removing the helper's mutation from the census.
-    Reader vocabulary remains stem-based, but the stem must begin an identifier
-    and that identifier must use parenthesized call syntax. Swift trailing-closure
+    Reader vocabulary remains stem-based, but the stem must begin an unqualified
+    identifier and that identifier must use parenthesized call syntax. Qualified
+    shapes are refused because an enum pattern such as ``case .read(let x)`` is
+    lexically indistinguishable from a member call here. Swift trailing-closure
     shape is not accepted here because ``if read {}`` is indistinguishable
     lexically from such a call.
     """
     return any(re.search(
-        r"(?<![\w`])" + re.escape(reader) + r"\w*\s*\(", source
+        r"(?<![.\w`])" + re.escape(reader) + r"\w*\s*\(", source
     ) for reader in readers)
 
 # ── what a provider has to resolve to ───────────────────────────────────────

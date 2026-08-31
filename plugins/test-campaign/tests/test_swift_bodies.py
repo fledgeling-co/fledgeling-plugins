@@ -174,6 +174,9 @@ class SwiftBodies(unittest.TestCase):
             'private func seed() { write() }\n@Test func measure() { seed(); read }',
             ('private func seed() { write() }\n'
              '@Test func measure() { seed(); let read = false; if read { print("x") } }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { seed(); switch value { '
+             'case .read(let x): print(x); default: break } }'),
         ]
         for source in invalid:
             with self.subTest(source=source):
