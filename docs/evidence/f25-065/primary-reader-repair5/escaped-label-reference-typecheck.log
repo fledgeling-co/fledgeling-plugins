@@ -1,0 +1,8 @@
+/tmp/f25-065-escaped-label-reference.swift:5:25: warning: keyword 'repeat' does not need to be escaped in argument list
+3 | func measure() {
+4 |     seed()
+5 |     let function = read(`repeat`:)
+  |                         `- warning: keyword 'repeat' does not need to be escaped in argument list
+6 |     _ = function
+7 | }
+exit=0
