@@ -55,6 +55,89 @@
       "name": "print-deliverable",
       "prompt": "Turn /tmp/dc-eval-7/notes.md into a two-page memo I can print. /tmp/dc-eval-7/",
       "expected_output": "816px page container, @page margins, break-inside control; the resting style is the final style so nothing exports blank; runs the physical checks (grayscale, minimum rule weight in points); routes PDF export through Obscura rather than Playwright; states that web fonts do not load in this engine so the PDF carries the fallback face."
+    },
+    {
+      "id": 8,
+      "name": "greenfield-variety-with-trawl",
+      "prompt": "Build a landing page for a small-batch coffee roaster. No brand system is supplied. Use the design skill's aesthetic ideation and reference process before choosing the direction. Save it to /tmp/dc-eval-8/.",
+      "expected_output": "A greenfield Persuade surface that names the category default and its predictable opposite, runs trawl:trawl or records its unavailable substitution, records TOOK/LEFT evidence, selects a direction from a material family that is not silently the warm-editorial default, and writes a lookalike score or n/a reason.",
+      "files": [],
+      "assertions": [
+        "Names the visitor mode as Persuade and writes one offer, one audience, and one primary action before choosing sections",
+        "Names the category-default arrangement and the predictable opposite before committing a direction",
+        "Invokes trawl:trawl with a design-specific packet, or states that the skill is unavailable and uses the weaker seven-candidate substitute",
+        "Records at least one TOOK and one LEFT ideation decision rather than claiming reference use without a ledger",
+        "Names a chosen family, topology, signature, and at least one material reason; palette-only variation does not count",
+        "Runs or records the lookalike gate with n/4 MET or an explicit n/a reason"
+      ],
+      "comparison": {
+        "baseline": "same brief without design-craft or trawl:trawl loaded",
+        "paired_with": "greenfield-variety-after-editorial"
+      },
+      "baseline_prompt": "Build a landing page for a small-batch coffee roaster. No brand system is supplied. Use the design skill's aesthetic ideation and reference process before choosing the direction. Save it to /tmp/dc-eval-8/.",
+      "baseline_mode": "run with no design-craft or trawl:trawl skill loaded; keep the same project files and user brief"
+    },
+    {
+      "id": 9,
+      "name": "greenfield-variety-after-editorial",
+      "prompt": "A project already contains skills/design-craft/evals/fixtures/ledger-project/.design-craft/diversity-ledger.json with a recent visual entry using family editorial-literary, topology centered-hero, signature italic-word-accent, and palette-family warm-editorial. Build a new greenfield site for a bicycle repair cooperative. Read the ledger before choosing a direction and record the new choice.",
+      "expected_output": "Reads the project ledger, detects the recent editorial conflict, chooses a materially different direction or records a product-truth override, records the chosen values, and does not treat a missing or skipped ledger check as a pass.",
+      "files": [
+        "skills/design-craft/evals/fixtures/ledger-project/.design-craft/diversity-ledger.json"
+      ],
+      "assertions": [
+        "Reads or explicitly attempts to read .design-craft/diversity-ledger.json before selecting the direction",
+        "Identifies at least one conflict with the retained editorial family, centred topology, italic signature, or warm-editorial palette",
+        "Chooses a direction that changes at least two structural axes, not only the colour",
+        "Records the selected family, topology, signature, palette family, or motion in the ledger after settling the direction",
+        "Reports whether the ledger was recorded, absent and initialised, or deliberately overridden with a reason"
+      ],
+      "comparison": {
+        "baseline": "same brief without design-craft or trawl:trawl loaded",
+        "paired_with": "greenfield-variety-with-trawl"
+      },
+      "baseline_prompt": "A project already contains skills/design-craft/evals/fixtures/ledger-project/.design-craft/diversity-ledger.json with a recent visual entry using family editorial-literary, topology centered-hero, signature italic-word-accent, and palette-family warm-editorial. Build a new greenfield site for a bicycle repair cooperative. Read the ledger before choosing a direction and record the new choice.",
+      "baseline_mode": "run with no design-craft or trawl:trawl skill loaded; keep the same project files and user brief"
+    },
+    {
+      "id": 10,
+      "name": "operate-does-not-force-variety",
+      "prompt": "Design a settings screen for an internal freight console. Match the existing tokens and closest screen. This is an Operate surface and should feel native to the existing product, not visually novel.",
+      "expected_output": "Uses the incumbent system, does not run aesthetic ideation or force a new recipe, and records lookalike/diversity as n/a because the surface is an incumbent Operate system.",
+      "files": [],
+      "assertions": [
+        "Names the visitor mode as Operate",
+        "Reads the existing token source and closest screen before choosing visual values",
+        "Does not invoke trawl:trawl or force a new aesthetic family when the incumbent system is binding",
+        "States n/a with a reason for the diversity ledger or lookalike comparison rather than treating non-variation as a failure",
+        "Preserves the incumbent resolved values instead of snapping them to a new grid"
+      ],
+      "comparison": {
+        "negative_control": true,
+        "expected": "n/a, not forced rotation"
+      },
+      "baseline_prompt": "Design a settings screen for an internal freight console. Match the existing tokens and closest screen. This is an Operate surface and should feel native to the existing product, not visually novel.",
+      "baseline_mode": "run with no design-craft or trawl:trawl skill loaded; keep the same project files and user brief"
+    },
+    {
+      "id": 11,
+      "name": "persuade-conversion-scoped",
+      "prompt": "Design a landing page for a password manager for freelance photographers. The goal is a free trial signup. Use the UX and visual craft skills.",
+      "expected_output": "Loads the Persuade-only conversion reference, writes one offer/audience/action sentence, places a visible primary CTA and honest proof, uses a consistent CTA label, and delegates visual direction to design-craft rather than importing a landing-page costume.",
+      "files": [],
+      "assertions": [
+        "Writes one offer, one audience, and one primary action before the section list",
+        "Uses an outcome-led headline, clarifying subheadline, verb-plus-benefit CTA, and one honest proof signal",
+        "Keeps the primary CTA visible without scrolling at desktop and mobile or states the measurement is unavailable",
+        "Uses the same primary CTA label at the top and final action",
+        "Does not invent logos, testimonials, metrics, guarantees, or security claims",
+        "Loads persuade-conversion.md only because the surface is Persuade and keeps fonts, radii, and palette in design-craft"
+      ],
+      "comparison": {
+        "scope_control": "not applicable to Operate, Read, Experience, checkout, auth, or payment"
+      },
+      "baseline_prompt": "Design a landing page for a password manager for freelance photographers. The goal is a free trial signup. Use the UX and visual craft skills.",
+      "baseline_mode": "run with no design-craft or trawl:trawl skill loaded; keep the same project files and user brief"
     }
   ],
   "gate_evals": {

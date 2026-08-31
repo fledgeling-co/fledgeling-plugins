@@ -4,13 +4,13 @@
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> mac-craft</h1>
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
+  <img alt="Version 1.5.0" src="https://img.shields.io/badge/version-1.5.0-D33C21">
   <img alt="SWE skill: design" src="https://img.shields.io/badge/SWE_skill-design-434A55">
   <img alt="Blind panel: 3 families unanimous" src="https://img.shields.io/badge/blind_panel-3_families_unanimous-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
 
-Design and review macOS application interfaces (windows, sidebars, toolbars, settings panes, menu-bar extras, empty states, onboarding) against the platform's own published values rather than a web habit that happens to run on a Mac.
+Design and review macOS application interfaces (windows, sidebars, toolbars, settings panes, menu-bar extras, empty states, onboarding) against the platform's own published values rather than a web habit that happens to run on a Mac. Chrome stays native; when the aesthetic axis is free, variety is mined in the content area rather than by restyling the titlebar.
 
 ## The problem
 
@@ -62,9 +62,9 @@ One research finding is worth carrying: a deep-research backend returned a type 
 
 ## What it doesn't do
 
-**It does not make icons.** An icon request routes to `create-mac-icon`, which owns the corpus, the three generation engines and the fidelity loop. If that plugin is absent, this one says so and stops rather than running a weaker second pipeline: one honest gap beats two near-identical references drifting apart.
+**It does not make icons.** An icon request routes to `create-mac-icon:create-mac-icon`, which owns the corpus, the three generation engines and the fidelity loop. If that plugin is absent, this one says so and stops rather than running a weaker second pipeline: one honest gap beats two near-identical references drifting apart.
 
-It does not review a rendered page for general design quality (`design-review`), and it does not own flows, forms or UX (`ux-craft`). It reads a live corpus written by `mac-design-digest` when one is present, preferring it to the bundled snapshot, and consumes that skill's two provenance mark families unchanged.
+It does not review a rendered page for general design quality (`design-review:design-review`), and it does not own flows, forms or UX (`ux-craft:ux-craft`). It reads a live corpus written by `mac-design-digest` when one is present, preferring it to the bundled snapshot, and consumes that skill's two provenance mark families unchanged.
 
 ## Install
 
@@ -75,4 +75,4 @@ It does not review a rendered page for general design quality (`design-review`),
 
 ## Deeper
 
-Eight references in `skills/mac-craft/references/`. `mac-essence.md` for the supersede table and what it deliberately leaves alone, `native-foundation.md` for the kit values with a provenance mark on every one, `design-directions.md` for the corpus clusters, `model-calibration.md` for the per-family dials, and `evidence.md` for every claim traced to its source, including the three conflicts left recorded rather than resolved.
+Nine references in `skills/mac-craft/references/`. `mac-essence.md` for the supersede table and what it deliberately leaves alone, `native-foundation.md` for the kit values with a provenance mark on every one, `design-directions.md` for the corpus clusters, `content-area-ideation.md` for content variety inside native chrome, `model-calibration.md` for the per-family dials, and `evidence.md` for every claim traced to its source, including the three conflicts left recorded rather than resolved.

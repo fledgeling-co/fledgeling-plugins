@@ -53,7 +53,7 @@ If the open question changes the design's direction (audience, format, brand, sc
 
 ### Assert these rather than asking them
 
-- **Visitor mode.** Persuade / Operate / Read / Experience. State your reading and invite correction — "reading this as an Operate surface: the user is here to reconcile transactions, not to be sold to." It is usually obvious from the brief, and it governs everything downstream (`visitor-modes.md`), so a wrong reading is expensive and a menu is slow.
+- **Visitor mode.** Persuade / Operate / Read / Experience. State your reading and invite correction — "reading this as an Operate surface: the user is here to reconcile transactions, not to be sold to." It is usually obvious from the brief, and it governs everything downstream (`visitor-modes.md`), so a wrong reading is expensive and a menu is slow. Pair it with a one-line design read: page kind, audience, visual language (a named family, not "modern"), and whether this is greenfield, extension, preserve, or overhaul. Infer rather than ask when the brief already decides it.
 - **Tweak controls.** SKILL.md §18 already adds 1–2 by default, so asking which knobs the user wants is asking them to do the job you were given. Choose the axes, expose them, and name them in the summary.
 
 ### Problem-specific (4+)

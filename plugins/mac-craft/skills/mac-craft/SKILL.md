@@ -15,7 +15,7 @@ and for what app, then stop. If it is a bare word that names something designabl
 `onboarding`, `empty state`, `toolbar` — **that is a brief: design it.** Do not design
 something called "settings".
 
-**Icons are not designed here.** An icon request routes to `create-mac-icon`, in full,
+**Icons are not designed here.** An icon request routes to `create-mac-icon:create-mac-icon`, in full,
 including the "make an icon for my app" phrasing this skill's description used to claim. See
 § Icons at the end: it is a five-line handoff, not a fallback pipeline, because two drifting
 copies of an icon catalogue are worse than one honest gap.
@@ -58,9 +58,10 @@ a rule the corpus does not carry is one you are inventing.
 
 **Bundled, always read:**
 1. `references/native-foundation.md` — the platform floor: control ladder, type ramp, label tiers `(specified)`, chrome anatomy, materials, the ten native-grammar rules **each with the symptom of breaking it**, and the macOS 27 beta deltas kept separate.
-2. `references/mac-essence.md` — **the spine.** Eight convictions on what makes a mac app great, the essence test, and the **yield table**: where design-craft/ux-craft's web-first rules bend to platform grammar, and — the half most override sections omit — what is *not* overridden.
+2. `references/mac-essence.md` — **the spine.** Eight convictions on what makes a mac app great, the essence test, and the **yield table**: where design-craft:design-craft and ux-craft:ux-craft's web-first rules bend to platform grammar, and — the half most override sections omit — what is *not* overridden.
 3. `references/design-directions.md` — nine buildable directions with identity tokens, do/don'ts, signature-move banks and pattern routing. Calibration for the first design decision, not a closed menu.
-4. `references/evidence.md` — which values are sourced, from where, and **where the sources disagree**. Read the conflict register before treating any number here as settled.
+4. `references/content-area-ideation.md` — variety inside the native envelope: what may change, when to run `trawl:trawl` on the content-area world, the session ledger, lookalike against the nearest corpus app.
+5. `references/evidence.md` — which values are sourced, from where, and **where the sources disagree**. Read the conflict register before treating any number here as settled.
 
 **Bundled, read the relevant parts:**
 - `references/corpus-evidence.md` — the measured evidence layer behind the directions: canon with member counts, the tells table, contested readings, and the gaps in the sample. Read it to know how much weight a direction can bear.
@@ -71,8 +72,8 @@ a rule the corpus does not carry is one you are inventing.
 
 **External, if installed:**
 - **macosify** — `reference/hig/index.md` per component; its "common non-native mistakes" lists are the correction table. `reference/DESIGN.md` for the hard-HIG-numbers table.
-- **design-craft** — `wireframe`, `generate-variations`, `hierarchy-rhythm-review`, `interaction-states-pass`, `ai-slop-check`, `polish-pass` (always, before delivery), `unit-critique-gate` (per surface on multi-surface work).
-- **ux-craft** — a **standing dependency, not a conditional one**: one primary action, the trunk test, designed states, recognition over recall, undo over confirm. Load **ux-craft's own** `plugins/ux-craft/skills/ux-craft/references/flows-and-forms.md` before any multi-step surface — the path is given in full because a bare `references/…` reads as this skill's own directory, and the predecessor shipped exactly that mistake: a rule citing `assets/squircle-path.txt`, a file that existed only in a sibling plugin.
+- **design-craft:design-craft** — `wireframe`, `generate-variations`, `hierarchy-rhythm-review`, `interaction-states-pass`, `ai-slop-check`, `polish-pass` (always, before delivery), `unit-critique-gate` (per surface on multi-surface work).
+- **ux-craft:ux-craft** — a **standing dependency, not a conditional one**: one primary action, the trunk test, designed states, recognition over recall, undo over confirm. Load **ux-craft's own** `plugins/ux-craft/skills/ux-craft/references/flows-and-forms.md` before any multi-step surface — the path is given in full because a bare `references/…` reads as this skill's own directory, and the predecessor shipped exactly that mistake: a rule citing `assets/squircle-path.txt`, a file that existed only in a sibling plugin.
 
 **Precedence:** Apple kit `(specified)` values and HIG → corpus canon → chosen direction's
 identity tokens → design-craft general craft. Native correctness is never traded for style;
@@ -114,7 +115,10 @@ genuinely open.
 
 **2. Settle the direction — with the user when it is open.** Start from the corpus cluster you
 matched in Knowledge sources; `references/design-directions.md` is the same nine clusters with
-buildable tokens, so the two agree by construction and the corpus is the one with members. If they gave an aesthetic, a
+buildable tokens, so the two agree by construction and the corpus is the one with members.
+Then read `references/content-area-ideation.md`: chrome stays native, and a free aesthetic
+axis runs `trawl:trawl` at `--any` on the *content-area world* only. Warm Paper and Terminal
+Dark stay the runner-up when the axis is free. If they gave an aesthetic, a
 reference or a design system, that decides it. If they did **not**, sketch 2–3 genuinely
 different directions as thumbnail-level descriptions and let them pick something they can
 see, rather than choosing silently — choosing silently is how you get slop. Decision fidelity
@@ -343,7 +347,7 @@ Say these rather than promising past them.
   result is the exact failure this skill was rebuilt to remove.
 - **No browser** → the render step cannot happen. Say so, and say plainly that the mock has
   not been looked at. Do not substitute reasoning about what it would look like.
-- **macosify / design-craft / ux-craft / Mobbin absent** → one line in the delivery naming
+- **macosify / design-craft:design-craft / ux-craft:ux-craft / Mobbin absent** → one line in the delivery naming
   which, never a silent skip.
 - **A tool that is absent stays absent.** One attempt is the whole budget for a
   `command not found`. Change approach rather than repeating the call, and never re-pitch a
@@ -351,7 +355,7 @@ Say these rather than promising past them.
 
 ## Icons
 
-Route icon work to **`create-mac-icon`** (fledgeling-plugins). Invoke it, or spawn an agent
+Route icon work to **`create-mac-icon:create-mac-icon`** (fledgeling-plugins). Invoke it, or spawn an agent
 briefed to read its SKILL.md and follow it; pass the app's subject, personality and any brand
 constraints, and it owns the rest — the direction catalogue, the 12-point rubric, the
 ground-truth corpus, three generation engines, a measured fidelity loop, a gated audit sheet

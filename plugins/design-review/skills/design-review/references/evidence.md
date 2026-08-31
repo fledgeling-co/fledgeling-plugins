@@ -306,3 +306,11 @@ Carried rather than resolved, because the resolution is not available:
 - **Whether "AI slop" names a property of artifacts or of observers** remains
   unresolved and is why the tell-list is Tier 3 and cannot gate. Nothing in this
   panel changed that; see `reliability-envelope.md`.
+
+## Lookalike counts, not lookalike taste — added 2026-08-31
+
+Craft's new lookalike questions are MET/UNMET against a named comparison set. The *counts* (layout-family tally, first-viewport element count, accent moments, display-face collision) may be Tier 2 Medium because they are counts. An adjective ("looks generic") without a denominator stays Tier 3 / Open Questions, which is the existing reliability-envelope position on AI-slop tells. This split is doctrine, not a new measurement.
+
+## Distinctiveness report block — added 2026-08-31
+
+The report template's Distinctiveness block is a coverage contract for the counted lookalike check: comparison set, `n/4 MET`, layout-family count, first-viewport element count, accent moments, and display-face comparison. It is not a new psychometric measure. A subjective “looks generic” statement without those counts remains Tier 3 / Open questions.

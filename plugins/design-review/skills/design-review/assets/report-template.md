@@ -40,6 +40,7 @@ the fact always equals the numerator. -->
 - **Contrast:** <n failed / n passed / n could not be resolved, of n examined>
 - **Not measurable on this engine:** <from the run summary: the channels that would not answer, which metrics were recovered from declarations and labelled, which are dark>
 - **Ledger:** <workdir>/worklist.md — <n rows, n open cells>
+- **Lookalike:** <n/a: incumbent system | n/a: no comparison | n/4 MET · families <n> · first-viewport elements <n> · accents in 100vh <n> · display-face collision yes/no · compared against <set>>
 - **Not looked at:** <named, not implied>
 
 "Gates clean" and "design sound" are two sentences. Write both or neither.
@@ -60,6 +61,21 @@ sample cannot speak for. Silent sampling is the thing this block prevents. -->
 <Audience, device, attention level. Product UI or marketing. What conversion
 means here. What design system exists. Anything the surface is deliberately
 doing that a naive reviewer would flag.>
+
+## Distinctiveness
+
+<!-- Required when the brief asked for a distinct site, more than one generated
+site exists, or visitor mode is Persuade/Experience. Drop the section when the
+surface matches an incumbent Operate/Read system or the user asked for the
+category standard played straight — and write the n/a reason in Coverage. -->
+
+- **Applies:** yes / n/a: <reason>
+- **Comparison set:** <session or repo siblings · named category default · named neighbour or none>
+- **Score:** <n/4 MET> — topology <MET/UNMET> · type <MET/UNMET> · signature <MET/UNMET> · swap test <MET/UNMET>
+- **Counts:** layout families <n of sections / unique families> · first-viewport elements <n vs neighbour> · accent moments in 100vh <n> · display face vs sibling <same/different>
+- **Finding:** none / Medium with pasteable topology, type, signature, or subject-mining change. Never a Blocker or High on taste alone. An adjective without these numbers belongs in Open questions.
+
+<If 2/4 or below, the repair is ours: change topology, type, signature class, or subject-mining. Do not clone the neighbour.>
 
 ## Blockers & High
 

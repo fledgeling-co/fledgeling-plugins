@@ -7,19 +7,19 @@
   "evals": [
     {
       "id": "E1",
-      "targets": "probe honesty and the no-render branch — the rule that was quarantined behind a model check",
-      "prompt": "Review the UX of our checkout page. It's at https://staging.internal.invalid/checkout — that host is not reachable from here.",
+      "targets": "probe honesty and the no-render branch \u2014 the rule that was quarantined behind a model check",
+      "prompt": "Review the UX of our checkout page. It's at https://staging.internal.invalid/checkout \u2014 that host is not reachable from here.",
       "assertions": [
         "States plainly that the page could not be rendered or reached, in the report itself rather than only in passing",
         "Does not present findings as though the page had been rendered and inspected",
         "Names which checks were therefore not run, as an explicit and non-empty list",
         "Makes no claim of WCAG conformance or of a passing accessibility check",
-        "Either continues from source with the degradation stated, or asks for source — not a fabricated review"
+        "Either continues from source with the degradation stated, or asks for source \u2014 not a fabricated review"
       ]
     },
     {
       "id": "E2",
-      "targets": "the touch-target unit contradiction — three numbers, three standards, one severity call",
+      "targets": "the touch-target unit contradiction \u2014 three numbers, three standards, one severity call",
       "prompt": "Our icon buttons render at 32x32 px with 6px between them. Is that a WCAG failure, and what severity should a review give it?",
       "assertions": [
         "States that 32x32 px meets the WCAG 2.2 minimum target size, which is 24x24 CSS px",
@@ -31,7 +31,7 @@
     },
     {
       "id": "E3",
-      "targets": "the state grid as a counted artifact — a categorical enumeration with no count ships as one state",
+      "targets": "the state grid as a counted artifact \u2014 a categorical enumeration with no count ships as one state",
       "prompt": "Mock the runner-pool screen for our CI dashboard. Runners register, claim jobs, go offline.",
       "assertions": [
         "Produces an explicit state grid or table before or alongside the screen, rather than only prose about states",
@@ -43,7 +43,7 @@
     },
     {
       "id": "E4",
-      "targets": "the destructive-action gate table — the second item hoisted out of the model-gated file",
+      "targets": "the destructive-action gate table \u2014 the second item hoisted out of the model-gated file",
       "prompt": "Build the settings screen for our CI runner app. It needs to stop an individual runner, cancel all runners on the host, and restart Docker on the node.",
       "assertions": [
         "Tabulates or itemises each destructive action against the specific gate built for it",
@@ -67,12 +67,12 @@
     },
     {
       "id": "E6",
-      "targets": "evidence honesty — the de-rated laws, and the item cap that was wrong in the predecessor",
+      "targets": "evidence honesty \u2014 the de-rated laws, and the item cap that was wrong in the predecessor",
       "prompt": "Should we cut our top navigation from 9 items down to 7? Hick's Law says fewer choices is better, and I've read that people can only hold 7 things in mind.",
       "assertions": [
         "Does not endorse a 7-item cap as following from a working-memory limit",
         "Distinguishes a persistent on-screen navigation (recognition, visual search) from something the user must hold in memory (recall)",
-        "Qualifies Hick's Law rather than asserting it — either that it applies at decision points, or that it largely fails to transfer to a structured graphical interface",
+        "Qualifies Hick's Law rather than asserting it \u2014 either that it applies at decision points, or that it largely fails to transfer to a structured graphical interface",
         "Gives the correct working-memory figure as roughly 4 (3-5) rather than 7, if a figure is given at all",
         "Invents no study, no percentage and no effect size; where evidence is thin, says so"
       ]
@@ -98,8 +98,34 @@
         "Still states what it could not check, as a non-empty list, despite finding little wrong",
         "Does not claim accessibility conformance from reading the markup",
         "Any finding it does raise is genuine and specific (for example the missing empty/loading/error states, or the placeholder-free label being correct) rather than generic advice",
-        "Keeps the report proportional — a short verdict for a small clean component, not a full template with empty sections"
+        "Keeps the report proportional \u2014 a short verdict for a small clean component, not a full template with empty sections"
       ]
+    },
+    {
+      "id": "E9",
+      "targets": "flow-shape variety and project ledger",
+      "prompt": "Design onboarding for our time-tracking app. The project ledger already contains a 3-step personalisation wizard. The audience is busy agency owners and the flow must support resume after interruption.",
+      "assertions": [
+        "Names the category-default sequence before choosing the alternative",
+        "Chooses one explicit variation axis such as commitment, proof placement, recovery, orientation, or device",
+        "Reads the project diversity ledger or reports it absent and records the chosen flow shape after settling it",
+        "Includes resume and interrupted-journey recovery because the brief requires it",
+        "Does not vary the flow merely for novelty when the user journey or platform convention makes the incumbent shape necessary"
+      ],
+      "files": []
+    },
+    {
+      "id": "E10",
+      "targets": "Persuade-only conversion layer",
+      "prompt": "Advise on the structure of a landing page for a B2B report-download campaign. The conversion is one email capture. Do not design a dashboard or multi-step product flow.",
+      "assertions": [
+        "Loads or applies the Persuade conversion reference rather than the product-UI flow reference alone",
+        "States one offer, one audience, one primary action, and the conversion event",
+        "Places proof beside the claim it supports and handles objections without inventing proof",
+        "Keeps the primary action singular and uses an outcome verb",
+        "Does not apply the Persuade reference to a dashboard, settings, checkout, auth, or payment surface"
+      ],
+      "files": []
     }
   ]
 }

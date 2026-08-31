@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "max_entries": 5,
+  "entries": [
+    {
+      "date": "2026-08-30",
+      "kind": "visual",
+      "artifact": "previous-editorial.html",
+      "family": "editorial-literary",
+      "display_face": "Tiempos Headline",
+      "pairing": "serif display + humanist sans",
+      "topology": "centered-hero",
+      "signature": "italic-word-accent",
+      "palette_family": "warm-editorial",
+      "motion": "quiet-crossfade"
+    },
+    {
+      "date": "2026-08-30",
+      "kind": "flow",
+      "artifact": "previous-onboarding.html",
+      "flow_shape": "3-step-personalisation-wizard"
+    },
+    {
+      "date": "2026-08-30",
+      "kind": "mac-content",
+      "artifact": "previous-notes.html",
+      "family": "Warm Paper",
+      "signature": "document-title-as-system"
+    }
+  ]
+}

@@ -89,6 +89,16 @@ Dismiss on **velocity** (|distance|/ms > ~0.11), not distance thresholds — a f
 - Loops: carousels stop after 3–5 cycles; skeleton shimmer only while loading; reward animations play once; any motion >5s needs a pause control (WCAG 2.2.2); nothing flashes >3×/sec; cancel ambient motion on route change.
 - **`prefers-reduced-motion` means fewer and gentler, not zero:** keep opacity/color crossfades, drop movement/scale/parallax, and jump timeline pieces to their end state. Deck builds apply instantly but click-gating stays (reveal order is content). Gate hover-triggered motion behind `@media (hover: hover) and (pointer: fine)`.
 
+## Phase 7.5: Motion claimed, motion shown
+
+If the direction contract's motion mode is Expressive or Playful, the page has to actually move: one orchestrated entrance, or scroll-reveal on key sections, or hover physics on the primary action. A static page that claimed a loud motion mode is unfinished — drop the mode to Quiet and ship the still composition, or finish the motion. Never half-build a ScrollTrigger that cuts off.
+
+Every animation still has to pass Phase 1 (it communicates space, time, or state). GSAP because GSAP is available is not a reason. Horizontal marquees: at most one per page.
+
+Pin/scrub patterns pin at the viewport top (`start: "top top"`), not `"top center"` or `"top 80%"`. The common failure is a stack that starts transforming before it is pinned, so the visitor sees half a slide. Canonical skeletons live in `gsap-motion.md`. Do not attach `window.addEventListener('scroll')` — use ScrollTrigger, CSS scroll-driven animation, IntersectionObserver, or Motion `useScroll`.
+
+Reduced motion remains mandatory for anything beyond a hover transition: `prefers-reduced-motion` wraps the lot, and the still composition is designed, not the motion with the duration zeroed.
+
 ## Phase 8: Review procedure (run on any motion-bearing deliverable)
 
 Flag on sight, in this order of severity: content visibility gated on a class-triggered transition (reveal-safety — ships blank sections) · `transition: all` · animation on keyboard-initiated actions · `ease-in` on UI · `scale(0)` entrances · center-origin popovers · keyframes on interruptible elements (toasts/toggles) · layout-property animation · image `transform` on hover (incl. parent `group-hover`) · >300ms UI motion without justification · ungated hover motion · looping decoration · the uniform section-reveal reflex (identical entrance on every section) · View Transitions without reduced-motion handling.

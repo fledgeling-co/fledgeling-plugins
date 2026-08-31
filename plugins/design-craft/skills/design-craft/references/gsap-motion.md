@@ -4,6 +4,8 @@ Use GSAP when the platform toolkit in `motion-design.md` Phase 5 runs out: multi
 
 **Escalation ladder:** CSS transitions → CSS scroll-driven animations / View Transitions / WAAPI → **GSAP**. Reach for GSAP on marketing/editorial/campaign surfaces and timeline pieces; product UI almost never needs it. State the escalation reason in the design-reasoning block.
 
+**Pin at the top.** Sticky-stack and horizontal-pan ScrollTriggers use `start: "top top"` and `pin: true`. `"top center"` and `"top 80%"` start the transform before the section is pinned, which is the failure that looks like a broken layout in a still screenshot. Drive the previous card's scale/opacity from the *next* card's trigger. Revert the `gsap.context` on unmount. Do not mix GSAP and Motion (`motion/react`) in the same component tree — they fight over frames.
+
 ## Phase 1: Load it — and the answer depends on where this ships
 
 **All GSAP plugins are free, including commercial use** — since the Webflow acquisition there is no Club membership, license key, or private registry; formerly-paid plugins (SplitText, MorphSVG, DrawSVG, ScrollSmoother, Inertia…) ship in the public package. Never generate `.npmrc` auth-token or `npm.greensock.com` instructions — they're outdated.

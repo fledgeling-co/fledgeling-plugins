@@ -91,7 +91,7 @@ Builds, reviews and converts slide decks, including PowerPoint you can still edi
 
 ### [design-craft](plugins/design-craft/README.md)
 
-Designs a screen the way a designer would rather than the way a code generator does. It works out what everything else in the category looks like and deliberately goes elsewhere, then checks its own colours are actually readable instead of assuming.
+Designs a screen the way a designer would rather than the way a code generator does. It works out what everything else in the category looks like and deliberately goes elsewhere — including by running trawl before the look is chosen, so consecutive sites are not the same world with new nouns — then checks its own colours are actually readable instead of assuming.
 
 <br clear="left" />
 
@@ -123,7 +123,7 @@ Turns raw project briefs and codebase reality into trace-verified PRDs and bespo
 
 ### [mac-craft](plugins/mac-craft/README.md)
 
-Designs and reviews Mac app screens against Apple's own published values, not web habits that happen to run on a Mac. It caught one of its own builds putting text on a background of exactly the same colour, invisible, while reporting a perfect score.
+Designs and reviews Mac app screens against Apple's own published values, not web habits that happen to run on a Mac. Chrome stays native; when the look is free, variety is mined in the content area. It caught one of its own builds putting text on a background of exactly the same colour, invisible, while reporting a perfect score.
 
 <br clear="left" />
 
@@ -147,7 +147,7 @@ Draws the chart or the diagram, and can prove the result rather than asking you 
 
 ### [ux-craft](plugins/ux-craft/README.md)
 
-The other half of design-craft: how a thing behaves rather than how it looks. Flows, forms, error states, the wording on buttons, and whether a person can really tap the thing on a phone.
+The other half of design-craft: how a thing behaves rather than how it looks. Flows, forms, error states, the wording on buttons, and whether a person can really tap the thing on a phone. Journeys get a named default sequence so two onboardings are not the same three-step wizard.
 
 
 <br clear="left" />
@@ -178,7 +178,7 @@ Reviews a change and, unusually, tells you what it did not look at. Three findin
 
 ### [design-review](plugins/design-review/README.md)
 
-The last look before you see AI-built screens yourself. Automatic checks first (can people read it, can they tap it), then judged passes on whether it hangs together, with fixes you can paste and an honest list of what nobody checked.
+The last look before you see AI-built screens yourself. Automatic checks first (can people read it, can they tap it), then judged passes on whether it hangs together — including a counted lookalike score when distinctiveness was in the brief — with fixes you can paste and an honest list of what nobody checked.
 
 <br clear="left" />
 

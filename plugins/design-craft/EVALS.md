@@ -1,7 +1,7 @@
 # Does design-craft actually work? Two layers measured, one layer not
 
 **The mechanical layer and the judged layer were both run and both are committed.
-The eight authoring prompts in the same `evals.json` were not.** This file separates
+The twelve authoring prompts in the same `evals.json` were not.** This file separates
 those three states, because the graded halves are strong enough that letting them
 stand in for the unrun half would be dishonest.
 
@@ -23,9 +23,9 @@ table and they get their own section.
 | The verdicts | `results/judge-anthropic-fable-5.md`, `results/judge-google-gemini-3.7.md`, `results/judge-xai.md` | **Run**, 3 cases each |
 | The panel write-up | `skills/design-craft/evals/results/judge-panel.md` | Families, harnesses, the failed lane, and the seven findings acted on |
 | The un-blinding map | `skills/design-craft/evals/results/judge-unblinding.json` | Seed 20260818, A and B recorded per case |
-| The fixtures | `skills/design-craft/evals/fixtures/` | 14 entries, one per defect class plus the controls |
+| The fixtures | `skills/design-craft/evals/fixtures/` | 15 entries, one per defect class plus the controls and the ledger fixture |
 | The runner | `skills/design-craft/evals/gate/run-evals.sh` | Committed |
-| The eight authoring prompts | `skills/design-craft/evals/evals.json`, `evals` array | **Never run.** No outputs, no grading |
+| The twelve authoring prompts | `skills/design-craft/evals/evals.json`, `evals` array | **Never run.** No outputs, no grading. The original eight remain; four new variety / scope cases were added in 1.4.0 |
 
 ## The gate: 9 of 25 against 23 of 25
 
@@ -142,18 +142,16 @@ day.
 7. The inline route was named and never shown. The three-tag shape is now above the
    CDN block.
 
-## The eight authoring prompts have never been run
+## The twelve authoring prompts have never been run
 
-They are the ones that exercise what the skill is for: a brand-matched dashboard
-against an existing token file, a greenfield landing page with scroll motion, a
-contrast audit on a fixed brand colour, a motion-verification honesty case, a
-variation round, an empty invocation, a surgical edit, and a print deliverable. Each
-carries an `expected_output` written against the skill's rules, and none carries an
-assertions array, run outputs or grading.
+They are the ones that exercise what the skill is for: the original eight plus four
+1.4.0 cases for greenfield variety with `trawl:trawl`, rotation after an editorial
+ledger, an Operate surface that must not force novelty, and a Persuade conversion
+contract. Each carries an `expected_output` written against the skill's rules. The
+new cases also carry `assertions`; none of the twelve has run outputs or grading.
 
-Three of them also point at `/tmp/dc-eval-*` working directories that no fixture in
-the repository creates, so they need their inputs staged before they can be run at
-all.
+The original cases point at `/tmp/dc-eval-*` working directories that no fixture in
+the repository creates, so their inputs need staging before they can run repeatably.
 
 ## What was checked by hand, on 2026-08-18
 
@@ -162,11 +160,11 @@ all.
 | `scripts/design-lint.py --selftest` | **Passes: 40 rules, 40 fired, exit 0.** The selftest runs every rule against a fixture built to trip it, asserts each one fires, asserts every finding names a consequence and a fix, asserts a justified suppression silences its check and an unjustified one does not, and asserts a clean fixture produces nothing. |
 | Does the gate provably fail on a bad fixture | **Yes**, and the selftest is the demonstration rather than a claim. A rule only ever observed passing is a rule nobody has written. |
 | `skills/design-craft/SKILL.md` frontmatter parses | Passes. `name: design-craft` matches the directory and the plugin manifest. |
-| SKILL.md against the 500-line conformance ceiling | Passes, at 355 lines. |
-| Every `references/` and `scripts/` path named in SKILL.md resolves | Passes, all 33. |
+| SKILL.md against the 500-line conformance ceiling | Historical 2026-08-18 check passed at 355 lines. The current SKILL.md is 381 lines. |
+| Every `references/` and `scripts/` path named in SKILL.md resolves | Historical 2026-08-18 check passed, all 33. Current SKILL.md names 37 routed files plus 10 recipe files in `references/aesthetic-worlds/`. |
 | `scripts/design-lint.py` byte-compiles | Passes, and so does the committed predecessor at `evals/old/design-lint.py`. |
-| Everything the plugin claims to ship exists | Passes. Thirty-two reference files, the lint, a `gemini.md`, 14 fixture entries, four deep-research reports with their source lists. The README's "thirty phased procedures" is the 32 minus `evidence.md` and `discovery-questions.md`, which are a source record and an interview script rather than procedures. |
-| Version agreement | Passes. `plugin.json` and `marketplace.json` both say 1.0.0. |
+| Everything the plugin claims to ship exists | Historical 2026-08-18 check passed at 32 reference files. Current tree has 37 top-level references, 10 recipe files, the lint, `diversity_ledger.py`, a `gemini.md`, 15 fixture entries including the ledger fixture, and four deep-research reports. |
+| Version agreement | Historical 2026-08-18 check passed at 1.0.0. Current `plugin.json` and `marketplace.json` both say 1.4.0. |
 | The README's panel claim | Substantiated. "Three model families judged three document pairs and chose this version on all nine" matches the three verdict files against the un-blinding map exactly, and the README also records the fourth family as failed rather than dropped. |
 | The README's research claim | Substantiated. "More than a quarter of one generative UI tool's stated design rationales were measured not to appear in what it actually built" traces to `references/evidence.md`, where it is recorded as more than 25% with its source. |
 | Can the gate scorecard be reproduced from this repository | **Yes.** Both versions of the lint are on disk and the runner's paths are relative. Of the nine skills audited alongside this one, it is the only plugin that commits the version it replaces. |
@@ -175,17 +173,14 @@ all.
 
 Three tasks, cheapest first.
 
-1. **Run the eight authoring prompts twice, with the skill and with no skill.** There
+1. **Run the twelve authoring prompts twice, with the skill and with no skill.** There
    is no predecessor arm for authoring, so the honest baseline is the same prompts
    with nothing loaded. Stage the `/tmp/dc-eval-*` inputs as committed fixtures first,
    so the run is repeatable. Grade with an independent agent that never sees the
    skill, one pass or fail per assertion with quoted evidence. Every assertion the
    no-skill arm also passes is measuring the model rather than the skill and gets
    rewritten or dropped with the change recorded.
-2. **Write assertions for those eight prompts.** They currently carry prose
-   expectations, which a grader has to interpret. The gate's 25 rows show what the
-   checkable version looks like, and the authoring layer is where this skill's value
-   actually lives.
+2. **Write assertions for the remaining original eight prompts.** The four 1.4.0 cases already carry `assertions`; the original eight still have prose expectations. A grader has to interpret those, and the gate's 25 rows show what the checkable version looks like.
 3. **Retry the OpenAI lane on the same three-case bundle after 20 Aug 2026.** The
    failure is a capacity limit rather than a harness problem, and the bundle, the seed
    and the un-blinding map are all committed, so a fourth family costs one call per
@@ -204,9 +199,24 @@ Three tasks, cheapest first.
 - **Three families, not four.** Reported as three throughout.
 - **The gate is not the skill.** Twenty-five assertions measure a lint script's
   behaviour. Nothing measured here says whether the designs this skill produces are
-  any good, which is what the eight unrun prompts were written to ask.
+  any good, which is what the twelve unrun prompts were written to ask.
 - **The engine bounds every visual claim.** The skill's own Known limits section
   records that the sanctioned browser never executes CSS animations, accepts
   `Emulation.setEmulatedMedia` and does nothing with it, and never loads web fonts.
   So motion, print, reduced-motion and type fidelity are declared unverified rather
   than reported clean, here as well as there.
+
+## Variety and conversion suite — added 2026-08-31, not yet run
+
+The authoring suite now has twelve cases. The original eight remain unrun. Four new cases exercise the second wave:
+
+| Case | Paired baseline | What it tests |
+|---|---|---|
+| `greenfield-variety-with-trawl` | Identical brief with no design-craft or `trawl:trawl` loaded | Category-default naming, divergent ideation, TOOK/LEFT ledger, non-default material family, lookalike score |
+| `greenfield-variety-after-editorial` | Identical brief with no skill loaded, using the committed three-entry ledger fixture | Project-history collision detection, structural rotation, record-after-commit, explicit override handling |
+| `operate-does-not-force-variety` | Identical brief without the skill | Negative control: an incumbent Operate surface must not be sent through aesthetic rotation |
+| `persuade-conversion-scoped` | Identical brief with no skill loaded | Persuade-only conversion contract, CTA visibility, proof honesty, and routing visual choices to design-craft |
+
+The UX suite adds E9 for project-ledger flow rotation and E10 for Persuade routing. design-review adds a distinctiveness-report case. These are structural assertions with paired prompts, not scores. They have not been run, so they establish a test surface rather than evidence that the new procedure improves generated artifacts.
+
+When the suite is run, grade six independent axes on the greenfield pair: topology, type system, signature class, palette family, density, and task fit. A more novel output that weakens task fit loses. The Operate case is a negative control: forcing a new look is a failure. Report the arm, model, effort, fixture commit, and whether the project ledger was available.

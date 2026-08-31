@@ -7,13 +7,15 @@
 # UX Craft
 
 <p align="center">
-  <img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-D33C21">
+  <img alt="Version 2.5.0" src="https://img.shields.io/badge/version-2.5.0-D33C21">
   <img alt="SWE skill: UX" src="https://img.shields.io/badge/SWE_skill-UX-434A55">
-  <img alt="References: 11" src="https://img.shields.io/badge/references-11-756E60">
+  <img alt="References: 13" src="https://img.shields.io/badge/references-13-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
 
 A Claude Code plugin for the UX half of building interfaces: forms, flows, states, error recovery, interface copy, and the review that catches what a screenshot hides. It pairs with **design-craft**: that one is the visual hands, this one is the UX brain.
+
+Generated journeys used to ship the same skeleton every time (hero CTA, three features, three-step how-it-works). Build mode now names that default and varies the sequence on one axis, or keeps it with a reason.
 
 > This README is the functional version. It gets its voice pass, its icon and its banner in the brand phase; the content below is accurate now.
 
@@ -72,12 +74,14 @@ The skill also carries a `Known limits` section: it cannot substitute for usabil
 
 ## References
 
-Eleven, each justified by the failure it prevents rather than by a contents list.
+Thirteen, each justified by the failure it prevents rather than by a contents list.
 
 | File | Without it |
 |---|---|
 | `review-playbook.md` | A review becomes a framework dump, and a render that failed gets reported as a pass |
 | `flows-and-forms.md` | A form ships with one reachable state, a live region that never announces, and a list of 387 items with no way to find one |
+| `flow-shape-variety.md` | A journey defaults to the same 3-step how-it-works skeleton; names one axis of variation and the project ledger |
+| `persuade-conversion.md` | A Persuade surface has a CTA but no offer/audience/action contract or proof placement; loaded only for landing and campaign surfaces |
 | `psychology-laws.md` | Findings become taste and citations become name-drops |
 | `evidence.md` | The skill holds its own claims to a lower standard than it holds its citations |
 | `mobile-ux.md` | A desktop layout gets shrunk instead of prioritised, and hover carries something load-bearing onto a device with no hover |

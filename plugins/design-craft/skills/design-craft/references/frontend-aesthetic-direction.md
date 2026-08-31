@@ -29,7 +29,9 @@ Ask the user (or confirm if they've stated):
 
 **Mine the subject before consulting the map.** Pin down one concrete subject, its audience, and the surface's single job (state your choice if the brief leaves it open). The subject's own world — its materials, instruments, artifacts, and vernacular — is where non-template choices come from: a coffee brand suggests crema tones and kraft textures; a synth plugin suggests panel silkscreen type and patch-cable color; a climbing gym suggests chalk, rope weaves, topo lines. Subject-mining tells you *which* family to pick and how to remix it; the range map alone produces family-generic output. Anything you remember about this user's prior designs or preferences counts as context too.
 
-**Trawl real shipped UI in the same pass** (`references/mobbin-trawl.md`). Subject-mining supplies the *world*; the trawl supplies the *mechanics* — how dense a real screen of this type is, what surfaces exist that a spec never lists, which parts shipped products leave deliberately plain. Two or three searches, images opened, a took/left ledger. The two sources answer different questions and a direction built on only one of them is half-derived: subject-mining without reference produces a beautiful world at the wrong density, reference without subject-mining produces a competent screen that could belong to anyone.
+**Widen the world, then trawl shipped UI.** On a free aesthetic axis, run `references/aesthetic-ideation.md` first — it invokes `trawl:trawl` so the seven candidates are not one model sampling itself. Then trawl real shipped UI (`references/mobbin-trawl.md`). Subject-mining and ideation supply the *world*; Mobbin supplies the *mechanics* — how dense a real screen of this type is, what surfaces exist that a spec never lists, which parts shipped products leave deliberately plain. Two or three Mobbin searches, images opened, a took/left ledger that includes the ideation lines. A direction built on only one of those sources is half-derived: a beautiful world at the wrong density, or a competent screen that could belong to anyone.
+
+**Candidate sources.** The range map below remains the in-file list. `references/aesthetic-worlds.md` is the wider anchored catalogue (24 worlds in five groups, plus premium-consumer palette rotations). After a shortlist exists, load at most two files from `references/aesthetic-worlds/`. `references/current-moves.md` is the dated 2026 permission list; read a row's strength and status before treating it as current. Pull candidates from at least two groups of the worlds table, not from one row of the range map three times. Consecutive greenfield commissions, including across sessions via `references/diversity-ledger.md`, may not share a winning family, display face, topology, signature, or palette family unless product truth or an explicit request overrides it.
 
 ### Name the rut, then derive past it
 
@@ -44,7 +46,19 @@ Then list **seven concrete visual systems, artifacts, places, or rituals the aud
 
 **Then don't build your top-ranked candidate by default.** This one is *this skill's house rule rather than a published finding* — the reviewed literature supports critique-and-revise and deliberate divergence, and has nothing directly on discard-the-top-pick (`references/evidence.md` §4). It stays because its mechanism is nameable: rank the seven by resonance, and treat the top one with suspicion: it is what *every* run on this brief would produce, which is the definition of the outcome this whole procedure exists to avoid. Build a lower-ranked candidate unless the top one is genuinely forced by product truth or an explicit brief constraint — and say in the direction block which rank you took and why. Taste is never grounds for climbing back to the top of the list; a factual failure (the candidate can't carry the mechanism, the assets don't exist, the claim isn't true) is.
 
-Set three dials (1–10) from the brief and say them out loud — they calibrate everything downstream: **VARIANCE** (how far from category convention), **MOTION** (how much movement), **DENSITY** (how much per screen). A Linear-style dev tool reads ~5/3/2; a public-sector portal ~3/2/5; a festival site ~9/8/4. If the brief reads as an established design system (Material, Fluent, Carbon, Polaris, GOV.UK), **install the official package rather than hand-faking its CSS** — one system per project; aesthetics like glassmorphism or brutalism have no official package, so build them honestly and label approximations.
+Set five dials (1–10) from the brief and say them out loud — they calibrate everything downstream. Three already lived here; two more, from garden-skills' calibration file, catch the cases those three miss:
+
+| Dial | What it changes | Quiet | Loud |
+|---|---|---|---|
+| **VARIANCE** | How far layout departs from category convention | Stable grid, familiar nav | Off-grid moments, multiple layout families |
+| **MOTION** | How much meaning is carried through time | State feedback only | Pin, scrub, spatial storytelling |
+| **DENSITY** | Useful information per viewport, not clutter | One idea, gallery pauses | Cockpit; needs grouping and disclosure |
+| **ASSET DEPENDENCE** | Whether the page fails without real imagery or identity assets | Type and structure can carry it | Inventory assets before layout; no CSS stand-in |
+| **BRAND FIDELITY** | How strictly an incumbent identity must survive | Exploratory | Extension-level; new work looks native |
+
+A Linear-style dev tool reads about 5 / 3 / 5 / 6 / 6. A public-sector portal 3 / 2 / 6 / 3 / 9. A festival site 9 / 8 / 4 / 8 / 4. Changing a dial has to change the plan; a score with no consequence is decoration, drop it.
+
+If the brief reads as an established design system (Material, Fluent, Carbon, Polaris, Primer, GOV.UK, USWDS, Atlassian, Bootstrap, Radix Themes, shadcn), **install the official package rather than hand-faking its CSS** — one system per project. shadcn is owned source: customise radii, colour, type before shipping, never the default kit. Aesthetics like glassmorphism or brutalism have no official package, so build them honestly and label approximations. Apple Liquid Glass is Apple-platform only; a `backdrop-filter` web version is an approximation and is labelled as one.
 
 ### Presenting the round
 
@@ -71,7 +85,7 @@ Real variety is picked from a map, not hoped for. Each family names its tokens s
 | **Organic / soft** | Low-contrast humanist faces | Earth tones, blurred mesh backgrounds | Blob masks, grain, hand-feel spacing irregularity |
 | **Industrial / utilitarian** | DIN/Univers-class, all-caps labels | Concrete neutrals, safety-orange accent | Rulers, specs, stencils, exposed metadata (ISO-style) |
 
-These are starting points to remix, not costumes: pull one family's type with another's surface treatment when the brief supports it. Match implementation complexity to the vision — maximalism needs elaborate effects executed fully; minimalism needs restraint and precision. Half-committed is the only wrong dose.
+These are starting points to remix, not costumes: pull one family's type with another's surface treatment when the brief supports it. For named anchors and a spread across material families, read `references/aesthetic-worlds.md` — load the matching group, not the whole table. Match implementation complexity to the vision — maximalism needs elaborate effects executed fully; minimalism needs restraint and precision. Half-committed is the only wrong dose.
 
 Two rows carry a warning: **Neo-grotesque product (dark neutral + one electric/acid accent)** and **Editorial/literary** are the looks current models reach for unprompted on dev-tool and creative briefs respectively — choosing them requires the same stated reason the warm-editorial combination does (see `ai-slop-check.md` §9's three-look family).
 
