@@ -660,7 +660,7 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
     scope_errors: list[str] = []
     scoped_counts = {name: 0 for name in sorted(SCOPE_CLASSES)}
     scoped_only_bodies = 0
-    body_records: dict[tuple[str, str, str], list[str]] = {}
+    body_records: dict[tuple[str, str, str], list[tuple[str, str]]] = {}
     scope_identities = [(row.get("file"), row.get("name"), row.get("bodySHA256"),
                          row.get("callOffset")) for row in scopes]
     if len(scope_identities) != len(set(scope_identities)):
@@ -725,7 +725,7 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                            if swift is not None else body)
             rel = f.relative_to(root).as_posix()
             body_digest = hashlib.sha256(source_body.encode()).hexdigest()
-            body_records.setdefault((rel, name, body_digest), []).append(source_body)
+            body_records.setdefault((rel, name, body_digest), []).append((source_body, body))
             body_scopes = [row for row in scopes if row.get("file") == rel and
                            row.get("name") == name and row.get("bodySHA256") == body_digest]
             if kind == "decl" and name in helpers and not any(
@@ -784,7 +784,7 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                     scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
                                         "does not bind exactly one current body")
                     continue
-                caller_body = bodies[0]
+                caller_body, masked_caller = bodies[0]
                 offset = caller.get("callOffset")
                 match = (re.match(re.escape(str(row.get("name"))) + r"\s*\(", caller_body[offset:])
                          if isinstance(offset, int) and offset < len(caller_body) else None)
@@ -792,6 +792,10 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                         caller.get("callSHA256")):
                     scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
                                         "does not bind its named helper call")
+                elif not any(re.search(re.escape(reader) + r"\w*", masked_caller[
+                        offset + match.end():]) for reader in readers):
+                    scope_errors.append(f"{row.get('file')}:{row.get('name')} bound caller "
+                                        "has no read after its helper call")
     return {"files": len(files), "examined": examined, "mutating": mutating,
             "reread": reread, "findings": findings, "seenVerbs": seen_verbs,
             "declBlocks": decl_blocks, "specBlocks": spec_blocks,

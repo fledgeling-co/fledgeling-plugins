@@ -26,5 +26,12 @@
     "failedAsRequired": true,
     "replacements": 1,
     "log": "plugins/test-campaign/docs/evidence/call-scopes/stale-catalogue-version.log"
+  },
+  {
+    "name": "blind-bound-caller",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/blind-bound-caller.log"
   }
 ]
