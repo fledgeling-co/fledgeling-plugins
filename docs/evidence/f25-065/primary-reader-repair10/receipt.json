@@ -1,0 +1,79 @@
+{
+  "item": "F25-065",
+  "slice": "upstream direct-helper and balanced-call repair fresh primary review",
+  "verdict": "FAIL",
+  "reviewedHead": "de4de21e35d314cbefc155ab0016de222ca3fd59",
+  "independence": "Reviewer reused unrelated context and performed repeated same-family review; this is degraded same-family primary evidence and makes no out-of-family claim.",
+  "blocker": {
+    "name": "return-position helper loses the terminating control context",
+    "publicCLI": "Accepted exit 0 for `@Test func measure() -> Int { return seed(); read() }` with an attributed mutating `seed()` helper.",
+    "why": "The helper context accepts return-position calls, then later-reader search starts after the balanced `seed()` call. That slice discards `return`, so unreachable `read()` receives credit.",
+    "swiftTypecheckExit": 0,
+    "runtime": "value=1 reads=0; Swift warns that read() after return is unreachable.",
+    "artifacts": [
+      "return-helper-typecheck.swift",
+      "return-helper-typecheck.log",
+      "return-helper-runtime.swift",
+      "return-helper-runtime.log"
+    ]
+  },
+  "boundaries": {
+    "publicCLIProbeCases": 37,
+    "strictSchemaCases": 16,
+    "allStrictSchemaCasesRejected": true,
+    "actualSourceMutants": 9,
+    "allMutantsRejected": true,
+    "sourceRestored": true
+  },
+  "suites": {
+    "focused": [
+      {
+        "tests": 21,
+        "exit": 0,
+        "sha256": "eb11c7a0568102b48ed2d11e22cc254feaf7483fea5ce7ee57de89dd78eb7150"
+      },
+      {
+        "tests": 21,
+        "exit": 0,
+        "sha256": "cdfa348a22aadc177613c2a4cb86abaabcdc966c78688afef8f02b31511e3e8a"
+      }
+    ],
+    "full": [
+      {
+        "tests": 114,
+        "exit": 0,
+        "sha256": "4683c1d9b2ed87c1922148087fef526eb03153eb9a1da33dc959857e9fbd0d3f"
+      },
+      {
+        "tests": 114,
+        "exit": 0,
+        "sha256": "272ab78ed03e192e53ff2760457b70856ee1bc8d31b862a84199c5613b5f1a8c"
+      }
+    ]
+  },
+  "perchCorpus": {
+    "commit": "c30595e14403240d7933c1d20ec4728eb3281770",
+    "runs": 2,
+    "scopeRecords": 108,
+    "invalidScopes": 0,
+    "attributedHelper": 0,
+    "failureSentinel": 56,
+    "remainingBlindBodies": 4,
+    "REQ056": true,
+    "wholeFindings": 5,
+    "expectedExit": 1,
+    "identicalLogSHA256": "54decad589022bcfe9e83cce66653c354b2705d7505e25ee5f2d8f1b64b40786"
+  },
+  "versions": {
+    "plugin": "0.16.2",
+    "marketplace": "0.16.2",
+    "catalogue": "0.16.2",
+    "catalogueSHA256": "5a8e81704842ce2a8b65e1474beea889f3de6642217cff55b2c895a1b934452a",
+    "regeneration": "Unavailable because local yaml dependency is absent; no dependency install/cache change was permitted, and attempted command left catalogue bytes unchanged."
+  },
+  "limitations": [
+    "Lexical scanner review does not prove Swift semantic execution generally.",
+    "No install, publish, cache modification, native/provider/Keychain/app work.",
+    "Catalogue parity was checked from committed bytes and version surfaces; local regeneration dependency was unavailable."
+  ]
+}
