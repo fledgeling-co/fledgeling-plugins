@@ -64,4 +64,15 @@ or assignment statement, while the balanced-body parser independently prevents a
 default argument from lending reader credit to its parent before that function is called. Both are
 permanent public-CLI fixtures; the accessor refusal has its own actual-source mutant.
 
+A sixth cumulative primary found that the placeholder grammar's ASCII label start accepted valid
+Swift `read(λ:)` as if it were a call. Placeholder detection now treats any colon-terminated token
+sequence inside the parentheses as a function reference, including Unicode and backtick-escaped
+labels. Real labeled calls remain distinguishable because they contain an argument expression.
+
+Distinct additional review then found a stored closure whose body contains `read()` but is never
+invoked, plus a literal-false branch carrying the same unreachable credit. Configured-reader credit
+is now limited to the caller body's top lexical brace level.
+This deliberately refuses ambiguous nested control and immediately-invoked closure bodies as well;
+an explicit scope must use a directly provable observation rather than borrow one from nested code.
+
 Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.
