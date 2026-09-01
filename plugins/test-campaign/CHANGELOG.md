@@ -22,7 +22,8 @@ their current explicit-test posture. A helper call must be a direct, top-level p
 readers in its arguments are before the helper mutation and cannot count as later observations.
 Trailing-closure and nested control-flow helper calls are refused because lexical structure cannot
 prove whether or when they execute relative to the scoped mutation. Caller calls must remain
-executable after comments and literals are masked. No mutator name is
+executable after comments and literals are masked. A helper in a `return` or `throw` expression is
+also refused because no later statement in that caller can observe it. No mutator name is
 excluded globally, unknown top-level/record fields fail the versioned schema, and raw candidate
 artifacts remain valid.
 

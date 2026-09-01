@@ -246,7 +246,12 @@ def helper_invocation_context(source: str, start: int) -> bool:
     blocks cannot prove that a branch or loop executes, and closures cannot prove
     when their body runs relative to the helper's scoped mutation.
     """
-    return reader_invocation_context(source, start)
+    if not reader_invocation_context(source, start):
+        return False
+    statement = re.split(r"[;\n{}]", source[:start])[-1].strip()
+    if re.match(r"(?:return|throw)\b", statement):
+        return False
+    return True
 
 
 def has_reader_call(source: str, readers: tuple[str, ...]) -> bool:
@@ -911,6 +916,10 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                 if reader_tail is None:
                     scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
                                         "has an unbalanced helper call")
+                    continue
+                if masked_caller[reader_tail:].lstrip().startswith("{"):
+                    scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
+                                        "uses unsupported trailing-closure syntax")
                     continue
                 if not has_reader_call(masked_caller[reader_tail:], readers):
                     scope_errors.append(f"{row.get('file')}:{row.get('name')} bound caller "
