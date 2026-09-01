@@ -123,7 +123,8 @@ class SwiftBodies(unittest.TestCase):
                 'callSHA256': SCAN.call_fingerprint(
                     caller_body, caller_offset, caller_offset + len('seed {'))}])
         result = self.scan(trailing, scopes=[trailing_scope])
-        self.assertEqual(result['scopeFindings'], [])
+        self.assertTrue(any('named helper call' in finding
+                            for finding in result['scopeFindings']))
 
         commented = 'private func seed() { write() }\nfunc testCaller() { /* seed() */ read() }'
         blocks = SCAN.swift_body_spans(commented)['blocks']
@@ -196,13 +197,22 @@ class SwiftBodies(unittest.TestCase):
              '@Test func measure() { seed(); if false { configure(); read() } }'),
             ('private func seed() { write() }\n'
              '@Test func measure() { seed(); read {} }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() {\n seed()\n #if false\n read()\n #endif\n }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() {\n seed()\n #if canImport(DefinitelyMissingF25065Module)\n'
+             ' read()\n #endif\n }'),
+            ('private func seed(_ body: () -> Void) { write() }\n'
+             '@Test func measure() { Fixtures.seed { read() } }'),
         ]
         for source in invalid:
             with self.subTest(source=source):
-                scope = attributed_scope(source)
+                helper_call = 'seed {' if 'Fixtures.seed {' in source else 'seed('
+                scope = attributed_scope(source, helper_call)
                 readers = ('read', 'get') if ' get {' in source else ('read', 'load', 'expect')
                 direct = self.scan(source, scopes=[scope], readers=readers)
-                self.assertTrue(any('no read after' in finding
+                expected = 'named helper call' if helper_call == 'seed {' else 'no read after'
+                self.assertTrue(any(expected in finding
                                     for finding in direct['scopeFindings']))
                 cli = self.cli({'ExampleTests.swift': source},
                     {'blindScopeFile': 'scopes.json', 'blindVocabulary': {
@@ -216,8 +226,6 @@ class SwiftBodies(unittest.TestCase):
         valid = [
             ('private func seed() { write() }\n'
              '@Test func measure() { Fixtures.seed(); read() }', 'seed('),
-            ('private func seed(_ body: () -> Void) { write(); body() }\n'
-             '@Test func measure() { Fixtures.seed { configure() }; read() }', 'seed {'),
             ('private func seed() { write() }\n'
              '@Test func measure() { Fixtures.seed(); let value = read(label: input) }', 'seed('),
         ]
