@@ -5,6 +5,8 @@
 - Parse Codex Desktop `response_item` transcripts as well as Claude message transcripts.
 - Attribute a subagent audit from the first `agent_message` addressed to its declared
   `agent_path`, excluding inherited parent history and reporting the boundary explicitly.
+- Advance model identity only from owned `turn_context` records and attach the current model to
+  each call, including model changes within one session, so T7 cannot inherit the parent's family.
 - Record stable call ordinals and exact call/output pairing; fail closed when a Codex
   transcript has no recognized activity or contains orphan calls or outputs.
 - Scope repository probes to transcript-attributable paths and distinguish accessed paths

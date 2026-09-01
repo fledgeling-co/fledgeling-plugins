@@ -58,6 +58,9 @@ subagent transcript it attributes only the owned segment beginning at the first 
 addressed to the declared `agent_path`; inherited parent history is counted and excluded. Read the
 reported attribution boundary before trusting any count. Every Codex call receives a one-based
 ordinal and must pair with exactly one output. Zero recognized activity or any orphan fails closed.
+Model identity advances only through `turn_context` records in the owned segment and is attached to
+each call, including model changes within one session; never infer the child's family from inherited
+parent context.
 `crossref.py` scopes its commit and capture reads to paths attributable to that owned segment and
 distinguishes paths merely accessed from paths modified by the session.
 
