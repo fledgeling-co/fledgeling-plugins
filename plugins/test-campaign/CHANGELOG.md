@@ -18,9 +18,10 @@ substrings, bare reader names, control conditions such as `if read {}`, enum-cas
 Configured readers require parenthesized call syntax at a conservative statement, simple
 assignment, return or assertion-macro context. Swift function-reference placeholders such as
 `read(_:)` (including Unicode or escaped labels), accessor declarations such as `get {}`, and nested default arguments are refused. Target and caller records bind
-their current explicit-test posture, and attributed helper caller bindings require parenthesized
-Swift calls. Trailing-closure helpers are refused because lexical call shape cannot prove the helper
-invokes its closure. Caller calls must remain executable after comments and literals are
+their current explicit-test posture. A helper call must itself be executable; readers in its
+parenthesized arguments are before the helper mutation and cannot count as later observations.
+Trailing-closure helpers require the exact source-bound helper's final closure parameter to be
+directly invoked in its body. Caller calls must remain executable after comments and literals are
 masked. No mutator name is
 excluded globally, unknown top-level/record fields fail the versioned schema, and raw candidate
 artifacts remain valid.
@@ -30,6 +31,7 @@ stored inside an uninvoked closure does not justify attribution; ambiguous neste
 immediately-invoked closure bodies are conservatively refused.
 Readers inside conditional-compilation regions are also refused because this scanner does not
 evaluate the active Swift build configuration.
+Top-level `return` and `throw` also terminate later-reader credit.
 
 ## 0.16.1 — 2026-09-01
 

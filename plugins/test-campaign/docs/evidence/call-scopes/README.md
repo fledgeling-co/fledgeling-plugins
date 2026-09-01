@@ -8,8 +8,9 @@ fingerprint, and that caller must contain a configured reader after the helper c
 the raw mutating-body denominator and count scoped calls by classification.
 
 Target and caller records bind the parser's explicit-test posture so removing `@Test` outside an
-otherwise identical body invalidates the scope. Caller bindings require parenthesized helper calls;
-trailing closures are refused because lexical syntax cannot prove the helper invokes the closure.
+otherwise identical body invalidates the scope. Caller bindings prove the helper occurrence itself
+is executable. A trailing closure is accepted only when the exact source-bound helper's final
+closure parameter is directly invoked in its body.
 The exact caller call must also survive the Swift comment/literal mask, so a matching spelling in
 non-executable text cannot justify attribution.
 
@@ -76,10 +77,18 @@ This deliberately refuses ambiguous nested control and immediately-invoked closu
 an explicit scope must use a directly provable observation rather than borrow one from nested code.
 
 A seventh primary found that consuming a helper trailing closure's opening brace normalized the
-closure reader to apparent top level even when the helper never invoked its parameter. Attributed
-helper bindings are therefore parenthesized-only. A distinct additional review found the remaining
-brace-free equivalent in inactive `#if false` and false `#if canImport(...)` regions. Readers inside
-all conditional-compilation regions are conservatively refused because the scanner does not resolve
-the active Swift build configuration.
+closure reader to apparent top level even when the helper never invoked its parameter. A distinct
+additional review found the brace-free equivalent in inactive `#if false` and false
+`#if canImport(...)` regions. Readers inside all conditional-compilation regions are conservatively
+refused because the scanner does not resolve the active Swift build configuration.
+
+The first repair over-corrected by refusing every trailing-closure helper, invalidating ten current
+Perch bindings, while still accepting helper calls stored in closures or inactive branches. It also
+searched inside parenthesized helper arguments, so an uninvoked `@autoclosure` looked like a later
+reader. The operative rule binds an executable helper occurrence, balances the entire parenthesized
+call before searching, and accepts a trailing closure only when the final closure parameter is
+directly invoked by the exact hashed helper body. Recognized `for`/`while`/`if`/`switch`/`do`/`repeat`
+blocks remain executable contexts; arbitrary closure blocks do not. Top-level `return` and `throw`
+terminate later-reader credit.
 
 Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.

@@ -1,7 +1,7 @@
 {
   "item": "F25-065",
   "slice": "upstream helper-closure and conditional-compilation reader repair author",
-  "status": "repair complete; fresh primary and distinct additional reviews owed",
+  "status": "failed review; superseded by reader-call-repair10",
   "base": "e800d4249fca3f2d2301da8d2fcc047760290461",
   "retainedFailures": [
     "49790b372ae2a5d57262d4d5d417d01d2c222d8e",
@@ -51,11 +51,12 @@
   "perchCorpus": {
     "scopeRecords": 108,
     "remainingBlindBodies": 4,
-    "wholeFindings": 5,
+    "wholeFindings": 15,
     "exit": 1,
-    "invalidScopes": 0,
+    "invalidScopes": 10,
     "path": "perch-corpus.log",
     "sha256": "d5f92324733b7722eac484715e1b8d1d77ff13553ac5a18bfba60ebb3b6fc268"
   },
-  "limitations": "Deliberately false-negatives attributed helper trailing closures, nested brace readers, and all conditional compilation readers. No build-configuration evaluation, receiver resolution, reader independence or output causality. No install, publish, cache edit, push, merge, native app, provider, Keychain or live campaign."
+  "limitations": "Deliberately false-negatives attributed helper trailing closures, nested brace readers, and all conditional compilation readers. No build-configuration evaluation, receiver resolution, reader independence or output causality. No install, publish, cache edit, push, merge, native app, provider, Keychain or live campaign.",
+  "correction": "The committed corpus log contains 10 INVALID SCOPE rows; the prior invalidScopes=0/findings=5 summary was false."
 }
