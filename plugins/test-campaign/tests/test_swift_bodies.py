@@ -222,6 +222,14 @@ class SwiftBodies(unittest.TestCase):
              '@Test func measure() -> Int { return /* continue */\n seed(); read(); return 2 }'),
             ('private func seed() -> Error { write(); return Failure() }\n'
              '@Test func measure() throws { throw\n seed(); read() }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { do { return }; seed(); read() }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() throws { do { throw Failure() }; seed(); read() }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { repeat { return } while false; seed(); read() }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { if false { return }; seed(); read() }'),
             ('private func seed(_ body: () -> Void = {}) { write(); body() }\n'
              '@Test func measure() { seed() {}; read() }'),
             ('private func seed() { write() }\n'

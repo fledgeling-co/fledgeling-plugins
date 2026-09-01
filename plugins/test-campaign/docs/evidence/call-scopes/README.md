@@ -11,8 +11,8 @@ Target and caller records bind the parser's explicit-test posture so removing `@
 otherwise identical body invalidates the scope. Caller bindings require a direct, top-level,
 parenthesized helper call. Trailing closures and nested control-flow calls are refused because this
 lexical scanner cannot prove whether or when they execute relative to the scoped mutation. Helper
-calls in `return` and `throw` expressions are refused because later statements are unreachable.
-Newlines and masked comments are not treated as statement boundaries for that terminal check.
+calls after any earlier masked `return` or `throw` token are refused. This deliberately rejects even
+conditionally unreachable terminals because the scanner cannot prove which nested path executes.
 The exact caller call must also survive the Swift comment/literal mask, so a matching spelling in
 non-executable text cannot justify attribution.
 
@@ -105,5 +105,12 @@ Fresh review then found that splitting helper context at a newline accepted the 
 forms `return\n seed()` and `throw\n seed()` (including a masked block comment before the newline),
 again discarding the terminal before later-reader analysis. Only semicolons and balanced block
 boundaries now reset the terminal statement; ordinary newlines remain part of it.
+
+Fresh review then found always-executed `do { return }` / `do { throw }` and once-running
+`repeat { return } while false` blocks before the helper. Minimum-depth and current-statement checks
+both missed those nested terminals, accepting an unreachable helper and reader. The final bounded
+rule refuses attribution when any earlier masked `return` or `throw` exists in the caller body. It
+therefore also refuses safe shapes such as `if false { return }; seed(); read()`; that deliberate
+false negative is preferable to interpreting Swift control flow this lexer does not model.
 
 Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.
