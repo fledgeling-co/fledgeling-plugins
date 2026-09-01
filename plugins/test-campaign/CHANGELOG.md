@@ -2,6 +2,10 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.16.3 - 2026-09-01
+
+Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
+
 ## 0.16.2 — 2026-09-01
 
 `armed` now accepts only an exact JSON boolean. Truthy strings, numbers, arrays and

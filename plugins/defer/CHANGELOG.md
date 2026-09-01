@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1 - 2026-09-01
+
+Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
+
 ## 1.2.0 - 2026-08-22
 
 The Gemini evidence clamp keeps its behaviour and loses its justification. Until now, the reason a proxy row could never hard-block a lane was that Gemini's worst shapes had been measured through a bash-only container scaffold, and reading that as a verdict on the `agy` lane would retire a lane on a confound. That was reasoning, not evidence. It has now been tested, and for the shape it was doing the most work on it is wrong.

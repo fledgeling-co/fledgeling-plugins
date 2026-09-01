@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 - 2026-09-01
+
+Adds a Gemini-calibrated `gemini.md`, so the conditional pointer already in `SKILL.md` now resolves to a real file instead of a missing one. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
+
 ## 0.1.0 — 2026-08-25
 
 First release. Built from the forensic audit in `docs/gemini-audit/`: 18
