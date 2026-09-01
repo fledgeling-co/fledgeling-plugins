@@ -1,0 +1,79 @@
+docs/evidence/f25-065/primary-reader-repair14/conservative-boundaries.swift:8:46: warning: code after 'return' will never be executed
+ 6 | func seedVoid() { stores += 1 }
+ 7 | func read() { reads += 1 }
+ 8 | func sameReturn() -> Int { return seedInt(); read(); return 2 }
+   |                                              `- warning: code after 'return' will never be executed
+ 9 | func newlineReturn() -> Int { return
+10 |   seedInt()
+
+docs/evidence/f25-065/primary-reader-repair14/conservative-boundaries.swift:11:3: warning: code after 'return' will never be executed
+ 9 | func newlineReturn() -> Int { return
+10 |   seedInt()
+11 |   read(); return 2 }
+   |   `- warning: code after 'return' will never be executed
+12 | func commentReturn() -> Int { return /* terminal
+13 |   */ seedInt()
+
+docs/evidence/f25-065/primary-reader-repair14/conservative-boundaries.swift:14:3: warning: code after 'return' will never be executed
+12 | func commentReturn() -> Int { return /* terminal
+13 |   */ seedInt()
+14 |   read(); return 2 }
+   |   `- warning: code after 'return' will never be executed
+15 | func sameThrow() throws { throw seedError(); read() }
+16 | func newlineThrow() throws { throw
+
+docs/evidence/f25-065/primary-reader-repair14/conservative-boundaries.swift:15:46: warning: code after 'throw' will never be executed
+13 |   */ seedInt()
+14 |   read(); return 2 }
+15 | func sameThrow() throws { throw seedError(); read() }
+   |                                              `- warning: code after 'throw' will never be executed
+16 | func newlineThrow() throws { throw
+17 |   seedError()
+
+docs/evidence/f25-065/primary-reader-repair14/conservative-boundaries.swift:18:3: warning: code after 'throw' will never be executed
+16 | func newlineThrow() throws { throw
+17 |   seedError()
+18 |   read() }
+   |   `- warning: code after 'throw' will never be executed
+19 | func commentThrow() throws { throw /* terminal
+20 |   */ seedError()
+
+docs/evidence/f25-065/primary-reader-repair14/conservative-boundaries.swift:21:3: warning: code after 'throw' will never be executed
+19 | func commentThrow() throws { throw /* terminal
+20 |   */ seedError()
+21 |   read() }
+   |   `- warning: code after 'throw' will never be executed
+22 | func priorReturn() { return; seedVoid(); read() }
+23 | func afterNestedReturn() { if false { return }; seedVoid(); read() }
+
+docs/evidence/f25-065/primary-reader-repair14/conservative-boundaries.swift:22:30: warning: code after 'return' will never be executed
+20 |   */ seedError()
+21 |   read() }
+22 | func priorReturn() { return; seedVoid(); read() }
+   |                              `- warning: code after 'return' will never be executed
+23 | func afterNestedReturn() { if false { return }; seedVoid(); read() }
+24 | func doReturn() { do { return }; seedVoid(); read() }
+
+docs/evidence/f25-065/primary-reader-repair14/conservative-boundaries.swift:24:34: warning: will never be executed
+22 | func priorReturn() { return; seedVoid(); read() }
+23 | func afterNestedReturn() { if false { return }; seedVoid(); read() }
+24 | func doReturn() { do { return }; seedVoid(); read() }
+   |                                  `- warning: will never be executed
+25 | func doThrow() throws { do { throw E.boom }; seedVoid(); read() }
+26 | func repeatReturn() { repeat { return } while false; seedVoid(); read() }
+
+docs/evidence/f25-065/primary-reader-repair14/conservative-boundaries.swift:25:46: warning: will never be executed
+23 | func afterNestedReturn() { if false { return }; seedVoid(); read() }
+24 | func doReturn() { do { return }; seedVoid(); read() }
+25 | func doThrow() throws { do { throw E.boom }; seedVoid(); read() }
+   |                                              `- warning: will never be executed
+26 | func repeatReturn() { repeat { return } while false; seedVoid(); read() }
+27 | _ = sameReturn(); _ = newlineReturn(); _ = commentReturn()
+
+docs/evidence/f25-065/primary-reader-repair14/conservative-boundaries.swift:26:54: warning: will never be executed
+24 | func doReturn() { do { return }; seedVoid(); read() }
+25 | func doThrow() throws { do { throw E.boom }; seedVoid(); read() }
+26 | func repeatReturn() { repeat { return } while false; seedVoid(); read() }
+   |                                                      `- warning: will never be executed
+27 | _ = sameReturn(); _ = newlineReturn(); _ = commentReturn()
+28 | do { try sameThrow() } catch {}

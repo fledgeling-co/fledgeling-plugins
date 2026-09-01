@@ -1,0 +1,240 @@
+{
+  "head": "1fc56e939cb95b05ae1739f305de89a0aac3fc56",
+  "cases": {
+    "valid-direct": {
+      "exit": 0,
+      "invalidScope": false,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=0",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-xcjgazbc/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+      "expectedExit": 0,
+      "matchesExpected": true
+    },
+    "valid-qualified": {
+      "exit": 0,
+      "invalidScope": false,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=0",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-zunqsh8z/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+      "expectedExit": 0,
+      "matchesExpected": true
+    },
+    "valid-balanced-args-second-reader": {
+      "exit": 0,
+      "invalidScope": false,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=0",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-n9n31xo1/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+      "expectedExit": 0,
+      "matchesExpected": true
+    },
+    "intentional-refusal-after-false-if-return": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-kvz6qdiu/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "valid-semicolon-boundary": {
+      "exit": 0,
+      "invalidScope": false,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=0",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-_y9vqe1e/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+      "expectedExit": 0,
+      "matchesExpected": true
+    },
+    "valid-comment-terminal-word": {
+      "exit": 0,
+      "invalidScope": false,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=0",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-o7equccc/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+      "expectedExit": 0,
+      "matchesExpected": true
+    },
+    "valid-string-terminal-word": {
+      "exit": 0,
+      "invalidScope": false,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=0",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-alfqq5rd/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0\n",
+      "expectedExit": 0,
+      "matchesExpected": true
+    },
+    "intentional-refusal-after-stored-closure-return": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-u91axo8x/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "intentional-refusal-after-escaped-return-call": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=2 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-xlmfrcu_/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 3 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-balanced-args-only-reader": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-4r0igwr4/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed bound caller has no read after its helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-nested-control": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-evpyo88u/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-prior-return-semicolon": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-t2tihqwc/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-prior-throw-semicolon": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-ypblmbkl/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-do-return-block": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-j6jpszam/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-do-throw-block": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-ldz1joqd/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-repeat-return-block": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-piuy12zr/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-return-single-line": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-u8l3zhg3/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-throw-single-line": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-tionec0f/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-return-multiline": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-wn38y581/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-throw-multiline": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-ei0getjl/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-return-comment-newline": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-509j1alt/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-throw-comment-newline": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-coaz7xcn/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-bare-trailing": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-sc6q4fcx/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-parenthesized-trailing": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-ulz56rd2/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-comment-parenthesized-trailing": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-vma5el0i/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    },
+    "invalid-multiple-trailing": {
+      "exit": 1,
+      "invalidScope": true,
+      "scopeSummary": "Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0",
+      "lastLine": "vacuity: requirements=1 external=0 findings=1",
+      "stdout": "unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=1 bodyless-protocol-requirements=0\n  Swift scopes: records=1 \u00b7 scoped-only-bodies=1 \u00b7 attributed-helper=1, direct-output=0, failure-sentinel=0, fixture-value=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-primary14-zuccp3_z/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax\n\nvacuity: requirements=1 external=0 findings=1\n",
+      "expectedExit": 1,
+      "matchesExpected": true
+    }
+  },
+  "allExpected": true
+}
