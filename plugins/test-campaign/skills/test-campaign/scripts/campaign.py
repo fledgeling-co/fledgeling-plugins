@@ -54,7 +54,9 @@ import argparse
 import hashlib
 import json
 import re
+import subprocess
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -504,7 +506,7 @@ def cmd_set(args) -> int:
     save(d, "cases", cases)
     print(f"{hit['id']}: {hit['status']}"
           + (f" · {len(hit['evidence'])} evidence" if hit["evidence"] else "")
-          + (" · armed" if hit.get("armed") else "")
+          + (" · armed" if hit.get("armed") is True else "")
           + (f" · {hit['capture']['method']}" if (hit.get("capture") or {}).get("method") else ""))
     return 0
 
@@ -709,12 +711,162 @@ def capped_tail(items, limit: int, indent: str = "    ") -> str:
     return f"{indent}(showing {len(items)} of {len(items)})"
 
 
+def contained_dependency(root: Path, relative: str) -> Path | None:
+    """Resolve one declared file without allowing a symlink to leave sourceRoot."""
+    current = root
+    for part in Path(relative).parts:
+        current = current / part
+        if current.is_symlink():
+            return None
+    try:
+        resolved = (root / relative).resolve(strict=True)
+        resolved.relative_to(root)
+    except (OSError, ValueError):
+        return None
+    return resolved if resolved.is_file() else None
+
+
+def validated_control_exceptions(d: Path, campaign: dict, trust: dict | None = None) -> tuple[dict[str, set[str]], list[str]]:
+    """Run an independently anchored repository validator and verify its complete receipt."""
+    published_receipt = d / "control-exception-validation.json"
+    if trust is None and not published_receipt.exists():
+        return {}, []
+    if trust is None:
+        return {}, ["control exceptions require an independently anchored validator execution"]
+    validator = Path(str(trust.get("validator") or "")).resolve()
+    manifest = Path(str(trust.get("manifest") or "")).resolve()
+    validator_sha = trust.get("validatorSha256")
+    manifest_sha = trust.get("manifestSha256")
+    for label, path, digest in (("validator", validator, validator_sha),
+                                ("dependency manifest", manifest, manifest_sha)):
+        if (not isinstance(digest, str) or re.fullmatch(r"[0-9a-f]{64}", digest) is None or
+                not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != digest):
+            return {}, [f"control exception {label} does not match its independent trust anchor"]
+    try:
+        manifest_value = json.loads(manifest.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        return {}, [f"control exception dependency manifest is unreadable: {exc}"]
+    if (not isinstance(manifest_value, dict) or set(manifest_value) != {"schema", "dependencies"} or
+            manifest_value.get("schema") != "control-exception-dependencies/1" or
+            not isinstance(manifest_value.get("dependencies"), list) or
+            not manifest_value["dependencies"]):
+        return {}, ["control exception dependency manifest has fields outside its exact v1 schema"]
+    required_dependencies: set[str] = set()
+    for relative in manifest_value["dependencies"]:
+        if (not isinstance(relative, str) or not relative or Path(relative).is_absolute() or
+                ".." in Path(relative).parts or relative in required_dependencies):
+            return {}, ["control exception dependency manifest contains an invalid or duplicate path"]
+        required_dependencies.add(relative)
+    source_root_raw = campaign.get("sourceRoot")
+    if not isinstance(source_root_raw, str) or not source_root_raw:
+        return {}, ["control exception validation requires campaign.sourceRoot"]
+    root = (d / source_root_raw).resolve()
+    for relative in required_dependencies:
+        if contained_dependency(root, relative) is None:
+            return {}, [f"control exception dependency escapes sourceRoot or uses a symlink: {relative}"]
+    try:
+        validator_relative = str(validator.relative_to(root))
+    except ValueError:
+        return {}, ["control exception validator is outside campaign.sourceRoot"]
+    if validator_relative not in required_dependencies:
+        return {}, ["control exception dependency manifest omits the anchored validator"]
+    with tempfile.TemporaryDirectory(prefix="control-exception-") as temporary:
+        receipt = Path(temporary) / "receipt.json"
+        try:
+            run = subprocess.run(
+                [sys.executable, str(validator), "--campaign", str(d), "--root", str(root),
+                 "--write-validation", str(receipt)], cwd=root, stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=120,
+                check=False)
+        except subprocess.TimeoutExpired:
+            return {}, ["control exception validator did not complete before the timeout"]
+        except OSError:
+            return {}, ["control exception validator could not be executed"]
+        if type(run.returncode) is not int or run.returncode != 0:
+            return {}, [f"control exception validator failed with exit {run.returncode}; "
+                        "validator output was suppressed"]
+        if not receipt.is_file():
+            return {}, ["control exception validator exited successfully without writing its receipt"]
+        try:
+            value = json.loads(receipt.read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            return {}, [f"control exception validation receipt is unreadable: {exc}"]
+    problems: list[str] = []
+    expected_keys = {"schema", "validatorExit", "dependencies", "exceptions"}
+    if not isinstance(value, dict) or set(value) != expected_keys:
+        return {}, ["control exception validation receipt has fields outside its exact v1 schema"]
+    if (value.get("schema") != "control-exception-validation/1" or
+            type(value.get("validatorExit")) is not int or value.get("validatorExit") != 0):
+        problems.append("control exception validation receipt does not record a successful v1 validator run")
+    dependencies = value.get("dependencies")
+    if not isinstance(dependencies, dict) or not dependencies:
+        problems.append("control exception validation names no hashed dependencies")
+    else:
+        for relative, digest in dependencies.items():
+            if (not isinstance(relative, str) or not relative or Path(relative).is_absolute() or
+                    ".." in Path(relative).parts or not isinstance(digest, str) or
+                    re.fullmatch(r"[0-9a-f]{64}", digest) is None):
+                problems.append("control exception validation contains an invalid dependency entry")
+                continue
+            path = contained_dependency(root, relative)
+            if path is None:
+                problems.append(
+                    f"control exception dependency escapes sourceRoot or uses a symlink: {relative}")
+            elif hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+                problems.append(f"control exception dependency changed after validation: {relative}")
+        if set(dependencies) != required_dependencies:
+            problems.append("control exception validator receipt does not match the complete required dependency manifest")
+        for required in (d / "inventory.json", d / "cases.json"):
+            try:
+                relative = str(required.resolve().relative_to(root))
+            except ValueError:
+                problems.append(f"control exception validation cannot bind {required.name} outside sourceRoot")
+                continue
+            if relative not in dependencies:
+                problems.append(f"control exception validation does not bind {relative}")
+    inventory = load(d, "inventory", {"surface": []})
+    declared = {row["id"]: set(map(str, row.get("controls") or []))
+                for row in inventory.get("surface", [])}
+    statuses = {row["id"]: state_of(row.get("status", "open")) for row in load(d, "cases", [])}
+    exceptions = value.get("exceptions")
+    index: dict[str, set[str]] = {}
+    seen: set[tuple[str, str]] = set()
+    if not isinstance(exceptions, list):
+        problems.append("control exception validation exceptions must be an array")
+    else:
+        for row in exceptions:
+            keys = {"id", "surface", "control", "containment", "disposition"}
+            if not isinstance(row, dict) or set(row) != keys:
+                problems.append("control exception validation contains a malformed exception row")
+                continue
+            if row.get("disposition") != "permanent-exception" or any(
+                    not isinstance(row.get(key), str) or not row[key]
+                    for key in ("id", "surface", "control", "containment")):
+                problems.append("control exception validation contains an invalid permanent exception")
+                continue
+            key = (row["surface"], row["control"])
+            if key in seen:
+                problems.append(f"control exception validation duplicates {row['surface']}::{row['control']}")
+                continue
+            seen.add(key)
+            if row["control"] not in declared.get(row["surface"], set()):
+                problems.append(f"control exception names an undeclared control on {row['surface']}")
+                continue
+            if statuses.get(row["containment"]) != "pass":
+                problems.append(f"control exception containment {row['containment']} is not passing")
+                continue
+            index.setdefault(row["surface"], set()).add(row["control"])
+    return ({}, problems) if problems else (index, [])
+
+
 # ── the gate ────────────────────────────────────────────────────────────────
 
-def audit(d: Path) -> dict:
+def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
     campaign = load(d, "campaign", {})
     inventory = load(d, "inventory", {"requirement": [], "surface": [], "flow": [], "component": []})
     cases = load(d, "cases", [])
+    permanent_exceptions, exception_validation_problems = validated_control_exceptions(
+        d, campaign, control_exception_trust)
 
     surfaces = inventory.get("surface", [])
     by_surface: dict[str, list[dict]] = {s["id"]: [] for s in surfaces}
@@ -729,6 +881,7 @@ def audit(d: Path) -> dict:
     counts = {"pass": 0, "fail": 0, "skip": 0, "n/a": 0, "unselected": 0,
               "inconclusive": 0, "unoracled": 0, "blocked": 0, "open": 0}
     open_ids, unevidenced, armed = [], [], 0
+    invalid_armed: list[str] = []
     hollow_witness: list[str] = []
     hollow_source: list[str] = []
     carried_unbased = []
@@ -768,10 +921,13 @@ def audit(d: Path) -> dict:
                 f"{c['id']} claims interactive-glass on non-glass lane '{lane}' — "
                 f"interactive-glass requires an on-glass lane ending in '{GLASS_SUFFIX}'")
 
+        if "armed" in c and type(c["armed"]) is not bool:
+            invalid_armed.append(
+                f"{c['id']} has armed={c['armed']!r}; armed must be a JSON boolean")
         if st == "pass":
             if not c.get("evidence"):
                 unevidenced.append(c["id"])
-            if c.get("armed"):
+            if c.get("armed") is True:
                 armed += 1
 
         # A rung that claims pixels must produce pixels, and they must be this
@@ -911,7 +1067,7 @@ def audit(d: Path) -> dict:
         row["rungs"][rung] = row["rungs"].get(rung, 0) + 1
         if state_of(c.get("status", "open")) == "pass":
             row["pass"] += 1
-            if c.get("armed"):
+            if c.get("armed") is True:
                 row["armed"] += 1
             if c.get("oracle") in EFFECT_RUNGS:
                 row["effect"] += 1
@@ -1033,15 +1189,19 @@ def audit(d: Path) -> dict:
     # lines only by a case naming its controls, which the stray check above already
     # governs, and neither line is a route to a green verdict.
     declared_count = {sid: len(set(v)) for sid, v in declared_controls.items()}
+    owed_controls = {
+        sid: set(names) - permanent_exceptions.get(sid, set())
+        for sid, names in declared_controls.items()
+    }
     surfaces_inert_undriven = [
         f"{sid} ({declared_count[sid]} declared, {len(driven[sid])} driven, "
-        f"{declared_count[sid] - len(driven[sid])} never driven)"
+        f"{len(owed_controls[sid] - driven[sid])} non-excepted never driven)"
         for sid in sorted(declared_controls)
-        if not actuated[sid] and len(driven[sid]) < declared_count[sid]]
+        if not actuated[sid] and owed_controls[sid] - driven[sid]]
     surfaces_inert_measured = [
         f"{sid} ({len(driven[sid])} of {declared_count[sid]} control(s) driven, 0 actuated)"
         for sid in sorted(declared_controls)
-        if not actuated[sid] and len(driven[sid]) >= declared_count[sid]]
+        if not actuated[sid] and owed_controls[sid] and not (owed_controls[sid] - driven[sid])]
 
     # ── DESTINATION DISTINCTNESS ────────────────────────────────────────────
     #
@@ -1280,6 +1440,12 @@ def audit(d: Path) -> dict:
     if not surfaces:
         blockers.append("no surfaces enumerated — nothing has a denominator, so "
                         "there is nothing for a case to be a sample of")
+    if invalid_armed:
+        blockers.append(f"{len(invalid_armed)} case(s) have non-boolean armed values "
+                        f"({capped(invalid_armed, 3)}) — truthiness is not mutation evidence")
+    if exception_validation_problems:
+        blockers.append(f"control exception validation failed: "
+                        f"{capped(exception_validation_problems, 3)}")
     if open_ids:
         blockers.append(f"{len(open_ids)} case(s) still open")
     if counts["inconclusive"]:
@@ -1526,6 +1692,8 @@ def audit(d: Path) -> dict:
         "surfacesInert": surfaces_inert,
         "surfacesInertUndriven": surfaces_inert_undriven,
         "surfacesInertMeasured": surfaces_inert_measured,
+        "controlExceptionsValidated": sum(len(v) for v in permanent_exceptions.values()),
+        "controlExceptionValidationProblems": exception_validation_problems,
         "unknownActuations": unknown_actuations,
         "navigationShells": {k: sorted(v) for k, v in shells.items()},
         "collapsedDestinations": collapsed_destinations,
@@ -1537,6 +1705,7 @@ def audit(d: Path) -> dict:
         "counts": counts,
         "oracleMix": mix,
         "armed": armed,
+        "invalidArmed": invalid_armed,
         "armedOfPassing": f"{armed}/{counts['pass']}",
         "openCases": open_ids,
         "unevidencedPasses": unevidenced,
@@ -1549,7 +1718,18 @@ def audit(d: Path) -> dict:
 
 def cmd_check(args) -> int:
     d = Path(args.dir).resolve()
-    a = audit(d)
+    supplied = [args.control_exception_validator, args.control_exception_validator_sha256,
+                args.control_exception_manifest, args.control_exception_manifest_sha256]
+    trust = None
+    if any(supplied):
+        if not all(supplied):
+            print("all four control-exception trust-anchor arguments are required together", file=sys.stderr)
+            return 2
+        trust = {"validator": args.control_exception_validator,
+                 "validatorSha256": args.control_exception_validator_sha256,
+                 "manifest": args.control_exception_manifest,
+                 "manifestSha256": args.control_exception_manifest_sha256}
+    a = audit(d, trust)
     if args.json:
         print(json.dumps(a, indent=2))
         return 0 if a["clear"] else 1
@@ -1795,7 +1975,7 @@ def cmd_report(args) -> int:
             lines.append(
                 f"| {c['id']} | {s['id']} {s.get('label', '')} | {c.get('state', '')} | "
                 f"{c.get('lane', '')} | {c.get('status', 'open')} | "
-                f"{'yes' if c.get('armed') else ''} | {len(c.get('evidence', []))} |")
+                f"{'yes' if c.get('armed') is True else ''} | {len(c.get('evidence', []))} |")
 
     text = "\n".join(lines) + "\n"
     paths(d)["ledger"].write_text(text)
@@ -2107,6 +2287,10 @@ def main() -> int:
     c = sub.add_parser("check")
     c.add_argument("dir")
     c.add_argument("--json", action="store_true")
+    c.add_argument("--control-exception-validator")
+    c.add_argument("--control-exception-validator-sha256")
+    c.add_argument("--control-exception-manifest")
+    c.add_argument("--control-exception-manifest-sha256")
     c.set_defaults(fn=cmd_check)
 
     r = sub.add_parser("report")

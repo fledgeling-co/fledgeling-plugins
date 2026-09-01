@@ -4,6 +4,19 @@ All notable changes to the `test-campaign` plugin.
 
 ## 0.16.2 — 2026-09-01
 
+`armed` now accepts only an exact JSON boolean. Truthy strings, numbers, arrays and
+objects fail the gate and never receive mutation credit. A project-specific control
+disposition validator can publish a v1 receipt binding permanent exceptions to every
+source, registry, containment and validator input it read. A committed receipt cannot
+attest itself: `check` grants exceptions only after executing a validator whose SHA-256
+and complete dependency-manifest SHA-256 were supplied independently by the caller.
+The generated receipt must name exactly that manifest and every current digest must
+match before an excepted control leaves owed work. Arbitrary or unexecuted validators,
+incomplete manifests, forged minimal receipts, stale dependencies, and non-integer
+`validatorExit` values fail closed. Controls remain declared and unactuated.
+Validator stdout/stderr is discarded and never included in campaign findings; failures report only
+the numeric exit or a bounded generic execution/timeout reason.
+
 Swift blind-pass findings can now carry explicit per-call scopes from a campaign's
 `blindScopeFile`. Each record binds one body and call occurrence plus reviewed producer
 or contract hashes. Only that call is removed before earlier mutators are reconsidered;
