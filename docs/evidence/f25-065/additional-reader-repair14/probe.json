@@ -1,0 +1,420 @@
+{
+  "verdict": "PASS",
+  "reviewedImplementation": "1fc56e939cb95b05ae1739f305de89a0aac3fc56",
+  "scannerSHA256": "6c58fdea3e61069fdb4695bbdd4d564e3eea2eedef38f9467ad1e0f2a79071e0",
+  "blocker": "No false acceptance found. Every prior return/throw case and trailing spelling refused; comments/literals and direct/balanced controls retained expected behavior.",
+  "cases": {
+    "returnSameLine": {
+      "source": "private func seed() -> Int { store(); return 7 }\n@Test func measure() -> Int { return seed(); read(); return 0 }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-1b64r2v9/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "returnNewline": {
+      "source": "private func seed() -> Int { store(); return 7 }\n@Test func measure() -> Int { return\n seed(); read(); return 0 }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-llwze_so/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "returnBlockCommentNewline": {
+      "source": "private func seed() -> Int { store(); return 7 }\n@Test func measure() -> Int { return /* continued */\n seed(); read(); return 0 }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-6aamfchw/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "throwNewline": {
+      "source": "private func seed() -> Error { store(); return Failure() }\n@Test func measure() throws { throw\n seed(); read() }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-3lsajn15/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "unconditionalDoReturnThenHelper": {
+      "source": "private func seed() { store() }\n@Test func measure() { do { return }; seed(); read() }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-srog78ej/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "unconditionalDoThrowThenHelper": {
+      "source": "private func seed() { store() }\n@Test func measure() throws { do { throw Failure() }; seed(); read() }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-0svxyphz/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "repeatReturnThenHelper": {
+      "source": "private func seed() { store() }\n@Test func measure() { repeat { return } while false; seed(); read() }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-i3rzvyvg/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "conditionalReturnDeliberateFalseNegative": {
+      "source": "private func seed() { store() }\n@Test func measure() { if false { return }; seed(); read() }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-wobhs71s/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "escapedReturnIdentifierDeliberateFalseNegative": {
+      "source": "private func seed() { store() }\n@Test func measure() { let `return` = 1; _ = `return`; seed(); read() }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-kn8pj7ci/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "commentsAndLiteralsBeforeDirectHelper": {
+      "source": "private func seed() { store() }\n@Test func measure() { let text = #\"return throw\"#; /* return /* throw */ */ // return throw\n seed(); read(); _ = text }",
+      "direct": {
+        "scopeFindings": [],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 0,
+        "invalidScope": false,
+        "outputTail": "  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-zgi3xcyr/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0"
+      }
+    },
+    "nonterminatingDoThenHelper": {
+      "source": "private func seed() { store() }\n@Test func measure() { do { configure() }; seed(); read() }",
+      "direct": {
+        "scopeFindings": [],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 0,
+        "invalidScope": false,
+        "outputTail": "  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-5kz67i_o/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0"
+      }
+    },
+    "directHelperThenReader": {
+      "source": "private func seed() { store() }\n@Test func measure() { seed(); read() }",
+      "direct": {
+        "scopeFindings": [],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 0,
+        "invalidScope": false,
+        "outputTail": "  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-2fbegmvo/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0"
+      }
+    },
+    "qualifiedDirectHelperThenReader": {
+      "source": "private func seed() { store() }\n@Test func measure() { Fixtures.seed(); read() }",
+      "direct": {
+        "scopeFindings": [],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 0,
+        "invalidScope": false,
+        "outputTail": "  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-3qrcdjgf/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0"
+      }
+    },
+    "balancedNestedArgumentsThenReader": {
+      "source": "private func seed(_ value: Int) { store() }\n@Test func measure() { seed(wrapper(value: (1 + 2))); read() }",
+      "direct": {
+        "scopeFindings": [],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 0,
+        "invalidScope": false,
+        "outputTail": "  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-w8o17zps/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\n\nvacuity: requirements=1 external=0 findings=0"
+      }
+    },
+    "argumentReaderOnly": {
+      "source": "private func seed(_ value: Int) { store() }\n@Test func measure() { seed(wrapper(value: read())) }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed bound caller has no read after its helper call"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-kc6nip4h/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed bound caller has no read after its helper call\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "unparenthesizedTrailing": {
+      "source": "private func seed(_ body: () -> Void) { store(); body() }\n@Test func measure() { seed { read() } }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-jthq13x3/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope does not bind one executable named helper call\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "parenthesizedTrailing": {
+      "source": "private func seed(_ body: () -> Void = {}) { store(); body() }\n@Test func measure() { seed() {}; read() }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-h624ttlc/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "qualifiedParenthesizedTrailing": {
+      "source": "private func seed(_ body: () -> Void = {}) { store(); body() }\n@Test func measure() { Fixtures.seed() {}; read() }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-xzphwefd/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "commentSeparatedTrailing": {
+      "source": "private func seed(_ body: () -> Void = {}) { store(); body() }\n@Test func measure() { seed() /* comment */ {}; read() }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-0n11qddp/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "newlineTrailing": {
+      "source": "private func seed(_ body: () -> Void = {}) { store(); body() }\n@Test func measure() { seed()\n {}; read() }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-2tn2j43h/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    },
+    "multipleTrailing": {
+      "source": "private func seed(_ first: () -> Void = {}, second: () -> Void) { store(); second() }\n@Test func measure() { seed() {} second: {}; read() }",
+      "direct": {
+        "scopeFindings": [
+          "ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax"
+        ],
+        "scopedCounts": {
+          "attributed-helper": 1,
+          "direct-output": 0,
+          "failure-sentinel": 0,
+          "fixture-value": 0
+        },
+        "mutating": 1
+      },
+      "publicCLI": {
+        "exit": 1,
+        "invalidScope": true,
+        "outputTail": "blind:      examined=2 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-r14-cli-kc4e63um/tests (campaign.json testRoot, 1 file(s))\n  blocks: declaration-style 2 \u00b7 arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only \u2014 defaults not applied \u2014 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      INVALID SCOPE \u2014 ExampleTests.swift:seed caller scope uses unsupported trailing-closure syntax\n\nvacuity: requirements=1 external=0 findings=1"
+      }
+    }
+  },
+  "sourceRestored": true,
+  "mutationLocation": "git-show bytes loaded into temporary directories; shared source untouched"
+}
