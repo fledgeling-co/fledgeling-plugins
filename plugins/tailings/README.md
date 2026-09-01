@@ -58,6 +58,26 @@ Then every assertion lands in exactly one of eight classes — `substantiated`,
 `unbacked`, `contradicted`, `laundered`, `inert`, `undone`, `degraded`, `waived` —
 with an exit code that blocks a report which lost an item.
 
+`signals.py` accepts both Claude message transcripts and Codex Desktop
+`response_item` JSONL. For a Codex subagent transcript it reads the declared
+`agent_path`, starts at the first `agent_message` addressed to that path, and reports how
+many inherited parent records it excluded. Calls receive stable one-based ordinals and must
+pair one-to-one with outputs. Model identity advances from owned `turn_context` records and is
+attached to each call, so inherited parent settings and later model changes cannot skew the
+in-family reviewer probe. A transcript with no recognized activity, an orphan call, or an
+orphan output fails closed. `crossref.py` uses only paths attributable to that owned segment and
+keeps accessed paths separate from modified paths, so concurrent work elsewhere in the same git
+window cannot create evidence for the audited session.
+
+Codex places the context governing a child's first turn immediately before the addressed task
+message. Tailings carries that one context across the boundary only when no intervening
+`response_item` exists; older parent contexts remain excluded.
+If a reviewer call still has no governing model, T7 is explicitly not checkable and the
+deterministic scan fails closed. A model observed later in the child session is never applied
+retroactively.
+The same rule covers a nonempty model whose family is unknown, whether it is the running model or
+the requested reviewer lane.
+
 ## The boundary on what it changes
 
 > The pass may edit anything whose truth it has just established, and nothing whose
@@ -94,6 +114,10 @@ and three would have fired on correct behaviour. `scripts/selftest.py` runs 34
 paired fixtures — each probe must fire on a dirty input and stay silent on a clean
 one — and three probes were rewritten after firing on correct work in a real
 repository.
+
+The same selftest also carries synthetic Codex envelopes with fake paths and content. It pins the
+subagent boundary, call/output pairing and ordinals, zero-recognition refusal, `/root/task`
+address handling, basename citations, and capture scoping without copying any real transcript.
 
 ```bash
 python3 scripts/selftest.py    # exit 0 required

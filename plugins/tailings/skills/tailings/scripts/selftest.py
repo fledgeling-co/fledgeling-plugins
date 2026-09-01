@@ -19,9 +19,11 @@ import json
 import os
 import sys
 import tempfile
+import subprocess
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import signals  # noqa: E402
+import crossref  # noqa: E402
 
 LN = [0]
 
@@ -57,6 +59,245 @@ def result(tid: str, text: str, is_error: bool = False) -> str:
 
 def skill_header(base: str) -> str:
     return human(f"Base directory for this skill: {base}\n\n# a skill")
+
+
+def codex(kind: str, **payload) -> str:
+    return rec({"type": kind, "payload": payload})
+
+
+def codex_item(kind: str, **payload) -> str:
+    return codex("response_item", type=kind, **payload)
+
+
+def codex_format_checks(tmp: str) -> list[str]:
+    failures: list[str] = []
+    p = os.path.join(tmp, "codex.jsonl")
+    lines = [
+        codex("session_meta", thread_source="subagent", agent_path="/root/worker",
+              parent_thread_id="parent", cwd="/repo"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "inherited parent prose"}]),
+        codex_item("agent_message", author="/root", recipient="/root/worker",
+                   content=[{"type": "input_text", "text": "Task name: /root/worker\nDo the work"}]),
+        codex("turn_context", model="gpt-5.6-sol"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "The tests passed."}]),
+        codex_item("custom_tool_call", call_id="call-1", name="exec",
+                   input='text(await tools.exec_command({cmd:"cat docs/evidence/run.log",workdir:"/repo"}))'),
+        codex_item("custom_tool_call_output", call_id="call-1",
+                   output=[{"type": "input_text", "text": "ok"}]),
+        codex_item("function_call", call_id="call-2", namespace="collaboration",
+                   name="spawn_agent", arguments='{"task_name":"review"}'),
+        codex_item("function_call_output", call_id="call-2", output="ready"),
+    ]
+    with open(p, "w") as fh:
+        fh.write("\n".join(lines) + "\n")
+    d = signals.scan(p, "/repo")
+    expected = {
+        "transcript_format": "codex-response-item",
+        "tool_calls": 2, "tool_outputs": 2, "paired_tool_calls": 2,
+        "assistant_prose_turns": 1, "human_turns": 1, "spawns": 1,
+    }
+    for key, want in expected.items():
+        got = d[key] if key == "transcript_format" else d["counts"][key]
+        if got != want:
+            failures.append(f"Codex {key}: expected {want!r}, got {got!r}")
+    if d["attribution"]["start_line"] != 3 or d["attribution"]["agent_path"] != "/root/worker":
+        failures.append(f"Codex attribution boundary wrong: {d['attribution']}")
+    if d["tool_pairing"]["calls"][0]["ordinal"] != 1 \
+            or d["tool_pairing"]["calls"][1]["ordinal"] != 2:
+        failures.append("Codex tool ordinals are not stable and one-based")
+    if "docs/evidence/run.log" not in d["attribution"]["paths"]:
+        failures.append(f"Codex attributable path was lost: {d['attribution']['paths']}")
+    if any(f["probe"] == "T15" for f in d["findings"]):
+        failures.append("Codex /root agent address was parsed as a slash-command instrument")
+
+    zero = os.path.join(tmp, "codex-zero.jsonl")
+    with open(zero, "w") as fh:
+        fh.write(codex("session_meta", thread_source="user") + "\n")
+        fh.write(codex_item("reasoning", summary=[]) + "\n")
+    try:
+        signals.scan(zero, None)
+        failures.append("zero-recognition Codex transcript did not fail closed")
+    except SystemExit as exc:
+        if exc.code != 1:
+            failures.append(f"zero-recognition exit was {exc.code}, expected 1")
+
+    orphan = os.path.join(tmp, "codex-orphan.jsonl")
+    with open(orphan, "w") as fh:
+        fh.write(codex_item("message", role="user",
+                            content=[{"type": "input_text", "text": "go"}]) + "\n")
+        fh.write(codex_item("custom_tool_call", call_id="lost", name="exec", input="pwd") + "\n")
+    od = signals.scan(orphan, None)
+    if not any(x["probe"] == "TRANSCRIPT-PAIRING" for x in od["probes_that_could_not_run"]):
+        failures.append("orphan Codex tool call did not fail closed")
+
+    duplicate = os.path.join(tmp, "codex-duplicate.jsonl")
+    with open(duplicate, "w") as fh:
+        fh.write(codex_item("custom_tool_call", call_id="same", name="exec", input="pwd") + "\n")
+        fh.write(codex_item("custom_tool_call", call_id="same", name="exec", input="ls") + "\n")
+        fh.write(codex_item("custom_tool_call_output", call_id="same", output="ok") + "\n")
+    dd = signals.scan(duplicate, None)
+    if dd["counts"]["paired_tool_calls"] != 0 or not any(
+            x["probe"] == "TRANSCRIPT-PAIRING" for x in dd["probes_that_could_not_run"]):
+        failures.append("duplicate Codex call id did not fail closed")
+
+    no_boundary = os.path.join(tmp, "codex-no-boundary.jsonl")
+    with open(no_boundary, "w") as fh:
+        fh.write(codex("session_meta", thread_source="subagent", agent_path="/root/missing") + "\n")
+        fh.write(codex_item("message", role="assistant",
+                            content=[{"type": "output_text", "text": "parent history"}]) + "\n")
+    try:
+        signals.scan(no_boundary, None)
+        failures.append("Codex subagent with no owned boundary did not fail closed")
+    except SystemExit:
+        pass
+    return failures
+
+
+def codex_model_attribution_checks(tmp: str) -> list[str]:
+    failures: list[str] = []
+    p = os.path.join(tmp, "codex-model-attribution.jsonl")
+    lines = [
+        codex("session_meta", thread_source="subagent", agent_path="/root/child", cwd="/repo"),
+        codex("turn_context", model="gemini-3.7-flash-high"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "inherited parent turn"}]),
+        codex_item("agent_message", author="/root", recipient="/root/child",
+                   content=[{"type": "input_text", "text": "review"}]),
+        codex("turn_context", model="gpt-5.6-sol"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "owned OpenAI turn"}]),
+        codex_item("custom_tool_call", call_id="openai", name="exec",
+                   input='text(await tools.exec_command({cmd:"codex exec --model gpt-5.6-sol review"}))'),
+        codex_item("custom_tool_call_output", call_id="openai", output="ok"),
+        codex("turn_context", model="gemini-3.7-flash-high"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "owned Google turn"}]),
+        codex_item("custom_tool_call", call_id="google", name="exec",
+                   input='text(await tools.exec_command({cmd:"agy --model gemini-3.7-flash-high review"}))'),
+        codex_item("custom_tool_call_output", call_id="google", output="ok"),
+    ]
+    with open(p, "w") as fh:
+        fh.write("\n".join(lines) + "\n")
+    d = signals.scan(p, "/repo")
+    if d["models"] != {"gpt-5.6-sol": 1, "gemini-3.7-flash-high": 1}:
+        failures.append(f"owned Codex model sequence is wrong: {d['models']}")
+    t7 = [f for f in d["findings"] if f["probe"] == "T7"]
+    if len(t7) != 2 or not any("openai" in f["title"] for f in t7) \
+            or not any("google" in f["title"] for f in t7):
+        failures.append(f"owned model changes did not drive both T7 families: {t7}")
+    if d["attribution"]["inherited_records_excluded"] != 3:
+        failures.append(f"inherited model history was not excluded: {d['attribution']}")
+
+    actual = os.path.join(tmp, "codex-model-before-boundary.jsonl")
+    actual_lines = [
+        codex("session_meta", thread_source="subagent", agent_path="/root/actual", cwd="/repo"),
+        codex("turn_context", model="gemini-parent"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "inherited parent response"}]),
+        codex("turn_context", model="gpt-5.6-sol"),
+        codex_item("agent_message", author="/root", recipient="/root/actual",
+                   content=[{"type": "input_text", "text": "owned task"}]),
+        codex_item("custom_tool_call", call_id="first", name="exec",
+                   input='text(await tools.exec_command({cmd:"codex exec --model gpt-5.6-sol review"}))'),
+        codex_item("custom_tool_call_output", call_id="first", output="ok"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "owned response"}]),
+    ]
+    with open(actual, "w") as fh:
+        fh.write("\n".join(actual_lines) + "\n")
+    ad = signals.scan(actual, "/repo")
+    at7 = [f for f in ad["findings"] if f["probe"] == "T7"]
+    if ad["attribution"]["model_seed_line"] != 4 or ad["models"] != {"gpt-5.6-sol": 1}:
+        failures.append(f"pre-boundary owned model seed was not attributed: {ad['attribution']}, {ad['models']}")
+    if len(at7) != 1 or at7[0].get("session_model") != "gpt-5.6-sol":
+        failures.append(f"first owned call did not use pre-boundary governing context for T7: {at7}")
+    calls = ad["tool_pairing"]["calls"]
+    if not calls or calls[0]["name"] != "Bash":
+        failures.append(f"actual-order first owned call was not parsed: {calls}")
+    if ad["counts"]["tool_calls_without_model"] != 0:
+        failures.append(f"actual-order owned call lost its governing model: {ad['counts']}")
+
+    unknown = os.path.join(tmp, "codex-model-unknown-first-call.jsonl")
+    unknown_lines = [
+        codex("session_meta", thread_source="subagent", agent_path="/root/unknown", cwd="/repo"),
+        codex("turn_context", model="gemini-parent"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "inherited parent response"}]),
+        codex_item("agent_message", author="/root", recipient="/root/unknown",
+                   content=[{"type": "input_text", "text": "owned task"}]),
+        codex_item("custom_tool_call", call_id="unknown-first", name="exec",
+                   input='text(await tools.exec_command({cmd:"codex exec --model gpt-5.6-sol review"}))'),
+        codex_item("custom_tool_call_output", call_id="unknown-first", output="ok"),
+        codex("turn_context", model="gpt-5.6-sol"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "later owned response"}]),
+    ]
+    with open(unknown, "w") as fh:
+        fh.write("\n".join(unknown_lines) + "\n")
+    ud = signals.scan(unknown, "/repo")
+    if any(f["probe"] == "T7" for f in ud["findings"]):
+        failures.append(f"later model was retroactively assigned to first reviewer call: {ud['findings']}")
+    if ud["counts"]["tool_calls_without_model"] != 1 or not any(
+            x["probe"] == "T7" and ":5" in x["error"] for x in ud["probes_that_could_not_run"]):
+        failures.append(f"model-less reviewer call did not fail T7 closed truthfully: {ud}")
+
+    families = os.path.join(tmp, "codex-unknown-reviewer-families.jsonl")
+    family_lines = [
+        codex("session_meta", thread_source="subagent", agent_path="/root/families", cwd="/repo"),
+        codex_item("agent_message", author="/root", recipient="/root/families",
+                   content=[{"type": "input_text", "text": "owned task"}]),
+        codex("turn_context", model="mistral-large"),
+        codex_item("custom_tool_call", call_id="unknown-own", name="exec",
+                   input='text(await tools.exec_command({cmd:"codex exec --model gpt-5.6-sol review"}))'),
+        codex_item("custom_tool_call_output", call_id="unknown-own", output="ok"),
+        codex("turn_context", model="gpt-5.6-sol"),
+        codex_item("custom_tool_call", call_id="unknown-lane", name="exec",
+                   input='text(await tools.exec_command({cmd:"llm --model mistral-large review"}))'),
+        codex_item("custom_tool_call_output", call_id="unknown-lane", output="ok"),
+    ]
+    with open(families, "w") as fh:
+        fh.write("\n".join(family_lines) + "\n")
+    fd = signals.scan(families, "/repo")
+    ferr = [x["error"] for x in fd["probes_that_could_not_run"] if x["probe"] == "T7"]
+    if any(f["probe"] == "T7" for f in fd["findings"]):
+        failures.append(f"unknown reviewer family produced a T7 verdict: {fd['findings']}")
+    if len(ferr) != 1 or "running model mistral-large" not in ferr[0] \
+            or "lane model mistral-large" not in ferr[0]:
+        failures.append(f"unknown own/lane reviewer families did not fail closed: {fd}")
+    return failures
+
+
+def crossref_scope_checks(tmp: str) -> list[str]:
+    failures: list[str] = []
+    repo = os.path.join(tmp, "repo")
+    os.makedirs(os.path.join(repo, "docs", "evidence"), exist_ok=True)
+    os.makedirs(os.path.join(repo, "src"), exist_ok=True)
+    for name in ("owned.png", "unrelated.png"):
+        with open(os.path.join(repo, "docs", "evidence", name), "wb") as fh:
+            fh.write(b"same image bytes")
+    out: list[dict] = []
+    notes: list[str] = []
+    sig = {"attribution": {"modified_paths": ["docs/evidence/owned.png"]}}
+    crossref.r4_duplicate_captures(repo, sig, [], out, notes)
+    if out:
+        failures.append("crossref compared an attributable capture with an unrelated repo capture")
+    sig["attribution"]["modified_paths"].append("docs/evidence/unrelated.png")
+    crossref.r4_duplicate_captures(repo, sig, [], out, notes)
+    if len(out) != 1:
+        failures.append("crossref did not compare two captures when both were attributable")
+    subprocess.run(["git", "-C", repo, "init", "-q"], check=True)
+    with open(os.path.join(repo, "src", "RunIndex.swift"), "w") as fh:
+        fh.write("struct RunIndex {}\n")
+    subprocess.run(["git", "-C", repo, "add", "src/RunIndex.swift"], check=True)
+    basename_out: list[dict] = []
+    crossref.r2_claimed_file_never_written(
+        repo, {"assertions": [{"text": "verified `RunIndex.swift`", "line": 4, "durable": False}]},
+        [], basename_out, [])
+    if basename_out:
+        failures.append("crossref reported a tracked basename citation as nowhere in the repo")
+    return failures
 
 
 # ------------------------------------------------------------------- fixtures
@@ -241,6 +482,9 @@ def run(verbose: bool) -> int:
     failures: list[str] = []
     checked = 0
     with tempfile.TemporaryDirectory() as tmp:
+        failures.extend(codex_format_checks(tmp))
+        failures.extend(codex_model_attribution_checks(tmp))
+        failures.extend(crossref_scope_checks(tmp))
         for pid, dirty, clean, note in fixtures(tmp):
             probe = pid.split("-")[0]
             for label, lines, must_fire in (("dirty", dirty, True), ("clean", clean, False)):

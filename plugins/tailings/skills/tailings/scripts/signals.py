@@ -28,7 +28,7 @@ import subprocess
 import sys
 from collections import Counter, defaultdict
 
-SCHEMA = 1
+SCHEMA = 2
 GLYPH = "\U0001FAE5"
 
 # ---------------------------------------------------------------- vocabularies
@@ -198,9 +198,26 @@ class Session:
         self.skills: list[dict] = []
         self.marker_injected = False
         self.sidechains = 0
+        self.format = "unknown"
+        self.attribution = {
+            "mode": "whole-transcript",
+            "agent_path": None,
+            "parent_thread_id": None,
+            "start_line": 1,
+            "inherited_records_excluded": 0,
+            "paths": [],
+            "modified_paths": [],
+            "model_seed_line": None,
+        }
+        self.call_outputs = 0
+        self.output_count = 0
+        self.output_ids: list[str] = []
+        self.orphan_calls: list[dict] = []
+        self.orphan_outputs: list[dict] = []
         self._read()
 
     def _read(self) -> None:
+        parsed: list[tuple[int, dict]] = []
         with open(self.path, errors="replace") as fh:
             for ln, line in enumerate(fh, 1):
                 if "Begin every conversational response" in line:
@@ -209,6 +226,199 @@ class Session:
                     o = json.loads(line)
                 except Exception:
                     continue
+                parsed.append((ln, o))
+
+        if any(o.get("type") == "response_item" for _, o in parsed):
+            self._read_codex(parsed)
+        else:
+            self._read_claude(parsed)
+        self._finish_pairing()
+
+    @staticmethod
+    def _text(value) -> str:
+        if isinstance(value, str):
+            return value
+        if isinstance(value, list):
+            return " ".join(
+                x.get("text", "") for x in value
+                if isinstance(x, dict) and isinstance(x.get("text"), str)
+            )
+        return ""
+
+    @staticmethod
+    def _codex_tool_name(payload: dict) -> str:
+        name = payload.get("name") or "?"
+        if payload.get("type") == "custom_tool_call" and name == "exec":
+            return "Bash"
+        if name in {"spawn_agent", "followup_task", "send_message"}:
+            return "Agent" if name == "spawn_agent" else "SendMessage"
+        return name
+
+    @staticmethod
+    def _codex_input(payload: dict) -> tuple[dict, str]:
+        raw = payload.get("input") if payload.get("type") == "custom_tool_call" \
+            else payload.get("arguments")
+        if isinstance(raw, dict):
+            inp = raw
+        elif isinstance(raw, str):
+            try:
+                parsed = json.loads(raw)
+                inp = parsed if isinstance(parsed, dict) else {"raw": raw}
+            except Exception:
+                inp = {"raw": raw}
+        else:
+            inp = {}
+        command = inp.get("cmd") or inp.get("command") or ""
+        if not command and isinstance(raw, str):
+            command = raw
+        return inp, command
+
+    @staticmethod
+    def _paths_from_tool(inp: dict, command: str, repo: str | None) -> set[str]:
+        blob = json.dumps(inp, ensure_ascii=False) + " " + (command or "")
+        candidates = set(re.findall(
+            r"(?:/[^\s\"'`,;:(){}\[\]]+|(?<![\w.-])(?:docs|src|tests?|apps|packages|macos|plugins)"
+            r"/[^\s\"'`,;:(){}\[\]]+)", blob))
+        out: set[str] = set()
+        for raw in candidates:
+            p = re.split(r"(?:\\\\n|\\n)", raw, maxsplit=1)[0].rstrip(".>)\\")
+            if not p or p.startswith(("/tmp/", "/private/tmp/")):
+                continue
+            if repo and os.path.isabs(p):
+                try:
+                    rel = os.path.relpath(p, repo)
+                except ValueError:
+                    continue
+                if rel == "." or rel.startswith("../"):
+                    continue
+                p = rel
+            elif os.path.isabs(p):
+                continue
+            p = p.lstrip("./")
+            if p and not p.startswith(".git/"):
+                out.add(p)
+        return out
+
+    @classmethod
+    def _modified_paths_from_tool(cls, inp: dict, command: str, repo: str | None) -> set[str]:
+        blob = json.dumps(inp, ensure_ascii=False) + " " + (command or "")
+        fragments: list[str] = []
+        fragments.extend(re.findall(r"\*\*\* (?:Update|Add|Delete) File:\s*([^\r\n*]+)", blob))
+        fragments.extend(re.findall(r"(?:^|[;&|]\s*)(?:cp|mv|touch|mkdir|tee|screencapture)\b[^;&|]*?"
+                                    r"((?:/|(?:docs|src|tests?|apps|packages|macos|plugins)/)[^\s;&|]+)",
+                                    blob, re.M))
+        fragments.extend(re.findall(r">{1,2}\s*((?:/|(?:docs|src|tests?|apps|packages|macos|plugins)/)"
+                                    r"[^\s;&|]+)", blob))
+        if any(k in inp for k in ("file_path", "path")) and re.search(
+                r"(?:apply_patch|\b(?:Edit|Write|NotebookEdit|MultiEdit)\b)", blob):
+            fragments.append(str(inp.get("file_path") or inp.get("path") or ""))
+        return cls._paths_from_tool({"paths": fragments}, "", repo)
+
+    def _read_codex(self, parsed: list[tuple[int, dict]]) -> None:
+        self.format = "codex-response-item"
+        metas = [(ln, o.get("payload") or {}) for ln, o in parsed if o.get("type") == "session_meta"]
+        own = next((m for _, m in metas if m.get("thread_source") == "subagent"),
+                   metas[0][1] if metas else {})
+        agent_path = own.get("agent_path")
+        start_line = 1
+        boundary_found = not agent_path
+        if agent_path:
+            for ln, o in parsed:
+                q = o.get("payload") or {}
+                if (o.get("type") == "response_item" and q.get("type") == "agent_message"
+                        and q.get("recipient") == agent_path):
+                    start_line = ln
+                    boundary_found = True
+                    break
+        model = ""
+        model_seed_line = None
+        if boundary_found and agent_path:
+            # Codex writes the child turn_context immediately before delivering
+            # the addressed agent_message. It governs the first owned response,
+            # but older parent contexts do not: any intervening response_item
+            # proves that context belonged to prior history.
+            prior_contexts = [(ln, o.get("payload") or {}) for ln, o in parsed
+                              if ln < start_line and o.get("type") == "turn_context"
+                              and (o.get("payload") or {}).get("model")]
+            if prior_contexts:
+                seed_line, seed = prior_contexts[-1]
+                intervening = any(seed_line < ln < start_line and o.get("type") == "response_item"
+                                  for ln, o in parsed)
+                if not intervening:
+                    model = seed["model"]
+                    model_seed_line = seed_line
+        repo = own.get("cwd")
+        self.attribution.update({
+            "mode": "subagent-owned-segment" if agent_path else "whole-transcript",
+            "agent_path": agent_path,
+            "parent_thread_id": own.get("parent_thread_id"),
+            "start_line": start_line,
+            "inherited_records_excluded": sum(1 for ln, _ in parsed if ln < start_line),
+            "error": None if boundary_found else
+            f"no agent_message addressed to declared agent_path {agent_path}",
+            "model_seed_line": model_seed_line,
+        })
+        paths: set[str] = set()
+        modified_paths: set[str] = set()
+        call_ordinal = 0
+        for ln, o in parsed:
+            if ln < start_line:
+                continue
+            q = o.get("payload") or {}
+            if o.get("type") == "turn_context":
+                if q.get("model"):
+                    model = q["model"]
+                continue
+            if o.get("type") != "response_item":
+                continue
+            self.records.append((ln, o))
+            typ = q.get("type")
+            if typ == "message" and q.get("role") == "assistant":
+                text = self._text(q.get("content")).strip()
+                if text:
+                    self.turns.append({"line": ln, "text": text, "model": model})
+                    if model:
+                        self.models[model] += 1
+            elif typ == "message" and q.get("role") == "user":
+                text = self._text(q.get("content")).strip()
+                if text:
+                    self.humans.append({"line": ln, "text": text})
+            elif typ == "agent_message" and (not agent_path or q.get("recipient") == agent_path):
+                text = self._text(q.get("content")).strip()
+                if text:
+                    self.humans.append({"line": ln, "text": text})
+            elif typ in {"custom_tool_call", "function_call"}:
+                call_ordinal += 1
+                inp, command = self._codex_input(q)
+                name = self._codex_tool_name(q)
+                path = inp.get("file_path") or inp.get("path") or ""
+                rec = {
+                    "line": ln, "id": q.get("call_id") or q.get("id"), "name": name,
+                    "source_name": q.get("name") or "?", "input": inp,
+                    "command": command, "path": path, "model": model,
+                    "ordinal": call_ordinal,
+                }
+                self.tools.append(rec)
+                paths.update(self._paths_from_tool(inp, command, repo))
+                modified_paths.update(self._modified_paths_from_tool(inp, command, repo))
+                if name == "Skill":
+                    self.skills.append({"line": ln, "skill": inp.get("skill", "?")})
+            elif typ in {"custom_tool_call_output", "function_call_output"}:
+                self.output_count += 1
+                text = self._text(q.get("output"))
+                call_id = q.get("call_id") or ""
+                self.output_ids.append(call_id)
+                self.results[call_id] = {
+                    "line": ln, "text": text,
+                    "is_error": bool(re.search(r"(?:Script failed|Process exited with code [1-9])", text)),
+                }
+        self.attribution["paths"] = sorted(paths)
+        self.attribution["modified_paths"] = sorted(modified_paths)
+
+    def _read_claude(self, parsed: list[tuple[int, dict]]) -> None:
+        self.format = "claude-message"
+        call_ordinal = 0
+        for ln, o in parsed:
                 self.records.append((ln, o))
                 if o.get("isSidechain"):
                     self.sidechains += 1
@@ -228,6 +438,7 @@ class Session:
                         if b.get("type") == "text" and (b.get("text") or "").strip():
                             self.turns.append({"line": ln, "text": b["text"], "model": model})
                         elif b.get("type") == "tool_use":
+                            call_ordinal += 1
                             inp = b.get("input") or {}
                             rec = {
                                 "line": ln,
@@ -237,6 +448,7 @@ class Session:
                                 "command": inp.get("command") or "",
                                 "path": inp.get("file_path") or "",
                                 "model": model,
+                                "ordinal": call_ordinal,
                             }
                             self.tools.append(rec)
                             if rec["name"] == "Skill":
@@ -255,6 +467,8 @@ class Session:
                                 "text": text,
                                 "is_error": bool(b.get("is_error")),
                             }
+                            self.output_count += 1
+                            self.output_ids.append(b.get("tool_use_id") or "")
                     if not tool_result and not o.get("isMeta"):
                         text = " ".join(
                             b.get("text", "") for b in blocks
@@ -264,6 +478,31 @@ class Session:
                         if t and not t.startswith(("<system-reminder", "<local-command", "<command-name",
                                                    "Caveat:", "[Request interrupted", "<task-notification")):
                             self.humans.append({"line": ln, "text": t})
+        self.attribution["paths"] = sorted({
+            p for t in self.tools
+            for p in self._paths_from_tool(t["input"], t["command"], None)
+        })
+        self.attribution["modified_paths"] = sorted({
+            p for t in self.edits()
+            for p in self._paths_from_tool(t["input"], t["command"], None)
+        })
+
+    def _finish_pairing(self) -> None:
+        call_counts = Counter(t.get("id") for t in self.tools if t.get("id"))
+        result_counts = Counter(self.output_ids)
+        self.call_outputs = sum(1 for i, n in call_counts.items()
+                                if n == 1 and result_counts.get(i) == 1)
+        self.orphan_calls = [
+            {"ordinal": t["ordinal"], "line": t["line"], "id": t.get("id"), "name": t["name"]}
+            for t in self.tools if call_counts.get(t.get("id")) != 1
+            or result_counts.get(t.get("id")) != 1
+        ]
+        self.orphan_outputs = [
+            {"line": self.results[i]["line"], "id": i}
+            for i, n in sorted(result_counts.items())
+            if n != 1 or call_counts.get(i) != 1
+            if i in self.results
+        ]
 
     def result_for(self, tool: dict) -> dict:
         return self.results.get(tool.get("id") or "", {})
@@ -476,12 +715,13 @@ def t6_orphan_exit_status(s: Session, ctx) -> list[dict]:
 def t7_lane_family(s: Session, ctx) -> list[dict]:
     """An independence gate that resolved to the running model's own family."""
     out = []
-    own = family_of(next(iter(s.models), "") if s.models else "")
     for t in s.bash():
         cmd = t["command"] or ""
         m = LANE_RE.search(cmd)
         if not m:
             continue
+        own_model = t.get("model") or ""
+        own = family_of(own_model)
         lane_family = family_of(m.group("model"))
         if lane_family == "unknown" or own == "unknown":
             continue
@@ -490,7 +730,7 @@ def t7_lane_family(s: Session, ctx) -> list[dict]:
         out.append(finding(
             "T7", f"reviewer lane is in-family ({lane_family}) with the running model",
             t["line"], " ".join(cmd.split())[:220], 1, "observed",
-            lane_model=m.group("model"), session_model=next(iter(s.models), ""),
+            lane_model=m.group("model"), session_model=own_model,
             remedy="re-route with lane_pick.py --task verification, excluding this family"))
     return out
 
@@ -679,6 +919,8 @@ def t15_instrument_absorbed(s: Session, ctx) -> list[dict]:
     prose = " ".join(t["text"] for t in s.turns).lower()
     used = " ".join(x["skill"] for x in s.skills).lower() + " " + " ".join(t["name"] for t in s.tools).lower()
     for name, ln in asked.items():
+        if name == "root":
+            continue  # Codex agent addresses (`/root/task`) are hierarchy, not instruments.
         if name in used:
             continue
         if name in prose:
@@ -819,6 +1061,22 @@ def marker(s: Session) -> dict:
     for t in s.turns:
         if any(h < t["line"] for h in human_lines):
             pass
+    if s.format == "codex-response-item":
+        # Codex keeps one response item per prose turn, so the already-attributed
+        # turns and human messages are the faithful equivalent of Claude blocks.
+        for h in s.humans:
+            later = [t for t in s.turns if t["line"] > h["line"]]
+            if not later:
+                continue
+            text = later[0]["text"].strip()
+            if text.startswith(GLYPH):
+                ok += 1
+            elif text[:1] and ord(text[0]) > 0x1F000:
+                wrong += 1
+            else:
+                miss += 1
+        return {"applicable": True, "present": ok, "absent": miss, "wrong_glyph": wrong,
+                "note": "diagnostics only — never a finding"}
     for ln, o in s.records:
         if o.get("isSidechain"):
             continue
@@ -875,7 +1133,8 @@ def group(findings: list[dict]) -> list[dict]:
 
 def scan(path: str, repo: str | None) -> dict:
     s = Session(path)
-    if not s.records:
+    recognized = len(s.turns) + len(s.tools)
+    if not s.records or recognized == 0 or s.attribution.get("error"):
         raise SystemExit(1)
     aliases = load_script_aliases(repo)
     allcmd = " ".join(expand(t["command"] or "", aliases) for t in s.bash())
@@ -883,11 +1142,36 @@ def scan(path: str, repo: str | None) -> dict:
     ctx = {"aliases": aliases, "allcmd": allcmd, "repo": repo}
 
     findings, could_not_run = [], []
+    unknown_family_lanes = []
+    for t in s.bash():
+        match = LANE_RE.search(t.get("command") or "")
+        if not match:
+            continue
+        own_model = t.get("model") or ""
+        lane_model = match.group("model")
+        unknown = []
+        if family_of(own_model) == "unknown":
+            unknown.append(f"running model {own_model or '(blank)'}")
+        if family_of(lane_model) == "unknown":
+            unknown.append(f"lane model {lane_model or '(blank)'}")
+        if unknown:
+            unknown_family_lanes.append((t, " and ".join(unknown)))
+    if unknown_family_lanes:
+        could_not_run.append({
+            "probe": "T7",
+            "error": "reviewer family cannot be checked: "
+            + "; ".join(f":{t['line']} {why}" for t, why in unknown_family_lanes[:12]),
+        })
     for pid, fn in PROBES:
         try:
             findings.extend(fn(s, ctx))
         except Exception as exc:  # a probe that could not run is not a probe that passed
             could_not_run.append({"probe": pid, "error": f"{type(exc).__name__}: {exc}"})
+    if s.format == "codex-response-item" and (s.orphan_calls or s.orphan_outputs):
+        could_not_run.append({
+            "probe": "TRANSCRIPT-PAIRING",
+            "error": f"{len(s.orphan_calls)} call(s) and {len(s.orphan_outputs)} output(s) are unpaired",
+        })
 
     corrections = [{"line": h["line"], "text": h["text"][:400]}
                    for h in s.humans if CORRECT_RE.search(h["text"])]
@@ -897,15 +1181,29 @@ def scan(path: str, repo: str | None) -> dict:
         "schema": SCHEMA,
         "transcript": os.path.abspath(path),
         "repo": os.path.abspath(repo) if repo else None,
+        "transcript_format": s.format,
+        "attribution": s.attribution,
         "models": dict(s.models.most_common()),
         "counts": {
             "records": len(s.records), "assistant_prose_turns": len(s.turns),
-            "tool_calls": len(s.tools), "bash": len(s.bash()),
+            "tool_calls": len(s.tools), "tool_outputs": s.output_count,
+            "paired_tool_calls": s.call_outputs,
+            "orphan_tool_calls": len(s.orphan_calls),
+            "orphan_tool_outputs": len(s.orphan_outputs),
+            "tool_calls_without_model": sum(1 for t in s.tools if not t.get("model")),
+            "bash": len(s.bash()),
             "human_turns": len(s.humans), "skills": len(s.skills),
             "sidechain_records": s.sidechains,
             "spawns": sum(1 for t in s.tools if t["name"] in SPAWN_TOOLS),
         },
         "skills_invoked": [x["skill"] for x in s.skills],
+        "tool_pairing": {
+            "calls": [{"ordinal": t["ordinal"], "line": t["line"], "id": t.get("id"),
+                       "name": t["name"], "output_line": s.results.get(t.get("id") or "", {}).get("line")}
+                      for t in s.tools],
+            "orphan_calls": s.orphan_calls,
+            "orphan_outputs": s.orphan_outputs,
+        },
         "assertions": extract_assertions(s, aliases, allcmd),
         "findings": findings,
         "human_corrections": corrections,
@@ -919,8 +1217,14 @@ def render(d: dict) -> str:
     c = d["counts"]
     lines = [
         f"transcript   {d['transcript']}",
+        f"format       {d['transcript_format']} · attribution {d['attribution']['mode']} "
+        f"from :{d['attribution']['start_line']} "
+        f"({d['attribution']['inherited_records_excluded']} inherited record(s) excluded)",
         f"models       {', '.join(d['models']) or '(none recorded)'}",
-        f"volume       {c['tool_calls']} tool calls · {c['bash']} bash · "
+        f"volume       {c['tool_calls']} tool calls · {c['tool_outputs']} outputs · "
+        f"{c['paired_tool_calls']} paired · {c['orphan_tool_calls']} call orphan(s) · "
+        f"{c['orphan_tool_outputs']} output orphan(s) · {c['tool_calls_without_model']} without model · "
+        f"{c['bash']} bash · "
         f"{c['assistant_prose_turns']} prose turns · {c['human_turns']} human turns",
         f"delegation   {c['spawns']} spawn call(s) · {c['sidechain_records']} sidechain records",
         f"skills       {len(d['skills_invoked'])} invocation(s): "
