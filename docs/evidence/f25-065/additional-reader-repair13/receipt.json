@@ -1,0 +1,91 @@
+{
+  "item": "F25-065",
+  "slice": "distinct additional multiline-terminal repair review",
+  "status": "FAIL",
+  "reviewedImplementation": "b9366d9ea6f282610dc64760a9f38586a8144e8e",
+  "blocker": "return or throw inside an unconditional do/repeat block is ignored by the minimum-depth terminal scan, so a top-level but unreachable helper and reader receive credit",
+  "publicProbe": {
+    "path": "probe.json",
+    "sha256": "c1f3ad44ade972ce424d03d8008955be16eae5ad470bd6eb2c8b743d243c1dd6",
+    "doReturnExit": 0,
+    "doThrowExit": 0,
+    "repeatReturnExit": 0,
+    "invalidScopes": false,
+    "allSixTrailingSpellingsRejected": true
+  },
+  "runtime": {
+    "source": "block-terminal-runtime.swift",
+    "sourceSHA256": "991e5a22b6d6dde3317ef17882543ff50dfa77571af0565c161f029cec290bae",
+    "log": "block-terminal-runtime.log",
+    "logSHA256": "b156e89f8a913275e0afd27f0c7bedf1e26a9b90c8dada9cba026d639c63d94f",
+    "compileExit": 0,
+    "runtimeExit": 0,
+    "blockedStores": 0,
+    "blockedReads": 0,
+    "validControlStores": 1,
+    "validControlReads": 1
+  },
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "d7d67fb0061c8fa01e622268e81eb90fe93005e2782ebe345eefafdebc7d37e6"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "1bb92331d22050527c78f5408ce134ef58c9f4f6718ba3a5b63356682503e2e8"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "33f2792756bd81e500a0dc366b1f96903c45ed7b4a415f98de0c4c8c86ca5446"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "da03ccf460ed19af3f36c37ffd95ece19a5817544f7702809b354b22701c5445"
+    }
+  ],
+  "mutants": {
+    "count": 12,
+    "allRejected": true,
+    "restored": true,
+    "sourceSHA256": "a9a23365aedbf12ba3daee8407a147447a72f10365feadc314e153ffd653a292",
+    "path": "mutations.json",
+    "sha256": "cba4add260e7220d3fc334e872822eadf2bcdd78ce48dbf8416b7eb1c36356d6"
+  },
+  "perchCorpus": {
+    "commit": "c30595e14403240d7933c1d20ec4728eb3281770",
+    "runs": 2,
+    "byteIdentical": true,
+    "scopeRecords": 108,
+    "invalidScopes": 0,
+    "attributedHelper": 0,
+    "directOutput": 22,
+    "failureSentinel": 56,
+    "fixtureValue": 30,
+    "remainingBlindBodies": 4,
+    "uncensused": [
+      "REQ-056"
+    ],
+    "findings": 5,
+    "exit": 1,
+    "sha256": "54decad589022bcfe9e83cce66653c354b2705d7505e25ee5f2d8f1b64b40786"
+  },
+  "versions": {
+    "plugin": "0.16.2",
+    "rootMarketplace": "0.16.2",
+    "siteCatalogue": "0.16.2",
+    "path": "version.log",
+    "sha256": "727577787be40292644458c773bb56dc3f53c096bef9ac5109b77c3949633f19"
+  },
+  "reviewPosture": "repeated same-family degraded additional review; prior F25-065 and unrelated Fleet context reused; no out-of-family claim",
+  "limitations": "No install, publish, push, cache mutation, native app, provider, Keychain, or live campaign. Conservative lexical proof deliberately refuses valid nested and trailing helper calls."
+}
