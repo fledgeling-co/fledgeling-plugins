@@ -1,0 +1,82 @@
+{
+  "item": "F25-065",
+  "slice": "upstream conservative prior-terminal repair primary review",
+  "verdict": "PASS",
+  "implementation": "1fc56e939cb95b05ae1739f305de89a0aac3fc56",
+  "publicCLI": {
+    "cases": 26,
+    "allExpected": true,
+    "path": "probe.json",
+    "sha256": "e9f0213791c92329750da7218c1d855e9c3bfd05fba66a18bef659ee10023a3f"
+  },
+  "runtime": {
+    "typecheckExit": 0,
+    "result": [
+      "stores=7 reads=1",
+      "final stores=12 reads=6"
+    ],
+    "path": "conservative-boundaries.runtime.log"
+  },
+  "focused": [
+    {
+      "path": "focused-1.log",
+      "tests": 21,
+      "exit": 0,
+      "sha256": "c76b2dbaa88d07c46349e7bf10ffcc8f285241c088974500581b34a18008d7e7"
+    },
+    {
+      "path": "focused-2.log",
+      "tests": 21,
+      "exit": 0,
+      "sha256": "d87d11204dfb852be25bc6ae913858a326abf8d7849a57e158c733b37d4c8332"
+    }
+  ],
+  "full": [
+    {
+      "path": "full-1.log",
+      "passed": 114,
+      "failed": 0,
+      "exit": 0,
+      "sha256": "eabcc2f07e21e9803be04dc0e78d29c43bf211994067c9c023b36fce6df15b62"
+    },
+    {
+      "path": "full-2.log",
+      "passed": 114,
+      "failed": 0,
+      "exit": 0,
+      "sha256": "8ca777fade24bb97abeecd555cd22fad53c10cfe12e5c59fe8a772a84db2854d"
+    }
+  ],
+  "mutants": {
+    "count": 12,
+    "allRejected": true,
+    "restored": true,
+    "sourceSHA256": "6c58fdea3e61069fdb4695bbdd4d564e3eea2eedef38f9467ad1e0f2a79071e0",
+    "path": "mutations.json",
+    "sha256": "1b554b81d93738bf48a55b430a6e871092b0126d2382a6127482e485a3cc192e"
+  },
+  "perchCorpus": {
+    "commit": "c30595e14403240d7933c1d20ec4728eb3281770",
+    "runs": 2,
+    "byteIdentical": true,
+    "scopeRecords": 108,
+    "invalidScopes": 0,
+    "attributedHelper": 0,
+    "directOutput": 22,
+    "failureSentinel": 56,
+    "fixtureValue": 30,
+    "blind": 4,
+    "uncensused": [
+      "REQ-056"
+    ],
+    "findings": 5,
+    "exit": 1
+  },
+  "deliberateRefusals": [
+    "earlier safe conditional terminal",
+    "earlier stored closure terminal",
+    "earlier escaped keyword identifier terminal"
+  ],
+  "implementationRestored": true,
+  "lane": "same-family degraded; reused prior F25-065/F25-034/F25-015 context"
+}
