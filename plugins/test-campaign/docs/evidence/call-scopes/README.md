@@ -12,6 +12,7 @@ otherwise identical body invalidates the scope. Caller bindings require a direct
 parenthesized helper call. Trailing closures and nested control-flow calls are refused because this
 lexical scanner cannot prove whether or when they execute relative to the scoped mutation. Helper
 calls in `return` and `throw` expressions are refused because later statements are unreachable.
+Newlines and masked comments are not treated as statement boundaries for that terminal check.
 The exact caller call must also survive the Swift comment/literal mask, so a matching spelling in
 non-executable text cannot justify attribution.
 
@@ -99,5 +100,10 @@ helper context allowed the return-position call, while the balanced suffix began
 lost the terminating token. The additional review also found parenthesized trailing syntax
 `seed() {}; read()` still accepted despite the documented refusal. The final rule rejects helper
 calls in return/throw positions and rejects a trailing closure after the balanced parentheses.
+
+Fresh review then found that splitting helper context at a newline accepted the valid multiline
+forms `return\n seed()` and `throw\n seed()` (including a masked block comment before the newline),
+again discarding the terminal before later-reader analysis. Only semicolons and balanced block
+boundaries now reset the terminal statement; ordinary newlines remain part of it.
 
 Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.
