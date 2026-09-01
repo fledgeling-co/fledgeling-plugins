@@ -28,7 +28,7 @@ import re
 import subprocess
 import sys
 
-SCHEMA = 1
+SCHEMA = 2
 
 DONE_WORD = re.compile(r"\b(?:merged|verified|shipped|done|complete[d]?|closed)\b", re.I)
 DURABLE = ("ARMADA.md", "ORCHESTRATOR.md", "LEDGER.md", "PRD.md", "ROADMAP.md")
@@ -150,6 +150,12 @@ def r2_claimed_file_never_written(repo, sig, shas, out, notes):
             seen.add(p)
             if os.path.exists(os.path.join(repo, p)):
                 continue
+            # Reports often cite a source file by basename. If that basename is
+            # tracked anywhere, it is not honest to say the file exists nowhere.
+            if "/" not in p:
+                code_names, tracked = git(repo, "ls-files")
+                if code_names == 0 and any(os.path.basename(x) == p for x in tracked.splitlines()):
+                    continue
             # A generated artefact the repo deliberately ignores is not a missing
             # file. Two `dist/goldens/*.json` paths were reported as never written
             # on a measured run, in a session whose own build printed itself
@@ -169,27 +175,26 @@ def r2_claimed_file_never_written(repo, sig, shas, out, notes):
 def r4_duplicate_captures(repo, sig, shas, out, notes):
     """Two differently-named captures that are one image."""
     import hashlib
-    roots = [os.path.join(repo, d) for d in
-             ("evidence", "docs/evidence", "shots", "docs/shots", "campaign", "docs/campaign")]
+    attributable = set(sig.get("attribution", {}).get("modified_paths", []))
+    for c in shas:
+        attributable.update(files_in(repo, c["sha"]))
+    capture_paths = sorted(p for p in attributable
+                           if p.lower().endswith((".png", ".jpg", ".jpeg", ".webp")))
     digests: dict[str, list[str]] = {}
     n = 0
-    for root in roots:
-        if not os.path.isdir(root):
+    for rel in capture_paths:
+        fp = os.path.join(repo, rel)
+        if not os.path.isfile(fp):
             continue
-        for dirpath, _dirs, files in os.walk(root):
-            for f in files:
-                if not f.lower().endswith((".png", ".jpg", ".jpeg", ".webp")):
-                    continue
-                fp = os.path.join(dirpath, f)
-                try:
-                    with open(fp, "rb") as fh:
-                        h = hashlib.sha256(fh.read()).hexdigest()
-                except Exception:
-                    continue
-                n += 1
-                digests.setdefault(h, []).append(os.path.relpath(fp, repo))
+        try:
+            with open(fp, "rb") as fh:
+                h = hashlib.sha256(fh.read()).hexdigest()
+        except Exception:
+            continue
+        n += 1
+        digests.setdefault(h, []).append(rel)
     if not n:
-        notes.append("R4: no capture directory found; capture identity unchecked")
+        notes.append("R4: no attributable capture path found; capture identity unchecked")
         return
     for h, paths in digests.items():
         if len(paths) < 2:
@@ -234,12 +239,7 @@ def r9_inert_controls(repo, sig, shas, out, notes):
     stub or a deliberate no-op. Restricted to touched files so the probe reports
     this session's work rather than the repository's history.
     """
-    touched: set[str] = set()
-    for c in shas:
-        touched.update(files_in(repo, c["sha"]))
-    code, dirty = git(repo, "status", "--porcelain")
-    if code == 0:
-        touched.update(l[3:].strip() for l in dirty.splitlines() if l[3:].strip())
+    touched: set[str] = set(sig.get("attribution", {}).get("modified_paths", []))
     hits = []
     for rel in sorted(touched):
         fp = os.path.join(repo, rel)
@@ -273,9 +273,7 @@ def r9_inert_controls(repo, sig, shas, out, notes):
 
 def r10_duplicate_module(repo, sig, shas, out, notes):
     """A new module nothing imports, beside an existing one everything imports."""
-    touched = set()
-    for c in shas:
-        touched.update(files_in(repo, c["sha"]))
+    touched = set(sig.get("attribution", {}).get("modified_paths", []))
     for rel in sorted(touched):
         fp = os.path.join(repo, rel)
         if not os.path.isfile(fp) or not rel.endswith((".ts", ".tsx", ".py", ".rs", ".go", ".swift")):
@@ -307,12 +305,7 @@ def r11_weak_secret(repo, sig, shas, out, notes):
     that matches credential *shapes* cannot see a low-entropy literal, and one
     such literal shipped as a live auth bypass in the corpus this came from.
     """
-    touched = set()
-    for c in shas:
-        touched.update(files_in(repo, c["sha"]))
-    code, dirty = git(repo, "status", "--porcelain")
-    if code == 0:
-        touched.update(l[3:].strip() for l in dirty.splitlines() if l[3:].strip())
+    touched = set(sig.get("attribution", {}).get("modified_paths", []))
     rx = re.compile(
         r"(?P<name>[A-Za-z_]*(?:SECRET|TOKEN|KEY|PASSWORD|CREDENTIAL)[A-Za-z_]*)"
         r"[^\n]{0,80}?\|\|\s*['\"](?P<lit>[^'\"]{3,60})['\"]", re.I)
@@ -357,6 +350,18 @@ R_PROBES = [
 ]
 
 
+def path_matches(candidate: str, scope: set[str]) -> bool:
+    candidate = candidate.lstrip("./")
+    return any(candidate == p or candidate.startswith(p.rstrip("/") + "/")
+               or p.startswith(candidate.rstrip("/") + "/") for p in scope)
+
+
+def scope_commits(repo: str, candidates: list[dict], paths: set[str]) -> list[dict]:
+    if not paths:
+        return []
+    return [c for c in candidates if any(path_matches(p, paths) for p in files_in(repo, c["sha"]))]
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -368,16 +373,24 @@ def main() -> int:
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args()
 
-    if not os.path.isdir(os.path.join(a.repo, ".git")):
+    if git(a.repo, "rev-parse", "--is-inside-work-tree")[0] != 0:
         print(f"crossref: {a.repo} is not a git repository", file=sys.stderr)
         return 1
     with open(a.signals) as fh:
         sig = json.load(fh)
 
-    shas = commits(a.repo, a.since, a.until)
+    candidate_shas = commits(a.repo, a.since, a.until)
+    attributable_paths = set(sig.get("attribution", {}).get("paths", []))
+    modified_paths = set(sig.get("attribution", {}).get("modified_paths", []))
+    shas = scope_commits(a.repo, candidate_shas, modified_paths)
     out: list[dict] = []
     notes: list[str] = []
     could_not_run: list[dict] = []
+    if not attributable_paths:
+        could_not_run.append({
+            "probe": "ATTRIBUTION",
+            "error": "signals.json names no attributable paths; repository probes refuse an all-tree scan",
+        })
     for pid, fn in R_PROBES:
         try:
             fn(a.repo, sig, shas, out, notes)
@@ -385,11 +398,17 @@ def main() -> int:
             could_not_run.append({"probe": pid, "error": f"{type(exc).__name__}: {exc}"})
 
     code, dirty = git(a.repo, "status", "--porcelain")
+    dirty_paths = [l[3:].strip() for l in dirty.splitlines() if l.strip()] if code == 0 else []
+    scoped_dirty = [p for p in dirty_paths if path_matches(p, modified_paths)]
     d = {
         "schema": SCHEMA,
         "repo": os.path.abspath(a.repo),
-        "window": {"since": a.since, "until": a.until, "commits": len(shas)},
-        "uncommitted_paths": len([l for l in dirty.splitlines() if l.strip()]) if code == 0 else None,
+        "window": {"since": a.since, "until": a.until, "candidate_commits": len(candidate_shas),
+                   "attributable_commits": len(shas)},
+        "attribution": {"paths": sorted(attributable_paths),
+                        "modified_paths": sorted(modified_paths),
+                        "candidate_commits_excluded": len(candidate_shas) - len(shas)},
+        "uncommitted_paths": len(scoped_dirty) if code == 0 else None,
         "findings": sorted(out, key=lambda f: (f["band"],
                                                {"observed": 0, "strong-inference": 1,
                                                 "weak-inference": 2}.get(f["confidence"], 3))),
@@ -399,8 +418,10 @@ def main() -> int:
 
     lines = [
         f"repo         {d['repo']}",
-        f"window       {a.since or '(all)'} → {a.until or 'now'} · {len(shas)} commit(s)"
-        f" · {d['uncommitted_paths']} uncommitted path(s)",
+        f"window       {a.since or '(all)'} → {a.until or 'now'} · {len(candidate_shas)} candidate commit(s)"
+        f" · {len(shas)} attributable · {d['uncommitted_paths']} attributable uncommitted path(s)",
+        f"scope        {len(attributable_paths)} accessed path(s) · {len(modified_paths)} modified path(s); "
+        f"{len(candidate_shas) - len(shas)} unrelated commit(s) excluded",
         "",
         f"FINDINGS     {len(d['findings'])}",
     ]
