@@ -64,6 +64,8 @@ parent context.
 Codex may place the context governing the first child turn immediately before the addressed
 `agent_message`. Carry the nearest such context across the boundary only when no intervening
 `response_item` exists; otherwise treat it as inherited parent history.
+Never infer a model-less call from a later or session-wide model. A reviewer lane without a model
+makes T7 a named probe that could not run and the deterministic scan exits 4.
 `crossref.py` scopes its commit and capture reads to paths attributable to that owned segment and
 distinguishes paths merely accessed from paths modified by the session.
 

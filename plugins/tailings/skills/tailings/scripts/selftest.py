@@ -218,6 +218,30 @@ def codex_model_attribution_checks(tmp: str) -> list[str]:
         failures.append(f"actual-order first owned call was not parsed: {calls}")
     if ad["counts"]["tool_calls_without_model"] != 0:
         failures.append(f"actual-order owned call lost its governing model: {ad['counts']}")
+
+    unknown = os.path.join(tmp, "codex-model-unknown-first-call.jsonl")
+    unknown_lines = [
+        codex("session_meta", thread_source="subagent", agent_path="/root/unknown", cwd="/repo"),
+        codex("turn_context", model="gemini-parent"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "inherited parent response"}]),
+        codex_item("agent_message", author="/root", recipient="/root/unknown",
+                   content=[{"type": "input_text", "text": "owned task"}]),
+        codex_item("custom_tool_call", call_id="unknown-first", name="exec",
+                   input='text(await tools.exec_command({cmd:"codex exec --model gpt-5.6-sol review"}))'),
+        codex_item("custom_tool_call_output", call_id="unknown-first", output="ok"),
+        codex("turn_context", model="gpt-5.6-sol"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "later owned response"}]),
+    ]
+    with open(unknown, "w") as fh:
+        fh.write("\n".join(unknown_lines) + "\n")
+    ud = signals.scan(unknown, "/repo")
+    if any(f["probe"] == "T7" for f in ud["findings"]):
+        failures.append(f"later model was retroactively assigned to first reviewer call: {ud['findings']}")
+    if ud["counts"]["tool_calls_without_model"] != 1 or not any(
+            x["probe"] == "T7" and ":5" in x["error"] for x in ud["probes_that_could_not_run"]):
+        failures.append(f"model-less reviewer call did not fail T7 closed truthfully: {ud}")
     return failures
 
 

@@ -720,7 +720,7 @@ def t7_lane_family(s: Session, ctx) -> list[dict]:
         m = LANE_RE.search(cmd)
         if not m:
             continue
-        own_model = t.get("model") or (next(iter(s.models), "") if s.models else "")
+        own_model = t.get("model") or ""
         own = family_of(own_model)
         lane_family = family_of(m.group("model"))
         if lane_family == "unknown" or own == "unknown":
@@ -1142,6 +1142,14 @@ def scan(path: str, repo: str | None) -> dict:
     ctx = {"aliases": aliases, "allcmd": allcmd, "repo": repo}
 
     findings, could_not_run = [], []
+    unknown_model_lanes = [t for t in s.bash()
+                           if LANE_RE.search(t.get("command") or "") and not t.get("model")]
+    if unknown_model_lanes:
+        could_not_run.append({
+            "probe": "T7",
+            "error": "reviewer family cannot be checked for model-less call(s) at "
+            + ", ".join(f":{t['line']}" for t in unknown_model_lanes[:12]),
+        })
     for pid, fn in PROBES:
         try:
             findings.extend(fn(s, ctx))

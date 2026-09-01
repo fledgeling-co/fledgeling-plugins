@@ -72,6 +72,9 @@ window cannot create evidence for the audited session.
 Codex places the context governing a child's first turn immediately before the addressed task
 message. Tailings carries that one context across the boundary only when no intervening
 `response_item` exists; older parent contexts remain excluded.
+If a reviewer call still has no governing model, T7 is explicitly not checkable and the
+deterministic scan fails closed. A model observed later in the child session is never applied
+retroactively.
 
 ## The boundary on what it changes
 
