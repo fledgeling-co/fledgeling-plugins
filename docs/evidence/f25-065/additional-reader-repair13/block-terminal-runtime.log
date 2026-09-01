@@ -1,0 +1,26 @@
+docs/evidence/f25-065/additional-reader-repair13/block-terminal-runtime.swift:11:5: warning: will never be executed
+ 9 | private func doReturnMeasure() {
+10 |     do { return }
+11 |     seed()
+   |     `- warning: will never be executed
+12 |     read()
+13 | }
+
+docs/evidence/f25-065/additional-reader-repair13/block-terminal-runtime.swift:17:5: warning: will never be executed
+15 | private func doThrowMeasure() throws {
+16 |     do { throw Failure.expected }
+17 |     seed()
+   |     `- warning: will never be executed
+18 |     read()
+19 | }
+
+docs/evidence/f25-065/additional-reader-repair13/block-terminal-runtime.swift:23:5: warning: will never be executed
+21 | private func repeatReturnMeasure() {
+22 |     repeat { return } while false
+23 |     seed()
+   |     `- warning: will never be executed
+24 |     read()
+25 | }
+compile_exit=0
+stores=1 reads=1
+runtime_exit=0
