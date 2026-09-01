@@ -1,0 +1,80 @@
+{
+  "item": "F25-065",
+  "slice": "distinct additional executable-helper review repair 10",
+  "status": "FAIL",
+  "reviewedImplementation": "6f8013101300cc08da0b51d64f58755eb81fa248",
+  "blockingFalseGreens": [
+    "reader in the uninvoked first of multiple trailing closures is credited because the final closure parameter is invoked",
+    "readers after continue or break are credited despite being unreachable",
+    "helpers under while false or false expression conditions are credited as executed"
+  ],
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "f81a4cba95f81c50405504606828b4e8885ad6e91189ccd268c9786c8910e8d5"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "ca499266f924d23deebb3196c4865fa4ab9e70e9227d167d85f20bb895e4a97d"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "4542fbb8e64e24f7f4c917d84ef28ece5160ef8e7cd108acce0ea7c6d33f79d6"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "fd3fb3811170d545a059b2c9e64fe1ab2c6198df7ba4b73b32633c86b81066ab"
+    }
+  ],
+  "runtimeWitness": {
+    "compileExit": 0,
+    "runtimeExit": 0,
+    "path": "execution-contexts.log",
+    "sourcePath": "execution-contexts.swift",
+    "logSHA256": "d85a6ae895f0816fab2792df7913d0131a71a093da4bc32fa14cfacedaf175ed",
+    "sourceSHA256": "fb6b9b0695138b9a503ae87f515543545a83930c9532b7eea368f052f4b217aa"
+  },
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "invalidScopes": 0,
+    "remainingBlindBodies": 4,
+    "requirementFindings": 1,
+    "wholeFindings": 5,
+    "exit": 1,
+    "path": "perch-corpus.log",
+    "sha256": "4ebcecf3c21e9ee3bc24494f843793f1e80f5c0abdb034896417b381e33c8191"
+  },
+  "probe": {
+    "publicCLI": true,
+    "mutants": 10,
+    "allMutantsRejected": true,
+    "sourceRestored": true,
+    "sourceSHA256": "c547f0891de24df7d362f34b9090c76ee91014b3657bd31166a73f1977dc62a8",
+    "path": "probe.json",
+    "sha256": "a3aa3d68905729d1e5631e331d3755d10ff7d314db9984f3a14aa92d03dbd609"
+  },
+  "strictSchemaAndCallerBinding": {
+    "unknownTopLevelRejected": true,
+    "unknownRecordFieldRejected": true,
+    "callerPostureDriftRejected": true
+  },
+  "version": {
+    "plugin": "0.16.2",
+    "rootMarketplace": "0.16.2",
+    "path": "catalogue.log",
+    "sha256": "e382a80b396f2ca883afef424d01fbf3f6b214399d264c039adf894d6fb2fc7d"
+  },
+  "priorReceiptCorrection": "reader-call-repair9 explicitly records the actual 10 invalid scopes and 15 findings and marks its former 0/5 summary false",
+  "reviewPosture": "repeated same-family degraded additional review; reused prior F25-065 and unrelated Fleet context; no out-of-family claim",
+  "limitations": "No dependency install or catalogue regeneration; no publish, push, cache mutation, native app, provider, Keychain, or live campaign. Shared post-review root implementation edits were preserved and excluded."
+}
