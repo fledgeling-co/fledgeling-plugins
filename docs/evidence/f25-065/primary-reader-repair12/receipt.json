@@ -1,0 +1,86 @@
+{
+  "item": "F25-065",
+  "slice": "upstream terminal-helper repair fresh primary review",
+  "verdict": "FAIL",
+  "implementation": "42ac3ea7aeff2c1a2db23ea83121a2f762839f1f",
+  "blockingGap": "multiline and block-comment-newline return/throw expressions lose the terminal and retain attributed-helper credit",
+  "publicCLI": {
+    "cases": 13,
+    "falseGreens": [
+      "invalid-return-multiline",
+      "invalid-throw-multiline",
+      "invalid-return-comment-newline",
+      "invalid-throw-comment-newline"
+    ],
+    "path": "probe.json",
+    "sha256": "caf00d81af8f69c0862dea4a3e2e6034b2391435ba806bf5cbd8da84c3790bc3"
+  },
+  "swiftRuntime": {
+    "typecheckExit": 0,
+    "compilerWarnings": [
+      "code after return will never be executed",
+      "code after throw will never be executed"
+    ],
+    "runtime": [
+      "1",
+      "THREW"
+    ]
+  },
+  "focused": [
+    {
+      "path": "focused-1.log",
+      "tests": 21,
+      "exit": 0,
+      "sha256": "ae48db64b7ebdb49bd13342c1ba68dafacf5dfab448fe327333def44bd587775"
+    },
+    {
+      "path": "focused-2.log",
+      "tests": 21,
+      "exit": 0,
+      "sha256": "6ca675bd15f8f6fe8385d4ff8934555c419358cec0c0ca33a540f8ec9f94622c"
+    }
+  ],
+  "full": [
+    {
+      "path": "full-1.log",
+      "passed": 114,
+      "failed": 0,
+      "exit": 0,
+      "sha256": "9ffe49b0d3c2dda8ccbec1cc986561d2f03680f75f9f238df3254ee322bd540a"
+    },
+    {
+      "path": "full-2.log",
+      "passed": 114,
+      "failed": 0,
+      "exit": 0,
+      "sha256": "4d7e6034ad73b8660248eaef53cc41642fdfa6d15b564f93659546fced963b76"
+    }
+  ],
+  "mutants": {
+    "count": 11,
+    "allRejected": true,
+    "restored": true,
+    "sourceSHA256": "47354299b1aac7cb96cfa0b08cb8ea142d288e42a66b7d72d29ddc879b2990a5",
+    "path": "mutations.json",
+    "sha256": "b1e5c6f816e1d39424ecef90396c4d1a5110377f4f39aee84df5474ce842cab6"
+  },
+  "perchCorpus": {
+    "commit": "c30595e14403240d7933c1d20ec4728eb3281770",
+    "runs": 2,
+    "byteIdentical": true,
+    "scopeRecords": 108,
+    "invalidScopes": 0,
+    "attributedHelper": 0,
+    "directOutput": 22,
+    "failureSentinel": 56,
+    "fixtureValue": 30,
+    "blind": 4,
+    "uncensused": [
+      "REQ-056"
+    ],
+    "findings": 5,
+    "exit": 1
+  },
+  "implementationRestored": true,
+  "lane": "same-family degraded; reused unrelated F25-034/F25-015 context; prior separate Perch corpus authorship disclosed"
+}
