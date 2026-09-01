@@ -10,7 +10,8 @@ the raw mutating-body denominator and count scoped calls by classification.
 Target and caller records bind the parser's explicit-test posture so removing `@Test` outside an
 otherwise identical body invalidates the scope. Caller bindings require a direct, top-level,
 parenthesized helper call. Trailing closures and nested control-flow calls are refused because this
-lexical scanner cannot prove whether or when they execute relative to the scoped mutation.
+lexical scanner cannot prove whether or when they execute relative to the scoped mutation. Helper
+calls in `return` and `throw` expressions are refused because later statements are unreachable.
 The exact caller call must also survive the Swift comment/literal mask, so a matching spelling in
 non-executable text cannot justify attribution.
 
@@ -92,5 +93,11 @@ entire call before searching for a later reader. Top-level `return` and `throw` 
 The ten Perch trailing-closure bindings were reviewed and reclassified as one failure sentinel:
 their scoped `Issue.record` is itself the cleanup failure oracle, and caller assertions execute
 before the deferred cleanup rather than observing it.
+
+Fresh primary and additional review of that repair then found `return seed(); read()` accepted:
+helper context allowed the return-position call, while the balanced suffix began after `seed()` and
+lost the terminating token. The additional review also found parenthesized trailing syntax
+`seed() {}; read()` still accepted despite the documented refusal. The final rule rejects helper
+calls in return/throw positions and rejects a trailing closure after the balanced parentheses.
 
 Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.

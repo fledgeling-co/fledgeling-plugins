@@ -214,6 +214,10 @@ class SwiftBodies(unittest.TestCase):
              '@Test func measure() { seed(read()) }'),
             ('private func seed() { write() }\n'
              '@Test func measure() { seed(); return; read() }'),
+            ('private func seed() -> Int { write(); return 1 }\n'
+             '@Test func measure() -> Int { return seed(); read(); return 2 }'),
+            ('private func seed(_ body: () -> Void = {}) { write(); body() }\n'
+             '@Test func measure() { seed() {}; read() }'),
             ('private func seed() { write() }\n'
              '@Test func measure() { while false { seed() }; read() }'),
             ('private func seed() { write() }\n'
@@ -230,7 +234,8 @@ class SwiftBodies(unittest.TestCase):
                 readers = ('read', 'get') if ' get {' in source else ('read', 'load', 'expect')
                 direct = self.scan(source, scopes=[scope], readers=readers)
                 self.assertTrue(any(('no read after' in finding or
-                                     'named helper call' in finding)
+                                     'named helper call' in finding or
+                                     'trailing-closure syntax' in finding)
                                     for finding in direct['scopeFindings']))
                 cli = self.cli({'ExampleTests.swift': source},
                     {'blindScopeFile': 'scopes.json', 'blindVocabulary': {
