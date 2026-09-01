@@ -242,6 +242,30 @@ def codex_model_attribution_checks(tmp: str) -> list[str]:
     if ud["counts"]["tool_calls_without_model"] != 1 or not any(
             x["probe"] == "T7" and ":5" in x["error"] for x in ud["probes_that_could_not_run"]):
         failures.append(f"model-less reviewer call did not fail T7 closed truthfully: {ud}")
+
+    families = os.path.join(tmp, "codex-unknown-reviewer-families.jsonl")
+    family_lines = [
+        codex("session_meta", thread_source="subagent", agent_path="/root/families", cwd="/repo"),
+        codex_item("agent_message", author="/root", recipient="/root/families",
+                   content=[{"type": "input_text", "text": "owned task"}]),
+        codex("turn_context", model="mistral-large"),
+        codex_item("custom_tool_call", call_id="unknown-own", name="exec",
+                   input='text(await tools.exec_command({cmd:"codex exec --model gpt-5.6-sol review"}))'),
+        codex_item("custom_tool_call_output", call_id="unknown-own", output="ok"),
+        codex("turn_context", model="gpt-5.6-sol"),
+        codex_item("custom_tool_call", call_id="unknown-lane", name="exec",
+                   input='text(await tools.exec_command({cmd:"llm --model mistral-large review"}))'),
+        codex_item("custom_tool_call_output", call_id="unknown-lane", output="ok"),
+    ]
+    with open(families, "w") as fh:
+        fh.write("\n".join(family_lines) + "\n")
+    fd = signals.scan(families, "/repo")
+    ferr = [x["error"] for x in fd["probes_that_could_not_run"] if x["probe"] == "T7"]
+    if any(f["probe"] == "T7" for f in fd["findings"]):
+        failures.append(f"unknown reviewer family produced a T7 verdict: {fd['findings']}")
+    if len(ferr) != 1 or "running model mistral-large" not in ferr[0] \
+            or "lane model mistral-large" not in ferr[0]:
+        failures.append(f"unknown own/lane reviewer families did not fail closed: {fd}")
     return failures
 
 

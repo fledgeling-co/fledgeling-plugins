@@ -75,6 +75,8 @@ message. Tailings carries that one context across the boundary only when no inte
 If a reviewer call still has no governing model, T7 is explicitly not checkable and the
 deterministic scan fails closed. A model observed later in the child session is never applied
 retroactively.
+The same rule covers a nonempty model whose family is unknown, whether it is the running model or
+the requested reviewer lane.
 
 ## The boundary on what it changes
 

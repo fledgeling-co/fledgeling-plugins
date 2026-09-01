@@ -1142,13 +1142,25 @@ def scan(path: str, repo: str | None) -> dict:
     ctx = {"aliases": aliases, "allcmd": allcmd, "repo": repo}
 
     findings, could_not_run = [], []
-    unknown_model_lanes = [t for t in s.bash()
-                           if LANE_RE.search(t.get("command") or "") and not t.get("model")]
-    if unknown_model_lanes:
+    unknown_family_lanes = []
+    for t in s.bash():
+        match = LANE_RE.search(t.get("command") or "")
+        if not match:
+            continue
+        own_model = t.get("model") or ""
+        lane_model = match.group("model")
+        unknown = []
+        if family_of(own_model) == "unknown":
+            unknown.append(f"running model {own_model or '(blank)'}")
+        if family_of(lane_model) == "unknown":
+            unknown.append(f"lane model {lane_model or '(blank)'}")
+        if unknown:
+            unknown_family_lanes.append((t, " and ".join(unknown)))
+    if unknown_family_lanes:
         could_not_run.append({
             "probe": "T7",
-            "error": "reviewer family cannot be checked for model-less call(s) at "
-            + ", ".join(f":{t['line']}" for t in unknown_model_lanes[:12]),
+            "error": "reviewer family cannot be checked: "
+            + "; ".join(f":{t['line']} {why}" for t, why in unknown_family_lanes[:12]),
         })
     for pid, fn in PROBES:
         try:
