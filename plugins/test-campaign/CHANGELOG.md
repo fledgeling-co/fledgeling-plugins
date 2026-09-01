@@ -4,6 +4,13 @@ All notable changes to the `test-campaign` plugin.
 
 ## 0.16.2 — 2026-09-01
 
+`armed` now accepts only an exact JSON boolean. Truthy strings, numbers, arrays and
+objects fail the gate and never receive mutation credit. A project-specific control
+disposition validator can publish a v1 receipt binding permanent exceptions to every
+source, registry, containment and validator input it read. The campaign independently
+rehashes those inputs before removing an excepted control from owed work; the control
+remains declared and unactuated, and stale or malformed receipts fail closed.
+
 Swift blind-pass findings can now carry explicit per-call scopes from a campaign's
 `blindScopeFile`. Each record binds one body and call occurrence plus reviewed producer
 or contract hashes. Only that call is removed before earlier mutators are reconsidered;
