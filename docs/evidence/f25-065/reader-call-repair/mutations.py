@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Arm identifier-boundary and call-syntax guards in the actual scanner, then restore exactly."""
+"""Arm reader and direct-helper guards in the actual scanner, then restore exactly."""
 from pathlib import Path
 import hashlib, json, os, subprocess, sys, tempfile
 ROOT=Path(__file__).resolve().parents[4]
@@ -22,11 +22,8 @@ mutants=[
   'if conditional_depth:\n        return False',
   'if False:\n        return False'),
  ('skip-helper-execution-context',
-  'not helper_invocation_context(masked_caller, context_start) or',
-  'False or'),
- ('trust-uninvoked-helper-closure',
-  '(trailing and not (len(target_bodies) == 1 and target_bodies[0][3]))',
-  'False'),
+  'not helper_invocation_context(masked_caller, context_start)):',
+  'False):'),
  ('scan-helper-arguments-as-later-readers',
   'reader_tail = balanced_call_end(masked_caller, opening)',
   'reader_tail = offset + match.end()'),

@@ -123,7 +123,8 @@ class SwiftBodies(unittest.TestCase):
                 'callSHA256': SCAN.call_fingerprint(
                     caller_body, caller_offset, caller_offset + len('seed {'))}])
         result = self.scan(trailing, scopes=[trailing_scope])
-        self.assertEqual(result['scopeFindings'], [])
+        self.assertTrue(any('named helper call' in finding
+                            for finding in result['scopeFindings']))
 
         commented = 'private func seed() { write() }\nfunc testCaller() { /* seed() */ read() }'
         blocks = SCAN.swift_body_spans(commented)['blocks']
@@ -203,6 +204,8 @@ class SwiftBodies(unittest.TestCase):
              ' read()\n #endif\n }'),
             ('private func seed(_ body: () -> Void) { write() }\n'
              '@Test func measure() { Fixtures.seed { read() } }'),
+            ('private func seed(_ body: () -> Void) { body(); write() }\n'
+             '@Test func measure() { Fixtures.seed { read() } }'),
             ('private func seed() { write() }\n'
              '@Test func measure() { let invoke = { seed() }; _ = invoke; read() }'),
             ('private func seed() { write() }\n'
@@ -211,6 +214,14 @@ class SwiftBodies(unittest.TestCase):
              '@Test func measure() { seed(read()) }'),
             ('private func seed() { write() }\n'
              '@Test func measure() { seed(); return; read() }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { while false { seed() }; read() }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { if 0 == 1 { seed() }; read() }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { for _ in 0..<1 { seed(); continue; read() } }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { for _ in 0..<1 { seed(); break; read() } }'),
         ]
         for source in invalid:
             with self.subTest(source=source):
@@ -235,8 +246,6 @@ class SwiftBodies(unittest.TestCase):
              '@Test func measure() { Fixtures.seed(); read() }', 'seed('),
             ('private func seed() { write() }\n'
              '@Test func measure() { Fixtures.seed(); let value = read(label: input) }', 'seed('),
-            ('private func seed(_ body: () -> Void) { write(); body() }\n'
-             '@Test func measure() { Fixtures.seed { configure(); read() } }', 'seed {'),
             ('private func seed(_ value: Int) { write() }\n'
              '@Test func measure() { seed(read()); read() }', 'seed('),
         ]
