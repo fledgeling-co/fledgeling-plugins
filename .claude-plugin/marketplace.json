@@ -10,7 +10,7 @@
     {
       "name": "flagship",
       "description": "Conduct many concurrent Claude Code sessions as one portfolio \u2014 the layer above ship-armada, for when the work is already spread across a dozen live sessions rather than waiting in one repo's backlog. Builds a roster of every peer session, learns what each owns, and coordinates them over SendMessage: hands out a capped heavy-work token derived from harbourmaster's measured berths rather than an invented number, batches their accumulated decisions through the perch R1\u2013R5 router so only the operator's own axes reach the operator, routes judgement to defer's lanes after probing which are actually reachable, and propagates each session's findings to the others \u2014 which is the real return, because nine sessions independently found one tool's bug in a single evening and none knew about the others. Starts new work as a workflow, a subagent, or a fresh Ghostty tab using recover-claude-code's hardened mechanism, so a session can carry its own fleet. Holds the map and no authority: a conducting session cannot command a peer, cannot close a peer's channel to its user, and cannot relay an authorisation \u2014 all three were refused by ten sessions in one night and all three refusals were right.",
-      "version": "1.6.5",
+      "version": "1.6.6",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -21,7 +21,7 @@
     {
       "name": "ship-armada",
       "description": "Portfolio-wide orchestrator across every project in ~/Dev \u2014 the layer above ship-fleet, and the system prompt for a standing master-orchestrator agent/daemon. Reads the portfolio manifest (~/Dev/ARMADA.md) and ~/Dev/CLAUDE.md, verifies freshness against git, then surveys, plans, routes, and dispatches. Route mode lands a single directive ('research feature X and incorporate it into <project>') in the right project's pipeline \u2014 deep research into docs/deep-research, a brief into features-to-triage, an inbox row in the project's ORCHESTRATOR.md that any active fleet picks up (or a new ship-fleet run when approved), and the master manifest updated. Dispatch runs per-repo backlogs through ship-fleet and cross-project rollouts as dependency-ordered campaigns with capped concurrency. Daemon mode proposes on a schedule and executes only what the user has approved.",
-      "version": "2.2.1",
+      "version": "2.2.2",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -43,7 +43,7 @@
     {
       "name": "create-swe-project",
       "description": "Scaffold a complete, working new project in ~/Dev from a project idea \u2014 the slipway is where new ships are launched. Interviews up front (modules, React Native/Expo vs native SwiftUI for mobile, macOS window vs menu-bar, codename, bundle prefix, GitHub org, design reference, 1Password vault), then scaffold.sh renders ~120 templates: pnpm/Turborepo monorepo, Next.js latest, optional NestJS API, native SwiftUI macOS/iOS, optional Expo RN mobile app, design-tokens, Mongoose/Redis, Caddy dev stack, Dockerfiles, husky pre-push gate, and typecheck+build gate run. Then conducts the launch pipeline: audits docs/positioning/ (invoking /positioning:positioning if absent), generates an initial comprehensive technical PRD.md tracing all docs/features-to-triage/ briefs alongside OVERVIEW.md, designs comprehensive mocks via design-craft + ux-craft + create-mac-icon, builds a GSAP/Three.js marketing site, and packages a complete launch ops pack.",
-      "version": "1.12.1",
+      "version": "1.12.2",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -54,7 +54,7 @@
     {
       "name": "design-review",
       "description": "Expert design and UX review of rendered web apps, websites, app UI flows, infographics and design artifacts \u2014 the last pass before a human looks at AI-built UI. Runs deterministic accessibility, contrast, target-size, performance and layout-integrity gates first (column alignment, shared rails, section gaps, text overlap, dead space, column and band voids, implicit grid tracks, divider proximity, affordance, token overloading), then structural, state, component-inventory, craft, flow, design-system and intent-conformance passes against real renders at multiple viewports, and returns severity-ranked findings with pasteable fixes, evidence, and an explicit statement of what was never checked. Every gate reports four numbers rather than one \u2014 failed, passed, could-not-run, and the population examined \u2014 because a check whose pass and cannot-run look identical is indistinguishable from a real measurement: engine capability is measured before anything is read, each computed value carries whether it came from the cascade or from a stylesheet declaration, and the unmeasurable population is a reported number instead of a silent zero. A coverage ledger fixes the surface count before the first capture and its exit code is the verdict, geometry findings are clustered by root cause before they are ranked, and a second gate checks every number in the finished report against what the run actually recorded. Use this whenever someone asks to review, audit, critique, QA, sanity-check or \"give feedback on\" a UI, page, screen, flow, prototype, landing page, dashboard, deck or design \u2014 or says their UI \"looks AI-generated\", \"looks off\", \"feels cheap\", \"needs polish\", \"isn't accessible\", or asks whether something is ready to ship or ready for a human to look at. Also use it before shipping any UI that Claude or another AI tool generated, even when nobody used the word \"review\". When distinctiveness is in scope, craft scores the first viewport against a named comparison set: counts may be findings, \"looks generic\" without a denominator stays an open question, and the report template carries the comparison set and four counts.",
-      "version": "2.3.0",
+      "version": "2.3.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -182,7 +182,7 @@
     {
       "name": "better-goal",
       "description": "Hold a long autonomous run to a finish line using command hooks and a stall watcher this skill creates itself, rather than the built-in /goal. /goal is a prompt Stop hook judged by a small model on transcript text alone, so it grades what the run said rather than what is true, and Claude Code overrides any Stop hook after 8 consecutive blocks while reporting that turn as completed. better-goal (formerly goal-harness) grounds the finish line in the repo's real worklist, writes the brief to docs/goals/goal-<slug>.md, turns \"done\" into gate commands judged by exit code, preflights the settings that silently end a run, and registers four events rather than one: Stop runs the gates, StopFailure records a turn that ended on an API error, SessionEnd records a session that closed while armed, and a SessionStart sentinel tells the next session what is still armed and cold. It proves the hook actually loaded instead of assuming it, because a hook registered mid-session into a .claude/ Claude Code is not watching is written correctly and never fires. Its watcher reads the session transcript, so a long turn is not mistaken for a dead run. It stops deliberately when a gate fails identically turn after turn rather than re-sending the same failure, and answers \"has it been met?\" and \"why did you stop?\" from a ledger instead of a guess.",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -193,7 +193,7 @@
     {
       "name": "better-loop",
       "description": "Arm recurring or event-driven work as a change-gated watcher this skill creates itself, so a tick fires only when something has actually changed. A scheduled loop re-sends the same unmet condition and the same failing tasks turn after turn, re-billing the session's whole prefix each time: five of twelve measured heavy sessions did exactly that and accounted for 91% of input between them. better-loop (formerly loop-harness) polls a deterministic probe command in the background, wakes the session only on a change and sends the delta rather than the state, backs off on a state it has seen before, holds a wake budget per hour, and can dispatch the tick detached so the session is never woken at all. It picks the mechanism first, preflights the probe for determinism and the skills the tick names, and routes to better-goal when the work has a verifiable finish line. No cron, so no seven-day expiry. Because a Monitor dies with the session that started it, it stamps a heartbeat on every poll and registers a SessionStart sentinel, so a loop that stopped is reported to the next session rather than reading armed forever.",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -237,7 +237,7 @@
     {
       "name": "whats-left",
       "description": "Survey everything a project still needs before its feature set is genuinely complete, and hand it back as one self-contained HTML page: a plain-English status line per item, then an embedded questionnaire that clears every decision waiting on the reader, with pre-selected recommendations, free-text notes and a JSON export. The two halves are one graph, so each blocked item deep-links to the decision that releases it and each decision names how much it actually releases. Separates built from deployed rather than counting both as done, records an untouched default as unconfirmed rather than as an answer, and treats a note attached to an answer as a condition on it. Reads the export back on request and applies each answer, reporting what changed, what could not, and what was deliberately left alone.",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -259,7 +259,7 @@
     {
       "name": "test-campaign",
       "description": "Run a complete UI test campaign against an application and leave behind a living evidence page \u2014 coverage, requirements, user-flow storyboards, screenshots, component atlas and defects in one browsable surface where every row has a stable id somebody can point at. Reads the project first \u2014 Overview, PRD, feature specs, design md and the latest mock UIs \u2014 so the campaign knows what the product *claims* to do before it looks at what it renders, then enumerates the correctness space (surface \u00d7 state \u00d7 viewport \u00d7 theme \u00d7 role \u00d7 locale \u00d7 data shape \u00d7 modality \u00d7 execution plane \u00d7 oracle), samples it deliberately and says so, writes and runs the suite in the project's own harness, sweeps for what no requirement named, and measures the build against its design of record on structure, style, vocabulary and geometry rather than on pixels. Every case carries which rung of oracle it stands on, so a critical flow proved only by \"the element exists\" fails the gate instead of passing quietly; a case claiming pixels must name a real capture and the channel it came from; a lane claiming the app was running and drawn must name the artifact and what witnessed it attaching, because a suite once reported 100% checked over two desktop apps that had never drawn a window; a published screenshot must name what the capture channel was pointed at, because a wall of 20 captures once showed three unrelated documents while every gate passed and only the filename bound a picture to its surface; a surface's controls and a navigation shell's destinations are counted the way surfaces are, because a campaign once reported 32 of 32 cases passing and armed over an application whose six menu items opened one screen and whose every button ran an empty closure, and an effect is never the product's own report that it acted; a check the instrument could not perform is inconclusive rather than clean; armed and unarmed assertions are counted apart; and a coverage ledger's exit code is the verdict, so a partial campaign cannot read as a finished one. Use this when someone asks to test, QA, verify, harden or \"prove\" a feature or an app, wants e2e or acceptance or visual or accessibility or integration coverage, asks whether something is ready to ship without human testing, wants a test plan generated from requirements, wants user flows discovered and screenshotted, wants to know what is actually covered, or wants a UI to be shown to match its mockups. Spans web, React Native, iOS, and native macOS, Windows and Linux desktop apps, planning each lane to what that lane can actually observe.",
-      "version": "0.16.2",
+      "version": "0.16.3",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -282,28 +282,28 @@
       "name": "shipyard",
       "source": "./plugins/shipyard",
       "description": "The shipyard: the feature-delivery stage skills: intake (rough idea to briefs, with trawl ideation and Dossier research), triage (readiness with the Sentinel review and decision-gate assumptions), plan (committed plans plus a comprehensive test strategy), design (all-platform interactive mocks gated by design-review and be-my-witness), work (worktree build through the agy/grok/codex executor lanes with evidence-typed acceptance), verify (cross-family acceptance against the running app - the only path to Done), and gap-fix (the road back from Needs More Work). One tracker adapter covers markdown specs and tasks-MCP boards; shared references carry the model lanes, second-opinion/panel protocol, evidence rules, and the incident ledger.",
-      "version": "0.5.1",
+      "version": "0.5.2",
       "category": "development"
     },
     {
       "name": "warrant",
       "source": "./plugins/warrant",
       "description": "Remove the human from per-item software verification by granting a machine a written, tiered authority and revoking it automatically on evidence. Eight skills: charter (the signed warrant, the only human-signed artifact), oracle (source-to-render lineage, tick-and-tie, taxonomy validation \u2014 the deterministic plane, built first because the highest-consequence defect is a correctly rendered screen stating a figure no source supports), assay (mutation survival and cannot-fail patterns, because every downstream verdict inherits the suite's fault sensitivity), panel (one out-of-family grader plus orthogonal lens lanes plus an adjudicator that routes disagreement to arithmetic \u2014 deliberately not a jury, since nine judges from seven families supply about two effective votes), feedback (escapes become permanent regression cases; calibration from what got missed rather than from a reader study), lot (risk-limited acceptance of a queue, blind to the machine verdict), ratchet (computes earned tiers, applies revocations without asking, and is a plain script because the component deciding a model's authority should not be the model), and ledger (the hash-chained decision record an auditor reads instead of per-item signatures). Grounded in a 22-source panel across four research backends; every rule traces to a claim id in docs/deep-research/claims.json.",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "category": "development"
     },
     {
       "name": "ship-feature",
       "source": "./plugins/ship-feature",
       "description": "End-to-end feature delivery conductor: one feature from rough idea to merged, cross-family-verified production code by conducting the shipyard stages - intake, triage, plan in parallel with design, work, the deferred loop, gap-fix, acceptance-e2e, verify (the only path to Done), and a fail-closed merge with a decided-in-advance rollback. Holds the thread in-session, defers decisions through the second-opinion lanes instead of stalling on questions, and treats every stage artifact as the resumable memory.",
-      "version": "2.4.1",
+      "version": "2.4.2",
       "category": "development"
     },
     {
       "name": "ship-fleet",
       "source": "./plugins/ship-fleet",
       "description": "Backlog-wide feature-delivery orchestrator: surveys everything remaining in a repo's pipeline (specs, plans, briefs, mocks, worktrees, deferred follow-ups), writes ORCHESTRATOR.md and a visual hierarchy before any execution, then conducts dependency-ordered ship-feature runners under a global agent budget - with per-item cross-family verification, serialized merges, executor-lane routing, and a ledger a fresh session can resume the whole fleet from.",
-      "version": "2.9.1",
+      "version": "2.9.2",
       "category": "development"
     },
     {
@@ -353,7 +353,7 @@
     {
       "name": "ux-craft",
       "description": "Book-grounded UX engine for building, mocking and reviewing web and mobile UIs, forms, flows and emails \u2014 the UX brain that pairs with design-craft:design-craft's visual hands. Three modes (Build / Review / Advise) over eleven references, and a deterministic gate that refuses what prose only asks: stdlib-only ux-lint.py runs static over HTML/JSX/CSS and probes a rendered page through Obscura, with every finding naming what you did, what the user silently gets, and the fix. Only exit 0 is a pass \u2014 a run that examined zero files refuses rather than reporting a clean sheet, and every run prints a never-empty not-checked list, because a check that cannot measure must say so instead of reporting zero. v2 resolves the accessibility floor against the standards themselves: 24x24 CSS px is WCAG 2.2 SC 2.5.8 at AA and is the only target-size number a WCAG failure may cite, 44x44 CSS px is SC 2.5.5 at AAA, and Apple's 44pt and Android's 48dp are craft targets in density-independent units that are not WCAG numbers at all. Twelve non-negotiables each carry the silent symptom that appears when they break, the state grid is a counted artifact rather than a rule that was read, and the destructive-action gate table, the probe-honesty rule and the model-family evidence taxonomy are available to every model rather than quarantined behind a model check. Carries a Known limits section, an evidence file rating the replication status of every behavioural law it cites (including the ones it argues against), the measured blind spots of the only sanctioned browser, and an autonomous-mode carve-out so a pipeline run is not told both to ask and not to ask. Build mode names the category-default journey and varies it on one axis, with a persistent project ledger so two onboardings are not the same three-step wizard. Persuade surfaces load a separate one-offer/one-audience/one-action conversion reference.",
-      "version": "2.5.0",
+      "version": "2.5.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -375,7 +375,7 @@
     {
       "name": "mac-craft",
       "description": "Design and review authentically native macOS application interfaces \u2014 mock windows as self-contained HTML/CSS or a token-precise spec, with a committed aesthetic direction, a state matrix, a token table an implementer can build from, and a deterministic gate that computes contrast instead of asserting it. Grounded in Apple's macOS UI kit deconstructed to exact (specified) values, the published HIG, an August 2026 four-backend research panel across 110 sources, and taste learned from 135 curated macOS apps. Ships scripts/mock_check.py: WCAG contrast computed from the declared cascade across light, dark and increased-contrast contexts with alpha compositing; a metric block cross-checked against both the kit and the stylesheet; keyboard, token-discipline, casing, cursor, self-containment, content and artifact-naming checks. It exits 2 rather than 0 when a check cannot be performed, because examined=0 is a gate that never ran. Replaces mac-design-studio and answers to that name. App icons are not designed here \u2014 they route to create-mac-icon:create-mac-icon. Chrome stays native; a free aesthetic axis mines variety in the content area via trawl:trawl at --any, with Warm Paper and Terminal Dark as runner-up rather than default, and records the chosen content world in the project diversity ledger.",
-      "version": "1.5.0",
+      "version": "1.5.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -396,7 +396,7 @@
     {
       "name": "generate-investor-portal",
       "description": "Generate a complete investor-portal record \u2014 theme tokens, section content, provenance-marked figures, imagery and motion \u2014 into a database from a company's DESIGN.md and a crawled company overview, so a new company is a generated record rather than new code and one generic renderer serves it at that company's own subdomain. Its distinguishing feature is that it ships the gate instead of describing it: assets/record-gate.mjs runs 600+ record-level checks with no server, no database and no network, and refuses the write rather than the read, so a rule added to it can never take a live portal down. The check that matters most is that a figure is not allowed to live in prose \u2014 a currency amount, a percentage or a date in any prose slot without a provenance object around it is refused, because that is the channel a plausible fabricated number actually arrives through, and a missing figure has to become a visibly marked unavailable state with a reason code instead. It treats the crawled overview as untrusted third-party content and carries a verbatim injection fence into every subagent brief and every paid image prompt; it refuses a republish before anything is crawled or generated rather than after; it measures accent contrast arithmetically on hex against role-aware floors so a brand colour is never rejected where it belongs; and it detects the defect no per-tenant gate can see, two companies publishing the same portal, by comparing three collision keys against the published peer set. Use it when someone wants an investor portal built, generated or refreshed for a company, wants a company onboarded onto a portal platform, or hands over a DESIGN.md plus a company overview and asks for a portal from them.",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -407,7 +407,7 @@
     {
       "name": "stocktake",
       "description": "Count what a tracker board claims against what the codebase actually holds, card by card, and move each one to the column its evidence supports. Reads every comment and attached image and rebuilds the numbered requirement list from the ticket BEFORE opening any completion record or diff, because a diff read first supplies the frame and the requirements it silently dropped never enter the list. Locates the work \u2014 merged, on a branch nobody merged, unpushed, in a worktree, or never built \u2014 then traces each requirement to the code that PRODUCES its value rather than to a surface that renders it, and judges whether the tests standing behind it could actually fail: which rung of oracle each critical requirement stands on, armed and unarmed assertions counted apart, a denominator for what the gate really runs. Grades every verdict out of family with a single strongest judge rather than a panel, because nine frontier judges across seven families supply about two independent votes. An inconclusive result blocks and never rounds up to a pass. Cards with work left get a brief written for ship-fleet to orchestrate; cards with open decisions get referred to another model family or decided with a named recommendation rather than parked on the reader; cards whose evidence holds are promoted to Done \u2014 and never past it into a human's column until eight named preconditions hold for one pre-registered low-risk class, which a bundled gate refuses by default. Use whenever someone asks to triage, sweep, review, reconcile or clean up a board or backlog, asks what is left across a set of tickets, asks whether items in a review column are genuinely done, asks which tickets sit in the wrong status, or says a column has piled up. At Done, the column a card may reach is decided by the `warrant` plugin rather than by a checklist: warrant_column.py reads the signed warrant and the ratchet's last word and returns Verified where the card's defect class has earned warrant tier 3 with no revocation, Needs More Work where a warrant gate failed on the card's own evidence, and Done with every reason named otherwise. A grant states the substitution it rests on every time, because a warrant tier is earned by absence of escapes rather than by a measured non-inferiority study, and the signed warrant is a person accepting that in advance.",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -429,7 +429,7 @@
     {
       "name": "atlas-publish",
       "description": "Takes the open PRs of the Atlas/Bella monorepo to a registered draft release on either the over-the-air or the App Store lane, classifying between them from the expo-updates native fingerprint rather than from intent \u2014 ios.buildNumber sits inside that fingerprint, so a buildNumber bump alone forces a store release. Every irreversible step names the observable to read back, because a build tool, an upload and an MCP call all return success without having done anything. Gates report not-run as a third state beside passed and failed, which is how a cert-parity test that skips its only real assertion stops reading as a green gate. Eleven steps, each marked with the lanes it applies to and each with an abort path next to it. Draft is where automation stops: publishing to users is a founder action the skill will not take. The diff review that used to ship beside it is now the standalone code-review plugin.",
-      "version": "2.1.1",
+      "version": "2.1.2",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -471,7 +471,7 @@
       "name": "recover-claude-code",
       "source": "./plugins/recover-claude-code",
       "description": "Bring back Claude Code sessions, workflows and subagents that a crash interrupted, with the context they already had instead of restarting them from scratch. Use after a terminal, Ghostty or machine crash, a force-quit, or a jetsam/out-of-memory kill took sessions down, and whenever a previous recovery cold-started fresh agents and lost what they had already worked out. Separates the genuinely dead sessions from the still-running ones using the live-session registry at ~/.claude/sessions (a pid-keyed record carrying sessionId, cwd, peer name and status), because the two probes that look correct both fail: ps output never contains the session id, and the scratchpad directory is named by a per-process id that stops matching once a session has been resumed. Reopens each dead session in its own Ghostty tab at its original working directory under its original session id (never --fork-session, which orphans every workflow journal it is trying to reach), handing over a brief as a positional prompt so the session wakes up knowing it crashed rather than auto-submitting \"Continue from where you left off\". Restores interrupted work by promoting a dead subagent's sidechain transcript into a resumable session so it keeps the files it read and the findings it closed, rather than replaying its prompt into a blank context; measured, a promoted transcript named its item, branch and a closed finding from memory. Finds a run's persisted script by run id across every project directory, because Claude Code files the script under the project directory of the live working directory and the journal under the original one, so any session working in a worktree splits its own state in two and a snapshot-only lookup reports no script for precisely the runs that need recovering. Offers a journal splice for a long completed prefix that resumeFromRunId would otherwise re-run (the cache miss is sticky, so the interrupted agent is the first miss and every later call re-runs, including ones already committed), and refuses to fabricate a result line. Ships a read-only scanner, a transcript promoter, a Ghostty tab driver with a dry run, a splice tool that only ever writes a copy, and a fixture-based self-test. Sibling of workflow-resume, which handles the opposite failure: a run that reported completed while losing agents to API errors.",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -490,7 +490,7 @@
       "name": "defer",
       "source": "./plugins/defer",
       "description": "Decide which model a piece of work goes to, and produce the exact command that sends it there. One routing policy for every skill that hands work outside the session: six task classes mapped to seven lanes across five model families, each pinned to a model and an effort, with the CLI arguments, the environment GLM needs, and the check that proves the lane ran as routed. Where several lanes are eligible it picks the one with the most plan headroom per remaining day, measured \u2014 Claude and Codex report a real utilization percentage that is already on disk, and Grok, GLM and Gemini are counted locally against a budget calibrated from a percentage you can see. Ships a lane prober, a policy selftest that runs no model, and a wire-verify method per lane, because the most expensive failure in a multi-model system is a plausible answer from the wrong one.",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -510,7 +510,7 @@
       "name": "reckon",
       "source": "./plugins/reckon",
       "description": "Work out what actually remains in a project by reconciling what it promised against what anybody proved \u2014 the feature briefs and PRD in docs/features-to-triage on one side, a test-campaign registry of cases, requirements, surfaces and defects on the other \u2014 and resolve every item on both sides into exactly one class of a total partition, so nothing can quietly fall out of the list. The classes carry different fix-shapes and different owners: named-but-unbuilt, named-but-unjoinable, measured-and-broken, never-measured, never-named, disputed, already-done-so-retire-it, and deliberately-waived. The one that matters most is never-measured, because a blocked or inconclusive check is not a pass and not a failure, and a remaining-work list that silently drops it reports a partial campaign as a finished product. That class is scheduled as the blockers behind it rather than case by case, each with the coverage it returns, because twenty blocked cases are usually three causes. Publishes a denominator per axis and never one blended percent, marks every figure as a floor, refuses to retire stated intent on weak-oracle or guessed evidence, refuses to let a requirement leave never-measured on its own evidence word when no passing case cites it, keeps waivers visible as exceptions rather than folding them into done, and gates the whole ledger with an exit code so a report that lost an item cannot pass. Then schedules what remains: ship-fleet's wave model over the ledger, so items whose dependencies are met run in parallel, with sub-tasks nested under the item that cites them and a wall-clock range per item and per wave drawn from 1,842 measured Opus 4.8 and Opus 5 agent runs \u2014 always a range and never a number, because the measured p90 is over three times the median, and never a schedule implying a speedup better than the 4.0x ever observed. Emits three artifacts from one gated ledger: ledger.json, a comprehensive technical reckoning.md, and a self-contained reckoning.html board showing shipped features beside remaining ones and the waves between them. Use whenever someone asks what is left, what still needs doing, where the project stands, what the test campaign leaves open, whether a feature is actually finished, which briefs are stale, what to work on next, how long the remaining work will take, what can be built in parallel, or asks to reconcile specs against test results \u2014 and after any test-campaign run, to turn its findings into work. Not for producing the evidence (test-campaign), tracing a spec to the code that produces its data (spec-validation), a whole-product survey against a stated goal (product-gap-analysis), a tracker-board sweep (stocktake), or a decision questionnaire for a non-technical owner (whats-left).",
-      "version": "1.9.2",
+      "version": "1.9.3",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -541,13 +541,13 @@
       "name": "tailings",
       "source": "./plugins/tailings",
       "description": "Verify and clean up after a finished agent session \u2014 a Gemini or other cheaper-model run \u2014 without re-doing its work. Reads the session's own transcript against the repository it changed, and lands every claim the session made in exactly one of eight classes with an exit code that blocks a report which lost an item. Built from a forensic audit of 18 Gemini-driven sessions across 13 repositories, 148 adversarially-refuted findings, against a 37-session Claude control: the work those sessions produced was usually real and the account of it was what failed, with a named gate not run, a cheaper measurement substituted, a verification claimed with no tool result behind it, and a directive silently dropped making up 106 of the 148. So the pass aims at the account. Sixteen transcript probes and eight repo probes run first and cost nothing \u2014 a gate that went red and turned green through an edit to its own input, an \"out-of-family\" reviewer that resolved to the running model's own family, a figure in a durable artifact that no tool ever printed, a captured screenshot filed under a name it is not a picture of, a fan-out skill that spawned nothing \u2014 and their output is a ranked worklist that tells an expensive reader where to point. Use whenever a Gemini or delegated session has just finished and someone asks whether to trust it: \"check what Gemini did\", \"verify this session's work\", \"did it actually run the gates\", \"audit this transcript\", \"clean up after that run\", \"/tailings\". Also use before merging work a cheaper model produced, and when a session reports everything complete and something feels wrong. NOT for grading code quality or architecture (code-review), NOT for reconciling a project's remaining work (reckon), NOT for counting a tracker board against a codebase (stocktake), and NOT for building the verification a project never had (test-campaign).",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "development"
     },
     {
       "name": "launch-craft",
       "description": "Conduct end-to-end product synthesis, positioning, and high-fidelity launch site creation for any project. Takes raw briefs in docs/features-to-triage/, mock HTML, and application source code, and executes a 4-phase pipeline: (1) Synthesizes and updates OVERVIEW.md and PRD.md using Gemini 3.7 Flash High via agy with complete feature traceability; (2) Audits docs/positioning/ and invokes /positioning:positioning if absent, grounds product positioning for home network admins and gamers, ideates hooks via /trawl, draws patterns from Mobbin MCP, and drafts authentic copy in Luke Rhodes' voice via /create-luke-content with dual pricing ($9.99 self-hosted/BYOK vs $4.99/mo hosted); (3) Crafts an interactive marketing website via /design-craft and /ux-craft utilizing GSAP scroll timelines, Three.js 3D telemetry canvases, interactive mock UI slices, and 5-platform badges (Windows, Mac, Linux, iOS, iPadOS); (4) Enforces deterministic WCAG, contrast, and visual conformance gates. Use whenever you need to synthesize project truth into PRDs and launch a bespoke, highly creative interactive marketing site.",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -558,7 +558,7 @@
     {
       "name": "eli5",
       "description": "Build an interactive, self-contained HTML explainer that makes a hard idea genuinely click - a thing you operate, not a document you read. Lets the mechanism pick the shape of the page from eight that recur (Machine, Field, Solid, Ladder, Fork, Trace, Assembly, Reveal) rather than giving every topic the same tabs, and commits to a palette and type pairing of its own. Grounded in the cognitive science of how people form mental models: a structure-mapping analogy carrying the boundary where it stops being true, a Predict-Observe-Explain beat where the reader commits a guess before the reveal, and readouts inside the diagram rather than beside it. Inlines Three.js when a flat projection loses the invariant, GSAP when a state change moves several things in order or a Reveal scrubs on scroll, a Remotion-rendered clip when the sequence is too expensive to compute live, and generated imagery from media-gen-pro - all embedded, never from a CDN. Fails the build on an artifact that draws with SVG and CSS alone unless the choice is declared, since four in a row did. Ships a scaffold that wires the theme tokens, reduced-motion path, markers and libraries in one command, fetching each library once from a pinned checksummed URL rather than a CDN the reader would load. Routes charts through the dataviz skill first. A deterministic linter fails the build on external assets, missing viewBox, uncaptured pointer drags, leaked animation frames, motion with no reduced-motion path, buried analogy limits, absent prediction beats, thin visuals, single-mode interaction, prose over budget, condescending register and copied template headings. Use for \"/eli5 <topic>\", \"explain how X works\", \"make me an explainer for Y\", \"I still don't get Z\". Names its reader as a curious sixteen-year-old rather than a peer, and fails the build on a topic-specific term used without a definition - the failure a baby-talk detector cannot see - on placeholder nouns and a title that names nothing the page discusses, and on slogan-shaped lines that state a conclusion and show no mechanism, diagram labels included. Rebuild of eli5 by Thariq Shihipar.",
-      "version": "0.6.1",
+      "version": "0.7.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -569,7 +569,7 @@
     {
       "name": "positioning",
       "description": "Decide what a product should stand for, and be able to show your working. Runs its own Dossier deep-research panels (free CLI lane plus paid API lane, one or more panels decomposed by archetype) rather than emitting prompts for a human to paste elsewhere; generates candidate positions under trawl's persona frame portfolio BEFORE the research runs so the panels discriminate rather than describe; then binds every positioning move to a claim id and a product-truth row in a ledger whose check command fails when a hero line rests on capability that has not shipped, on a citation nobody verified, or on a confidence label claimed across too few independent registrable domains. Replaces the predecessor's weighted-slider scorer, which all four research panel members independently found documented-unsafe for a 3-5 option strategic choice, with vetoes, a natural-unit consequence table, dominance screening, even swaps, rank stability across plausible weights, scenario regret, and a permitted no-decision output. Ships nine templated markdown reports plus one designed interactive HTML decision surface built through design-craft and ux-craft, with GSAP where scroll carries the argument, Three.js only where the strategy canvas needs a real volume, media-gen-pro for imagery and mermaid for diagrams, taking the project's DESIGN.md when it has one and authoring one when it does not, gated by a design-review pass before anyone sees it. Use for positioning or re-positioning a product, choosing between positioning options, market or competitor or customer research behind a positioning decision, messaging architecture, naming a category, finding a beachhead, or \"work out how to market this\" \u2014 including \"positioning pipeline\". Rebuild of positioning-pipeline by DiologIR.",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -580,7 +580,7 @@
     {
       "name": "create-luke-content",
       "description": "Write anything in Luke Rhodes' voice, with a copywriting craft layer under the marketing route rather than a voice layer on its own. Routes a request to one of six personas (LinkedIn post and long-form article, marketing content, code review, Slack and chat, short-form, ADHD and book audience), draws the base voice from an evidence-anchored profile where every rule traces to a quoted sample, and gates the draft on a deterministic lint. The rebuild's subject is the marketing route: the predecessor gave LinkedIn a bundled engagement-research layer and gave marketing none, so its entire craft basis was a single consumer parenting-app release post, and B2B launch, landing and email copy came out voice-correct and structurally amateur. This version bundles a copywriting evidence base from a five-backend deep-research panel, rebuilds the marketing persona against it with artifact structures for announcements, landing pages, release notes and campaign email, and separates replicated findings from direct-response folklore so no rule is encoded on the strength of a famous name. It also ships the voice-lint.json the predecessor never had: without it the stylometric fingerprint comparison, the Australian-spelling check, the exclamation and emoji rations and the repeated-phrase allowlist were all dead code, and the self-narrating meta-labels the skill claimed to ban passed clean. Successor to create-luke-content by DiologIR, whose voice extraction it keeps intact.",
-      "version": "3.0.1",
+      "version": "3.1.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -591,7 +591,7 @@
     {
       "name": "visualization",
       "description": "Draw anything a reader has to look at to understand \u2014 39 editorial diagram types (architecture, flowchart, sequence, state, ER, timeline, swimlane, quadrant, radar, polar, loop, nested, tree, org chart, layer stack, Venn, pyramid, treemap, Sankey, fishbone, Wardley map, kanban, journey, deployment, dependency, UML class, story map, DB schema and more) and the quantitative chart forms (bar, line, area, scatter, bubble, beeswarm, dumbbell, slopegraph, bump, ridgeline, heatmap, stat tile, meter, hero figure) as one self-contained HTML file with inline SVG. The merge is the point: a diagram system that was strong on layout grammar had a five-colour series palette chosen by eye, and it fails a perceptual gate in both light and dark \u2014 five of five slots below the chroma floor, worst normal-vision \u0394E 10.3 against a floor of 15, which is five greys with a tint. This version routes the form from the data's job before colour, snaps a brand's own hue families to a passing palette by re-stepping and re-ordering them, and holds charts to zero-baseline, one-scale, area-by-area and disclosed-gap honesty rules the diagram side never needed. It also ships the gates: the predecessor cited twenty verifier scripts that existed only in its repository, so the installed agent doing the drawing could cite a check it could not run \u2014 twelve now ship inside the skill, run from the install against the file just written, and exit non-zero. Redraws .drawio or Mermaid sources at a chosen size and detail, onboards brand tokens from a website, and adds semantic patterns, callouts, accessible motion or hand-drawn styling. Successor to diagram-design by Cathryn Lavery, whose 39 layout grammars, six connector rules and import pipeline it keeps intact.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

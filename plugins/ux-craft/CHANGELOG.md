@@ -2,6 +2,10 @@
 
 Adds `persuade-conversion.md` for Persuade surfaces only: one offer, one audience, one action; first-viewport CTA visibility; proof beside claims; honest objection handling. Flow-shape variety now reads and records the project diversity ledger, and two evals cover both paths. Operate, Read, Experience, checkout, auth, and payment do not load the conversion layer.
 
+## 2.5.1 - 2026-09-01
+
+Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
+
 ## 2.4.0 - 2026-08-31
 
 Build mode names the category-default journey and varies it on one axis (`references/flow-shape-variety.md`) so two onboardings in a session are not the same 3-step wizard. Checkout, auth and payment still follow convention (NN8). The flow checklist reports the ledger.

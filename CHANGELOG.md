@@ -4,6 +4,42 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-01
+
+### Gemini support swept across 26 plugins: 5 new `gemini.md`, 24 refreshed
+
+A workflow ran the `geminify` Mode A procedure over every skill in this marketplace whose
+Gemini layer was missing or had fallen behind its `SKILL.md`. 68 skills carry a `SKILL.md`;
+63 already had a `gemini.md`, and of those, 24 predated their skill's last change by 1 to 8
+days. Those 24 plus the 5 with none were the work set. The other 39 were already current and
+were left alone rather than churned.
+
+The five that had none — `eli5`, `positioning`, `tailings`, `visualization`,
+`create-luke-content` — were worse off than "missing a file": each already carried the
+conditional `Running as a Gemini model?` pointer in its `SKILL.md`, aimed at a `gemini.md`
+that did not exist. A Gemini runner following that pointer found nothing and continued. Those
+five now resolve, and take a minor bump; the 24 refreshes take a patch.
+
+Every file was written by an agent that read the target `SKILL.md` and its references in full,
+ran `scan_skill.py --refs`, and looped `verify_quotes.py` to exit 0 — so each quoted vendor
+sentence is verbatim from Google's bundled corpus. `[docs]` claim counts per file run 14 to 28.
+Authors wrote only their own `gemini.md`: 29 files changed and no `SKILL.md` touched, verified
+against `git status`, because `install_pointer.py` writes this file and `marketplace.json` and
+29 agents editing one file corrupt it. Pointers and version bumps were applied serially
+afterwards.
+
+Each file was then graded by an independent auditor that re-ran the gate and checked ten of
+`geminify`'s own rules. **19 of 29 passed; 10 carry findings that are not yet fixed** — a
+miscounted lint-format set in `create-luke-content`, a worked example attributed to the wrong
+`SKILL.md` line, backticked "quotes" that paraphrase rather than quote, two files with no
+`unmeasured on this skill` list, and `ship-fleet` at 277 lines against the 150–250 target
+(down from 288, so improved rather than introduced). Those are queued, not resolved, and the
+files ship as an improvement on what was there rather than as finished work.
+
+One caveat on the whole sweep: no Gemini run of any of these new files has been observed. Their
+effect is reasoned from the corpus behind `geminify`, not measured, and that corpus is
+flash-tier only.
+
 ## 2026-08-31
 
 ### generate-investor-portal 1.3.0: a kind's props are claims, not fields

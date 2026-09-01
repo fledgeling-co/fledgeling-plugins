@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9.3 - 2026-09-01
+
+Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
+
 ## 1.9.2 - 2026-08-31
 
 Two retirement-entitlement fixes, both found on one project in one morning.

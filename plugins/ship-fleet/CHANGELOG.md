@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.9.2 - 2026-09-01
+
+Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
+
 ## 2.9.1 - 2026-08-30
 
 Every skill name written in a prompt or a cross-reference now carries its full
