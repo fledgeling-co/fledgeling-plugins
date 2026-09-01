@@ -19,6 +19,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
   task message seeds the child only when no intervening response item belongs to parent history.
 - **Unknown reviewer models fail closed.** T7 names the model-less call and exits 4 instead of
   borrowing a model observed later in the session.
+- **Unknown families also fail closed.** A nonempty but unrecognized running or lane model is
+  disclosed as uncheckable rather than silently treated as independent.
 - **Calls cannot disappear silently.** Stable one-based ordinals pair every custom or function
   call with its output; zero recognized activity and orphan calls or outputs fail closed.
 - **Repository evidence stays attributable.** Cross-reference probes distinguish accessed paths
