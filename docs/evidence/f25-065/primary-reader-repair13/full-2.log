@@ -1,0 +1,28 @@
+
+test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies.test_attributed_helper_requires_an_executable_later_reader_call) ... ok
+test_called_helpers_excluded_but_explicit_test_entries_retained (__main__.SwiftBodies.test_called_helpers_excluded_but_explicit_test_entries_retained) ... ok
+test_comments_and_literal_delimiters_are_not_calls_or_bodies (__main__.SwiftBodies.test_comments_and_literal_delimiters_are_not_calls_or_bodies) ... ok
+test_escaped_identifiers_and_protocol_requirements (__main__.SwiftBodies.test_escaped_identifiers_and_protocol_requirements) ... ok
+test_exact_call_scope_removes_only_that_occurrence_then_rechecks_earlier_calls (__main__.SwiftBodies.test_exact_call_scope_removes_only_that_occurrence_then_rechecks_earlier_calls) ... ok
+test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) ... ok
+test_following_reader_cannot_clear_a_blind_test (__main__.SwiftBodies.test_following_reader_cannot_clear_a_blind_test) ... ok
+test_generated_catalogue_matches_canonical_plugin_version (__main__.SwiftBodies.test_generated_catalogue_matches_canonical_plugin_version) ... ok
+test_generic_signature_attributes_defaults_and_typed_throws (__main__.SwiftBodies.test_generic_signature_attributes_defaults_and_typed_throws) ... ok
+test_nested_attributes_cannot_supply_parent_readers (__main__.SwiftBodies.test_nested_attributes_cannot_supply_parent_readers) ... ok
+test_nested_declarations_cannot_supply_parent_reader_or_mutation (__main__.SwiftBodies.test_nested_declarations_cannot_supply_parent_reader_or_mutation) ... ok
+test_ordinary_arithmetic_slash_is_not_rejected (__main__.SwiftBodies.test_ordinary_arithmetic_slash_is_not_rejected) ... ok
+test_original_four_controls_keep_their_meaning (__main__.SwiftBodies.test_original_four_controls_keep_their_meaning) ... ok
+test_other_languages_remain_on_their_existing_extractor (__main__.SwiftBodies.test_other_languages_remain_on_their_existing_extractor) ... ok
+test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable (__main__.SwiftBodies.test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable) ... ok
+test_public_cli_rejects_invalid_scope_configuration (__main__.SwiftBodies.test_public_cli_rejects_invalid_scope_configuration) ... ok
+test_reader_after_nested_declaration_stays_in_its_parent (__main__.SwiftBodies.test_reader_after_nested_declaration_stays_in_its_parent) ... ok
+test_scope_binds_target_and_caller_test_entry_posture (__main__.SwiftBodies.test_scope_binds_target_and_caller_test_entry_posture) ... ok
+test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity (__main__.SwiftBodies.test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity) ... ok
+test_scope_file_schema_and_reference_hashes_fail_closed (__main__.SwiftBodies.test_scope_file_schema_and_reference_hashes_fail_closed) ... ok
+test_unsupported_and_malformed_forms_are_explicit (__main__.SwiftBodies.test_unsupported_and_malformed_forms_are_explicit) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 2.593s
+
+OK
+campaign gate tests: 114 passed, 0 failed

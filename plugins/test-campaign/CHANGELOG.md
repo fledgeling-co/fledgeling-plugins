@@ -2,6 +2,40 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.16.2 — 2026-09-01
+
+Swift blind-pass findings can now carry explicit per-call scopes from a campaign's
+`blindScopeFile`. Each record binds one body and call occurrence plus reviewed producer
+or contract hashes. Only that call is removed before earlier mutators are reconsidered;
+stale, ambiguous, duplicate or unjustified records fail the gate. Reports count scoped
+failure sentinels, fixture/value calls, direct-output contracts and attributed helpers
+separately. Attributed helpers also bind the exact current caller body and helper-call
+fingerprint, so a helper cannot borrow an unrelated reader as its justification. Boolean
+schema integers and configured-but-falsy scope paths fail closed. A bound caller must itself
+contain an executable configured reader call after the named helper call: arbitrary identifier
+substrings, bare reader names, control conditions such as `if read {}`, enum-case patterns such as
+`.read(let x)`, and nested references such as `#selector(read(_:))` cannot justify attribution.
+Configured readers require parenthesized call syntax at a conservative statement, simple
+assignment, return or assertion-macro context. Swift function-reference placeholders such as
+`read(_:)` (including Unicode or escaped labels), accessor declarations such as `get {}`, and nested default arguments are refused. Target and caller records bind
+their current explicit-test posture. A helper call must be a direct, top-level parenthesized call;
+readers in its arguments are before the helper mutation and cannot count as later observations.
+Trailing-closure and nested control-flow helper calls are refused because lexical structure cannot
+prove whether or when they execute relative to the scoped mutation. Caller calls must remain
+executable after comments and literals are masked. A helper in a `return` or `throw` expression is
+also refused because no later statement in that caller can observe it. More conservatively, any
+earlier masked `return` or `throw` in the caller refuses helper attribution: bounded lexical analysis
+cannot prove whether a preceding nested terminal executes. No mutator name is
+excluded globally, unknown top-level/record fields fail the versioned schema, and raw candidate
+artifacts remain valid.
+
+Configured-reader credit is limited to the caller body's top lexical brace level. A reader merely
+stored inside an uninvoked closure does not justify attribution; ambiguous nested control and
+immediately-invoked closure bodies are conservatively refused.
+Readers inside conditional-compilation regions are also refused because this scanner does not
+evaluate the active Swift build configuration.
+Top-level `return` and `throw` also terminate later-reader credit.
+
 ## 0.16.1 — 2026-09-01
 
 Swift blind-pass candidates now use balanced function bodies. A following private

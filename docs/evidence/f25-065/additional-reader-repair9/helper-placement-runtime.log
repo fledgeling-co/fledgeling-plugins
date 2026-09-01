@@ -1,0 +1,9 @@
+docs/evidence/f25-065/additional-reader-repair9/helper-placement.swift:53:5: warning: code after 'return' will never be executed
+51 |     seed()
+52 |     return;
+53 |     _ = read()
+   |     `- warning: code after 'return' will never be executed
+54 | }
+55 | 
+compile_exit=0
+runtime_exit=0

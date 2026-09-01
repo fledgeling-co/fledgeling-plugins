@@ -1,0 +1,612 @@
+{
+  "verdict": "FAIL",
+  "reviewedHead": "de4de21e35d314cbefc155ab0016de222ca3fd59",
+  "retainedPriorFailures": [
+    "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+    "4c5ed872410051e0bfa5d3634a49d03f32efc014",
+    "78895b88a46510d893a699cb79ea789828f7509e",
+    "824e9aa0c891d7a61bbf663dc3ee93a9df821750",
+    "9b09eca75af7ae70b26841e705c73e3661aa69af",
+    "db6ded00ca8f6faa2ac8e5fd280b0c9e8b310071",
+    "66bb795908189830ffcf39067e9b46f6851ce879",
+    "49790b372ae2a5d57262d4d5d417d01d2c222d8e",
+    "a6dc3884a4a95c25b7e1d9ed96fe854a55d111b5",
+    "cbda7209143b30c44135f0227b8e6fb437169d04"
+  ],
+  "retainedPriorFailureUnchanged": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "sourceSHA256": "c394af625e90631d9b824d407cf19add41fc645ca5fb027c9448e02b85bfa275",
+  "blockingFalseGreen": {
+    "claim": "A helper accepted in return position loses the return terminator when later-reader search slices after the balanced helper call.",
+    "source": "private func seed() -> Int { store(); return 1 }\n@Test func measure() -> Int { return seed(); read() }",
+    "cliExit": 0
+  },
+  "boundaries": {
+    "unqualifiedParenthesizedReader": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "qualifiedParenthesizedHelperWithReader": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "readerBefore": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "commentOnlyReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "stringOnlyReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "identifierSubstringOnly": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "bareReaderNameOnly": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "readerShapedControlCondition": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "nestedReaderDeclaration": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "enumReaderPattern": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "selectorReaderReference": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "assignedReaderFunctionReference": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "multipleLabelReaderFunctionReference": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "assignedLabeledReaderCall": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "assignedMultipleLabeledReaderCall": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "escapedLabelReaderFunctionReference": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "localGetterDeclaration": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "sameLineDefaultArgument": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "splitLineDefaultArgument": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "splitLineReaderDeclaration": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "unicodeLabelReaderFunctionReference": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "storedClosureReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "unreachableReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "immediatelyInvokedClosureReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "closureCaptureReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "readerInsideHelperTrailingClosure": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "autoclosureReaderArgument": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "trailingHelperInvokesAfterMutation": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "trailingHelperInvokesBeforeMutation": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "balancedHelperArgumentsThenReader": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "helperInsideStoredClosure": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "helperInsideInactiveDirective": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed caller scope does not bind one executable named helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "readerAfterReturn": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "helperAtReturnThenReader": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "deferReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "loopReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "inactiveDirectiveReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    }
+  },
+  "strictSchemaCases": {
+    "configuredFalse": 1,
+    "configuredZero": 1,
+    "configuredObject": 1,
+    "configuredArray": 1,
+    "boolVersion": 1,
+    "boolCallOffset": 1,
+    "integerTestEntry": 1,
+    "unknownTopField": 1,
+    "unknownRowField": 1,
+    "emptyReferenceHash": 1,
+    "unknownClassification": 1,
+    "staleBody": 1,
+    "staleCallFingerprint": 1,
+    "staleCallOffset": 1,
+    "unmatchedFile": 1,
+    "duplicateScope": 1
+  },
+  "actualSourceMutants": [
+    {
+      "name": "drop-call-syntax",
+      "failedAsRequired": true,
+      "assertion": "bare reader name accepted as reader call"
+    },
+    {
+      "name": "allow-function-reference-placeholder",
+      "failedAsRequired": true,
+      "assertion": "function-reference placeholder accepted as invocation"
+    },
+    {
+      "name": "allow-reader-trailing-closure",
+      "failedAsRequired": true,
+      "assertion": "reader trailing closure accepted after restoring withdrawn shape"
+    },
+    {
+      "name": "allow-nested-closure-reader",
+      "failedAsRequired": true,
+      "assertion": "stored closure reader accepted after removing depth guard"
+    },
+    {
+      "name": "allow-conditional-compilation-reader",
+      "failedAsRequired": true,
+      "assertion": "conditional-compilation reader accepted after removing directive guard"
+    },
+    {
+      "name": "skip-helper-execution-context",
+      "failedAsRequired": true,
+      "assertion": "helperInsideStoredClosure accepted"
+    },
+    {
+      "name": "scan-helper-arguments-as-later-readers",
+      "failedAsRequired": true,
+      "assertion": "autoclosureReaderArgument accepted"
+    },
+    {
+      "name": "allow-top-level-terminator-reader",
+      "failedAsRequired": true,
+      "assertion": "readerAfterReturn accepted"
+    },
+    {
+      "name": "drop-invocation-context",
+      "failedAsRequired": true,
+      "assertion": "enum pattern accepted after removing invocation context"
+    }
+  ],
+  "discardedRedundantGuardAttempt": {
+    "allRejected": false,
+    "survivors": 3
+  },
+  "sourceRestored": true
+}

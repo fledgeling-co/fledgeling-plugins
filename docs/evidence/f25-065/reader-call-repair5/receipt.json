@@ -1,0 +1,61 @@
+{
+  "item": "F25-065",
+  "slice": "upstream invocation-context reader repair author",
+  "status": "repair complete; fresh primary and distinct additional review owed",
+  "base": "824e9aa0c891d7a61bbf663dc3ee93a9df821750",
+  "retainedPrimaryFailures": [
+    "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+    "4c5ed872410051e0bfa5d3634a49d03f32efc014",
+    "78895b88a46510d893a699cb79ea789828f7509e",
+    "824e9aa0c891d7a61bbf663dc3ee93a9df821750"
+  ],
+  "scannerSHA256": "10d73e33fb61d46f9b2289a1ec807ec974e7f0b958c16ba1968c01a044128130",
+  "readerPosture": "configured reader call syntax at a conservative statement, assignment, return, try, await or assertion-macro context",
+  "closedFalseGreen": "seed(); let selector = #selector(read(_:))",
+  "rejectedIntermediate": "reader-call-repair4: overlapping guards failed three source mutations and receive no credit",
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "25ec2c02039d21753b1fa2b4f04a3b642c2f7d27d33a2f72ebb69412b4f014e0"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "2acd72a281817382d0b6f4d452393d5f5fb799fc6d236d1a9769ae91692a8537"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "222d7eb843370b869ce66e2658cf39747f560b3468054acb4b9e95db6f2d92a0"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "24401581f7f8448fde77d2bf98fa9500c04bccd6f4f183cd6e3b6465db872581"
+    }
+  ],
+  "mutants": {
+    "count": 2,
+    "allRejected": true,
+    "restored": true,
+    "path": "mutations.json",
+    "sha256": "d272a6b2a6322df869755f9f6565326948341d76e914881b5e92a1537ef2596a"
+  },
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "exit": 1,
+    "invalidScopes": 0,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "limitations": "Lexical call syntax plus conservative invocation context only; nested calls can false-negative. No receiver resolution, reader independence or output causality. No install, publish, cache edit, push, merge, native app, provider, Keychain or live campaign."
+}

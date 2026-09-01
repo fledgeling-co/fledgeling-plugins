@@ -1,0 +1,171 @@
+{
+  "verdict": "FAIL",
+  "reviewedHead": "2de5a2e6d0ee8282232e3fd13280653b729ced62",
+  "retainedPriorFailure": "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+  "retainedPriorFailureUnchanged": true,
+  "sourceSHA256": "80f86e148dfe4c000102023a954fb89a7321657470ea93b232f402d95179e29a",
+  "blockingFalseGreen": {
+    "claim": "Trailing-closure reader syntax also matches a Swift control-statement condition and accepts a caller with no reader invocation.",
+    "source": "private func seed() { store() }\n@Test func measure() { seed(); let read = false; if read { print(\"x\") } }",
+    "cliExit": 0
+  },
+  "boundaries": {
+    "qualifiedParenthesizedReader": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "qualifiedTrailingClosureReader": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "readerBefore": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "commentOnlyReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "stringOnlyReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "identifierSubstringOnly": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "bareReaderNameOnly": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "readerShapedControlCondition": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    }
+  },
+  "strictSchemaCases": {
+    "configuredFalse": 1,
+    "configuredZero": 1,
+    "configuredObject": 1,
+    "configuredArray": 1,
+    "boolVersion": 1,
+    "boolCallOffset": 1,
+    "integerTestEntry": 1,
+    "unknownTopField": 1,
+    "unknownRowField": 1,
+    "emptyReferenceHash": 1,
+    "unknownClassification": 1,
+    "staleBody": 1,
+    "staleCallFingerprint": 1,
+    "staleCallOffset": 1,
+    "unmatchedFile": 1,
+    "duplicateScope": 1
+  },
+  "actualSourceMutants": [
+    {
+      "name": "drop-reader-identifier-boundary",
+      "failedAsRequired": true,
+      "assertion": "identifier substring accepted as reader call"
+    },
+    {
+      "name": "drop-reader-call-syntax",
+      "failedAsRequired": true,
+      "assertion": "bare reader name accepted as reader call"
+    },
+    {
+      "name": "suppress-whole-body-after-one-scope",
+      "failedAsRequired": true,
+      "assertion": "earlier write was suppressed with the scoped record"
+    },
+    {
+      "name": "accept-comment-only-caller-spelling",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    },
+    {
+      "name": "ignore-target-test-entry-posture",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    },
+    {
+      "name": "globally-suppress-four-verbs",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    }
+  ],
+  "sourceRestored": true
+}

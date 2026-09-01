@@ -1,0 +1,18 @@
+docs/evidence/f25-065/additional-reader-repair14/conservative-boundaries-runtime.swift:34:5: warning: will never be executed
+32 | private func doReturn() {
+33 |     do { return }
+34 |     seed()
+   |     `- warning: will never be executed
+35 |     read()
+36 | }
+
+docs/evidence/f25-065/additional-reader-repair14/conservative-boundaries-runtime.swift:40:5: warning: will never be executed
+38 | private func doThrow() throws {
+39 |     do { throw Failure.expected }
+40 |     seed()
+   |     `- warning: will never be executed
+41 |     read()
+42 | }
+compile_exit=0
+stores=3 reads=3
+runtime_exit=0

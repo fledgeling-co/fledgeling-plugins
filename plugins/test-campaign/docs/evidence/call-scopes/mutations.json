@@ -1,0 +1,31 @@
+{
+  "sourceSHA256": "9d79120884b50fc759c61825b4ea4da540ef69d8498ba1ee672fc1e86e82a45e",
+  "sourceRestored": true,
+  "mutants": [
+    {
+      "name": "skip-call-fingerprint",
+      "compileOrLoadSucceeded": true,
+      "exit": 1,
+      "failedAssertions": true,
+      "log": "plugins/test-campaign/docs/evidence/call-scopes/skip-call-fingerprint.log",
+      "sha256": "638cc30bf50d909e5e3fbf5c5a12cd751ab4655bc03e6a095d2173104f292517"
+    },
+    {
+      "name": "suppress-whole-body",
+      "compileOrLoadSucceeded": true,
+      "exit": 1,
+      "failedAssertions": true,
+      "log": "plugins/test-campaign/docs/evidence/call-scopes/suppress-whole-body.log",
+      "sha256": "872d6503d02acddd1b8ecd2981a516ff2e878fd90c0b1a5aa2a849d7b7f6b2a7"
+    },
+    {
+      "name": "global-record-exclusion",
+      "compileOrLoadSucceeded": true,
+      "exit": 1,
+      "failedAssertions": true,
+      "log": "plugins/test-campaign/docs/evidence/call-scopes/global-record-exclusion.log",
+      "sha256": "72b748d6c0319708674c504cdb424268f2b1c4163c12d6282d4373b0c30bc7c5"
+    }
+  ],
+  "scope": "Actual scanner source in disposable copies; assertion failures required, import/syntax failures earn no credit."
+}

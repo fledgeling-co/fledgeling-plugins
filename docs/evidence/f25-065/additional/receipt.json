@@ -1,0 +1,47 @@
+{
+  "verdict": "PASS",
+  "reviewedHead": "68c0c5b74b0d143b8738fc7e1c4283a0e2c89b6c",
+  "focusedRuns": [
+    {
+      "passed": 20,
+      "failed": 0,
+      "log": "focused-1.log",
+      "sha256": "f7b68e28b87e465404290313e59b166b7aa3a82def340b1abc83b5f87c531baf"
+    },
+    {
+      "passed": 20,
+      "failed": 0,
+      "log": "focused-2.log",
+      "sha256": "084fbf8ad2c0d18a67ccde5bdd20e6530ca1eb8b1ce9acd09a2d6909331d2a13"
+    }
+  ],
+  "fullRuns": [
+    {
+      "passed": 114,
+      "failed": 0,
+      "log": "full-1.log",
+      "sha256": "d71fb5868a8dc9af3f894f7e69fa8b9a162012dd3bc1e637b3cb4f96e76d008d"
+    },
+    {
+      "passed": 114,
+      "failed": 0,
+      "log": "full-2.log",
+      "sha256": "1317c783907982019a40e0e9438fb3c6a3735ae4d6cacd8a77acb5d8296bcc70"
+    }
+  ],
+  "catalogue": {
+    "exitCode": 0,
+    "versions": [
+      "0.16.2",
+      "0.16.2",
+      "0.16.2"
+    ],
+    "log": "catalogue.log",
+    "sha256": "70189cd776ddb5d0b95211c021e0e4a4768f2753c507f0365e5df62d9e157c3a"
+  },
+  "probe": "probe.json",
+  "sourceRestored": true,
+  "implementationFilesChangedByReview": [],
+  "limitations": "Lexical source binding only; receiver identity, type resolution, effect causality and reader independence remain human-reviewed limitations. No install, publish, cache mutation, native app, provider, Keychain or Perch corpus application.",
+  "reviewIndependence": "Distinct additional same-family degraded review. Reused unrelated Perch F25-063/F25-066/F25-057/F25-034/F25-064/F25-067 context; no out-of-family lane."
+}

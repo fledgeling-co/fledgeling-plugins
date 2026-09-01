@@ -1,0 +1,6 @@
+reviewed-head 2b186f8b92c2f87544b3f244289cee15a5bc62d6
+versions 0.16.2 0.16.2 0.16.2
+catalogue-sha256 5a8e81704842ce2a8b65e1474beea889f3de6642217cff55b2c895a1b934452a
+catalogue-row-count 53
+focused/full permanent catalogue parity tests: passed in both focused and both full logs
+catalogue regeneration not rerun: isolated archive lacks yaml and review prohibited installs/cache mutation

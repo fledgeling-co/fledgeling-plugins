@@ -1,0 +1,5 @@
+reviewed implementation: 6f8013101300cc08da0b51d64f58755eb81fa248
+plugin.json version: 0.16.2
+root .claude-plugin/marketplace.json test-campaign version: 0.16.2
+catalogue regeneration: not run because the isolated archive has no PyYAML and dependency installation/cache mutation was prohibited
+permanent catalogue parity fixture: covered by full-1.log and full-2.log (114/114 each)

@@ -1,0 +1,9 @@
+# F25-065 accessor reader repair
+
+Fresh primary `db6ded00` is an operative FAIL against `1e6ed483`: valid Swift `get {}` was accepted as a trailing-closure reader even though it only declares a computed-property accessor. Configured readers now require parenthesized call syntax. This does not change separately bound helper calls, which continue to accept Swift trailing closures.
+
+A simple assignment context remains accepted for real calls, while a valid nested function default argument is pinned as no parent observation. Four actual scanner mutants remove call syntax, allow label-only function references, restore configured-reader trailing closures, or remove invocation context; each fails the permanent direct/public-CLI fixture and restores the source exactly. Focused 21-test and full 114-test gates pass twice. The Perch corpus keeps 108 valid scopes, four honest blind bodies, and uncensused REQ-056.
+
+CP §7 self-review covered reader/helper separation, accessor and default-argument declarations, assigned calls, prior cumulative false greens, mutation restoration, documentation, and unchanged version surfaces. The scanner remains a bounded lexical proof and does not establish receiver identity, reader independence, or output causality. No install, publication, cache edit, push, Perch floor/credit rewrite, native app, provider, Keychain or live call occurred. Fresh primary and distinct additional reviews are owed.
+
+Superseded status: fresh reviews `66bb7959` and `8f5e68ff` found retained Unicode-label and nested-reader false greens; reader-call-repair8 is the operative repair.

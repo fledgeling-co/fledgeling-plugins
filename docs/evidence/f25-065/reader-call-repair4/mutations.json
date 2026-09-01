@@ -1,0 +1,44 @@
+{
+  "sourceSHA256": "8ec1bc0b286599b154ca21ef8df4bb60c5c0f36f65ee18d14ad4c90d32533614",
+  "restoredSHA256": "8ec1bc0b286599b154ca21ef8df4bb60c5c0f36f65ee18d14ad4c90d32533614",
+  "restored": true,
+  "cacheIsolation": "unique temporary PYTHONPYCACHEPREFIX per mutant",
+  "mutants": [
+    {
+      "name": "drop-identifier-boundary",
+      "exit": 0,
+      "failedAsRequired": false,
+      "stdout": "",
+      "stderr": "test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies.test_attributed_helper_requires_an_executable_later_reader_call) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.534s\n\nOK\n"
+    },
+    {
+      "name": "allow-qualified-reader-shapes",
+      "exit": 0,
+      "failedAsRequired": false,
+      "stdout": "",
+      "stderr": "test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies.test_attributed_helper_requires_an_executable_later_reader_call) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.536s\n\nOK\n"
+    },
+    {
+      "name": "drop-parenthesized-call-syntax",
+      "exit": 1,
+      "failedAsRequired": true,
+      "stdout": "",
+      "stderr": "test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies.test_attributed_helper_requires_an_executable_later_reader_call) ... \n  test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies.test_attributed_helper_requires_an_executable_later_reader_call) (source='private func seed() { write() }\\n@Test func measure() { seed(); read }') ... FAIL\n\n======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies.test_attributed_helper_requires_an_executable_later_reader_call) (source='private func seed() { write() }\\n@Test func measure() { seed(); read }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/lukerhodes/Dev/perch/.worktrees/f25-065-upstream/plugins/test-campaign/tests/test_swift_bodies.py\", line 187, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any('no read after' in finding\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.455s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "allow-trailing-closure-reader",
+      "exit": 0,
+      "failedAsRequired": false,
+      "stdout": "",
+      "stderr": "test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies.test_attributed_helper_requires_an_executable_later_reader_call) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.414s\n\nOK\n"
+    },
+    {
+      "name": "drop-invocation-context",
+      "exit": 1,
+      "failedAsRequired": true,
+      "stdout": "",
+      "stderr": "test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies.test_attributed_helper_requires_an_executable_later_reader_call) ... \n  test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies.test_attributed_helper_requires_an_executable_later_reader_call) (source='private func seed() { write() }\\n@Test func measure() { seed(); let selector = #selector(read(_:)) }') ... FAIL\n\n======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies.test_attributed_helper_requires_an_executable_later_reader_call) (source='private func seed() { write() }\\n@Test func measure() { seed(); let selector = #selector(read(_:)) }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/lukerhodes/Dev/perch/.worktrees/f25-065-upstream/plugins/test-campaign/tests/test_swift_bodies.py\", line 187, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any('no read after' in finding\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.362s\n\nFAILED (failures=1)\n"
+    }
+  ],
+  "allRejected": false
+}

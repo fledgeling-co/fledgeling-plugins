@@ -1,0 +1,15 @@
+docs/evidence/f25-065/primary-reader-repair12/multiline-return-throw.swift:8:3: warning: code after 'return' will never be executed
+ 6 |   return /* terminal
+ 7 |   */ seedValue()
+ 8 |   read()
+   |   `- warning: code after 'return' will never be executed
+ 9 | }
+10 | func throwing() throws {
+
+docs/evidence/f25-065/primary-reader-repair12/multiline-return-throw.swift:13:3: warning: code after 'throw' will never be executed
+11 |   throw /* terminal
+12 |   */ seedError()
+13 |   read()
+   |   `- warning: code after 'throw' will never be executed
+14 | }
+15 | print(returning())

@@ -1,0 +1,74 @@
+{
+  "sourceSHA256": "47354299b1aac7cb96cfa0b08cb8ea142d288e42a66b7d72d29ddc879b2990a5",
+  "restoredSHA256": "47354299b1aac7cb96cfa0b08cb8ea142d288e42a66b7d72d29ddc879b2990a5",
+  "restored": true,
+  "mutants": [
+    {
+      "name": "drop-call-syntax",
+      "exit": 1,
+      "rejected": true,
+      "tail": "                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 1.448s\n\nFAILED (failures=5)"
+    },
+    {
+      "name": "allow-function-reference-placeholder",
+      "exit": 1,
+      "rejected": true,
+      "tail": "                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 1.572s\n\nFAILED (failures=3)"
+    },
+    {
+      "name": "allow-reader-trailing-closure",
+      "exit": 1,
+      "rejected": true,
+      "tail": "                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 1.550s\n\nFAILED (failures=2)"
+    },
+    {
+      "name": "allow-nested-reader",
+      "exit": 1,
+      "rejected": true,
+      "tail": "                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 1.319s\n\nFAILED (failures=7)"
+    },
+    {
+      "name": "allow-conditional-reader",
+      "exit": 1,
+      "rejected": true,
+      "tail": "                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 1.532s\n\nFAILED (failures=3)"
+    },
+    {
+      "name": "skip-helper-execution-context",
+      "exit": 1,
+      "rejected": true,
+      "tail": "                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 1.251s\n\nFAILED (failures=7)"
+    },
+    {
+      "name": "allow-return-position-helper",
+      "exit": 1,
+      "rejected": true,
+      "tail": "                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 1.612s\n\nFAILED (failures=1)"
+    },
+    {
+      "name": "allow-parenthesized-trailing-helper",
+      "exit": 1,
+      "rejected": true,
+      "tail": "                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 1.712s\n\nFAILED (failures=1)"
+    },
+    {
+      "name": "scan-helper-arguments-as-later-readers",
+      "exit": 1,
+      "rejected": true,
+      "tail": "                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 1.596s\n\nFAILED (failures=1)"
+    },
+    {
+      "name": "allow-top-level-terminator-reader",
+      "exit": 1,
+      "rejected": true,
+      "tail": "                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 1.588s\n\nFAILED (failures=1)"
+    },
+    {
+      "name": "drop-invocation-context",
+      "exit": 1,
+      "rejected": true,
+      "tail": "                        for finding in direct['scopeFindings']))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 1.322s\n\nFAILED (failures=7)"
+    }
+  ],
+  "allRejected": true
+}

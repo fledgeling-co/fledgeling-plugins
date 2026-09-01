@@ -1,0 +1,60 @@
+{
+  "item": "F25-065",
+  "slice": "upstream enum-pattern reader repair author",
+  "status": "repair complete; fresh primary and distinct additional review owed",
+  "base": "78895b88a46510d893a699cb79ea789828f7509e",
+  "retainedPrimaryFailures": [
+    "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+    "4c5ed872410051e0bfa5d3634a49d03f32efc014",
+    "78895b88a46510d893a699cb79ea789828f7509e"
+  ],
+  "scannerSHA256": "01d2f39b7e0eb14524db78356a690d9a699f95de559446989a54c3986b1656ae",
+  "readerPosture": "unqualified configured reader identifier at a boundary followed by parenthesized call syntax",
+  "helperCallerPosture": "qualified or unqualified parenthesized and Swift trailing-closure helper-call bindings remain accepted",
+  "closedFalseGreen": "seed(); switch value { case .read(let x): print(x); default: break }",
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "47798ab8bd568e25dc15e3faa21cc412c3a637951f628087a9b82c800747cfab"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "26174389a1ed129aa0e080788371dba769928f6232f0034686171c4955a8e1fb"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "761b04207ece14fd4626e1242d51d386f2ace77daad4c127f6b5a255fa3e5a09"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "bb11dbfdb1e33045232375e974fba19a075baadb036f1c3d457208c06a92502b"
+    }
+  ],
+  "mutants": {
+    "count": 4,
+    "allRejected": true,
+    "restored": true,
+    "path": "mutations.json",
+    "sha256": "eb0bb5b4137f82351557cb5d9af29f4fb1f0bde0b617fdedecdc4116b814c456"
+  },
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "exit": 1,
+    "invalidScopes": 0,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "limitations": "Lexical unqualified parenthesized reader-call validation only; no receiver resolution, reader independence or output causality. No install, publish, cache edit, push, merge, native app, provider, Keychain or live campaign."
+}

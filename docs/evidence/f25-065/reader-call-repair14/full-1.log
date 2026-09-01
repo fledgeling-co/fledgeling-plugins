@@ -1,0 +1,142 @@
+ok    an empty campaign is not a passing one
+ok    a -glass lane with no proof blocks
+ok    the legacy visual rung blocks
+ok    a capture that is not an image blocks
+ok    a 1x1 placeholder capture blocks
+ok    a zero-byte capture blocks
+ok    one artifact for two cases blocks
+ok    a pixel claim with no channel blocks
+ok    inconclusive holds the gate shut
+ok    blocked holds the gate shut
+ok    the resolved campaign clears
+ok    unarming a case fails the ratchet
+ok    lowering the ratchet without a reason is refused
+ok    lowering it with a reason is allowed and recorded
+ok    'requirement' is read as 'req'
+ok    interactive-glass on non-glass lane blocks
+ok    interactive-glass on glass lane clears and counts as effect
+ok    cannot-attach for a missing signed app is refused
+ok    cannot-attach 'glass stays closed' is refused
+ok    a missing --artifact path tells you to build it
+ok    cannot-attach for a missing interactive desktop is recorded
+ok    a shot with no capture manifest is unsourced
+ok    a manifest naming each target clears
+ok    swapping two subjects turns the tie pass red
+ok    seed-swap restores the manifest it borrowed
+ok    a target that is not the subject's route is untied
+ok    a source-file route names the on-glass channel as the remedy
+ok    two subjects sharing one image fails
+ok    a declared share passes and prints
+ok    check reports the wall's distinct-image count
+ok    attach-shots refuses a write no capture manifest corroborates
+ok    --filename-only writes, and stamps the weakness into the inventory
+ok    check blocks on a filename-only binding
+ok    an observed external effect with no witness blocks
+ok    the same requirement recorded vacuous clears
+ok    an effect-witness claim with no recorder blocks
+ok    a witness that counted nothing blocks
+ok    a counted, recorded witness clears
+ok    a reported external effect is not counted as witnessed
+ok    and it is named as claimed-but-unwitnessed
+ok    a selective run prints the effect census too
+ok    an unrecognised effect class blocks rather than vanishing
+ok    correcting it to a real class clears
+ok    a bogus requirement evidence class is refused
+ok    a bogus requirement effect class is refused
+ok    a declared effect with no provider is uncensused
+ok    naming the provider clears the census
+ok    an undeclared effect named in the text is unclassed
+ok    --seed-strengthen turns a strengthened constraint red
+ok    --seed-strengthen restores the registry byte-identically
+ok    a mutate-and-never-read test is blind
+ok    reading the observable afterwards clears the blind pass
+ok    a missing test root is skipped out loud
+ok    a mutator does not fire inside a longer identifier
+ok    the same mutator still fires on a real method call
+ok    a helper its callers use is not counted as a test
+ok    a reader the defaults do not know reads as blind
+ok    the campaign's declared vocabulary is read and reported
+ok    strict-check counts effect-witness as an effect rung
+ok    a truncated list carries its denominator
+ok    the cap still caps
+ok    a complete list says it is complete
+ok    source-analysis is a rung, counted apart from the product ladder
+ok    an external effect cannot rest on source analysis alone
+ok    a source-analysis pass owes a denominator
+ok    the same campaign clears once the denominator is back
+ok    source-analysis buys no effect credit and is off the ladder
+ok    with no source root the provider resolution is not-checked out loud
+ok    a provider naming a file and a symbol that do not exist is a finding
+ok    the provider that resolves is not reported
+ok    writing the provider it named clears the census
+ok    a provider that exists only in the test tree does not resolve
+ok    a one-sided share declaration does not authorise the duplicate
+ok    a share with no recorded reason is a duplicate with a label on it
+ok    a declaration nothing outside it corroborates does not clear
+ok    a corroborated, reasoned, mutual share clears and prints
+ok    an image on disk nothing publishes is a finding
+ok    an image declared unpublished with a reason clears and prints
+ok    a manifest entry without a reason is not the escape
+ok    a ratchet of 0 is refused outright
+ok    a judged capture earns a ratchet the gate can hold
+ok    campaign.json declares the corpus and the blind pass runs on it
+ok    a vocabulary that does not fit the corpus says so instead of counting
+ok    a vocabulary that fits its corpus still produces the finding
+
+ok    a provider whose path is absent is not resolved by its own description
+ok    a provider naming a module directory resolves
+ok    the prose census prints its own denominator
+ok    a bare dangling provider is still a finding without a description
+ok    a surface whose declared controls nothing actuates does not clear
+ok    the control census prints its own denominator
+ok    a below-outcome case does not actuate anything
+ok    an effect-rung case actuating every declared control clears
+ok    an actuation naming an undeclared control does not clear
+ok    removing the stray actuation clears it again
+ok    two destinations of one shell publishing one image do not clear
+ok    a declared share does not excuse two destinations of one menu
+ok    distinct destination renders clear
+ok    a destination no case reaches does not clear
+ok    a lane with no effect-rung pass is reported on a clear run
+ok    the blind pass sees arrow-style it/test blocks
+ok    zero recognised blocks reads as not measured, not as clean
+ok    a critical journey not cut at every boundary does not clear
+ok    the journey ledger prints its boundary denominator
+ok    cutting at every boundary clears it
+ok    an unrecognised boundary name does not clear
+ok    removing it clears again
+ok    a differential claim with no change-intent manifest does not clear
+ok    declaring the manifest clears it
+ok    a journey no case drives does not clear
+ok    an in-tree pass does not satisfy a live-glass requirement
+ok    the plane census prints what evidence was checked against
+ok    reaching the declared plane clears it
+ok    an unrecognised plane is refused at add
+test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies.test_attributed_helper_requires_an_executable_later_reader_call) ... ok
+test_called_helpers_excluded_but_explicit_test_entries_retained (__main__.SwiftBodies.test_called_helpers_excluded_but_explicit_test_entries_retained) ... ok
+test_comments_and_literal_delimiters_are_not_calls_or_bodies (__main__.SwiftBodies.test_comments_and_literal_delimiters_are_not_calls_or_bodies) ... ok
+test_escaped_identifiers_and_protocol_requirements (__main__.SwiftBodies.test_escaped_identifiers_and_protocol_requirements) ... ok
+test_exact_call_scope_removes_only_that_occurrence_then_rechecks_earlier_calls (__main__.SwiftBodies.test_exact_call_scope_removes_only_that_occurrence_then_rechecks_earlier_calls) ... ok
+test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) ... ok
+test_following_reader_cannot_clear_a_blind_test (__main__.SwiftBodies.test_following_reader_cannot_clear_a_blind_test) ... ok
+test_generated_catalogue_matches_canonical_plugin_version (__main__.SwiftBodies.test_generated_catalogue_matches_canonical_plugin_version) ... ok
+test_generic_signature_attributes_defaults_and_typed_throws (__main__.SwiftBodies.test_generic_signature_attributes_defaults_and_typed_throws) ... ok
+test_nested_attributes_cannot_supply_parent_readers (__main__.SwiftBodies.test_nested_attributes_cannot_supply_parent_readers) ... ok
+test_nested_declarations_cannot_supply_parent_reader_or_mutation (__main__.SwiftBodies.test_nested_declarations_cannot_supply_parent_reader_or_mutation) ... ok
+test_ordinary_arithmetic_slash_is_not_rejected (__main__.SwiftBodies.test_ordinary_arithmetic_slash_is_not_rejected) ... ok
+test_original_four_controls_keep_their_meaning (__main__.SwiftBodies.test_original_four_controls_keep_their_meaning) ... ok
+test_other_languages_remain_on_their_existing_extractor (__main__.SwiftBodies.test_other_languages_remain_on_their_existing_extractor) ... ok
+test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable (__main__.SwiftBodies.test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable) ... ok
+test_public_cli_rejects_invalid_scope_configuration (__main__.SwiftBodies.test_public_cli_rejects_invalid_scope_configuration) ... ok
+test_reader_after_nested_declaration_stays_in_its_parent (__main__.SwiftBodies.test_reader_after_nested_declaration_stays_in_its_parent) ... ok
+test_scope_binds_target_and_caller_test_entry_posture (__main__.SwiftBodies.test_scope_binds_target_and_caller_test_entry_posture) ... ok
+test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity (__main__.SwiftBodies.test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity) ... ok
+test_scope_file_schema_and_reference_hashes_fail_closed (__main__.SwiftBodies.test_scope_file_schema_and_reference_hashes_fail_closed) ... ok
+test_unsupported_and_malformed_forms_are_explicit (__main__.SwiftBodies.test_unsupported_and_malformed_forms_are_explicit) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 2.570s
+
+OK
+ok    Swift lexical/body and public CLI fixtures
+campaign gate tests: 114 passed, 0 failed

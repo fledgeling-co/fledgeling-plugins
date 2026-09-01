@@ -1,0 +1,86 @@
+[
+  {
+    "name": "boolean-schema",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 3,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/boolean-schema.log"
+  },
+  {
+    "name": "falsy-scope",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/falsy-scope.log"
+  },
+  {
+    "name": "unbound-helper-caller",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/unbound-helper-caller.log"
+  },
+  {
+    "name": "stale-catalogue-version",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/stale-catalogue-version.log"
+  },
+  {
+    "name": "blind-bound-caller",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/blind-bound-caller.log"
+  },
+  {
+    "name": "drop-target-test-entry",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/drop-target-test-entry.log"
+  },
+  {
+    "name": "drop-caller-test-entry",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/drop-caller-test-entry.log"
+  },
+  {
+    "name": "drop-trailing-closure-caller",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/drop-trailing-closure-caller.log"
+  },
+  {
+    "name": "drop-test-entry-schema",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/drop-test-entry-schema.log"
+  },
+  {
+    "name": "nonexecutable-caller-spelling",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/nonexecutable-caller-spelling.log"
+  },
+  {
+    "name": "allow-top-level-schema-extras",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/allow-top-level-schema-extras.log"
+  },
+  {
+    "name": "allow-record-schema-extras",
+    "exitCode": 1,
+    "failedAsRequired": true,
+    "replacements": 1,
+    "log": "plugins/test-campaign/docs/evidence/call-scopes/allow-record-schema-extras.log"
+  }
+]

@@ -1,0 +1,290 @@
+{
+  "item": "F25-065",
+  "slice": "upstream executable-helper repair fresh primary",
+  "verdict": "FAIL",
+  "reviewedHead": "6f8013101300cc08da0b51d64f58755eb81fa248",
+  "sameFamilyDegraded": true,
+  "contextDisclosure": "Reviewer performed repeated related primary failures and reused unrelated context; this review is same-family degraded and makes no out-of-family claim.",
+  "blockingFalseGreen": {
+    "claim": "A helper's direct closure invocation can occur before the scoped mutation, so invocation anywhere in the helper body does not prove a later observation.",
+    "source": "private func seed(_ body: () -> Void) { body(); store() }\n@Test func measure() { seed { read() } }",
+    "cliExit": 0
+  },
+  "compiledHelperOrder": {
+    "exit": 0,
+    "source": "helper-order-valid.swift",
+    "sourceSHA256": "4060603247979ece9ff6d7f87d463ffc7cb10bff24522b3bea2213ede07e510b",
+    "log": "helper-order-typecheck.log",
+    "logSHA256": "19eaf43821a7660ec323a87c8457bf74823beb296c39f5e01aa8a683aa50f061"
+  },
+  "publicCLIBoundaries": {
+    "unqualifiedParenthesizedReader": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "qualifiedParenthesizedHelperWithReader": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "readerBefore": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "commentOnlyReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "stringOnlyReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "identifierSubstringOnly": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "bareReaderNameOnly": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "readerShapedControlCondition": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "nestedReaderDeclaration": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "enumReaderPattern": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "selectorReaderReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "assignedReaderFunctionReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "multipleLabelReaderFunctionReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "assignedLabeledReaderCall": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "assignedMultipleLabeledReaderCall": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "escapedLabelReaderFunctionReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "localGetterDeclaration": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "sameLineDefaultArgument": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "splitLineDefaultArgument": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "splitLineReaderDeclaration": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "unicodeLabelReaderFunctionReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "storedClosureReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "unreachableReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "immediatelyInvokedClosureReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "closureCaptureReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "readerInsideHelperTrailingClosure": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "autoclosureReaderArgument": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "trailingHelperInvokesAfterMutation": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "trailingHelperInvokesBeforeMutation": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "helperInsideStoredClosure": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "helperInsideInactiveDirective": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "readerAfterReturn": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "deferReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "loopReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "inactiveDirectiveReader": {
+      "exit": 1,
+      "invalidScope": true
+    }
+  },
+  "strictSchemaCases": {
+    "configuredFalse": 1,
+    "configuredZero": 1,
+    "configuredObject": 1,
+    "configuredArray": 1,
+    "boolVersion": 1,
+    "boolCallOffset": 1,
+    "integerTestEntry": 1,
+    "unknownTopField": 1,
+    "unknownRowField": 1,
+    "emptyReferenceHash": 1,
+    "unknownClassification": 1,
+    "staleBody": 1,
+    "staleCallFingerprint": 1,
+    "staleCallOffset": 1,
+    "unmatchedFile": 1,
+    "duplicateScope": 1
+  },
+  "tenSourceMutants": [
+    {
+      "name": "drop-call-syntax",
+      "failedAsRequired": true,
+      "assertion": "bare reader name accepted as reader call"
+    },
+    {
+      "name": "allow-function-reference-placeholder",
+      "failedAsRequired": true,
+      "assertion": "function-reference placeholder accepted as invocation"
+    },
+    {
+      "name": "allow-reader-trailing-closure",
+      "failedAsRequired": true,
+      "assertion": "reader trailing closure accepted after restoring withdrawn shape"
+    },
+    {
+      "name": "allow-nested-closure-reader",
+      "failedAsRequired": true,
+      "assertion": "stored closure reader accepted after removing depth guard"
+    },
+    {
+      "name": "allow-conditional-compilation-reader",
+      "failedAsRequired": true,
+      "assertion": "conditional-compilation reader accepted after removing directive guard"
+    },
+    {
+      "name": "skip-helper-execution-context",
+      "failedAsRequired": true,
+      "assertion": "helperInsideStoredClosure accepted"
+    },
+    {
+      "name": "trust-uninvoked-helper-closure",
+      "failedAsRequired": true,
+      "assertion": "readerInsideHelperTrailingClosure accepted"
+    },
+    {
+      "name": "scan-helper-arguments-as-later-readers",
+      "failedAsRequired": true,
+      "assertion": "autoclosureReaderArgument accepted"
+    },
+    {
+      "name": "allow-top-level-terminator-reader",
+      "failedAsRequired": true,
+      "assertion": "readerAfterReturn accepted"
+    },
+    {
+      "name": "drop-invocation-context",
+      "failedAsRequired": true,
+      "assertion": "enum pattern accepted after removing invocation context"
+    }
+  ],
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "ab46cc481ea411b2ebb17b5f69d7e543c142c975f3d3c3fd06b77c9733fcdaa5"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "ccc131b1f4e433a1ee129de87ec48c0ab1ceaca47128b2837884e68aca1d74c8"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "812d3ac6328133e74673581909d492b8b534716a8130416ee6624dda0375dc90"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "42bacedf76f6044530cbf4123230f72849352539bf94689c74edaeec95a7de01"
+    }
+  ],
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "req056": 1,
+    "invalidScopes": 0,
+    "exit": 1,
+    "path": "perch-corpus.log",
+    "sha256": "769881003ef8d2af2b80f65a5e39117fc2c1207a8f0537250578ab4fbda7a6d3"
+  },
+  "correctedR9Receipt": {
+    "priorInvalidScopes": 10,
+    "priorWholeFindings": 15,
+    "correctionPresent": true
+  },
+  "versions": {
+    "plugin": "0.16.2",
+    "marketplace": "0.16.2",
+    "catalogue": "0.16.2",
+    "catalogueRegenerationChangedBytes": false,
+    "path": "catalogue.log",
+    "sha256": "9348fcf91d0546ee675543ee1cf337630e0fa1f46274e55f2af958752e92ebe9"
+  },
+  "probe": {
+    "path": "probe.json",
+    "sha256": "a133edc7fb93eab706c2507bad874166be5cf5368b29e852a51e325b8a2d3651",
+    "scannerSHA256": "c547f0891de24df7d362f34b9090c76ee91014b3657bd31166a73f1977dc62a8",
+    "sourceRestored": true
+  },
+  "limitations": "Lexical helper/body proof plus Swift typecheck; no order relation between closure invocation and scoped target mutation, receiver resolution, reader independence, or output causality. No install, publish, cache edit, push, merge, rebase, native app, provider, Keychain, or live campaign."
+}

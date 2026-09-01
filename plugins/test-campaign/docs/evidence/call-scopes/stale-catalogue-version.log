@@ -1,0 +1,19 @@
+......F............
+======================================================================
+FAIL: test_generated_catalogue_matches_canonical_plugin_version (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_generated_catalogue_matches_canonical_plugin_version)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-c2kg0yin/plugins/test-campaign/tests/test_swift_bodies.py", line 23, in test_generated_catalogue_matches_canonical_plugin_version
+    self.assertEqual(row['version'], manifest['version'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '0.16.1' != '0.16.2'
+- 0.16.1
+?      ^
++ 0.16.2
+?      ^
+
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.644s
+
+FAILED (failures=1)
