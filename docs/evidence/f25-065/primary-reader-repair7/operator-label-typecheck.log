@@ -1,0 +1,18 @@
+/tmp/f25-065-operator-label.swift:1:11: error: expected parameter name followed by ':'
+1 | func read(`+` value: Int) -> Int { value }
+  |           `- error: expected parameter name followed by ':'
+2 | func measure() { let function = read(`+`:); _ = function }
+3 | 
+
+/tmp/f25-065-operator-label.swift:2:38: error: expected expression in list of expressions
+1 | func read(`+` value: Int) -> Int { value }
+2 | func measure() { let function = read(`+`:); _ = function }
+  |                                      `- error: expected expression in list of expressions
+3 | 
+
+/tmp/f25-065-operator-label.swift:1:36: error: cannot find 'value' in scope
+1 | func read(`+` value: Int) -> Int { value }
+  |                                    `- error: cannot find 'value' in scope
+2 | func measure() { let function = read(`+`:); _ = function }
+3 | 
+exit=1
