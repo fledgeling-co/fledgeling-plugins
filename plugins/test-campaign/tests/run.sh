@@ -1652,64 +1652,125 @@ fi
 EX="$WORK/exceptions"
 python3 "$S/campaign.py" init "$EX" --project Exceptions --lanes api >/dev/null
 python3 - "$EX" <<'PYEX'
-import hashlib, json, pathlib, sys
+import json, pathlib, sys
 d = pathlib.Path(sys.argv[1])
 campaign = json.loads((d / "campaign.json").read_text())
 campaign["sourceRoot"] = "."
 (d / "campaign.json").write_text(json.dumps(campaign, indent=2) + "\n")
 (d / "inventory.json").write_text(json.dumps({
     "requirement": [{"id": "REQ-001", "class": "behaviour", "text": "safe control"}],
-    "surface": [{"id": "SURF-001", "name": "Reset", "kind": "sheet",
-                 "controls": ["control-v1:exact"]}],
+    "surface": [{"id": "SURF-001", "name": "Reset", "kind": "sheet", "controls": ["control-v1:exact"]}],
     "flow": [], "component": [], "journey": []}, indent=2) + "\n")
 (d / "cases.json").write_text(json.dumps([{
     "id": "CASE-0001", "req": "REQ-001", "surface": "SURF-001", "lane": "api",
     "oracle": "outcome", "status": "pass", "armed": True, "armedBy": "mutant failed",
     "evidence": ["fixture.txt"]}], indent=2) + "\n")
 (d / "fixture.txt").write_text("evidence\n")
-(d / "validator.py").write_text("validated source identity and containment\n")
-deps = {name: hashlib.sha256((d / name).read_bytes()).hexdigest()
-        for name in ("validator.py", "inventory.json", "cases.json")}
+(d / "authority.txt").write_text("irreversible authority\n")
+(d / "mode.json").write_text(json.dumps({"validatorExit": 0, "dependencies": "complete",
+                                         "processExit": 0, "stdout": ""}) + "\n")
+(d / "validator.py").write_text('''#!/usr/bin/env python3
+import argparse,hashlib,json,pathlib,sys
+p=argparse.ArgumentParser(); p.add_argument("--campaign"); p.add_argument("--root"); p.add_argument("--write-validation"); a=p.parse_args()
+root=pathlib.Path(a.root); d=pathlib.Path(a.campaign); mode=json.loads((root/"mode.json").read_text())
+if mode["stdout"]: print(mode["stdout"])
+if mode["processExit"]: sys.exit(mode["processExit"])
+paths=["validator.py","inventory.json","cases.json","authority.txt","mode.json"]
+if mode["dependencies"]=="minimal": paths=["inventory.json","cases.json"]
+deps={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in paths}
+receipt={"schema":"control-exception-validation/1","validatorExit":mode["validatorExit"],"dependencies":deps,
+ "exceptions":[{"id":"CTRL-001","surface":"SURF-001","control":"control-v1:exact","containment":"CASE-0001","disposition":"permanent-exception"}]}
+pathlib.Path(a.write_validation).write_text(json.dumps(receipt))
+(root/"validator-ran").write_text("yes\\n")
+''')
+(d / "dependency-manifest.json").write_text(json.dumps({
+    "schema": "control-exception-dependencies/1",
+    "dependencies": ["validator.py", "inventory.json", "cases.json", "authority.txt", "mode.json"]
+}, indent=2) + "\n")
 (d / "control-exception-validation.json").write_text(json.dumps({
     "schema": "control-exception-validation/1", "validatorExit": 0,
-    "dependencies": deps,
-    "exceptions": [{"id": "CTRL-001", "surface": "SURF-001",
-                    "control": "control-v1:exact", "containment": "CASE-0001",
-                    "disposition": "permanent-exception"}]}, indent=2) + "\n")
+    "dependencies": {"inventory.json": "0" * 64, "cases.json": "0" * 64}, "exceptions": []}, indent=2) + "\n")
 PYEX
-expect "a hash-bound permanent exception clears owed work without actuation credit" 0 "$EX" \
-  "0 of 1 declared control(s) actuated"
 
+ex_check() {
+  local validator_sha manifest_sha
+  validator_sha="$(shasum -a 256 "$EX/validator.py" | awk '{print $1}')"
+  manifest_sha="$(shasum -a 256 "$EX/dependency-manifest.json" | awk '{print $1}')"
+  python3 "$S/campaign.py" check "$EX" \
+    --control-exception-validator "$EX/validator.py" --control-exception-validator-sha256 "$validator_sha" \
+    --control-exception-manifest "$EX/dependency-manifest.json" --control-exception-manifest-sha256 "$manifest_sha" 2>&1
+}
+expect_ex() {
+  local label="$1" want="$2" phrase="${3:-}" out rc
+  out="$(ex_check)"; rc=$?
+  if [ "$rc" != "$want" ] || { [ -n "$phrase" ] && ! grep -qF -- "$phrase" <<<"$out"; }; then
+    echo "FAIL  $label: exit $rc, wanted $want and phrase '$phrase'"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+  else say "ok    $label"; PASS=$((PASS+1)); fi
+}
+expect "a self-attesting committed receipt is refused" 1 "$EX" "independently anchored validator execution"
+expect_ex "an anchored executed validator clears owed work without actuation credit" 0 "0 of 1 declared control(s) actuated"
+[ -f "$EX/validator-ran" ] || { echo "FAIL  anchored validator was not executed"; FAIL=$((FAIL+1)); }
 for bad in '"True"' '1' '["truthy"]'; do
   python3 - "$EX/cases.json" "$bad" <<'PYARM'
 import json,sys
-p=sys.argv[1]; rows=json.load(open(p)); rows[0]["armed"]=json.loads(sys.argv[2])
-json.dump(rows,open(p,"w"),indent=2)
+p=sys.argv[1]; rows=json.load(open(p)); rows[0]["armed"]=json.loads(sys.argv[2]); json.dump(rows,open(p,"w"),indent=2)
 PYARM
-  # Refreshing the receipt proves malformed armed is rejected independently of receipt staleness.
-  python3 - "$EX" <<'PYHASH'
-import hashlib,json,pathlib,sys
-d=pathlib.Path(sys.argv[1]); p=d/"control-exception-validation.json"; r=json.loads(p.read_text())
-r["dependencies"]["cases.json"]=hashlib.sha256((d/"cases.json").read_bytes()).hexdigest()
-p.write_text(json.dumps(r,indent=2)+"\n")
-PYHASH
-  expect "truthy non-boolean armed=$bad fails closed" 1 "$EX" "non-boolean armed values"
+  expect_ex "truthy non-boolean armed=$bad fails closed" 1 "non-boolean armed values"
 done
-
 python3 - "$EX/cases.json" <<'PYRESET'
 import json,sys
-p=sys.argv[1]; rows=json.load(open(p)); rows[0]["armed"]=True
-json.dump(rows,open(p,"w"),indent=2)
+p=sys.argv[1]; rows=json.load(open(p)); rows[0]["armed"]=True; json.dump(rows,open(p,"w"),indent=2)
 PYRESET
-python3 - "$EX" <<'PYREFRESH'
-import hashlib,json,pathlib,sys
-d=pathlib.Path(sys.argv[1]); p=d/"control-exception-validation.json"; r=json.loads(p.read_text())
-r["dependencies"]["cases.json"]=hashlib.sha256((d/"cases.json").read_bytes()).hexdigest()
-p.write_text(json.dumps(r,indent=2)+"\n")
-PYREFRESH
-printf 'authority drift\n' >>"$EX/validator.py"
-expect "a stale exception authority receipt restores owed work" 1 "$EX" \
-  "control exception dependency changed after validation"
+python3 - "$EX/dependency-manifest.json" <<'PYMISS'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p)); d["dependencies"].remove("authority.txt"); json.dump(d,open(p,"w"),indent=2)
+PYMISS
+expect_ex "a manifest omitting the authority dependency fails closed" 1 "complete required dependency manifest"
+python3 - "$EX/dependency-manifest.json" <<'PYRESTORE'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p)); d["dependencies"].append("authority.txt"); json.dump(d,open(p,"w"),indent=2)
+PYRESTORE
+python3 - "$EX/mode.json" <<'PYFORGE'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p)); d["dependencies"]="minimal"; json.dump(d,open(p,"w"))
+PYFORGE
+expect_ex "a forged minimal receipt fails closed" 1 "complete required dependency manifest"
+python3 - "$EX/mode.json" <<'PYCOMPLETE'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p)); d["dependencies"]="complete"; json.dump(d,open(p,"w"))
+PYCOMPLETE
+python3 - "$EX/mode.json" <<'PYOUTPUT'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p)); d["processExit"]=7; d["stdout"]="PRIVATE-VALIDATOR-VALUE"; json.dump(d,open(p,"w"))
+PYOUTPUT
+out="$(ex_check)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF "validator failed with exit 7; validator output was suppressed" <<<"$out" && ! grep -qF "PRIVATE-VALIDATOR-VALUE" <<<"$out"; then
+  say "ok    validator failure output is suppressed"; PASS=$((PASS+1))
+else echo "FAIL  validator output suppression"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1)); fi
+python3 - "$EX/mode.json" <<'PYOUTPUTRESET'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p)); d["processExit"]=0; d["stdout"]=""; json.dump(d,open(p,"w"))
+PYOUTPUTRESET
+for bad in 'false' 'true' '0.0' '1'; do
+  python3 - "$EX/mode.json" "$bad" <<'PYEXIT'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p)); d["validatorExit"]=json.loads(sys.argv[2]); json.dump(d,open(p,"w"))
+PYEXIT
+  expect_ex "validatorExit=$bad is not exact integer zero" 1 "successful v1 validator run"
+done
+python3 - "$EX/mode.json" <<'PYZERO'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p)); d["validatorExit"]=0; json.dump(d,open(p,"w"))
+PYZERO
+printf '#!/usr/bin/env python3\nfrom pathlib import Path\nPath("arbitrary-ran").write_text("bad")\n' >"$EX/arbitrary.py"
+actual_sha="$(shasum -a 256 "$EX/validator.py" | awk '{print $1}')"
+manifest_sha="$(shasum -a 256 "$EX/dependency-manifest.json" | awk '{print $1}')"
+out="$(python3 "$S/campaign.py" check "$EX" --control-exception-validator "$EX/arbitrary.py" \
+  --control-exception-validator-sha256 "$actual_sha" --control-exception-manifest "$EX/dependency-manifest.json" \
+  --control-exception-manifest-sha256 "$manifest_sha" 2>&1)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF "does not match its independent trust anchor" <<<"$out" && [ ! -f "$EX/arbitrary-ran" ]; then
+  say "ok    an arbitrary validator is refused before execution"; PASS=$((PASS+1))
+else echo "FAIL  arbitrary validator trust anchor"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1)); fi
 
 if python3 "$HERE/test_swift_bodies.py"; then
   say "ok    Swift lexical/body and public CLI fixtures"; PASS=$((PASS+1))
