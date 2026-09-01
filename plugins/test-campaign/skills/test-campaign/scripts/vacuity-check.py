@@ -195,9 +195,17 @@ def reader_invocation_context(source: str, start: int) -> bool:
     """
     prefix = source[:start]
     stripped = prefix.rstrip()
+    depth = 0
+    minimum_depth = 0
+    for character in prefix:
+        if character == "{": depth += 1
+        elif character == "}": depth -= 1
+        minimum_depth = min(minimum_depth, depth)
+    if depth != minimum_depth:
+        return False
     if not stripped or not prefix.rsplit("\n", 1)[-1].strip():
         return True
-    if stripped.endswith(("#", ";", "{", "}")):
+    if stripped.endswith(("#", ";", "}")):
         return True
     if stripped.endswith("="):
         statement = re.split(r"[;\n{}]", stripped)[-1].strip()
@@ -222,7 +230,7 @@ def has_reader_call(source: str, readers: tuple[str, ...]) -> bool:
     """
     for reader in readers:
         pattern = (re.escape(reader)
-                   + r"\w*\s*\((?!\s*(?:(?:_|[A-Za-z]\w*)\s*:\s*)+\))")
+                   + r"\w*\s*\((?!\s*(?:(?:`[^`\r\n]+`|[^():,\s]+)\s*:\s*)+\))")
         if any(reader_invocation_context(source, match.start())
                for match in re.finditer(pattern, source)):
             return True

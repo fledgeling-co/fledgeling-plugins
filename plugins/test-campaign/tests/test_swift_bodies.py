@@ -183,9 +183,19 @@ class SwiftBodies(unittest.TestCase):
             ('private func seed() { write() }\n'
              '@Test func measure() { seed(); let function = read(_:) }'),
             ('private func seed() { write() }\n'
+             '@Test func measure() { seed(); let function = read(λ:) }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { seed(); let function = read(`repeat`:) }'),
+            ('private func seed() { write() }\n'
              '@Test func measure() { seed(); var value: Int { get { 1 } } }'),
             ('private func seed() { write() }\n'
              '@Test func measure() { seed(); func local(value: Int = read()) {} }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { seed(); let observation = { configure(); read() }; _ = observation }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { seed(); if false { configure(); read() } }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { seed(); read {} }'),
         ]
         for source in invalid:
             with self.subTest(source=source):
