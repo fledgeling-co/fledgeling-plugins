@@ -53,6 +53,14 @@ python3 $S/crossref.py signals.json --repo <repo> \
 python3 $S/worklist.py init ./tailings --signals signals.json --crossref crossref.json
 ```
 
+`signals.py` recognizes Claude message JSONL and Codex Desktop `response_item` JSONL. In a Codex
+subagent transcript it attributes only the owned segment beginning at the first `agent_message`
+addressed to the declared `agent_path`; inherited parent history is counted and excluded. Read the
+reported attribution boundary before trusting any count. Every Codex call receives a one-based
+ordinal and must pair with exactly one output. Zero recognized activity or any orphan fails closed.
+`crossref.py` scopes its commit and capture reads to paths attributable to that owned segment and
+distinguishes paths merely accessed from paths modified by the session.
+
 `--since`/`--until` are load-bearing rather than tidy. The audit twice had to
 separate what a session did from what a later session repaired, and got it wrong
 both times; one finding cited a directory a *later* session had populated, which a

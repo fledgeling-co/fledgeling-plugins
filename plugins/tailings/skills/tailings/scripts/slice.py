@@ -28,6 +28,29 @@ with open(a.path,errors='replace') as f:
         except Exception: continue
         if o.get('isSidechain') and not a.sidechain: continue
         t=o.get('type'); msg=o.get('message') or {}; c=msg.get('content')
+        if t == 'response_item':
+            q=o.get('payload') or {}; k=q.get('type')
+            def text(v):
+                if isinstance(v,str): return v
+                if isinstance(v,list):
+                    return ' '.join(x.get('text','') for x in v if isinstance(x,dict))
+                return ''
+            if k == 'message' and q.get('role') in ('user','assistant'):
+                tx=text(q.get('content'))
+                who='HUMAN' if q.get('role') == 'user' else 'ASSISTANT'
+                buf.append(f"\n[{ln}] ===== {who} =====\n{tx[:a.maxtext*2]}")
+            elif k == 'agent_message':
+                tx=text(q.get('content'))
+                buf.append(f"\n[{ln}] ===== {q.get('author','?')} → {q.get('recipient','?')} =====\n{tx[:a.maxtext*2]}")
+            elif k in ('custom_tool_call','function_call'):
+                raw=q.get('input') if k == 'custom_tool_call' else q.get('arguments')
+                s=text(raw) or json.dumps(raw)
+                buf.append(f"[{ln}]   >> {q.get('name','?')} #{q.get('call_id','?')}: "
+                           f"{' '.join(s.split())[:900 if a.tools else 300]}")
+            elif k in ('custom_tool_call_output','function_call_output') and a.results:
+                s=text(q.get('output'))
+                buf.append(f"[{ln}]   <result #{q.get('call_id','?')}> {' '.join(s.split())[:a.rchars]}")
+            continue
         blocks=c if isinstance(c,list) else ([{'type':'text','text':c}] if isinstance(c,str) else [])
         if t=='user':
             for b in blocks:

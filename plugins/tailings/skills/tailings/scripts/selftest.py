@@ -19,9 +19,11 @@ import json
 import os
 import sys
 import tempfile
+import subprocess
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import signals  # noqa: E402
+import crossref  # noqa: E402
 
 LN = [0]
 
@@ -57,6 +59,131 @@ def result(tid: str, text: str, is_error: bool = False) -> str:
 
 def skill_header(base: str) -> str:
     return human(f"Base directory for this skill: {base}\n\n# a skill")
+
+
+def codex(kind: str, **payload) -> str:
+    return rec({"type": kind, "payload": payload})
+
+
+def codex_item(kind: str, **payload) -> str:
+    return codex("response_item", type=kind, **payload)
+
+
+def codex_format_checks(tmp: str) -> list[str]:
+    failures: list[str] = []
+    p = os.path.join(tmp, "codex.jsonl")
+    lines = [
+        codex("session_meta", thread_source="subagent", agent_path="/root/worker",
+              parent_thread_id="parent", cwd="/repo"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "inherited parent prose"}]),
+        codex_item("agent_message", author="/root", recipient="/root/worker",
+                   content=[{"type": "input_text", "text": "Task name: /root/worker\nDo the work"}]),
+        codex("turn_context", model="gpt-5.6-sol"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "The tests passed."}]),
+        codex_item("custom_tool_call", call_id="call-1", name="exec",
+                   input='text(await tools.exec_command({cmd:"cat docs/evidence/run.log",workdir:"/repo"}))'),
+        codex_item("custom_tool_call_output", call_id="call-1",
+                   output=[{"type": "input_text", "text": "ok"}]),
+        codex_item("function_call", call_id="call-2", namespace="collaboration",
+                   name="spawn_agent", arguments='{"task_name":"review"}'),
+        codex_item("function_call_output", call_id="call-2", output="ready"),
+    ]
+    with open(p, "w") as fh:
+        fh.write("\n".join(lines) + "\n")
+    d = signals.scan(p, "/repo")
+    expected = {
+        "transcript_format": "codex-response-item",
+        "tool_calls": 2, "tool_outputs": 2, "paired_tool_calls": 2,
+        "assistant_prose_turns": 1, "human_turns": 1, "spawns": 1,
+    }
+    for key, want in expected.items():
+        got = d[key] if key == "transcript_format" else d["counts"][key]
+        if got != want:
+            failures.append(f"Codex {key}: expected {want!r}, got {got!r}")
+    if d["attribution"]["start_line"] != 3 or d["attribution"]["agent_path"] != "/root/worker":
+        failures.append(f"Codex attribution boundary wrong: {d['attribution']}")
+    if d["tool_pairing"]["calls"][0]["ordinal"] != 1 \
+            or d["tool_pairing"]["calls"][1]["ordinal"] != 2:
+        failures.append("Codex tool ordinals are not stable and one-based")
+    if "docs/evidence/run.log" not in d["attribution"]["paths"]:
+        failures.append(f"Codex attributable path was lost: {d['attribution']['paths']}")
+    if any(f["probe"] == "T15" for f in d["findings"]):
+        failures.append("Codex /root agent address was parsed as a slash-command instrument")
+
+    zero = os.path.join(tmp, "codex-zero.jsonl")
+    with open(zero, "w") as fh:
+        fh.write(codex("session_meta", thread_source="user") + "\n")
+        fh.write(codex_item("reasoning", summary=[]) + "\n")
+    try:
+        signals.scan(zero, None)
+        failures.append("zero-recognition Codex transcript did not fail closed")
+    except SystemExit as exc:
+        if exc.code != 1:
+            failures.append(f"zero-recognition exit was {exc.code}, expected 1")
+
+    orphan = os.path.join(tmp, "codex-orphan.jsonl")
+    with open(orphan, "w") as fh:
+        fh.write(codex_item("message", role="user",
+                            content=[{"type": "input_text", "text": "go"}]) + "\n")
+        fh.write(codex_item("custom_tool_call", call_id="lost", name="exec", input="pwd") + "\n")
+    od = signals.scan(orphan, None)
+    if not any(x["probe"] == "TRANSCRIPT-PAIRING" for x in od["probes_that_could_not_run"]):
+        failures.append("orphan Codex tool call did not fail closed")
+
+    duplicate = os.path.join(tmp, "codex-duplicate.jsonl")
+    with open(duplicate, "w") as fh:
+        fh.write(codex_item("custom_tool_call", call_id="same", name="exec", input="pwd") + "\n")
+        fh.write(codex_item("custom_tool_call", call_id="same", name="exec", input="ls") + "\n")
+        fh.write(codex_item("custom_tool_call_output", call_id="same", output="ok") + "\n")
+    dd = signals.scan(duplicate, None)
+    if dd["counts"]["paired_tool_calls"] != 0 or not any(
+            x["probe"] == "TRANSCRIPT-PAIRING" for x in dd["probes_that_could_not_run"]):
+        failures.append("duplicate Codex call id did not fail closed")
+
+    no_boundary = os.path.join(tmp, "codex-no-boundary.jsonl")
+    with open(no_boundary, "w") as fh:
+        fh.write(codex("session_meta", thread_source="subagent", agent_path="/root/missing") + "\n")
+        fh.write(codex_item("message", role="assistant",
+                            content=[{"type": "output_text", "text": "parent history"}]) + "\n")
+    try:
+        signals.scan(no_boundary, None)
+        failures.append("Codex subagent with no owned boundary did not fail closed")
+    except SystemExit:
+        pass
+    return failures
+
+
+def crossref_scope_checks(tmp: str) -> list[str]:
+    failures: list[str] = []
+    repo = os.path.join(tmp, "repo")
+    os.makedirs(os.path.join(repo, "docs", "evidence"), exist_ok=True)
+    os.makedirs(os.path.join(repo, "src"), exist_ok=True)
+    for name in ("owned.png", "unrelated.png"):
+        with open(os.path.join(repo, "docs", "evidence", name), "wb") as fh:
+            fh.write(b"same image bytes")
+    out: list[dict] = []
+    notes: list[str] = []
+    sig = {"attribution": {"modified_paths": ["docs/evidence/owned.png"]}}
+    crossref.r4_duplicate_captures(repo, sig, [], out, notes)
+    if out:
+        failures.append("crossref compared an attributable capture with an unrelated repo capture")
+    sig["attribution"]["modified_paths"].append("docs/evidence/unrelated.png")
+    crossref.r4_duplicate_captures(repo, sig, [], out, notes)
+    if len(out) != 1:
+        failures.append("crossref did not compare two captures when both were attributable")
+    subprocess.run(["git", "-C", repo, "init", "-q"], check=True)
+    with open(os.path.join(repo, "src", "RunIndex.swift"), "w") as fh:
+        fh.write("struct RunIndex {}\n")
+    subprocess.run(["git", "-C", repo, "add", "src/RunIndex.swift"], check=True)
+    basename_out: list[dict] = []
+    crossref.r2_claimed_file_never_written(
+        repo, {"assertions": [{"text": "verified `RunIndex.swift`", "line": 4, "durable": False}]},
+        [], basename_out, [])
+    if basename_out:
+        failures.append("crossref reported a tracked basename citation as nowhere in the repo")
+    return failures
 
 
 # ------------------------------------------------------------------- fixtures
@@ -241,6 +368,8 @@ def run(verbose: bool) -> int:
     failures: list[str] = []
     checked = 0
     with tempfile.TemporaryDirectory() as tmp:
+        failures.extend(codex_format_checks(tmp))
+        failures.extend(crossref_scope_checks(tmp))
         for pid, dirty, clean, note in fixtures(tmp):
             probe = pid.split("-")[0]
             for label, lines, must_fire in (("dirty", dirty, True), ("clean", clean, False)):
