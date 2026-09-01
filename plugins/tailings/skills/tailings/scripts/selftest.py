@@ -189,6 +189,35 @@ def codex_model_attribution_checks(tmp: str) -> list[str]:
         failures.append(f"owned model changes did not drive both T7 families: {t7}")
     if d["attribution"]["inherited_records_excluded"] != 3:
         failures.append(f"inherited model history was not excluded: {d['attribution']}")
+
+    actual = os.path.join(tmp, "codex-model-before-boundary.jsonl")
+    actual_lines = [
+        codex("session_meta", thread_source="subagent", agent_path="/root/actual", cwd="/repo"),
+        codex("turn_context", model="gemini-parent"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "inherited parent response"}]),
+        codex("turn_context", model="gpt-5.6-sol"),
+        codex_item("agent_message", author="/root", recipient="/root/actual",
+                   content=[{"type": "input_text", "text": "owned task"}]),
+        codex_item("custom_tool_call", call_id="first", name="exec",
+                   input='text(await tools.exec_command({cmd:"codex exec --model gpt-5.6-sol review"}))'),
+        codex_item("custom_tool_call_output", call_id="first", output="ok"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "owned response"}]),
+    ]
+    with open(actual, "w") as fh:
+        fh.write("\n".join(actual_lines) + "\n")
+    ad = signals.scan(actual, "/repo")
+    at7 = [f for f in ad["findings"] if f["probe"] == "T7"]
+    if ad["attribution"]["model_seed_line"] != 4 or ad["models"] != {"gpt-5.6-sol": 1}:
+        failures.append(f"pre-boundary owned model seed was not attributed: {ad['attribution']}, {ad['models']}")
+    if len(at7) != 1 or at7[0].get("session_model") != "gpt-5.6-sol":
+        failures.append(f"first owned call did not use pre-boundary governing context for T7: {at7}")
+    calls = ad["tool_pairing"]["calls"]
+    if not calls or calls[0]["name"] != "Bash":
+        failures.append(f"actual-order first owned call was not parsed: {calls}")
+    if ad["counts"]["tool_calls_without_model"] != 0:
+        failures.append(f"actual-order owned call lost its governing model: {ad['counts']}")
     return failures
 
 

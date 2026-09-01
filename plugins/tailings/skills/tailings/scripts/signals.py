@@ -207,6 +207,7 @@ class Session:
             "inherited_records_excluded": 0,
             "paths": [],
             "modified_paths": [],
+            "model_seed_line": None,
         }
         self.call_outputs = 0
         self.output_count = 0
@@ -330,6 +331,22 @@ class Session:
                     boundary_found = True
                     break
         model = ""
+        model_seed_line = None
+        if boundary_found and agent_path:
+            # Codex writes the child turn_context immediately before delivering
+            # the addressed agent_message. It governs the first owned response,
+            # but older parent contexts do not: any intervening response_item
+            # proves that context belonged to prior history.
+            prior_contexts = [(ln, o.get("payload") or {}) for ln, o in parsed
+                              if ln < start_line and o.get("type") == "turn_context"
+                              and (o.get("payload") or {}).get("model")]
+            if prior_contexts:
+                seed_line, seed = prior_contexts[-1]
+                intervening = any(seed_line < ln < start_line and o.get("type") == "response_item"
+                                  for ln, o in parsed)
+                if not intervening:
+                    model = seed["model"]
+                    model_seed_line = seed_line
         repo = own.get("cwd")
         self.attribution.update({
             "mode": "subagent-owned-segment" if agent_path else "whole-transcript",
@@ -339,6 +356,7 @@ class Session:
             "inherited_records_excluded": sum(1 for ln, _ in parsed if ln < start_line),
             "error": None if boundary_found else
             f"no agent_message addressed to declared agent_path {agent_path}",
+            "model_seed_line": model_seed_line,
         })
         paths: set[str] = set()
         modified_paths: set[str] = set()
@@ -1152,6 +1170,7 @@ def scan(path: str, repo: str | None) -> dict:
             "paired_tool_calls": s.call_outputs,
             "orphan_tool_calls": len(s.orphan_calls),
             "orphan_tool_outputs": len(s.orphan_outputs),
+            "tool_calls_without_model": sum(1 for t in s.tools if not t.get("model")),
             "bash": len(s.bash()),
             "human_turns": len(s.humans), "skills": len(s.skills),
             "sidechain_records": s.sidechains,
@@ -1184,7 +1203,8 @@ def render(d: dict) -> str:
         f"models       {', '.join(d['models']) or '(none recorded)'}",
         f"volume       {c['tool_calls']} tool calls · {c['tool_outputs']} outputs · "
         f"{c['paired_tool_calls']} paired · {c['orphan_tool_calls']} call orphan(s) · "
-        f"{c['orphan_tool_outputs']} output orphan(s) · {c['bash']} bash · "
+        f"{c['orphan_tool_outputs']} output orphan(s) · {c['tool_calls_without_model']} without model · "
+        f"{c['bash']} bash · "
         f"{c['assistant_prose_turns']} prose turns · {c['human_turns']} human turns",
         f"delegation   {c['spawns']} spawn call(s) · {c['sidechain_records']} sidechain records",
         f"skills       {len(d['skills_invoked'])} invocation(s): "

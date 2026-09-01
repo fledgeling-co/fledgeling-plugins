@@ -61,6 +61,9 @@ ordinal and must pair with exactly one output. Zero recognized activity or any o
 Model identity advances only through `turn_context` records in the owned segment and is attached to
 each call, including model changes within one session; never infer the child's family from inherited
 parent context.
+Codex may place the context governing the first child turn immediately before the addressed
+`agent_message`. Carry the nearest such context across the boundary only when no intervening
+`response_item` exists; otherwise treat it as inherited parent history.
 `crossref.py` scopes its commit and capture reads to paths attributable to that owned segment and
 distinguishes paths merely accessed from paths modified by the session.
 

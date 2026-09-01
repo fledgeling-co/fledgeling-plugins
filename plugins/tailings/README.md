@@ -69,6 +69,10 @@ orphan output fails closed. `crossref.py` uses only paths attributable to that o
 keeps accessed paths separate from modified paths, so concurrent work elsewhere in the same git
 window cannot create evidence for the audited session.
 
+Codex places the context governing a child's first turn immediately before the addressed task
+message. Tailings carries that one context across the boundary only when no intervening
+`response_item` exists; older parent contexts remain excluded.
+
 ## The boundary on what it changes
 
 > The pass may edit anything whose truth it has just established, and nothing whose
