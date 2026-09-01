@@ -17,6 +17,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
   change inside the child session updates later calls before the T7 family comparison.
 - **The first child turn keeps its governing context.** A context directly before the addressed
   task message seeds the child only when no intervening response item belongs to parent history.
+- **Unknown reviewer models fail closed.** T7 names the model-less call and exits 4 instead of
+  borrowing a model observed later in the session.
 - **Calls cannot disappear silently.** Stable one-based ordinals pair every custom or function
   call with its output; zero recognized activity and orphan calls or outputs fail closed.
 - **Repository evidence stays attributable.** Cross-reference probes distinguish accessed paths

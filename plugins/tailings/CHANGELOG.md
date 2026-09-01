@@ -9,6 +9,8 @@
   each call, including model changes within one session, so T7 cannot inherit the parent's family.
 - Seed the first owned call from Codex's governing `turn_context` immediately before the addressed
   task message, but only when no intervening `response_item` makes that context parent history.
+- Refuse to infer a model-less reviewer call's family from any later session model; T7 now reports
+  the unknown call line as a probe that could not run and makes the scan exit 4.
 - Record stable call ordinals and exact call/output pairing; fail closed when a Codex
   transcript has no recognized activity or contains orphan calls or outputs.
 - Scope repository probes to transcript-attributable paths and distinguish accessed paths
