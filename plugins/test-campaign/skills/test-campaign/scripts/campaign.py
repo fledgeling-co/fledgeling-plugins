@@ -711,6 +711,21 @@ def capped_tail(items, limit: int, indent: str = "    ") -> str:
     return f"{indent}(showing {len(items)} of {len(items)})"
 
 
+def contained_dependency(root: Path, relative: str) -> Path | None:
+    """Resolve one declared file without allowing a symlink to leave sourceRoot."""
+    current = root
+    for part in Path(relative).parts:
+        current = current / part
+        if current.is_symlink():
+            return None
+    try:
+        resolved = (root / relative).resolve(strict=True)
+        resolved.relative_to(root)
+    except (OSError, ValueError):
+        return None
+    return resolved if resolved.is_file() else None
+
+
 def validated_control_exceptions(d: Path, campaign: dict, trust: dict | None = None) -> tuple[dict[str, set[str]], list[str]]:
     """Run an independently anchored repository validator and verify its complete receipt."""
     published_receipt = d / "control-exception-validation.json"
@@ -746,6 +761,9 @@ def validated_control_exceptions(d: Path, campaign: dict, trust: dict | None = N
     if not isinstance(source_root_raw, str) or not source_root_raw:
         return {}, ["control exception validation requires campaign.sourceRoot"]
     root = (d / source_root_raw).resolve()
+    for relative in required_dependencies:
+        if contained_dependency(root, relative) is None:
+            return {}, [f"control exception dependency escapes sourceRoot or uses a symlink: {relative}"]
     try:
         validator_relative = str(validator.relative_to(root))
     except ValueError:
@@ -790,9 +808,10 @@ def validated_control_exceptions(d: Path, campaign: dict, trust: dict | None = N
                     re.fullmatch(r"[0-9a-f]{64}", digest) is None):
                 problems.append("control exception validation contains an invalid dependency entry")
                 continue
-            path = root / relative
-            if not path.is_file():
-                problems.append(f"control exception dependency is missing: {relative}")
+            path = contained_dependency(root, relative)
+            if path is None:
+                problems.append(
+                    f"control exception dependency escapes sourceRoot or uses a symlink: {relative}")
             elif hashlib.sha256(path.read_bytes()).hexdigest() != digest:
                 problems.append(f"control exception dependency changed after validation: {relative}")
         if set(dependencies) != required_dependencies:

@@ -1710,6 +1710,29 @@ expect_ex() {
 expect "a self-attesting committed receipt is refused" 1 "$EX" "independently anchored validator execution"
 expect_ex "an anchored executed validator clears owed work without actuation credit" 0 "0 of 1 declared control(s) actuated"
 [ -f "$EX/validator-ran" ] || { echo "FAIL  anchored validator was not executed"; FAIL=$((FAIL+1)); }
+outside_file="$WORK/outside-authority.txt"
+printf 'outside authority\n' >"$outside_file"
+rm -f "$EX/authority.txt" "$EX/validator-ran"
+ln -s "$outside_file" "$EX/authority.txt"
+expect_ex "a file symlink cannot escape the dependency root" 1 "escapes sourceRoot or uses a symlink"
+[ ! -f "$EX/validator-ran" ] || { echo "FAIL  validator ran after file-symlink refusal"; FAIL=$((FAIL+1)); }
+rm "$EX/authority.txt"
+printf 'irreversible authority\n' >"$EX/authority.txt"
+outside_dir="$WORK/outside-dependency-dir"
+mkdir -p "$outside_dir"
+printf 'outside directory authority\n' >"$outside_dir/authority.txt"
+ln -s "$outside_dir" "$EX/linked"
+python3 - "$EX/dependency-manifest.json" <<'PYLINK'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p)); d["dependencies"].append("linked/authority.txt"); json.dump(d,open(p,"w"),indent=2)
+PYLINK
+expect_ex "a directory symlink cannot escape the dependency root" 1 "escapes sourceRoot or uses a symlink"
+[ ! -f "$EX/validator-ran" ] || { echo "FAIL  validator ran after directory-symlink refusal"; FAIL=$((FAIL+1)); }
+rm "$EX/linked"
+python3 - "$EX/dependency-manifest.json" <<'PYLINKRESET'
+import json,sys
+p=sys.argv[1]; d=json.load(open(p)); d["dependencies"].remove("linked/authority.txt"); json.dump(d,open(p,"w"),indent=2)
+PYLINKRESET
 for bad in '"True"' '1' '["truthy"]'; do
   python3 - "$EX/cases.json" "$bad" <<'PYARM'
 import json,sys
