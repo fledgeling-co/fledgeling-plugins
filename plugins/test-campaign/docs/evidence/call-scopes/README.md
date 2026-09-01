@@ -8,8 +8,8 @@ fingerprint, and that caller must contain a configured reader after the helper c
 the raw mutating-body denominator and count scoped calls by classification.
 
 Target and caller records bind the parser's explicit-test posture so removing `@Test` outside an
-otherwise identical body invalidates the scope. Caller bindings recognize parenthesized and Swift
-trailing-closure invocations; this remains lexical and does not claim overload or receiver identity.
+otherwise identical body invalidates the scope. Caller bindings require parenthesized helper calls;
+trailing closures are refused because lexical syntax cannot prove the helper invokes the closure.
 The exact caller call must also survive the Swift comment/literal mask, so a matching spelling in
 non-executable text cannot justify attribution.
 
@@ -74,5 +74,12 @@ invoked, plus a literal-false branch carrying the same unreachable credit. Confi
 is now limited to the caller body's top lexical brace level.
 This deliberately refuses ambiguous nested control and immediately-invoked closure bodies as well;
 an explicit scope must use a directly provable observation rather than borrow one from nested code.
+
+A seventh primary found that consuming a helper trailing closure's opening brace normalized the
+closure reader to apparent top level even when the helper never invoked its parameter. Attributed
+helper bindings are therefore parenthesized-only. A distinct additional review found the remaining
+brace-free equivalent in inactive `#if false` and false `#if canImport(...)` regions. Readers inside
+all conditional-compilation regions are conservatively refused because the scanner does not resolve
+the active Swift build configuration.
 
 Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.

@@ -1,0 +1,28 @@
+unclassed:  examined=58 findings=0
+uncensused: examined=39 findings=1
+  · REQ-056 declares a outbound-socket effect and records no `provider` — nothing in production source is named as able to perform it
+  providers: 38 of 39 named, 38 resolved under /Users/lukerhodes/Dev/perch/.worktrees/f25-065-perch (campaign.json sourceRoot, 965 production file(s))
+  Swift: files=485 measured-files=485 unmeasured-files=0 explicit-test-entries=6886 called-helpers-excluded=1623 bodyless-protocol-requirements=0
+  Swift scopes: records=108 · scoped-only-bodies=43 · attributed-helper=1, direct-output=22, failure-sentinel=55, fixture-value=30
+  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.
+blind:      examined=7104 mutating=1153 re-read-after=1106 blind=4
+  corpus: /Users/lukerhodes/Dev/perch/.worktrees/f25-065-perch/macos/Tests (campaign.json testRoot, 485 file(s))
+  blocks: declaration-style 8727 · arrow-style it/test 0
+  vocabulary: defaults + campaign.blindVocabulary — 18 mutator(s), 23 reader(s)
+  readers: list_, get_, read_, fetch_, sample_, count_, load_, assert, Assert, XCTAssert, expect, Expect, read, get, fetch, load, find, count, check, verify, contains, equal, recall
+  · corruptLockIsTakeable — last mutator 'write', no read after it (/Users/lukerhodes/Dev/perch/.worktrees/f25-065-perch/macos/Tests/RelayCoreTests/ArmadaRailsTests.swift:152)
+  · run — last mutator 'record', no read after it (/Users/lukerhodes/Dev/perch/.worktrees/f25-065-perch/macos/Tests/RelayCoreTests/WorkerDispatcherTests.swift:45)
+  · deleteRemoves — last mutator 'delete', no read after it (/Users/lukerhodes/Dev/perch/.worktrees/f25-065-perch/macos/Tests/RelayCoreTests/ProviderCredentialsTests.swift:75)
+  · send — last mutator 'record', no read after it (/Users/lukerhodes/Dev/perch/.worktrees/f25-065-perch/macos/Tests/RelayCoreTests/WorkspaceSessionTests.swift:56)
+blind:      INVALID SCOPE — RelayCoreTests/WorkerSupervisorTests.swift:withRetryStore caller scope does not bind its named helper call
+blind:      INVALID SCOPE — RelayCoreTests/WorkerSupervisorTests.swift:withRetryStore caller scope does not bind its named helper call
+blind:      INVALID SCOPE — RelayCoreTests/WorkerSupervisorTests.swift:withRetryStore caller scope does not bind its named helper call
+blind:      INVALID SCOPE — RelayCoreTests/WorkerSupervisorTests.swift:withRetryStore caller scope does not bind its named helper call
+blind:      INVALID SCOPE — RelayCoreTests/WorkerSupervisorTests.swift:withRetryStore caller scope does not bind its named helper call
+blind:      INVALID SCOPE — RelayCoreTests/WorkerSupervisorTests.swift:withRetryStore caller scope does not bind its named helper call
+blind:      INVALID SCOPE — RelayCoreTests/WorkerSupervisorTests.swift:withRetryStore caller scope does not bind its named helper call
+blind:      INVALID SCOPE — RelayCoreTests/WorkerSupervisorTests.swift:withRetryStore caller scope does not bind its named helper call
+blind:      INVALID SCOPE — RelayCoreTests/WorkerSupervisorTests.swift:withRetryStore caller scope does not bind its named helper call
+blind:      INVALID SCOPE — RelayCoreTests/WorkerSupervisorTests.swift:withRetryStore caller scope does not bind its named helper call
+
+vacuity: requirements=58 external=39 findings=15

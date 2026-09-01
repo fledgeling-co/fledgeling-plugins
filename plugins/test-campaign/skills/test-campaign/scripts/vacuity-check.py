@@ -195,6 +195,13 @@ def reader_invocation_context(source: str, start: int) -> bool:
     """
     prefix = source[:start]
     stripped = prefix.rstrip()
+    conditional_depth = 0
+    for line in prefix.splitlines():
+        directive = line.strip()
+        if re.match(r"#if\b", directive): conditional_depth += 1
+        elif re.match(r"#endif\b", directive): conditional_depth = max(0, conditional_depth - 1)
+    if conditional_depth:
+        return False
     depth = 0
     minimum_depth = 0
     for character in prefix:
@@ -854,7 +861,7 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                     continue
                 caller_body, masked_caller, _ = bodies[0]
                 offset = caller.get("callOffset")
-                pattern = re.escape(str(row.get("name"))) + r"\s*(?:\(|\{)"
+                pattern = re.escape(str(row.get("name"))) + r"\s*\("
                 match = (re.match(pattern, caller_body[offset:])
                          if isinstance(offset, int) and offset < len(caller_body) else None)
                 executable_match = (re.match(pattern, masked_caller[offset:])
