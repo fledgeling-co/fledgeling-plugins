@@ -237,6 +237,34 @@ defaults to `MEDIUM`, and the uplift is unmeasured on this corpus.
 tasks, `high` beat `medium` on 24, lost on 24 and tied on 58, mean −1.7 points, and the
 bound-shaped share of failures *rose* from 58% to 86% (§2.2, §2.3).
 
+## Override 8 — in Mode B, the ledger is the deliverable (`## Mode B`)
+
+Mode B is the mode you are most likely to be in, and the one where this file's own
+failure mode bites hardest: its output is a disposition, and a disposition is
+satisfiable by feeling calibrated.
+
+**[measured-family]** The three sessions that ran Mode B's shape before it existed
+show what that looks like. One read two of the loaded skills' `gemini.md` files,
+one read two, and one read **none while loading five skills** — and all three
+continued as though calibrated, because nothing in the session named a
+denominator.
+
+So in Mode B, run the script and paste its output. Do not summarise it.
+
+```
+read-count: 3 of 3 gemini.md files
+unloadable names: 1 (create-test-suite:create-test-suite)
+referral lanes for this runner: claude, openai, xai — gemini excluded
+```
+
+Then keep the receipt table open and fill a row **at the moment of the Skill tool
+call**, not at the end from memory. A row filled retrospectively is a recollection,
+and the measured failure is a run that recollected invoking skills it had not.
+
+**[derived]** No Gemini run of Mode B has been observed; it is new in 0.5.0. What
+carries the weight here is the three sessions that ran its shape without it, not
+evidence that the ledger fixes them.
+
 ## Recap
 
 **[docs]** *"Concise repeat of the key points of the prompt, especially the constraints and
@@ -248,3 +276,5 @@ response format, at the end of the prompt."*
    the written file — `wc -l`, `grep` — reporting the fraction dropped and `N of N within`.
 4. Paste the gate report. Receipts before content. Zero checked claims is not a pass.
 5. Vendor text in double quotes, the target's words in backticks.
+6. In Mode B: paste the script's output rather than summarising it, and fill each receipt
+   row at the moment of the Skill tool call.
