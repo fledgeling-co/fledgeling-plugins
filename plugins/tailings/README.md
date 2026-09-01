@@ -62,7 +62,9 @@ with an exit code that blocks a report which lost an item.
 `response_item` JSONL. For a Codex subagent transcript it reads the declared
 `agent_path`, starts at the first `agent_message` addressed to that path, and reports how
 many inherited parent records it excluded. Calls receive stable one-based ordinals and must
-pair one-to-one with outputs. A transcript with no recognized activity, an orphan call, or an
+pair one-to-one with outputs. Model identity advances from owned `turn_context` records and is
+attached to each call, so inherited parent settings and later model changes cannot skew the
+in-family reviewer probe. A transcript with no recognized activity, an orphan call, or an
 orphan output fails closed. `crossref.py` uses only paths attributable to that owned segment and
 keeps accessed paths separate from modified paths, so concurrent work elsewhere in the same git
 window cannot create evidence for the audited session.

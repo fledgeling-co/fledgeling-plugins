@@ -329,8 +329,7 @@ class Session:
                     start_line = ln
                     boundary_found = True
                     break
-        model = next(((o.get("payload") or {}).get("model") for _, o in parsed
-                      if o.get("type") == "turn_context" and (o.get("payload") or {}).get("model")), "")
+        model = ""
         repo = own.get("cwd")
         self.attribution.update({
             "mode": "subagent-owned-segment" if agent_path else "whole-transcript",
@@ -348,6 +347,10 @@ class Session:
             if ln < start_line:
                 continue
             q = o.get("payload") or {}
+            if o.get("type") == "turn_context":
+                if q.get("model"):
+                    model = q["model"]
+                continue
             if o.get("type") != "response_item":
                 continue
             self.records.append((ln, o))
@@ -694,12 +697,13 @@ def t6_orphan_exit_status(s: Session, ctx) -> list[dict]:
 def t7_lane_family(s: Session, ctx) -> list[dict]:
     """An independence gate that resolved to the running model's own family."""
     out = []
-    own = family_of(next(iter(s.models), "") if s.models else "")
     for t in s.bash():
         cmd = t["command"] or ""
         m = LANE_RE.search(cmd)
         if not m:
             continue
+        own_model = t.get("model") or (next(iter(s.models), "") if s.models else "")
+        own = family_of(own_model)
         lane_family = family_of(m.group("model"))
         if lane_family == "unknown" or own == "unknown":
             continue
@@ -708,7 +712,7 @@ def t7_lane_family(s: Session, ctx) -> list[dict]:
         out.append(finding(
             "T7", f"reviewer lane is in-family ({lane_family}) with the running model",
             t["line"], " ".join(cmd.split())[:220], 1, "observed",
-            lane_model=m.group("model"), session_model=next(iter(s.models), ""),
+            lane_model=m.group("model"), session_model=own_model,
             remedy="re-route with lane_pick.py --task verification, excluding this family"))
     return out
 

@@ -13,6 +13,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 - **Subagent ownership is explicit.** The scan begins at the first `agent_message` addressed to
   the transcript's declared `agent_path`, excludes inherited parent history, and reports the
   boundary and parent thread id.
+- **Model attribution follows the owned turn.** Parent model context is excluded, and a model
+  change inside the child session updates later calls before the T7 family comparison.
 - **Calls cannot disappear silently.** Stable one-based ordinals pair every custom or function
   call with its output; zero recognized activity and orphan calls or outputs fail closed.
 - **Repository evidence stays attributable.** Cross-reference probes distinguish accessed paths

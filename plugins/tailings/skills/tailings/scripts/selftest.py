@@ -155,6 +155,43 @@ def codex_format_checks(tmp: str) -> list[str]:
     return failures
 
 
+def codex_model_attribution_checks(tmp: str) -> list[str]:
+    failures: list[str] = []
+    p = os.path.join(tmp, "codex-model-attribution.jsonl")
+    lines = [
+        codex("session_meta", thread_source="subagent", agent_path="/root/child", cwd="/repo"),
+        codex("turn_context", model="gemini-3.7-flash-high"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "inherited parent turn"}]),
+        codex_item("agent_message", author="/root", recipient="/root/child",
+                   content=[{"type": "input_text", "text": "review"}]),
+        codex("turn_context", model="gpt-5.6-sol"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "owned OpenAI turn"}]),
+        codex_item("custom_tool_call", call_id="openai", name="exec",
+                   input='text(await tools.exec_command({cmd:"codex exec --model gpt-5.6-sol review"}))'),
+        codex_item("custom_tool_call_output", call_id="openai", output="ok"),
+        codex("turn_context", model="gemini-3.7-flash-high"),
+        codex_item("message", role="assistant",
+                   content=[{"type": "output_text", "text": "owned Google turn"}]),
+        codex_item("custom_tool_call", call_id="google", name="exec",
+                   input='text(await tools.exec_command({cmd:"agy --model gemini-3.7-flash-high review"}))'),
+        codex_item("custom_tool_call_output", call_id="google", output="ok"),
+    ]
+    with open(p, "w") as fh:
+        fh.write("\n".join(lines) + "\n")
+    d = signals.scan(p, "/repo")
+    if d["models"] != {"gpt-5.6-sol": 1, "gemini-3.7-flash-high": 1}:
+        failures.append(f"owned Codex model sequence is wrong: {d['models']}")
+    t7 = [f for f in d["findings"] if f["probe"] == "T7"]
+    if len(t7) != 2 or not any("openai" in f["title"] for f in t7) \
+            or not any("google" in f["title"] for f in t7):
+        failures.append(f"owned model changes did not drive both T7 families: {t7}")
+    if d["attribution"]["inherited_records_excluded"] != 3:
+        failures.append(f"inherited model history was not excluded: {d['attribution']}")
+    return failures
+
+
 def crossref_scope_checks(tmp: str) -> list[str]:
     failures: list[str] = []
     repo = os.path.join(tmp, "repo")
@@ -369,6 +406,7 @@ def run(verbose: bool) -> int:
     checked = 0
     with tempfile.TemporaryDirectory() as tmp:
         failures.extend(codex_format_checks(tmp))
+        failures.extend(codex_model_attribution_checks(tmp))
         failures.extend(crossref_scope_checks(tmp))
         for pid, dirty, clean, note in fixtures(tmp):
             probe = pid.split("-")[0]
