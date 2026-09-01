@@ -7,6 +7,8 @@
   `agent_path`, excluding inherited parent history and reporting the boundary explicitly.
 - Advance model identity only from owned `turn_context` records and attach the current model to
   each call, including model changes within one session, so T7 cannot inherit the parent's family.
+- Seed the first owned call from Codex's governing `turn_context` immediately before the addressed
+  task message, but only when no intervening `response_item` makes that context parent history.
 - Record stable call ordinals and exact call/output pairing; fail closed when a Codex
   transcript has no recognized activity or contains orphan calls or outputs.
 - Scope repository probes to transcript-attributable paths and distinguish accessed paths
