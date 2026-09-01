@@ -10,7 +10,7 @@
     {
       "name": "flagship",
       "description": "Conduct many concurrent Claude Code sessions as one portfolio \u2014 the layer above ship-armada, for when the work is already spread across a dozen live sessions rather than waiting in one repo's backlog. Builds a roster of every peer session, learns what each owns, and coordinates them over SendMessage: hands out a capped heavy-work token derived from harbourmaster's measured berths rather than an invented number, batches their accumulated decisions through the perch R1\u2013R5 router so only the operator's own axes reach the operator, routes judgement to defer's lanes after probing which are actually reachable, and propagates each session's findings to the others \u2014 which is the real return, because nine sessions independently found one tool's bug in a single evening and none knew about the others. Starts new work as a workflow, a subagent, or a fresh Ghostty tab using recover-claude-code's hardened mechanism, so a session can carry its own fleet. Holds the map and no authority: a conducting session cannot command a peer, cannot close a peer's channel to its user, and cannot relay an authorisation \u2014 all three were refused by ten sessions in one night and all three refusals were right.",
-      "version": "1.6.6",
+      "version": "1.6.7",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -237,7 +237,7 @@
     {
       "name": "whats-left",
       "description": "Survey everything a project still needs before its feature set is genuinely complete, and hand it back as one self-contained HTML page: a plain-English status line per item, then an embedded questionnaire that clears every decision waiting on the reader, with pre-selected recommendations, free-text notes and a JSON export. The two halves are one graph, so each blocked item deep-links to the decision that releases it and each decision names how much it actually releases. Separates built from deployed rather than counting both as done, records an untouched default as unconfirmed rather than as an answer, and treats a note attached to an answer as a condition on it. Reads the export back on request and applies each answer, reporting what changed, what could not, and what was deliberately left alone.",
-      "version": "0.6.1",
+      "version": "0.6.2",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -282,7 +282,7 @@
       "name": "shipyard",
       "source": "./plugins/shipyard",
       "description": "The shipyard: the feature-delivery stage skills: intake (rough idea to briefs, with trawl ideation and Dossier research), triage (readiness with the Sentinel review and decision-gate assumptions), plan (committed plans plus a comprehensive test strategy), design (all-platform interactive mocks gated by design-review and be-my-witness), work (worktree build through the agy/grok/codex executor lanes with evidence-typed acceptance), verify (cross-family acceptance against the running app - the only path to Done), and gap-fix (the road back from Needs More Work). One tracker adapter covers markdown specs and tasks-MCP boards; shared references carry the model lanes, second-opinion/panel protocol, evidence rules, and the incident ledger.",
-      "version": "0.5.2",
+      "version": "0.5.3",
       "category": "development"
     },
     {
@@ -303,7 +303,7 @@
       "name": "ship-fleet",
       "source": "./plugins/ship-fleet",
       "description": "Backlog-wide feature-delivery orchestrator: surveys everything remaining in a repo's pipeline (specs, plans, briefs, mocks, worktrees, deferred follow-ups), writes ORCHESTRATOR.md and a visual hierarchy before any execution, then conducts dependency-ordered ship-feature runners under a global agent budget - with per-item cross-family verification, serialized merges, executor-lane routing, and a ledger a fresh session can resume the whole fleet from.",
-      "version": "2.9.2",
+      "version": "2.9.3",
       "category": "development"
     },
     {
@@ -353,7 +353,7 @@
     {
       "name": "ux-craft",
       "description": "Book-grounded UX engine for building, mocking and reviewing web and mobile UIs, forms, flows and emails \u2014 the UX brain that pairs with design-craft:design-craft's visual hands. Three modes (Build / Review / Advise) over eleven references, and a deterministic gate that refuses what prose only asks: stdlib-only ux-lint.py runs static over HTML/JSX/CSS and probes a rendered page through Obscura, with every finding naming what you did, what the user silently gets, and the fix. Only exit 0 is a pass \u2014 a run that examined zero files refuses rather than reporting a clean sheet, and every run prints a never-empty not-checked list, because a check that cannot measure must say so instead of reporting zero. v2 resolves the accessibility floor against the standards themselves: 24x24 CSS px is WCAG 2.2 SC 2.5.8 at AA and is the only target-size number a WCAG failure may cite, 44x44 CSS px is SC 2.5.5 at AAA, and Apple's 44pt and Android's 48dp are craft targets in density-independent units that are not WCAG numbers at all. Twelve non-negotiables each carry the silent symptom that appears when they break, the state grid is a counted artifact rather than a rule that was read, and the destructive-action gate table, the probe-honesty rule and the model-family evidence taxonomy are available to every model rather than quarantined behind a model check. Carries a Known limits section, an evidence file rating the replication status of every behavioural law it cites (including the ones it argues against), the measured blind spots of the only sanctioned browser, and an autonomous-mode carve-out so a pipeline run is not told both to ask and not to ask. Build mode names the category-default journey and varies it on one axis, with a persistent project ledger so two onboardings are not the same three-step wizard. Persuade surfaces load a separate one-offer/one-audience/one-action conversion reference.",
-      "version": "2.5.1",
+      "version": "2.5.2",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -407,7 +407,7 @@
     {
       "name": "stocktake",
       "description": "Count what a tracker board claims against what the codebase actually holds, card by card, and move each one to the column its evidence supports. Reads every comment and attached image and rebuilds the numbered requirement list from the ticket BEFORE opening any completion record or diff, because a diff read first supplies the frame and the requirements it silently dropped never enter the list. Locates the work \u2014 merged, on a branch nobody merged, unpushed, in a worktree, or never built \u2014 then traces each requirement to the code that PRODUCES its value rather than to a surface that renders it, and judges whether the tests standing behind it could actually fail: which rung of oracle each critical requirement stands on, armed and unarmed assertions counted apart, a denominator for what the gate really runs. Grades every verdict out of family with a single strongest judge rather than a panel, because nine frontier judges across seven families supply about two independent votes. An inconclusive result blocks and never rounds up to a pass. Cards with work left get a brief written for ship-fleet to orchestrate; cards with open decisions get referred to another model family or decided with a named recommendation rather than parked on the reader; cards whose evidence holds are promoted to Done \u2014 and never past it into a human's column until eight named preconditions hold for one pre-registered low-risk class, which a bundled gate refuses by default. Use whenever someone asks to triage, sweep, review, reconcile or clean up a board or backlog, asks what is left across a set of tickets, asks whether items in a review column are genuinely done, asks which tickets sit in the wrong status, or says a column has piled up. At Done, the column a card may reach is decided by the `warrant` plugin rather than by a checklist: warrant_column.py reads the signed warrant and the ratchet's last word and returns Verified where the card's defect class has earned warrant tier 3 with no revocation, Needs More Work where a warrant gate failed on the card's own evidence, and Done with every reason named otherwise. A grant states the substitution it rests on every time, because a warrant tier is earned by absence of escapes rather than by a measured non-inferiority study, and the signed warrant is a person accepting that in advance.",
-      "version": "0.8.1",
+      "version": "0.8.2",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -558,7 +558,7 @@
     {
       "name": "eli5",
       "description": "Build an interactive, self-contained HTML explainer that makes a hard idea genuinely click - a thing you operate, not a document you read. Lets the mechanism pick the shape of the page from eight that recur (Machine, Field, Solid, Ladder, Fork, Trace, Assembly, Reveal) rather than giving every topic the same tabs, and commits to a palette and type pairing of its own. Grounded in the cognitive science of how people form mental models: a structure-mapping analogy carrying the boundary where it stops being true, a Predict-Observe-Explain beat where the reader commits a guess before the reveal, and readouts inside the diagram rather than beside it. Inlines Three.js when a flat projection loses the invariant, GSAP when a state change moves several things in order or a Reveal scrubs on scroll, a Remotion-rendered clip when the sequence is too expensive to compute live, and generated imagery from media-gen-pro - all embedded, never from a CDN. Fails the build on an artifact that draws with SVG and CSS alone unless the choice is declared, since four in a row did. Ships a scaffold that wires the theme tokens, reduced-motion path, markers and libraries in one command, fetching each library once from a pinned checksummed URL rather than a CDN the reader would load. Routes charts through the dataviz skill first. A deterministic linter fails the build on external assets, missing viewBox, uncaptured pointer drags, leaked animation frames, motion with no reduced-motion path, buried analogy limits, absent prediction beats, thin visuals, single-mode interaction, prose over budget, condescending register and copied template headings. Use for \"/eli5 <topic>\", \"explain how X works\", \"make me an explainer for Y\", \"I still don't get Z\". Names its reader as a curious sixteen-year-old rather than a peer, and fails the build on a topic-specific term used without a definition - the failure a baby-talk detector cannot see - on placeholder nouns and a title that names nothing the page discusses, and on slogan-shaped lines that state a conclusion and show no mechanism, diagram labels included. Rebuild of eli5 by Thariq Shihipar.",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -580,7 +580,7 @@
     {
       "name": "create-luke-content",
       "description": "Write anything in Luke Rhodes' voice, with a copywriting craft layer under the marketing route rather than a voice layer on its own. Routes a request to one of six personas (LinkedIn post and long-form article, marketing content, code review, Slack and chat, short-form, ADHD and book audience), draws the base voice from an evidence-anchored profile where every rule traces to a quoted sample, and gates the draft on a deterministic lint. The rebuild's subject is the marketing route: the predecessor gave LinkedIn a bundled engagement-research layer and gave marketing none, so its entire craft basis was a single consumer parenting-app release post, and B2B launch, landing and email copy came out voice-correct and structurally amateur. This version bundles a copywriting evidence base from a five-backend deep-research panel, rebuilds the marketing persona against it with artifact structures for announcements, landing pages, release notes and campaign email, and separates replicated findings from direct-response folklore so no rule is encoded on the strength of a famous name. It also ships the voice-lint.json the predecessor never had: without it the stylometric fingerprint comparison, the Australian-spelling check, the exclamation and emoji rations and the repeated-phrase allowlist were all dead code, and the self-narrating meta-labels the skill claimed to ban passed clean. Successor to create-luke-content by DiologIR, whose voice extraction it keeps intact.",
-      "version": "3.1.0",
+      "version": "3.1.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -591,7 +591,7 @@
     {
       "name": "visualization",
       "description": "Draw anything a reader has to look at to understand \u2014 39 editorial diagram types (architecture, flowchart, sequence, state, ER, timeline, swimlane, quadrant, radar, polar, loop, nested, tree, org chart, layer stack, Venn, pyramid, treemap, Sankey, fishbone, Wardley map, kanban, journey, deployment, dependency, UML class, story map, DB schema and more) and the quantitative chart forms (bar, line, area, scatter, bubble, beeswarm, dumbbell, slopegraph, bump, ridgeline, heatmap, stat tile, meter, hero figure) as one self-contained HTML file with inline SVG. The merge is the point: a diagram system that was strong on layout grammar had a five-colour series palette chosen by eye, and it fails a perceptual gate in both light and dark \u2014 five of five slots below the chroma floor, worst normal-vision \u0394E 10.3 against a floor of 15, which is five greys with a tint. This version routes the form from the data's job before colour, snaps a brand's own hue families to a passing palette by re-stepping and re-ordering them, and holds charts to zero-baseline, one-scale, area-by-area and disclosed-gap honesty rules the diagram side never needed. It also ships the gates: the predecessor cited twenty verifier scripts that existed only in its repository, so the installed agent doing the drawing could cite a check it could not run \u2014 twelve now ship inside the skill, run from the install against the file just written, and exit non-zero. Redraws .drawio or Mermaid sources at a chosen size and detail, onboards brand tokens from a website, and adds semantic patterns, callouts, accessible motion or hand-drawn styling. Successor to diagram-design by Cathryn Lavery, whose 39 layout grammars, six connector rules and import pipeline it keeps intact.",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

@@ -9,14 +9,15 @@ rungs and `reckon`'s row classes — more of the shape that collapses.
 
 ## Epistemic status
 
-- **Tiers:** `[docs]`, `[measured-family]`, `[measured-here]`, `[derived]` — the last including a scan of this skill's text
+- **Tiers:** `[docs]`, `[measured-family]`, `[derived]` — no `[measured-here]`; the last includes a scan of this skill's text
   rather than a run of it (`scan_skill.py` over `SKILL.md` and its four references, 1 Sep 2026): 736 lines, 9 categorical
   matches over 6 scopes with **3 dropped** (two are `audit_page.mjs`'s assertions, one is prose in an evidence table), the 1
   listed bound dropped too (`exactly one` at `SKILL.md:50` is a routing condition), 60 prohibitions in prose, **0** qualitative
   skill references, **0** emphasis tokens, four modules — `gate`, `visual`, `bounded-constraint`, and `delegation`, which clears
   the threshold only because `runner` matches inside `runner_up`, written anyway for the reason in override 8.
-- **`[measured-family]` sources:** two single sessions (n=1 each) and a 106-task benchmark at two effort levels, in
-  `geminify/references/evidence.md`. **No Gemini run of `whats-left` has been observed**, and neither session surveyed a repo.
+- **`[measured-family]` sources:** two single sessions (n=1 each), a 106-task benchmark at two effort levels, and one
+  observation of geminify's own gate that is not a run at all (§5), all in `geminify/references/evidence.md`. **No Gemini run of
+  `whats-left` has been observed**, and neither session surveyed a repo.
 - **The tier the evidence is about.** Every rate below was observed on `gemini-3.7-flash` (one session on
   `gemini-3.7-flash-high`) — flash-tier claims, **not** for the Pro tier, where these overrides stand as `[docs]`-grounded
   discipline and every `[measured-family]` number is open. The default drifts inside the family too: **[docs]** *"If
@@ -24,7 +25,7 @@ rungs and `reckon`'s row classes — more of the shape that collapses.
   thinking effort is now medium, changed from high in Gemini 3 Flash Preview."*
 - **Unmeasured on this skill:** no evidence a `gemini.md` fixes anything, on either source · the collapse and bound rates were
   measured on UI briefs and code tasks, so their transfer to a repository survey is `[derived]` · nothing measures this family
-  separating built from deployed, mapping a six-class partition without dropping a class, telling `accepted-default` from
+  separating built from deployed, mapping an eight-class partition without dropping a class, telling `accepted-default` from
   `as-found`, or refusing to act on a note. The d = 0.68 effect is the skill's own citation.
 - **The self-limitation.** **[docs]** A conditional side file is the shape the checklist warns about: *"Avoid writing a prompt
   with non-linear logic or conditionals that require the model to piece together fragmented instructions from multiple different
@@ -90,9 +91,9 @@ import json, pathlib, sys
 m = pathlib.Path(sys.argv[1]); L = lambda f: json.loads((m/f).read_text())
 items, qs, copy = L("items.json"), L("questions.json"), L("copy.json")
 spans  = [f"{i['id']}.{f}" for i in items for f in ("plain","state","live","from_you","remaining")]
-spans += [f"{q['id']}.{f}" for q in qs for f in ("title","why")] + [f"{q['id']}.opt{j}.{f}" for q in qs for j,o in enumerate(q["options"]) for f in o]
-print(f"spans {len(spans)} · in copy.json {sum(s in copy for s in spans)}")   # spans 119 · in copy.json 119
-# 119 = 14 items x 5 fields + 7 questions x (title, why) + 5 option spans each; the loop reads each option's own keys, so a runner_up's `because` is counted
+spans += [f"{q['id']}.{f}" for q in qs for f in ("title","why")] + [f"{q['id']}.opt{j}.{f}" for q in qs for j,o in enumerate(q["options"]) for f in ("label","consequence","because") if f in o]
+print(f"spans {len(spans)} · in copy.json {sum(s in copy for s in spans)}")   # spans 136 · in copy.json 136
+# 136 = 14 items x 5 fields + 7 questions x (title, why) + 21 options x (label, consequence) + the 10 `because` fields the marks carry; those three keys are what the question model calls voice prose, and `if f in o` is why a runner_up's `because` counts
 PY
 ```
 
@@ -113,8 +114,8 @@ the delivery note, filled, before the build:
 |---|---|---|---|
 | `Every item lands in one of three buckets` | 14 items | 14 | `14 of 14 · 9 observed, 3 reported, 2 unknown` |
 | `Survey across the complete vertical architecture` — the five rungs | 5 rungs × 14 items | 70 | `70 of 70 · 41 n/a: no daemon, no Windows or Linux target` |
-| the `reckon` partition — `undecided`, `unmeasured`, `unbuilt`, `broken`, `unjoined`, `waived` | 6 classes | 6 | `6 of 6 · unjoined 0 rows, waived 2 → meta.unknowns` |
-| `Every field a human reads is prose written in Luke's voice` | 119 spans | 119 | `119 of 119 from copy.json` |
+| the `reckon` partition — `unbuilt`, `unjoined`, `broken`, `unmeasured`, `unnamed`, `undecided`, `retirable`, `waived` | 8 classes | 8 | `8 of 8 · unnamed 3, retirable 1 · unjoined 0 rows · waived 2, exceptions rather than done` |
+| `Every field a human reads is prose written in Luke's voice` | 136 spans | 136 | `136 of 136 from copy.json` |
 | production config, error and fallback paths, last deploy-log entry | 3 sources × 14 items | 42 | `39 of 42 · 3 n/a: no deploy log for the worker` |
 | `Ask each crop "what is wrong with this?"` | 4 crops from `--shots` | 4 | `4 of 4 opened and read` |
 | `State in the reply` — where, how many, cheapest three, unverified | 4 elements | 4 | `4 of 4` |
@@ -123,7 +124,7 @@ the delivery note, filled, before the build:
 Both new rows are partitions, and **[docs]** an overloaded pass is named outright: *"If the prompt asks the model to perform
 several distinct cognitive actions in a single pass … it is likely trying to accomplish too much. Break the requests into
 separate prompts."* A rung with nothing in it reads `n/a: <reason>` rather than going missing, and a `reckon` class with no rows
-says `0 rows`, because a partition read four-of-six looks identical to one read whole. An item whose in-tree logic passes while
+says `0 rows`, because a partition read five-of-eight looks identical to one read whole. An item whose in-tree logic passes while
 its daemon or OS layer is missing stays `built`, with `remaining` naming that layer. Anything you could not check is `unknown`
 plus a row in `meta.unknowns`: `Being unable to check something is a finding.` `Never invent a stage.` **[docs]** *"If the exact
 answer is not explicitly written in the context, you must state that the information is not available."*
@@ -143,10 +144,10 @@ control   validate_model.py on a copy with one `consequence` deleted            
 ```
 
 **Prove the gate can fail before trusting it passing.** `assets/example/` is a *passing* fixture (8 items, 7 questions) and
-there is no failing one, so a green validator has never been shown able to go red here. **[measured-here]** geminify's own quote
-gate went green everywhere after a change took its checked count to zero, caught only by the negative control. If Chrome never
-starts the page is unaudited. **[docs]** *"Include specific verification steps in either the system instructions or your prompts
-directly."*
+there is no failing one, so a green validator has never been shown able to go red here. **[measured-family]**, and not a run of
+anything: `geminify/references/evidence.md` §5, where its own quote gate went green on every file — negative control included —
+after a one-line change took its checked count to zero. If Chrome never starts the page is unaudited. **[docs]** *"Include
+specific verification steps in either the system instructions or your prompts directly."*
 
 Then the crops, because `Rendering an image is not seeing one.` — `--shots` writes `mobile.png`, `top.png`, `questions.png`,
 `items.png`. Name what is in each (which group, which question, which badges) first. **[docs]** *"Ask the model to describe the
@@ -171,8 +172,7 @@ all — four field bounds, then the `card` link and the second mark.
 | `Check the host resolves before writing it` (`card.url`) | shape only: absolute `http(s)`, `key` warned if absent | `curl -sSI -o /dev/null -w '%{http_code}' <url>` per card | 200, 200, **404** | **no** |
 | `named as also reasonable … say that condition in its because` | `because` non-empty; the condition is unreadable to it | read each `runner_up.because` for a condition the reader could recognise | 2 of 3 name one | **no** |
 
-Brevity is why `live` collapses to a phrase unless its word count is read back, why `consequence` drifts into a restatement of
-`label`, and why a `runner_up.because` arrives as a compliment (`also a solid option`). Count, then read the shortest.
+Brevity collapses `live` to a phrase and a `runner_up.because` into a compliment. Count, then read the shortest.
 
 ## Override 5 — the survey reads big files, and two attempts is the ceiling (`### 1. Survey`)
 
@@ -239,7 +239,7 @@ prompt."*
 
 1. Run the voice pass as a phase that writes `copy.json`, assemble every voice field from it by key, and print the span receipt
    first. A voice pass with no file behind it did not happen.
-2. Fill the denominator table before building: items × buckets, five rungs × items, `reckon`'s six classes, 119 voice spans,
+2. Fill the denominator table before building: items × buckets, five rungs × items, `reckon`'s eight classes, 136 voice spans,
    evidence sources × items, four crops, the reply's four elements. `n/a: <reason>` on the rest, `0 rows` on an empty class.
 3. Paste three exit codes, prove the validator can go red on a broken copy of `assets/example/`, say the page is unaudited if
    Chrome never started, and describe each crop before judging it.

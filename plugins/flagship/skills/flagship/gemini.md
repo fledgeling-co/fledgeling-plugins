@@ -112,7 +112,7 @@ your plan."* Each becomes a row read back off what you actually sent:
 | the tab is the last resort | tabs opened this wave | `ls ~/.claude/sessions/` before and after | 2, both doable as background agents | **no — demote** |
 | `only the first closes` | sessions killed, by class | classify each of the five before the kill | 12 killed, 12 clean-handover | yes |
 
-Report `4 of 6 bounds within, 2 breached and corrected`. A ledger filled from `SKILL.md` rather
+Report `3 of 6 bounds within, 3 breached and corrected`. A ledger filled from `SKILL.md` rather
 than from the messages sent shows six greens, which is the failure itself. The last row has no
 undo: `references/spawning.md` names five classes — clean handover, mid-queue, owing dispatched
 work, owner-gated, the operator's own — and a categorical read kills the other four.
@@ -136,7 +136,7 @@ work is in the number. The message ships filled — the shape, not a reading:
 ```
 machine  2026-08-24 22:41:07 · scripts/machine_read.py
 berths   ceiling 10 · in_use 7 · available 3 · occupants: anvil(6), atlas(1)
-load     1m 14.2 · 5m 11.8 · max/core 0.89 · basis max(1m,5m); 1m<5m, falling
+load     1m 14.2 · 5m 11.8 · max/core 0.89 · basis max(1m,5m); 1m>5m, rising
 procs    ps -eo pcpu,comm · 24 claude, 0 CoreSimulator, 0 VM — consumers are ours
 disk     87% on /System/Volumes/Data, steady across two reads 4 min apart
 thermal  not_limited ×3 across 61s

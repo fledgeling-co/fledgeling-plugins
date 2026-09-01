@@ -36,7 +36,7 @@ Do not spend effort re-hardening these; they already have the shape this family 
 
 - **§3's routing tables.** A lookup keyed on `what must the reader do?`, each row naming one form and one reference file. Objective, non-categorical, no judgement in the middle.
 - **`Always load the chosen type reference before drawing.`** Already a read-then-act ordering rather than a standard to hold in mind.
-- **§8's command table**, and **`Read the exit code, not the output`** stated twice (§4, §8) with the failure named. Twelve commands with exit codes is what C2 asks every other skill to build. Keep both as written.
+- **§8's command table**, and **`Read the exit code, not the output`** stated twice (§4, §8) with the failure named. A table whose cells are commands and whose verdict is an exit code is what C2 asks every other skill to build. Keep both as written. Read its size off the table, not off the prose beside it: **ten rows**, one of which collapses five checkers (`verify-<type>.py` for beeswarm, bubble, bump, ridgeline, polar), naming fourteen scripts in all (`ls scripts/verify-*.py` → 12, plus `self_check.py` and `validate_palette.py`) against the twelve §8 declares. So the applicable set is derived per file, as in C2's receipt, and copied from neither number.
 - **§10, Known limits.** Declared gaps, including `Five of the six connector rules have no checker`. A file that says what it does not check is doing C2's work already.
 - **The complexity budgets as numbers.** `9 nodes, 12 arrows, 2 accents` is the objective constraint **[docs]** asks for. What is missing is only the readback.
 
@@ -53,9 +53,17 @@ Write the ledger into the deliverable's notes before drawing, one row per unit, 
 | unit | scope, in the skill's words | n | built | evidence |
 |---|---|---|---|---|
 | variants | `Three variants ship for every type` (§9) | 3 | 3 | `ls flows-{light,dark,full}.html` |
-| `<title>`/`<desc>` | the accessible-SVG contract (§9) | 6 | 6 | `grep -c '<desc>'` → 1,1,1 |
+| `<title>`/`<desc>` | the accessible-SVG contract (§9) | 6 | 6 | `grep -cE '<(title\|desc) id='` → 2,2,2 |
 | Sankey ribbons | `Every flow gets its own offset range` | 11 | 11 | `verify-sankey.py` exit 0 |
 | taste-gate boxes | `taste-gate.md` | 60 | 54 | 6 `n/a`: no motion, no CJK, not an import |
+
+That second row is the one whose command has to be written carefully, and it is worth
+checking against the shipped assets before trusting it on your own file. §9 requires IDs
+prefixed per diagram and variant, so the markup is `<desc id="sankey-desc">` and a
+`grep -c '<desc>'` returns **0** on a file that satisfies the contract — measured across
+`assets/example-sankey{,-dark,-full}.html`: `0,0,0` for the bare form against `2,2,2` for
+the id-aware one. A readback that cannot see the artifact reports a satisfied contract as
+a missing one, and half a row (title, or desc) as a whole one.
 
 Report as `74 of 74 cells resolved, 6 n/a with reasons` — never as `taste gate run`.
 
@@ -79,6 +87,8 @@ gates applicable 5 · run 5 · exit 0: 5 · type reference read: references/type
 ### C3 — the retry ceiling
 
 **[docs]** "you must change your strategy or arguments, not repeat the same failed call." **[measured-family]** Four consecutive invocations of one absent tool with nothing changed between them. Two attempts per command, then change approach. A missing `python3`, an absent Playwright in `export.md`'s PNG path, or a checker that errors on its own `--help` gets one attempt, then the honest line: the artifact is ungated and the delivery says so. **[docs]** "You have a limited action budget of <n> tool calls. Use them efficiently."
+
+**A capacity error gets none.** **[measured-family]** `Read` answering `File content (28636 tokens) exceeds maximum allowed tokens (25000)` was re-issued four consecutive times with nudged parameters before the pivot. Pivot on attempt 1 instead — a line-ranged read, a chunk, or a `grep` for the span you need. Two of this skill's own files sit in that class: `references/primitive-icons.md` (827 lines, 106 KB) and `assets/icons.html` (109 KB). Neither is ever needed whole: `grep -n '<icon-name>' references/primitive-icons.md` then `sed -n '<a>,<b>p'` returns the one icon block, and the catalogue read that fails is a read nothing asked for.
 
 ### C4 — passes, and file dependencies rather than lenses (§0, §3, §4)
 
@@ -142,9 +152,41 @@ Beyond C2's receipt: prove a gate can fail before trusting it passing. `validate
 
 **[docs]** Google's launch material for this model: "For UI generation, the model shows high design adherence and parity based on a reference input, whether it's a screenshot, an image, or a full design system." **[measured-family]** Every static-page task in the collapsed bucket was a prose brief with **no** reference. Untested together, but this is the documented strong path.
 
-This skill ships 148 `assets/example-*.html` files — three variants for most of its types, plus `template-motion.html`. Read `assets/example-<type>.html` and its `-dark` twin before drawing, and name in the notes what you took from each: the ramp, the legend strip position, the eyebrow treatment. **[derived]** Two reads turn the collapsed shape into the documented one.
+This skill ships 148 `assets/example-*.html` files — three variants for most of its
+types, plus `template-motion.html`. Read `assets/example-<type>.html` and its `-dark`
+twin before drawing, and name in the notes what you took from each: the ramp, the legend
+strip position, the eyebrow treatment. **[derived]** Two reads turn the collapsed shape
+into the documented one. The note, filled in from this skill's own Sankey trio rather than
+described:
 
-**[docs]** When judging a rendered capture: "Ask the model to describe the images before performing the task in the prompt", and "To improve the response, point out which parts of the image are most relevant to the prompt." Describe the crop — name what is in it — before judging it, and point at the region rather than the frame. Capture denominator: one per variant shipped, all opened, the fraction reported.
+> **Reference input:** `assets/example-sankey.html` + `assets/example-sankey-dark.html`.
+> **Ramp** — ordinary ribbons `rgba(79,93,117,0.18)`, muted at 0.18 alpha, over node bars
+> at ink `#2d3142`; the flaky-rerun path alone at `rgba(235,108,54,0.28)`. The dark twin
+> keeps every coordinate and swaps the ground: paper `#2d3142` / ink `#f5f5f5`, muted
+> `#bfc0c0`, accent lifted to `#f08a59`, ribbons `rgba(191,192,192,0.22)` — alpha 0.18 →
+> 0.22 on the darker ground, roles unchanged. Taken: the alpha pair, and one accent flow —
+> 2 of the 12 ribbon paths — carrying the whole emphasis.
+> **Legend strip** — outside the plot, bottom-left: a 0.8px rule at `y=492` from `x=40` to
+> `x=960`, `LEGEND` in Geist Mono 8px letter-spaced 0.18em at `(40,508)`, three 16×8
+> swatches at `y=520` `x=40/220/420` with labels at `x=64/244/444`, and the italic takeaway
+> at `x=600`. Taken: the position, which is §5's "Legend floating inside the diagram area"
+> anti-pattern expressed as geometry, and that the takeaway lives *there* rather than in
+> `<desc>` — §9's non-editorialising rule with somewhere to put the sentence instead.
+> **Eyebrow** — Geist Mono 0.66rem/500, letter-spacing 0.18em, uppercase, muted, 0.5rem
+> above an Instrument Serif 400 title. Taken: the pair, and that the eyebrow names the
+> form (`Sankey · Diagram Design`) while the serif line carries the subject.
+
+**[docs]** When judging a rendered capture: "Ask the model to describe the images before performing the task in the prompt", and "To improve the response, point out which parts of the image are most relevant to the prompt." Describe the crop — name what is in it — before judging it, and point at the region rather than the frame.
+
+Capture denominator: one per variant shipped, all opened, the fraction reported — filled
+in, the same shape as the ledger above:
+
+> `3 variants shipped · 3 rendered · 3 crops opened · 3 of 3`. Crop 1 described before it
+> is judged: *the light legend band, x 40–960 × y 484–536, holds the rule, the `LEGEND`
+> label, three swatch keys at x=40, 220 and 420, and an italic takeaway line from x=600.*
+> Judged: every swatch sits at `y=520`, below the `y=492` rule and clear of the lowest node
+> bar (verify with `grep -o 'y="[0-9]*"[^/]*height="[0-9]*"' assets/example-sankey.html` and take max(y+height)), so §5's legend anti-pattern is clear here. Crops 2–3, the dark and full
+> twins, same band, same verdict.
 
 ### `states` — the axes with no checker (§9, §10, `chart-honesty.md`)
 
@@ -190,6 +232,6 @@ A cell you cannot tag with a file is a value you invented.
 
 ## What is not here, and why
 
-- **`delegation` fired on five triggers and is dropped.** All five are subject matter, not behaviour: `workflow` as a swimlane use-case, `orchestration` as an icon and a chevron name, `runner` as Airflow, `fan-out` as a connector routing rule. This skill spawns no agents.
+- **`delegation` fired on 5 hits and is dropped.** Named: `orchestrat` (an icon caption, and `Orchestration` as a reserved chevron name in `type-high-level.md`), `runner` (Airflow's DAG runner in `primitive-icons.md`), and `fan-out` / `fan out` as connector-routing and tree-branching rules. The literal `delegate` appears 0 times in `SKILL.md` — §10's line reads `delegating` layout to a Sugiyama engine, which the substring match does not catch, so it is named here as prose rather than counted as a hit. Every one is subject matter or a limits note, never behaviour; `workflow(` never fired, the module's trigger needing the paren. This skill spawns no agents.
 - **`emphasis` did not fire** — three tokens, two of them domain rules inside type references (`connectors are MANDATORY`, `Markers MUST touch`). Read those as plain rules and add no capitals anywhere.
 - **18 of the 44 quota rows the scan printed are dropped as prose**, not deliverable scope: a prohibition (`Shadow on any element`), a capture extent (`the whole page`), an XML-parsing note (`the whole file`), conditionals (`any check`, `any path`, `any cell carrying an info mark`), and a geometry phrase (`the full width`).

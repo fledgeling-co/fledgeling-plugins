@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.3 - 2026-09-01
+
+Closes the auditor findings on `gemini.md`: filled the exemplars the overrides only described, corrected counts and citations that disagreed with the target `SKILL.md`, and brought the file inside the 150-250 line bound. `verify_quotes.py` exits 0.
+
 ## 0.5.2 - 2026-09-01
 
 Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
