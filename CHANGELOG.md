@@ -4,6 +4,69 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-08-31
+
+### generate-investor-portal 1.3.0: a kind's props are claims, not fields
+
+Six defects from one real tenant, an unlisted Australian company, and the rules that follow. Full
+measurements in `references/what-shipped-wrong.md`.
+
+- **The blocker: prose in `governanceGroup.docs[]` asserted eleven documents nobody publishes.**
+  That array's renderer draws a PDF affordance per row, counts the rows into an "N documents"
+  heading, and reserves a date column. Five prose commitments and six third-party standards
+  inherited all three claims, on a governance page, for a company whose own source material says it
+  publishes no documents at all. The array validated, the route returned 200, the tokens were right.
+  The new rule sits in SKILL.md rather than only in a reference: read what a kind **asserts** about
+  what you hand it, because a field that accepts your data is not a field that means it.
+- **Six fields whose rendering contract is not what their type suggests**, each with a visible
+  defect behind it: a hero `headline` array is LINES (a trailing "." got a line of its own) while
+  `identity.freeHeadline` is inline runs; `prose` draws no eyebrow and renders an array body run-on;
+  a `§` ordinal on a kind that renders no eyebrow puts a gap in the *rendered* index; a badge string
+  does not wrap and scrolled a document sideways at 375px; and the ledger joins to the page by
+  **label**, so a qualified ledger label silently reads as an undisclosed value.
+- **Writing `chrome` replaces it wholesale.** `header ?? headerFromRecord(record)` — omit `mark` and
+  the masthead publishes `AE`, the reference tenant's monogram, under another company's name. The
+  footer merges and the header does not, from the same-looking edit.
+- **Three renderer defects recorded so nobody reintroduces them**: a disclosure marker tested against
+  `from === 'mock'`, a value `ValueProvenanceSchema` cannot carry, so it was dead on every tenant
+  while the line above it claimed the rows were marked; a venue fallback of `'the exchange'` that
+  reintroduced, for unlisted tenants, the defect the venue derivation had just removed; and a 4:3
+  `object-fit: cover` on unit media that cropped 26%, 44% and 26% off three product diagrams.
+- **And the instrument, not the page.** A probe reading `getBoundingClientRect()` cannot see an
+  absolutely-positioned `::before`, so it reported four link classes at 15–20px whose real hit area
+  was 14px larger. One target-size class genuinely needed the fix; two did not. Check for the
+  existing extension before enlarging a target, and report a padding change as making the
+  measurement honest rather than as fixing an accessibility defect.
+
+### deck-craft 1.17.0: the collision check could not see a container
+
+- **`chromeCollisions` walked a list of text tags, so a panel through the footer rule read as
+  clean.** The selector was `p,li,td,th,h1,h2,h3,h4,figure,table`. A `<div class="panel">`
+  crossing the footer matches none of them, so the check stepped over it and the slide passed.
+  Measured on a real twelve-slide deck: three panels crossing the rule on three separate slides,
+  by 15.7px, 7.3px and 2.0px, with `chromeCollisions: 0` and a `PASS` verdict. A reader found it
+  by looking at the screen, which is the outcome the gate exists to make unnecessary.
+  - The walk is now every element in the slide, kept if a viewer can *see* it land on the chrome:
+    it carries a background, a visible border, or text of its own.
+  - **The threshold moved to authored pixels, at a hairline.** It was four *rendered* pixels,
+    which at a stage scale of 0.667 is six authored ones, so a box genuinely through the rule by
+    two or three sat in a dead zone the gate could not report.
+  - **A full-height layout wrapper is excluded, on height alone.** Its padding box legitimately
+    extends past the footer; that is what the padding is for. Width is not a discriminator, and
+    testing it was itself a bug — an editorial cover whose copy column is 1290px of a 1920px
+    stage is still a wrapper, and a width test excused every slide except that one.
+  - **The outermost crossing box is reported, not every descendant.** A panel through the rule
+    otherwise arrives once per line of text it holds: five findings for two crossings.
+- **Two new eval assertions, and the second is the control.** `A18` fails the old probe and passes
+  the new one on `evals/fixtures/chrome-boxes.html` — the real deck cut to three slides, one clean,
+  one panel through by 34 authored px, one card through by 4. `A19` asserts the widened walk still
+  reports zero on the clean fixture, because widening a selector is exactly where false positives
+  arrive; it caught the width-test bug above before it shipped.
+- **The general shape, for the next check.** A gate scoped by an enumerated tag list is a hole
+  rather than a scope, and it fails in the direction that reads as success. Scope by what an
+  element *does* — paints, carries text, is chrome — and exclude by a stated property, so a new
+  kind of node is covered the day it is authored rather than the day somebody remembers the list.
+
 ## 2026-08-30
 
 ### reckon 1.9.0: the remaining work, scheduled into waves with measured durations
