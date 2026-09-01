@@ -8,9 +8,9 @@ fingerprint, and that caller must contain a configured reader after the helper c
 the raw mutating-body denominator and count scoped calls by classification.
 
 Target and caller records bind the parser's explicit-test posture so removing `@Test` outside an
-otherwise identical body invalidates the scope. Caller bindings prove the helper occurrence itself
-is executable. A trailing closure is accepted only when the exact source-bound helper's final
-closure parameter is directly invoked in its body.
+otherwise identical body invalidates the scope. Caller bindings require a direct, top-level,
+parenthesized helper call. Trailing closures and nested control-flow calls are refused because this
+lexical scanner cannot prove whether or when they execute relative to the scoped mutation.
 The exact caller call must also survive the Swift comment/literal mask, so a matching spelling in
 non-executable text cannot justify attribution.
 
@@ -34,8 +34,8 @@ A fresh cumulative primary review then found that the later-reader check accepte
 bare `read` expression for configured reader `read`. Both false greens are now permanent public-CLI
 fixtures. Attribution requires a masked reader-shaped identifier with call syntax in a conservative
 invocation context.
-Helper-call bindings still accept Swift trailing closures. This remains a lexical call-shape check,
-not receiver resolution or output causality.
+Helper-call bindings are parenthesized only. This remains a lexical call-shape check, not receiver
+resolution or output causality.
 
 A subsequent cumulative primary found the same ambiguity in qualified syntax: `.read(let x)` in a
 Swift enum associated-value pattern was accepted as a call. The interim repair limited readers to
@@ -59,8 +59,7 @@ guard and has its own actual-source mutant.
 
 A fifth cumulative primary proved that a trailing-closure-shaped configured reader can instead be
 a valid computed-property accessor: `get { 1 }` declares an accessor and performs no observation.
-Configured readers are now parenthesized only; this does not affect the separately bound helper,
-which continues to accept trailing-closure calls. Assignment context is limited to a simple binding
+Configured readers and separately bound helpers are now parenthesized only. Assignment context is limited to a simple binding
 or assignment statement, while the balanced-body parser independently prevents a nested function's
 default argument from lending reader credit to its parent before that function is called. Both are
 permanent public-CLI fixtures; the accessor refusal has its own actual-source mutant.
@@ -82,13 +81,16 @@ additional review found the brace-free equivalent in inactive `#if false` and fa
 `#if canImport(...)` regions. Readers inside all conditional-compilation regions are conservatively
 refused because the scanner does not resolve the active Swift build configuration.
 
-The first repair over-corrected by refusing every trailing-closure helper, invalidating ten current
-Perch bindings, while still accepting helper calls stored in closures or inactive branches. It also
-searched inside parenthesized helper arguments, so an uninvoked `@autoclosure` looked like a later
-reader. The operative rule binds an executable helper occurrence, balances the entire parenthesized
-call before searching, and accepts a trailing closure only when the final closure parameter is
-directly invoked by the exact hashed helper body. Recognized `for`/`while`/`if`/`switch`/`do`/`repeat`
-blocks remain executable contexts; arbitrary closure blocks do not. Top-level `return` and `throw`
-terminate later-reader credit.
+The first repair refused every trailing-closure helper, invalidating ten current Perch bindings,
+while still accepting helper calls stored in closures or inactive branches. It also searched inside
+parenthesized helper arguments, so an uninvoked `@autoclosure` looked like a later reader. A later
+repair inferred trailing-closure execution from the helper body, but fresh review proved that this
+does not establish whether the closure runs before or after the scoped mutation. Fresh review also
+found unreachable helper calls inside false branches and loop paths after `continue` or `break`.
+The operative rule therefore requires a direct top-level parenthesized helper call and balances the
+entire call before searching for a later reader. Top-level `return` and `throw` terminate credit.
+The ten Perch trailing-closure bindings were reviewed and reclassified as one failure sentinel:
+their scoped `Issue.record` is itself the cleanup failure oracle, and caller assertions execute
+before the deferred cleanup rather than observing it.
 
 Strict-schema arming initially false-greened because a prior reference-drift case had not restored its producer, so every later malformed record failed for the wrong reason. The fixture now restores that byte before the schema probes; independently removing either unknown-field guard fails its named assertion. The failed first mutation attempt is retained in command history, not counted as fault credit.
