@@ -1,0 +1,8 @@
+/tmp/f25-065-return-helper-runtime.swift:4:40: warning: code after 'return' will never be executed
+2 | func read() { reads += 1 }
+3 | func seed() -> Int { 1 }
+4 | func measure() -> Int { return seed(); read() }
+  |                                        `- warning: code after 'return' will never be executed
+5 | print("value=\(measure()) reads=\(reads)")
+6 |
+value=1 reads=0
