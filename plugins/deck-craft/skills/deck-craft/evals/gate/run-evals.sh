@@ -225,6 +225,38 @@ for side in old new; do
 done
 
 echo; echo "================ SCORECARD ================"
+echo "== A18  a container crossing the footer rule is caught =="
+# The collision check walked `p,li,td,th,h1..h4,figure,table` — a list of TEXT
+# tags — so a <div class="panel"> through the footer matched nothing and the
+# slide reported clean. Measured on a real twelve-slide deck: three panels
+# crossing by 15.7px, 7.3px and 2.0px, chromeCollisions 0, verdict PASS, and a
+# reader found it by looking at the screen. The fixture is that deck cut to
+# three slides: one clean, one panel through the rule by 34 authored px, one
+# card through it by 4 — the second of which also sat under the old four
+# RENDERED pixel threshold, six authored px at a typical stage scale.
+run "$OLD" a18-old chrome-boxes.html
+run "$NEW" a18-new chrome-boxes.html
+grep -qE '"chromeCollisions": [1-9]' results/a18-new.out \
+  && assert A18 new PASS "$(grep -oE '"chromeCollisions": [0-9]+' results/a18-new.out | head -1) — both container crossings reported" \
+  || assert A18 new FAIL "a panel through the footer rule reads as clean"
+grep -qE '"chromeCollisions": [1-9]' results/a18-old.out \
+  && assert A18 old PASS "caught" \
+  || assert A18 old FAIL "$(grep -oE '"chromeCollisions": [0-9]+' results/a18-old.out | head -1) — the tag-list selector cannot see a DIV"
+
+echo "== A19  CONTROL: the widened walk invents nothing on a clean deck =="
+# Widening a selector is where false positives arrive. Two controls: the clean
+# fixture must stay at zero, and the full-height layout wrapper — whose padding
+# box legitimately reaches past the footer — must not be counted, including when
+# it is a COLUMN rather than the full stage width, which is the shape an
+# editorial cover uses.
+grep -qE '"chromeCollisions": 0' results/a13-new.out \
+  && assert A19 new PASS "clean deck still reports 0 collisions under the widened walk" \
+  || assert A19 new FAIL "$(grep -oE '"chromeCollisions": [0-9]+' results/a13-new.out | head -1) on a deck with none"
+grep -qE '"chromeCollisions": 0' results/a13-old.out \
+  && assert A19 old PASS "0" \
+  || assert A19 old FAIL "non-zero on the clean fixture"
+
+
 python3 - <<'PY'
 rows=[l.rstrip('\n').split('\t') for l in open('results/scorecard.tsv') if l.strip()]
 by={}
@@ -247,6 +279,8 @@ names={
  'A15':'a check that threw reads as unrun',
  'A16':"an empty probe result is refused",
  'A17':'NO REGRESSION: pre-existing blockers still fire',
+ 'A18':'a container crossing the footer rule is caught',
+ 'A19':'CONTROL: the widened walk invents nothing',
 }
 op=np=0
 out=['| # | assertion | original | rebuild |','|---|---|---|---|']

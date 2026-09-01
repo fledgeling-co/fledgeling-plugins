@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Northbridge Rail FY26 Capital Position</title>
+<style>
+  :root{--slide-w:1920px;--slide-h:1080px;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:#0B0D10;overflow:hidden;}
+  #deck{height:100vh;width:100vw;overflow-y:auto;display:flex;flex-direction:column;
+        align-items:center;gap:40px;padding:62px 0 186px;}
+  .slide-wrap{width:min(92vw,calc((100vh - 248px) * 16 / 9),1920px);aspect-ratio:16/9;
+              position:relative;overflow:hidden;flex-shrink:0;background:#fff;}
+  .slide{position:absolute;top:0;left:0;width:var(--slide-w);height:var(--slide-h);
+         transform-origin:top left;background:#fff;color:#111827;
+         font-family:Georgia,'Times New Roman',serif;}
+  .pad{height:100%;padding:104px 120px 208px;position:relative;}
+  h2{margin:0;font-size:76px;line-height:1.06;letter-spacing:-.03em;font-weight:700;}
+  p{margin:0;font-size:28px;line-height:1.45;color:#4B5563;}
+  .panel{background:#F1F0EC;border:1px solid #E3E1DC;border-radius:16px;padding:36px 40px;margin-top:40px;}
+  .card{background:#F7F6F5;border:1px solid #E3E1DC;padding:32px;margin-top:32px;}
+  .foot{position:absolute;left:120px;right:120px;bottom:44px;border-top:1px solid #E3E1DC;
+        padding-top:18px;display:flex;justify-content:space-between;}
+  .foot span{font-size:24px;color:#62686F;}
+</style></head><body>
+<div id="deck">
+
+  <!-- 01 — CLEAN. A paragraph well clear of the footer rule. Nothing here fires. -->
+  <div class="slide-wrap"><section class="slide" data-screen-label="01 Clean">
+    <div class="pad">
+      <h2>Track renewal ran to programme.</h2>
+      <p style="margin-top:40px;max-width:60ch;">Every figure on this slide clears the footer rule
+        by more than the floor, so a correct gate reports nothing against it.</p>
+    </div>
+    <div class="foot"><span>Northbridge Rail Limited, FY26</span><span>01 / 03</span></div>
+  </section></div>
+
+  <!-- 02 — THE DEFECT. A .panel container crosses the footer rule by ~34 authored px.
+       The tag-list selector p,li,td,th,h1..h4,figure,table does not match a DIV, so the
+       collision check walked past it and reported the slide clean. Measured on a real
+       deck: three panels crossing on three separate slides, gate reported 0. -->
+  <div class="slide-wrap"><section class="slide" data-screen-label="02 Panel crosses the rule">
+    <div class="pad">
+      <h2>A panel is not in the tag list.</h2>
+      <p style="margin-top:32px;max-width:60ch;">The box below is a plain container. It carries a
+        background and a border, a reader sees it cross the rule, and a selector written as a list
+        of text tags cannot see it at all.</p>
+      <div class="panel" style="margin-top:478px;">
+        <p style="font-size:30px;">This panel's bottom edge sits below the footer's top border.</p>
+        <p style="font-size:30px;margin-top:22px;">Its second line pushes it further past the rule.</p>
+        <p style="font-size:30px;margin-top:22px;">And its third puts the whole block through it.</p>
+      </div>
+    </div>
+    <div class="foot"><span>Northbridge Rail Limited, FY26</span><span>02 / 03</span></div>
+  </section></div>
+
+  <!-- 03 — THE SECOND HALF. A <p> crossing by ~3 authored px. The old check required
+       four RENDERED pixels of overlap, which at a typical stage scale of 0.667 is six
+       authored pixels, so a genuine crossing under that sat in a silent dead zone. -->
+  <div class="slide-wrap"><section class="slide" data-screen-label="03 Hairline crossing">
+    <div class="pad">
+      <h2>Three pixels is still through the rule.</h2>
+      <div class="card" style="margin-top:656px;">
+        <p style="font-size:30px;">A hairline crossing reads as a printing fault rather than as a
+          near miss, and the threshold that hid it was denominated in rendered pixels.</p>
+      </div>
+    </div>
+    <div class="foot"><span>Northbridge Rail Limited, FY26</span><span>03 / 03</span></div>
+  </section></div>
+
+</div>
+<script>
+  document.querySelectorAll('.slide-wrap').forEach(function (w) {
+    w.querySelector('.slide').style.transform = 'scale(' + (w.getBoundingClientRect().width / 1920) + ')';
+  });
+</script>
+</body></html>
