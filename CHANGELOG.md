@@ -4,6 +4,20 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-01
+
+### tailings 0.2.0: Codex transcript attribution and fail-closed pairing
+
+- **Codex Desktop transcripts are first-class input.** `signals.py` reads `response_item`
+  envelopes while preserving the Claude message parser and its controls.
+- **Subagent ownership is explicit.** The scan begins at the first `agent_message` addressed to
+  the transcript's declared `agent_path`, excludes inherited parent history, and reports the
+  boundary and parent thread id.
+- **Calls cannot disappear silently.** Stable one-based ordinals pair every custom or function
+  call with its output; zero recognized activity and orphan calls or outputs fail closed.
+- **Repository evidence stays attributable.** Cross-reference probes distinguish accessed paths
+  from modified paths and refuse broad capture/commit attribution from concurrent work.
+
 ## 2026-08-30
 
 ### reckon 1.9.0: the remaining work, scheduled into waves with measured durations

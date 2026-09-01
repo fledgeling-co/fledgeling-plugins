@@ -58,6 +58,15 @@ Then every assertion lands in exactly one of eight classes — `substantiated`,
 `unbacked`, `contradicted`, `laundered`, `inert`, `undone`, `degraded`, `waived` —
 with an exit code that blocks a report which lost an item.
 
+`signals.py` accepts both Claude message transcripts and Codex Desktop
+`response_item` JSONL. For a Codex subagent transcript it reads the declared
+`agent_path`, starts at the first `agent_message` addressed to that path, and reports how
+many inherited parent records it excluded. Calls receive stable one-based ordinals and must
+pair one-to-one with outputs. A transcript with no recognized activity, an orphan call, or an
+orphan output fails closed. `crossref.py` uses only paths attributable to that owned segment and
+keeps accessed paths separate from modified paths, so concurrent work elsewhere in the same git
+window cannot create evidence for the audited session.
+
 ## The boundary on what it changes
 
 > The pass may edit anything whose truth it has just established, and nothing whose
@@ -94,6 +103,10 @@ and three would have fired on correct behaviour. `scripts/selftest.py` runs 34
 paired fixtures — each probe must fire on a dirty input and stay silent on a clean
 one — and three probes were rewritten after firing on correct work in a real
 repository.
+
+The same selftest also carries synthetic Codex envelopes with fake paths and content. It pins the
+subagent boundary, call/output pairing and ordinals, zero-recognition refusal, `/root/task`
+address handling, basename citations, and capture scoping without copying any real transcript.
 
 ```bash
 python3 scripts/selftest.py    # exit 0 required
