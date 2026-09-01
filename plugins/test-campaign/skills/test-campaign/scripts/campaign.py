@@ -54,7 +54,9 @@ import argparse
 import hashlib
 import json
 import re
+import subprocess
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -709,27 +711,75 @@ def capped_tail(items, limit: int, indent: str = "    ") -> str:
     return f"{indent}(showing {len(items)} of {len(items)})"
 
 
-def validated_control_exceptions(d: Path, campaign: dict) -> tuple[dict[str, set[str]], list[str]]:
-    """Consume a repository-validator receipt only while every bound input matches."""
-    receipt = d / "control-exception-validation.json"
-    if not receipt.exists():
+def validated_control_exceptions(d: Path, campaign: dict, trust: dict | None = None) -> tuple[dict[str, set[str]], list[str]]:
+    """Run an independently anchored repository validator and verify its complete receipt."""
+    published_receipt = d / "control-exception-validation.json"
+    if trust is None and not published_receipt.exists():
         return {}, []
+    if trust is None:
+        return {}, ["control exceptions require an independently anchored validator execution"]
+    validator = Path(str(trust.get("validator") or "")).resolve()
+    manifest = Path(str(trust.get("manifest") or "")).resolve()
+    validator_sha = trust.get("validatorSha256")
+    manifest_sha = trust.get("manifestSha256")
+    for label, path, digest in (("validator", validator, validator_sha),
+                                ("dependency manifest", manifest, manifest_sha)):
+        if (not isinstance(digest, str) or re.fullmatch(r"[0-9a-f]{64}", digest) is None or
+                not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != digest):
+            return {}, [f"control exception {label} does not match its independent trust anchor"]
     try:
-        value = json.loads(receipt.read_text())
+        manifest_value = json.loads(manifest.read_text())
     except (OSError, json.JSONDecodeError) as exc:
-        return {}, [f"control exception validation receipt is unreadable: {exc}"]
+        return {}, [f"control exception dependency manifest is unreadable: {exc}"]
+    if (not isinstance(manifest_value, dict) or set(manifest_value) != {"schema", "dependencies"} or
+            manifest_value.get("schema") != "control-exception-dependencies/1" or
+            not isinstance(manifest_value.get("dependencies"), list) or
+            not manifest_value["dependencies"]):
+        return {}, ["control exception dependency manifest has fields outside its exact v1 schema"]
+    required_dependencies: set[str] = set()
+    for relative in manifest_value["dependencies"]:
+        if (not isinstance(relative, str) or not relative or Path(relative).is_absolute() or
+                ".." in Path(relative).parts or relative in required_dependencies):
+            return {}, ["control exception dependency manifest contains an invalid or duplicate path"]
+        required_dependencies.add(relative)
+    source_root_raw = campaign.get("sourceRoot")
+    if not isinstance(source_root_raw, str) or not source_root_raw:
+        return {}, ["control exception validation requires campaign.sourceRoot"]
+    root = (d / source_root_raw).resolve()
+    try:
+        validator_relative = str(validator.relative_to(root))
+    except ValueError:
+        return {}, ["control exception validator is outside campaign.sourceRoot"]
+    if validator_relative not in required_dependencies:
+        return {}, ["control exception dependency manifest omits the anchored validator"]
+    with tempfile.TemporaryDirectory(prefix="control-exception-") as temporary:
+        receipt = Path(temporary) / "receipt.json"
+        try:
+            run = subprocess.run(
+                [sys.executable, str(validator), "--campaign", str(d), "--root", str(root),
+                 "--write-validation", str(receipt)], cwd=root, stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=120,
+                check=False)
+        except subprocess.TimeoutExpired:
+            return {}, ["control exception validator did not complete before the timeout"]
+        except OSError:
+            return {}, ["control exception validator could not be executed"]
+        if type(run.returncode) is not int or run.returncode != 0:
+            return {}, [f"control exception validator failed with exit {run.returncode}; "
+                        "validator output was suppressed"]
+        if not receipt.is_file():
+            return {}, ["control exception validator exited successfully without writing its receipt"]
+        try:
+            value = json.loads(receipt.read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            return {}, [f"control exception validation receipt is unreadable: {exc}"]
     problems: list[str] = []
     expected_keys = {"schema", "validatorExit", "dependencies", "exceptions"}
     if not isinstance(value, dict) or set(value) != expected_keys:
         return {}, ["control exception validation receipt has fields outside its exact v1 schema"]
-    if value.get("schema") != "control-exception-validation/1" or value.get("validatorExit") != 0:
+    if (value.get("schema") != "control-exception-validation/1" or
+            type(value.get("validatorExit")) is not int or value.get("validatorExit") != 0):
         problems.append("control exception validation receipt does not record a successful v1 validator run")
-    source_root_raw = campaign.get("sourceRoot")
-    if not isinstance(source_root_raw, str) or not source_root_raw:
-        problems.append("control exception validation requires campaign.sourceRoot")
-        root = d
-    else:
-        root = (d / source_root_raw).resolve()
     dependencies = value.get("dependencies")
     if not isinstance(dependencies, dict) or not dependencies:
         problems.append("control exception validation names no hashed dependencies")
@@ -745,6 +795,8 @@ def validated_control_exceptions(d: Path, campaign: dict) -> tuple[dict[str, set
                 problems.append(f"control exception dependency is missing: {relative}")
             elif hashlib.sha256(path.read_bytes()).hexdigest() != digest:
                 problems.append(f"control exception dependency changed after validation: {relative}")
+        if set(dependencies) != required_dependencies:
+            problems.append("control exception validator receipt does not match the complete required dependency manifest")
         for required in (d / "inventory.json", d / "cases.json"):
             try:
                 relative = str(required.resolve().relative_to(root))
@@ -760,8 +812,8 @@ def validated_control_exceptions(d: Path, campaign: dict) -> tuple[dict[str, set
     exceptions = value.get("exceptions")
     index: dict[str, set[str]] = {}
     seen: set[tuple[str, str]] = set()
-    if not isinstance(exceptions, list) or not exceptions:
-        problems.append("control exception validation names no permanent exceptions")
+    if not isinstance(exceptions, list):
+        problems.append("control exception validation exceptions must be an array")
     else:
         for row in exceptions:
             keys = {"id", "surface", "control", "containment", "disposition"}
@@ -790,11 +842,12 @@ def validated_control_exceptions(d: Path, campaign: dict) -> tuple[dict[str, set
 
 # ── the gate ────────────────────────────────────────────────────────────────
 
-def audit(d: Path) -> dict:
+def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
     campaign = load(d, "campaign", {})
     inventory = load(d, "inventory", {"requirement": [], "surface": [], "flow": [], "component": []})
     cases = load(d, "cases", [])
-    permanent_exceptions, exception_validation_problems = validated_control_exceptions(d, campaign)
+    permanent_exceptions, exception_validation_problems = validated_control_exceptions(
+        d, campaign, control_exception_trust)
 
     surfaces = inventory.get("surface", [])
     by_surface: dict[str, list[dict]] = {s["id"]: [] for s in surfaces}
@@ -1646,7 +1699,18 @@ def audit(d: Path) -> dict:
 
 def cmd_check(args) -> int:
     d = Path(args.dir).resolve()
-    a = audit(d)
+    supplied = [args.control_exception_validator, args.control_exception_validator_sha256,
+                args.control_exception_manifest, args.control_exception_manifest_sha256]
+    trust = None
+    if any(supplied):
+        if not all(supplied):
+            print("all four control-exception trust-anchor arguments are required together", file=sys.stderr)
+            return 2
+        trust = {"validator": args.control_exception_validator,
+                 "validatorSha256": args.control_exception_validator_sha256,
+                 "manifest": args.control_exception_manifest,
+                 "manifestSha256": args.control_exception_manifest_sha256}
+    a = audit(d, trust)
     if args.json:
         print(json.dumps(a, indent=2))
         return 0 if a["clear"] else 1
@@ -2204,6 +2268,10 @@ def main() -> int:
     c = sub.add_parser("check")
     c.add_argument("dir")
     c.add_argument("--json", action="store_true")
+    c.add_argument("--control-exception-validator")
+    c.add_argument("--control-exception-validator-sha256")
+    c.add_argument("--control-exception-manifest")
+    c.add_argument("--control-exception-manifest-sha256")
     c.set_defaults(fn=cmd_check)
 
     r = sub.add_parser("report")
