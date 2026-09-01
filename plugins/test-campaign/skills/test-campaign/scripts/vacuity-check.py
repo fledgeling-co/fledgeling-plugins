@@ -248,7 +248,7 @@ def helper_invocation_context(source: str, start: int) -> bool:
     """
     if not reader_invocation_context(source, start):
         return False
-    statement = re.split(r"[;\n{}]", source[:start])[-1].strip()
+    statement = re.split(r"[;{}]", source[:start])[-1].strip()
     if re.match(r"(?:return|throw)\b", statement):
         return False
     return True
