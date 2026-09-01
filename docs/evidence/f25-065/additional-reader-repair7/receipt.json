@@ -1,0 +1,216 @@
+{
+  "item": "F25-065",
+  "review": "distinct additional cumulative attributed-helper reader scanner",
+  "verdict": "FAIL",
+  "reviewedImplementation": "4fabc428be3ee0a0edc5a12633bbb33524b21b54",
+  "evidenceParent": "66bb795908189830ffcf39067e9b46f6851ce879",
+  "sourceSHA256": "86b9446fabbde925878d4b6d49590e19d94d46603143e7ed5a0f6ec7655ce7e8",
+  "blockingFalseGreen": {
+    "claim": "A configured reader call inside a stored, never-invoked closure receives observation credit.",
+    "source": "private func seed() { store() }\nfunc testMeasure() { seed(); let observation = { read() }; _ = observation }",
+    "cliExit": 0,
+    "swiftTypecheckExit": 0
+  },
+  "secondaryControlFlowFalseGreen": {
+    "claim": "A configured reader call in a literal false branch also receives observation credit.",
+    "source": "private func seed() { store() }\nfunc testMeasure() { seed(); if false { read() } }",
+    "cliExit": 0
+  },
+  "focusedRuns": [
+    {
+      "path": "focused-1.log",
+      "sha256": "b390dfade41d4a9b80a1fc92b487b00333669c2df3fc0318d6f597b1020ee63b",
+      "exitCode": 0,
+      "passed": 21
+    },
+    {
+      "path": "focused-2.log",
+      "sha256": "281a759fbc3193d90e6381d4d35c982aa3cc4e83e520221ff90f2419d7fc1f07",
+      "exitCode": 0,
+      "passed": 21
+    }
+  ],
+  "fullRuns": [
+    {
+      "path": "full-1.log",
+      "sha256": "7c8f9c3b9fb7afd436cebd9420f5960a8f4edd12c7dbf48b4b767d7d736cb509",
+      "exitCode": 0,
+      "passed": 114
+    },
+    {
+      "path": "full-2.log",
+      "sha256": "894cd947a962025e9b29cfe7991c620a5546627451955a5f71280d04bdb4fe44",
+      "exitCode": 0,
+      "passed": 114
+    }
+  ],
+  "perchCorpus": {
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d",
+    "exitCode": 1,
+    "scopeRecords": 108,
+    "invalidScopes": 0,
+    "blindBodies": 4,
+    "uncensused": "REQ-056",
+    "totalFindings": 5
+  },
+  "validEdgesTypecheck": {
+    "path": "valid-edges-typecheck.log",
+    "sha256": "44561478cb3eb7354abe833f2a53d7887fa5f151a2821eb143454434a3a56df2",
+    "exitCode": 0
+  },
+  "boundaries": {
+    "storedClosureNeverInvoked": {
+      "scopeFindings": [],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "storedClosureInvoked": {
+      "scopeFindings": [],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "helperTrailingClosure": {
+      "scopeFindings": [],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "configuredReaderTrailingClosure": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "parenthesizedReader": {
+      "scopeFindings": [],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "readerOnlyBeforeHelper": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "unreachableFalseBranch": {
+      "scopeFindings": [],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 0,
+      "cliInvalidScope": false
+    }
+  },
+  "strictSchemaAndCallerBinding": {
+    "unknownTopLevel": {
+      "exitCode": 1,
+      "invalidScope": true
+    },
+    "unknownRecordField": {
+      "exitCode": 1,
+      "invalidScope": true
+    },
+    "callerPostureDrift": {
+      "exitCode": 1,
+      "invalidScope": true
+    }
+  },
+  "actualSourceMutants": [
+    {
+      "name": "drop-call-syntax",
+      "exitCode": 1,
+      "failedAsRequired": true,
+      "outputTail": "======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies) (source='private func seed() { write() }\\n@Test func measure() { seed(); var value: Int { get { 1 } } }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-mutant-drop-call-syntax-lvgc0jkw/plugins/test-campaign/tests/test_swift_bodies.py\", line 195, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any('no read after' in finding\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.648s\n\nFAILED (failures=3)",
+      "mutantSHA256": "4cd6f39d02c7e06fa4fbc65594809acdcbbab710d94c7c2d918c80b79e35dbcd",
+      "baselineSHA256": "86b9446fabbde925878d4b6d49590e19d94d46603143e7ed5a0f6ec7655ce7e8",
+      "worktreeUntouched": true
+    },
+    {
+      "name": "allow-function-reference-placeholder",
+      "exitCode": 1,
+      "failedAsRequired": true,
+      "outputTail": "======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies) (source='private func seed() { write() }\\n@Test func measure() { seed(); let function = read(_:) }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-mutant-allow-function-reference-placeholder-4e6rc9_z/plugins/test-campaign/tests/test_swift_bodies.py\", line 195, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any('no read after' in finding\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.800s\n\nFAILED (failures=1)",
+      "mutantSHA256": "eb7920434ef2f9478d752bbcb3c6a914833459a6327361c93f30ebd2ad95e24f",
+      "baselineSHA256": "86b9446fabbde925878d4b6d49590e19d94d46603143e7ed5a0f6ec7655ce7e8",
+      "worktreeUntouched": true
+    },
+    {
+      "name": "allow-reader-trailing-closure",
+      "exitCode": 1,
+      "failedAsRequired": true,
+      "outputTail": "======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies) (source='private func seed() { write() }\\n@Test func measure() { seed(); var value: Int { get { 1 } } }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-mutant-allow-reader-trailing-closure-qxr1pgkb/plugins/test-campaign/tests/test_swift_bodies.py\", line 195, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any('no read after' in finding\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.940s\n\nFAILED (failures=1)",
+      "mutantSHA256": "142b442dc1e7a95c8d060f30a29d018c61ef0c02398d42bf7262bce9e5fda3ac",
+      "baselineSHA256": "86b9446fabbde925878d4b6d49590e19d94d46603143e7ed5a0f6ec7655ce7e8",
+      "worktreeUntouched": true
+    },
+    {
+      "name": "drop-invocation-context",
+      "exitCode": 1,
+      "failedAsRequired": true,
+      "outputTail": "======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies) (source='private func seed() { write() }\\n@Test func measure() { seed(); switch value { case .read(let x): print(x); default: break } }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-mutant-drop-invocation-context-mk6sru3h/plugins/test-campaign/tests/test_swift_bodies.py\", line 195, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any('no read after' in finding\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.995s\n\nFAILED (failures=2)",
+      "mutantSHA256": "da6a247603dec036b5441c9f6b818ab709d4945a3a10cceac0e837507d059799",
+      "baselineSHA256": "86b9446fabbde925878d4b6d49590e19d94d46603143e7ed5a0f6ec7655ce7e8",
+      "worktreeUntouched": true
+    }
+  ],
+  "versions": {
+    "plugin": "0.16.2",
+    "marketplace": "0.16.2",
+    "catalogue": "0.16.2",
+    "permanentParityTestRuns": 4,
+    "catalogueRegeneration": "not rerun: isolated archive lacked yaml; installs/cache mutation prohibited"
+  },
+  "sourceRestored": true,
+  "sharedWorktreeMutationByReview": false,
+  "implementationFilesChangedByReview": [],
+  "reviewIndependence": "Distinct additional, same-family degraded. Reused unrelated F25-063/F25-066/F25-057/F25-034/F25-064/F25-067 context; no out-of-family lane.",
+  "limitations": "Lexical/source-bound review only; no receiver/type resolution, reachability proof, causality, reader independence, install/publish/push/cache/native/provider/Keychain/release/live action."
+}
