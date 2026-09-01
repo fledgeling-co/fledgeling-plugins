@@ -504,7 +504,7 @@ def cmd_set(args) -> int:
     save(d, "cases", cases)
     print(f"{hit['id']}: {hit['status']}"
           + (f" · {len(hit['evidence'])} evidence" if hit["evidence"] else "")
-          + (" · armed" if hit.get("armed") else "")
+          + (" · armed" if hit.get("armed") is True else "")
           + (f" · {hit['capture']['method']}" if (hit.get("capture") or {}).get("method") else ""))
     return 0
 
@@ -709,12 +709,92 @@ def capped_tail(items, limit: int, indent: str = "    ") -> str:
     return f"{indent}(showing {len(items)} of {len(items)})"
 
 
+def validated_control_exceptions(d: Path, campaign: dict) -> tuple[dict[str, set[str]], list[str]]:
+    """Consume a repository-validator receipt only while every bound input matches."""
+    receipt = d / "control-exception-validation.json"
+    if not receipt.exists():
+        return {}, []
+    try:
+        value = json.loads(receipt.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        return {}, [f"control exception validation receipt is unreadable: {exc}"]
+    problems: list[str] = []
+    expected_keys = {"schema", "validatorExit", "dependencies", "exceptions"}
+    if not isinstance(value, dict) or set(value) != expected_keys:
+        return {}, ["control exception validation receipt has fields outside its exact v1 schema"]
+    if value.get("schema") != "control-exception-validation/1" or value.get("validatorExit") != 0:
+        problems.append("control exception validation receipt does not record a successful v1 validator run")
+    source_root_raw = campaign.get("sourceRoot")
+    if not isinstance(source_root_raw, str) or not source_root_raw:
+        problems.append("control exception validation requires campaign.sourceRoot")
+        root = d
+    else:
+        root = (d / source_root_raw).resolve()
+    dependencies = value.get("dependencies")
+    if not isinstance(dependencies, dict) or not dependencies:
+        problems.append("control exception validation names no hashed dependencies")
+    else:
+        for relative, digest in dependencies.items():
+            if (not isinstance(relative, str) or not relative or Path(relative).is_absolute() or
+                    ".." in Path(relative).parts or not isinstance(digest, str) or
+                    re.fullmatch(r"[0-9a-f]{64}", digest) is None):
+                problems.append("control exception validation contains an invalid dependency entry")
+                continue
+            path = root / relative
+            if not path.is_file():
+                problems.append(f"control exception dependency is missing: {relative}")
+            elif hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+                problems.append(f"control exception dependency changed after validation: {relative}")
+        for required in (d / "inventory.json", d / "cases.json"):
+            try:
+                relative = str(required.resolve().relative_to(root))
+            except ValueError:
+                problems.append(f"control exception validation cannot bind {required.name} outside sourceRoot")
+                continue
+            if relative not in dependencies:
+                problems.append(f"control exception validation does not bind {relative}")
+    inventory = load(d, "inventory", {"surface": []})
+    declared = {row["id"]: set(map(str, row.get("controls") or []))
+                for row in inventory.get("surface", [])}
+    statuses = {row["id"]: state_of(row.get("status", "open")) for row in load(d, "cases", [])}
+    exceptions = value.get("exceptions")
+    index: dict[str, set[str]] = {}
+    seen: set[tuple[str, str]] = set()
+    if not isinstance(exceptions, list) or not exceptions:
+        problems.append("control exception validation names no permanent exceptions")
+    else:
+        for row in exceptions:
+            keys = {"id", "surface", "control", "containment", "disposition"}
+            if not isinstance(row, dict) or set(row) != keys:
+                problems.append("control exception validation contains a malformed exception row")
+                continue
+            if row.get("disposition") != "permanent-exception" or any(
+                    not isinstance(row.get(key), str) or not row[key]
+                    for key in ("id", "surface", "control", "containment")):
+                problems.append("control exception validation contains an invalid permanent exception")
+                continue
+            key = (row["surface"], row["control"])
+            if key in seen:
+                problems.append(f"control exception validation duplicates {row['surface']}::{row['control']}")
+                continue
+            seen.add(key)
+            if row["control"] not in declared.get(row["surface"], set()):
+                problems.append(f"control exception names an undeclared control on {row['surface']}")
+                continue
+            if statuses.get(row["containment"]) != "pass":
+                problems.append(f"control exception containment {row['containment']} is not passing")
+                continue
+            index.setdefault(row["surface"], set()).add(row["control"])
+    return ({}, problems) if problems else (index, [])
+
+
 # ── the gate ────────────────────────────────────────────────────────────────
 
 def audit(d: Path) -> dict:
     campaign = load(d, "campaign", {})
     inventory = load(d, "inventory", {"requirement": [], "surface": [], "flow": [], "component": []})
     cases = load(d, "cases", [])
+    permanent_exceptions, exception_validation_problems = validated_control_exceptions(d, campaign)
 
     surfaces = inventory.get("surface", [])
     by_surface: dict[str, list[dict]] = {s["id"]: [] for s in surfaces}
@@ -729,6 +809,7 @@ def audit(d: Path) -> dict:
     counts = {"pass": 0, "fail": 0, "skip": 0, "n/a": 0, "unselected": 0,
               "inconclusive": 0, "unoracled": 0, "blocked": 0, "open": 0}
     open_ids, unevidenced, armed = [], [], 0
+    invalid_armed: list[str] = []
     hollow_witness: list[str] = []
     hollow_source: list[str] = []
     carried_unbased = []
@@ -768,10 +849,13 @@ def audit(d: Path) -> dict:
                 f"{c['id']} claims interactive-glass on non-glass lane '{lane}' — "
                 f"interactive-glass requires an on-glass lane ending in '{GLASS_SUFFIX}'")
 
+        if "armed" in c and type(c["armed"]) is not bool:
+            invalid_armed.append(
+                f"{c['id']} has armed={c['armed']!r}; armed must be a JSON boolean")
         if st == "pass":
             if not c.get("evidence"):
                 unevidenced.append(c["id"])
-            if c.get("armed"):
+            if c.get("armed") is True:
                 armed += 1
 
         # A rung that claims pixels must produce pixels, and they must be this
@@ -911,7 +995,7 @@ def audit(d: Path) -> dict:
         row["rungs"][rung] = row["rungs"].get(rung, 0) + 1
         if state_of(c.get("status", "open")) == "pass":
             row["pass"] += 1
-            if c.get("armed"):
+            if c.get("armed") is True:
                 row["armed"] += 1
             if c.get("oracle") in EFFECT_RUNGS:
                 row["effect"] += 1
@@ -1033,15 +1117,19 @@ def audit(d: Path) -> dict:
     # lines only by a case naming its controls, which the stray check above already
     # governs, and neither line is a route to a green verdict.
     declared_count = {sid: len(set(v)) for sid, v in declared_controls.items()}
+    owed_controls = {
+        sid: set(names) - permanent_exceptions.get(sid, set())
+        for sid, names in declared_controls.items()
+    }
     surfaces_inert_undriven = [
         f"{sid} ({declared_count[sid]} declared, {len(driven[sid])} driven, "
-        f"{declared_count[sid] - len(driven[sid])} never driven)"
+        f"{len(owed_controls[sid] - driven[sid])} non-excepted never driven)"
         for sid in sorted(declared_controls)
-        if not actuated[sid] and len(driven[sid]) < declared_count[sid]]
+        if not actuated[sid] and owed_controls[sid] - driven[sid]]
     surfaces_inert_measured = [
         f"{sid} ({len(driven[sid])} of {declared_count[sid]} control(s) driven, 0 actuated)"
         for sid in sorted(declared_controls)
-        if not actuated[sid] and len(driven[sid]) >= declared_count[sid]]
+        if not actuated[sid] and owed_controls[sid] and not (owed_controls[sid] - driven[sid])]
 
     # ── DESTINATION DISTINCTNESS ────────────────────────────────────────────
     #
@@ -1280,6 +1368,12 @@ def audit(d: Path) -> dict:
     if not surfaces:
         blockers.append("no surfaces enumerated — nothing has a denominator, so "
                         "there is nothing for a case to be a sample of")
+    if invalid_armed:
+        blockers.append(f"{len(invalid_armed)} case(s) have non-boolean armed values "
+                        f"({capped(invalid_armed, 3)}) — truthiness is not mutation evidence")
+    if exception_validation_problems:
+        blockers.append(f"control exception validation failed: "
+                        f"{capped(exception_validation_problems, 3)}")
     if open_ids:
         blockers.append(f"{len(open_ids)} case(s) still open")
     if counts["inconclusive"]:
@@ -1526,6 +1620,8 @@ def audit(d: Path) -> dict:
         "surfacesInert": surfaces_inert,
         "surfacesInertUndriven": surfaces_inert_undriven,
         "surfacesInertMeasured": surfaces_inert_measured,
+        "controlExceptionsValidated": sum(len(v) for v in permanent_exceptions.values()),
+        "controlExceptionValidationProblems": exception_validation_problems,
         "unknownActuations": unknown_actuations,
         "navigationShells": {k: sorted(v) for k, v in shells.items()},
         "collapsedDestinations": collapsed_destinations,
@@ -1537,6 +1633,7 @@ def audit(d: Path) -> dict:
         "counts": counts,
         "oracleMix": mix,
         "armed": armed,
+        "invalidArmed": invalid_armed,
         "armedOfPassing": f"{armed}/{counts['pass']}",
         "openCases": open_ids,
         "unevidencedPasses": unevidenced,
@@ -1795,7 +1892,7 @@ def cmd_report(args) -> int:
             lines.append(
                 f"| {c['id']} | {s['id']} {s.get('label', '')} | {c.get('state', '')} | "
                 f"{c.get('lane', '')} | {c.get('status', 'open')} | "
-                f"{'yes' if c.get('armed') else ''} | {len(c.get('evidence', []))} |")
+                f"{'yes' if c.get('armed') is True else ''} | {len(c.get('evidence', []))} |")
 
     text = "\n".join(lines) + "\n"
     paths(d)["ledger"].write_text(text)

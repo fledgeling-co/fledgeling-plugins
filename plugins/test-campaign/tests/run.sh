@@ -1648,6 +1648,69 @@ else
   echo "FAIL  add should refuse an unknown plane"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
 fi
 
+# ── exact armed booleans and repository-validated permanent exceptions ─────
+EX="$WORK/exceptions"
+python3 "$S/campaign.py" init "$EX" --project Exceptions --lanes api >/dev/null
+python3 - "$EX" <<'PYEX'
+import hashlib, json, pathlib, sys
+d = pathlib.Path(sys.argv[1])
+campaign = json.loads((d / "campaign.json").read_text())
+campaign["sourceRoot"] = "."
+(d / "campaign.json").write_text(json.dumps(campaign, indent=2) + "\n")
+(d / "inventory.json").write_text(json.dumps({
+    "requirement": [{"id": "REQ-001", "class": "behaviour", "text": "safe control"}],
+    "surface": [{"id": "SURF-001", "name": "Reset", "kind": "sheet",
+                 "controls": ["control-v1:exact"]}],
+    "flow": [], "component": [], "journey": []}, indent=2) + "\n")
+(d / "cases.json").write_text(json.dumps([{
+    "id": "CASE-0001", "req": "REQ-001", "surface": "SURF-001", "lane": "api",
+    "oracle": "outcome", "status": "pass", "armed": True, "armedBy": "mutant failed",
+    "evidence": ["fixture.txt"]}], indent=2) + "\n")
+(d / "fixture.txt").write_text("evidence\n")
+(d / "validator.py").write_text("validated source identity and containment\n")
+deps = {name: hashlib.sha256((d / name).read_bytes()).hexdigest()
+        for name in ("validator.py", "inventory.json", "cases.json")}
+(d / "control-exception-validation.json").write_text(json.dumps({
+    "schema": "control-exception-validation/1", "validatorExit": 0,
+    "dependencies": deps,
+    "exceptions": [{"id": "CTRL-001", "surface": "SURF-001",
+                    "control": "control-v1:exact", "containment": "CASE-0001",
+                    "disposition": "permanent-exception"}]}, indent=2) + "\n")
+PYEX
+expect "a hash-bound permanent exception clears owed work without actuation credit" 0 "$EX" \
+  "0 of 1 declared control(s) actuated"
+
+for bad in '"True"' '1' '["truthy"]'; do
+  python3 - "$EX/cases.json" "$bad" <<'PYARM'
+import json,sys
+p=sys.argv[1]; rows=json.load(open(p)); rows[0]["armed"]=json.loads(sys.argv[2])
+json.dump(rows,open(p,"w"),indent=2)
+PYARM
+  # Refreshing the receipt proves malformed armed is rejected independently of receipt staleness.
+  python3 - "$EX" <<'PYHASH'
+import hashlib,json,pathlib,sys
+d=pathlib.Path(sys.argv[1]); p=d/"control-exception-validation.json"; r=json.loads(p.read_text())
+r["dependencies"]["cases.json"]=hashlib.sha256((d/"cases.json").read_bytes()).hexdigest()
+p.write_text(json.dumps(r,indent=2)+"\n")
+PYHASH
+  expect "truthy non-boolean armed=$bad fails closed" 1 "$EX" "non-boolean armed values"
+done
+
+python3 - "$EX/cases.json" <<'PYRESET'
+import json,sys
+p=sys.argv[1]; rows=json.load(open(p)); rows[0]["armed"]=True
+json.dump(rows,open(p,"w"),indent=2)
+PYRESET
+python3 - "$EX" <<'PYREFRESH'
+import hashlib,json,pathlib,sys
+d=pathlib.Path(sys.argv[1]); p=d/"control-exception-validation.json"; r=json.loads(p.read_text())
+r["dependencies"]["cases.json"]=hashlib.sha256((d/"cases.json").read_bytes()).hexdigest()
+p.write_text(json.dumps(r,indent=2)+"\n")
+PYREFRESH
+printf 'authority drift\n' >>"$EX/validator.py"
+expect "a stale exception authority receipt restores owed work" 1 "$EX" \
+  "control exception dependency changed after validation"
+
 if python3 "$HERE/test_swift_bodies.py"; then
   say "ok    Swift lexical/body and public CLI fixtures"; PASS=$((PASS+1))
 else
