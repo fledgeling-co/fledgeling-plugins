@@ -1,0 +1,80 @@
+{
+  "sourceSHA256": "9d79120884b50fc759c61825b4ea4da540ef69d8498ba1ee672fc1e86e82a45e",
+  "cases": [
+    {
+      "case": "boolean-version-and-offset",
+      "source": "func testInvalidBooleanScope() { write() }",
+      "body": " write() ",
+      "actualOffset": 1,
+      "payload": {
+        "version": true,
+        "scopes": [
+          {
+            "file": "ExampleTests.swift",
+            "name": "testInvalidBooleanScope",
+            "bodySHA256": "90c3b80f76527fe4f06c69055976c8870334143f941965e3cda44e0964430494",
+            "callOffset": true,
+            "callSHA256": "c2c75e5bafe4bd4c709a41250ef99f9d9fab335137cdc5d9e19d6b3b6ef97264",
+            "mutator": "write",
+            "classification": "direct-output",
+            "rationale": "invalid bool offset must refuse",
+            "references": [
+              {
+                "path": "producer.swift",
+                "sha256": "4cf4ff3d35ff680d37fd96d76cf3cf4ba1622c4f8e11abe79d71259f75cfaf66"
+              }
+            ]
+          }
+        ]
+      },
+      "loadedRows": 1,
+      "loadErrors": [],
+      "findings": [],
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 0,
+        "direct-output": 1,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "failOpen": true
+    },
+    {
+      "case": "falsy-configured-path",
+      "raw": false,
+      "loadedRows": 0,
+      "errors": [],
+      "failOpen": true
+    },
+    {
+      "case": "falsy-configured-path",
+      "raw": 0,
+      "loadedRows": 0,
+      "errors": [],
+      "failOpen": true
+    },
+    {
+      "case": "falsy-configured-path",
+      "raw": {},
+      "loadedRows": 0,
+      "errors": [],
+      "failOpen": true
+    },
+    {
+      "case": "falsy-configured-path",
+      "raw": [],
+      "loadedRows": 0,
+      "errors": [],
+      "failOpen": true
+    },
+    {
+      "case": "valid-relative-reference-control",
+      "loadedRows": 1,
+      "errors": [],
+      "pass": true
+    }
+  ],
+  "invalidBooleanSuppressesFinding": true,
+  "falsyConfiguredValuesIgnored": true,
+  "validControlPasses": true
+}

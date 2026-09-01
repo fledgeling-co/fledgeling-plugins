@@ -1,0 +1,62 @@
+{
+  "item": "F25-065",
+  "slice": "upstream helper-closure and conditional-compilation reader repair author",
+  "status": "failed review; superseded by reader-call-repair10",
+  "base": "e800d4249fca3f2d2301da8d2fcc047760290461",
+  "retainedFailures": [
+    "49790b372ae2a5d57262d4d5d417d01d2c222d8e",
+    "e800d4249fca3f2d2301da8d2fcc047760290461"
+  ],
+  "closedFalseGreens": [
+    "non-invoking helper called as seed { read() }",
+    "inactive #if false reader",
+    "#if canImport(missing) reader"
+  ],
+  "readerPosture": "attributed helper calls and configured readers are parenthesized only; readers must be at top lexical brace level, outside conditional compilation, and at conservative executable contexts",
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "15e39153d1d6775e8dfeec66fc3c21e81f91da5f382ea026033c41d08f6161cc"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "0f0fed62861975bc5da7f2498419147e849bbb67812732ef316672913fc6d900"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "d0bff475faca69d2d721d21b7aba91de1210b2773eef6d03243e983a5bcecd37"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "4ab99f74e6cc2ceb7dbd2b6d65be6c0d568b6b66df3e06504debe89e041dc447"
+    }
+  ],
+  "mutants": {
+    "count": 7,
+    "allRejected": true,
+    "restored": true,
+    "path": "mutations.json",
+    "sha256": "c678dce78c8bbd8fa45ed8fd5f6e190705edd439d99496516fbe92f61da7907f"
+  },
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 15,
+    "exit": 1,
+    "invalidScopes": 10,
+    "path": "perch-corpus.log",
+    "sha256": "d5f92324733b7722eac484715e1b8d1d77ff13553ac5a18bfba60ebb3b6fc268"
+  },
+  "limitations": "Deliberately false-negatives attributed helper trailing closures, nested brace readers, and all conditional compilation readers. No build-configuration evaluation, receiver resolution, reader independence or output causality. No install, publish, cache edit, push, merge, native app, provider, Keychain or live campaign.",
+  "correction": "The committed corpus log contains 10 INVALID SCOPE rows; the prior invalidScopes=0/findings=5 summary was false."
+}

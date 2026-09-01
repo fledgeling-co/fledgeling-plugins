@@ -1,0 +1,6 @@
+/tmp/f25-065-r12-return-at-test.swift:1:8: error: no such module 'Testing'
+ 1 | import Testing
+   |        `- error: no such module 'Testing'
+ 2 | private var stores = 0
+ 3 | private var reads = 0
+typecheck_exit=1

@@ -1,0 +1,231 @@
+{
+  "verdict": "FAIL",
+  "reviewedHead": "08007d341f2bac53b6d19d7b0dd9087a8e427085",
+  "retainedPriorFailures": [
+    "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+    "4c5ed872410051e0bfa5d3634a49d03f32efc014",
+    "78895b88a46510d893a699cb79ea789828f7509e"
+  ],
+  "retainedPriorFailureUnchanged": [
+    true,
+    true,
+    true
+  ],
+  "sourceSHA256": "01d2f39b7e0eb14524db78356a690d9a699f95de559446989a54c3986b1656ae",
+  "blockingFalseGreen": {
+    "claim": "Parenthesized reader syntax also matches a #selector method reference and accepts a caller with no reader invocation.",
+    "source": "private func seed() { store() }\n@Test func measure() { seed(); let selector = #selector(read(_:)) }\n@objc func read(_ value: Any) {}",
+    "cliExit": 0
+  },
+  "boundaries": {
+    "unqualifiedParenthesizedReader": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "helperTrailingClosureWithReader": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "readerBefore": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "commentOnlyReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "stringOnlyReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "identifierSubstringOnly": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "bareReaderNameOnly": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "readerShapedControlCondition": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "nestedReaderDeclaration": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "enumReaderPattern": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "selectorReaderReference": {
+      "scopeFindings": [],
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "rawMutatingBodies": 1,
+      "cliExit": 0,
+      "cliInvalidScope": false
+    }
+  },
+  "strictSchemaCases": {
+    "configuredFalse": 1,
+    "configuredZero": 1,
+    "configuredObject": 1,
+    "configuredArray": 1,
+    "boolVersion": 1,
+    "boolCallOffset": 1,
+    "integerTestEntry": 1,
+    "unknownTopField": 1,
+    "unknownRowField": 1,
+    "emptyReferenceHash": 1,
+    "unknownClassification": 1,
+    "staleBody": 1,
+    "staleCallFingerprint": 1,
+    "staleCallOffset": 1,
+    "unmatchedFile": 1,
+    "duplicateScope": 1
+  },
+  "actualSourceMutants": [
+    {
+      "name": "drop-reader-identifier-boundary",
+      "failedAsRequired": true,
+      "assertion": "identifier substring accepted as reader call"
+    },
+    {
+      "name": "drop-reader-call-syntax",
+      "failedAsRequired": true,
+      "assertion": "bare reader name accepted as reader call"
+    },
+    {
+      "name": "allow-ambiguous-reader-trailing-shape",
+      "failedAsRequired": true,
+      "assertion": "control condition accepted as reader call"
+    },
+    {
+      "name": "allow-qualified-reader-shape",
+      "failedAsRequired": true,
+      "assertion": "qualified enum pattern accepted as reader call"
+    },
+    {
+      "name": "suppress-whole-body-after-one-scope",
+      "failedAsRequired": true,
+      "assertion": "earlier write was suppressed with the scoped record"
+    },
+    {
+      "name": "accept-comment-only-caller-spelling",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    },
+    {
+      "name": "ignore-target-test-entry-posture",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    },
+    {
+      "name": "globally-suppress-four-verbs",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    }
+  ],
+  "sourceRestored": true
+}

@@ -1,0 +1,231 @@
+{
+  "item": "F25-065",
+  "slice": "upstream Unicode/nested repair fresh primary",
+  "verdict": "FAIL",
+  "reviewedHead": "2b186f8b92c2f87544b3f244289cee15a5bc62d6",
+  "retainedRelatedAdditional": "8f5e68ff08f81631f3757fc2182ccd47e1d40ec6",
+  "sameFamilyDegraded": true,
+  "contextDisclosure": "Reviewer performed repeated related primary failures and reused unrelated context; this review is same-family degraded and makes no out-of-family claim.",
+  "blockingFalseGreen": {
+    "claim": "A reader inside the bound helper's trailing closure is treated as top-level because the helper match consumed the opening brace.",
+    "source": "private func seed(_ body: () -> Void) { store() }\n@Test func measure() { seed { read() } }",
+    "cliExit": 0
+  },
+  "compiledInnerHelperClosure": {
+    "exit": 0,
+    "source": "inner-helper-closure-valid.swift",
+    "sourceSHA256": "38a0014b91f2798fb7e06444d2df41b68b0be56b48867d02f8d1f42fd2ed2b2c",
+    "log": "inner-helper-closure-typecheck.log",
+    "logSHA256": "19eaf43821a7660ec323a87c8457bf74823beb296c39f5e01aa8a683aa50f061"
+  },
+  "operatorLabelProbe": {
+    "exit": 1,
+    "conclusion": "operator tokens are not valid Swift argument labels",
+    "source": "operator-label-invalid.swift",
+    "log": "operator-label-typecheck.log"
+  },
+  "publicCLIBoundaries": {
+    "unqualifiedParenthesizedReader": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "helperTrailingClosureWithReader": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "readerBefore": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "commentOnlyReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "stringOnlyReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "identifierSubstringOnly": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "bareReaderNameOnly": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "readerShapedControlCondition": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "nestedReaderDeclaration": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "enumReaderPattern": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "selectorReaderReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "assignedReaderFunctionReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "multipleLabelReaderFunctionReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "assignedLabeledReaderCall": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "assignedMultipleLabeledReaderCall": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "escapedLabelReaderFunctionReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "localGetterDeclaration": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "sameLineDefaultArgument": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "splitLineDefaultArgument": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "splitLineReaderDeclaration": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "unicodeLabelReaderFunctionReference": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "storedClosureReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "unreachableReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "immediatelyInvokedClosureReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "closureCaptureReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "readerInsideHelperTrailingClosure": {
+      "exit": 0,
+      "invalidScope": false
+    }
+  },
+  "strictSchemaCases": {
+    "configuredFalse": 1,
+    "configuredZero": 1,
+    "configuredObject": 1,
+    "configuredArray": 1,
+    "boolVersion": 1,
+    "boolCallOffset": 1,
+    "integerTestEntry": 1,
+    "unknownTopField": 1,
+    "unknownRowField": 1,
+    "emptyReferenceHash": 1,
+    "unknownClassification": 1,
+    "staleBody": 1,
+    "staleCallFingerprint": 1,
+    "staleCallOffset": 1,
+    "unmatchedFile": 1,
+    "duplicateScope": 1
+  },
+  "fiveSourceMutants": [
+    {
+      "name": "drop-call-syntax",
+      "failedAsRequired": true,
+      "assertion": "bare reader name accepted as reader call"
+    },
+    {
+      "name": "allow-function-reference-placeholder",
+      "failedAsRequired": true,
+      "assertion": "function-reference placeholder accepted as invocation"
+    },
+    {
+      "name": "allow-reader-trailing-closure",
+      "failedAsRequired": true,
+      "assertion": "reader trailing closure accepted after restoring withdrawn shape"
+    },
+    {
+      "name": "allow-nested-closure-reader",
+      "failedAsRequired": true,
+      "assertion": "stored closure reader accepted after removing depth guard"
+    },
+    {
+      "name": "drop-invocation-context",
+      "failedAsRequired": true,
+      "assertion": "enum pattern accepted after removing invocation context"
+    }
+  ],
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "a1b30be669b491c0fdb1f8612c0895ced620f1a2dca76971a8ab2a8364c2d68d"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "ca499266f924d23deebb3196c4865fa4ab9e70e9227d167d85f20bb895e4a97d"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "2e89a62043b8e615ef401f4923085a08b6eb5ebeeab74c0a445e09079bf85c4e"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "6e57814c1cb68493d5770df69464c4aa789cd3f8cb310879172e41b7be392094"
+    }
+  ],
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "req056": 1,
+    "invalidScopes": 0,
+    "exit": 1,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "versions": {
+    "plugin": "0.16.2",
+    "marketplace": "0.16.2",
+    "catalogue": "0.16.2",
+    "catalogueRegenerationChangedBytes": false,
+    "path": "catalogue.log",
+    "sha256": "f90a65f6dbbc754e2446fe371f2182e935ded122bc1de9cb7b77e260a5b4f954"
+  },
+  "probe": {
+    "path": "probe.json",
+    "sha256": "19988e60dd98e08fed19edd9b9a6f1d058beb36ea1a67297e70d8f671f463daa",
+    "scannerSHA256": "de30400933ba01fea610c4d53244e7609577d684e9885b8d4ec43fdaf8eafdae",
+    "sourceRestored": true
+  },
+  "limitations": "Lexical top-level proof plus Swift typechecks; nested IIFE/capture calls deliberately false-negative and no reader independence/output causality proof. No install, publish, cache edit, push, merge, rebase, native app, provider, Keychain, or live campaign."
+}

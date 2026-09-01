@@ -1,0 +1,79 @@
+{
+  "item": "F25-065",
+  "slice": "upstream multiline-terminal repair primary review",
+  "verdict": "FAIL",
+  "implementation": "b9366d9ea6f282610dc64760a9f38586a8144e8e",
+  "blockingGap": "executing do/repeat blocks with return or throw make a later helper unreachable but retain attributed-helper credit",
+  "falseGreens": [
+    "invalid-do-return-block",
+    "invalid-do-throw-block",
+    "invalid-repeat-return-block"
+  ],
+  "publicCLI": {
+    "cases": 22,
+    "path": "probe.json",
+    "sha256": "24cb04ea02e1edbcc2e6a759dd281561b0187128bb9baa77d2848f3f5876fa07"
+  },
+  "runtime": {
+    "typecheckExit": 0,
+    "result": "stores=7 reads=1",
+    "path": "terminal-boundaries.runtime.log"
+  },
+  "focused": [
+    {
+      "path": "focused-1.log",
+      "tests": 21,
+      "exit": 0,
+      "sha256": "e23f2be631793d146d890ebc6db77fa850f4830c3662a5f25b10177b80071df2"
+    },
+    {
+      "path": "focused-2.log",
+      "tests": 21,
+      "exit": 0,
+      "sha256": "e735b3e578f6c52380dd5f6753a70a7a771aa81a22e7d5d4439599dd8ae8dceb"
+    }
+  ],
+  "full": [
+    {
+      "path": "full-1.log",
+      "passed": 114,
+      "failed": 0,
+      "exit": 0,
+      "sha256": "85aa95de8c76cf369fc904bc1a7ebdffbca14ba3786cb007cab542cbb996f79e"
+    },
+    {
+      "path": "full-2.log",
+      "passed": 114,
+      "failed": 0,
+      "exit": 0,
+      "sha256": "78d009d07ee24d27b362071443423c83ee9a6f5889611a285af34b5418911ba8"
+    }
+  ],
+  "mutants": {
+    "count": 12,
+    "allRejected": true,
+    "restored": true,
+    "sourceSHA256": "a9a23365aedbf12ba3daee8407a147447a72f10365feadc314e153ffd653a292",
+    "path": "mutations.json",
+    "sha256": "ea7328cec94d9459a5454c5ed889611b5a49dd06fd7ec736edda4a28b76cfbc0"
+  },
+  "perchCorpus": {
+    "commit": "c30595e14403240d7933c1d20ec4728eb3281770",
+    "runs": 2,
+    "byteIdentical": true,
+    "scopeRecords": 108,
+    "invalidScopes": 0,
+    "attributedHelper": 0,
+    "directOutput": 22,
+    "failureSentinel": 56,
+    "fixtureValue": 30,
+    "blind": 4,
+    "uncensused": [
+      "REQ-056"
+    ],
+    "findings": 5,
+    "exit": 1
+  },
+  "implementationRestored": true,
+  "lane": "same-family degraded; reused prior F25-065/F25-034/F25-015 context"
+}

@@ -1,0 +1,65 @@
+{
+  "verdict": "FAIL",
+  "reviewedHead": "68c0c5b74b0d143b8738fc7e1c4283a0e2c89b6c",
+  "laterEvidenceOnlyHead": "611bd1151b47f257069e184b7608f582f297200a",
+  "blocker": "Attributed-helper later-reader validation accepts arbitrary identifier substrings and bare names instead of requiring an executable configured reader call.",
+  "location": "plugins/test-campaign/skills/test-campaign/scripts/vacuity-check.py:816",
+  "publicCLIFalseGreens": [
+    {
+      "source": "seed(); let already = 1",
+      "configuredReader": "read",
+      "exitCode": 0
+    },
+    {
+      "source": "seed(); read",
+      "configuredReader": "read",
+      "exitCode": 0
+    }
+  ],
+  "focusedRuns": [
+    {
+      "passed": 20,
+      "failed": 0,
+      "log": "focused-1.log",
+      "sha256": "a0bbab3896b2cfc2097593f4c99a0aa3a4106e63fde43609bf589110ae2993c4"
+    },
+    {
+      "passed": 20,
+      "failed": 0,
+      "log": "focused-2.log",
+      "sha256": "b3f5d3b5197f57563c20baa525c7c97e7f6d73d3860e69b74e632300fdbf8747"
+    }
+  ],
+  "fullRuns": [
+    {
+      "passed": 114,
+      "failed": 0,
+      "log": "full-1.log",
+      "sha256": "426c4e3b28822d58fae4fd38ee352ac8b8086982d0a6fbb100cdc4ecb4a8e05a"
+    },
+    {
+      "passed": 114,
+      "failed": 0,
+      "log": "full-2.log",
+      "sha256": "363e882d9a6b6074b89f621c8cd79ccf2654b914156800ecb85e98556a8cce51"
+    }
+  ],
+  "catalogue": {
+    "exitCode": 0,
+    "versions": [
+      "0.16.2",
+      "0.16.2",
+      "0.16.2"
+    ],
+    "log": "catalogue.log",
+    "sha256": "70189cd776ddb5d0b95211c021e0e4a4768f2753c507f0365e5df62d9e157c3a",
+    "generatedBytesUnchanged": true
+  },
+  "probe": "probe.json",
+  "sourceSHA256": "3921b034f2d166820c1313a2f262ff69081999f753c65db7774d3028ecf344b7",
+  "strictSchemaCasesRed": 16,
+  "actualSourceMutantsRed": 4,
+  "sourceRestored": true,
+  "reviewIndependence": "Fresh primary review of the new cumulative author head by a prior reviewer of an earlier repair. Same-family degraded; reused unrelated Perch F25-066/F25-034/F25-064/F25-067 context. No out-of-family lane.",
+  "limitations": "Portable scanner and static source review only. No install, publish, cache edit, push, merge, rebase, native app, provider, Keychain, or Perch corpus application."
+}

@@ -1,0 +1,61 @@
+{
+  "item": "F25-065",
+  "slice": "upstream Unicode-reference and nested-reader repair author",
+  "status": "repair complete; fresh primary and distinct additional reviews owed",
+  "base": "8f5e68ff08f81631f3757fc2182ccd47e1d40ec6",
+  "retainedFailures": [
+    "66bb795908189830ffcf39067e9b46f6851ce879",
+    "8f5e68ff08f81631f3757fc2182ccd47e1d40ec6"
+  ],
+  "closedFalseGreens": [
+    "seed(); let function = read(\u03bb:)",
+    "seed(); let observation = { configure(); read() }",
+    "seed(); if false { configure(); read() }"
+  ],
+  "readerPosture": "configured readers require parenthesized calls at the caller body top lexical brace level and conservative executable contexts; helper bindings still accept trailing closures",
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "e4a8a4f58cbcc9e6cf43dbe9c411aa307742d339093f21d144b154705469267f"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "3b57b3d6d989e4fc5002d8a53e74e674e6322f454d69523f37d1d6716f9ff85a"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "2322ee307455f198398f01d3235f87db27deb1196cd01f8ec762d8c3fd264b5e"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "928e2c08969f8f5bd81fcdda7780100cce3809b63680edcbd71f68c8b9b8fbbd"
+    }
+  ],
+  "mutants": {
+    "count": 5,
+    "allRejected": true,
+    "restored": true,
+    "path": "mutations.json",
+    "sha256": "f0f827f67b59f44c5d16a5d8a94cb12e11569f204aa635655c014b770e9ed4cf"
+  },
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "exit": 1,
+    "invalidScopes": 0,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "limitations": "Top-level lexical proof deliberately false-negatives nested control and immediately invoked closure readers. No receiver resolution, reader independence or output causality. No install, publish, cache edit, push, merge, native app, provider, Keychain or live campaign."
+}

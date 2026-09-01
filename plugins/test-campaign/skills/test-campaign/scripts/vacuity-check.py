@@ -44,6 +44,7 @@ vocabulary silently and the drift reads as a thorough pass.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -90,6 +91,187 @@ VOCAB: dict[str, tuple[str, ...]] = {
 DEFAULT_MUTATORS = ("stop_all", "stop_runner", "restart", "clear_", "cancel_",
                     "set_", "delete_", "create_", "confirm_")
 DEFAULT_READERS = ("list_", "get_", "read_", "fetch_", "sample_", "count_", "load_")
+SCOPE_CLASSES = {"failure-sentinel", "fixture-value", "direct-output", "attributed-helper"}
+
+
+def load_blind_scopes(campaign_dir: Path, raw: object) -> tuple[list[dict], list[str]]:
+    """Load explicit call scopes. Invalid metadata is a finding, never an ignored scope."""
+    if raw is None:
+        return [], []
+    if not isinstance(raw, str) or not raw:
+        return [], ["blindScopeFile must be a nonempty string when configured"]
+    path = (campaign_dir / str(raw)).resolve()
+    try:
+        payload = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError) as error:
+        return [], [f"scope file {path} could not be read ({type(error).__name__})"]
+    if (not isinstance(payload, dict) or set(payload) != {"version", "scopes"} or
+            type(payload.get("version")) is not int or
+            payload.get("version") != 1 or not isinstance(payload.get("scopes"), list)):
+        return [], [f"scope file {path} must contain version 1 and a scopes array"]
+    scopes, errors, identities = [], [], set()
+    for index, row in enumerate(payload["scopes"]):
+        label = f"scope[{index}]"
+        error_count = len(errors)
+        if not isinstance(row, dict):
+            errors.append(f"{label} is not an object"); continue
+        required = ("file", "name", "bodySHA256", "testEntry", "callOffset", "callSHA256",
+                    "mutator", "classification", "rationale", "references")
+        missing = [key for key in required if key not in row]
+        if missing:
+            errors.append(f"{label} lacks {', '.join(missing)}"); continue
+        if not isinstance(row["classification"], str) or row["classification"] not in SCOPE_CLASSES:
+            errors.append(f"{label} has unknown classification {row['classification']!r}")
+        else:
+            allowed = set(required) | ({"callers"} if row["classification"] == "attributed-helper"
+                                       else set())
+            if set(row) != allowed:
+                errors.append(f"{label} has unexpected schema fields")
+        if not all(isinstance(row[key], str) and row[key] for key in
+                   ("file", "name", "bodySHA256", "callSHA256", "mutator")):
+            errors.append(f"{label} has a non-string identity field")
+        if type(row["callOffset"]) is not int or row["callOffset"] < 0:
+            errors.append(f"{label} has an invalid call offset")
+        if type(row["testEntry"]) is not bool:
+            errors.append(f"{label} has an invalid test-entry posture")
+        if row["classification"] == "attributed-helper":
+            callers = row.get("callers")
+            if not isinstance(callers, list) or not callers:
+                errors.append(f"{label} attributed helper has no bound caller")
+            else:
+                caller_keys = {"file", "name", "bodySHA256", "testEntry", "callOffset",
+                               "callSHA256"}
+                for caller in callers:
+                    if (not isinstance(caller, dict) or set(caller) != caller_keys or
+                            not all(isinstance(caller[key], str) and caller[key]
+                                    for key in caller_keys - {"callOffset", "testEntry"}) or
+                            type(caller.get("testEntry")) is not bool or
+                            type(caller.get("callOffset")) is not int or caller["callOffset"] < 0):
+                        errors.append(f"{label} has a malformed caller binding")
+        if len(errors) == error_count:
+            identity = (row["file"], row["name"], row["bodySHA256"], row["callOffset"])
+            if identity in identities:
+                errors.append(f"{label} duplicates an earlier call scope")
+            identities.add(identity)
+        if not isinstance(row["rationale"], str) or not row["rationale"].strip():
+            errors.append(f"{label} has no rationale")
+        refs = row["references"]
+        if not isinstance(refs, list) or not refs:
+            errors.append(f"{label} has no producer/contract reference")
+        else:
+            for ref in refs:
+                if not isinstance(ref, dict) or set(ref) != {"path", "sha256"}:
+                    errors.append(f"{label} has a malformed reference"); continue
+                if not all(isinstance(ref[key], str) for key in ("path", "sha256")):
+                    errors.append(f"{label} has a non-string reference field"); continue
+                target = (campaign_dir / ref["path"]).resolve()
+                try: digest = hashlib.sha256(target.read_bytes()).hexdigest()
+                except OSError:
+                    errors.append(f"{label} reference {ref['path']!r} does not exist"); continue
+                if digest != ref["sha256"]:
+                    errors.append(f"{label} reference {ref['path']!r} has drifted")
+        if len(errors) == error_count:
+            scopes.append(row)
+    return scopes, errors
+
+
+def call_fingerprint(body: str, start: int, end: int) -> str:
+    """Hash the receiver, name and call delimiter spelling at one matched occurrence."""
+    left = start
+    while left and (body[left - 1].isalnum() or body[left - 1] in "_.$"):
+        left -= 1
+    spelling = body[left:end]
+    return hashlib.sha256(spelling.encode()).hexdigest()
+
+
+def balanced_call_end(source: str, opening: int) -> int | None:
+    """Return the byte after one masked parenthesized call, or None if unbalanced."""
+    depth = 0
+    for index in range(opening, len(source)):
+        if source[index] == "(": depth += 1
+        elif source[index] == ")":
+            depth -= 1
+            if depth == 0: return index + 1
+    return None
+
+
+def reader_invocation_context(source: str, start: int) -> bool:
+    """Whether a reader-shaped token begins in a conservative call context.
+
+    A parenthesized identifier is not necessarily invoked: ``#selector(read(_:))``
+    references a method, and nested contextual syntax has more shapes than this
+    bounded lexer can prove. Accept statement starts, assignment/statement
+    delimiters, return/try/await positions and assertion-macro names. Refuse other
+    nested positions rather than granting an explicit scope false credit.
+    """
+    prefix = source[:start]
+    stripped = prefix.rstrip()
+    conditional_depth = 0
+    for line in prefix.splitlines():
+        directive = line.strip()
+        if re.match(r"#if\b", directive): conditional_depth += 1
+        elif re.match(r"#endif\b", directive): conditional_depth = max(0, conditional_depth - 1)
+    if conditional_depth:
+        return False
+    depth = 0
+    minimum_depth = 0
+    depths = []
+    for character in prefix:
+        depths.append(depth)
+        if character == "{": depth += 1
+        elif character == "}": depth -= 1
+        minimum_depth = min(minimum_depth, depth)
+    if depth != minimum_depth:
+        return False
+    for terminal in re.finditer(r"\b(?:return|throw)\b", prefix):
+        if depths[terminal.start()] == minimum_depth and prefix[terminal.end():].strip():
+            return False
+    if not stripped or not prefix.rsplit("\n", 1)[-1].strip():
+        return True
+    if stripped.endswith(("#", ";", "}")):
+        return True
+    if stripped.endswith("="):
+        statement = re.split(r"[;\n{}]", stripped)[-1].strip()
+        binding = (r"(?:let|var)\s+(?:\([^)]*\)|[A-Za-z_]\w*)"
+                   r"(?:\s*:\s*[^=]+)?\s*=")
+        assignment = r"(?:_|[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)\s*="
+        return re.fullmatch(rf"(?:{binding}|{assignment})", statement) is not None
+    return re.search(r"\b(?:return|try|await)\s*$", stripped) is not None
+
+
+def helper_invocation_context(source: str, start: int) -> bool:
+    """Whether a bound helper call is direct at the caller body's top level.
+
+    This intentionally shares the conservative reader boundary. Lexical control
+    blocks cannot prove that a branch or loop executes, and closures cannot prove
+    when their body runs relative to the helper's scoped mutation.
+    """
+    if not reader_invocation_context(source, start):
+        return False
+    if re.search(r"\b(?:return|throw)\b", source[:start]):
+        return False
+    return True
+
+
+def has_reader_call(source: str, readers: tuple[str, ...]) -> bool:
+    """Whether masked Swift source contains a configured reader-shaped call.
+
+    Attributed helpers need an executable observation in each bound caller. A
+    substring such as ``already`` and a bare identifier such as ``read`` are not
+    calls and cannot justify removing the helper's mutation from the census.
+    Reader vocabulary remains stem-based. A reader-shaped identifier must use
+    parenthesized call syntax and begin in a conservative
+    invocation context. The context rule, rather than overlapping token guards,
+    refuses qualified shapes, control conditions, declarations and nested method
+    references.
+    """
+    for reader in readers:
+        pattern = (re.escape(reader)
+                   + r"\w*\s*\((?!\s*(?:(?:`[^`\r\n]+`|[^():,\s]+)\s*:\s*)+\))")
+        if any(reader_invocation_context(source, match.start())
+               for match in re.finditer(pattern, source)):
+            return True
+    return False
 
 # ── what a provider has to resolve to ───────────────────────────────────────
 #
@@ -555,7 +737,8 @@ def swift_body_spans(source: str) -> dict:
     return result
 
 
-def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) -> dict:
+def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
+               scopes: list[dict] | None = None) -> dict:
     """After the last mutating call in a test body, does any reader appear?
 
     Name-based and deliberately generous: a reader called for an unrelated
@@ -572,6 +755,16 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
     findings: list[str] = []
     not_measured: list[str] = []
     swift_files = swift_measured = swift_entries = swift_helpers = swift_bodyless = 0
+    scopes = scopes or []
+    scope_uses = {id(row): 0 for row in scopes}
+    scope_errors: list[str] = []
+    scoped_counts = {name: 0 for name in sorted(SCOPE_CLASSES)}
+    scoped_only_bodies = 0
+    body_records: dict[tuple[str, str, str], list[tuple[str, str, bool]]] = {}
+    scope_identities = [(row.get("file"), row.get("name"), row.get("bodySHA256"),
+                         row.get("callOffset")) for row in scopes]
+    if len(scope_identities) != len(set(scope_identities)):
+        scope_errors.append("duplicate call scope identities were supplied")
     # Which declared verbs appear anywhere in this corpus at all. A vocabulary
     # for another language half-matches — the generic verbs hit, the project's
     # own never do — and half-matching is what made 32 findings against a foreign
@@ -586,6 +779,7 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
             if is_swift:
                 not_measured.append(f"{f}:1 — Swift source could not be read ({type(error).__name__})")
             continue
+        original_src = src
         swift = swift_body_spans(src) if is_swift else None
         if swift is not None:
             if swift["diagnostics"]:
@@ -627,10 +821,22 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
         for i, (pos, name, kind) in enumerate(starts):
             end = starts[i + 1][0] if i + 1 < len(starts) else len(src)
             body = swift["blocks"][i]["body"] if swift is not None else src[pos:end]
-            if kind == "decl" and name in helpers:
+            source_body = (original_src[swift["blocks"][i]["bodyStart"]:swift["blocks"][i]["end"]]
+                           if swift is not None else body)
+            rel = f.relative_to(root).as_posix()
+            body_digest = hashlib.sha256(source_body.encode()).hexdigest()
+            test_entry = (bool(swift["blocks"][i]["testEntry"]) if swift is not None
+                          else kind == "spec" or name.startswith("test"))
+            body_records.setdefault((rel, name, body_digest), []).append(
+                (source_body, body, test_entry))
+            body_scopes = [row for row in scopes if row.get("file") == rel and
+                           row.get("name") == name and row.get("bodySHA256") == body_digest and
+                           row.get("testEntry") == test_entry]
+            if kind == "decl" and name in helpers and not any(
+                    row.get("classification") == "attributed-helper" for row in body_scopes):
                 continue
             examined += 1
-            last, which = -1, None
+            calls = []
             for v in mutators:
                 # `(?<![A-Za-z0-9_])` is load-bearing. Without it a verb that is a
                 # substring of a longer identifier fires: `record` matched inside
@@ -641,11 +847,25 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
                 # reader match suppresses a finding, which is the safe direction,
                 # while a false mutator match manufactures one.
                 for m in re.finditer(r"(?<![A-Za-z0-9_])" + re.escape(v) + r"\w*\s*\(", body):
-                    if m.start() > last:
-                        last, which = m.start(), v
+                    calls.append((m.start(), m.end(), v))
+            if calls:
+                mutating += 1
+            ignored: set[tuple[int, int, str]] = set()
+            for row in body_scopes:
+                matches = [call for call in calls if call[0] == row.get("callOffset") and
+                           call[2] == row.get("mutator") and
+                           call_fingerprint(source_body, call[0], call[1]) == row.get("callSHA256")]
+                if len(matches) != 1:
+                    scope_errors.append(f"{rel}:{name} scope does not bind exactly one current call")
+                    continue
+                ignored.add(matches[0]); scope_uses[id(row)] += 1
+                scoped_counts[row["classification"]] += 1
+            calls = [call for call in calls if call not in ignored]
+            last_call = max(calls, default=None, key=lambda call: call[0])
+            last, which = (-1, None) if last_call is None else (last_call[0], last_call[2])
             if last < 0:
+                scoped_only_bodies += bool(ignored)
                 continue
-            mutating += 1
             tail = body[last:]
             if any(re.search(re.escape(rd) + r"\w*", tail) for rd in readers):
                 reread += 1
@@ -653,12 +873,64 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...]) 
                 location = f"{f}:{swift['blocks'][i]['line']}" if swift is not None else str(f)
                 findings.append(f"{name} — last mutator '{which}', no read after it "
                                 f"({location})")
+    for row in scopes:
+        if scope_uses[id(row)] != 1:
+            scope_errors.append(f"{row.get('file')}:{row.get('name')} scope matched "
+                                f"{scope_uses[id(row)]} bodies/calls, expected exactly one")
+        if row.get("classification") == "attributed-helper":
+            if not row.get("callers"):
+                scope_errors.append(f"{row.get('file')}:{row.get('name')} attributed helper "
+                                    "has no bound caller")
+            for caller in row.get("callers", []):
+                bodies = body_records.get((caller.get("file"), caller.get("name"),
+                                           caller.get("bodySHA256")), [])
+                bodies = [body for body in bodies if body[2] == caller.get("testEntry")]
+                if len(bodies) != 1:
+                    scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
+                                        "does not bind exactly one current body")
+                    continue
+                caller_body, masked_caller, _ = bodies[0]
+                offset = caller.get("callOffset")
+                pattern = re.escape(str(row.get("name"))) + r"\s*\("
+                match = (re.match(pattern, caller_body[offset:])
+                         if isinstance(offset, int) and offset < len(caller_body) else None)
+                executable_match = (re.match(pattern, masked_caller[offset:])
+                                    if isinstance(offset, int) and offset < len(masked_caller)
+                                    else None)
+                context_start = offset
+                if isinstance(offset, int):
+                    while context_start and (masked_caller[context_start - 1].isalnum() or
+                                             masked_caller[context_start - 1] in "_.$"):
+                        context_start -= 1
+                if (match is None or executable_match is None or
+                        executable_match.end() != match.end() or
+                        call_fingerprint(caller_body, offset, offset + match.end()) !=
+                        caller.get("callSHA256") or
+                        not helper_invocation_context(masked_caller, context_start)):
+                    scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
+                                        "does not bind one executable named helper call")
+                    continue
+                opening = offset + match.end() - 1
+                reader_tail = balanced_call_end(masked_caller, opening)
+                if reader_tail is None:
+                    scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
+                                        "has an unbalanced helper call")
+                    continue
+                if masked_caller[reader_tail:].lstrip().startswith("{"):
+                    scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
+                                        "uses unsupported trailing-closure syntax")
+                    continue
+                if not has_reader_call(masked_caller[reader_tail:], readers):
+                    scope_errors.append(f"{row.get('file')}:{row.get('name')} bound caller "
+                                        "has no read after its helper call")
     return {"files": len(files), "examined": examined, "mutating": mutating,
             "reread": reread, "findings": findings, "seenVerbs": seen_verbs,
             "declBlocks": decl_blocks, "specBlocks": spec_blocks,
             "notMeasured": not_measured, "swiftFiles": swift_files,
             "swiftMeasuredFiles": swift_measured, "swiftTestEntries": swift_entries,
-            "swiftExcludedHelpers": swift_helpers, "swiftBodylessRequirements": swift_bodyless}
+            "swiftExcludedHelpers": swift_helpers, "swiftBodylessRequirements": swift_bodyless,
+            "scopeFindings": scope_errors, "scopedCounts": scoped_counts,
+            "scopeRecords": len(scopes), "scopedOnlyBodies": scoped_only_bodies}
 
 
 # ── the control ─────────────────────────────────────────────────────────────
@@ -787,6 +1059,7 @@ def main() -> int:
                   f"{index.root} ({index.origin}, {len(index.production)} production file(s))")
 
     blind_findings: list[str] = []
+    blind_scopes, scope_load_findings = load_blind_scopes(d, campaign.get("blindScopeFile"))
     # The corpus root belongs beside the vocabulary that has to agree with it.
     # Measured: a campaign whose vocabulary was one language, pointed by hand at
     # another language's test tree, produced 32 findings identical in shape and
@@ -836,13 +1109,18 @@ def main() -> int:
                       "and a pass that matches nothing returns clean.")
                 muts = rds = ()
             if muts and rds:
-                res = pass_blind(root, muts, rds)
+                res = pass_blind(root, muts, rds, blind_scopes)
                 if res["swiftFiles"]:
                     print(f"  Swift: files={res['swiftFiles']} measured-files={res['swiftMeasuredFiles']} "
                           f"unmeasured-files={len(res['notMeasured'])} "
                           f"explicit-test-entries={res['swiftTestEntries']} "
                           f"called-helpers-excluded={res['swiftExcludedHelpers']} "
                           f"bodyless-protocol-requirements={res['swiftBodylessRequirements']}")
+                    if res["scopeRecords"]:
+                        counts = ", ".join(f"{key}={value}" for key, value in
+                                           sorted(res["scopedCounts"].items()))
+                        print(f"  Swift scopes: records={res['scopeRecords']} · "
+                              f"scoped-only-bodies={res['scopedOnlyBodies']} · {counts}")
                     print("  Swift discovery: uncalled named functions remain candidates, not proven test entries; "
                           "nested declarations supply no parent calls. Helper effects and reader independence "
                           "are not resolved.")
@@ -884,6 +1162,10 @@ def main() -> int:
                 for diagnostic in res["notMeasured"]:
                     print(f"blind:      NOT MEASURED — {diagnostic}")
                 blind_findings.extend(res["notMeasured"])
+                for diagnostic in scope_load_findings + res["scopeFindings"]:
+                    print(f"blind:      INVALID SCOPE — {diagnostic}")
+                blind_findings.extend(scope_load_findings)
+                blind_findings.extend(res["scopeFindings"])
                 if not res["examined"]:
                     print(f"blind:      NOT MEASURED — {res['files']} file(s) scanned and "
                           "0 test blocks recognised; an empty measured population cannot clear.")

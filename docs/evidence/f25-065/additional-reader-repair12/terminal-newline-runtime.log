@@ -1,0 +1,18 @@
+docs/evidence/f25-065/additional-reader-repair12/terminal-newline-runtime.swift:22:5: warning: code after 'return' will never be executed
+20 |     return
+21 |         returnSeed()
+22 |     read()
+   |     `- warning: code after 'return' will never be executed
+23 |     return 0
+24 | }
+
+docs/evidence/f25-065/additional-reader-repair12/terminal-newline-runtime.swift:29:5: warning: code after 'throw' will never be executed
+27 |     throw
+28 |         throwSeed()
+29 |     read()
+   |     `- warning: code after 'throw' will never be executed
+30 | }
+31 | 
+compile_exit=0
+stores=2 reads=0
+runtime_exit=0

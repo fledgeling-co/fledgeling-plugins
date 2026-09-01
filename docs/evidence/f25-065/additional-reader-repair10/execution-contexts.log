@@ -1,0 +1,27 @@
+docs/evidence/f25-065/additional-reader-repair10/execution-contexts.swift:27:5: warning: code after 'continue' will never be executed
+25 |     seed()
+26 |     continue
+27 |     read()
+   |     `- warning: code after 'continue' will never be executed
+28 | }
+29 | precondition(stores == 1 && reads == 0, "continue makes the later reader unreachable")
+
+docs/evidence/f25-065/additional-reader-repair10/execution-contexts.swift:35:5: warning: code after 'break' will never be executed
+33 |     seed()
+34 |     break
+35 |     read()
+   |     `- warning: code after 'break' will never be executed
+36 | }
+37 | precondition(stores == 1 && reads == 0, "break makes the later reader unreachable")
+
+docs/evidence/f25-065/additional-reader-repair10/execution-contexts.swift:45:13: warning: will never be executed
+43 | 
+44 | reset()
+45 | if 0 == 1 { seed() }
+   |      |      `- warning: will never be executed
+   |      `- note: condition always evaluates to false
+46 | read()
+47 | precondition(stores == 0 && reads == 1, "the helper under a false expression never mutates")
+compile_exit=0
+runtime boundaries passed
+runtime_exit=0

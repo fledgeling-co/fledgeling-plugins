@@ -1,0 +1,357 @@
+{
+  "verdict": "FAIL",
+  "reviewedImplementation": "d9f3d87adc96687be6fb0cfbbc998bca8249822f",
+  "sourceSHA256": "c24ede655873a9ac4676e98822dbec23e02d55cf06e84a34831cb167b604087d",
+  "blockingFalseGreen": {
+    "claim": "A helper call stored in a never-invoked closure is treated as executed when a later direct reader runs.",
+    "source": "private func seed() { store() }\nfunc testMeasure() { let invoke = { seed() }; _ = invoke; read() }",
+    "cliExit": 0,
+    "swiftTypecheckExit": 0
+  },
+  "secondaryControlFlowFalseGreen": {
+    "claim": "A helper call in an inactive conditional-compilation branch is treated as executed when a later direct reader runs.",
+    "source": "private func seed() { store() }\nfunc testMeasure() {\n#if false\nseed()\n#endif\nread()\n}",
+    "cliExit": 0
+  },
+  "boundaries": {
+    "storedClosureNeverInvoked": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "storedClosureInvoked": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "helperTrailingClosure": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed caller scope does not bind its named helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "configuredReaderTrailingClosure": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "parenthesizedReader": {
+      "scopeFindings": [],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "readerOnlyBeforeHelper": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "unreachableFalseBranch": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "inactiveCompilationBranch": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "missingModuleCompilationBranch": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "unicodeLabelReference": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "backtickLabelReference": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "underscoreLabelReference": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "helperTrailingThenDirectReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed caller scope does not bind its named helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "helperTrailingThenNestedReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed caller scope does not bind its named helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "immediatelyInvokedNestedReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "synchronousDoNestedReader": {
+      "scopeFindings": [
+        "ExampleTests.swift:seed bound caller has no read after its helper call"
+      ],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 1,
+      "cliInvalidScope": true
+    },
+    "nestedHelperCallThenDirectReader": {
+      "scopeFindings": [],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "inactiveHelperCallThenDirectReader": {
+      "scopeFindings": [],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 0,
+      "cliInvalidScope": false
+    },
+    "returnBeforeDirectReader": {
+      "scopeFindings": [],
+      "rawMutatingBodies": 1,
+      "scopedCounts": {
+        "attributed-helper": 1,
+        "direct-output": 0,
+        "failure-sentinel": 0,
+        "fixture-value": 0
+      },
+      "cliExit": 0,
+      "cliInvalidScope": false
+    }
+  },
+  "strictSchemaAndCallerBinding": {
+    "unknownTopLevel": {
+      "exitCode": 1,
+      "invalidScope": true
+    },
+    "unknownRecordField": {
+      "exitCode": 1,
+      "invalidScope": true
+    },
+    "callerPostureDrift": {
+      "exitCode": 1,
+      "invalidScope": true
+    }
+  },
+  "actualSourceMutants": [
+    {
+      "name": "drop-call-syntax",
+      "exitCode": 1,
+      "failedAsRequired": true,
+      "outputTail": "======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies) (source='private func seed() { write() }\\n@Test func measure() { seed(); read {} }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-mutant-drop-call-syntax-iwjp9_0d/plugins/test-campaign/tests/test_swift_bodies.py\", line 215, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any(expected in finding\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.738s\n\nFAILED (failures=5)",
+      "mutantSHA256": "ad7a0dd457ebca540949f39a210b6803902a56d009c93ff72d46f13c6b9a25bd",
+      "baselineSHA256": "c24ede655873a9ac4676e98822dbec23e02d55cf06e84a34831cb167b604087d",
+      "worktreeUntouched": true
+    },
+    {
+      "name": "allow-function-reference-placeholder",
+      "exitCode": 1,
+      "failedAsRequired": true,
+      "outputTail": "======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies) (source='private func seed() { write() }\\n@Test func measure() { seed(); let function = read(`repeat`:) }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-mutant-allow-function-reference-placeholder-_jovec0g/plugins/test-campaign/tests/test_swift_bodies.py\", line 215, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any(expected in finding\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.696s\n\nFAILED (failures=3)",
+      "mutantSHA256": "c739b6186d6d3610053e729f6f0bed70e3dff0312030c8b46cc37fc9130a382a",
+      "baselineSHA256": "c24ede655873a9ac4676e98822dbec23e02d55cf06e84a34831cb167b604087d",
+      "worktreeUntouched": true
+    },
+    {
+      "name": "allow-reader-trailing-closure",
+      "exitCode": 1,
+      "failedAsRequired": true,
+      "outputTail": "======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies) (source='private func seed() { write() }\\n@Test func measure() { seed(); read {} }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-mutant-allow-reader-trailing-closure-ysk6m2pc/plugins/test-campaign/tests/test_swift_bodies.py\", line 215, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any(expected in finding\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.795s\n\nFAILED (failures=1)",
+      "mutantSHA256": "cefd2e09c8e2835e32b45cb714f3258d25e64fadad0915fca9d837daf5169a32",
+      "baselineSHA256": "c24ede655873a9ac4676e98822dbec23e02d55cf06e84a34831cb167b604087d",
+      "worktreeUntouched": true
+    },
+    {
+      "name": "allow-nested-reader",
+      "exitCode": 1,
+      "failedAsRequired": true,
+      "outputTail": "======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies) (source='private func seed() { write() }\\n@Test func measure() { seed(); if false { configure(); read() } }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-mutant-allow-nested-reader-4cc1ulv0/plugins/test-campaign/tests/test_swift_bodies.py\", line 215, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any(expected in finding\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.765s\n\nFAILED (failures=2)",
+      "mutantSHA256": "ceefaeb0c92f1a3ea4955aea046ea1ae6458f23125a502b1c35e19d5b251f093",
+      "baselineSHA256": "c24ede655873a9ac4676e98822dbec23e02d55cf06e84a34831cb167b604087d",
+      "worktreeUntouched": true
+    },
+    {
+      "name": "allow-conditional-compilation-reader",
+      "exitCode": 1,
+      "failedAsRequired": true,
+      "outputTail": "======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies) (source='private func seed() { write() }\\n@Test func measure() {\\n seed()\\n #if canImport(DefinitelyMissingF25065Module)\\n read()\\n #endif\\n }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-mutant-allow-conditional-compilation-reader-4qjbtcdt/plugins/test-campaign/tests/test_swift_bodies.py\", line 215, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any(expected in finding\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.720s\n\nFAILED (failures=2)",
+      "mutantSHA256": "f94e38771110d1520ad11d0b0d6f0faf882bc80826be8911d021fcabd6c7a9c3",
+      "baselineSHA256": "c24ede655873a9ac4676e98822dbec23e02d55cf06e84a34831cb167b604087d",
+      "worktreeUntouched": true
+    },
+    {
+      "name": "allow-helper-trailing-closure",
+      "exitCode": 1,
+      "failedAsRequired": true,
+      "outputTail": "======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies) (source='private func seed(_ body: () -> Void) { write() }\\n@Test func measure() { Fixtures.seed { read() } }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-mutant-allow-helper-trailing-closure-eueo76av/plugins/test-campaign/tests/test_swift_bodies.py\", line 215, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any(expected in finding\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.799s\n\nFAILED (failures=1)",
+      "mutantSHA256": "956e1de02e0ea463cc467c6c246514763b1970108b715d3cc391d7f37632974e",
+      "baselineSHA256": "c24ede655873a9ac4676e98822dbec23e02d55cf06e84a34831cb167b604087d",
+      "worktreeUntouched": true
+    },
+    {
+      "name": "drop-invocation-context",
+      "exitCode": 1,
+      "failedAsRequired": true,
+      "outputTail": "======================================================================\nFAIL: test_attributed_helper_requires_an_executable_later_reader_call (__main__.SwiftBodies) (source='private func seed() { write() }\\n@Test func measure() {\\n seed()\\n #if canImport(DefinitelyMissingF25065Module)\\n read()\\n #endif\\n }')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-additional-mutant-drop-invocation-context-4ywvresh/plugins/test-campaign/tests/test_swift_bodies.py\", line 215, in test_attributed_helper_requires_an_executable_later_reader_call\n    self.assertTrue(any(expected in finding\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.598s\n\nFAILED (failures=6)",
+      "mutantSHA256": "1a0fcf46dc285911461ea28802c3c06171fb6b67e65c071848a595d3cde18518",
+      "baselineSHA256": "c24ede655873a9ac4676e98822dbec23e02d55cf06e84a34831cb167b604087d",
+      "worktreeUntouched": true
+    }
+  ],
+  "sourceRestored": true,
+  "mutationLocation": "isolated temporary copies from git-show snapshot; shared worktree was not mutated"
+}

@@ -1,0 +1,8 @@
+docs/evidence/f25-065/additional-reader-repair8/valid-edges.swift:31:44: warning: keyword 'repeat' does not need to be escaped in argument list
+29 |     seed()
+30 |     let unicode: (Int) -> Int = read(λ:)
+31 |     let escaped: (String) -> String = read(`repeat`:)
+   |                                            `- warning: keyword 'repeat' does not need to be escaped in argument list
+32 |     let wildcard: (Int, Int) -> Int = read(_:_:)
+33 |     _ = (unicode, escaped, wildcard)
+swift_typecheck_exit=0

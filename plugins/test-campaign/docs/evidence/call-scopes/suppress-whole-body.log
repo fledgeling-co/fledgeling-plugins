@@ -1,0 +1,424 @@
+test_called_helpers_excluded_but_explicit_test_entries_retained (__main__.SwiftBodies.test_called_helpers_excluded_but_explicit_test_entries_retained) ... 
+  test_called_helpers_excluded_but_explicit_test_entries_retained (__main__.SwiftBodies.test_called_helpers_excluded_but_explicit_test_entries_retained) (declaration='@Test func mutation()') ... FAIL
+  test_called_helpers_excluded_but_explicit_test_entries_retained (__main__.SwiftBodies.test_called_helpers_excluded_but_explicit_test_entries_retained) (declaration='@Testing.Test() private func mutation()') ... FAIL
+  test_called_helpers_excluded_but_explicit_test_entries_retained (__main__.SwiftBodies.test_called_helpers_excluded_but_explicit_test_entries_retained) (declaration='func testMutation()') ... FAIL
+test_comments_and_literal_delimiters_are_not_calls_or_bodies (__main__.SwiftBodies.test_comments_and_literal_delimiters_are_not_calls_or_bodies) ... FAIL
+test_escaped_identifiers_and_protocol_requirements (__main__.SwiftBodies.test_escaped_identifiers_and_protocol_requirements) ... FAIL
+test_exact_call_scope_removes_only_that_occurrence_then_rechecks_earlier_calls (__main__.SwiftBodies.test_exact_call_scope_removes_only_that_occurrence_then_rechecks_earlier_calls) ... FAIL
+test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) ... 
+  test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='"\\(write())"') ... FAIL
+  test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='#"\\#(write())"#') ... FAIL
+  test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='##"\\##(write())"##') ... FAIL
+  test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='"""\n\\(write())\n"""') ... FAIL
+  test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='"outer \\("inner \\(write())")"') ... FAIL
+  test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='"\\({ write(); return 1 }())"') ... FAIL
+test_following_reader_cannot_clear_a_blind_test (__main__.SwiftBodies.test_following_reader_cannot_clear_a_blind_test) ... FAIL
+test_generic_signature_attributes_defaults_and_typed_throws (__main__.SwiftBodies.test_generic_signature_attributes_defaults_and_typed_throws) ... FAIL
+test_nested_attributes_cannot_supply_parent_readers (__main__.SwiftBodies.test_nested_attributes_cannot_supply_parent_readers) ... 
+  test_nested_attributes_cannot_supply_parent_readers (__main__.SwiftBodies.test_nested_attributes_cannot_supply_parent_readers) (declaration='@Wrapper(read()) func helper() {}') ... FAIL
+  test_nested_attributes_cannot_supply_parent_readers (__main__.SwiftBodies.test_nested_attributes_cannot_supply_parent_readers) (declaration='@Wrapper(read()) struct Local {}') ... FAIL
+test_nested_declarations_cannot_supply_parent_reader_or_mutation (__main__.SwiftBodies.test_nested_declarations_cannot_supply_parent_reader_or_mutation) ... FAIL
+test_ordinary_arithmetic_slash_is_not_rejected (__main__.SwiftBodies.test_ordinary_arithmetic_slash_is_not_rejected) ... ok
+test_original_four_controls_keep_their_meaning (__main__.SwiftBodies.test_original_four_controls_keep_their_meaning) ... 
+  test_original_four_controls_keep_their_meaning (__main__.SwiftBodies.test_original_four_controls_keep_their_meaning) (names=['fixture'], source='func testHasRead() { let x = load(); #expect(x == 1) }\nprivate func fixture() { write() }') ... FAIL
+  test_original_four_controls_keep_their_meaning (__main__.SwiftBodies.test_original_four_controls_keep_their_meaning) (names=['testReadsMutationResult'], source='func testReadsMutationResult() { #expect(store("x").verdict == 1) }') ... FAIL
+  test_original_four_controls_keep_their_meaning (__main__.SwiftBodies.test_original_four_controls_keep_their_meaning) (names=['testReallyBlind'], source='func testReallyBlind() { store("x") }') ... FAIL
+test_original_four_controls_keep_their_meaning (__main__.SwiftBodies.test_original_four_controls_keep_their_meaning) ... ERROR
+test_other_languages_remain_on_their_existing_extractor (__main__.SwiftBodies.test_other_languages_remain_on_their_existing_extractor) ... FAIL
+test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable (__main__.SwiftBodies.test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable) ... 
+  test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable (__main__.SwiftBodies.test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable) (files={'BlindTests.swift': 'func testBlind() { write() }'}) ... FAIL
+  test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable (__main__.SwiftBodies.test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable) (files={'BlindTests.swift': 'func testBlind() { write() }', 'BadTests.swift': 'func testRegex() { let re = #/read()/ #; write() }'}) ... FAIL
+test_reader_after_nested_declaration_stays_in_its_parent (__main__.SwiftBodies.test_reader_after_nested_declaration_stays_in_its_parent) ... FAIL
+test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity (__main__.SwiftBodies.test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity) ... ok
+test_scope_file_schema_and_reference_hashes_fail_closed (__main__.SwiftBodies.test_scope_file_schema_and_reference_hashes_fail_closed) ... ok
+test_unsupported_and_malformed_forms_are_explicit (__main__.SwiftBodies.test_unsupported_and_malformed_forms_are_explicit) ... ok
+
+======================================================================
+ERROR: test_original_four_controls_keep_their_meaning (__main__.SwiftBodies.test_original_four_controls_keep_their_meaning)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 116, in test_original_four_controls_keep_their_meaning
+    self.assertIn('ExampleTests.swift:2)', result['findings'][0])
+                                           ~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+FAIL: test_called_helpers_excluded_but_explicit_test_entries_retained (__main__.SwiftBodies.test_called_helpers_excluded_but_explicit_test_entries_retained) (declaration='@Test func mutation()')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 155, in test_called_helpers_excluded_but_explicit_test_entries_retained
+    self.assertEqual(self.names(result), [name])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['mutation']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'mutation'
+
+- []
++ ['mutation']
+
+======================================================================
+FAIL: test_called_helpers_excluded_but_explicit_test_entries_retained (__main__.SwiftBodies.test_called_helpers_excluded_but_explicit_test_entries_retained) (declaration='@Testing.Test() private func mutation()')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 155, in test_called_helpers_excluded_but_explicit_test_entries_retained
+    self.assertEqual(self.names(result), [name])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['mutation']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'mutation'
+
+- []
++ ['mutation']
+
+======================================================================
+FAIL: test_called_helpers_excluded_but_explicit_test_entries_retained (__main__.SwiftBodies.test_called_helpers_excluded_but_explicit_test_entries_retained) (declaration='func testMutation()')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 155, in test_called_helpers_excluded_but_explicit_test_entries_retained
+    self.assertEqual(self.names(result), [name])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testMutation']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testMutation'
+
+- []
++ ['testMutation']
+
+======================================================================
+FAIL: test_comments_and_literal_delimiters_are_not_calls_or_bodies (__main__.SwiftBodies.test_comments_and_literal_delimiters_are_not_calls_or_bodies)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 194, in test_comments_and_literal_delimiters_are_not_calls_or_bodies
+    self.assertEqual(self.names(result), ['testBlind'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testBlind']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testBlind'
+
+- []
++ ['testBlind']
+
+======================================================================
+FAIL: test_escaped_identifiers_and_protocol_requirements (__main__.SwiftBodies.test_escaped_identifiers_and_protocol_requirements)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 213, in test_escaped_identifiers_and_protocol_requirements
+    self.assertEqual(self.names(result), ['testEscaped'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testEscaped']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testEscaped'
+
+- []
++ ['testEscaped']
+
+======================================================================
+FAIL: test_exact_call_scope_removes_only_that_occurrence_then_rechecks_earlier_calls (__main__.SwiftBodies.test_exact_call_scope_removes_only_that_occurrence_then_rechecks_earlier_calls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 45, in test_exact_call_scope_removes_only_that_occurrence_then_rechecks_earlier_calls
+    self.assertEqual(self.names(result), ['testStillBlind'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testStillBlind']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testStillBlind'
+
+- []
++ ['testStillBlind']
+
+======================================================================
+FAIL: test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='"\\(write())"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 204, in test_executable_interpolation_is_preserved_recursively
+    self.assertEqual(self.names(result), ['testInterpolation'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testInterpolation']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testInterpolation'
+
+- []
++ ['testInterpolation']
+
+======================================================================
+FAIL: test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='#"\\#(write())"#')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 204, in test_executable_interpolation_is_preserved_recursively
+    self.assertEqual(self.names(result), ['testInterpolation'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testInterpolation']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testInterpolation'
+
+- []
++ ['testInterpolation']
+
+======================================================================
+FAIL: test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='##"\\##(write())"##')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 204, in test_executable_interpolation_is_preserved_recursively
+    self.assertEqual(self.names(result), ['testInterpolation'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testInterpolation']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testInterpolation'
+
+- []
++ ['testInterpolation']
+
+======================================================================
+FAIL: test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='"""\n\\(write())\n"""')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 204, in test_executable_interpolation_is_preserved_recursively
+    self.assertEqual(self.names(result), ['testInterpolation'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testInterpolation']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testInterpolation'
+
+- []
++ ['testInterpolation']
+
+======================================================================
+FAIL: test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='"outer \\("inner \\(write())")"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 204, in test_executable_interpolation_is_preserved_recursively
+    self.assertEqual(self.names(result), ['testInterpolation'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testInterpolation']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testInterpolation'
+
+- []
++ ['testInterpolation']
+
+======================================================================
+FAIL: test_executable_interpolation_is_preserved_recursively (__main__.SwiftBodies.test_executable_interpolation_is_preserved_recursively) (literal='"\\({ write(); return 1 }())"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 204, in test_executable_interpolation_is_preserved_recursively
+    self.assertEqual(self.names(result), ['testInterpolation'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testInterpolation']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testInterpolation'
+
+- []
++ ['testInterpolation']
+
+======================================================================
+FAIL: test_following_reader_cannot_clear_a_blind_test (__main__.SwiftBodies.test_following_reader_cannot_clear_a_blind_test)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 120, in test_following_reader_cannot_clear_a_blind_test
+    self.assertEqual(self.names(result), ['testBlind'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testBlind']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testBlind'
+
+- []
++ ['testBlind']
+
+======================================================================
+FAIL: test_generic_signature_attributes_defaults_and_typed_throws (__main__.SwiftBodies.test_generic_signature_attributes_defaults_and_typed_throws)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 173, in test_generic_signature_attributes_defaults_and_typed_throws
+    self.assertEqual(self.names(result), ['measured'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['measured']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'measured'
+
+- []
++ ['measured']
+
+======================================================================
+FAIL: test_nested_attributes_cannot_supply_parent_readers (__main__.SwiftBodies.test_nested_attributes_cannot_supply_parent_readers) (declaration='@Wrapper(read()) func helper() {}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 136, in test_nested_attributes_cannot_supply_parent_readers
+    self.assertEqual(self.names(result), ['testBlind'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testBlind']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testBlind'
+
+- []
++ ['testBlind']
+
+======================================================================
+FAIL: test_nested_attributes_cannot_supply_parent_readers (__main__.SwiftBodies.test_nested_attributes_cannot_supply_parent_readers) (declaration='@Wrapper(read()) struct Local {}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 136, in test_nested_attributes_cannot_supply_parent_readers
+    self.assertEqual(self.names(result), ['testBlind'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testBlind']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testBlind'
+
+- []
++ ['testBlind']
+
+======================================================================
+FAIL: test_nested_declarations_cannot_supply_parent_reader_or_mutation (__main__.SwiftBodies.test_nested_declarations_cannot_supply_parent_reader_or_mutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 124, in test_nested_declarations_cannot_supply_parent_reader_or_mutation
+    self.assertEqual(self.names(result), ['testBlind'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testBlind']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testBlind'
+
+- []
++ ['testBlind']
+
+======================================================================
+FAIL: test_original_four_controls_keep_their_meaning (__main__.SwiftBodies.test_original_four_controls_keep_their_meaning) (names=['fixture'], source='func testHasRead() { let x = load(); #expect(x == 1) }\nprivate func fixture() { write() }')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 113, in test_original_four_controls_keep_their_meaning
+    self.assertEqual(self.names(result), names)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['fixture']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'fixture'
+
+- []
++ ['fixture']
+
+======================================================================
+FAIL: test_original_four_controls_keep_their_meaning (__main__.SwiftBodies.test_original_four_controls_keep_their_meaning) (names=['testReadsMutationResult'], source='func testReadsMutationResult() { #expect(store("x").verdict == 1) }')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 113, in test_original_four_controls_keep_their_meaning
+    self.assertEqual(self.names(result), names)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testReadsMutationResult']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testReadsMutationResult'
+
+- []
++ ['testReadsMutationResult']
+
+======================================================================
+FAIL: test_original_four_controls_keep_their_meaning (__main__.SwiftBodies.test_original_four_controls_keep_their_meaning) (names=['testReallyBlind'], source='func testReallyBlind() { store("x") }')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 113, in test_original_four_controls_keep_their_meaning
+    self.assertEqual(self.names(result), names)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['testReallyBlind']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'testReallyBlind'
+
+- []
++ ['testReallyBlind']
+
+======================================================================
+FAIL: test_other_languages_remain_on_their_existing_extractor (__main__.SwiftBodies.test_other_languages_remain_on_their_existing_extractor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 272, in test_other_languages_remain_on_their_existing_extractor
+    self.assertEqual(set(self.names(result)), {'blind', 'blind arrow'})
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Items in the second set but not the first:
+'blind arrow'
+'blind'
+
+======================================================================
+FAIL: test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable (__main__.SwiftBodies.test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable) (files={'BlindTests.swift': 'func testBlind() { write() }'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 264, in test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable
+    self.assertEqual(result.returncode, code, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : unclassed:  examined=1 findings=0
+uncensused: examined=0 findings=0
+  Swift: files=1 measured-files=1 unmeasured-files=0 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0
+  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.
+blind:      examined=1 mutating=1 re-read-after=0 blind=0
+  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-3dobq4te/tests (campaign.json testRoot, 1 file(s))
+  blocks: declaration-style 1 · arrow-style it/test 0
+  vocabulary: campaign.blindVocabulary only — defaults not applied — 1 mutator(s), 1 reader(s)
+  readers: read
+
+vacuity: requirements=1 external=0 findings=0
+
+
+======================================================================
+FAIL: test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable (__main__.SwiftBodies.test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable) (files={'BlindTests.swift': 'func testBlind() { write() }', 'BadTests.swift': 'func testRegex() { let re = #/read()/ #; write() }'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 265, in test_public_cli_clean_blind_unsupported_mixed_empty_and_unreadable
+    self.assertIn(phrase, result.stdout)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'testBlind — last mutator' not found in 'unclassed:  examined=1 findings=0\nuncensused: examined=0 findings=0\n  Swift: files=2 measured-files=1 unmeasured-files=1 explicit-test-entries=1 called-helpers-excluded=0 bodyless-protocol-requirements=0\n  Swift discovery: uncalled named functions remain candidates, not proven test entries; nested declarations supply no parent calls. Helper effects and reader independence are not resolved.\nblind:      examined=1 mutating=1 re-read-after=0 blind=0\n  corpus: /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-2shkatz5/tests (campaign.json testRoot, 2 file(s))\n  blocks: declaration-style 1 · arrow-style it/test 0\n  vocabulary: campaign.blindVocabulary only — defaults not applied — 1 mutator(s), 1 reader(s)\n  readers: read\nblind:      NOT MEASURED — /private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/swift-body-cli-tests-2shkatz5/tests/BadTests.swift:1 — Swift regex literal is not measured\n\nvacuity: requirements=1 external=0 findings=1\n'
+
+======================================================================
+FAIL: test_reader_after_nested_declaration_stays_in_its_parent (__main__.SwiftBodies.test_reader_after_nested_declaration_stays_in_its_parent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-xiupdmza/plugins/test-campaign/tests/test_swift_bodies.py", line 141, in test_reader_after_nested_declaration_stays_in_its_parent
+    self.assertEqual(self.names(result), ['helper'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['helper']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'helper'
+
+- []
++ ['helper']
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.420s
+
+FAILED (failures=24, errors=1)

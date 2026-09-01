@@ -1,0 +1,14 @@
+................F...
+======================================================================
+FAIL: test_scope_binds_target_and_caller_test_entry_posture (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_scope_binds_target_and_caller_test_entry_posture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-gp3q288m/plugins/test-campaign/tests/test_swift_bodies.py", line 131, in test_scope_binds_target_and_caller_test_entry_posture
+    self.assertTrue(result['scopeFindings'])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [] is not true
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.647s
+
+FAILED (failures=1)

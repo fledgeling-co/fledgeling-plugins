@@ -1,0 +1,151 @@
+{
+  "item": "F25-065",
+  "slice": "upstream reader-call repair fresh primary recheck",
+  "verdict": "FAIL",
+  "reviewedHead": "2de5a2e6d0ee8282232e3fd13280653b729ced62",
+  "retainedPriorFailure": "dd80213bd27aa880b6227aa4b961f649e0d314a0",
+  "sameFamilyDegraded": true,
+  "contextDisclosure": "Reviewer previously performed the related failed primary at 68c0c5b and reused unrelated review context; this is same-family degraded and makes no out-of-family claim.",
+  "blockingFalseGreen": {
+    "claim": "Trailing-closure reader syntax also matches a Swift control-statement condition and accepts a caller with no reader invocation.",
+    "source": "private func seed() { store() }\n@Test func measure() { seed(); let read = false; if read { print(\"x\") } }",
+    "cliExit": 0
+  },
+  "publicCLIBoundaries": {
+    "qualifiedParenthesizedReader": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "qualifiedTrailingClosureReader": {
+      "exit": 0,
+      "invalidScope": false
+    },
+    "readerBefore": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "commentOnlyReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "stringOnlyReader": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "identifierSubstringOnly": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "bareReaderNameOnly": {
+      "exit": 1,
+      "invalidScope": true
+    },
+    "readerShapedControlCondition": {
+      "exit": 0,
+      "invalidScope": false
+    }
+  },
+  "strictSchemaCases": {
+    "configuredFalse": 1,
+    "configuredZero": 1,
+    "configuredObject": 1,
+    "configuredArray": 1,
+    "boolVersion": 1,
+    "boolCallOffset": 1,
+    "integerTestEntry": 1,
+    "unknownTopField": 1,
+    "unknownRowField": 1,
+    "emptyReferenceHash": 1,
+    "unknownClassification": 1,
+    "staleBody": 1,
+    "staleCallFingerprint": 1,
+    "staleCallOffset": 1,
+    "unmatchedFile": 1,
+    "duplicateScope": 1
+  },
+  "sourceBoundMutants": [
+    {
+      "name": "drop-reader-identifier-boundary",
+      "failedAsRequired": true,
+      "assertion": "identifier substring accepted as reader call"
+    },
+    {
+      "name": "drop-reader-call-syntax",
+      "failedAsRequired": true,
+      "assertion": "bare reader name accepted as reader call"
+    },
+    {
+      "name": "suppress-whole-body-after-one-scope",
+      "failedAsRequired": true,
+      "assertion": "earlier write was suppressed with the scoped record"
+    },
+    {
+      "name": "accept-comment-only-caller-spelling",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    },
+    {
+      "name": "ignore-target-test-entry-posture",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    },
+    {
+      "name": "globally-suppress-four-verbs",
+      "failedAsRequired": true,
+      "assertion": "independent assertion failed"
+    }
+  ],
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "0ac7eff0d3695317a98086a36d9e133722e5c911e1bbf672437ad4fc78266f06"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "277fecc0dec6f43bb1013c2510eb2f103ff1953277835393117c4f79cc196c53"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "fba1874ccaf935f1a8c942529c9e5ae22d00135cc19ba287f524de58de45ffd0"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "5f4a7366feda2b259f928a65961ebb86ff6f302216dc0025c60daff75c167064"
+    }
+  ],
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "req056": 1,
+    "invalidScopes": 0,
+    "exit": 1,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "versions": {
+    "plugin": "0.16.2",
+    "marketplace": "0.16.2",
+    "catalogue": "0.16.2",
+    "catalogueRegenerationChangedBytes": false,
+    "path": "catalogue.log",
+    "sha256": "d9b6d742fe8122e3f31f8b6b7d68417e7edf8df1fd8749af8ce3f26b337b9d44"
+  },
+  "probe": {
+    "path": "probe.json",
+    "sha256": "b0ca0284d340d37b6f58ed001489bd0b34208f0cae9aa37476987fad855b5fed",
+    "scannerSHA256": "80f86e148dfe4c000102023a954fb89a7321657470ea93b232f402d95179e29a",
+    "sourceRestored": true
+  },
+  "limitations": "Lexical scanner review only; no Swift compiler/type resolution, receiver resolution, reader independence, or output causality. No install, publish, cache edit, push, merge, rebase, native app, provider, Keychain, or live campaign."
+}

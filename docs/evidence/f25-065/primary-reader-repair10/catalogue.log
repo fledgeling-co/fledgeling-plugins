@@ -1,0 +1,7 @@
+site/lib/catalogue.json sha256 before attempted regeneration: 5a8e81704842ce2a8b65e1474beea889f3de6642217cff55b2c895a1b934452a
+regeneration command: node site/scripts/build-catalogue.mjs
+regeneration result: not run; local dependency `yaml` is unavailable and review forbids install/cache changes
+site/lib/catalogue.json sha256 after attempted regeneration: 5a8e81704842ce2a8b65e1474beea889f3de6642217cff55b2c895a1b934452a
+plugins/test-campaign/.claude-plugin/plugin.json: 0.16.2
+.claude-plugin/marketplace.json test-campaign entry: 0.16.2
+site/lib/catalogue.json test-campaign entry: 0.16.2

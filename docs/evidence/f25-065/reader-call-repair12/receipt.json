@@ -1,0 +1,71 @@
+{
+  "item": "F25-065",
+  "slice": "upstream terminal-helper repair author",
+  "status": "repair complete; fresh primary and distinct additional reviews owed",
+  "base": "f986f726aec1aa01d2fb688aacc317152b0f3ba1",
+  "retainedFailures": [
+    "10924e109e06985ed66fa83d543d4162c729e86c",
+    "f986f726aec1aa01d2fb688aacc317152b0f3ba1"
+  ],
+  "closedFalseGreens": [
+    "helper call in return or throw expression loses terminator after suffix slicing",
+    "parenthesized helper with trailing closure contradicts documented refusal"
+  ],
+  "posture": "attributed-helper callers require direct top-level parenthesized calls outside return/throw; balanced arguments end before later-reader search; any following trailing closure and all nested control are refused",
+  "focusedRuns": [
+    {
+      "path": "focused-1.log",
+      "sha256": "a7dd169bbf851b8728852a3df932b1b460f4b29316bbd3438e9d5a1286e57265",
+      "tests": 21,
+      "exit": 0
+    },
+    {
+      "path": "focused-2.log",
+      "sha256": "cfd10a265237c9459049f611bd0478ca10528bb3051a9d4596d0bdf2e4e457c1",
+      "tests": 21,
+      "exit": 0
+    }
+  ],
+  "fullRuns": [
+    {
+      "path": "full-1.log",
+      "sha256": "35cd6c318089ba868e77fe23e7903a67c9bf83ad8e873a19b70d17020b1961f0",
+      "tests": 114,
+      "exit": 0
+    },
+    {
+      "path": "full-2.log",
+      "sha256": "da3d0bd7f656af71c631250c371bd779f29e470209b3252dcdb733cbb9e94627",
+      "tests": 114,
+      "exit": 0
+    }
+  ],
+  "mutants": {
+    "count": 11,
+    "allRejected": true,
+    "restored": true,
+    "path": "mutations.json",
+    "sha256": "0d9d36d718f9c407d9f68525c163ca1fc01423f69052574beafdb0e2b7fd2f1d"
+  },
+  "perchCorpus": {
+    "commit": "c30595e14403240d7933c1d20ec4728eb3281770",
+    "scopeRecords": 108,
+    "attributedHelper": 0,
+    "failureSentinel": 56,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "exit": 1,
+    "invalidScopes": 0,
+    "runs": [
+      {
+        "path": "perch-corpus-1.log",
+        "sha256": "54decad589022bcfe9e83cce66653c354b2705d7505e25ee5f2d8f1b64b40786"
+      },
+      {
+        "path": "perch-corpus-2.log",
+        "sha256": "54decad589022bcfe9e83cce66653c354b2705d7505e25ee5f2d8f1b64b40786"
+      }
+    ]
+  },
+  "limitations": "Conservative lexical proof only. Nested control-flow and all trailing-closure helper calls are refused. No build-config evaluation, receiver resolution, reader independence or output causality."
+}

@@ -1,0 +1,6 @@
+reviewed implementation: b9366d9ea6f282610dc64760a9f38586a8144e8e
+scanner sha256: a9a23365aedbf12ba3daee8407a147447a72f10365feadc314e153ffd653a292
+plugin.json version: 0.16.2
+root marketplace test-campaign version: 0.16.2
+site catalogue test-campaign version: 0.16.2
+catalogue parity: exercised by both 114-test full runs

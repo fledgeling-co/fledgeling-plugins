@@ -1,0 +1,14 @@
+...............F..
+======================================================================
+FAIL: test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity (plugins.test-campaign.tests.test_swift_bodies.SwiftBodies.test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/b3/hwz3nk4d1kz8x6mzk7qrbpsc0000gn/T/f25-065-mutant-ej1_te8t/plugins/test-campaign/tests/test_swift_bodies.py", line 79, in test_scope_fails_closed_on_body_call_duplicate_and_helper_ambiguity
+    self.assertTrue(any('caller scope' in finding for finding in result['scopeFindings']))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.661s
+
+FAILED (failures=1)

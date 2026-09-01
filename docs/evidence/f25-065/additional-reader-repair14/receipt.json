@@ -1,0 +1,88 @@
+{
+  "item": "F25-065",
+  "slice": "distinct additional prior-terminal conservative repair review",
+  "status": "PASS",
+  "reviewedImplementation": "1fc56e939cb95b05ae1739f305de89a0aac3fc56",
+  "finding": "No false acceptance found; all earlier return/throw and trailing cases refuse while comments/literals and direct/balanced controls retain expected behavior.",
+  "publicProbe": {
+    "path": "probe.json",
+    "sha256": "3790a773f2ec3c7e86ffe59b31b481803a6d044d1ed5b193105d9d44687d6250",
+    "allPriorTerminalCasesRejected": true,
+    "allSixTrailingSpellingsRejected": true,
+    "commentsAndLiteralsControlAccepted": true,
+    "directAndBalancedControlsAccepted": true
+  },
+  "runtime": {
+    "source": "conservative-boundaries-runtime.swift",
+    "sourceSHA256": "0998e80fa2fd463b887a9d725ca66c91038023772dbe28e97f2cb2d906fa8cbf",
+    "log": "conservative-boundaries-runtime.log",
+    "logSHA256": "ba6dfe85017d43dba5f8ab3ecf68a7888a74380d3492d8087b5f15a2dd2ca9d7",
+    "compileExit": 0,
+    "runtimeExit": 0,
+    "stores": 3,
+    "reads": 3
+  },
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "bf0aef90b10d9a568ca91564dfd23c9c8b9ce3c1c6f34f653f5fdbce17e95696"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "c57936232286767e49d7dc09a8649d17f29acc8b1589e415821625016a0f3ebf"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "afbbc769ceceb7db64585e5d18a0734f8914f5f7d028ec95f0af26f760e174a2"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "cddf1d7d82b563129238ea5bffc6ef28f727ace4e00ccaaee39c6ad3f327d787"
+    }
+  ],
+  "mutants": {
+    "count": 12,
+    "allRejected": true,
+    "restored": true,
+    "sourceSHA256": "6c58fdea3e61069fdb4695bbdd4d564e3eea2eedef38f9467ad1e0f2a79071e0",
+    "path": "mutations.json",
+    "sha256": "0d7f93bff84d1b5ef58306a1026f4679e90d151e5e9427bbd70cab99b993c46f"
+  },
+  "perchCorpus": {
+    "commit": "c30595e14403240d7933c1d20ec4728eb3281770",
+    "runs": 2,
+    "byteIdentical": true,
+    "scopeRecords": 108,
+    "invalidScopes": 0,
+    "attributedHelper": 0,
+    "directOutput": 22,
+    "failureSentinel": 56,
+    "fixtureValue": 30,
+    "remainingBlindBodies": 4,
+    "uncensused": [
+      "REQ-056"
+    ],
+    "findings": 5,
+    "exit": 1,
+    "sha256": "54decad589022bcfe9e83cce66653c354b2705d7505e25ee5f2d8f1b64b40786"
+  },
+  "versions": {
+    "plugin": "0.16.2",
+    "rootMarketplace": "0.16.2",
+    "siteCatalogue": "0.16.2",
+    "path": "version.log",
+    "sha256": "78d2ae1dcb0a615f58e3be3c442cfda884ecafc16ed5b7a0b3cc8f67f9d5fc46"
+  },
+  "reviewPosture": "repeated same-family degraded additional review; prior F25-065 and unrelated Fleet context reused; no out-of-family claim",
+  "limitations": "Deliberate false negatives include any safe conditional prior terminal and escaped `return`/`throw` identifiers. No install, publish, push, cache mutation, native app, provider, Keychain, or live campaign."
+}
