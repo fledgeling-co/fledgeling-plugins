@@ -55,14 +55,14 @@ anyway, this block names what to distrust first.
 
 Lands on **Non-negotiables** (SKILL.md:93), **NN6** (:104), **NN12** (:122), **Review mode** (:194).
 
-`scan_skill.py --refs` found **68** categorical quantifiers over countable deliverables across SKILL.md and its thirteen references (1,585
-lines), and listed 34. **Fourteen are prose and are dropped** — narrated evidence, routing conditions, sequencing clauses, two rhetorical
-review questions. **Twenty are deliverable scope**, three already bound (Build step 4's cells at :155 and :165, Build step 6's actions at
-:104, which this override extends to Review and Advise). Bind the other seventeen. **[docs]** The mechanism is the **Ambiguity** entry —
-*"Avoid using subjective or relative qualifiers that lack a concrete, measurable definition. Instead, provide objective constraints (for
-example, 'write a summary of 3 sentences or less' instead of 'write a brief summary')."* — plus the verbosity default: these models
-*"provide direct and efficient answers"* unless more is asked for. Filled at the shape of the one measured brief — swap the numbers, keep
-the columns:
+`scan_skill.py --refs` found **68** categorical quantifiers over countable deliverables across SKILL.md and its thirteen references
+(1,585 lines), and listed 34. **Fourteen are prose and are dropped** — narrated evidence, routing conditions, sequencing clauses, two
+rhetorical review questions. **Twenty are deliverable scope**, three already bound (Build step 4's cells at :155 and :165, Build step 6's
+actions at :104, which this override extends to Review and Advise). Bind the other seventeen, in the nine rows below. **[docs]** The
+mechanism is the **Ambiguity** entry — *"Avoid using subjective or relative qualifiers that lack a concrete, measurable definition.
+Instead, provide objective constraints (for example, 'write a summary of 3 sentences or less' instead of 'write a brief summary')."* —
+plus the verbosity default: these models *"provide direct and efficient answers"* unless more is asked for. Filled at the shape of the
+one measured brief — swap the numbers, keep the columns:
 
 | Categorical, and where it lives | Bound to | Reported at delivery |
 |---|---|---|
@@ -70,10 +70,11 @@ the columns:
 | `every action` — NN6, :104 | 9 destructive actions × 3 columns of Build step 6's table, **in Review and Advise too** | `9 of 9 rows · 0 reading "toast"` |
 | `any claim` of conformance — NN12, :122 · `Every finding` — :194 | conformance claims in a reader-facing surface = **0**; 14 findings × 4 fields | `0 of 0 · 56 of 56` |
 | `every capture` — review-playbook:11 | 5 surfaces × 6 states × 2 platforms = **60**, all opened | `60 taken · 60 opened` |
+| `--probe` over `any page` you can render — review-playbook:11 | 5 surfaces × one probe run each, tool failure relayed verbatim | `0 of 5 probed · exit 3 relayed, named in Not checked` |
 | `Every component` / `each state` — flows-and-forms:67,71 · `every control` — mobile-ux:57 | 14 components × 5 interaction states = **70**; 31 controls × accessible name | `66 built · 4 n/a with reasons · 31 of 31` |
 | `every field` / `every screen` / `every step` — flows-and-forms:36,75,13 | 22 fields × visible label; 5 screens × 4 stress prompts; 18 steps × excise verdict | `22 of 22 · 20 of 20 · 18 of 18` |
 | `every page` / `each step` — checklists:20,30 · `every image` — email-ux:29 · `every surface` — ai-product-ux:80 · `Each element` renders only with content — flows-and-forms:118 | 7 routes × onward path; 4 steps × recovery; 6 images × meaningful `alt`; 5 surfaces × AI disclosure; 11 chrome elements × content-present, read **per request** | `7 of 7 · 4 of 4 · 6 of 6 · 5 of 5 · 11 of 11` |
-| The checklist itself — `checklists.md`:5, which already asks for the fraction | the one list you ran: **13 Any-screen + 7 Flow + 5 Persuade** boxes | `18 of 25 · 7 n/a (no Persuade surface)` |
+| The checklist itself — `checklists.md`:5, which already asks for the fraction | the one list you ran: **13 Any-screen + 7 Flow + 5 Persuade** boxes | `20 of 25 · 5 n/a (no Persuade surface)` |
 
 An unrecognised cell counts as **open**, never `n/a`, and every `n/a` carries its reason — an unexplained one is how a scope shrinks.
 
@@ -132,13 +133,12 @@ Not checked: motion, reduced-motion, print, fonts, pseudo-elements, SVG geometry
 
 **A zero denominator is not a pass.** `failures=0` with no `examined=` is not a result, and identical numbers across varied inputs are a
 broken predicate. `ux-lint.py` exits `2` on zero files examined and `3` when Obscura is unavailable, so exit 3 means no rendered
-measurement exists. Its `--expected-states N` flag is where Override 1's number stops being prose: pass the count you committed to and the
-gate decides it. **Prove the gate can fail, and gate the prerequisites too:** **[measured-here]** geminify's own quote gate once went
+measurement exists. Its `--expected-states N` flag is where Override 1's number stops being prose: pass the count you committed to and
+the gate decides it. **Prove the gate can fail, and gate the prerequisites too:** **[measured-family]** geminify's own quote gate once went
 green across every file because a normalisation step had taken the checked count to zero, and **[measured-family]** on `COD Dossier` an
 auditor validated tags, citations and contrast with *zero* checks on whether the upstream skills ran, so skipped invocations passed with
 exit 0. Confirm the artifacts each phase owed — the state grid, `UX.md`, the destructive-action table, the `FLOW SHAPE` block, the
-`diversity_ledger.py record` row — exist and are non-empty. And never let the artifact assert its own verification: NN12 in the skill's
-own voice, and the rule the run broke twice.
+`diversity_ledger.py record` row — exist and are non-empty.
 
 **Tool discipline, on the same evidence.** **[measured-here]** four consecutive invocations of the same banned, absent tool with no change
 of strategy, then reported as the engine it had used; **[measured-family]** four consecutive `Read` calls against a 25k token ceiling

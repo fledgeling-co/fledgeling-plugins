@@ -21,11 +21,11 @@ release notes, "The default thinking effort is now medium, changed from high in 
 
 **Unmeasured on this skill.** No Gemini run of `create-luke-content` has been recorded, so nothing below is measured on
 this target: not whether `luke-voice.md` and the routed persona get loaded before drafting, not whether `--config` is
-passed, not whether the per-section re-anchor at SKILL.md:68 happens more than once, not whether the five invention traps
-at `luke-voice.md:94-99` survive a draft, and not whether a `gemini.md` changes any of it. **[docs]** This file's own
-shape is a defect Google names, "Avoid writing a prompt with non-linear logic or conditionals that require the model to
-piece together fragmented instructions from multiple different places in the prompt." Hence one pass, up front, each
-override naming its landing site.
+passed, not whether the per-section re-anchor at SKILL.md:68 happens more than once, not whether the five invention
+traps at `luke-voice.md:94-99` survive a draft, not whether the graphic concept's three outputs all ship, and not
+whether a `gemini.md` changes any of it. **[docs]** This file's own shape is a defect Google names, "Avoid writing a
+prompt with non-linear logic or conditionals that require the model to piece together fragmented instructions from
+multiple different places in the prompt." Hence one pass, up front, each override naming its landing site.
 
 **No route-out block, and which shapes were dropped.** The corpus behind C9 measures a model *building a code artifact*,
 and the shapes it measured far enough behind to name are `static-page`, `brownfield-integration`, `visual-design` and
@@ -35,10 +35,11 @@ task for which it has a known, fundamental limitation" has no row to fill here, 
 
 ## What transfers intact
 
-- **The routing table is already a closed multiple-choice set** — six content types, six lint formats, one `Load` column,
-  three tie-break rules. **[docs]** The remedy for a model that answered correctly but did not stay inside the offered
-  options is exactly this: "you can rephrase the instructions as a multiple choice question and ask the model to choose an
-  option". Write the chosen row down.
+- **The routing table is already a closed multiple-choice set** — six content types, seven lint formats (row 1 carries
+  `linkedin` / `blog`, so a spanning request can split inside one row), one `Load` column, three tie-break rules.
+  **[docs]** The remedy for a model that answered correctly but did not stay inside the offered options is exactly this:
+  "you can rephrase the instructions as a multiple choice question and ask the model to choose an option". Write the
+  chosen row down.
 - **Ten worked examples ship with the personas**, two per file, all in the same `<scenario> / <output> / <why>` shape,
   five of them tension cases. **[docs]** "We recommend to always include few-shot examples in your prompts", and "Make sure
   that the structure and formatting of few-shot examples are the same to avoid responses with undesired formats." Lean on
@@ -61,9 +62,11 @@ task for which it has a known, fundamental limitation" has no row to fill here, 
 and dropped **10** as prose: seven sit inside `ai-writing-signs.md` describing the tells rather than asking for work, two
 point at a file, one is commentary in the stylometry research. `qual skills 0` — this skill composes no other skill. The
 five persona files sit outside the `--refs` pass and carry most of the real countable scopes, which is why the rows below
-are mostly ones the regex could not see. Write this table into the run before drafting and report the fractions in Step 7,
-filled here from the skill's own spanning example at SKILL.md:30 — a ~1,800-word article in five sections plus the
-LinkedIn post announcing it:
+are mostly ones the regex could not see. Write this table into the run before drafting and report the fractions in Step 7.
+`[derived]` The cells below are filled from one two-piece request of my own: a ~1,800-word article in five sections plus
+the LinkedIn post announcing it, which is routing row 1 taken at both of its lint formats. SKILL.md:30's own parenthetical
+pairs a blog post with the *tweet* announcing it, which routes to `short` (280 chars, and Step 6 is skipped), so a run of
+that request fills different cells:
 
 | Scope, and where the skill states it | Denominator | Filled | Delivery line |
 |---|---|---|---|
@@ -110,11 +113,12 @@ what the model must adhere to when generating a response, including what the mod
 they go: the Recap is a "Concise repeat of the key points of the prompt, especially the constraints and response format,
 at the end of the prompt." `[derived]` The table is that recap, carrying values instead of restating the rule.
 
-**The trap**, since this skill states most bounds as prohibitions: `No hype adjectives`, `No engagement bait`, `Registers
-stay fenced` and `at most one landing line per page or major section` are the same kind of requirement, and only the first
-has a word list behind it. **[docs]** The agentic template asks you to "Ensure that all requirements, constraints,
-options, and preferences are exhaustively incorporated into your plan." Convert the prohibitions you rely on into counted
-properties with a readback.
+**The trap**, since this skill states most bounds as prohibitions: `zero hype adjectives` (SKILL.md:61), `No engagement
+bait` (`short-form.md:43`), `Registers stay fenced` (SKILL.md:107) and `roughly one landing line per page or major
+section` (`ai-writing-signs.md:55`) are the same kind of requirement, and only the first has a word list behind it
+(`HYPE_ADJECTIVES`, eight entries in `voice_lint.py`). **[docs]** The agentic template asks you to "Ensure that all
+requirements, constraints, options, and preferences are exhaustively incorporated into your plan." Convert the
+prohibitions you rely on into counted properties with a readback.
 
 ## `gate` — `--config` is load-bearing, and its absence is silent
 

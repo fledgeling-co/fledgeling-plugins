@@ -4,6 +4,38 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-01 (later)
+
+### The gemini.md sweep's audit findings, closed
+
+The sweep earlier today shipped 29 files of which 10 carried auditor findings. A second
+workflow fixed them: 10 fixers, each handed its own file's findings, pipelined into 10 fresh
+re-auditors that re-ran the gate and checked whether each finding was actually closed. 6 came
+back fully closed; 4 carried residue the fixers introduced, which the conductor then fixed by
+hand. All 29 files now sit inside the 150-250 line bound with `verify_quotes.py` at exit 0 and
+14-23 checked `[docs]` claims each.
+
+What the findings were is worth recording, because they are the class of defect prose review
+does not catch. `flagship` shipped a machine-state exemplar labelled `1m<5m, falling` over the
+figures `1m 14.2 · 5m 11.8` — rising, not falling, and its own `max/core 0.89` confirmed which
+figure was the max. Its bound ledger reported `4 of 6 within, 2 breached` over rows that read 3
+and 3. `whats-left` counted `reckon`'s partition as 6 classes when it has eight, in the one row
+whose purpose is to stop a partition being counted short. `create-luke-content` attributed a
+worked example to a `SKILL.md` line that says something else, and put two paraphrases in
+backticks as if they were the skill's own strings. Five overrides across four skills asked for
+a table, ledger or note and shipped an empty schema or a description instead of a filled one.
+
+Two findings were rejected rather than actioned, both traceable to the authoring brief rather
+than to the files. That brief banned the `[measured-here]` tier outright on the grounds that no
+Gemini run of these skills had been read, which was too broad: `ux-craft` cites a real recorded
+run (`Egress Gemini`, 17 Aug 2026, n=1, `geminify/references/evidence.md` §1.1), so its use of
+the tier is earned. `whats-left` and `ux-craft` each carried one genuinely mis-tiered claim —
+an observation about `geminify`'s own gate, not about a run of the host skill — and those were
+re-tiered to `[measured-family]` rather than deleted.
+
+Still true of the whole sweep: no Gemini run of any of these files has been observed, so their
+effect remains reasoned rather than measured, and the corpus behind them is flash-tier only.
+
 ## 2026-09-01
 
 ### Gemini support swept across 26 plugins: 5 new `gemini.md`, 24 refreshed

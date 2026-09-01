@@ -15,8 +15,7 @@ Built against a worker it does not trust, this skill already carries much of thi
   returns an empty output file with a clean exit is a lane failure, not a quiet pass` — three first-class ways to
   record that the method did not run, where most skills have none. The last is Override 2's rule already written.
 - **The close-out prints its own exit code** — `echo "gates rc=$?"`, and `Report the exit code you actually saw.` A
-  claim carrying the command that produced it is this file's core requirement, already written into the skill;
-  Override 8 only fills in the row's shape.
+  claim carrying its command is this file's core requirement, already in the skill; Override 8 fills the row's shape.
 - **`gates.py selftest` runs 38 cases over fixture ledgers**, each checked against a reverted gate: the negative
   control the `gate` module asks for. And `classified`, `banked` and `dispatched` ask whether an act happened, not
   whether the record claims it.
@@ -33,10 +32,9 @@ Built against a worker it does not trust, this skill already carries much of thi
 | `[derived]` | reasoning from those, and the third-party reports in `geminify/references/evidence.md` §7 |
 
 **The tier the evidence is about.** Every measured claim below was observed on **`gemini-3.7-flash`** — both effort
-levels on the benchmark, plus one `gemini-3.7-flash-high` session. On the Pro tier these overrides hold as
-`[docs]`-grounded discipline and every rate is an open question. The family's own defaults moved mid-generation —
-**[docs]** *"The default thinking effort is now medium, changed from high in Gemini 3 Flash Preview."* — so a level
-written against one tier gets a different budget on another.
+levels on the benchmark, plus one `gemini-3.7-flash-high` session. On the Pro tier these overrides hold as `[docs]`
+discipline and every rate is open. Defaults moved mid-generation — **[docs]** *"The default thinking effort is now
+medium, changed from high in Gemini 3 Flash Preview."* — so a level written against one tier gets another's budget.
 
 **Unmeasured on this skill:** no Gemini run of `stocktake` exists, and no paired run with and without a `gemini.md`
 has been made against any skill, so nothing here is measured to work. The corpus measures a model **building, never
@@ -58,9 +56,8 @@ to `ship-fleet`; `lane_pick.py` returns the policy answer unchanged for its `ver
 ## Override 1 — the sweep's own numbers are cells, not sentences
 
 Lands on step 1 and step 3. **[measured-family]** On one recorded run of another skill, every requirement stated as a
-count landed — twelve named features, all present — while every requirement named *categorically* landed once or not
-at all: all states → 1, all menus → 0, all flows → 0. Here that is a card whose newest comment was read, whose
-attachments were not, and whose list came from whatever the diff addressed.
+count landed — twelve named features, all present — while every requirement named *categorically* landed once or not at
+all: all states → 1, all menus → 0, all flows → 0. Here that is a card whose attachments were never opened.
 
 **[docs]** *"Avoid using subjective or relative qualifiers that lack a concrete, measurable definition."*
 `scan_skill.py --refs` returned 5 categorical rows: two prose (a path precondition `snapshot_evidence.py` enforces
@@ -97,7 +94,18 @@ So the ledger note carries the lane's argv, `wc -c` of its output file and the v
 output with exit `0` is `--verdict ungraded` with the lane named. And `Take the digest before the lane sees anything.`
 — `gates.py` counts that a digest is present, not when it was taken, so the note keeps snapshot and lane in the order
 run. **[docs]** *"Include specific verification steps in either the system instructions or your prompts directly."* ·
-*"Inhibit your response: only take an action after all the above reasoning is completed."*
+*"Inhibit your response: only take an action after all the above reasoning is completed."* Both rows below come from
+one queue run; a Gemini runner skips lane 1 of `references/verification-lanes.md` as in-family.
+
+```
+$ python3 <warrant>/scripts/snapshot_evidence.py --root . --diff … --tests …   → digest 7f3a91c4  (pre-lane)
+$ scripts/verify_queue.sh --lane-cmd 'grok -m grok-4.6 --effort xhigh -p {PROMPT}' … WEB-1234 WEB-1240
+  DONE WEB-1234 VERDICT: PARTIAL 6114B   ·   NO-VERDICT WEB-1240 — empty output
+$ wc -c /tmp/verdicts/v-WEB-1234.md /tmp/verdicts/v-WEB-1240.md   → 6114 · 0
+$ python3 $S/board_ledger.py record <dir> --key WEB-1234   # init <dir> first, or record refuses: no ledger at <dir> --verdict needs-work --lane 'grok-4.6 xhigh (xAI)' \
+      --defect-class spec-conformance --evidence-digest 7f3a91c4 --note 'v-WEB-1234.md 6114B · VERDICT: PARTIAL · 2 CLAIM-FALSE'
+$ python3 $S/board_ledger.py record <dir> --key WEB-1240 --verdict ungraded --note 'lane grok-4.6 xhigh: 0B at exit 0 — lane failure; steps 1-4 done, step 5 never ran'
+```
 
 ## Override 3 — this skill's requirements are mostly maxima, and that is the failure mode
 
@@ -121,21 +129,18 @@ prompt."* This is that recap, filled from the run:
 | deferrals | cards sharing one reason | ≤ 3 | `python3 $S/gates.py dispatched <dir>` | 61 on one sentence | **no** |
 | the pass | product files edited while judging | 0 | `git diff --name-only -- . ':!docs' ':!.stocktake'` | 0 | yes |
 
-Four of the skill's own prohibitions became those rows, because a prohibition in prose reads as style advice: `Do not
-build a jury.`, `Audit-only on product code while judging.`, `A deferral covers one card, never the set.`, and
-`Packets stop working somewhere around 50KB.`
+Four of the skill's own prohibitions became those rows, because prose reads as style advice: `Do not build a jury.`,
+`Audit-only on product code while judging.`, `A deferral covers one card, never the set.`, `Packets stop working somewhere around 50KB.`
 
 ## Override 4 — two attempts, and a hard ceiling pivots on attempt 1
 
 Lands on step 2, step 5 and `verify_queue.sh`. **[measured-family]** Given `File content (28636 tokens) exceeds
 maximum allowed tokens (25000)`, `COD Dossier` retried the same `Read` **four consecutive times** before pivoting to a
 Python split. **[docs]** *"On *other* errors, you must change your strategy or arguments, not repeat the same failed
-call."*
-
-So a diff over the packet ceiling pivots immediately — the requirement list plus the changed files, never a trimmed
-whole diff — and two attempts per tool, one for a permanent error, then the next family, recorded. `Some lanes refuse
-concurrent instances.`: a killed sibling returns an empty log and no error, reading as a lane that answered nothing
-rather than one that never ran.
+call."* So a diff over the packet ceiling pivots immediately — the requirement list plus the changed files, never a
+trimmed whole diff — and two attempts per tool, one for a permanent error, then the next family, recorded. `Some lanes
+refuse concurrent instances.`: a killed sibling returns an empty log and no error, reading as a lane that answered
+nothing rather than one that never ran.
 
 ## Override 5 — read the card, then decide
 
@@ -143,12 +148,11 @@ Lands on step 1, step 7 and every reference this skill names. **[measured-family
 skills, `COD Dossier` answered from memory without loading any of them; corrected, it inverted the error and launched
 a skill instead of answering. There is no stable mapping from *named in the prompt* to *loaded*, so the rule is two
 ordered steps: read what the prompt names, then answer. **[docs]** *"The knowledge cutoff date for Gemini 3.7 Flash is
-March 2026"*, with some domains still at *"Your knowledge cutoff date is January 2025."*
-
-So a request naming a column policy, a warrant tier or a lane order loads `references/column-policy.md`, `warrant`'s
-own state or `references/verification-lanes.md` first; the tier passed to `ledger.py` is read from the warrant, being
-`the authority the verdict was made under, not the one you want`; and Kohli's numbers and the 17025 reading are quoted
-from `references/evidence.md`, never recalled.
+March 2026"*, with some domains still at *"Your knowledge cutoff date is January 2025."* So a request naming a column
+policy, a warrant tier or a lane order loads `references/column-policy.md`, `warrant`'s own state or
+`references/verification-lanes.md` first; the tier passed to `ledger.py` is read from the warrant, being `the authority
+the verdict was made under, not the one you want`; and Kohli's numbers and the 17025 reading are quoted from
+`references/evidence.md`, never recalled.
 
 ## Override 6 — `spec-validation` and `clarify` become phases whose output is a file
 
@@ -166,18 +170,16 @@ await Skill({ skill: "clarify:clarify" })                   // → <dir>/cards/<
 await Bash({ command: "python3 $S/gates.py evidence <dir>" })   // step 9's brief reads both
 ```
 
-`trace.md` carries one row per requirement with its verdict and `file:line`; fewer rows than the requirement list, or
-a missing file, makes the card **inconclusive** rather than a pass. `decisions.md` may read *no open decisions*, but
-an absent file is a step that did not run.
+`trace.md` carries one row per requirement with its verdict and `file:line`; fewer rows than the list, or a missing
+file, makes the card **inconclusive**. `decisions.md` may read *no open decisions*, but an absent file never ran.
 
 ## Override 7 — describe each attachment before extracting requirements from it
 
 Lands on step 1 and `references/the-oracle-order.md` §Read the images. The `visual` module fires on its *input* half
 only: the skill renders nothing, so the reference-input lever is dropped and no capture denominator applies.
-**[docs]** *"Ask the model to describe the images before performing the task in the prompt."* The worked example is
-the argument: *"Describe this image."* returns a one-line caption of an airport board, while naming what to extract
-returns thirteen rows. And *"To improve the response, point out which parts of the image are most relevant to the
-prompt."*
+**[docs]** *"Ask the model to describe the images before performing the task in the prompt."* — *"Describe this
+image."* alone returns a one-line caption, while naming what to extract returns thirteen rows. And *"To improve the
+response, point out which parts of the image are most relevant to the prompt."*
 
 So per attachment, in this order: name what is in it (surface, state, the verbatim error string), point at the region
 the card is about, then write the requirement rows it produces. A screenshot summarised as *a screenshot of the bug*
@@ -207,12 +209,10 @@ filled from the run rather than summarised:
 | `banked` | 0 | `25 of 25 terminal verdicts in .warrant/ledger.jsonl` |
 
 - **A gate that could not run says so in the same sentence as the result** — `--verdict ungraded` aimed at the gate
-  set rather than a card, and the only honest empty cell in that table. Never pipe the command either: a piped rc is
-  the pipeline's, not the gate's.
+  set rather than a card. Never pipe the command either: a piped rc is the pipeline's, not the gate's.
 - **`dispatched` and `banked` separate a finished run from a finished audit** — `a sweep that consults the warrant
   without appending contributes zero however many cards it grades — one such run produced 241 verdicts and left the
-  counter at 0.` An audit-only run skips `dispatched` in the open with `gates.py covered evidence classified banked
-  <dir>`; passing it with wording is what that gate was rewritten to catch.
+  counter at 0.` An audit-only run skips it in the open with `gates.py covered evidence classified banked <dir>`.
 - **Uniform results across varied cards are a predicate matching nothing**, so `gates.py selftest` (`38 of 38` fixture
   cases) runs before any row above is believed. **[docs]** *"Ensure that all requirements, constraints, options, and
   preferences are exhaustively incorporated into your plan."*
@@ -246,5 +246,5 @@ remedy — **[measured-family]** paired across 106 tasks, `high` beat `medium` o
 
 **[docs]** *"Higher thinking levels encourage the model to use more tools to explore and verify, so lowering the level
 can reduce tool calls."* Read that in the other direction here: the tool calls are the work — every comment, every
-attachment, every gate — so lowering the level buys a cheaper run that read less. `scan_skill.py` counted **0**
-emphasis tokens in this skill, so there is nothing to read down and nothing here should add any.
+attachment, every gate. `scan_skill.py` counted **0** emphasis tokens here, so there is nothing to read down and
+nothing to add.

@@ -142,14 +142,32 @@ completed where the shape was specified and the procedure was not. A `research:`
 `docs/deep-research/<slug>.md` that no panel wrote satisfies it just as well from the outside.
 
 **[docs]** *"Verify your claims by quoting the exact applicable information (including policies) when referring to them"*, and
-*"Include specific verification steps in either the system instructions or your prompts directly."* So:
+*"Include specific verification steps in either the system instructions or your prompts directly."* So step 2 owes three
+artefacts, and all three ship filled below — the shapes are the requirement, the values are one exemplar to match.
 
-- A brief's `research:` field points at a file that exists and is non-empty — check it, do not assume the step ran.
-- `research_verify_citations` runs **before** any finding reaches a brief, and its output is pasted. A resolving URL is not a
-  supporting one, and support is counted in independent domains rather than in how many backends agreed.
-- The cost is stated as a number from `research_plan`, not as an impression. A denominator of zero is a panel that never ran.
-- Where research was skipped as `already concrete and internal` (SKILL.md:45), the summary says so in one line. Silence reads
-  as forgotten.
+**1. The research ledger.** One row per question the idea left open. Every brief's `research:` field is read back off the file
+rather than assumed: a missing path or a `wc -l` of `0` is a panel that never ran.
+
+| question | lanes, in order (SKILL.md:42–45) | export | `wc -l` | citations | independent domains |
+|---|---|---|---|---|---|
+| what competitors charge for a sharing tier | `research_plan` → `research_local_start` | `docs/deep-research/sharing-tier-pricing.md` | 214 | 11 of 11 | 6 |
+| what the audience already uses for offline capture | `research_plan` → local loop → `research_start` panel | `docs/deep-research/offline-capture-prior-art.md` | 388 | 18 of 19 | 7 |
+| our own ledger's id convention | skipped, `already concrete and internal` (SKILL.md:45) | none | — | n/a | n/a |
+
+**2. The citation check, pasted rather than summarised.** `research_verify_citations` runs before any finding reaches a brief:
+
+```
+research_verify_citations   claims=29  cited=29  resolving=28  supporting=26
+  unsupported  c-14 — URL resolves, page does not carry the figure → dropped from the brief
+  one-domain   c-07, c-22 — kept, flagged in that brief's assumption lines
+```
+
+A resolving URL is not a supporting one, and support is counted in independent domains, never in how many backends agreed.
+
+**3. The cost line, and the skip stated rather than left silent** — one line in step 6's summary (SKILL.md:90–92):
+`research_plan` free × 3 · local loop free × 2 · one `research_start` panel at `max`, **$4.20** against its published `$3-7`
+band, bought for question 2 only after the free lane returned 2 supporting domains · question 3 skipped as already concrete and
+internal. A denominator of zero is a panel that never ran, and silence about a skip reads as forgotten.
 
 **[derived]** All of this reverses the house style deliberately. Stripping verification scaffolding is right for a model that
 over-verifies; inheriting that removal here is the defect this file exists to undo.
