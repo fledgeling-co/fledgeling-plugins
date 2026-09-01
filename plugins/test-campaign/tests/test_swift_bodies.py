@@ -123,8 +123,7 @@ class SwiftBodies(unittest.TestCase):
                 'callSHA256': SCAN.call_fingerprint(
                     caller_body, caller_offset, caller_offset + len('seed {'))}])
         result = self.scan(trailing, scopes=[trailing_scope])
-        self.assertTrue(any('named helper call' in finding
-                            for finding in result['scopeFindings']))
+        self.assertEqual(result['scopeFindings'], [])
 
         commented = 'private func seed() { write() }\nfunc testCaller() { /* seed() */ read() }'
         blocks = SCAN.swift_body_spans(commented)['blocks']
@@ -204,6 +203,14 @@ class SwiftBodies(unittest.TestCase):
              ' read()\n #endif\n }'),
             ('private func seed(_ body: () -> Void) { write() }\n'
              '@Test func measure() { Fixtures.seed { read() } }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { let invoke = { seed() }; _ = invoke; read() }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() {\n #if false\n seed()\n #endif\n read()\n }'),
+            ('private func seed(_ observation: @autoclosure () -> Int) { write() }\n'
+             '@Test func measure() { seed(read()) }'),
+            ('private func seed() { write() }\n'
+             '@Test func measure() { seed(); return; read() }'),
         ]
         for source in invalid:
             with self.subTest(source=source):
@@ -211,8 +218,8 @@ class SwiftBodies(unittest.TestCase):
                 scope = attributed_scope(source, helper_call)
                 readers = ('read', 'get') if ' get {' in source else ('read', 'load', 'expect')
                 direct = self.scan(source, scopes=[scope], readers=readers)
-                expected = 'named helper call' if helper_call == 'seed {' else 'no read after'
-                self.assertTrue(any(expected in finding
+                self.assertTrue(any(('no read after' in finding or
+                                     'named helper call' in finding)
                                     for finding in direct['scopeFindings']))
                 cli = self.cli({'ExampleTests.swift': source},
                     {'blindScopeFile': 'scopes.json', 'blindVocabulary': {
@@ -228,6 +235,10 @@ class SwiftBodies(unittest.TestCase):
              '@Test func measure() { Fixtures.seed(); read() }', 'seed('),
             ('private func seed() { write() }\n'
              '@Test func measure() { Fixtures.seed(); let value = read(label: input) }', 'seed('),
+            ('private func seed(_ body: () -> Void) { write(); body() }\n'
+             '@Test func measure() { Fixtures.seed { configure(); read() } }', 'seed {'),
+            ('private func seed(_ value: Int) { write() }\n'
+             '@Test func measure() { seed(read()); read() }', 'seed('),
         ]
         for source, helper_call in valid:
             with self.subTest(source=source):

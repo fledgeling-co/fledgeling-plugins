@@ -184,6 +184,52 @@ def call_fingerprint(body: str, start: int, end: int) -> str:
     return hashlib.sha256(spelling.encode()).hexdigest()
 
 
+def balanced_call_end(source: str, opening: int) -> int | None:
+    """Return the byte after one masked parenthesized call, or None if unbalanced."""
+    depth = 0
+    for index in range(opening, len(source)):
+        if source[index] == "(": depth += 1
+        elif source[index] == ")":
+            depth -= 1
+            if depth == 0: return index + 1
+    return None
+
+
+def trailing_closure_parameter(header: str) -> str | None:
+    """Return the local name of a final closure parameter in a masked Swift header."""
+    opening = header.find("(")
+    if opening < 0: return None
+    closing = balanced_call_end(header, opening)
+    if closing is None: return None
+    content = header[opening + 1:closing - 1]
+    parts, start = [], 0
+    round_depth = square_depth = angle_depth = 0
+    for index, character in enumerate(content):
+        if character == "(": round_depth += 1
+        elif character == ")": round_depth -= 1
+        elif character == "[": square_depth += 1
+        elif character == "]": square_depth -= 1
+        elif character == "<": angle_depth += 1
+        elif character == ">" and angle_depth: angle_depth -= 1
+        elif character == "," and not (round_depth or square_depth or angle_depth):
+            parts.append(content[start:index]); start = index + 1
+    parts.append(content[start:])
+    final = parts[-1].strip() if parts else ""
+    if "->" not in final or ":" not in final: return None
+    labels = re.findall(r"`[^`\r\n]+`|[^\W\d]\w*|_", final.split(":", 1)[0])
+    if not labels or labels[-1] == "_": return None
+    return labels[-1].strip("`")
+
+
+def invokes_trailing_closure(header: str, body: str) -> bool:
+    """Whether a final closure parameter is directly invoked in its helper body."""
+    parameter = trailing_closure_parameter(header)
+    if parameter is None: return False
+    pattern = r"(?<![A-Za-z0-9_])" + re.escape(parameter) + r"\s*\("
+    return any(reader_invocation_context(body, match.start())
+               for match in re.finditer(pattern, body))
+
+
 def reader_invocation_context(source: str, start: int) -> bool:
     """Whether a reader-shaped token begins in a conservative call context.
 
@@ -204,12 +250,17 @@ def reader_invocation_context(source: str, start: int) -> bool:
         return False
     depth = 0
     minimum_depth = 0
+    depths = []
     for character in prefix:
+        depths.append(depth)
         if character == "{": depth += 1
         elif character == "}": depth -= 1
         minimum_depth = min(minimum_depth, depth)
     if depth != minimum_depth:
         return False
+    for terminal in re.finditer(r"\b(?:return|throw)\b", prefix):
+        if depths[terminal.start()] == minimum_depth and prefix[terminal.end():].strip():
+            return False
     if not stripped or not prefix.rsplit("\n", 1)[-1].strip():
         return True
     if stripped.endswith(("#", ";", "}")):
@@ -221,6 +272,32 @@ def reader_invocation_context(source: str, start: int) -> bool:
         assignment = r"(?:_|[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)\s*="
         return re.fullmatch(rf"(?:{binding}|{assignment})", statement) is not None
     return re.search(r"\b(?:return|try|await)\s*$", stripped) is not None
+
+
+def helper_invocation_context(source: str, start: int) -> bool:
+    """Whether a bound helper call is direct or inside a proved control-flow block."""
+    prefix = source[:start]
+    conditional_depth = 0
+    for line in prefix.splitlines():
+        directive = line.strip()
+        if re.match(r"#if\b", directive): conditional_depth += 1
+        elif re.match(r"#endif\b", directive): conditional_depth = max(0, conditional_depth - 1)
+    if conditional_depth: return False
+
+    opens = []
+    for index, character in enumerate(prefix):
+        if character == "{":
+            boundary = max(prefix.rfind(";", 0, index), prefix.rfind("{", 0, index),
+                           prefix.rfind("}", 0, index))
+            opens.append(prefix[boundary + 1:index].strip())
+        elif character == "}" and opens:
+            opens.pop()
+    for introduction in opens:
+        if not re.search(r"(?:^|\n)\s*(?:for|while|if|switch|do|repeat)\b", introduction):
+            return False
+        if re.search(r"(?:^|\n)\s*if\s+false\b", introduction):
+            return False
+    return True
 
 
 def has_reader_call(source: str, readers: tuple[str, ...]) -> bool:
@@ -793,12 +870,16 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
             body = swift["blocks"][i]["body"] if swift is not None else src[pos:end]
             source_body = (original_src[swift["blocks"][i]["bodyStart"]:swift["blocks"][i]["end"]]
                            if swift is not None else body)
+            source_header = (original_src[swift["blocks"][i]["start"]:
+                                          swift["blocks"][i]["bodyStart"]]
+                             if swift is not None else "")
             rel = f.relative_to(root).as_posix()
             body_digest = hashlib.sha256(source_body.encode()).hexdigest()
             test_entry = (bool(swift["blocks"][i]["testEntry"]) if swift is not None
                           else kind == "spec" or name.startswith("test"))
             body_records.setdefault((rel, name, body_digest), []).append(
-                (source_body, body, test_entry))
+                (source_body, body, test_entry,
+                 invokes_trailing_closure(source_header, body) if swift is not None else False))
             body_scopes = [row for row in scopes if row.get("file") == rel and
                            row.get("name") == name and row.get("bodySHA256") == body_digest and
                            row.get("testEntry") == test_entry]
@@ -859,21 +940,41 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                     scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
                                         "does not bind exactly one current body")
                     continue
-                caller_body, masked_caller, _ = bodies[0]
+                caller_body, masked_caller, _, _ = bodies[0]
                 offset = caller.get("callOffset")
-                pattern = re.escape(str(row.get("name"))) + r"\s*\("
+                pattern = re.escape(str(row.get("name"))) + r"\s*(?:\(|\{)"
                 match = (re.match(pattern, caller_body[offset:])
                          if isinstance(offset, int) and offset < len(caller_body) else None)
                 executable_match = (re.match(pattern, masked_caller[offset:])
                                     if isinstance(offset, int) and offset < len(masked_caller)
                                     else None)
+                context_start = offset
+                if isinstance(offset, int):
+                    while context_start and (masked_caller[context_start - 1].isalnum() or
+                                             masked_caller[context_start - 1] in "_.$"):
+                        context_start -= 1
+                target_bodies = body_records.get((row.get("file"), row.get("name"),
+                                                   row.get("bodySHA256")), [])
+                trailing = bool(match and caller_body[offset + match.end() - 1] == "{")
                 if (match is None or executable_match is None or
                         executable_match.end() != match.end() or
                         call_fingerprint(caller_body, offset, offset + match.end()) !=
-                        caller.get("callSHA256")):
+                        caller.get("callSHA256") or
+                        not helper_invocation_context(masked_caller, context_start) or
+                        (trailing and not (len(target_bodies) == 1 and target_bodies[0][3]))):
                     scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
-                                        "does not bind its named helper call")
-                elif not has_reader_call(masked_caller[offset + match.end():], readers):
+                                        "does not bind one executable named helper call")
+                    continue
+                if trailing:
+                    reader_tail = offset + match.end()
+                else:
+                    opening = offset + match.end() - 1
+                    reader_tail = balanced_call_end(masked_caller, opening)
+                    if reader_tail is None:
+                        scope_errors.append(f"{row.get('file')}:{row.get('name')} caller scope "
+                                            "has an unbalanced helper call")
+                        continue
+                if not has_reader_call(masked_caller[reader_tail:], readers):
                     scope_errors.append(f"{row.get('file')}:{row.get('name')} bound caller "
                                         "has no read after its helper call")
     return {"files": len(files), "examined": examined, "mutating": mutating,

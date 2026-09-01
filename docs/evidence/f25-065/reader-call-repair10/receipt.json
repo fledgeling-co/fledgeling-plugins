@@ -1,0 +1,62 @@
+{
+  "item": "F25-065",
+  "slice": "upstream executable-helper and balanced-call repair author",
+  "status": "repair complete; fresh primary and distinct additional reviews owed",
+  "base": "9a131e613faeb4450434b1670e3737c49f91687b",
+  "retainedFailures": [
+    "a6dc3884a4a95c25b7e1d9ed96fe854a55d111b5",
+    "9a131e613faeb4450434b1670e3737c49f91687b"
+  ],
+  "closedFalseGreens": [
+    "helper call stored in uninvoked closure with later read",
+    "helper call in inactive #if with later read",
+    "uninvoked @autoclosure reader argument",
+    "reader after top-level return"
+  ],
+  "readerPosture": "helper occurrence must be executable; parenthesized arguments end before later-reader search; trailing closure requires exact helper final closure parameter directly invoked; reader remains parenthesized/top-brace/outside-conditional/conservative context",
+  "focusedRuns": [
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-1.log",
+      "sha256": "0c7250afd56623c0f758541b827e47254213fe5f42bb526c87508af95510decf"
+    },
+    {
+      "tests": 21,
+      "exit": 0,
+      "path": "focused-2.log",
+      "sha256": "5fede1765515b3ad9ba168c2724fc18e526a78c39fdad34e43b942c04114fca1"
+    }
+  ],
+  "fullRuns": [
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-1.log",
+      "sha256": "487bc45ba5899021b921dfef5c3c7ac5e6a40b4d7b6298609dcfb4911e3610af"
+    },
+    {
+      "tests": 114,
+      "exit": 0,
+      "path": "full-2.log",
+      "sha256": "346dbf60787c11a5983625df18d127e167324e380dc656e469a15cbe21f539f4"
+    }
+  ],
+  "mutants": {
+    "count": 10,
+    "allRejected": true,
+    "restored": true,
+    "path": "mutations.json",
+    "sha256": "e7f566f6e9eda13a68700dd175b516cf6aee40f1dcdb5b7e83b52abb9383bae9"
+  },
+  "perchCorpus": {
+    "scopeRecords": 108,
+    "remainingBlindBodies": 4,
+    "wholeFindings": 5,
+    "exit": 1,
+    "invalidScopes": 0,
+    "path": "perch-corpus.log",
+    "sha256": "f51f3184f1c36b1eb6aac858b1f5a94dc5cbe6b8aea0091cdbb5f499e0e49b6d"
+  },
+  "limitations": "Recognizes only direct/top-level or selected control-flow helper contexts and direct final-closure-parameter invocation. Deliberate false negatives remain. No build-config evaluation, receiver resolution, reader independence or output causality."
+}
