@@ -1,0 +1,99 @@
+{
+  "generated": "2026-09-02",
+  "project": "Notekeeper",
+  "vocabularies": {
+    "priorities": ["p0", "p1"],
+    "lanes": ["notes", "sharing"],
+    "oracleLadder": ["presence", "structural", "outcome", "effect-witness"],
+    "variantDimensions": ["viewport", "role"]
+  },
+  "denominators": {
+    "notes": { "journeys": 2, "surfaces": 2, "cards": 0 }
+  },
+  "lanesSpecified": ["notes"],
+  "lanesPending": ["sharing"],
+  "waiverIntegrity": {
+    "waivers": 1,
+    "followed": 1,
+    "upheld": 0,
+    "broken": 1,
+    "instrument": "scripts/follow-waivers.mjs",
+    "checkedAt": "2026-09-02"
+  },
+  "flows": [
+    {
+      "id": "FLOW-NOTES-001",
+      "name": "Write a note and see it in the list after a reload",
+      "featureArea": "Note composer",
+      "marketing": true,
+      "entryPoint": { "route": "/notes", "how": "the New note button in the list header" },
+      "preconditions": ["signed in as a member of one workspace"],
+      "actions": [
+        { "step": 1, "actor": "user", "action": "Click New note", "expected": "An empty composer opens with focus in the title field" },
+        { "step": 2, "actor": "user", "action": "Type a title and body, then click Save", "expected": "The composer closes and the note appears at the top of the list" },
+        { "step": 3, "actor": "user", "action": "Reload the page", "expected": "The note is still first in the list with the same title" }
+      ],
+      "variants": [
+        { "dimension": "viewport", "value": "<640px", "difference": "The composer is a full-screen sheet; Save moves into the sheet header." }
+      ],
+      "edgeCases": [
+        { "case": "The list is asserted before the save request settles", "expected": "The row is present but its id is optimistic; assert after the network idle, not after the click.", "source": "measured 2026-09-01" }
+      ],
+      "oracle": {
+        "rung": "effect-witness",
+        "assertion": "After the reload, GET /api/notes returns a note whose title equals the typed string, and the first list row renders that same title."
+      },
+      "sources": { "journeys": [], "cards": [], "docs": ["docs/prd.md#notes"], "code": ["app/notes/page.tsx", "app/api/notes/route.ts"] },
+      "existingCoverage": { "status": "partial", "specFiles": ["e2e/notes.spec.ts"] },
+      "priority": "p0",
+      "lane": "notes"
+    },
+    {
+      "id": "FLOW-NOTES-002",
+      "name": "Delete a note and confirm it does not return",
+      "featureArea": "Note list",
+      "marketing": false,
+      "entryPoint": { "route": "/notes", "how": "the row overflow menu" },
+      "preconditions": ["at least one saved note"],
+      "actions": [
+        { "step": 1, "actor": "user", "action": "Open the row menu and choose Delete", "expected": "A confirmation dialog names the note by title" },
+        { "step": 2, "actor": "user", "action": "Confirm", "expected": "The row leaves the list and a toast offers Undo for 5 seconds" }
+      ],
+      "variants": [],
+      "edgeCases": [],
+      "oracle": {
+        "rung": "outcome",
+        "assertion": "The list row count falls by exactly one and no row carries the deleted title, both before and after a reload."
+      },
+      "sources": { "journeys": [], "cards": [], "docs": [], "code": ["app/notes/NoteRow.tsx"] },
+      "existingCoverage": {
+        "status": "covered",
+        "specFiles": ["e2e/notes-delete.spec.ts"],
+        "waiverAudit": {
+          "followed": true,
+          "targetRuns": "parked",
+          "caseTitle": "FLOW-NOTES-002 delete removes the row",
+          "instrument": "scripts/follow-waivers.mjs",
+          "checkedAt": "2026-09-02",
+          "liftWhen": "the case is unparked and runs in a blocking CI step",
+          "note": "The waiver is broken: the named case is test.skip, so it can never fail a build."
+        }
+      },
+      "priority": "p1",
+      "lane": "notes"
+    }
+  ],
+  "gaps": {
+    "notes": [
+      { "what": "No signed-out fixture exists, so the anonymous redirect is unproved.", "why": "The dev login helper always mints a member token; there is no way to reach /notes without one.", "evidence": "app/api/dev-login/route.ts has no anonymous branch." }
+    ]
+  },
+  "docCodeDisagreements": {
+    "notes": [
+      { "claim": "Delete is permanent.", "doc": "docs/prd.md#notes says deletion cannot be undone.", "code": "NoteRow.tsx renders a 5-second Undo toast and the row is soft-deleted.", "whichShips": "The code. A journey written to the PRD would assert the row is gone immediately and fail on the toast." }
+    ]
+  },
+  "unverified": { "notes": [{ "item": "Whether Undo restores the note's original position in the list.", "whyNot": "Read the delete handler but not the list ordering; not observed in a run." }] },
+  "notChecked": { "notes": ["The mobile app consumes the same API and was not opened at all."] },
+  "misrouted": { "notes": [] }
+}

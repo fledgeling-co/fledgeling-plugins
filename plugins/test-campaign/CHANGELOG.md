@@ -2,6 +2,47 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.17.0 — 2026-09-02
+
+Adds the UI-flow-campaign standard: how coverage of user journeys is counted, calibrated,
+sized, defended and published in any project that invokes the skill. Sourced from a
+four-day campaign that took a Next.js app from 52 journeys run to a 925-journey catalogue,
+889 of them bound to a test title and 552 able to fail a build.
+
+`SKILL.md` gains one section, two standing rules and five reference rows (+117 lines).
+The section states the four rules that have to be in every context — coverage is eight
+separately denominated axes and never one blended percent; a test is enforced only when
+its file is in a blocking step's explicit list *and* that same step passes a filter
+selecting it, evaluated per step and with the filter's match pattern read minus its ignore
+pattern; an instrument is calibrated against planted defects before its figures are
+quoted; a red is made green by changing the product rather than the statement — and points
+at the seven JSON Schemas at the plugin root that make a campaign readable by a generic
+reader rather than one written for the project, with the `ajv` command and two negative
+controls to keep the schema gate honest.
+
+Five new reference files:
+
+- `references/flow-coverage-axes.md` — the eight axes with their measured populations, why
+  a blend hides the weakest, named against bound, a park against a runtime guard, a title
+  with no check, the waiver that points at a parked test, and the four ways one CI number
+  was got wrong in a single day (published 460 where the truth was 434).
+- `references/instrument-calibration.md` — the specimen of six planted defects, `truth`
+  against `known`, drift as the only thing that sets an exit code, condemnation as a
+  withdrawal rather than a footnote, an unguarded axis as a written finding, containment
+  proved rather than asserted, and the shell and parsing traps that fake a zero.
+- `references/campaign-estimates.md` — the three shapes of work with their measured rates,
+  what a duration figure is (wall-clock for one lane, a range, no failure rate), serial
+  against parallel totals, the two concurrency measurements that appear to conflict, and
+  deriving deaths from `started − results` rather than an error field.
+- `references/campaign-prohibitions.md` — the moves that raise a number and lower what the
+  suite knows, each with its reason, arranged as five shapes to locate in a diff.
+- `references/progress-reporting.md` — the eight things a report owes, denominator per
+  row, "ruled out by decision" as a third category kept visible, publishing the
+  visual-judging axis including its negative result, and routing a defect to a card.
+
+The generated site catalogue row for this plugin was two versions behind `plugin.json`,
+which the test suite checks; it is regenerated here.
+
 ## 0.16.3 - 2026-09-01
 
 Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
