@@ -6,8 +6,16 @@ All notable changes to the `test-campaign` plugin.
 
 Adds the UI-flow-campaign standard: how coverage of user journeys is counted, calibrated,
 sized, defended and published in any project that invokes the skill. Sourced from a
-four-day campaign that took a Next.js app from 52 journeys run to a 925-journey catalogue,
-889 of them bound to a test title and 552 able to fail a build.
+four-day campaign that took a Next.js app from 52 journeys run to a 925-journey catalogue.
+
+Its state on release, stated the way this version insists on: **914 journeys bound to a
+test title, 552 wired into a blocking CI step, 521 able to fail a build.** Those last two
+are different axes and the gap between them is 31 journeys whose file is listed in a
+blocking step while every case carrying them is parked. An earlier draft of this entry
+said "889 bound and 552 able to fail a build" — the first figure predated a fix to the
+comment stripper, and the second quoted the wiring axis under the failure axis's name.
+That is the conflation this release exists to prevent, committed in the entry announcing
+the prevention, which is the most honest evidence available that the rule is needed.
 
 `SKILL.md` gains one section, two standing rules and five reference rows (+117 lines).
 The section states the four rules that have to be in every context — coverage is eight
@@ -39,6 +47,42 @@ Five new reference files:
 - `references/progress-reporting.md` — the eight things a report owes, denominator per
   row, "ruled out by decision" as a third category kept visible, publishing the
   visual-judging axis including its negative result, and routing a defect to a card.
+
+Seven JSON Schemas at the plugin root (`schemas/`) make a project's campaign readable by a
+generic reader rather than one written for that project — `flow-specification`,
+`coverage-axes`, `instrument-calibration`, `remaining-work`, `reckon-ledger`,
+`defect-cards`, `work-schedule` — with `schemas/README.md` and a minimal two-file worked
+example. Three of them enforce rather than describe:
+
+- `coverage-axes` requires all eight named axes, forbids additional properties, and
+  rejects a top-level `coverage`, `coveragePct`, `overall`, `percent`, `score` or
+  `summary`, so a single blended number cannot be recorded at all. Armed rather than
+  asserted: adding `"coverage": 0.83` to the clean example is refused at rc=1 while the
+  clean example validates at rc=0.
+- `flow-specification` makes `status: "covered"` require at least one spec file, and adds
+  `waiverAudit` — `followed`, `targetRuns`, `caseTitle`, `instrument`, `checkedAt`,
+  `liftWhen` — so a waiver carries both its target and the condition that would lift it.
+  It exists because 196 of that campaign's waivers pointed at a file where nothing
+  unparked carried the journey; 190 were stale pointers and 6 were real, and no instrument
+  could tell the two apart until the pointer was followed.
+- `instrument-calibration` models `truth` against `known`, so an instrument declares its
+  own blindness and `known` may only be raised to `truth` in the same change as the fix.
+
+Nothing in them is specific to the source project: `featureArea`, `lane`, `priority`,
+`actor`, `severity` and tracker `state` are open vocabularies carrying examples, and a
+flow id is a pattern. Closed vocabularies are methodological only — the three coverage
+statuses, the eight reconciliation classes, the work kinds and the estimate tiers.
+
+Six of the seven validate against real campaign artefacts at rc=0. The seventh,
+`reckon-ledger`, fails on 189 of 1067 rows carrying an empty `title` — all 188 surface
+rows plus one defect. That is published as a finding about the data rather than fixed by
+loosening the schema, because 39 of those untitled surfaces are the `unmeasured` class the
+ledger exists to protect and a reader would render them as blank rows.
+
+Evidence: `docs/evidence-2026-09-02-ui-flow-campaign.md`, 842 lines, every claim carrying a
+session id with a quoted line or a repository path, and a closing section naming what was
+searched for and could not be sourced — including that the source project published no
+JSON Schema at all, which is what these seven answer.
 
 The generated site catalogue row for this plugin was two versions behind `plugin.json`,
 which the test suite checks; it is regenerated here.
