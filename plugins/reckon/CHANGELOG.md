@@ -1,5 +1,56 @@
 # Changelog
 
+## 1.9.4 - 2026-09-02
+
+Two defects that made the ledger stop being a closed world. Both found on perch, whose
+224-row ledger held 58 rows it could not truthfully count and dropped 9 files before
+counting anything.
+
+**A reserved filename was matched as a prefix, so real briefs never entered the universe.**
+`read_briefs` skipped any file whose name *began* with `BRIEF-TEMPLATE`, `README`,
+`00-INDEX` or `LEDGER`, where only those four exact basenames are scaffolding. Nine consumed
+briefs named `LEDGER-<TOPIC>-<slug>.md` were dropped at discovery — and a file dropped at
+discovery is not in the partition, so no downstream gate can report it missing. That is the
+one failure the closed-world design exists to prevent: the run gated clean over a ledger
+that had silently lost nine rows. The four names are now compared exactly, and a brief whose
+title merely opens with one of those words stays in.
+
+**The ratio that gates retirement was taken over briefs the join is never consulted about.**
+`classify` settles a brief whose declared status is in `WAIVED_DECLARED` — waived, deferred,
+retired, consumed, scaffolded, historical — from that status, before it reads the join at
+all. The gate's ratio counted those briefs anyway, so an archive of already-adjudicated work
+suppressed retirement for the live queue, and the more history a project filed the less it
+could retire. Measured on perch: 98/224 = 43.8% published and every retirement claim
+withheld, over a join that had reached **56 of 56** of the briefs whose class it actually
+decides. Four briefs that project's own orchestrator records as merged, with named case ids,
+sat `undecided`.
+
+The repair publishes both denominators and gates on the second, rather than swapping one
+blended figure for another:
+
+| axis | population |
+| --- | --- |
+| `denominators.briefs_joined` | every brief — how much of the queue the registry sees at all |
+| `denominators.briefs_joined_adjudicated` | briefs whose declared status does not settle them — **what `join.weak` now reads** |
+
+Dropping the whole-corpus figure would hide how much of a queue is archive; gating on it is
+the defect. The warning names which population it speaks for and quotes the other beside it
+when they differ. `ledger.json` gains `join.adjudicated`, `join.adjudicated_of` and
+`join.adjudicated_pct`. A ledger written by an earlier version carries only the blended axis,
+and `reckon check` still reads it with the old wording rather than failing on a missing key.
+
+Measured on perch after both fixes: 233 briefs discovered instead of 224, the adjudicated
+join reads 56/56 = 100.0%, the weak-join warning is gone, and 43 brief rows move
+`undecided` → `retirable` — including all four the orchestrator had recorded as merged.
+The whole-corpus figure is 98/233 = 42.1% and is published unchanged, because most of that
+archive is fleet delivery history with no counterpart in a UI test registry. Partition before
+→ after: verified-done 379 → 379, waived 173 → 182, undecided 58 → 15, broken 2 → 2,
+unbuilt 2 → 2, unmeasured 1 → 1, retirable 0 → 43.
+
+Selftest sections 22 and 23 pin both, each shown red against 1.9.3 first. Section 23 also
+pins the direction that is not "make the number bigger": a genuinely weak adjudicated
+population still warns, and still names its population.
+
 ## 1.9.3 - 2026-09-01
 
 Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
