@@ -4,6 +4,33 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-02
+
+### `reckon` 1.9.4 — two defects that made the ledger stop being a closed world
+
+**A reserved filename was matched as a prefix.** `read_briefs` skipped anything whose name
+merely *began* with `BRIEF-TEMPLATE`, `README`, `00-INDEX` or `LEDGER`, where only those four
+exact basenames are scaffolding. On perch that dropped nine consumed briefs named
+`LEDGER-<TOPIC>-<slug>.md` at discovery — and a file dropped at discovery is not in the
+partition, so no downstream gate can report it missing. The run gated clean over a ledger that
+had lost nine rows. The names are now compared exactly.
+
+**The ratio that gates retirement counted briefs the join is never consulted about.** A brief
+declaring a waived-or-archived status is classed from that status before `classify` reads the
+join, so counting it rates the inferential step on rows it never touched — and the more
+history a project archives, the less it can retire. Perch published 98/224 = 43.8%, withheld
+every retirement claim, and had in fact joined 56 of 56 of the briefs whose class the join
+decides; four briefs its own orchestrator records as merged sat `undecided`. The ledger now
+publishes both denominators — `briefs_joined` over every brief and
+`briefs_joined_adjudicated` over the population the join decides — and `join.weak` reads the
+second. Publishing only the first is the defect; publishing only the second would hide how
+much of a queue is archive.
+
+Measured on perch after both: 233 briefs discovered instead of 224, adjudicated join
+56/56 = 100.0%, warning gone, and 43 brief rows move `undecided` → `retirable`. Two selftest
+sections pin the pair, each shown red against 1.9.3 first, and one of them pins the opposite
+direction — a genuinely weak adjudicated population still warns, and names its population.
+
 ## 2026-09-01 (later)
 
 ### The gemini.md sweep's audit findings, closed
