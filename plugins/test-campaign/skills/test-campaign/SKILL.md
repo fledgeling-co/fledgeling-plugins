@@ -732,7 +732,10 @@ it; a destination by an identity that differs from its siblings'.
 `references/inert-ui.md`.
 
 **Print the denominator.** Everywhere, in every sweep, in the report, in the
-reply.
+reply. Where several axes measure one subject, each keeps its own denominator
+and no combined percent is published — a blend hides whichever axis is weakest,
+and the weakest is the only one worth acting on.
+`references/flow-coverage-axes.md`.
 
 **Running everything is a decision, not a default.** A run selects; full coverage
 is chosen by a request or by an inference you name. The three things that keep that
@@ -745,6 +748,14 @@ the rest is unchanged since a dated full run; it never says the suite passes.
 at the last full run. That age goes on the verdict line, and past the declared
 bound it becomes a blocker — twelve consecutive selective runs are a full suite
 nobody has executed in a fortnight.
+
+**Calibrate an instrument before quoting it.** A coverage figure is the output
+of a counting instrument, and those have been wrong more often than the products
+they measure — one number, four wrong readings, one day. Run each instrument over
+a specimen of planted defects and record what a correct one would say beside what
+this one says. An instrument that misses a defect on its own stated axis is
+condemned: its figures on that axis are withdrawn, not footnoted.
+`references/instrument-calibration.md`.
 
 **Prove a check can fail before trusting it passing.** A predicate that matches
 nothing returns clean and is indistinguishable from a clean surface.
@@ -797,6 +808,94 @@ next week is the normal case, not a degradation.
 Say which you ran. A campaign that quietly ran the small version and reported in
 the shape of the large one is the first failure mode again — and so is a selective
 run reported in the shape of a full one.
+
+---
+
+## Journey coverage, when the ask is user flows
+
+Use this section when the campaign's unit is a journey a user can take — "test every
+user flow", "screenshot the steps and have a model check them", "prove the app works
+end to end". It is a standard rather than a phase: it constrains how coverage of those
+journeys is counted, calibrated, sized, defended and published, whichever phases run.
+
+It comes from one campaign that took a Next.js app from 52 journeys run to a
+925-journey catalogue in four days, ending 2026-09-02. Where a rule below carries a
+figure, that figure is its source.
+
+**Coverage of journeys is eight axes, and they are published separately.** Named
+anywhere · bound to a test title · enforced by a blocking CI step · report-mode only ·
+in no CI step · distinct recorded case passes · frames captured · surfaces judged.
+Publish a denominator on each row and no combined percent, because a blend hides
+whichever axis is weakest and the weakest is the only one worth acting on. At first
+publication four of those axes stood between 45% and 100% and the fifth stood at 2%.
+Every axis is a lower bound on coverage and an upper bound on nothing.
+`references/flow-coverage-axes.md`.
+
+**A test is enforced only when its file is in a blocking step's explicit list and that
+same step passes a filter selecting it.** Evaluate both per step, never on a union of
+steps, and take a filter's file set as its match pattern minus its ignore pattern.
+Those three mistakes, plus locating steps by line position, got one number wrong four
+times in a single day and published 460 where the truth was 434.
+`references/flow-coverage-axes.md` §4.
+
+**Calibrate a counting instrument against planted defects before quoting its figures.**
+Record per instrument per defect what a correct instrument would say (`truth`) against
+what this one says (`known`); drift between `known` and observed behaviour sets the exit
+code, and `known != truth` is a **condemnation** — the instrument misses a defect on its
+own stated axis, so its figures on that axis are void and are withdrawn rather than
+footnoted. On first run, nine instrument/defect pairs were condemned and two of six
+pathologies had no instrument at all. `references/instrument-calibration.md`.
+
+**A duration is wall-clock for one lane, a range rather than a point, and carries no
+failure rate.** Measured over 140 agents in 12 lanes: read-and-rule 8.2 units per agent
+and 8–25 minutes per lane, write-a-body 1.0–4.1 units and 10–36 minutes, run-and-promote
+limited by how many isolated environments exist rather than by agents. 4 of those 12
+lanes lost an agent, and a lane that produced work later rejected counts the same as one
+that landed. `references/campaign-estimates.md`.
+
+**A red is made green by changing the product, never the statement.** Deleting an
+assertion, swapping a value check for a presence check, adding `.first()` when the
+duplicate is the finding, widening a regex, parking a case and re-pointing a failing
+claim at a nearby selector all raise the number and lower what the suite knows — they
+make the defect the specification. `references/campaign-prohibitions.md` carries them as
+a list to read a diff against.
+
+**A progress report carries every axis measured, a denominator per row, the campaign's
+own start, each term of art defined, a size against every defect, and what the estimate
+excludes.** The visual-judging axis is reported whatever it found: over 75 surfaces its
+verdict was *not proven* rather than *proven useless*, and saying so is the reason a
+reader can decide whether to keep paying for it. `references/progress-reporting.md`.
+
+### Publish the artefacts a generic reader can consume
+
+Seven JSON Schemas live at the plugin root, `../../schemas/` from this skill directory,
+described in `../../schemas/README.md`: `flow-specification`, `coverage-axes`,
+`instrument-calibration`, `remaining-work`, `reckon-ledger`, `defect-cards` and
+`work-schedule`.
+
+Conforming to them is what makes a campaign readable by a **generic** reader — a flow
+viewer, a dashboard, another agent — rather than by one written for this project. Nothing
+in them fixes project vocabulary: lanes, feature areas, priorities, roles, tracker states
+and severities are open strings a project declares. What they do fix is methodological,
+and the axes are the part that matters: `axes` is closed at exactly eight members and the
+top level rejects `coverage`, `pct`, `overall`, `score`, `total` and `summary`, so a
+single blended number is unrepresentable rather than merely discouraged.
+
+Two files are the floor — `flow-specification.json` and `coverage-axes.json`, joined by
+the second's `population.source` pointing at the first. With those, a reader can draw
+every journey and state separately how many are named, bound, enforced, report-mode and
+unwatched. `instrument-calibration.json` is what lets it grey out the figures a condemned
+instrument produced; without it every axis is presented as trustworthy.
+
+Validate them in the project's own gate, and keep two negative controls there, because a
+schema nobody has seen refuse anything is decoration: an axes file carrying
+`"coverage": 0.83` at the top level, and a flow whose `existingCoverage` is
+`{"status":"covered","specFiles":[]}`. Both fail.
+
+```bash
+npx --yes ajv-cli@5 validate -s <schema>.schema.json -d <artefact>.json \
+    --spec=draft2020 --errors=text
+```
 
 ---
 
@@ -855,6 +954,24 @@ run reported in the shape of a full one.
   effect census, why mutation testing and coverage cannot see it, the
   `effect-witness` rung and its four-part causal witness, `--seed-strengthen`,
   and the two places the panel disagreed about where the floor sits.
+- `references/flow-coverage-axes.md` — journey coverage as eight separately
+  denominated axes and why they are never blended; named versus bound, a park versus
+  a runtime guard, a title with no check; the two mechanical conditions that make a
+  test enforceable and the four ways one number was got wrong in a day.
+- `references/instrument-calibration.md` — the specimen of six planted defects,
+  `truth` against `known`, the difference between drift, condemnation and an unguarded
+  axis, proving containment, and the instrument pathologies that transfer between
+  projects.
+- `references/campaign-estimates.md` — sizing what is left from measured rates: the
+  three shapes of work, what a duration figure is and is not, serial against parallel
+  totals, the two concurrency measurements that appear to conflict, and how a dead
+  agent presents in the counters.
+- `references/campaign-prohibitions.md` — the moves that turn a red green by changing
+  the statement instead of the product, each with the reason, arranged as a list to
+  read a diff against.
+- `references/progress-reporting.md` — what a report owes a non-technical reader: the
+  five complaints that produced the shape, denominator per axis, the third category
+  kept visible, publishing a negative result, and routing a defect to a card.
 - `references/evidence-and-ids.md` — the id scheme, the artifact bundle, the page
   contract, the judge's ceiling.
 - `references/evidence.md` — every rule above traced to its source, the three

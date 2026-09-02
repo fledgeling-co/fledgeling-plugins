@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fledgeling.dev/test-campaign/v1/reckon-ledger.json",
+  "title": "Reckon ledger",
+  "description": "A total partition of everything a project promised and everything anybody measured, resolved into exactly one class per item so nothing can quietly fall out of the list. Both sides go in — the stated intent (briefs, requirements) and the evidence (cases, surfaces, defects) — and every row lands in one of eight classes with a different fix-shape and a different owner. The class that carries the file is `unmeasured`: a blocked or inconclusive check is neither a pass nor a failure, and a remaining-work list that silently drops it reports a partial campaign as a finished product. Denominators are published per axis and never blended; every figure is a floor. This is a reconciliation, not a score: `verified-done` is a count of rows, not a percentage of anything, and the file deliberately gives a reader nothing to average.",
+  "type": "object",
+  "required": ["tool", "version", "headline", "summary", "denominators", "rows"],
+  "properties": {
+    "tool": { "description": "What produced this ledger, so a reader can tell a generated reconciliation from a hand-assembled one.", "type": "string", "minLength": 1 },
+    "version": { "description": "Schema-compatibility version of the ledger format the tool wrote.", "type": "integer", "minimum": 1 },
+    "project": { "description": "Human name of the system, including which parts of it are in scope. Scope belongs in the name here because a ledger over half a repo is a different ledger.", "type": "string", "minLength": 1 },
+    "campaign_present": { "description": "Whether a test campaign's registry was found at all. False means every evidence-side class is empty for want of input, not for want of defects, and a reader must say so instead of showing zeros.", "type": "boolean" },
+    "campaign_dir": { "description": "Where the campaign registry was read from.", "type": "string", "minLength": 1 },
+    "briefs_dir": { "description": "Where the stated-intent documents were read from. A ledger with no briefs directory can only reconcile evidence against itself.", "type": "string", "minLength": 1 },
+    "headline": {
+      "description": "The one paragraph a person reads. It must carry the remaining count, its split by kind, the row total, the two coverage denominators as n/of, and the sentence distinguishing 'not known to be done' from 'known to be undone'. Its job is to make the ledger's limits unavoidable in the summary rather than discoverable in the detail.",
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "description": "Counts only. Deliberately free of ratios: every ratio a reader might want has a different denominator, and they live in `denominators` where the denominator is stated beside them.",
+      "type": "object",
+      "required": ["counts", "work_items", "rows"],
+      "properties": {
+        "counts": { "description": "Rows per class. These must sum to `rows`; a partition that does not sum has lost an item, which is the one failure the ledger exists to prevent.", "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 }, "propertyNames": { "$ref": "#/$defs/rowClass" } },
+        "work_items": { "description": "How many rows are actual outstanding work (`is_work_item` true). Always smaller than `rows`, and never presented as a backlog until split by kind.", "type": "integer", "minimum": 0 },
+        "work_by_class": { "description": "Outstanding work split by class, so a reader can see how much of the backlog is unmeasured rather than broken.", "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 }, "propertyNames": { "$ref": "#/$defs/rowClass" } },
+        "work_by_kind": { "description": "Outstanding work split by who must act: product, evidence or decision. This is the split that determines whether the backlog needs engineers, runners, or an hour of somebody's judgement.", "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 }, "propertyNames": { "$ref": "#/$defs/rowKind" } },
+        "rows": { "description": "Total rows in the ledger.", "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "denominators": {
+      "description": "One entry per coverage axis, each with its own n, its own `of`, and a sentence saying what it means and what it is not. They are separate on purpose: a case adjudicated, a decision taken, a requirement observed, a surface spoken for and a brief joined are five different populations. Combining any of them produces a number that is true of nothing.",
+      "type": "object",
+      "required": ["is_floor"],
+      "properties": {
+        "is_floor": { "description": "Must be true. Every figure here is a lower bound: an item the documents never described is a surface nobody counted, so the true denominator is larger than the one the documents can supply.", "const": true },
+        "floor_note": { "description": "Which floors are softest and why, in prose.", "type": "string", "minLength": 1 },
+        "scope": { "description": "Whether this reconciliation covers the whole project or a declared subset.", "type": "string", "minLength": 1 },
+        "sample": {
+          "description": "How the correctness space was sampled — the pairwise or n-way floor, the clusters raised above it, the cells declared, and crucially what fraction of the suite the registry actually names. A ledger over 11 of 419 spec files is a valid ledger and an invalid basis for a project-wide claim; this sentence is what stops the second reading.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": { "$ref": "#/$defs/denominator" }
+    },
+    "join": {
+      "description": "How well the two sides of the reconciliation could be tied together at all. A weak join is the ledger's largest source of error and must be stated rather than inferred from the unjoined count: when almost no brief can be tied to the registry, the ledger is reconciling two lists that barely touch, and its `unjoined` class is doing nearly all the work.",
+      "type": "object",
+      "required": ["edges", "briefs_joined", "briefs_total"],
+      "properties": {
+        "edges": { "description": "The joins actually made, each with the method that made it.", "type": "array", "items": { "$ref": "#/$defs/joinEdge" } },
+        "briefs_joined": { "description": "How many intent documents were tied to anything in the registry.", "type": "integer", "minimum": 0 },
+        "briefs_total": { "description": "How many there were.", "type": "integer", "minimum": 0 },
+        "pct": { "description": "The join rate. The one percentage in this file that is safe, because it is a property of the reconciliation rather than of the product.", "type": "number", "minimum": 0, "maximum": 100 },
+        "weak": { "description": "True when the join rate is low enough that the ledger's conclusions about intent are dominated by what could not be joined.", "type": "boolean" },
+        "note": { "description": "How the edge kinds differ in strength — a citation somebody wrote versus a similarity guess. Only the first kind may retire a stated intent.", "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "blockers": {
+      "description": "The causes standing behind unmeasured rows, each sized by the HOOK rather than by the number of cases it holds up. Twenty blocked cases are usually three causes, and scheduling them case by case buys the same fix twenty times. Each blocker states the coverage it returns when lifted, so a reader can rank causes by what they unlock.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/blocker" }
+    },
+    "schedule": { "$ref": "#/$defs/schedule" },
+    "unclassified": {
+      "description": "Items that could not be placed in any class. Must be empty for the partition to be total; a non-empty array is the ledger telling you it lost something, and it is a hard failure rather than a note.",
+      "type": "array",
+      "items": {},
+      "default": []
+    },
+    "rows": {
+      "description": "Every item on both sides, one row each, each in exactly one class. Ids must be unique across the whole ledger, including across entity types.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/row" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "rowClass": {
+      "description": "The eight-class partition. Every item lands in exactly one, and the set is CLOSED — a ninth class is how items start escaping. `verified-done`: measured and correct, retire it. `waived`: deliberately exempted, kept visible as an exception rather than folded into done. `broken`: measured and wrong — product work. `unmeasured`: never measured, or measured inconclusively; not a pass and not a failure, and the class most often dropped. `undecided`: the evidence is disputed and somebody must rule. `unjoined`: stated intent that could not be tied to the registry at all — counted as decision work rather than assumed unbuilt. `unbuilt`: named and demonstrably not built. `unnamed`: found in the product and described by no document.",
+      "enum": ["verified-done", "waived", "broken", "unmeasured", "undecided", "unjoined", "unbuilt", "unnamed"]
+    },
+    "rowKind": {
+      "description": "Who must act on this row. `none`: nothing to do. `exception`: a standing waiver, which is a decision already taken and not a task. `product-work`: the product is wrong. `evidence-work`: the product may be fine and nothing has watched it. `decision-work`: a person must rule, and agent time does not substitute.",
+      "enum": ["none", "exception", "product-work", "evidence-work", "decision-work"]
+    },
+    "denominator": {
+      "description": "One coverage axis: a count, its own denominator, and what it means. `means` must say what the figure is NOT — the commonest misreading of an adjudication rate is as a pass rate.",
+      "type": "object",
+      "required": ["n", "of", "means"],
+      "properties": {
+        "n": { "description": "The numerator.", "type": "integer", "minimum": 0 },
+        "of": { "description": "The denominator for THIS axis and no other.", "type": "integer", "minimum": 0 },
+        "pct": { "description": "n/of as a percentage, carried only because it sits beside its own denominator here. It must never be lifted out of this object.", "type": "number", "minimum": 0, "maximum": 100 },
+        "means": { "description": "What was counted, and what a reader must not conclude from it.", "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "joinEdge": {
+      "type": "object",
+      "required": ["target", "method"],
+      "properties": {
+        "brief": { "description": "The intent document being joined.", "type": "string", "minLength": 1 },
+        "source": { "description": "The joined item, when it is not a brief.", "type": "string", "minLength": 1 },
+        "target": { "description": "The registry item it was joined to.", "type": "string", "minLength": 1 },
+        "method": { "description": "How the join was made. `cited` is a citation somebody wrote and can retire a stated intent; `overlap` and similar are guesses and cannot. Treating the two alike is how unbuilt features get marked done.", "type": "string", "minLength": 1, "examples": ["cited", "overlap", "title-match"] },
+        "confidence": { "description": "Strength of the join, 0-1. A guessed edge below the tool's threshold is a near miss, not an edge.", "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "blocker": {
+      "type": "object",
+      "required": ["id", "summary"],
+      "properties": {
+        "id": { "description": "Stable id, cited by the rows and waves it gates.", "type": "string", "minLength": 1 },
+        "summary": { "description": "The cause, in one line, stated as the mechanism rather than the symptom.", "type": "string", "minLength": 1 },
+        "cases": { "description": "The case ids held up by it.", "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "surfaces": { "description": "The surfaces held up by it.", "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "unblocks": { "description": "How many items become measurable when it lifts.", "type": "integer", "minimum": 0 },
+        "total_cases": { "description": "The case population `coverage_gain_pct` is computed against, carried inline so the percentage cannot travel without its denominator.", "type": "integer", "minimum": 0 },
+        "coverage_gain_pct": { "description": "The share of the case population this blocker returns. The ranking key for causes.", "type": "number", "minimum": 0, "maximum": 100 },
+        "kind": { "$ref": "#/$defs/rowKind" },
+        "estimate": { "$ref": "#/$defs/estimate" }
+      },
+      "additionalProperties": false
+    },
+    "estimate": {
+      "description": "A sized piece of work. Tiers are shapes of change, not durations — the duration follows from the shape — and the three-point range is deliberately wide because narrowing it is the commonest way an estimate becomes a commitment.",
+      "type": "object",
+      "required": ["tier", "low_min", "median_min", "high_min"],
+      "properties": {
+        "tier": { "description": "The size class. Closed, because an open tier vocabulary makes two projects' estimates incomparable.", "enum": ["XS", "S", "M", "L", "XL", "XXL"] },
+        "shape": { "description": "What the tier means in files and seams — 'three to seven files, one subsystem'. The definition that makes the tier assignable by somebody who has not seen the code.", "type": "string", "minLength": 1 },
+        "low_min": { "description": "Optimistic minutes.", "type": "number", "minimum": 0 },
+        "median_min": { "description": "Median minutes.", "type": "number", "minimum": 0 },
+        "high_min": { "description": "Pessimistic minutes. The spread over `low_min` is typically 3-5x and should not be compressed to make a plan fit.", "type": "number", "minimum": 0 },
+        "basis": { "description": "What the estimate was derived from — and, for a blocker, that it was sized by the hook rather than by the cases behind it.", "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "schedule": {
+      "description": "How the remaining work would be run: waves whose members' dependencies are all met, plus the items that need a decision before they can be scheduled at all. A wave costs its slowest member only up to the observed concurrency ceiling; above it the property degrades and the bound must widen.",
+      "type": "object",
+      "properties": {
+        "waves": { "description": "Ordered waves. Wave n may not start until wave n-1 completes.", "type": "array", "items": { "$ref": "#/$defs/wave" } },
+        "edges": { "description": "Dependency edges between scheduled items.", "type": "array", "items": {} },
+        "decisions": { "description": "Items that cannot be scheduled because they need a ruling first. They consume no agent time and must not be summed into the wall-clock totals; a plan that schedules them is planning somebody else's judgement.", "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "bookkeeping": { "description": "Items that are administrative rather than work — retirements, re-filings.", "type": "array", "items": {} },
+        "project": { "$ref": "#/$defs/projectTotal" },
+        "max_concurrency": { "description": "The observed concurrency ceiling, above which the slowest-member property stops holding. A schedule that ignores it produces a speedup nobody has ever measured.", "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "wave": {
+      "type": "object",
+      "required": ["wave", "members"],
+      "properties": {
+        "wave": { "description": "Ordinal position.", "type": "integer", "minimum": 0 },
+        "members": { "description": "The item ids in this wave.", "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "blockers": { "description": "Blocker ids that must lift before this wave can run.", "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "n": { "description": "Member count.", "type": "integer", "minimum": 0 },
+        "slots": { "description": "Concurrent agents assumed.", "type": "integer", "minimum": 1 },
+        "batches": { "description": "How many batches the members take at that slot count.", "type": "integer", "minimum": 0 },
+        "low_min": { "description": "Optimistic wall-clock minutes for the wave.", "type": "number", "minimum": 0 },
+        "high_min": { "description": "Pessimistic wall-clock minutes for the wave.", "type": "number", "minimum": 0 },
+        "serial_min": { "description": "What the same work would cost run serially. Publishing it beside the range is what keeps the claimed speedup honest.", "type": "number", "minimum": 0 },
+        "bound_by": { "description": "What set the bound — the slowest member, or an observed speedup ceiling that the slowest-member figure would have exceeded.", "type": "string", "minLength": 1 },
+        "note": { "description": "Why the bound was widened or held, with the measured speedup distribution it was checked against.", "type": "string", "minLength": 1 },
+        "has_cycle": { "description": "True when the dependency graph inside this wave contains a cycle, which makes the ordering arbitrary and the estimate unreliable.", "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "projectTotal": {
+      "description": "The whole schedule's wall-clock range, and the speedup it implies. `speedup_exceeds_measured` is the guard: a plan implying a parallel speedup nobody has ever observed on this corpus is a fiction, and the flag says so in the data rather than in a footnote.",
+      "type": "object",
+      "properties": {
+        "low_min": { "type": "number", "minimum": 0, "description": "Optimistic total minutes." },
+        "high_min": { "type": "number", "minimum": 0, "description": "Pessimistic total minutes." },
+        "serial_min": { "type": "number", "minimum": 0, "description": "Serial total, for comparison." },
+        "speedup": { "type": "number", "exclusiveMinimum": 0, "description": "serial_min / low_min." },
+        "speedup_exceeds_measured": { "type": "boolean", "description": "True when the implied speedup is above anything measured on this corpus. When true the plan is aspirational and must be labelled so." },
+        "basis": { "type": "string", "minLength": 1, "description": "How the total was formed and against which measured distribution it was checked." }
+      },
+      "additionalProperties": false
+    },
+    "row": {
+      "description": "One item, from either side of the reconciliation, in exactly one class. Which fields are meaningful depends on `entity`; the ones required per entity are enforced below.",
+      "type": "object",
+      "required": ["id", "entity", "title", "class", "kind", "is_work_item", "why"],
+      "properties": {
+        "id": { "description": "Stable, unique across the ledger. Every schedule, wave and blocker references this string.", "type": "string", "minLength": 1 },
+        "entity": { "description": "Which side of the reconciliation this row came from and what sort of thing it is. `requirement` and `brief` are stated intent; `case`, `surface` and `defect` are evidence. A ledger with only one side is not a reconciliation.", "enum": ["requirement", "brief", "case", "surface", "defect"] },
+        "title": { "description": "What the item is, in the words of whoever wrote it.", "type": "string", "minLength": 1 },
+        "class": { "$ref": "#/$defs/rowClass" },
+        "kind": { "$ref": "#/$defs/rowKind" },
+        "is_work_item": { "description": "Whether this row is outstanding work. False for anything retired, waived or already correct.", "type": "boolean" },
+        "why": { "description": "Why the row landed in this class, in one sentence, citing what was and was not found. This is the sentence that survives a challenge; a class with no `why` is an assertion.", "type": "string", "minLength": 1 },
+        "note": { "description": "Anything further. Null is a valid, meaningful value: the row was considered and there was nothing to add.", "type": ["string", "null"] },
+        "remedy": { "description": "What would move the row out of its class. Null when nothing is owed.", "type": ["string", "null"] },
+        "estimate": { "$ref": "#/$defs/estimate" },
+        "status": { "description": "The recorded outcome, in the vocabulary of the row's entity. For a case: `pass`, `fail`, `skip`, `n/a` or `inconclusive` — and `inconclusive` is neither a pass nor a failure, which is precisely why it must not be collapsed into either. For a defect: its lifecycle state.", "type": "string", "minLength": 1, "examples": ["pass", "fail", "skip", "inconclusive", "n/a", "open", "fixed", "partially-fixed", "invalid", "by design"] },
+        "armed": { "description": "Case rows only. Whether the case was proved able to FAIL — weakened production code, watched go red, restored, watched go green. An unarmed passing case may be passing vacuously, and a campaign that does not distinguish them is reporting assertions it has never seen fire.", "type": "boolean" },
+        "lane": { "description": "Case rows only. Which execution lane ran it — the plane the evidence came from. Two lanes' passes are not interchangeable evidence.", "type": "string", "minLength": 1 },
+        "oracle": { "description": "Case rows only. Which rung of the oracle ladder this case's assertion stands on. A high-priority item resting on `presence` is a gate failure, not a pass.", "type": "string", "minLength": 1 },
+        "surface": { "description": "Which surface the row concerns. Null when it is not surface-scoped.", "type": ["string", "null"] },
+        "rolls_up_to": { "description": "Case rows only. The defect or requirement ids this case's outcome contributes to, so a failing case cannot be counted separately from the defect it evidences.", "type": ["array", "null"], "items": { "type": "string", "minLength": 1 } },
+        "severity": { "description": "Defect rows only. How much the defect costs, in the project's own vocabulary.", "type": "string", "minLength": 1 },
+        "backed_by": { "description": "Requirement rows only. The case ids that observed this requirement happen. Null or empty means nobody watched it, and the requirement may NOT leave `unmeasured` on its own evidence word.", "type": ["array", "null"], "items": { "type": "string", "minLength": 1 } },
+        "evidence": { "description": "Requirement rows only. What was actually observed, in one line.", "type": "string", "minLength": 1 },
+        "provider": { "description": "Requirement rows only. The implementation file that provides it, where one was found. Null means the requirement could not be tied to code.", "type": ["string", "null"] },
+        "reachability": { "description": "Surface rows only. Whether the surface can be reached at all, and by what route. Null means nobody established it — which is different from unreachable, and a reader must not render it as either.", "type": ["string", "null"] },
+        "declared_status": { "description": "Brief rows only. The status the intent document claims for itself. An empty string is a real value meaning the document declares nothing, and it must not be defaulted to anything.", "type": "string" },
+        "file": { "description": "Brief rows only. Where the intent document lives.", "type": "string", "minLength": 1 },
+        "generated_by": { "description": "Brief rows only. What produced the document, when it was generated rather than written. Null for a hand-written brief.", "type": ["string", "null"] },
+        "edges": { "description": "Brief rows only. The joins made from this document into the registry.", "type": "array", "items": { "$ref": "#/$defs/joinEdge" } },
+        "near_misses": { "description": "Brief rows only. Candidate joins that scored below the threshold, kept so a human can see what the tool almost matched. A near miss is NOT a join and may never retire the brief.", "type": ["array", "null"], "items": { "$ref": "#/$defs/nearMiss" } },
+        "id_scan": { "description": "Brief rows only. What ids the document cites and which of them the tool could resolve. The gap between cited and resolvable is the join failure, localised to one document.", "type": ["object", "null"], "properties": { "cited": { "description": "Ids the document cites.", "type": "array", "items": { "type": "string" } }, "shown": { "description": "Ids resolved, mapped to what they resolved to.", "type": "object" }, "shown_only": { "description": "Ids the tool found that the document does not cite.", "type": "array", "items": { "type": "string" } } }, "additionalProperties": false },
+        "unclassifiable_ids": { "description": "Brief rows only. Ids cited by the document that match nothing in any known scheme. Null when there were none.", "type": ["array", "null"], "items": { "type": "string" } }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        { "if": { "properties": { "entity": { "const": "case" } }, "required": ["entity"] }, "then": { "required": ["armed", "lane", "oracle", "status"], "$comment": "A case row without `armed` and `oracle` cannot be graded: it says a check ran, not that the check could have failed or what it would have proved." } },
+        { "if": { "properties": { "entity": { "const": "requirement" } }, "required": ["entity"] }, "then": { "required": ["backed_by"], "$comment": "Required even when null, so 'nobody watched it' is recorded rather than omitted." } },
+        { "if": { "properties": { "entity": { "const": "surface" } }, "required": ["entity"] }, "then": { "required": ["reachability"] } },
+        { "if": { "properties": { "entity": { "const": "brief" } }, "required": ["entity"] }, "then": { "required": ["file", "declared_status", "edges"] } },
+        { "if": { "properties": { "entity": { "const": "defect" } }, "required": ["entity"] }, "then": { "required": ["status"] } }
+      ]
+    },
+    "nearMiss": {
+      "type": "object",
+      "required": ["target", "score"],
+      "properties": {
+        "target": { "description": "The item that nearly matched.", "type": "string", "minLength": 1 },
+        "kind": { "description": "What sort of item it is.", "type": "string", "minLength": 1 },
+        "score": { "description": "Similarity, 0-1. Published so a reader can see how far below the threshold the best guess sat — a corpus of 0.08 near misses is a join that failed completely.", "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

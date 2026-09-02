@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fledgeling.dev/test-campaign/v1/remaining-work.json",
+  "title": "Remaining work",
+  "description": "What is left of a campaign, sized from RATES THIS CAMPAIGN ACTUALLY OBSERVED rather than from an estimate. Every row names the count remaining, the unit it is counted in, which measured rate applies, and the evidence for that rate; every wall-clock figure is a range for one lane, carrying no failure rate. Its second half is `blocked`: work that is not remaining because nobody has done it, but remaining because something stands in the way — with the lifting condition and the owner named, so an environment fault cannot migrate into the product backlog. Read a row's range as the spread over one lane, never as a project total: summing the ranges assumes lanes run serially and that no lane loses an agent, and both assumptions were false in the campaign this schema is derived from.",
+  "type": "object",
+  "required": ["generated", "basis", "rates", "remaining"],
+  "properties": {
+    "generated": { "description": "When this was compiled. Rates decay: a rate measured on a well-warmed harness does not hold on a cold one.", "type": "string", "minLength": 4 },
+    "project": { "description": "Optional human name of the system.", "type": "string", "minLength": 1 },
+    "basis": {
+      "description": "The observed run these rates come from, in concrete terms — how many agents, how many lanes, how many units. This is what makes the estimates measurements rather than guesses, and a reader must show it beside any total derived from them.",
+      "type": "string",
+      "minLength": 1
+    },
+    "rates": {
+      "description": "The measured throughput classes. Keys are the project's own names for a KIND OF WORK, not for a team or a tool: the useful distinction is between work that only reads and rules, work that writes a body, and work that is limited by something other than people. Every row in `remaining` names one of these keys.",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/rate" }
+    },
+    "caveat": {
+      "description": "What the rates do NOT account for — above all the failure rate. In the campaign this schema comes from, 4 of 12 lanes lost an agent, and a lane that ran to its upper bound and produced work later rejected counts identically here to one that landed. A file without this paragraph presents recovered chaos as steady throughput.",
+      "type": "string",
+      "minLength": 1
+    },
+    "remaining": {
+      "description": "The outstanding work, one row per coherent piece. A row is sized by its count and its rate, never by intuition, and a row whose rate has never been observed says so in `measured` rather than borrowing a neighbour's number silently.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/remainingRow" }
+    },
+    "blocked": {
+      "description": "Work that cannot proceed, each with what would lift it and who owns the lift. Kept apart from `remaining` because the two are scheduled differently and owned differently: a blocked row consumes no agent time until it is lifted, and folding it into the remaining list produces a plan that cannot be executed. A blocker whose owner is the harness is not a product defect, however much it looks like one from the failing test.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/blocker" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "rate": {
+      "description": "One measured throughput class. At least one of `unitsPerAgent` or a limiting note must be present, so that a rate always says either how fast it goes or why speed is not the constraint.",
+      "type": "object",
+      "properties": {
+        "unitsPerAgent": {
+          "description": "How many units one agent completed, either as a single observed figure or as an observed [low, high] range. A range is the honest form when lanes differed; a point value claims a consistency that was probably not measured.",
+          "oneOf": [
+            { "type": "number", "exclusiveMinimum": 0 },
+            { "type": "array", "items": { "type": "number", "exclusiveMinimum": 0 }, "minItems": 2, "maxItems": 2 }
+          ]
+        },
+        "wallMinutesPerLane": {
+          "description": "Observed wall-clock minutes for ONE lane, as [low, high]. Not per unit and not per project: a lane is the unit of parallelism, and this range is what a scheduler multiplies by lane count under its own concurrency ceiling.",
+          "type": "array",
+          "items": { "type": "number", "minimum": 0 },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "source": {
+          "description": "Which lanes the figures were taken from and how they were combined — 'median of 6 triage lanes today'. A rate with no source cannot be challenged and should not be relied on.",
+          "type": "string",
+          "minLength": 1
+        },
+        "note": {
+          "description": "What limits this rate when it is not the number of agents. The value of the field is that it stops somebody adding agents to a rate that agents do not move.",
+          "type": "string",
+          "minLength": 1
+        },
+        "tiersUsable": {
+          "description": "For rates limited by shared infrastructure, how many execution tiers were actually usable during the observed run.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "tiersDeclared": {
+          "description": "How many tiers were declared to exist. The gap between declared and usable is throughput lost to the harness, and it belongs in `blocked` as well.",
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "remainingRow": {
+      "type": "object",
+      "required": ["item", "kind", "unit", "n", "rate"],
+      "properties": {
+        "item": {
+          "description": "The work, stated as what must become true, with its count in the sentence so the row is readable on its own.",
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "description": "What kind of work this is, because the kinds have different owners and different failure modes. `evidence`: the product may be fine; nothing has watched it. `product`: the product is wrong. `decision`: somebody must rule, and no amount of agent time substitutes. The hyphenated values are honest when the row cannot be split yet — a row that resolves into either build work or test work depending on what the reader finds.",
+          "enum": ["product", "evidence", "decision", "product-or-evidence", "product-or-decision", "evidence-or-decision"]
+        },
+        "unit": {
+          "description": "What `n` counts. Units are not interchangeable and rows in different units must never be summed: a flow, a case and a file are three populations.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["flow", "case", "file", "surface", "requirement"]
+        },
+        "n": { "description": "How many units remain, at the time in `generated`.", "type": "integer", "minimum": 0 },
+        "rate": {
+          "description": "Which key of `rates` applies. A row citing a rate that is not declared cannot be sized, and a reader must show it as unsized rather than picking the nearest rate.",
+          "type": "string",
+          "minLength": 1
+        },
+        "measured": {
+          "description": "The evidence for applying that rate to THIS row — ideally the same kind of work observed in this campaign. When no lane has done work of this kind, say so here and name the nearest analogue; that sentence is what stops a borrowed rate hardening into a commitment.",
+          "type": "string",
+          "minLength": 1
+        },
+        "lanes": {
+          "description": "How many lanes this row is intended to be split across. With `wallLow`/`wallHigh` it gives a schedule; on its own it gives nothing.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "wallLow": { "description": "Low end of observed wall-clock minutes for one lane of this kind of work.", "type": "number", "minimum": 0 },
+        "wallHigh": { "description": "High end of the same. The spread is usually 3-4x and should not be narrowed to make a plan look tidier.", "type": "number", "minimum": 0 },
+        "note": {
+          "description": "What a scheduler needs that the numbers cannot carry — that a subset needs different treatment, that the refuse rate will be higher on the residue, that the row is blocking on a judgement rather than on capacity.",
+          "type": "string",
+          "minLength": 1
+        },
+        "blockedBy": {
+          "description": "Ids or summaries from `blocked` that gate this row. A row with a live blocker cannot be scheduled, whatever its rate says.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "blocker": {
+      "type": "object",
+      "required": ["item", "blocks", "lift", "owner"],
+      "properties": {
+        "item": { "description": "The blocker itself, in one line, with its tracker id where it has one.", "type": "string", "minLength": 1 },
+        "blocks": { "description": "What is unreachable while it stands, quantified where possible. A blocker whose blast radius is unstated gets scheduled last regardless of size.", "type": "string", "minLength": 1 },
+        "lift": {
+          "description": "The specific thing that would remove it — the concrete change, not the goal. 'Uncomment two env keys and bring the container up' is a lift; 'fix the harness' is a wish, and a blocker with a wish in this field never gets picked up.",
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "description": "Who must act. The distinction that matters is harness versus product: a harness blocker presenting as a failing test will otherwise be filed as a product defect and sit in the wrong backlog. Hyphenated values are honest when ownership genuinely depends on the chosen lift.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["harness", "product", "product-or-harness", "owner-decision", "external"]
+        },
+        "id": { "description": "Stable id, when the blocker is tracked elsewhere and rows in `remaining` cite it.", "type": "string", "minLength": 1 },
+        "note": { "description": "Anything else known about it, including a diagnosis that contradicts the obvious reading.", "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}
