@@ -34,6 +34,7 @@ def ledger(rows, **over):
             "requirements_observed": {"n": 1, "of": 2, "pct": 50.0, "means": "x"},
             "surfaces_spoken_for": {"n": 1, "of": 2, "pct": 50.0, "means": "x"},
             "briefs_joined": {"n": 2, "of": 2, "pct": 100.0, "means": "x"},
+            "briefs_joined_adjudicated": {"n": 2, "of": 2, "pct": 100.0, "means": "x"},
             "is_floor": True, "floor_note": "x",
         },
         "join": {"edges": [], "briefs_joined": 2, "briefs_total": 2, "pct": 100.0, "weak": False},
@@ -147,8 +148,12 @@ lying_summary["summary"]["counts"] = {"verified-done": 99}
 expect("summary disagreeing with rows", lying_summary, 2, "disagrees with its rows", "disclosure")
 
 # --- 4. weak join is a warning that degrades a claim, not a blocker --------
+# Weakness is carried by the adjudicated axis since 1.9.4 — a low whole-corpus
+# rate over a healthy adjudicated population is an archive, not a broken join,
+# and section 23 pins that direction. So the fixture lowers both.
 weak = ledger([r for r in clean if r["id"] != "BRIEF-b"])
 weak["denominators"]["briefs_joined"] = {"n": 1, "of": 10, "pct": 10.0, "means": "x"}
+weak["denominators"]["briefs_joined_adjudicated"] = {"n": 1, "of": 10, "pct": 10.0, "means": "x"}
 v, w = R.gate(weak)
 ok = R.verdict(v) == 0 and any("join" in x for x in w)
 print("%-46s exit=%d %s" % ("weak join warns without blocking", R.verdict(v), "ok" if ok else "FAILED"))
@@ -1340,6 +1345,135 @@ _ok = "--ink:" in R.HTML_CSS.split("@media")[0] and "background:var(--paper)" in
 print("%-46s %s" % ("every colour is defined on bare :root", "ok" if _ok else "FAILED"))
 if not _ok:
     FAILURES.append("css: light palette not on bare :root")
+
+
+# --- 22. a reserved name is a filename, not a prefix -----------------------
+#
+# `read_briefs` skipped any file whose name merely BEGAN with a reserved word,
+# where only four exact basenames are reserved. A file dropped at discovery
+# never enters the universe the partition totals, so no downstream gate can
+# miss it — which is the one failure the closed-world design exists to prevent.
+# Measured on perch, 2026-09-02: nine consumed briefs named
+# `LEDGER-<TOPIC>-<slug>.md` were absent from a 224-row ledger that reported
+# itself total, and the gate stayed clean.
+_tmp_names = tempfile.mkdtemp(prefix="reckon-names-")
+try:
+    _n_dir = os.path.join(_tmp_names, "briefs")
+    os.makedirs(_n_dir)
+    _reserved = ["BRIEF-TEMPLATE.md", "README.md", "00-INDEX.md", "LEDGER.md"]
+    _real = ["LEDGER-IDS-four-colliding-ids.md",
+             "README-lane-is-a-real-brief.md",
+             "00-INDEX-cards-are-not-a-surface.md",
+             "BRIEF-TEMPLATEs-are-not-briefs.md",
+             "01-an-ordinary-brief.md"]
+    for _n in _reserved + _real:
+        with open(os.path.join(_n_dir, _n), "w") as fh:
+            fh.write("# %s\n\nbody\n" % _n)
+    _found = {b["file"] for b in R.read_briefs(_n_dir)}
+    _ok = _found == set(_real)
+    print("%-46s %s" % ("a reserved name is a filename, not a prefix", "ok" if _ok else "FAILED"))
+    if not _ok:
+        FAILURES.append("read_briefs reserved names: lost %r; wrongly kept %r"
+                        % (sorted(set(_real) - _found), sorted(_found - set(_real))))
+finally:
+    shutil.rmtree(_tmp_names, ignore_errors=True)
+
+
+# --- 23. the join ratio describes the population the join decides ----------
+#
+# `classify` settles a brief whose declared status is in WAIVED_DECLARED before
+# it ever reads the join. Counting those briefs in the ratio that gates
+# retirement rated the inferential step on a population it was never consulted
+# about, so an archive of already-adjudicated briefs suppressed retirement for
+# the live queue — and the more history a project filed, the less it could
+# retire. Measured on perch, 2026-09-02: 98/224 = 43.8% published and
+# retirement withheld, over a join-adjudicated population of 56/56.
+#
+# The repair publishes BOTH denominators and gates on the adjudicated one.
+# Dropping the whole-corpus figure would hide how much of the queue is archive;
+# gating on it is the defect.
+_CAMP23 = {"project": "join-population"}
+_CASES23 = [{"id": "CASE-1", "surface": "SURF-1", "state": "s", "status": "pass",
+             "oracle": "effect-witness"}]
+_INV23 = {"requirement": [{"id": "REQ-1", "text": "the widget saves rows", "evidence": "observed"}],
+          "surface": [{"id": "SURF-1", "title": "the widget", "slug": "widget"}],
+          "defect": []}
+
+_tmp_join = tempfile.mkdtemp(prefix="reckon-join-pop-")
+try:
+    _j_briefs = os.path.join(_tmp_join, "briefs")
+    _j_camp = os.path.join(_tmp_join, "campaign")
+    _j_out = os.path.join(_tmp_join, "out")
+    os.makedirs(os.path.join(_j_briefs, "consumed"))
+    os.makedirs(_j_camp)
+    # One live brief the join reaches, and nine archived ones it cannot.
+    with open(os.path.join(_j_briefs, "01-the-widget-saves-rows.md"), "w") as fh:
+        fh.write("# The widget saves rows\n\nREQ-1 and SURF-1 cover this.\n")
+    for _i in range(9):
+        with open(os.path.join(_j_briefs, "consumed", "%02d-archived-zebras.md" % _i), "w") as fh:
+            fh.write("# Archived zebra work %d\n\nzebras zebras zebras\n" % _i)
+    with open(os.path.join(_j_camp, "campaign.json"), "w") as fh:
+        json.dump(_CAMP23, fh)
+    with open(os.path.join(_j_camp, "cases.json"), "w") as fh:
+        json.dump(_CASES23, fh)
+    with open(os.path.join(_j_camp, "inventory.json"), "w") as fh:
+        json.dump(_INV23, fh)
+
+    _j_code = R.main(["build", "--briefs", _j_briefs, "--campaign", _j_camp, "--out", _j_out,
+                      "--no-html"])
+    with open(os.path.join(_j_out, "ledger.json"), encoding="utf-8") as fh:
+        _j_led = json.load(fh)
+    _j_by_id = {r["id"]: r for r in _j_led["rows"]}
+    _j_live = _j_by_id["BRIEF-01-the-widget-saves-rows"]
+
+    # 23a — the whole-corpus figure is still published, unchanged.
+    _whole = _j_led["denominators"]["briefs_joined"]
+    _ok = (_whole["n"], _whole["of"], _whole["pct"]) == (1, 10, 10.0)
+    print("%-46s %s" % ("the whole-brief-corpus join rate is kept", "ok" if _ok else "FAILED"))
+    if not _ok:
+        FAILURES.append("whole-corpus join denominator: %r" % _whole)
+
+    # 23b — and the population the join actually decides is published beside it.
+    _adjd = _j_led["denominators"].get("briefs_joined_adjudicated")
+    _ok = _adjd is not None and (_adjd["n"], _adjd["of"], _adjd["pct"]) == (1, 1, 100.0)
+    print("%-46s %s" % ("the join-adjudicated rate is published too", "ok" if _ok else "FAILED"))
+    if not _ok:
+        FAILURES.append("adjudicated join denominator: %r" % _adjd)
+
+    # 23c — retirement is gated on that population, not on the archive.
+    _ok = (_j_code == 0 and _j_led["join"]["weak"] is False
+           and _j_live["class"] == "retirable")
+    print("%-46s %s" % ("an archive cannot withhold a live retirement", "ok" if _ok else "FAILED"))
+    if not _ok:
+        FAILURES.append("archive suppresses retirement: code=%r weak=%r live=%r why=%r"
+                        % (_j_code, _j_led["join"].get("weak"), _j_live["class"],
+                           _j_live.get("why")))
+
+    # 23d — and the gate stays quiet, because the step it warns about is sound.
+    _j_v, _j_w = R.gate(_j_led)
+    _ok = not any("could be joined" in _w for _w in _j_w)
+    print("%-46s %s" % ("no weak-join warning over a sound join", "ok" if _ok else "FAILED"))
+    if not _ok:
+        FAILURES.append("weak-join warning over a sound join: %r" % _j_w)
+finally:
+    shutil.rmtree(_tmp_join, ignore_errors=True)
+
+# 23e — when the adjudicated population IS weak the warning fires and names it,
+# so the fix cannot be read as having only raised a number.
+_weak_led = ledger(clean, denominators={
+    "cases_adjudicated": {"n": 1, "of": 2, "pct": 50.0, "means": "x"},
+    "decisions_taken": {"n": 0, "of": 2, "pct": 0.0, "means": "x"},
+    "requirements_observed": {"n": 1, "of": 2, "pct": 50.0, "means": "x"},
+    "surfaces_spoken_for": {"n": 1, "of": 2, "pct": 50.0, "means": "x"},
+    "briefs_joined": {"n": 30, "of": 40, "pct": 75.0, "means": "x"},
+    "briefs_joined_adjudicated": {"n": 1, "of": 4, "pct": 25.0, "means": "x"},
+    "is_floor": True, "floor_note": "x"})
+_v_w, _w_w = R.gate(_weak_led)
+_ok = any("only 1/4 (25.0%)" in _w and "whose class the join decides" in _w
+          and "30/40" in _w for _w in _w_w)
+print("%-46s %s" % ("the weak-join warning names its population", "ok" if _ok else "FAILED"))
+if not _ok:
+    FAILURES.append("weak-join warning population: %r" % _w_w)
 
 
 print()

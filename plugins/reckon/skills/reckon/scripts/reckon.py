@@ -329,6 +329,16 @@ def read_campaign(campaign_dir):
 
 FRONTMATTER_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*\n", re.S)
 
+# Files in a brief directory that are scaffolding rather than intent. These are
+# whole filenames, compared exactly, and not prefixes: a real brief may open
+# with any of these words, and dropping it here removes it from the universe
+# the partition totals, so no downstream gate can report it missing. That is
+# the one failure the closed-world design exists to prevent, and the prefix
+# form caused it — measured on perch, 2026-09-02, nine consumed briefs named
+# `LEDGER-<TOPIC>-<slug>.md` were absent from a ledger that reported itself
+# total and gated clean.
+RESERVED_BRIEF_NAMES = ("BRIEF-TEMPLATE.MD", "README.MD", "00-INDEX.MD", "LEDGER.MD")
+
 
 def read_briefs(briefs_dir, ignore=()):
     """Read the feature-brief queue. A brief is one markdown file; its id is
@@ -344,7 +354,7 @@ def read_briefs(briefs_dir, ignore=()):
         for name in sorted(files):
             if not name.endswith(".md"):
                 continue
-            if name in ignore or name.upper().startswith(("BRIEF-TEMPLATE", "README", "00-INDEX", "LEDGER")):
+            if name in ignore or name.upper() in RESERVED_BRIEF_NAMES:
                 continue
             path = os.path.join(root, name)
             rel_path = os.path.relpath(path, briefs_dir)
@@ -1489,6 +1499,17 @@ def denominators(rows, campaign):
     spoken_surf, tot_surf = count("surface", lambda r: r["class"] == "verified-done")
     joined_briefs, tot_briefs = count("brief", lambda r: bool(r.get("edges")))
 
+    # The join decides a brief's class only where its declared status does not:
+    # `classify` settles a WAIVED_DECLARED brief before it ever reads `support`.
+    # So the join is rated twice — once over every brief, and once over the
+    # population it was actually consulted about. Publishing only the first
+    # rates the inferential step on rows it never touched; publishing only the
+    # second hides how much of the queue is archive. Both, per the rule that
+    # there is a denominator per axis and never one blended percent.
+    adj_briefs = [r for r in rows if r["entity"] == "brief"
+                  and (r.get("declared_status") or "").lower() not in WAIVED_DECLARED]
+    adj_joined = sum(1 for r in adj_briefs if r.get("edges"))
+
     def pct(n, d):
         return round(100.0 * n / d, 1) if d else None
 
@@ -1505,6 +1526,13 @@ def denominators(rows, campaign):
                                 "means": "at least one case on this surface reached a verdict."},
         "briefs_joined": {"n": joined_briefs, "of": tot_briefs, "pct": pct(joined_briefs, tot_briefs),
                           "means": "the brief could be tied to something in the registry at all."},
+        "briefs_joined_adjudicated": {"n": adj_joined, "of": len(adj_briefs),
+                                      "pct": pct(adj_joined, len(adj_briefs)),
+                                      "means": "the same, over the briefs whose class the join "
+                                               "actually decides. A brief declaring a waived or "
+                                               "archived status is classed from that status before "
+                                               "the join is read, so this is the figure that says "
+                                               "whether the inferential step is working."},
         "is_floor": True,
         "floor_note": ("Each figure is a lower bound. Every `unnamed` row is a surface the documents "
                        "never described, which means the true denominator is larger than the one the "
@@ -1631,13 +1659,27 @@ def gate(ledger, weak_join_ratio=0.5):
                                "%s is waived with no recorded reason. A waiver names who decided and "
                                "why, or it is an omission wearing a decision's clothes." % r["id"]))
 
-    ratio = ledger["denominators"]["briefs_joined"]["pct"]
+    # Warn on the population the join was consulted about, not on every brief.
+    # A ledger written before this axis existed carries only the blended
+    # figure, and `reckon check` must still read it, so the old axis and the
+    # old wording are the fallback rather than a removed branch.
+    whole = ledger["denominators"]["briefs_joined"]
+    adjudicated = ledger["denominators"].get("briefs_joined_adjudicated")
+    axis = adjudicated or whole
+    ratio = axis["pct"]
     if ratio is not None and ratio < (100 * (1 - weak_join_ratio)):
-        joined_n = ledger["denominators"]["briefs_joined"]["n"]
-        joined_of = ledger["denominators"]["briefs_joined"]["of"]
-        warnings.append("only %d/%d (%.1f%%) of briefs could be joined to the registry at all. The join is the "
+        joined_n = axis["n"]
+        joined_of = axis["of"]
+        population = ("of the briefs whose class the join decides" if adjudicated else "of briefs")
+        note = ""
+        if adjudicated and whole.get("pct") is not None and (whole["n"], whole["of"]) != (joined_n, joined_of):
+            note = (" The whole brief corpus reads %d/%d (%.1f%%); the difference is briefs whose "
+                    "declared status settles their class without the join."
+                    % (whole["n"], whole["of"], whole["pct"]))
+        warnings.append("only %d/%d (%.1f%%) %s could be joined to the registry at all. The join is the "
                         "inferential step in this pipeline; below half, retirement claims are withheld "
-                        "and every brief stays in its documentary class." % (joined_n, joined_of, ratio))
+                        "and every brief stays in its documentary class.%s"
+                        % (joined_n, joined_of, ratio, population, note))
 
     d = ledger["denominators"]
     for key in ("cases_adjudicated", "decisions_taken", "requirements_observed",
@@ -1831,8 +1873,11 @@ def render(ledger):
                        ("decisions_taken", "Cases ruled out by decision"),
                        ("requirements_observed", "Requirements observed"),
                        ("surfaces_spoken_for", "Surfaces spoken for"),
-                       ("briefs_joined", "Briefs joined to evidence")):
-        v = d[key]
+                       ("briefs_joined", "Briefs joined to evidence"),
+                       ("briefs_joined_adjudicated", "— of those the join decides")):
+        v = d.get(key)
+        if v is None:
+            continue
         A("| %s | %s | %s | %s | %s |" % (label, v["n"], v["of"],
                                           "—" if v["pct"] is None else "%.1f%%" % v["pct"], v["means"]))
     A("")
@@ -2258,8 +2303,11 @@ def render_html(ledger):
                        ("requirements_observed", "requirements independently observed"),
                        ("surfaces_spoken_for", "surfaces with any evidence"),
                        ("briefs_joined", "briefs tied to the registry"),
+                       ("briefs_joined_adjudicated", "of those the join decides"),
                        ("decisions_taken", "cases ruled out by decision")):
-        v = d[key]
+        v = d.get(key)
+        if v is None:
+            continue
         pct = 0 if v["pct"] is None else v["pct"]
         A('<div class="axis"><div class="n">%s<span class="of">/%s</span></div>'
           '<div class="lbl">%s</div><div class="bar"><i style="width:%.1f%%"></i></div></div>'
@@ -2424,8 +2472,20 @@ def cmd_build(args):
 
     edges = build_join(briefs, campaign, threshold=args.join_threshold)
     joined = {e["brief"] for e in edges}
+    # Two ratios, because they answer different questions. `join_pct` is the
+    # whole corpus and says how much of the queue the registry can see at all.
+    # `join_adjudicated_pct` is the population `classify` actually consults the
+    # join about — a brief declaring a waived-or-archived status is settled at
+    # the WAIVED_DECLARED branch above, before `support` is read — and it is
+    # the one that gates retirement, because a shelf of already-adjudicated
+    # briefs is not evidence that the inferential step is failing. Gating on
+    # the blended figure meant the more history a project filed, the less it
+    # could retire.
+    adjudicated = [b for b in briefs if (b["status"] or "").lower() not in WAIVED_DECLARED]
+    adj_joined = {b["id"] for b in adjudicated if b["id"] in joined}
     join_pct = (100.0 * len(joined) / len(briefs)) if briefs else 100.0
-    join_is_weak = join_pct < 50.0
+    join_adjudicated_pct = (100.0 * len(adj_joined) / len(adjudicated)) if adjudicated else 100.0
+    join_is_weak = join_adjudicated_pct < 50.0
 
     rows = classify(briefs, campaign, edges, join_is_weak)
     dens = denominators(rows, campaign)
@@ -2501,7 +2561,11 @@ def cmd_build(args):
         "denominators": dens,
         "join": {"edges": edges, "briefs_joined": len(joined), "briefs_total": len(briefs),
                  "pct": round(join_pct, 1), "weak": join_is_weak,
-                 "note": "cited edges are citations somebody wrote; overlap edges are guesses and cannot retire a brief"},
+                 "adjudicated": len(adj_joined), "adjudicated_of": len(adjudicated),
+                 "adjudicated_pct": round(join_adjudicated_pct, 1),
+                 "note": "cited edges are citations somebody wrote; overlap edges are guesses and cannot retire a brief; "
+                         "`weak` reads the adjudicated ratio, because a brief settled by its declared status "
+                         "was never a candidate the join was asked about"},
         "blockers": blockers,
         "schedule": schedule,
         "unclassified": unclassified,
