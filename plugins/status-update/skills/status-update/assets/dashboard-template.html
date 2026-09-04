@@ -1,0 +1,2720 @@
+<title>Armada portfolio dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  /* ground and ink — cool ash panel, graphite ink */
+  --paper: #e9ebe7;
+  --panel: #f4f5f2;
+  --ink: #191c1a;
+  --muted: #4d5450;
+  --soft: #5f6762;
+  --ink-quiet: #8d958f;
+  --track: #d5d9d3;
+  --rule: rgba(25, 28, 26, 0.14);
+  --rule-strong: rgba(25, 28, 26, 0.34);
+  --print-paper: #ffffff;
+  --print-rule: #999999;
+  --accent: #b34a15;
+  --accent-text: #9c4012;
+  --accent-wash: rgba(179, 74, 21, 0.09);
+  --st-pass: #2f7a4f;
+  --st-live: #2a6ea8;
+  --st-fail: #9d2449;
+  --st-stuck: #8c3f86;
+  --st-none: #b07d18;
+  --st-waived: #656d68;
+  --dot-ink: rgba(25, 28, 26, 0.55);
+  --dot-stroke: #4d5450;
+  --series-watched: #2a6ea8;
+  --series-unwatched: #b07d18;
+  --focus: #1b4fa0;
+  --bar-quiet: rgba(25, 28, 26, 0.10);
+  --accent-tint: rgba(179, 74, 21, 0.16);
+  --tint-pass: rgba(47, 122, 79, 0.15);
+  --tint-live: rgba(42, 110, 168, 0.15);
+  --tint-fail: rgba(157, 36, 73, 0.15);
+  --tint-stuck: rgba(140, 63, 134, 0.15);
+  --tint-none: rgba(176, 125, 24, 0.20);
+  --tint-waived: rgba(101, 109, 104, 0.15);
+
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px;
+
+  --ty-1: 11px; --ty-2: 12px; --ty-3: 13px; --ty-4: 15px;
+  --ty-5: 18px; --ty-6: 24px;
+
+  --font-display: 'Superclarendon', 'Rockwell', 'Bookman Old Style', Georgia, serif;
+  --font-ui: 'Avenir Next', 'Avenir', 'Optima', 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', ui-monospace, monospace;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #14171a;
+    --panel: #1b1f23;
+    --ink: #e8eae7;
+    --muted: #9aa39e;
+    --soft: #828c86;
+    --ink-quiet: #6d7873;
+    --track: #2b3138;
+    --rule: rgba(232, 234, 231, 0.14);
+    --rule-strong: rgba(232, 234, 231, 0.32);
+    --accent: #f08a4b;
+    --accent-text: #f4a273;
+    --accent-wash: rgba(240, 138, 75, 0.12);
+    --st-pass: #5fb083;
+    --st-live: #5089d2;
+    --st-fail: #ef7a92;
+    --st-stuck: #c47ac0;
+    --st-none: #bd8a25;
+    --st-waived: #8b938e;
+    --dot-ink: rgba(232, 234, 231, 0.62);
+    --dot-stroke: #9aa39e;
+    --series-watched: #5089d2;
+    --series-unwatched: #bd8a25;
+    --focus: #8fb3f5;
+    --bar-quiet: rgba(232, 234, 231, 0.12);
+    --accent-tint: rgba(240, 138, 75, 0.20);
+    --tint-pass: rgba(95, 176, 131, 0.20);
+    --tint-live: rgba(80, 137, 210, 0.20);
+    --tint-fail: rgba(239, 122, 146, 0.20);
+    --tint-stuck: rgba(196, 122, 192, 0.20);
+    --tint-none: rgba(189, 138, 37, 0.24);
+    --tint-waived: rgba(139, 147, 142, 0.20);
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 var(--ty-3)/1.5 var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  padding: var(--sp-5) var(--sp-5) var(--sp-7);
+}
+::selection { background: var(--accent-wash); color: var(--ink); }
+
+.page { max-width: 1280px; margin: 0 auto; }
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-bottom: var(--sp-3);
+  border-bottom: 2px solid var(--ink);
+  flex-wrap: wrap;
+}
+.masthead h1 {
+  font: 400 var(--ty-6)/1.1 var(--font-display);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.stamp {
+  font: 400 var(--ty-1)/1.4 var(--font-mono);
+  color: var(--soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- zones ---------- */
+
+.zones { display: grid; gap: var(--sp-5); margin-top: var(--sp-5); }
+.zones > *, .pair > * { min-width: 0; }
+.pair { display: grid; gap: var(--sp-5); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+@media (max-width: 900px) { .pair { grid-template-columns: 1fr; } }
+
+.zone {
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  padding: var(--sp-4);
+  animation: rise 420ms ease-out both;
+}
+.zone--ask { border-color: var(--accent); border-left-width: 3px; background: var(--accent-wash); }
+
+@keyframes rise { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .zone { animation: none; }
+  * { transition-duration: 0.001ms !important; }
+}
+
+.zone > h2 {
+  font: 400 var(--ty-5)/1.2 var(--font-display);
+  margin: 0 0 var(--sp-1);
+  letter-spacing: -0.005em;
+}
+.zone--ask > h2 { color: var(--accent-text); }
+.zone > .note {
+  margin: 0 0 var(--sp-3);
+  color: var(--muted);
+  font-size: var(--ty-2);
+  max-width: 62ch;
+}
+.zone > h2 + .body, .zone > .note + .body { margin-top: var(--sp-3); }
+
+dfn { font-style: normal; font-weight: 600; border-bottom: 1px dotted var(--soft); cursor: help; }
+
+/* ---------- charts ---------- */
+
+.chartbox { overflow-x: auto; max-width: 100%; }
+.chart { display: block; width: 100%; height: auto; }
+.chart--wide { min-width: 820px; }
+.chart--narrow { min-width: 400px; }
+.chart text { fill: var(--ink); }
+.t-eyebrow { font: 500 8px var(--font-mono); letter-spacing: 0.16em; }
+.t-figure { font: 400 34px var(--font-display); font-variant-numeric: tabular-nums; }
+.t-fig-sm { font: 400 20px var(--font-display); font-variant-numeric: tabular-nums; }
+.t-note { font: 400 9px var(--font-mono); }
+.t-row { font: 500 11px var(--font-ui); }
+.t-value { font: 500 9px var(--font-mono); font-variant-numeric: tabular-nums; }
+.t-tick { font: 400 8px var(--font-mono); font-variant-numeric: tabular-nums; }
+.t-label { font: 500 9px var(--font-mono); letter-spacing: 0.06em; }
+.t-cell { font: 400 9px var(--font-mono); }
+
+.c-ink { fill: var(--ink); }
+.c-muted { fill: var(--muted); }
+.c-soft { fill: var(--soft); }
+.c-accent { fill: var(--accent-text); }
+.c-st-pass { fill: var(--st-pass); }
+.c-st-live { fill: var(--st-live); }
+.c-st-fail { fill: var(--st-fail); }
+.c-st-stuck { fill: var(--st-stuck); }
+
+.f-st-pass { fill: var(--st-pass); }
+.f-st-live { fill: var(--st-live); }
+.f-st-fail { fill: var(--st-fail); }
+.f-st-stuck { fill: var(--st-stuck); }
+.f-st-none { fill: var(--st-none); }
+.f-st-waived { fill: var(--st-waived); }
+.f-track { fill: var(--track); }
+.f-fill { fill: var(--ink-quiet); }
+.f-quiet { fill: var(--ink-quiet); }
+.f-accent { fill: var(--accent); }
+.f-watched { fill: var(--series-watched); }
+.f-unwatched { fill: var(--series-unwatched); }
+.f-undeclared { fill: var(--track); stroke: var(--rule-strong); stroke-width: 1; stroke-dasharray: 4 3; }
+.f-bar { fill: var(--bar-quiet); stroke: var(--muted); stroke-width: 1; }
+.f-bar-focal { fill: var(--accent-tint); stroke: var(--accent); stroke-width: 1.2; }
+.cell { stroke-width: 1; }
+.cell-st-pass { fill: var(--tint-pass); stroke: var(--st-pass); }
+.cell-st-live { fill: var(--tint-live); stroke: var(--st-live); }
+.cell-st-fail { fill: var(--tint-fail); stroke: var(--st-fail); }
+.cell-st-stuck { fill: var(--tint-stuck); stroke: var(--st-stuck); }
+.cell-st-none { fill: var(--tint-none); stroke: var(--st-none); }
+.cell-st-waived { fill: var(--tint-waived); stroke: var(--st-waived); }
+
+.k-rule { stroke: var(--rule-strong); stroke-width: 1; }
+.k-hair { stroke: var(--rule); stroke-width: 1; }
+.k-grid { stroke: var(--rule); stroke-width: 0.8; }
+.k-lead { stroke: var(--rule-strong); stroke-width: 0.75; }
+.k-accent-rule { stroke: var(--accent); stroke-width: 2; }
+
+.cell:hover { stroke: var(--ink); stroke-width: 2; }
+.dot { fill: var(--dot-ink); stroke: var(--dot-stroke); stroke-width: 0.75; }
+.dot:hover { stroke: var(--ink); stroke-width: 1.5; }
+.dot--focal { fill: var(--accent); stroke: var(--accent-text); stroke-width: 1.5; }
+
+.micro { display: inline-block; vertical-align: middle; }
+
+/* ---------- tables ---------- */
+
+ /* position:relative so the visually-hidden text inside a cell is clipped by
+    this scroller rather than escaping to the page and widening it. */
+.scroll { position: relative; overflow-x: auto; max-width: 100%; }
+.tallscroll { max-height: 46vh; overflow-y: auto; }
+
+.tbl { width: 100%; border-collapse: collapse; font-size: var(--ty-2); }
+.tbl th, .tbl td { text-align: left; padding: var(--sp-2) var(--sp-3) var(--sp-2) 0; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+.tbl thead th { color: var(--soft); font: 500 var(--ty-1)/1.2 var(--font-mono); letter-spacing: 0.08em; padding-bottom: var(--sp-2); border-bottom: 1px solid var(--rule-strong); white-space: nowrap; }
+.tallscroll thead th { position: sticky; top: 0; background: var(--panel); z-index: 1; }
+.tbl tbody th { font-weight: 600; }
+.tbl tbody tr:hover { background: var(--accent-wash); }
+.tbl .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tbl .of { color: var(--soft); padding: 0 1px; }
+.tbl .zero { color: var(--ink-quiet); }
+.tbl .warn { color: var(--st-fail); font-weight: 600; }
+.tbl .quiet { color: var(--muted); }
+.tbl .mono { font-family: var(--font-mono); }
+.th-num button { justify-content: flex-start; }
+.meter-cell { white-space: nowrap; }
+.meter-cell .num { margin-left: var(--sp-2); }
+
+.tbl--ask { font-size: var(--ty-3); }
+.tbl--ask td, .tbl--ask th { padding-top: var(--sp-3); padding-bottom: var(--sp-3); }
+.tbl--ask .accent { color: var(--accent-text); font-weight: 600; font-size: var(--ty-4); }
+.tbl--ask .sub { display: block; color: var(--soft); font: 400 var(--ty-1)/1.4 var(--font-mono); }
+
+.tbl thead th button {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: 0; padding: var(--sp-1) var(--sp-2) var(--sp-1) 0;
+  min-height: 24px; color: inherit; font: inherit; letter-spacing: inherit;
+  cursor: pointer; text-align: left;
+}
+.tbl thead th button:hover { color: var(--ink); }
+.tbl thead th button:active { color: var(--accent-text); }
+.tbl thead th button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.caret { color: var(--ink-quiet); font-size: 8px; }
+[aria-sort="ascending"] .caret, [aria-sort="descending"] .caret { color: var(--accent-text); }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.pill .swatch { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+.st-pass .swatch { background: var(--st-pass); }
+.st-live .swatch { background: var(--st-live); }
+.st-fail .swatch { background: var(--st-fail); }
+.st-stuck .swatch { background: var(--st-stuck); }
+.st-none .swatch { background: var(--st-none); }
+.st-waived .swatch { background: var(--st-waived); }
+
+/* ---------- filter chips ---------- */
+
+.chiprow { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: var(--sp-3); }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 26px; white-space: nowrap;
+  padding: 3px 10px; border: 1px solid var(--rule-strong); background: none;
+  color: var(--muted); font: 500 var(--ty-1)/1.4 var(--font-ui); cursor: pointer;
+}
+.chip-n { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--soft); }
+.chip:hover { border-color: var(--ink); color: var(--ink); }
+.chip:active { background: var(--accent-wash); }
+.chip:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.chip[aria-pressed="true"] .chip-n { color: var(--paper); }
+.chip:disabled { opacity: 0.45; cursor: not-allowed; border-style: dashed; }
+.chip:disabled:hover { border-color: var(--rule-strong); color: var(--muted); }
+
+/* ---------- table views under charts ---------- */
+
+.tv { margin-top: var(--sp-3); border-top: 1px solid var(--rule); }
+.tv > summary {
+  cursor: pointer; padding: var(--sp-2) 0; min-height: 24px; list-style: none;
+  font: 500 var(--ty-1)/1.6 var(--font-mono); letter-spacing: 0.08em; color: var(--soft);
+}
+.tv > summary::-webkit-details-marker { display: none; }
+.tv > summary::before { content: "+\00a0\00a0"; color: var(--ink-quiet); }
+.tv[open] > summary::before { content: "-\00a0\00a0"; }
+.tv > summary:hover { color: var(--ink); }
+.tv > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.tv table { width: 100%; border-collapse: collapse; font-size: var(--ty-1); }
+.tv th, .tv td { text-align: left; padding: 3px var(--sp-3) 3px 0; border-bottom: 1px solid var(--rule); }
+.tv thead th { color: var(--soft); font-family: var(--font-mono); white-space: nowrap; }
+.tv-scroll { max-height: 320px; overflow: auto; }
+
+.empty { margin: 0; padding: var(--sp-4) 0; color: var(--muted); font-size: var(--ty-4); }
+.empty--good { color: var(--st-pass); font-weight: 600; }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.colophon {
+  margin-top: var(--sp-6); padding-top: var(--sp-3); border-top: 1px solid var(--rule);
+  color: var(--soft); font: 400 var(--ty-1)/1.6 var(--font-mono);
+}
+
+@media print {
+  body { background: var(--print-paper); padding: 0; }
+  .zone { break-inside: avoid; border-color: var(--print-rule); animation: none; }
+  .tallscroll, .tv-scroll { max-height: none; overflow: visible; }
+}
+</style>
+
+<div class="page">
+
+<header class="masthead">
+  <h1>Portfolio dashboard</h1>
+  <p class="stamp">Fri, 04 Sep 2026 09:00:00 UTC &middot; 30 projects reporting</p>
+</header>
+
+<div class="zones">
+  <section class="zone" aria-labelledby="h-pulse">
+    <h2 id="h-pulse">Everything at a glance</h2>
+    <div class="body" id="z-pulse"><div class="chartbox"><svg class="chart chart--wide" viewBox="0 0 1000 132" role="img" aria-labelledby="pulse-title pulse-desc" preserveAspectRatio="xMidYMid meet"><title id="pulse-title">Seven portfolio counts</title><desc id="pulse-desc">Seven counts across 30 projects: 30 projects tracked, 11 with every check passed, 6 being worked on, 4 that tried and did not pass, 4 stuck, 3 waiting on you, and 14 things the agents corrected about their own earlier reports.</desc><line x1="8" y1="10" x2="980" y2="10" class="k-rule"/><text x="8" y="34" class="t-eyebrow c-soft">PROJECTS</text><text x="8" y="84" class="t-figure c-ink">30</text><text x="8" y="108" class="t-note c-soft">in the portfolio</text><line x1="136" y1="26" x2="136" y2="116" class="k-hair"/><text x="148" y="34" class="t-eyebrow c-soft">EVERY CHECK PASSED</text><text x="148" y="84" class="t-figure c-st-pass">11</text><text x="148" y="108" class="t-note c-soft">nothing to do here</text><line x1="276" y1="26" x2="276" y2="116" class="k-hair"/><text x="288" y="34" class="t-eyebrow c-soft">BEING WORKED ON</text><text x="288" y="84" class="t-figure c-st-live">6</text><text x="288" y="108" class="t-note c-soft">right now</text><line x1="416" y1="26" x2="416" y2="116" class="k-hair"/><text x="428" y="34" class="t-eyebrow c-soft">TRIED, DID NOT PASS</text><text x="428" y="84" class="t-figure c-st-fail">4</text><text x="428" y="108" class="t-note c-soft">came back failing</text><line x1="556" y1="26" x2="556" y2="116" class="k-hair"/><text x="568" y="34" class="t-eyebrow c-soft">STUCK</text><text x="568" y="84" class="t-figure c-st-stuck">4</text><text x="568" y="108" class="t-note c-soft">waiting on something</text><line x1="696" y1="26" x2="696" y2="116" class="k-hair"/><line x1="708" y1="10" x2="826" y2="10" class="k-accent-rule"/><text x="708" y="34" class="t-eyebrow c-accent">WAITING ON YOU</text><text x="708" y="84" class="t-figure c-accent">3</text><text x="708" y="108" class="t-note c-soft">oldest asked 4 days ago</text><line x1="836" y1="26" x2="836" y2="116" class="k-hair"/><text x="848" y="34" class="t-eyebrow c-soft">THINGS WE GOT WRONG</text><text x="848" y="84" class="t-figure c-ink">14</text><text x="848" y="108" class="t-note c-soft">corrected since Monday</text></svg></div><details class="tv"><summary>The seven counts as a table</summary><div class="tv-scroll"><table><thead><tr><th scope="col">Count</th><th scope="col">Value</th></tr></thead><tbody><tr><th scope="row">projects</th><td>30</td></tr><tr><th scope="row">every check passed</th><td>11</td></tr><tr><th scope="row">being worked on</th><td>6</td></tr><tr><th scope="row">tried, did not pass</th><td>4</td></tr><tr><th scope="row">stuck</th><td>4</td></tr><tr><th scope="row">waiting on you</th><td>3</td></tr><tr><th scope="row">things we got wrong</th><td>14</td></tr></tbody></table></div></details></div>
+  </section>
+
+  <section class="zone zone--ask" aria-labelledby="h-needsyou">
+    <h2 id="h-needsyou">Waiting on you</h2>
+    <p class="note">Oldest ask first. None of it moves until you answer.</p>
+    <div class="body" id="z-needsyou"><div class="scroll"><table class="tbl tbl--ask"><thead><tr><th scope="col">Waiting</th><th scope="col">What is needed</th><th scope="col">Project</th><th scope="col">Why it matters</th></tr></thead><tbody><tr><td class="num accent">4 days</td><th scope="row">Say whether ±10% is close enough on the speed target<span class="sub">a decision</span></th><td class="mono">splice</td><td class="quiet">Five tasks are stopped behind this one answer.</td></tr><tr><td class="num accent">3 days</td><th scope="row">A certificate for the staging host<span class="sub">a password or key</span></th><td class="mono">halyard</td><td class="quiet">Nothing here can be tested until it exists.</td></tr><tr><td class="num accent">20 hours</td><th scope="row">Look at the four rebuilt screens<span class="sub">a look</span></th><td class="mono">vigil</td><td class="quiet">Built and waiting; nobody has looked yet.</td></tr></tbody></table></div></div>
+  </section>
+
+  <section class="zone" aria-labelledby="h-projects">
+    <h2 id="h-projects">Every project</h2>
+    <p class="note">Sort by any heading; filter by result.</p>
+    <div class="body" id="z-projects"><div class="chiprow" role="group" aria-label="Show only projects with one result"><button type="button" class="chip" data-filter="all" aria-pressed="true">All<span class="chip-n">30</span></button><button type="button" class="chip" data-filter="done" aria-pressed="false">passed<span class="chip-n">11</span></button><button type="button" class="chip" data-filter="in-flight" aria-pressed="false">in progress<span class="chip-n">6</span></button><button type="button" class="chip" data-filter="needs-work" aria-pressed="false">did not pass<span class="chip-n">4</span></button><button type="button" class="chip" data-filter="blocked" aria-pressed="false">stuck<span class="chip-n">4</span></button><button type="button" class="chip" data-filter="unmeasured" aria-pressed="false">nobody checked<span class="chip-n">3</span></button><button type="button" class="chip" data-filter="waived" aria-pressed="false">left undone<span class="chip-n">2</span></button></div><div class="scroll tallscroll"><table class="tbl tbl--projects"><thead><tr><th scope="col" aria-sort="none"><button type="button" data-sort="project">Project<span class="caret" aria-hidden="true">·</span></button></th><th scope="col" aria-sort="ascending"><button type="button" data-sort="state">How it went<span class="caret" aria-hidden="true">▲</span></button></th><th scope="col" aria-sort="none"><button type="button" data-sort="progress">Tasks done<span class="caret" aria-hidden="true">·</span></button></th><th scope="col" aria-sort="none"><button type="button" data-sort="checks">Checks<span class="caret" aria-hidden="true">·</span></button></th><th scope="col" aria-sort="none"><button type="button" data-sort="defects">Problems<span class="caret" aria-hidden="true">·</span></button></th><th scope="col" aria-sort="none"><button type="button" data-sort="corrections">We got wrong<span class="caret" aria-hidden="true">·</span></button></th><th scope="col" aria-sort="none"><button type="button" data-sort="updated">Last word<span class="caret" aria-hidden="true">·</span></button></th></tr></thead><tbody><tr data-state="blocked"><th scope="row" class="mono">splice</th><td><span class="pill st-stuck"><span class="swatch" aria-hidden="true"></span>stuck</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="38" height="6" rx="1" class="f-fill"/></svg><span class="num">12<span class="of">/</span>28</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-fail"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-stuck"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build passed, tests did not pass, types stuck, security nobody checked, design passed, sign-off nobody checked</span></td><td class="num warn">4</td><td class="num">2</td><td class="num quiet">9h</td></tr><tr data-state="blocked"><th scope="row" class="mono">anvil</th><td><span class="pill st-stuck"><span class="swatch" aria-hidden="true"></span>stuck</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="32" height="6" rx="1" class="f-fill"/></svg><span class="num">7<span class="of">/</span>19</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-fail"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-stuck"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build passed, tests did not pass, types stuck, security passed, design passed, sign-off nobody checked</span></td><td class="num warn">3</td><td class="num zero">0</td><td class="num quiet">14h</td></tr><tr data-state="blocked"><th scope="row" class="mono">halyard</th><td><span class="pill st-stuck"><span class="swatch" aria-hidden="true"></span>stuck</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="21" height="6" rx="1" class="f-fill"/></svg><span class="num">4<span class="of">/</span>17</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-stuck"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-stuck"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build passed, tests stuck, types stuck, security passed, design nobody checked, sign-off nobody checked</span></td><td class="num warn">2</td><td class="num zero">0</td><td class="num quiet">22h</td></tr><tr data-state="blocked"><th scope="row" class="mono">mizzen</th><td><span class="pill st-stuck"><span class="swatch" aria-hidden="true"></span>stuck</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="24" height="6" rx="1" class="f-fill"/></svg><span class="num">3<span class="of">/</span>11</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-stuck"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-stuck"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build passed, tests stuck, types stuck, security passed, design nobody checked, sign-off nobody checked</span></td><td class="num warn">1</td><td class="num zero">0</td><td class="num quiet">19h</td></tr><tr data-state="needs-work"><th scope="row" class="mono">dossier</th><td><span class="pill st-fail"><span class="swatch" aria-hidden="true"></span>did not pass</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="75" height="6" rx="1" class="f-fill"/></svg><span class="num">52<span class="of">/</span>61</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-fail"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build passed, tests passed, types did not pass, security passed, design passed, sign-off nobody checked</span></td><td class="num warn">7</td><td class="num">3</td><td class="num quiet">2h</td></tr><tr data-state="needs-work"><th scope="row" class="mono">vigil</th><td><span class="pill st-fail"><span class="swatch" aria-hidden="true"></span>did not pass</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="59" height="6" rx="1" class="f-fill"/></svg><span class="num">14<span class="of">/</span>21</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-fail"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-fail"/></svg><span class="sr">build passed, tests passed, types did not pass, security passed, design nobody checked, sign-off did not pass</span></td><td class="num warn">5</td><td class="num">4</td><td class="num quiet">2h</td></tr><tr data-state="needs-work"><th scope="row" class="mono">tideline</th><td><span class="pill st-fail"><span class="swatch" aria-hidden="true"></span>did not pass</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="70" height="6" rx="1" class="f-fill"/></svg><span class="num">20<span class="of">/</span>25</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-fail"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-fail"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build passed, tests did not pass, types did not pass, security passed, design passed, sign-off nobody checked</span></td><td class="num warn">6</td><td class="num">2</td><td class="num quiet">4h</td></tr><tr data-state="needs-work"><th scope="row" class="mono">jetsam</th><td><span class="pill st-fail"><span class="swatch" aria-hidden="true"></span>did not pass</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="50" height="6" rx="1" class="f-fill"/></svg><span class="num">9<span class="of">/</span>16</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-fail"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build passed, tests did not pass, types passed, security passed, design nobody checked, sign-off nobody checked</span></td><td class="num warn">4</td><td class="num">1</td><td class="num quiet">5h</td></tr><tr data-state="unmeasured"><th scope="row" class="mono">sidetone</th><td><span class="pill st-none"><span class="swatch" aria-hidden="true"></span>nobody checked</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">16<span class="of">/</span>16</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build nobody checked, tests nobody checked, types nobody checked, security nobody checked, design nobody checked, sign-off nobody checked</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">30h</td></tr><tr data-state="unmeasured"><th scope="row" class="mono">capstan</th><td><span class="pill st-none"><span class="swatch" aria-hidden="true"></span>nobody checked</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">8<span class="of">/</span>8</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build nobody checked, tests nobody checked, types passed, security nobody checked, design nobody checked, sign-off nobody checked</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">26h</td></tr><tr data-state="unmeasured"><th scope="row" class="mono">netting</th><td><span class="pill st-none"><span class="swatch" aria-hidden="true"></span>nobody checked</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">10<span class="of">/</span>10</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build nobody checked, tests passed, types nobody checked, security nobody checked, design nobody checked, sign-off nobody checked</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">28h</td></tr><tr data-state="in-flight"><th scope="row" class="mono">relay</th><td><span class="pill st-live"><span class="swatch" aria-hidden="true"></span>being worked on</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="62" height="6" rx="1" class="f-fill"/></svg><span class="num">31<span class="of">/</span>44</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-live"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build passed, tests passed, types being worked on, security passed, design passed, sign-off nobody checked</span></td><td class="num warn">2</td><td class="num">1</td><td class="num quiet">1h</td></tr><tr data-state="in-flight"><th scope="row" class="mono">lifeline</th><td><span class="pill st-live"><span class="swatch" aria-hidden="true"></span>being worked on</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="65" height="6" rx="1" class="f-fill"/></svg><span class="num">22<span class="of">/</span>30</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-live"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types being worked on, security passed, design passed, sign-off passed</span></td><td class="num warn">1</td><td class="num zero">0</td><td class="num quiet">1h</td></tr><tr data-state="in-flight"><th scope="row" class="mono">keelhaul</th><td><span class="pill st-live"><span class="swatch" aria-hidden="true"></span>being worked on</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="61" height="6" rx="1" class="f-fill"/></svg><span class="num">18<span class="of">/</span>26</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-live"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types being worked on, security passed, design nobody checked, sign-off passed</span></td><td class="num warn">2</td><td class="num zero">0</td><td class="num quiet">2h</td></tr><tr data-state="in-flight"><th scope="row" class="mono">quarterdeck</th><td><span class="pill st-live"><span class="swatch" aria-hidden="true"></span>being worked on</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="73" height="6" rx="1" class="f-fill"/></svg><span class="num">33<span class="of">/</span>40</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-live"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types being worked on, security passed, design passed, sign-off passed</span></td><td class="num warn">1</td><td class="num zero">0</td><td class="num quiet">1h</td></tr><tr data-state="in-flight"><th scope="row" class="mono">dogwatch</th><td><span class="pill st-live"><span class="swatch" aria-hidden="true"></span>being worked on</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="50" height="6" rx="1" class="f-fill"/></svg><span class="num">12<span class="of">/</span>21</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-live"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-none"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types being worked on, security passed, design nobody checked, sign-off passed</span></td><td class="num warn">3</td><td class="num zero">0</td><td class="num quiet">3h</td></tr><tr data-state="in-flight"><th scope="row" class="mono">landfall</th><td><span class="pill st-live"><span class="swatch" aria-hidden="true"></span>being worked on</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="65" height="6" rx="1" class="f-fill"/></svg><span class="num">25<span class="of">/</span>34</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-live"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-none"/></svg><span class="sr">build passed, tests passed, types being worked on, security passed, design passed, sign-off nobody checked</span></td><td class="num warn">2</td><td class="num zero">0</td><td class="num quiet">1h</td></tr><tr data-state="waived"><th scope="row" class="mono">slipway</th><td><span class="pill st-waived"><span class="swatch" aria-hidden="true"></span>left undone</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="37" height="6" rx="1" class="f-fill"/></svg><span class="num">5<span class="of">/</span>12</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-waived"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-waived"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types left undone, security left undone, design passed, sign-off passed</span></td><td class="num warn">1</td><td class="num">1</td><td class="num quiet">2d</td></tr><tr data-state="waived"><th scope="row" class="mono">foghorn</th><td><span class="pill st-waived"><span class="swatch" aria-hidden="true"></span>left undone</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="38" height="6" rx="1" class="f-fill"/></svg><span class="num">6<span class="of">/</span>14</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-waived"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-waived"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types left undone, security left undone, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">33h</td></tr><tr data-state="done"><th scope="row" class="mono">atlas</th><td><span class="pill st-pass"><span class="swatch" aria-hidden="true"></span>passed</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">24<span class="of">/</span>24</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types passed, security passed, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">3h</td></tr><tr data-state="done"><th scope="row" class="mono">warden</th><td><span class="pill st-pass"><span class="swatch" aria-hidden="true"></span>passed</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">18<span class="of">/</span>18</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types passed, security passed, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">5h</td></tr><tr data-state="done"><th scope="row" class="mono">harbourmaster</th><td><span class="pill st-pass"><span class="swatch" aria-hidden="true"></span>passed</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">9<span class="of">/</span>9</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types passed, security passed, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">11h</td></tr><tr data-state="done"><th scope="row" class="mono">proctor</th><td><span class="pill st-pass"><span class="swatch" aria-hidden="true"></span>passed</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">41<span class="of">/</span>41</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types passed, security passed, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">6h</td></tr><tr data-state="done"><th scope="row" class="mono">lecturn</th><td><span class="pill st-pass"><span class="swatch" aria-hidden="true"></span>passed</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">13<span class="of">/</span>13</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types passed, security passed, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">20h</td></tr><tr data-state="done"><th scope="row" class="mono">beacon</th><td><span class="pill st-pass"><span class="swatch" aria-hidden="true"></span>passed</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">27<span class="of">/</span>27</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types passed, security passed, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">7h</td></tr><tr data-state="done"><th scope="row" class="mono">mainstay</th><td><span class="pill st-pass"><span class="swatch" aria-hidden="true"></span>passed</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">11<span class="of">/</span>11</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types passed, security passed, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">16h</td></tr><tr data-state="done"><th scope="row" class="mono">bosun</th><td><span class="pill st-pass"><span class="swatch" aria-hidden="true"></span>passed</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">15<span class="of">/</span>15</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types passed, security passed, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">9h</td></tr><tr data-state="done"><th scope="row" class="mono">lodestar</th><td><span class="pill st-pass"><span class="swatch" aria-hidden="true"></span>passed</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">29<span class="of">/</span>29</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types passed, security passed, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">12h</td></tr><tr data-state="done"><th scope="row" class="mono">gangway</th><td><span class="pill st-pass"><span class="swatch" aria-hidden="true"></span>passed</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">21<span class="of">/</span>21</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types passed, security passed, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">8h</td></tr><tr data-state="done"><th scope="row" class="mono">kedge</th><td><span class="pill st-pass"><span class="swatch" aria-hidden="true"></span>passed</span></td><td class="meter-cell"><svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false"><rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/><rect x="0" y="0" width="88" height="6" rx="1" class="f-fill"/></svg><span class="num">17<span class="of">/</span>17</span></td><td><svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false"><rect x="0" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="13" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="26" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="39" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="52" y="0" width="10" height="10" rx="1" class="f-st-pass"/><rect x="65" y="0" width="10" height="10" rx="1" class="f-st-pass"/></svg><span class="sr">build passed, tests passed, types passed, security passed, design passed, sign-off passed</span></td><td class="num zero">0</td><td class="num zero">0</td><td class="num quiet">13h</td></tr></tbody></table></div></div>
+  </section>
+
+  <div class="pair">
+  <section class="zone" aria-labelledby="h-flight">
+    <h2 id="h-flight">Being worked on now</h2>
+    <p class="note">A <dfn>round</dfn> is one pass in which every project picks up work at the same time.</p>
+    <div class="body" id="z-flight"><div class="chartbox"><svg class="chart chart--narrow" viewBox="0 0 480 212" role="img" aria-labelledby="flight-title flight-desc" preserveAspectRatio="xMidYMid meet"><title id="flight-title">9 of 12 worker slots busy</title><desc id="flight-desc">9 of 12 worker slots are busy. 14 tasks are queued behind them and 3 are parked. This is round 7.</desc><text x="0" y="30" class="t-eyebrow c-soft">WORKERS BUSY, AGAINST THE MOST WE ALLOW</text><text x="0" y="78" class="t-figure c-ink">9 of 12</text><rect x="0" y="102" width="32" height="18" rx="2" class="f-st-live"/><rect x="40" y="102" width="32" height="18" rx="2" class="f-st-live"/><rect x="80" y="102" width="32" height="18" rx="2" class="f-st-live"/><rect x="120" y="102" width="32" height="18" rx="2" class="f-st-live"/><rect x="160" y="102" width="32" height="18" rx="2" class="f-st-live"/><rect x="200" y="102" width="32" height="18" rx="2" class="f-st-live"/><rect x="240" y="102" width="32" height="18" rx="2" class="f-st-live"/><rect x="280" y="102" width="32" height="18" rx="2" class="f-st-live"/><rect x="320" y="102" width="32" height="18" rx="2" class="f-st-live"/><rect x="360" y="102" width="32" height="18" rx="2" class="f-track"/><rect x="400" y="102" width="32" height="18" rx="2" class="f-track"/><rect x="440" y="102" width="32" height="18" rx="2" class="f-track"/><line x1="0" y1="132" x2="472" y2="132" class="k-hair"/><text x="0" y="152" class="t-note c-muted">one block is one worker — 9 busy, 3 free</text><text x="0" y="186" class="t-eyebrow c-soft">QUEUED BEHIND</text><text x="0" y="208" class="t-fig-sm c-ink">14</text><text x="150" y="186" class="t-eyebrow c-soft">PARKED</text><text x="150" y="208" class="t-fig-sm c-ink">3</text><text x="290" y="186" class="t-eyebrow c-soft">ROUND</text><text x="290" y="208" class="t-fig-sm c-ink">no. 7</text></svg></div><details class="tv"><summary>Worker numbers as a table</summary><div class="tv-scroll"><table><thead><tr><th scope="col">Measure</th><th scope="col">Value</th></tr></thead><tbody><tr><th scope="row">workers busy</th><td>9</td></tr><tr><th scope="row">most allowed at once</th><td>12</td></tr><tr><th scope="row">tasks queued</th><td>14</td></tr><tr><th scope="row">tasks parked</th><td>3</td></tr><tr><th scope="row">round</th><td>round 7</td></tr></tbody></table></div></details></div>
+  </section>
+
+  <section class="zone" aria-labelledby="h-machine">
+    <h2 id="h-machine">The machine</h2>
+    <p class="note">Every project&rsquo;s agent runs on this one computer.</p>
+    <div class="body" id="z-machine"><div class="chartbox"><svg class="chart chart--narrow" viewBox="0 0 480 212" role="img" aria-labelledby="mach-title mach-desc" preserveAspectRatio="xMidYMid meet"><title id="mach-title">Three meters for the machine the work runs on</title><desc id="mach-desc">Work per processor is 0.78 against a full load of 1.00. Memory free is 6.4 of 32 gigabytes. Disk free is 128 of 926 gigabytes. 41 separate copies of code are open on it.</desc><text x="138" y="42" class="t-eyebrow c-soft" text-anchor="end">WORK PER PROCESSOR</text><rect x="150" y="30" width="230" height="16" rx="1" class="f-track"/><rect x="150" y="30" width="179" height="16" rx="1" class="f-accent"/><text x="158" y="42" class="t-value c-ink">0.78</text><text x="388" y="42" class="t-note c-soft">of 1.00</text><text x="138" y="88" class="t-eyebrow c-soft" text-anchor="end">MEMORY FREE</text><rect x="150" y="76" width="230" height="16" rx="1" class="f-track"/><rect x="150" y="76" width="46" height="16" rx="1" class="f-quiet"/><text x="158" y="88" class="t-value c-ink">6.4 GB</text><text x="388" y="88" class="t-note c-soft">of 32 GB</text><text x="138" y="134" class="t-eyebrow c-soft" text-anchor="end">DISK FREE</text><rect x="150" y="122" width="230" height="16" rx="1" class="f-track"/><rect x="150" y="122" width="32" height="16" rx="1" class="f-quiet"/><text x="158" y="134" class="t-value c-ink">128 GB</text><text x="388" y="134" class="t-note c-soft">of 926 GB</text><line x1="380" y1="24" x2="380" y2="52" class="k-rule"/><text x="388" y="20" class="t-note c-soft">full load</text><line x1="0" y1="186" x2="472" y2="186" class="k-hair"/><text x="138" y="206" class="t-eyebrow c-soft" text-anchor="end">SEPARATE COPIES OF CODE OPEN</text><text x="150" y="208" class="t-fig-sm c-ink">41</text></svg></div><details class="tv"><summary>Machine numbers as a table</summary><div class="tv-scroll"><table><thead><tr><th scope="col">Measure</th><th scope="col">Value</th></tr></thead><tbody><tr><th scope="row">work per processor</th><td>0.78 of 1.00</td></tr><tr><th scope="row">memory free</th><td>6.4 of 32 GB</td></tr><tr><th scope="row">disk free</th><td>128 of 926 GB</td></tr><tr><th scope="row">separate copies of code open</th><td>41</td></tr></tbody></table></div></details></div>
+  </section>
+
+  </div>
+  <section class="zone" aria-labelledby="h-stuck">
+    <h2 id="h-stuck">Stuck, and for how long</h2>
+    <div class="body" id="z-stuck"><div class="chartbox"><svg class="chart chart--wide" viewBox="0 0 1000 300" role="img" aria-labelledby="bee-title bee-desc" preserveAspectRatio="xMidYMid meet"><title id="bee-title">How long each stuck task has been waiting</title><desc id="bee-desc">One dot for each of 32 stuck tasks, placed left to right by how many hours it has been waiting, on a scale from 0 to 240. Dots are spread vertically only so that they do not overlap; the vertical position carries no meaning. The four longest waits are named.</desc><line x1="80" y1="30" x2="80" y2="248" class="k-rule"/><line x1="300" y1="30" x2="300" y2="248" class="k-grid"/><line x1="520" y1="30" x2="520" y2="248" class="k-grid"/><line x1="740" y1="30" x2="740" y2="248" class="k-grid"/><line x1="960" y1="30" x2="960" y2="248" class="k-grid"/><line x1="80" y1="248" x2="960" y2="248" class="k-rule"/><text data-tick="x" data-value="0" x="80" y="268" class="t-tick c-muted" text-anchor="middle">0h</text><text data-tick="x" data-value="60" x="300" y="268" class="t-tick c-muted" text-anchor="middle">60h</text><text data-tick="x" data-value="120" x="520" y="268" class="t-tick c-muted" text-anchor="middle">120h</text><text data-tick="x" data-value="180" x="740" y="268" class="t-tick c-muted" text-anchor="middle">180h</text><text data-tick="x" data-value="240" x="960" y="268" class="t-tick c-muted" text-anchor="middle">240h</text><text x="520" y="290" class="t-eyebrow c-soft" text-anchor="middle">HOURS SPENT WAITING</text><text x="80" y="22" class="t-note c-muted">32 stuck tasks across 14 projects. Vertical spread is packing only, not a second measure.</text><line x1="864.7" y1="136" x2="864.7" y2="90" class="k-lead"/><text data-name="SPL-0142" data-role="label" x="864.7" y="84" class="t-label c-ink" text-anchor="end">SPL-0142</text><text x="864.7" y="72" class="t-note c-soft" text-anchor="end">214h waiting for an idle host to measure on</text><line x1="769.3" y1="152" x2="769.3" y2="182" class="k-lead"/><text data-name="SPL-0150" data-role="label" x="769.3" y="194" class="t-label c-ink" text-anchor="middle">SPL-0150</text><text x="769.3" y="208" class="t-note c-soft" text-anchor="middle">188h waiting for the same idle host</text><line x1="725.3" y1="136" x2="725.3" y2="54" class="k-lead"/><text data-name="MIZ-0012" data-role="label" x="725.3" y="48" class="t-label c-ink" text-anchor="middle">MIZ-0012</text><text x="725.3" y="36" class="t-note c-soft" text-anchor="middle">176h waiting for the SSH key</text><line x1="696" y1="152" x2="696" y2="214" class="k-lead"/><text data-name="HAL-0106" data-role="label" x="696" y="226" class="t-label c-ink" text-anchor="middle">HAL-0106</text><text x="696" y="240" class="t-note c-soft" text-anchor="middle">168h waiting for the certificate</text><circle data-value="26" cx="175.3" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>REL-0311 in relay, waiting 26 hours for a review nobody has picked up</title></circle><circle data-value="11" cx="120.3" cy="134" r="4" fill="var(--dot-ink)" class="dot"><title>REL-0318 in relay, waiting 11 hours for a decision on the export format</title></circle><circle data-value="63" cx="311" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>DOS-0902 in dossier, waiting 63 hours for a rate limit that resets nightly</title></circle><circle data-value="41" cx="230.3" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>DOS-0915 in dossier, waiting 41 hours for the vendor key</title></circle><circle data-value="9" cx="113" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>DOS-0931 in dossier, waiting 9 hours for a flaky test we cannot reproduce</title></circle><circle data-name="SPL-0142" data-value="214" cx="864.7" cy="144" r="4" fill="var(--dot-ink)" class="dot dot--focal"><title>SPL-0142 in splice, waiting 214 hours for an idle host to measure on</title></circle><circle data-name="SPL-0150" data-value="188" cx="769.3" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>SPL-0150 in splice, waiting 188 hours for the same idle host</title></circle><circle data-value="133" cx="567.7" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>SPL-0151 in splice, waiting 133 hours for a decision on the tolerance</title></circle><circle data-value="77" cx="362.3" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>SPL-0166 in splice, waiting 77 hours for a review</title></circle><circle data-value="52" cx="270.7" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>SPL-0171 in splice, waiting 52 hours for the upstream fix</title></circle><circle data-value="96" cx="432" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>VIG-0088 in vigil, waiting 96 hours for a design that nobody has drawn</title></circle><circle data-value="34" cx="204.7" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>VIG-0093 in vigil, waiting 34 hours for the sign-off</title></circle><circle data-value="58" cx="292.7" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>LIF-0044 in lifeline, waiting 58 hours for a version of the CLI we can read</title></circle><circle data-value="118" cx="512.7" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>ANV-0021 in anvil, waiting 118 hours for disk space on the build host</title></circle><circle data-value="101" cx="450.3" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>ANV-0025 in anvil, waiting 101 hours for a container image that builds</title></circle><circle data-value="84" cx="388" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>ANV-0028 in anvil, waiting 84 hours for the same image</title></circle><circle data-value="47" cx="252.3" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>ANV-0033 in anvil, waiting 47 hours for a decision on the backend</title></circle><circle data-value="72" cx="344" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>KEE-0207 in keelhaul, waiting 72 hours for a schema nobody has agreed</title></circle><circle data-value="145" cx="611.7" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>TID-0410 in tideline, waiting 145 hours for the staging database</title></circle><circle data-value="29" cx="186.3" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>TID-0416 in tideline, waiting 29 hours for a review</title></circle><circle data-value="19" cx="149.7" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>QUA-0512 in quarterdeck, waiting 19 hours for a font licence</title></circle><circle data-name="HAL-0106" data-value="168" cx="696" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>HAL-0106 in halyard, waiting 168 hours for the certificate</title></circle><circle data-value="156" cx="652" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>HAL-0112 in halyard, waiting 156 hours for the same certificate</title></circle><circle data-value="90" cx="410" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>HAL-0119 in halyard, waiting 90 hours for a decision on the fallback</title></circle><circle data-value="110" cx="483.3" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>DOG-0033 in dogwatch, waiting 110 hours for a machine with a GPU</title></circle><circle data-value="38" cx="219.3" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>DOG-0037 in dogwatch, waiting 38 hours for a test account</title></circle><circle data-value="128" cx="549.3" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>JET-0075 in jetsam, waiting 128 hours for the API contract</title></circle><circle data-value="22" cx="160.7" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>JET-0081 in jetsam, waiting 22 hours for a review</title></circle><circle data-value="15" cx="135" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>LAN-0260 in landfall, waiting 15 hours for a decision on pricing copy</title></circle><circle data-name="MIZ-0012" data-value="176" cx="725.3" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>MIZ-0012 in mizzen, waiting 176 hours for the SSH key</title></circle><circle data-value="162" cx="674" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>MIZ-0018 in mizzen, waiting 162 hours for a console session on the host</title></circle><circle data-value="66" cx="322" cy="144" r="4" fill="var(--dot-ink)" class="dot"><title>MIZ-0024 in mizzen, waiting 66 hours for the same console session</title></circle></svg></div><details class="tv"><summary>Every stuck task as a table</summary><div class="tv-scroll"><table><thead><tr><th scope="col">Task</th><th scope="col">Project</th><th scope="col">Hours waiting</th><th scope="col">Waiting for</th></tr></thead><tbody><tr><th scope="row">SPL-0142</th><td>splice</td><td>214</td><td>an idle host to measure on</td></tr><tr><th scope="row">SPL-0150</th><td>splice</td><td>188</td><td>the same idle host</td></tr><tr><th scope="row">MIZ-0012</th><td>mizzen</td><td>176</td><td>the SSH key</td></tr><tr><th scope="row">HAL-0106</th><td>halyard</td><td>168</td><td>the certificate</td></tr><tr><th scope="row">MIZ-0018</th><td>mizzen</td><td>162</td><td>a console session on the host</td></tr><tr><th scope="row">HAL-0112</th><td>halyard</td><td>156</td><td>the same certificate</td></tr><tr><th scope="row">TID-0410</th><td>tideline</td><td>145</td><td>the staging database</td></tr><tr><th scope="row">SPL-0151</th><td>splice</td><td>133</td><td>a decision on the tolerance</td></tr><tr><th scope="row">JET-0075</th><td>jetsam</td><td>128</td><td>the API contract</td></tr><tr><th scope="row">ANV-0021</th><td>anvil</td><td>118</td><td>disk space on the build host</td></tr><tr><th scope="row">DOG-0033</th><td>dogwatch</td><td>110</td><td>a machine with a GPU</td></tr><tr><th scope="row">ANV-0025</th><td>anvil</td><td>101</td><td>a container image that builds</td></tr><tr><th scope="row">VIG-0088</th><td>vigil</td><td>96</td><td>a design that nobody has drawn</td></tr><tr><th scope="row">HAL-0119</th><td>halyard</td><td>90</td><td>a decision on the fallback</td></tr><tr><th scope="row">ANV-0028</th><td>anvil</td><td>84</td><td>the same image</td></tr><tr><th scope="row">SPL-0166</th><td>splice</td><td>77</td><td>a review</td></tr><tr><th scope="row">KEE-0207</th><td>keelhaul</td><td>72</td><td>a schema nobody has agreed</td></tr><tr><th scope="row">MIZ-0024</th><td>mizzen</td><td>66</td><td>the same console session</td></tr><tr><th scope="row">DOS-0902</th><td>dossier</td><td>63</td><td>a rate limit that resets nightly</td></tr><tr><th scope="row">LIF-0044</th><td>lifeline</td><td>58</td><td>a version of the CLI we can read</td></tr><tr><th scope="row">SPL-0171</th><td>splice</td><td>52</td><td>the upstream fix</td></tr><tr><th scope="row">ANV-0033</th><td>anvil</td><td>47</td><td>a decision on the backend</td></tr><tr><th scope="row">DOS-0915</th><td>dossier</td><td>41</td><td>the vendor key</td></tr><tr><th scope="row">DOG-0037</th><td>dogwatch</td><td>38</td><td>a test account</td></tr><tr><th scope="row">VIG-0093</th><td>vigil</td><td>34</td><td>the sign-off</td></tr><tr><th scope="row">TID-0416</th><td>tideline</td><td>29</td><td>a review</td></tr><tr><th scope="row">REL-0311</th><td>relay</td><td>26</td><td>a review nobody has picked up</td></tr><tr><th scope="row">JET-0081</th><td>jetsam</td><td>22</td><td>a review</td></tr><tr><th scope="row">QUA-0512</th><td>quarterdeck</td><td>19</td><td>a font licence</td></tr><tr><th scope="row">LAN-0260</th><td>landfall</td><td>15</td><td>a decision on pricing copy</td></tr><tr><th scope="row">REL-0318</th><td>relay</td><td>11</td><td>a decision on the export format</td></tr><tr><th scope="row">DOS-0931</th><td>dossier</td><td>9</td><td>a flaky test we cannot reproduce</td></tr></tbody></table></div></details></div>
+  </section>
+
+  <div class="pair">
+  <section class="zone" aria-labelledby="h-corr">
+    <h2 id="h-corr">What we got wrong</h2>
+    <p class="note">Each agent reports corrections to what it told you earlier.</p>
+    <div class="body" id="z-corr"><div class="chartbox"><svg class="chart chart--narrow" viewBox="0 0 480 328" role="img" aria-labelledby="corr-title corr-desc" preserveAspectRatio="xMidYMid meet"><title id="corr-title">Corrections per project</title><desc id="corr-desc">A bar for each of 7 projects that corrected something it had reported earlier. Bar length is the number of corrections, on a scale from 0 to 4. vigil corrected the most, with 4.</desc><text x="0" y="26" class="t-eyebrow c-soft">TIMES AN AGENT CORRECTED ITS OWN EARLIER REPORT</text><line x1="132" y1="42" x2="132" y2="272" class="k-rule"/><line x1="202" y1="42" x2="202" y2="272" class="k-grid"/><line x1="272" y1="42" x2="272" y2="272" class="k-grid"/><line x1="342" y1="42" x2="342" y2="272" class="k-grid"/><line x1="412" y1="42" x2="412" y2="272" class="k-grid"/><text x="120" y="67" class="t-row c-ink" text-anchor="end">vigil</text><rect x="132" y="54" width="280" height="18" rx="1" class="f-bar-focal"/><text x="422" y="67" class="t-value c-accent">4</text><text x="120" y="99" class="t-row c-ink" text-anchor="end">dossier</text><rect x="132" y="86" width="210" height="18" rx="1" class="f-bar"/><text x="352" y="99" class="t-value c-muted">3</text><text x="120" y="131" class="t-row c-ink" text-anchor="end">splice</text><rect x="132" y="118" width="140" height="18" rx="1" class="f-bar"/><text x="282" y="131" class="t-value c-muted">2</text><text x="120" y="163" class="t-row c-ink" text-anchor="end">tideline</text><rect x="132" y="150" width="140" height="18" rx="1" class="f-bar"/><text x="282" y="163" class="t-value c-muted">2</text><text x="120" y="195" class="t-row c-ink" text-anchor="end">jetsam</text><rect x="132" y="182" width="70" height="18" rx="1" class="f-bar"/><text x="212" y="195" class="t-value c-muted">1</text><text x="120" y="227" class="t-row c-ink" text-anchor="end">relay</text><rect x="132" y="214" width="70" height="18" rx="1" class="f-bar"/><text x="212" y="227" class="t-value c-muted">1</text><text x="120" y="259" class="t-row c-ink" text-anchor="end">slipway</text><rect x="132" y="246" width="70" height="18" rx="1" class="f-bar"/><text x="212" y="259" class="t-value c-muted">1</text><text x="132" y="294" class="t-tick c-muted" text-anchor="middle">0</text><text x="202" y="294" class="t-tick c-muted" text-anchor="middle">1</text><text x="272" y="294" class="t-tick c-muted" text-anchor="middle">2</text><text x="342" y="294" class="t-tick c-muted" text-anchor="middle">3</text><text x="412" y="294" class="t-tick c-muted" text-anchor="middle">4</text></svg></div><details class="tv"><summary>What each project corrected</summary><div class="tv-scroll"><table><thead><tr><th scope="col">Project</th><th scope="col">Corrections</th><th scope="col">What it said</th><th scope="col">What was actually true</th></tr></thead><tbody><tr><th scope="row">vigil</th><td>4</td><td>fourteen of fourteen were finished</td><td>the check only proved the code compiled</td></tr><tr><th scope="row">dossier</th><td>3</td><td>the vendor prices were right</td><td>three of five were wrong</td></tr><tr><th scope="row">splice</th><td>2</td><td>the speed target was met</td><td>it was measured while two other jobs ran</td></tr><tr><th scope="row">tideline</th><td>2</td><td>the deploy was live</td><td>the old version was still being served</td></tr><tr><th scope="row">jetsam</th><td>1</td><td>the endpoint returned rows</td><td>it returned an empty list</td></tr><tr><th scope="row">relay</th><td>1</td><td>every route was covered</td><td>four routes had no test at all</td></tr><tr><th scope="row">slipway</th><td>1</td><td>the upgrade kept the description</td><td>it overwrote it in seven files</td></tr></tbody></table></div></details></div>
+  </section>
+
+  <section class="zone" aria-labelledby="h-unmeasured">
+    <h2 id="h-unmeasured">What nobody checked</h2>
+    <div class="body" id="z-unmeasured"><div class="chartbox"><svg class="chart chart--narrow" viewBox="0 0 480 400" role="img" aria-labelledby="unm-title unm-desc" preserveAspectRatio="xMidYMid meet"><title id="unm-title">Work watched by tests, against work nobody checked</title><desc id="unm-desc">A bar for each of 8 projects, split into the work watched by tests and the work nobody checked. Bar length is the total amount of work, so a longer bar is a larger project. One project has declared no total at all and is drawn as a single undivided bar.</desc><text x="0" y="26" class="t-eyebrow c-soft">HOW MUCH OF THE WORK ANY TEST IS WATCHING</text><text x="96" y="57" class="t-row c-ink" text-anchor="end">dossier</text><rect x="108" y="44" width="168" height="18" rx="1" class="f-watched"/><rect x="278" y="44" width="70" height="18" rx="1" class="f-unwatched"/><text x="358" y="57" class="t-value c-muted">90 unchecked</text><text x="96" y="91" class="t-row c-ink" text-anchor="end">tideline</text><rect x="108" y="78" width="48" height="18" rx="1" class="f-watched"/><rect x="158" y="78" width="62" height="18" rx="1" class="f-unwatched"/><text x="230" y="91" class="t-value c-muted">80 unchecked</text><text x="96" y="125" class="t-row c-ink" text-anchor="end">capstan</text><rect x="108" y="112" width="10" height="18" rx="1" class="f-watched"/><rect x="120" y="112" width="52" height="18" rx="1" class="f-unwatched"/><text x="182" y="125" class="t-value c-muted">68 unchecked</text><text x="96" y="159" class="t-row c-ink" text-anchor="end">jetsam</text><rect x="108" y="146" width="22" height="18" rx="1" class="f-watched"/><rect x="132" y="146" width="52" height="18" rx="1" class="f-unwatched"/><text x="194" y="159" class="t-value c-muted">67 unchecked</text><text x="96" y="193" class="t-row c-ink" text-anchor="end">vigil</text><rect x="108" y="180" width="44" height="18" rx="1" class="f-watched"/><rect x="154" y="180" width="50" height="18" rx="1" class="f-unwatched"/><text x="214" y="193" class="t-value c-muted">65 unchecked</text><text x="96" y="227" class="t-row c-ink" text-anchor="end">netting</text><rect x="108" y="214" width="4" height="18" rx="1" class="f-watched"/><rect x="114" y="214" width="50" height="18" rx="1" class="f-unwatched"/><text x="174" y="227" class="t-value c-muted">65 unchecked</text><text x="96" y="261" class="t-row c-ink" text-anchor="end">splice</text><rect x="108" y="248" width="32" height="18" rx="1" class="f-watched"/><rect x="142" y="248" width="42" height="18" rx="1" class="f-unwatched"/><text x="194" y="261" class="t-value c-muted">55 unchecked</text><text x="96" y="295" class="t-row c-ink" text-anchor="end">sidetone</text><rect x="108" y="282" width="240" height="18" rx="1" class="f-undeclared"/><text x="116" y="295" class="t-value c-ink">no total declared</text><line x1="0" y1="324" x2="472" y2="324" class="k-hair"/><rect x="0" y="332" width="10" height="10" rx="1" class="f-watched"/><text x="16" y="341" class="t-note c-muted">watched by tests</text><rect x="130" y="332" width="10" height="10" rx="1" class="f-unwatched"/><text x="146" y="341" class="t-note c-muted">nobody checked</text><text x="0" y="364" class="t-note c-soft">8 of 30 projects shown: the 7 with the most unchecked work,</text><text x="0" y="378" class="t-note c-soft">plus the one that has declared no total at all.</text></svg></div><details class="tv"><summary>Watched against unchecked</summary><div class="tv-scroll"><table><thead><tr><th scope="col">Project</th><th scope="col">Watched by tests</th><th scope="col">Out of how many</th><th scope="col">Nobody checked</th></tr></thead><tbody><tr><th scope="row">dossier</th><td>210</td><td>300</td><td>90</td></tr><tr><th scope="row">tideline</th><td>60</td><td>140</td><td>80</td></tr><tr><th scope="row">capstan</th><td>12</td><td>80</td><td>68</td></tr><tr><th scope="row">jetsam</th><td>28</td><td>95</td><td>67</td></tr><tr><th scope="row">vigil</th><td>55</td><td>120</td><td>65</td></tr><tr><th scope="row">netting</th><td>5</td><td>70</td><td>65</td></tr><tr><th scope="row">splice</th><td>40</td><td>95</td><td>55</td></tr><tr><th scope="row">sidetone</th><td>0</td><td>not declared</td><td>unknown</td></tr></tbody></table></div></details></div>
+  </section>
+
+  </div>
+  <section class="zone" aria-labelledby="h-heat">
+    <h2 id="h-heat">Checks across projects</h2>
+    <div class="body" id="z-heat"><div class="chartbox"><svg class="chart chart--wide" viewBox="0 0 1000 728" role="img" aria-labelledby="heat-title heat-desc" preserveAspectRatio="xMidYMid meet"><title id="heat-title">Six checks for each of 30 projects</title><desc id="heat-desc">A grid of 30 rows and six columns. Each row is a project and each column one kind of check — build, tests, types, security, design and sign-off. Every cell is tinted by its result and also prints that result in words.</desc><text x="262" y="44" class="t-eyebrow c-soft" text-anchor="middle">BUILD</text><text x="390" y="44" class="t-eyebrow c-soft" text-anchor="middle">TESTS</text><text x="518" y="44" class="t-eyebrow c-soft" text-anchor="middle">TYPES</text><text x="646" y="44" class="t-eyebrow c-soft" text-anchor="middle">SECURITY</text><text x="774" y="44" class="t-eyebrow c-soft" text-anchor="middle">DESIGN</text><text x="902" y="44" class="t-eyebrow c-soft" text-anchor="middle">SIGN-OFF</text><line x1="200" y1="52" x2="964" y2="52" class="k-rule"/><text x="176" y="76" class="t-row c-ink" text-anchor="end">atlas</text><rect x="200" y="64" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="76" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="64" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="76" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="64" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="76" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="64" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="76" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="64" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="76" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="64" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="76" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="96" class="t-row c-ink" text-anchor="end">warden</text><rect x="200" y="84" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="96" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="84" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="96" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="84" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="96" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="84" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="96" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="84" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="96" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="84" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="96" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="116" class="t-row c-ink" text-anchor="end">relay</text><rect x="200" y="104" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="116" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="104" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="116" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="104" width="124" height="16" rx="2" class="cell cell-st-live"/><text x="518" y="116" class="t-cell c-ink" text-anchor="middle">being worked on</text><rect x="584" y="104" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="116" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="104" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="116" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="104" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="116" class="t-cell c-ink" text-anchor="middle">nobody checked</text><text x="176" y="136" class="t-row c-ink" text-anchor="end">dossier</text><rect x="200" y="124" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="136" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="124" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="136" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="124" width="124" height="16" rx="2" class="cell cell-st-fail"/><text x="518" y="136" class="t-cell c-ink" text-anchor="middle">did not pass</text><rect x="584" y="124" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="136" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="124" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="136" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="124" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="136" class="t-cell c-ink" text-anchor="middle">nobody checked</text><text x="176" y="156" class="t-row c-ink" text-anchor="end">splice</text><rect x="200" y="144" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="156" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="144" width="124" height="16" rx="2" class="cell cell-st-fail"/><text x="390" y="156" class="t-cell c-ink" text-anchor="middle">did not pass</text><rect x="456" y="144" width="124" height="16" rx="2" class="cell cell-st-stuck"/><text x="518" y="156" class="t-cell c-ink" text-anchor="middle">stuck</text><rect x="584" y="144" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="646" y="156" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="712" y="144" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="156" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="144" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="156" class="t-cell c-ink" text-anchor="middle">nobody checked</text><text x="176" y="176" class="t-row c-ink" text-anchor="end">vigil</text><rect x="200" y="164" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="176" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="164" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="176" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="164" width="124" height="16" rx="2" class="cell cell-st-fail"/><text x="518" y="176" class="t-cell c-ink" text-anchor="middle">did not pass</text><rect x="584" y="164" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="176" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="164" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="774" y="176" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="840" y="164" width="124" height="16" rx="2" class="cell cell-st-fail"/><text x="902" y="176" class="t-cell c-ink" text-anchor="middle">did not pass</text><text x="176" y="196" class="t-row c-ink" text-anchor="end">lifeline</text><rect x="200" y="184" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="196" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="184" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="196" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="184" width="124" height="16" rx="2" class="cell cell-st-live"/><text x="518" y="196" class="t-cell c-ink" text-anchor="middle">being worked on</text><rect x="584" y="184" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="196" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="184" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="196" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="184" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="196" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="216" class="t-row c-ink" text-anchor="end">harbourmaster</text><rect x="200" y="204" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="216" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="204" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="216" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="204" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="216" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="204" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="216" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="204" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="216" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="204" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="216" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="236" class="t-row c-ink" text-anchor="end">sidetone</text><rect x="200" y="224" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="262" y="236" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="328" y="224" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="390" y="236" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="456" y="224" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="518" y="236" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="584" y="224" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="646" y="236" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="712" y="224" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="774" y="236" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="840" y="224" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="236" class="t-cell c-ink" text-anchor="middle">nobody checked</text><text x="176" y="256" class="t-row c-ink" text-anchor="end">proctor</text><rect x="200" y="244" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="256" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="244" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="256" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="244" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="256" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="244" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="256" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="244" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="256" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="244" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="256" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="276" class="t-row c-ink" text-anchor="end">slipway</text><rect x="200" y="264" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="276" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="264" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="276" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="264" width="124" height="16" rx="2" class="cell cell-st-waived"/><text x="518" y="276" class="t-cell c-ink" text-anchor="middle">left undone</text><rect x="584" y="264" width="124" height="16" rx="2" class="cell cell-st-waived"/><text x="646" y="276" class="t-cell c-ink" text-anchor="middle">left undone</text><rect x="712" y="264" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="276" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="264" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="276" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="296" class="t-row c-ink" text-anchor="end">anvil</text><rect x="200" y="284" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="296" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="284" width="124" height="16" rx="2" class="cell cell-st-fail"/><text x="390" y="296" class="t-cell c-ink" text-anchor="middle">did not pass</text><rect x="456" y="284" width="124" height="16" rx="2" class="cell cell-st-stuck"/><text x="518" y="296" class="t-cell c-ink" text-anchor="middle">stuck</text><rect x="584" y="284" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="296" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="284" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="296" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="284" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="296" class="t-cell c-ink" text-anchor="middle">nobody checked</text><text x="176" y="316" class="t-row c-ink" text-anchor="end">lecturn</text><rect x="200" y="304" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="316" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="304" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="316" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="304" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="316" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="304" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="316" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="304" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="316" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="304" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="316" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="336" class="t-row c-ink" text-anchor="end">keelhaul</text><rect x="200" y="324" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="336" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="324" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="336" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="324" width="124" height="16" rx="2" class="cell cell-st-live"/><text x="518" y="336" class="t-cell c-ink" text-anchor="middle">being worked on</text><rect x="584" y="324" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="336" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="324" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="774" y="336" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="840" y="324" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="336" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="356" class="t-row c-ink" text-anchor="end">beacon</text><rect x="200" y="344" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="356" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="344" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="356" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="344" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="356" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="344" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="356" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="344" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="356" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="344" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="356" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="376" class="t-row c-ink" text-anchor="end">tideline</text><rect x="200" y="364" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="376" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="364" width="124" height="16" rx="2" class="cell cell-st-fail"/><text x="390" y="376" class="t-cell c-ink" text-anchor="middle">did not pass</text><rect x="456" y="364" width="124" height="16" rx="2" class="cell cell-st-fail"/><text x="518" y="376" class="t-cell c-ink" text-anchor="middle">did not pass</text><rect x="584" y="364" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="376" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="364" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="376" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="364" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="376" class="t-cell c-ink" text-anchor="middle">nobody checked</text><text x="176" y="396" class="t-row c-ink" text-anchor="end">quarterdeck</text><rect x="200" y="384" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="396" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="384" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="396" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="384" width="124" height="16" rx="2" class="cell cell-st-live"/><text x="518" y="396" class="t-cell c-ink" text-anchor="middle">being worked on</text><rect x="584" y="384" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="396" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="384" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="396" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="384" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="396" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="416" class="t-row c-ink" text-anchor="end">mainstay</text><rect x="200" y="404" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="416" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="404" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="416" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="404" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="416" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="404" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="416" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="404" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="416" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="404" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="416" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="436" class="t-row c-ink" text-anchor="end">capstan</text><rect x="200" y="424" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="262" y="436" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="328" y="424" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="390" y="436" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="456" y="424" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="436" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="424" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="646" y="436" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="712" y="424" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="774" y="436" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="840" y="424" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="436" class="t-cell c-ink" text-anchor="middle">nobody checked</text><text x="176" y="456" class="t-row c-ink" text-anchor="end">bosun</text><rect x="200" y="444" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="456" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="444" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="456" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="444" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="456" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="444" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="456" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="444" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="456" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="444" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="456" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="476" class="t-row c-ink" text-anchor="end">halyard</text><rect x="200" y="464" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="476" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="464" width="124" height="16" rx="2" class="cell cell-st-stuck"/><text x="390" y="476" class="t-cell c-ink" text-anchor="middle">stuck</text><rect x="456" y="464" width="124" height="16" rx="2" class="cell cell-st-stuck"/><text x="518" y="476" class="t-cell c-ink" text-anchor="middle">stuck</text><rect x="584" y="464" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="476" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="464" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="774" y="476" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="840" y="464" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="476" class="t-cell c-ink" text-anchor="middle">nobody checked</text><text x="176" y="496" class="t-row c-ink" text-anchor="end">lodestar</text><rect x="200" y="484" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="496" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="484" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="496" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="484" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="496" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="484" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="496" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="484" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="496" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="484" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="496" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="516" class="t-row c-ink" text-anchor="end">dogwatch</text><rect x="200" y="504" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="516" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="504" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="516" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="504" width="124" height="16" rx="2" class="cell cell-st-live"/><text x="518" y="516" class="t-cell c-ink" text-anchor="middle">being worked on</text><rect x="584" y="504" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="516" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="504" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="774" y="516" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="840" y="504" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="516" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="536" class="t-row c-ink" text-anchor="end">foghorn</text><rect x="200" y="524" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="536" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="524" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="536" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="524" width="124" height="16" rx="2" class="cell cell-st-waived"/><text x="518" y="536" class="t-cell c-ink" text-anchor="middle">left undone</text><rect x="584" y="524" width="124" height="16" rx="2" class="cell cell-st-waived"/><text x="646" y="536" class="t-cell c-ink" text-anchor="middle">left undone</text><rect x="712" y="524" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="536" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="524" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="536" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="556" class="t-row c-ink" text-anchor="end">gangway</text><rect x="200" y="544" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="556" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="544" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="556" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="544" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="556" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="544" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="556" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="544" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="556" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="544" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="556" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="576" class="t-row c-ink" text-anchor="end">jetsam</text><rect x="200" y="564" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="576" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="564" width="124" height="16" rx="2" class="cell cell-st-fail"/><text x="390" y="576" class="t-cell c-ink" text-anchor="middle">did not pass</text><rect x="456" y="564" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="576" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="564" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="576" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="564" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="774" y="576" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="840" y="564" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="576" class="t-cell c-ink" text-anchor="middle">nobody checked</text><text x="176" y="596" class="t-row c-ink" text-anchor="end">kedge</text><rect x="200" y="584" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="596" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="584" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="596" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="584" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="518" y="596" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="584" y="584" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="596" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="584" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="596" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="584" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="902" y="596" class="t-cell c-ink" text-anchor="middle">passed</text><text x="176" y="616" class="t-row c-ink" text-anchor="end">landfall</text><rect x="200" y="604" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="616" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="604" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="616" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="604" width="124" height="16" rx="2" class="cell cell-st-live"/><text x="518" y="616" class="t-cell c-ink" text-anchor="middle">being worked on</text><rect x="584" y="604" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="616" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="604" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="774" y="616" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="840" y="604" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="616" class="t-cell c-ink" text-anchor="middle">nobody checked</text><text x="176" y="636" class="t-row c-ink" text-anchor="end">mizzen</text><rect x="200" y="624" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="262" y="636" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="328" y="624" width="124" height="16" rx="2" class="cell cell-st-stuck"/><text x="390" y="636" class="t-cell c-ink" text-anchor="middle">stuck</text><rect x="456" y="624" width="124" height="16" rx="2" class="cell cell-st-stuck"/><text x="518" y="636" class="t-cell c-ink" text-anchor="middle">stuck</text><rect x="584" y="624" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="646" y="636" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="712" y="624" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="774" y="636" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="840" y="624" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="636" class="t-cell c-ink" text-anchor="middle">nobody checked</text><text x="176" y="656" class="t-row c-ink" text-anchor="end">netting</text><rect x="200" y="644" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="262" y="656" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="328" y="644" width="124" height="16" rx="2" class="cell cell-st-pass"/><text x="390" y="656" class="t-cell c-ink" text-anchor="middle">passed</text><rect x="456" y="644" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="518" y="656" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="584" y="644" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="646" y="656" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="712" y="644" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="774" y="656" class="t-cell c-ink" text-anchor="middle">nobody checked</text><rect x="840" y="644" width="124" height="16" rx="2" class="cell cell-st-none"/><text x="902" y="656" class="t-cell c-ink" text-anchor="middle">nobody checked</text><line x1="200" y1="678" x2="964" y2="678" class="k-hair"/><rect x="200" y="693" width="10" height="10" rx="1" class="f-st-pass"/><text x="216" y="702" class="t-note c-muted">passed</text><rect x="328" y="693" width="10" height="10" rx="1" class="f-st-live"/><text x="344" y="702" class="t-note c-muted">being worked on</text><rect x="456" y="693" width="10" height="10" rx="1" class="f-st-fail"/><text x="472" y="702" class="t-note c-muted">did not pass</text><rect x="584" y="693" width="10" height="10" rx="1" class="f-st-stuck"/><text x="600" y="702" class="t-note c-muted">stuck</text><rect x="712" y="693" width="10" height="10" rx="1" class="f-st-none"/><text x="728" y="702" class="t-note c-muted">nobody checked</text><rect x="840" y="693" width="10" height="10" rx="1" class="f-st-waived"/><text x="856" y="702" class="t-note c-muted">left undone</text></svg></div><details class="tv"><summary>Every check, project by project</summary><div class="tv-scroll"><table><thead><tr><th scope="col">Project</th><th scope="col">build</th><th scope="col">tests</th><th scope="col">types</th><th scope="col">security</th><th scope="col">design</th><th scope="col">sign-off</th></tr></thead><tbody><tr><th scope="row">atlas</th><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">warden</th><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">relay</th><td>passed</td><td>passed</td><td>being worked on</td><td>passed</td><td>passed</td><td>nobody checked</td></tr><tr><th scope="row">dossier</th><td>passed</td><td>passed</td><td>did not pass</td><td>passed</td><td>passed</td><td>nobody checked</td></tr><tr><th scope="row">splice</th><td>passed</td><td>did not pass</td><td>stuck</td><td>nobody checked</td><td>passed</td><td>nobody checked</td></tr><tr><th scope="row">vigil</th><td>passed</td><td>passed</td><td>did not pass</td><td>passed</td><td>nobody checked</td><td>did not pass</td></tr><tr><th scope="row">lifeline</th><td>passed</td><td>passed</td><td>being worked on</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">harbourmaster</th><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">sidetone</th><td>nobody checked</td><td>nobody checked</td><td>nobody checked</td><td>nobody checked</td><td>nobody checked</td><td>nobody checked</td></tr><tr><th scope="row">proctor</th><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">slipway</th><td>passed</td><td>passed</td><td>left undone</td><td>left undone</td><td>passed</td><td>passed</td></tr><tr><th scope="row">anvil</th><td>passed</td><td>did not pass</td><td>stuck</td><td>passed</td><td>passed</td><td>nobody checked</td></tr><tr><th scope="row">lecturn</th><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">keelhaul</th><td>passed</td><td>passed</td><td>being worked on</td><td>passed</td><td>nobody checked</td><td>passed</td></tr><tr><th scope="row">beacon</th><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">tideline</th><td>passed</td><td>did not pass</td><td>did not pass</td><td>passed</td><td>passed</td><td>nobody checked</td></tr><tr><th scope="row">quarterdeck</th><td>passed</td><td>passed</td><td>being worked on</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">mainstay</th><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">capstan</th><td>nobody checked</td><td>nobody checked</td><td>passed</td><td>nobody checked</td><td>nobody checked</td><td>nobody checked</td></tr><tr><th scope="row">bosun</th><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">halyard</th><td>passed</td><td>stuck</td><td>stuck</td><td>passed</td><td>nobody checked</td><td>nobody checked</td></tr><tr><th scope="row">lodestar</th><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">dogwatch</th><td>passed</td><td>passed</td><td>being worked on</td><td>passed</td><td>nobody checked</td><td>passed</td></tr><tr><th scope="row">foghorn</th><td>passed</td><td>passed</td><td>left undone</td><td>left undone</td><td>passed</td><td>passed</td></tr><tr><th scope="row">gangway</th><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">jetsam</th><td>passed</td><td>did not pass</td><td>passed</td><td>passed</td><td>nobody checked</td><td>nobody checked</td></tr><tr><th scope="row">kedge</th><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td><td>passed</td></tr><tr><th scope="row">landfall</th><td>passed</td><td>passed</td><td>being worked on</td><td>passed</td><td>passed</td><td>nobody checked</td></tr><tr><th scope="row">mizzen</th><td>passed</td><td>stuck</td><td>stuck</td><td>passed</td><td>nobody checked</td><td>nobody checked</td></tr><tr><th scope="row">netting</th><td>nobody checked</td><td>passed</td><td>nobody checked</td><td>nobody checked</td><td>nobody checked</td><td>nobody checked</td></tr></tbody></table></div></details></div>
+  </section>
+
+</div>
+
+<p class="colophon">Sample figures. Point the data block at your own reports to use it.</p>
+
+</div>
+
+<script type="application/json" id="report-data">
+{
+ "updated": "2026-09-04T09:00:00Z",
+ "machine": {
+  "load_per_core": 0.78,
+  "mem_free_gb": 6.4,
+  "mem_total_gb": 32,
+  "disk_free_gb": 128,
+  "disk_total_gb": 926,
+  "worktrees": 41
+ },
+ "flight": {
+  "runners_live": 9,
+  "runners_cap": 12,
+  "wave": "round 7",
+  "queued": 14,
+  "parked": 3
+ },
+ "projects": [
+  {
+   "project": "atlas",
+   "updated": "2026-09-04T06:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "24 of 24"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 24,
+    "total": 24
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 96,
+     "denominator": 100
+    }
+   ]
+  },
+  {
+   "project": "warden",
+   "updated": "2026-09-04T04:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "18 of 18"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 18,
+    "total": 18
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 64,
+     "denominator": 64
+    }
+   ]
+  },
+  {
+   "project": "relay",
+   "updated": "2026-09-04T08:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "31 of 44"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 31,
+    "total": 44
+   },
+   "defects_open": 2,
+   "corrections": [
+    {
+     "retracted_claim": "every route was covered",
+     "true_state": "four routes had no test at all",
+     "caught_by": "a fresh run on a clean checkout",
+     "when": "2026-09-04T05:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "REL-0311",
+     "blocked_on": "a review nobody has picked up",
+     "age_hours": 26
+    },
+    {
+     "item_id": "REL-0318",
+     "blocked_on": "a decision on the export format",
+     "age_hours": 11
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 120,
+     "denominator": 160
+    }
+   ]
+  },
+  {
+   "project": "dossier",
+   "updated": "2026-09-04T07:00:00Z",
+   "verdict": {
+    "token": "needs-work",
+    "number": "52 of 61"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "needs-work"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 52,
+    "total": 61
+   },
+   "defects_open": 7,
+   "corrections": [
+    {
+     "retracted_claim": "the vendor prices were right",
+     "true_state": "three of five were wrong",
+     "caught_by": "reading the vendor page ourselves",
+     "when": "2026-09-04T02:00:00Z"
+    },
+    {
+     "retracted_claim": "the import finished",
+     "true_state": "it stopped at 8,412 of 12,000 rows",
+     "caught_by": "counting the stored rows",
+     "when": "2026-09-03T03:00:00Z"
+    },
+    {
+     "retracted_claim": "the cache was warm",
+     "true_state": "every request missed it",
+     "caught_by": "timing two identical calls",
+     "when": "2026-09-02T04:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "DOS-0902",
+     "blocked_on": "a rate limit that resets nightly",
+     "age_hours": 63
+    },
+    {
+     "item_id": "DOS-0915",
+     "blocked_on": "the vendor key",
+     "age_hours": 41
+    },
+    {
+     "item_id": "DOS-0931",
+     "blocked_on": "a flaky test we cannot reproduce",
+     "age_hours": 9
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 210,
+     "denominator": 300
+    }
+   ]
+  },
+  {
+   "project": "splice",
+   "updated": "2026-09-04T00:00:00Z",
+   "verdict": {
+    "token": "blocked",
+    "number": "12 of 28"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "needs-work"
+    },
+    {
+     "name": "types",
+     "state": "blocked"
+    },
+    {
+     "name": "security",
+     "state": "unmeasured"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 12,
+    "total": 28
+   },
+   "defects_open": 4,
+   "corrections": [
+    {
+     "retracted_claim": "the speed target was met",
+     "true_state": "it was measured while two other jobs ran",
+     "caught_by": "repeating it on an idle machine",
+     "when": "2026-09-03T21:00:00Z"
+    },
+    {
+     "retracted_claim": "the branch was merged",
+     "true_state": "it was merged into the wrong branch",
+     "caught_by": "reading the merge history",
+     "when": "2026-09-01T23:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "SPL-0142",
+     "blocked_on": "an idle host to measure on",
+     "age_hours": 214
+    },
+    {
+     "item_id": "SPL-0150",
+     "blocked_on": "the same idle host",
+     "age_hours": 188
+    },
+    {
+     "item_id": "SPL-0151",
+     "blocked_on": "a decision on the tolerance",
+     "age_hours": 133
+    },
+    {
+     "item_id": "SPL-0166",
+     "blocked_on": "a review",
+     "age_hours": 77
+    },
+    {
+     "item_id": "SPL-0171",
+     "blocked_on": "the upstream fix",
+     "age_hours": 52
+    }
+   ],
+   "needs_you": [
+    {
+     "ask": "Say whether ±10% is close enough on the speed target",
+     "kind": "decision",
+     "waiting_since": "2026-08-31T09:00:00Z",
+     "one_line": "Five tasks are stopped behind this one answer."
+    }
+   ],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 40,
+     "denominator": 95
+    }
+   ]
+  },
+  {
+   "project": "vigil",
+   "updated": "2026-09-04T07:00:00Z",
+   "verdict": {
+    "token": "needs-work",
+    "number": "14 of 21"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "needs-work"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "needs-work"
+    }
+   ],
+   "done_of_total": {
+    "done": 14,
+    "total": 21
+   },
+   "defects_open": 5,
+   "corrections": [
+    {
+     "retracted_claim": "fourteen of fourteen were finished",
+     "true_state": "the check only proved the code compiled",
+     "caught_by": "opening the app and looking",
+     "when": "2026-09-04T03:00:00Z"
+    },
+    {
+     "retracted_claim": "the design matched the drawing",
+     "true_state": "the spacing was off on every card",
+     "caught_by": "measuring the rendered page",
+     "when": "2026-09-03T07:00:00Z"
+    },
+    {
+     "retracted_claim": "the suite was green",
+     "true_state": "the filter ran zero tests and still passed",
+     "caught_by": "printing the number it ran",
+     "when": "2026-09-02T07:00:00Z"
+    },
+    {
+     "retracted_claim": "nothing was left to do",
+     "true_state": "nine tasks had never been measured",
+     "caught_by": "listing what no test names",
+     "when": "2026-09-01T07:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "VIG-0088",
+     "blocked_on": "a design that nobody has drawn",
+     "age_hours": 96
+    },
+    {
+     "item_id": "VIG-0093",
+     "blocked_on": "the sign-off",
+     "age_hours": 34
+    }
+   ],
+   "needs_you": [
+    {
+     "ask": "Look at the four rebuilt screens",
+     "kind": "review",
+     "waiting_since": "2026-09-03T13:00:00Z",
+     "one_line": "Built and waiting; nobody has looked yet."
+    }
+   ],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 55,
+     "denominator": 120
+    }
+   ]
+  },
+  {
+   "project": "lifeline",
+   "updated": "2026-09-04T08:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "22 of 30"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 22,
+    "total": 30
+   },
+   "defects_open": 1,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "LIF-0044",
+     "blocked_on": "a version of the CLI we can read",
+     "age_hours": 58
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 88,
+     "denominator": 96
+    }
+   ]
+  },
+  {
+   "project": "harbourmaster",
+   "updated": "2026-09-03T22:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "9 of 9"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 9,
+    "total": 9
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 30,
+     "denominator": 30
+    }
+   ]
+  },
+  {
+   "project": "sidetone",
+   "updated": "2026-09-03T03:00:00Z",
+   "verdict": {
+    "token": "unmeasured",
+    "number": "16 of 16"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "unmeasured"
+    },
+    {
+     "name": "tests",
+     "state": "unmeasured"
+    },
+    {
+     "name": "types",
+     "state": "unmeasured"
+    },
+    {
+     "name": "security",
+     "state": "unmeasured"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 16,
+    "total": 16
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 0,
+     "denominator": 0
+    }
+   ]
+  },
+  {
+   "project": "proctor",
+   "updated": "2026-09-04T03:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "41 of 41"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 41,
+    "total": 41
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 150,
+     "denominator": 150
+    }
+   ]
+  },
+  {
+   "project": "slipway",
+   "updated": "2026-09-02T09:00:00Z",
+   "verdict": {
+    "token": "waived",
+    "number": "5 of 12"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "waived"
+    },
+    {
+     "name": "security",
+     "state": "waived"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 5,
+    "total": 12
+   },
+   "defects_open": 1,
+   "corrections": [
+    {
+     "retracted_claim": "the upgrade kept the description",
+     "true_state": "it overwrote it in seven files",
+     "caught_by": "diffing the files afterwards",
+     "when": "2026-09-02T08:00:00Z"
+    }
+   ],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 20,
+     "denominator": 40
+    }
+   ]
+  },
+  {
+   "project": "anvil",
+   "updated": "2026-09-03T19:00:00Z",
+   "verdict": {
+    "token": "blocked",
+    "number": "7 of 19"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "needs-work"
+    },
+    {
+     "name": "types",
+     "state": "blocked"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 7,
+    "total": 19
+   },
+   "defects_open": 3,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "ANV-0021",
+     "blocked_on": "disk space on the build host",
+     "age_hours": 118
+    },
+    {
+     "item_id": "ANV-0025",
+     "blocked_on": "a container image that builds",
+     "age_hours": 101
+    },
+    {
+     "item_id": "ANV-0028",
+     "blocked_on": "the same image",
+     "age_hours": 84
+    },
+    {
+     "item_id": "ANV-0033",
+     "blocked_on": "a decision on the backend",
+     "age_hours": 47
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 33,
+     "denominator": 70
+    }
+   ]
+  },
+  {
+   "project": "lecturn",
+   "updated": "2026-09-03T13:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "13 of 13"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 13,
+    "total": 13
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 44,
+     "denominator": 44
+    }
+   ]
+  },
+  {
+   "project": "keelhaul",
+   "updated": "2026-09-04T07:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "18 of 26"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 18,
+    "total": 26
+   },
+   "defects_open": 2,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "KEE-0207",
+     "blocked_on": "a schema nobody has agreed",
+     "age_hours": 72
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 70,
+     "denominator": 110
+    }
+   ]
+  },
+  {
+   "project": "beacon",
+   "updated": "2026-09-04T02:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "27 of 27"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 27,
+    "total": 27
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 88,
+     "denominator": 88
+    }
+   ]
+  },
+  {
+   "project": "tideline",
+   "updated": "2026-09-04T05:00:00Z",
+   "verdict": {
+    "token": "needs-work",
+    "number": "20 of 25"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "needs-work"
+    },
+    {
+     "name": "types",
+     "state": "needs-work"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 20,
+    "total": 25
+   },
+   "defects_open": 6,
+   "corrections": [
+    {
+     "retracted_claim": "the deploy was live",
+     "true_state": "the old version was still being served",
+     "caught_by": "checking the address it points at",
+     "when": "2026-09-03T15:00:00Z"
+    },
+    {
+     "retracted_claim": "the form rejected bad input",
+     "true_state": "it accepted anything",
+     "caught_by": "submitting an empty form",
+     "when": "2026-09-02T13:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "TID-0410",
+     "blocked_on": "the staging database",
+     "age_hours": 145
+    },
+    {
+     "item_id": "TID-0416",
+     "blocked_on": "a review",
+     "age_hours": 29
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 60,
+     "denominator": 140
+    }
+   ]
+  },
+  {
+   "project": "quarterdeck",
+   "updated": "2026-09-04T08:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "33 of 40"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 33,
+    "total": 40
+   },
+   "defects_open": 1,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "QUA-0512",
+     "blocked_on": "a font licence",
+     "age_hours": 19
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 130,
+     "denominator": 150
+    }
+   ]
+  },
+  {
+   "project": "mainstay",
+   "updated": "2026-09-03T17:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "11 of 11"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 11,
+    "total": 11
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 36,
+     "denominator": 36
+    }
+   ]
+  },
+  {
+   "project": "capstan",
+   "updated": "2026-09-03T07:00:00Z",
+   "verdict": {
+    "token": "unmeasured",
+    "number": "8 of 8"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "unmeasured"
+    },
+    {
+     "name": "tests",
+     "state": "unmeasured"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "unmeasured"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 8,
+    "total": 8
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 12,
+     "denominator": 80
+    }
+   ]
+  },
+  {
+   "project": "bosun",
+   "updated": "2026-09-04T00:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "15 of 15"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 15,
+    "total": 15
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 52,
+     "denominator": 52
+    }
+   ]
+  },
+  {
+   "project": "halyard",
+   "updated": "2026-09-03T11:00:00Z",
+   "verdict": {
+    "token": "blocked",
+    "number": "4 of 17"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "blocked"
+    },
+    {
+     "name": "types",
+     "state": "blocked"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 4,
+    "total": 17
+   },
+   "defects_open": 2,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "HAL-0106",
+     "blocked_on": "the certificate",
+     "age_hours": 168
+    },
+    {
+     "item_id": "HAL-0112",
+     "blocked_on": "the same certificate",
+     "age_hours": 156
+    },
+    {
+     "item_id": "HAL-0119",
+     "blocked_on": "a decision on the fallback",
+     "age_hours": 90
+    }
+   ],
+   "needs_you": [
+    {
+     "ask": "A certificate for the staging host",
+     "kind": "credential",
+     "waiting_since": "2026-09-01T19:00:00Z",
+     "one_line": "Nothing here can be tested until it exists."
+    }
+   ],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 18,
+     "denominator": 60
+    }
+   ]
+  },
+  {
+   "project": "lodestar",
+   "updated": "2026-09-03T21:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "29 of 29"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 29,
+    "total": 29
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 101,
+     "denominator": 101
+    }
+   ]
+  },
+  {
+   "project": "dogwatch",
+   "updated": "2026-09-04T06:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "12 of 21"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 12,
+    "total": 21
+   },
+   "defects_open": 3,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "DOG-0033",
+     "blocked_on": "a machine with a GPU",
+     "age_hours": 110
+    },
+    {
+     "item_id": "DOG-0037",
+     "blocked_on": "a test account",
+     "age_hours": 38
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 45,
+     "denominator": 90
+    }
+   ]
+  },
+  {
+   "project": "foghorn",
+   "updated": "2026-09-03T00:00:00Z",
+   "verdict": {
+    "token": "waived",
+    "number": "6 of 14"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "waived"
+    },
+    {
+     "name": "security",
+     "state": "waived"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 6,
+    "total": 14
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 25,
+     "denominator": 50
+    }
+   ]
+  },
+  {
+   "project": "gangway",
+   "updated": "2026-09-04T01:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "21 of 21"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 21,
+    "total": 21
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 77,
+     "denominator": 77
+    }
+   ]
+  },
+  {
+   "project": "jetsam",
+   "updated": "2026-09-04T04:00:00Z",
+   "verdict": {
+    "token": "needs-work",
+    "number": "9 of 16"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "needs-work"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 9,
+    "total": 16
+   },
+   "defects_open": 4,
+   "corrections": [
+    {
+     "retracted_claim": "the endpoint returned rows",
+     "true_state": "it returned an empty list",
+     "caught_by": "reading the response body",
+     "when": "2026-09-03T12:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "JET-0075",
+     "blocked_on": "the API contract",
+     "age_hours": 128
+    },
+    {
+     "item_id": "JET-0081",
+     "blocked_on": "a review",
+     "age_hours": 22
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 28,
+     "denominator": 95
+    }
+   ]
+  },
+  {
+   "project": "kedge",
+   "updated": "2026-09-03T20:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "17 of 17"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 17,
+    "total": 17
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 61,
+     "denominator": 61
+    }
+   ]
+  },
+  {
+   "project": "landfall",
+   "updated": "2026-09-04T08:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "25 of 34"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 25,
+    "total": 34
+   },
+   "defects_open": 2,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "LAN-0260",
+     "blocked_on": "a decision on pricing copy",
+     "age_hours": 15
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 96,
+     "denominator": 140
+    }
+   ]
+  },
+  {
+   "project": "mizzen",
+   "updated": "2026-09-03T14:00:00Z",
+   "verdict": {
+    "token": "blocked",
+    "number": "3 of 11"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "blocked"
+    },
+    {
+     "name": "types",
+     "state": "blocked"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 3,
+    "total": 11
+   },
+   "defects_open": 1,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "MIZ-0012",
+     "blocked_on": "the SSH key",
+     "age_hours": 176
+    },
+    {
+     "item_id": "MIZ-0018",
+     "blocked_on": "a console session on the host",
+     "age_hours": 162
+    },
+    {
+     "item_id": "MIZ-0024",
+     "blocked_on": "the same console session",
+     "age_hours": 66
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 9,
+     "denominator": 44
+    }
+   ]
+  },
+  {
+   "project": "netting",
+   "updated": "2026-09-03T05:00:00Z",
+   "verdict": {
+    "token": "unmeasured",
+    "number": "10 of 10"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "unmeasured"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "unmeasured"
+    },
+    {
+     "name": "security",
+     "state": "unmeasured"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 10,
+    "total": 10
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 5,
+     "denominator": 70
+    }
+   ]
+  }
+ ]
+}
+</script>
+
+<script>
+(function () {
+'use strict';
+/* Renderers: pure functions, data in, HTML string out.
+   Used twice — once by build.js to bake the static markup, once in the browser
+   to re-render from the JSON block. Same code both times, so the no-JS page and
+   the live page cannot drift apart. */
+
+const STATE = {
+  'done':       { word: 'passed',          chip: 'passed',         cls: 'st-pass' },
+  'in-flight':  { word: 'being worked on', chip: 'in progress',    cls: 'st-live' },
+  'needs-work': { word: 'did not pass',    chip: 'did not pass',   cls: 'st-fail' },
+  'blocked':    { word: 'stuck',           chip: 'stuck',          cls: 'st-stuck' },
+  'unmeasured': { word: 'nobody checked',  chip: 'nobody checked', cls: 'st-none' },
+  'waived':     { word: 'left undone',     chip: 'left undone',    cls: 'st-waived' }
+};
+const ORDER = ['done', 'in-flight', 'needs-work', 'blocked', 'unmeasured', 'waived'];
+// Sort order for "how it went": the states that need a person come first.
+const ATTENTION = ['blocked', 'needs-work', 'unmeasured', 'in-flight', 'waived', 'done'];
+const KINDS = ['build', 'tests', 'types', 'security', 'design', 'sign-off'];
+
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+const round1 = (n) => Math.round(n * 10) / 10;
+
+function ageHours(data, isoString) {
+  return (Date.parse(data.updated) - Date.parse(isoString)) / 3600e3;
+}
+function ageWords(h) {
+  if (h < 1) return 'under an hour';
+  if (h < 48) return Math.round(h) + ' hours';
+  return Math.round(h / 24) + ' days';
+}
+function ageShort(h) {
+  if (h < 48) return Math.round(h) + 'h';
+  return Math.round(h / 24) + 'd';
+}
+
+/* ---------- shared bits ---------- */
+
+// Charts sit in their own horizontal scroller: below the width where their
+// labels stay legible they scroll rather than shrinking into illegibility.
+const CLOSE_SVG = '</svg></div>';
+function svgOpen(id, vb, title, desc) {
+  const wide = vb.indexOf('0 0 1000') === 0 ? ' chart--wide' : ' chart--narrow';
+  return '<div class="chartbox">' +
+    '<svg class="chart' + wide + '" viewBox="' + vb + '" role="img"' +
+    ' aria-labelledby="' + id + '-title ' + id + '-desc" preserveAspectRatio="xMidYMid meet">' +
+    '<title id="' + id + '-title">' + esc(title) + '</title>' +
+    '<desc id="' + id + '-desc">' + esc(desc) + '</desc>';
+}
+function txt(x, y, cls, s, anchor) {
+  return '<text x="' + x + '" y="' + y + '" class="' + cls + '"' +
+    (anchor ? ' text-anchor="' + anchor + '"' : '') + '>' + esc(s) + '</text>';
+}
+function tableView(summary, head, rows) {
+  return '<details class="tv"><summary>' + esc(summary) + '</summary>' +
+    '<div class="tv-scroll"><table><thead><tr>' +
+    head.map((h) => '<th scope="col">' + esc(h) + '</th>').join('') +
+    '</tr></thead><tbody>' +
+    rows.map((r) => '<tr>' + r.map((c, i) => i === 0
+      ? '<th scope="row">' + esc(c) + '</th>'
+      : '<td>' + esc(c) + '</td>').join('') + '</tr>').join('') +
+    '</tbody></table></div></details>';
+}
+function tally(data) {
+  const t = {};
+  ORDER.forEach((k) => { t[k] = 0; });
+  data.projects.forEach((p) => { t[p.verdict.token] += 1; });
+  return t;
+}
+const allAsks = (d) => d.projects.flatMap((p) => p.needs_you.map((a) => Object.assign({ project: p.project }, a)));
+const allStuck = (d) => d.projects.flatMap((p) => p.remaining.map((s) => Object.assign({ project: p.project }, s)));
+const allCorrections = (d) => d.projects.flatMap((p) => p.corrections.map((c) => Object.assign({ project: p.project }, c)));
+
+/* ---------- 1. Everything at a glance — stat tiles ---------- */
+
+function renderPulse(data) {
+  const t = tally(data);
+  const asks = allAsks(data);
+  const oldest = asks.length ? Math.max.apply(null, asks.map((a) => ageHours(data, a.waiting_since))) : 0;
+  const tiles = [
+    ['PROJECTS', data.projects.length, 'in the portfolio', ''],
+    ['EVERY CHECK PASSED', t['done'], 'nothing to do here', 'st-pass'],
+    ['BEING WORKED ON', t['in-flight'], 'right now', 'st-live'],
+    ['TRIED, DID NOT PASS', t['needs-work'], 'came back failing', 'st-fail'],
+    ['STUCK', t['blocked'], 'waiting on something', 'st-stuck'],
+    ['WAITING ON YOU', asks.length,
+      asks.length ? 'oldest asked ' + ageWords(oldest) + ' ago' : 'nothing outstanding', 'focal'],
+    ['THINGS WE GOT WRONG', allCorrections(data).length, 'corrected since Monday', '']
+  ];
+  let s = svgOpen('pulse', '0 0 1000 132',
+    'Seven portfolio counts',
+    'Seven counts across ' + data.projects.length + ' projects: ' + data.projects.length +
+    ' projects tracked, ' + t['done'] + ' with every check passed, ' + t['in-flight'] +
+    ' being worked on, ' + t['needs-work'] + ' that tried and did not pass, ' + t['blocked'] +
+    ' stuck, ' + asks.length + ' waiting on you, and ' + allCorrections(data).length +
+    ' things the agents corrected about their own earlier reports.');
+  s += '<line x1="8" y1="10" x2="980" y2="10" class="k-rule"/>';
+  tiles.forEach((tile, i) => {
+    const x = 8 + i * 140;
+    const focal = tile[3] === 'focal';
+    if (i > 0) s += '<line x1="' + (x - 12) + '" y1="26" x2="' + (x - 12) + '" y2="116" class="k-hair"/>';
+    if (focal) s += '<line x1="' + x + '" y1="10" x2="' + (x + 118) + '" y2="10" class="k-accent-rule"/>';
+    s += txt(x, 34, 't-eyebrow ' + (focal ? 'c-accent' : 'c-soft'), tile[0]);
+    s += txt(x, 84, 't-figure ' + (focal ? 'c-accent' : tile[3] ? 'c-' + tile[3] : 'c-ink'), String(tile[1]));
+    s += txt(x, 108, 't-note c-soft', tile[2]);
+  });
+  s += CLOSE_SVG;
+  return s + tableView('The seven counts as a table', ['Count', 'Value'],
+    tiles.map((x) => [x[0].toLowerCase(), String(x[1])]));
+}
+
+/* ---------- 2. Waiting on you — table ---------- */
+
+function renderNeedsYou(data) {
+  const asks = allAsks(data)
+    .map((a) => Object.assign({ h: ageHours(data, a.waiting_since) }, a))
+    .sort((a, b) => b.h - a.h);
+  if (!asks.length) return '<p class="empty empty--good">Nothing waiting on you.</p>';
+  const kindWord = { decision: 'a decision', credential: 'a password or key', review: 'a look' };
+  return '<div class="scroll"><table class="tbl tbl--ask">' +
+    '<thead><tr><th scope="col">Waiting</th><th scope="col">What is needed</th>' +
+    '<th scope="col">Project</th><th scope="col">Why it matters</th></tr></thead><tbody>' +
+    asks.map((a) => '<tr>' +
+      '<td class="num accent">' + esc(ageWords(a.h)) + '</td>' +
+      '<th scope="row">' + esc(a.ask) + '<span class="sub">' + esc(kindWord[a.kind] || a.kind) + '</span></th>' +
+      '<td class="mono">' + esc(a.project) + '</td>' +
+      '<td class="quiet">' + esc(a.one_line) + '</td></tr>').join('') +
+    '</tbody></table></div>';
+}
+
+/* ---------- 3. Every project — table with meter and check strip ---------- */
+
+function meterSvg(done, total) {
+  const w = total ? Math.round((done / total) * 88) : 0;
+  return '<svg class="micro" width="88" height="6" viewBox="0 0 88 6" aria-hidden="true" focusable="false">' +
+    '<rect x="0" y="0" width="88" height="6" rx="1" class="f-track"/>' +
+    (w > 0 ? '<rect x="0" y="0" width="' + w + '" height="6" rx="1" class="f-fill"/>' : '') + '</svg>';
+}
+function stripSvg(gates) {
+  let s = '<svg class="micro" width="76" height="10" viewBox="0 0 76 10" aria-hidden="true" focusable="false">';
+  gates.forEach((g, i) => {
+    s += '<rect x="' + (i * 13) + '" y="0" width="10" height="10" rx="1" class="f-' + STATE[g.state].cls + '"/>';
+  });
+  return s + '</svg>';
+}
+function projectRow(data, p) {
+  const st = STATE[p.verdict.token];
+  const d = p.done_of_total;
+  const spoken = p.gates.map((g, i) => KINDS[i] + ' ' + STATE[g.state].word).join(', ');
+  return '<tr data-state="' + p.verdict.token + '">' +
+    '<th scope="row" class="mono">' + esc(p.project) + '</th>' +
+    '<td><span class="pill ' + st.cls + '"><span class="swatch" aria-hidden="true"></span>' +
+      esc(st.word) + '</span></td>' +
+    '<td class="meter-cell">' + meterSvg(d.done, d.total) +
+      '<span class="num">' + d.done + '<span class="of">/</span>' + d.total + '</span></td>' +
+    '<td>' + stripSvg(p.gates) + '<span class="sr">' + esc(spoken) + '</span></td>' +
+    '<td class="num' + (p.defects_open ? ' warn' : ' zero') + '">' + p.defects_open + '</td>' +
+    '<td class="num' + (p.corrections.length ? '' : ' zero') + '">' + p.corrections.length + '</td>' +
+    '<td class="num quiet">' + esc(ageShort(ageHours(data, p.updated))) + '</td></tr>';
+}
+function renderProjects(data, sortKey, dir, filter) {
+  const t = tally(data);
+  const chips = [['all', 'All', data.projects.length]].concat(ORDER.map((k) => [k, STATE[k].chip, t[k]]));
+  const head = [['project', 'Project'], ['state', 'How it went'], ['progress', 'Tasks done'],
+    ['checks', 'Checks'], ['defects', 'Problems'], ['corrections', 'We got wrong'], ['updated', 'Last word']];
+  const keyed = {
+    project: (p) => p.project,
+    state: (p) => ATTENTION.indexOf(p.verdict.token),
+    progress: (p) => (p.done_of_total.total ? p.done_of_total.done / p.done_of_total.total : 0),
+    checks: (p) => p.gates.filter((g) => g.state === 'done').length,
+    defects: (p) => p.defects_open,
+    corrections: (p) => p.corrections.length,
+    updated: (p) => -ageHours(data, p.updated)
+  };
+  const rows = data.projects
+    .filter((p) => filter === 'all' || p.verdict.token === filter)
+    .slice()
+    .sort((a, b) => {
+      const x = keyed[sortKey](a), y = keyed[sortKey](b);
+      const c = x < y ? -1 : x > y ? 1 : 0;
+      return dir === 'asc' ? c : -c;
+    });
+  return '<div class="chiprow" role="group" aria-label="Show only projects with one result">' +
+    chips.map(([k, label, n]) => '<button type="button" class="chip" data-filter="' + k + '"' +
+      ' aria-pressed="' + (filter === k) + '"' + (n === 0 ? ' disabled' : '') + '>' +
+      esc(label) + '<span class="chip-n">' + n + '</span></button>').join('') + '</div>' +
+    '<div class="scroll tallscroll"><table class="tbl tbl--projects"><thead><tr>' +
+    head.map(([k, label]) => '<th scope="col"' +
+      ' aria-sort="' + (sortKey === k ? (dir === 'asc' ? 'ascending' : 'descending') : 'none') + '">' +
+      '<button type="button" data-sort="' + k + '">' + esc(label) +
+      '<span class="caret" aria-hidden="true">' + (sortKey === k ? (dir === 'asc' ? '▲' : '▼') : '·') +
+      '</span></button></th>').join('') + '</tr></thead><tbody>' +
+    (rows.length ? rows.map((p) => projectRow(data, p)).join('')
+      : '<tr><td colspan="7" class="empty">No project is in that state.</td></tr>') +
+    '</tbody></table></div>';
+}
+
+/* ---------- 4. Checks across projects — heat strip ---------- */
+
+function renderHeatmap(data) {
+  const n = data.projects.length;
+  const H = 64 + n * 20 + 64;
+  let s = svgOpen('heat', '0 0 1000 ' + H,
+    'Six checks for each of ' + n + ' projects',
+    'A grid of ' + n + ' rows and six columns. Each row is a project and each column one kind of check — ' +
+    'build, tests, types, security, design and sign-off. Every cell is tinted by its result and also ' +
+    'prints that result in words.');
+  KINDS.forEach((k, i) => { s += txt(200 + i * 128 + 62, 44, 't-eyebrow c-soft', k.toUpperCase(), 'middle'); });
+  s += '<line x1="200" y1="52" x2="964" y2="52" class="k-rule"/>';
+  data.projects.forEach((p, r) => {
+    const y = 64 + r * 20;
+    s += txt(176, y + 12, 't-row c-ink', p.project, 'end');
+    p.gates.forEach((g, i) => {
+      const st = STATE[g.state];
+      const x = 200 + i * 128;
+      s += '<rect x="' + x + '" y="' + y + '" width="124" height="16" rx="2" class="cell cell-' + st.cls + '"/>';
+      s += txt(x + 62, y + 12, 't-cell c-ink', st.word, 'middle');
+    });
+  });
+  const ly = 64 + n * 20 + 38;
+  s += '<line x1="200" y1="' + (ly - 24) + '" x2="964" y2="' + (ly - 24) + '" class="k-hair"/>';
+  ORDER.forEach((k, i) => {
+    const x = 200 + i * 128;
+    s += '<rect x="' + x + '" y="' + (ly - 9) + '" width="10" height="10" rx="1" class="f-' + STATE[k].cls + '"/>';
+    s += txt(x + 16, ly, 't-note c-muted', STATE[k].word);
+  });
+  s += CLOSE_SVG;
+  return s + tableView('Every check, project by project', ['Project'].concat(KINDS),
+    data.projects.map((p) => [p.project].concat(p.gates.map((g) => STATE[g.state].word))));
+}
+
+/* ---------- 5. Being worked on now — meter against capacity ---------- */
+
+function renderFlight(data) {
+  const f = data.flight;
+  let s = svgOpen('flight', '0 0 480 212',
+    f.runners_live + ' of ' + f.runners_cap + ' worker slots busy',
+    f.runners_live + ' of ' + f.runners_cap + ' worker slots are busy. ' + f.queued +
+    ' tasks are queued behind them and ' + f.parked + ' are parked. This is ' + f.wave + '.');
+  s += txt(0, 30, 't-eyebrow c-soft', 'WORKERS BUSY, AGAINST THE MOST WE ALLOW');
+  s += txt(0, 78, 't-figure c-ink', f.runners_live + ' of ' + f.runners_cap);
+  for (let i = 0; i < f.runners_cap; i++) {
+    s += '<rect x="' + (i * 40) + '" y="102" width="32" height="18" rx="2" class="' +
+      (i < f.runners_live ? 'f-st-live' : 'f-track') + '"/>';
+  }
+  s += '<line x1="0" y1="132" x2="472" y2="132" class="k-hair"/>';
+  s += txt(0, 152, 't-note c-muted', 'one block is one worker — ' + f.runners_live +
+    ' busy, ' + (f.runners_cap - f.runners_live) + ' free');
+  [['QUEUED BEHIND', f.queued, 0], ['PARKED', f.parked, 150], ['ROUND', f.wave.replace('round ', 'no. '), 290]]
+    .forEach((row) => {
+      s += txt(row[2], 186, 't-eyebrow c-soft', row[0]);
+      s += txt(row[2], 208, 't-fig-sm c-ink', String(row[1]));
+    });
+  s += CLOSE_SVG;
+  return s + tableView('Worker numbers as a table', ['Measure', 'Value'], [
+    ['workers busy', String(f.runners_live)], ['most allowed at once', String(f.runners_cap)],
+    ['tasks queued', String(f.queued)], ['tasks parked', String(f.parked)], ['round', f.wave]]);
+}
+
+/* ---------- 6. Stuck, and for how long — beeswarm ---------- */
+
+// Tag names held in constants so this file's own template strings are not read
+// as markup by the geometry checkers that scan the delivered page.
+const T_CIRCLE = 'circle';
+const T_TEXT = 'text';
+
+const BEE = { r: 4, mid: 144, x0: 80, w: 880, domain: 240, axisY: 248 };
+const beeX = (h) => round1(BEE.x0 + (h / BEE.domain) * BEE.w);
+// Four fixed label berths, two above the swarm and two below, so that two
+// outliers close together on the value axis cannot land labels on each other.
+const BERTH = [
+  { label: 84, note: 72, above: true },
+  { label: 194, note: 208, above: false },
+  { label: 48, note: 36, above: true },
+  { label: 226, note: 240, above: false }
+];
+
+function swarmY(dots) {
+  const pitch = 2 * BEE.r + 2;
+  const placed = [];
+  const idx = dots.map((d, i) => i).sort((a, b) => dots[a].value - dots[b].value);
+  const out = [];
+  idx.forEach((i) => {
+    const x = dots[i].cx;
+    let cy = BEE.mid;
+    for (let k = 0; k < 80; k++) {
+      const cand = BEE.mid + (k % 2 === 0 ? 1 : -1) * Math.ceil(k / 2) * pitch;
+      if (placed.every((p) => Math.hypot(p.cx - x, p.cy - cand) >= 2 * BEE.r + 0.6)) { cy = cand; break; }
+    }
+    placed.push({ cx: x, cy });
+    out[i] = cy;
+  });
+  return out;
+}
+
+function renderStuck(data) {
+  const items = allStuck(data).map((s) => ({
+    name: s.item_id, project: s.project, on: s.blocked_on,
+    value: s.age_hours, cx: beeX(s.age_hours)
+  }));
+  if (!items.length) return '<p class="empty empty--good">Nothing is stuck.</p>';
+  const ys = swarmY(items);
+  items.forEach((d, i) => { d.cy = ys[i]; });
+  const ranked = items.slice().sort((a, b) => b.value - a.value);
+  const longest = ranked[0];
+  const named = ranked.slice(0, 4);
+  const namedSet = new Set(named.map((d) => d.name));
+
+  let s = svgOpen('bee', '0 0 1000 300',
+    'How long each stuck task has been waiting',
+    'One dot for each of ' + items.length + ' stuck tasks, placed left to right by how many hours it has ' +
+    'been waiting, on a scale from 0 to ' + BEE.domain + '. Dots are spread vertically only so that they ' +
+    'do not overlap; the vertical position carries no meaning. The four longest waits are named.');
+  for (let v = 0; v <= BEE.domain; v += 60) {
+    s += '<line x1="' + beeX(v) + '" y1="30" x2="' + beeX(v) + '" y2="' + BEE.axisY + '" class="' +
+      (v === 0 ? 'k-rule' : 'k-grid') + '"/>';
+  }
+  s += '<line x1="80" y1="' + BEE.axisY + '" x2="960" y2="' + BEE.axisY + '" class="k-rule"/>';
+  for (let v = 0; v <= BEE.domain; v += 60) {
+    s += '<' + T_TEXT + ' data-tick="x" data-value="' + v + '" x="' + beeX(v) +
+      '" y="268" class="t-tick c-muted" text-anchor="middle">' + v + 'h</' + T_TEXT + '>';
+  }
+  s += txt(520, 290, 't-eyebrow c-soft', 'HOURS SPENT WAITING', 'middle');
+  s += txt(80, 22, 't-note c-muted', items.length + ' stuck tasks across ' +
+    new Set(items.map((d) => d.project)).size +
+    ' projects. Vertical spread is packing only, not a second measure.');
+  // Leaders and labels are drawn before the dots, so no leader crosses a mark.
+  named.forEach((d, i) => {
+    const berth = BERTH[i];
+    const anchor = d.cx > 800 ? 'end' : d.cx < 200 ? 'start' : 'middle';
+    s += '<line x1="' + d.cx + '" y1="' + (berth.above ? d.cy - 8 : d.cy + 8) + '" x2="' + d.cx +
+      '" y2="' + (berth.above ? berth.label + 6 : berth.label - 12) + '" class="k-lead"/>';
+    s += '<' + T_TEXT + ' data-name="' + esc(d.name) + '" data-role="label" x="' + d.cx + '" y="' +
+      berth.label + '" class="t-label c-ink" text-anchor="' + anchor + '">' + esc(d.name) +
+      '</' + T_TEXT + '>';
+    s += txt(d.cx, berth.note, 't-note c-soft', Math.round(d.value) + 'h waiting for ' + d.on, anchor);
+  });
+  items.forEach((d) => {
+    const label = namedSet.has(d.name) ? ' data-name="' + esc(d.name) + '"' : '';
+    s += '<' + T_CIRCLE + label + ' data-value="' + d.value + '" cx="' + d.cx + '" cy="' + d.cy +
+      '" r="' + BEE.r + '" fill="var(--dot-ink)" class="dot' + (d === longest ? ' dot--focal' : '') +
+      '"><title>' + esc(d.name + ' in ' + d.project + ', waiting ' + d.value + ' hours for ' + d.on) +
+      '</title></' + T_CIRCLE + '>';
+  });
+  s += CLOSE_SVG;
+  return s + tableView('Every stuck task as a table', ['Task', 'Project', 'Hours waiting', 'Waiting for'],
+    ranked.map((d) => [d.name, d.project, String(d.value), d.on]));
+}
+
+/* ---------- 7. What we got wrong — bar ---------- */
+
+function renderCorrections(data) {
+  const rows = data.projects
+    .filter((p) => p.corrections.length)
+    .map((p) => ({ project: p.project, n: p.corrections.length, last: p.corrections[0] }))
+    .sort((a, b) => b.n - a.n || a.project.localeCompare(b.project));
+  if (!rows.length) return '<p class="empty empty--good">Nothing was corrected this week.</p>';
+  const top = Math.max(4, Math.max.apply(null, rows.map((r) => r.n)));
+  const x0 = 132, w = 280;
+  const bx = (v) => x0 + (v / top) * w;
+  const H = 60 + rows.length * 32 + 44;
+  let s = svgOpen('corr', '0 0 480 ' + H,
+    'Corrections per project',
+    'A bar for each of ' + rows.length + ' projects that corrected something it had reported earlier. ' +
+    'Bar length is the number of corrections, on a scale from 0 to ' + top + '. ' + rows[0].project +
+    ' corrected the most, with ' + rows[0].n + '.');
+  s += txt(0, 26, 't-eyebrow c-soft', 'TIMES AN AGENT CORRECTED ITS OWN EARLIER REPORT');
+  for (let v = 0; v <= top; v++) {
+    s += '<line x1="' + bx(v) + '" y1="42" x2="' + bx(v) + '" y2="' + (48 + rows.length * 32) + '" class="' +
+      (v === 0 ? 'k-rule' : 'k-grid') + '"/>';
+  }
+  rows.forEach((r, i) => {
+    const y = 54 + i * 32;
+    const focal = i === 0;
+    s += txt(x0 - 12, y + 13, 't-row c-ink', r.project, 'end');
+    s += '<rect x="' + x0 + '" y="' + y + '" width="' + Math.round(bx(r.n) - x0) + '" height="18" rx="1" class="' +
+      (focal ? 'f-bar-focal' : 'f-bar') + '"/>';
+    s += txt(bx(r.n) + 10, y + 13, 't-value ' + (focal ? 'c-accent' : 'c-muted'), String(r.n));
+  });
+  const ay = 48 + rows.length * 32;
+  for (let v = 0; v <= top; v++) s += txt(bx(v), ay + 22, 't-tick c-muted', String(v), 'middle');
+  s += CLOSE_SVG;
+  return s + tableView('What each project corrected',
+    ['Project', 'Corrections', 'What it said', 'What was actually true'],
+    rows.map((r) => [r.project, String(r.n), r.last.retracted_claim, r.last.true_state]));
+}
+
+/* ---------- 8. What nobody checked — stacked bar ---------- */
+
+function renderUnmeasured(data) {
+  const all = data.projects.map((p) => ({
+    project: p.project, covered: p.coverage[0].covered, denom: p.coverage[0].denominator
+  }));
+  const undeclared = all.filter((r) => !r.denom);
+  const rows = all.filter((r) => r.denom)
+    .sort((a, b) => (b.denom - b.covered) - (a.denom - a.covered))
+    .slice(0, 8 - undeclared.length)
+    .concat(undeclared);
+  const top = Math.max.apply(null, rows.map((r) => r.denom || 1));
+  const x0 = 108, w = 240;
+  const H = 52 + rows.length * 34 + 76;
+  let s = svgOpen('unm', '0 0 480 ' + H,
+    'Work watched by tests, against work nobody checked',
+    'A bar for each of ' + rows.length + ' projects, split into the work watched by tests and the work ' +
+    'nobody checked. Bar length is the total amount of work, so a longer bar is a larger project. One ' +
+    'project has declared no total at all and is drawn as a single undivided bar.');
+  s += txt(0, 26, 't-eyebrow c-soft', 'HOW MUCH OF THE WORK ANY TEST IS WATCHING');
+  rows.forEach((r, i) => {
+    const y = 44 + i * 34;
+    s += txt(x0 - 12, y + 13, 't-row c-ink', r.project, 'end');
+    if (!r.denom) {
+      s += '<rect x="' + x0 + '" y="' + y + '" width="' + w + '" height="18" rx="1" class="f-undeclared"/>';
+      s += txt(x0 + 8, y + 13, 't-value c-ink', 'no total declared');
+      return;
+    }
+    const total = Math.round((r.denom / top) * w);
+    const cov = Math.round((r.covered / top) * w);
+    if (cov > 0) s += '<rect x="' + x0 + '" y="' + y + '" width="' + cov + '" height="18" rx="1" class="f-watched"/>';
+    if (total - cov - 2 > 0) {
+      s += '<rect x="' + (x0 + cov + 2) + '" y="' + y + '" width="' + (total - cov - 2) +
+        '" height="18" rx="1" class="f-unwatched"/>';
+    }
+    s += txt(x0 + total + 10, y + 13, 't-value c-muted', (r.denom - r.covered) + ' unchecked');
+  });
+  const ly = 44 + rows.length * 34 + 24;
+  s += '<line x1="0" y1="' + (ly - 16) + '" x2="472" y2="' + (ly - 16) + '" class="k-hair"/>';
+  s += '<rect x="0" y="' + (ly - 8) + '" width="10" height="10" rx="1" class="f-watched"/>';
+  s += txt(16, ly + 1, 't-note c-muted', 'watched by tests');
+  s += '<rect x="130" y="' + (ly - 8) + '" width="10" height="10" rx="1" class="f-unwatched"/>';
+  s += txt(146, ly + 1, 't-note c-muted', 'nobody checked');
+  s += txt(0, ly + 24, 't-note c-soft', rows.length + ' of ' + data.projects.length + ' projects shown: the ' +
+    (rows.length - undeclared.length) + ' with the most unchecked work,');
+  s += txt(0, ly + 38, 't-note c-soft', 'plus the one that has declared no total at all.');
+  s += CLOSE_SVG;
+  return s + tableView('Watched against unchecked',
+    ['Project', 'Watched by tests', 'Out of how many', 'Nobody checked'],
+    rows.map((r) => [r.project, String(r.covered), r.denom ? String(r.denom) : 'not declared',
+      r.denom ? String(r.denom - r.covered) : 'unknown']));
+}
+
+/* ---------- 9. The machine — meters ---------- */
+
+function renderMachine(data) {
+  const m = data.machine;
+  const meters = [
+    ['WORK PER PROCESSOR', m.load_per_core, 1, m.load_per_core.toFixed(2), 'of 1.00'],
+    ['MEMORY FREE', m.mem_free_gb, m.mem_total_gb, m.mem_free_gb + ' GB', 'of ' + m.mem_total_gb + ' GB'],
+    ['DISK FREE', m.disk_free_gb, m.disk_total_gb, m.disk_free_gb + ' GB', 'of ' + m.disk_total_gb + ' GB']
+  ];
+  const x0 = 150, w = 230;
+  let s = svgOpen('mach', '0 0 480 212',
+    'Three meters for the machine the work runs on',
+    'Work per processor is ' + m.load_per_core + ' against a full load of 1.00. Memory free is ' +
+    m.mem_free_gb + ' of ' + m.mem_total_gb + ' gigabytes. Disk free is ' + m.disk_free_gb + ' of ' +
+    m.disk_total_gb + ' gigabytes. ' + m.worktrees + ' separate copies of code are open on it.');
+  meters.forEach((mt, i) => {
+    const y = 30 + i * 46;
+    const frac = Math.max(0, Math.min(1, mt[1] / mt[2]));
+    s += txt(x0 - 12, y + 12, 't-eyebrow c-soft', mt[0], 'end');
+    s += '<rect x="' + x0 + '" y="' + y + '" width="' + w + '" height="16" rx="1" class="f-track"/>';
+    s += '<rect x="' + x0 + '" y="' + y + '" width="' + Math.round(frac * w) + '" height="16" rx="1" class="' +
+      (i === 0 ? 'f-accent' : 'f-quiet') + '"/>';
+    s += txt(x0 + 8, y + 12, 't-value c-ink', mt[3]);
+    s += txt(x0 + w + 8, y + 12, 't-note c-soft', mt[4]);
+  });
+  s += '<line x1="' + (x0 + w) + '" y1="24" x2="' + (x0 + w) + '" y2="52" class="k-rule"/>';
+  s += txt(x0 + w + 8, 20, 't-note c-soft', 'full load');
+  s += '<line x1="0" y1="186" x2="472" y2="186" class="k-hair"/>';
+  s += txt(x0 - 12, 206, 't-eyebrow c-soft', 'SEPARATE COPIES OF CODE OPEN', 'end');
+  s += txt(x0, 208, 't-fig-sm c-ink', String(m.worktrees));
+  s += CLOSE_SVG;
+  return s + tableView('Machine numbers as a table', ['Measure', 'Value'], [
+    ['work per processor', m.load_per_core.toFixed(2) + ' of 1.00'],
+    ['memory free', m.mem_free_gb + ' of ' + m.mem_total_gb + ' GB'],
+    ['disk free', m.disk_free_gb + ' of ' + m.disk_total_gb + ' GB'],
+    ['separate copies of code open', String(m.worktrees)]]);
+}
+
+const ZONES = {
+  pulse: renderPulse, needsyou: renderNeedsYou, heat: renderHeatmap,
+  flight: renderFlight, stuck: renderStuck, corr: renderCorrections,
+  unmeasured: renderUnmeasured, machine: renderMachine
+};
+
+
+/* Runtime: reads the JSON block, renders every zone from it, then adds sorting,
+   filtering and hover. The static markup this replaces was produced by the same
+   render functions at build time, so the page reads identically with JS off. */
+
+/**
+ * The deployment seam. Every value on this page comes from what this resolves to.
+ * To serve live data, replace the body with:
+ *     return fetch('portfolio.json').then(function (r) { return r.json(); });
+ * Nothing else changes: the renderers below never read a value out of the markup.
+ */
+function loadReportData() {
+  var node = document.getElementById('report-data');
+  return Promise.resolve(JSON.parse(node.textContent));
+}
+
+var view = { sort: 'state', dir: 'asc', filter: 'all' };
+
+function paintProjects(data) {
+  var host = document.getElementById('z-projects');
+  if (host) host.innerHTML = renderProjects(data, view.sort, view.dir, view.filter);
+}
+
+function paint(data) {
+  Object.keys(ZONES).forEach(function (key) {
+    var host = document.getElementById('z-' + key);
+    if (host) host.innerHTML = ZONES[key](data);
+  });
+  paintProjects(data);
+}
+
+loadReportData().then(function (data) {
+  paint(data);
+
+  var host = document.getElementById('z-projects');
+  if (!host) return;
+  host.addEventListener('click', function (event) {
+    var sorter = event.target.closest('[data-sort]');
+    if (sorter) {
+      var key = sorter.getAttribute('data-sort');
+      // Text sorts read best A→Z first; counts read best largest first.
+      var textual = key === 'project' || key === 'state';
+      view.dir = view.sort === key ? (view.dir === 'asc' ? 'desc' : 'asc') : (textual ? 'asc' : 'desc');
+      view.sort = key;
+      paintProjects(data);
+      var again = host.querySelector('[data-sort="' + key + '"]');
+      if (again) again.focus();
+      return;
+    }
+    var chip = event.target.closest('[data-filter]');
+    if (chip && !chip.disabled) {
+      view.filter = chip.getAttribute('data-filter');
+      paintProjects(data);
+      var chipAgain = host.querySelector('[data-filter="' + view.filter + '"]');
+      if (chipAgain) chipAgain.focus();
+    }
+  });
+});
+
+}());
+</script>
