@@ -11,7 +11,7 @@
     "prebuild": "node scripts/build-catalogue.mjs",
     "predev": "node scripts/build-catalogue.mjs",
     "dev": "next dev --port 3210",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsgo --noEmit",

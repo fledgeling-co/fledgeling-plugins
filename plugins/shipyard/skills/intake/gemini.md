@@ -16,21 +16,29 @@ applies to work that stays here.
 
 Naming these matters: effort spent re-hardening a working rule is effort not spent on the decomposition.
 
-- **The brief template is already a filled few-shot example** (SKILL.md:63–80) — five metadata fields, three body sections,
+- **The brief template is already a filled few-shot example** (SKILL.md:65–82) — five metadata fields, three body sections,
   each with its own bracketed instruction. **[docs]** *"We recommend to always include few-shot examples in your prompts …
   you can remove instructions from your prompt if your examples are clear enough in showing the task at hand"*, and **Missing
   output format specification** asks for exactly this: *"use a clear, explicit instruction to specify the format and show the
   output structure in your few-shot examples."* Most geminify targets have to be given this. This one has it.
-- **The platform set is enumerated, not categorical** — `iPhone, iPad, Mac, and Web always; Windows optional` (SKILL.md:46–48).
+- **The platform set is enumerated, not categorical** — `iPhone, iPad, Mac, and Web always; Windows optional` (SKILL.md:49–50).
   **[measured-family]** Enumerated requirements are what one Gemini run delivered in full: twelve named features, twelve
   present. Categorical ones collapsed. This line is on the right side of that split already.
-- **The procedure is already a chain with file outputs.** Step 2 writes `docs/deep-research/<slug>.md`, step 5's `research:`
-  field points at it, step 6 registers the files. **[docs]** *"Chain prompts: For complex tasks that involve multiple
-  sequential steps, make each step a prompt and chain the prompts together in a sequence. In this sequential chain of prompts,
-  the output of one prompt in the sequence becomes the input of the next prompt."* Override 4 closes the one link that is
-  missing rather than rebuilding the chain.
-- **`A human deletes a file to veto`** (SKILL.md:99) and the assumption line naming `the alternative it beat`. Both convert a
-  question into an artifact, which is the same move every override below makes.
+- **The procedure is already a chain with file outputs.** Step 2 writes `docs/deep-research/<slug>.md` (SKILL.md:44–45),
+  step 5's `research:` field points at it (SKILL.md:72), step 6 registers the files (SKILL.md:84–90). **[docs]** *"Chain
+  prompts: For complex tasks that involve multiple sequential steps, make each step a prompt and chain the prompts together in
+  a sequence. In this sequential chain of prompts, the output of one prompt in the sequence becomes the input of the next
+  prompt."* Override 4 closes the one link that is missing rather than rebuilding the chain.
+- **`A human deletes a file to veto`** (SKILL.md:101) and the assumption line naming `the alternative it beat` (SKILL.md:99).
+  Both convert a question into an artifact, which is the same move every override below makes.
+- **`Decisions stay deferred`** (SKILL.md:98–100) needs no hardening either — it is the disposition Google's own agentic
+  template prescribes. **[docs]** *"Prefer calling the tool with the available information over asking the user, unless"* the
+  missing information is required by a later step in the plan. The skill's version is stricter, and stricter in the same
+  direction.
+- **Step 4 now names the skill in loadable form** — `trawl:trawl` (SKILL.md:55), not the bare `trawl` this file was first
+  written against. **[measured-family]** A name that a marketplace does not publish returns `Unknown skill`, and one such name
+  absorbed ten calls in a recorded session while its directory sat in the cache the whole time. The `plugin:skill` form closes
+  that half. Override 4 is about the other half, which the rename does not touch.
 
 ## Epistemic status
 
@@ -54,8 +62,9 @@ floor differ: **[docs]** *"If thinking_level is not specified, Gemini 3 will def
   Step 4's divergent pass — proposing features nobody asked for — is a work class the corpus is silent on, so Override 1's
   reading of it (a categorical scope with no number collapses) is transfer by mechanism, not by measurement.
 - Nothing measures research quality, Dossier panel behaviour, or citation verification under this family.
-- The scan's own reading of this skill needed correcting by hand: 9 of its 10 relative-qualifier rows matched the **noun**
-  `brief` (a document), not the qualifier Google's checklist is about. One real row survives, at SKILL.md:19.
+- The scan's own reading of this skill needed correcting by hand: 10 of its 11 relative-qualifier rows matched the **noun**
+  `brief` (a document), not the qualifier Google's checklist is about — one of those ten being the pointer line this file
+  installed into the SKILL.md. One real row survives, at SKILL.md:19 (`enough for triage to ground and judge`).
 
 ## Override 1 — the quota ledger, and the row that will come back as one
 
@@ -67,29 +76,31 @@ user flows → **0**, all actions → one generic toast reused across the produc
 the fix: *"Avoid using subjective or relative qualifiers that lack a concrete, measurable definition. Instead, provide
 objective constraints (for example, "write a summary of 3 sentences or less" instead of "write a brief summary")."*
 
-`the additional features the target audience would likely want or benefit from` is the categorical scope in this skill, and
-`Propose what earns its place` is the qualifier attached to it. **[derived]** On the measured shape that lands as one proposed
-brief, or none — and a stage whose whole purpose is generosity would have failed silently, because one brief is a plausible
-answer. `scan_skill.py --refs` listed **0** quota rows here (its vocabulary is deliverable nouns like surface, state and
-component, which a brief-writing stage does not use), so these are derived by hand from the two distributives it counted:
+`the additional features/concepts the target audience would likely want or benefit from` is the categorical scope in this
+skill, and `Propose what earns its place` is the qualifier attached to it. **[derived]** On the measured shape that lands as
+one proposed brief, or none — and a stage whose whole purpose is generosity would have failed silently, because one brief is a
+plausible answer. `scan_skill.py --refs` listed **0** quota rows here (its vocabulary is deliverable nouns like surface, state
+and component, which a brief-writing stage does not use), so these are derived by hand from the three distributives it counted:
 
 | Row | Source | Number to report |
 |---|---|---|
-| Prior-art sources checked for duplicates | SKILL.md:31–36 | 4 of 4 — `features-to-triage/`, ledger/board, `deep-research/`, out-of-scope record |
-| Asked-for features decomposed from the idea | SKILL.md:44 | `N`, each a demoable vertical slice |
-| Companion classes considered in step 4 | SKILL.md:56 | 5 of 5 — settings, onboarding, sharing, offline, notifications — each `proposed` or `n/a: <reason>` |
-| Second-order ideas the research surfaced | SKILL.md:57 | `K of K` research findings converted or dismissed with a reason |
-| `proposed-by-ai` briefs written | SKILL.md:58 | `M`, and `M` is reported beside `N`, never merged with it |
-| Metadata fields filled per brief | SKILL.md:65–70 | 5 of 5 (`research:` omitted only where none ran) |
-| Body sections filled per brief | SKILL.md:72–79 | 3 of 3 |
-| Acceptance-sketch bullets per brief | SKILL.md:76 | 3–8, counted |
-| Assumption lines per brief | SKILL.md:79 | `N of N` decisions made while decomposing, each naming the alternative |
-| Briefs registered on the lane | SKILL.md:82–88 | `N+M of N+M` (tasks created, or files written + fleet inbox appended) |
+| Prior-art sources checked for duplicates | SKILL.md:33–38 | 4 of 4 — `features-to-triage/`, ledger/board, `deep-research/`, out-of-scope record |
+| Asked-for features decomposed from the idea | SKILL.md:47–48 | `N`, each a demoable vertical slice |
+| Companion classes considered in step 4 | SKILL.md:57–58 | 5 of 5 — settings, onboarding, sharing, offline, notifications — each `proposed` or `n/a: <reason>` |
+| Second-order ideas the research surfaced | SKILL.md:58 | `K of K` research findings converted or dismissed with a reason |
+| `proposed-by-ai` briefs written | SKILL.md:59–60 | `M`, and `M` is reported beside `N`, never merged with it |
+| Metadata fields filled per brief | SKILL.md:68–72 | 5 of 5 (`research:` omitted only where none ran) |
+| Body sections filled per brief | SKILL.md:74–81 | 3 of 3 |
+| Acceptance-sketch bullets per brief | SKILL.md:78 | 3–8, counted |
+| Assumption lines per brief | SKILL.md:81 | `N of N` decisions made while decomposing, each naming the alternative |
+| Briefs registered on the lane | SKILL.md:84–90 | `N+M of N+M` (tasks created, or files written + fleet inbox appended) |
 
 Delivery line, filled rather than described: `4 of 4 duplicate sources checked (2 near-matches, 1 previously rejected —
 surfaced) · 3 asked-for briefs · 5 of 5 companion classes considered, 2 proposed, 3 n/a · 4 proposed-by-ai briefs · 7 briefs ×
 5 metadata fields, 35 of 35 · 7 × 3 sections · sketches 4–6 bullets · 11 assumption lines`. **[docs]** *"Include specific
-verification steps in either the system instructions or your prompts directly."*
+verification steps in either the system instructions or your prompts directly"*, and the agentic template asks the same of the
+plan itself: *"Ensure that all requirements, constraints, options, and preferences are exhaustively incorporated into your
+plan."*
 
 ## Override 2 — the bounds, read back off the briefs rather than agreed with
 
@@ -101,17 +112,18 @@ set on a run that passed 37 of its other 39 assertions. A quota under-delivers; 
 is present, so it survives every check that looks at what you did produce. `Briefs, not specs` is that exposure exactly — a
 brief carrying file paths still looks like a good brief.
 
-The scan listed **1** bound row and counted **6 prohibitions in prose**; the countable ones move across:
+The scan listed **1** bound row (SKILL.md:63, `One file per feature`) and counted **6 prohibitions in prose**; the countable
+ones move across:
 
 | instance | property | stated bound | readback | observed | within? |
 |---|---|---|---|---|---|
-| each brief | features per file | exactly 1 (SKILL.md:61) | count `^# ` headings per file | 1 | yes |
-| each brief | implementation detail | 0 file paths, 0 architecture, 0 decisions (SKILL.md:94) | grep for `/`-bearing backticks, `src/`, `component`, `endpoint`, `schema` | 2 in one brief | **no** |
-| each brief | ids allocated | 0 (SKILL.md:82) | grep for the ledger's id pattern | 0 | yes |
-| each proposal | bundled into an asked-for brief | 0 (SKILL.md:99) | every `proposed-by-ai: true` is its own file | 0 | yes |
-| whole run | questions put to the user | 0 unless the gate survives (SKILL.md:96–98) | count `AskUserQuestion` calls; each needs its recorded gate step | 0 | yes |
-| whole run | proposed briefs vs asked-for | `ten padded briefs bury the three good ones` (SKILL.md:59) | ratio `M : N`, stated in the summary | 4 : 3 | stated |
-| research | panels bought before the free lane | 0 (SKILL.md:101) | read the run's tool order: `research_plan` then local, then paid | 0 | yes |
+| each brief | features per file | exactly 1 (SKILL.md:63) | count `^# ` headings per file | 1 | yes |
+| each brief | implementation detail | 0 file paths, 0 architecture, 0 decisions (SKILL.md:96) | grep for `/`-bearing backticks, `src/`, `component`, `endpoint`, `schema` | 2 in one brief | **no** |
+| each brief | ids allocated | 0 (SKILL.md:84) | grep for the ledger's id pattern | 0 | yes |
+| each proposal | bundled into an asked-for brief | 0 (SKILL.md:101–102) | every `proposed-by-ai: true` is its own file | 0 | yes |
+| whole run | questions put to the user | 0 unless the gate survives (SKILL.md:98–100) | count `AskUserQuestion` calls; each needs its recorded gate step | 0 | yes |
+| whole run | proposed briefs vs asked-for | `ten padded briefs bury the three good ones` (SKILL.md:61) | ratio `M : N`, stated in the summary | 4 : 3 | stated |
+| research | panels bought before the free lane | 0 (SKILL.md:103) | read the run's tool order: `research_plan` then local, then paid | 0 | yes |
 
 **[docs]** Google treats these as a component in their own right — *"Restrictions on what the model must adhere to when
 generating a response, including what the model can and can't do"* — and names where they go: the **Recap** component is a
@@ -130,21 +142,39 @@ completed where the shape was specified and the procedure was not. A `research:`
 `docs/deep-research/<slug>.md` that no panel wrote satisfies it just as well from the outside.
 
 **[docs]** *"Verify your claims by quoting the exact applicable information (including policies) when referring to them"*, and
-*"Include specific verification steps in either the system instructions or your prompts directly."* So:
+*"Include specific verification steps in either the system instructions or your prompts directly."* So step 2 owes three
+artefacts, and all three ship filled below — the shapes are the requirement, the values are one exemplar to match.
 
-- A brief's `research:` field points at a file that exists and is non-empty — check it, do not assume the step ran.
-- `research_verify_citations` runs **before** any finding reaches a brief, and its output is pasted. A resolving URL is not a
-  supporting one, and support is counted in independent domains rather than in how many backends agreed.
-- The cost is stated as a number from `research_plan`, not as an impression. A denominator of zero is a panel that never ran.
-- Where research was skipped as `already concrete and internal` (SKILL.md:43), the summary says so in one line. Silence reads
-  as forgotten.
+**1. The research ledger.** One row per question the idea left open. Every brief's `research:` field is read back off the file
+rather than assumed: a missing path or a `wc -l` of `0` is a panel that never ran.
+
+| question | lanes, in order (SKILL.md:42–45) | export | `wc -l` | citations | independent domains |
+|---|---|---|---|---|---|
+| what competitors charge for a sharing tier | `research_plan` → `research_local_start` | `docs/deep-research/sharing-tier-pricing.md` | 214 | 11 of 11 | 6 |
+| what the audience already uses for offline capture | `research_plan` → local loop → `research_start` panel | `docs/deep-research/offline-capture-prior-art.md` | 388 | 18 of 19 | 7 |
+| our own ledger's id convention | skipped, `already concrete and internal` (SKILL.md:45) | none | — | n/a | n/a |
+
+**2. The citation check, pasted rather than summarised.** `research_verify_citations` runs before any finding reaches a brief:
+
+```
+research_verify_citations   claims=29  cited=29  resolving=28  supporting=26
+  unsupported  c-14 — URL resolves, page does not carry the figure → dropped from the brief
+  one-domain   c-07, c-22 — kept, flagged in that brief's assumption lines
+```
+
+A resolving URL is not a supporting one, and support is counted in independent domains, never in how many backends agreed.
+
+**3. The cost line, and the skip stated rather than left silent** — one line in step 6's summary (SKILL.md:90–92):
+`research_plan` free × 3 · local loop free × 2 · one `research_start` panel at `max`, **$4.20** against its published `$3-7`
+band, bought for question 2 only after the free lane returned 2 supporting domains · question 3 skipped as already concrete and
+internal. A denominator of zero is a panel that never ran, and silence about a skip reads as forgotten.
 
 **[derived]** All of this reverses the house style deliberately. Stripping verification scaffolding is right for a model that
 over-verifies; inheriting that removal here is the defect this file exists to undo.
 
 ## Override 4 — the one link in the chain that nothing downstream requires
 
-Lands on step 4's `Run the trawl skill for a divergent pass`.
+Lands on step 4's `Run the trawl:trawl skill for a divergent pass`.
 
 **[measured-family]** On `COD Dossier`, a skill said *every design decision goes through `design-craft` with `ux-craft`'s
 lens*; **neither** skill was invoked. The model's own diagnosis named the mechanism: the general rules were already in context,
@@ -154,14 +184,15 @@ instructed skills, and a Gemini 3 **Pro** transcript reclassifying a `GEMINI.md`
 §7.2) — which is why the conversion is worth doing on every tier.
 
 `scan_skill.py` flagged **0** qualitative skill references here, and the phrasing is imperative rather than lens-shaped.
-**[derived]** The exposure survives anyway, because step 5 can write every brief without `trawl` having produced anything. So:
+**[derived]** The exposure survives the rename to `trawl:trawl` untouched: that fixed which name loads, not whether anything
+downstream notices the call was never made. Step 5 can still write every brief with `trawl` unrun. So:
 
 ```
-Step 2   Dossier panel      → docs/deep-research/<slug>.md              (already required by step 5's research: field)
-Step 4   Skill trawl        → docs/features-to-triage/.ideation/<slug>-trawl.md
-                              one line per divergent idea, each kept-or-dropped with a reason
-Step 5   write the briefs   — opens both files first; a step-4 brief cites the .ideation line it came from
-Step 6   register           — an empty or absent .ideation file means step 4 did not run, and the summary says so
+Step 2   Dossier panel        → docs/deep-research/<slug>.md            (already required by step 5's research: field)
+Step 4   Skill trawl:trawl    → docs/features-to-triage/.ideation/<slug>-trawl.md
+                                one line per divergent idea, each kept-or-dropped with a reason
+Step 5   write the briefs     — opens both files first; a step-4 brief cites the .ideation line it came from
+Step 6   register             — an empty or absent .ideation file means step 4 did not run, and the summary says so
 ```
 
 **[docs]** *"When model outputs must be machine-readable or follow a specific format, use a widely recognized standard like
@@ -211,4 +242,4 @@ and ships no probe. Two were close enough to name. **`authorship`** reached its 
 Override 3 rather than as a module. **`bounded-constraint`** did not fire on 1 listed bound row, yet its mechanism is what
 Override 2 carries, from the 6 counted prohibitions the scan declined to list. **`visual`**, **`gate`**, **`states`**,
 **`platform-values`**, **`delegation`**, **`injection`** and **`count-contract`** did not fire and are not written.
-**`emphasis`** found **0** shouted words in 101 lines — nothing to de-escalate.
+**`emphasis`** found **0** shouted words in 103 lines — nothing to de-escalate.

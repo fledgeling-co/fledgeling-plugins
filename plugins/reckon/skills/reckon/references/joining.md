@@ -66,6 +66,29 @@ Below 50% of briefs joined to anything, `reckon.py` sets `join.weak` and
 withholds retirement across the board — every brief that would have been
 `retirable` becomes `undecided` instead, with the reason recorded.
 
+**Which briefs that 50% is taken over matters, and until 1.9.4 it was taken
+over the wrong ones.** `classify` settles a brief whose declared status is
+waived, deferred, retired, consumed, scaffolded or historical from that status,
+*before* it reads the join at all. Such a brief was never a candidate the join
+was asked about, so counting it in the ratio rates the inferential step on rows
+it never touched — and the more history a project archives, the harder it
+becomes for that project to retire anything. Measured on perch, 2026-09-02: a
+published 98/224 = 43.8% withheld every retirement claim, over a join that had
+reached 56 of 56 of the briefs whose class it actually decides. Four briefs the
+project's own orchestrator recorded as merged sat `undecided`.
+
+So the ledger carries two figures and gates on the second:
+
+| field | population | what it says |
+| --- | --- | --- |
+| `denominators.briefs_joined` | every brief | how much of the queue the registry can see at all |
+| `denominators.briefs_joined_adjudicated` | briefs whose declared status does not settle them | whether the inferential step is working — **this is what `join.weak` reads** |
+
+Both are published, per the rule that there is a denominator per axis and never
+one blended percent: dropping the first would hide how much of a queue is
+archive, and gating on it is the defect. The warning names which population it
+speaks for, and quotes the other one beside it when they differ.
+
 This is a claim degrading, not a run failing. The gate stays at exit 0 and
 prints a warning with the percentage. A gate that refuses to produce output
 gets switched off, and a switched-off gate catches nothing; a gate that says

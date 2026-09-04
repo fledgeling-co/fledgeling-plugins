@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fledgeling.dev/test-campaign/v1/work-schedule.json",
+  "title": "Work schedule",
+  "description": "An ordered plan over items a reconciliation left outstanding: waves of work whose dependencies are met, each wave named for the reason it exists rather than numbered, and every row carrying its own class, size and three-point range. A wave's name is load-bearing — 'nothing here can be trusted until this lands' is a scheduling constraint, and renumbering it into 'Wave 0' loses the constraint. Ranges are wide on purpose and must not be summed across waves that run concurrently, nor presented as a delivery date; `decided` records whether a person has actually agreed to this plan, and a schedule with `decided` false is a proposal being read as a commitment the moment somebody quotes its totals.",
+  "type": "object",
+  "required": ["waves"],
+  "properties": {
+    "waves": {
+      "description": "The waves in execution order. Wave n assumes wave n-1 has landed; a wave whose members do not actually depend on the previous wave should be merged into it rather than kept for tidiness.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/wave" }
+    },
+    "total_lo": { "description": "Optimistic total across the plan, in minutes. Valid only under the concurrency the waves assume; it is not a delivery estimate.", "type": "number", "minimum": 0 },
+    "total_hi": { "description": "Pessimistic total, in minutes. The spread over `total_lo` is the honest uncertainty and compressing it is how a plan becomes a promise.", "type": "number", "minimum": 0 },
+    "decided": {
+      "description": "Whether somebody with the authority to commit has actually agreed to this ordering. False means the file is a proposal — the ranges are real, the plan is not agreed, and a reader must label it so rather than presenting it as the schedule.",
+      "type": "boolean"
+    },
+    "generated": { "description": "When the plan was compiled. A schedule outlives the reconciliation it was built from and goes stale silently.", "type": "string", "minLength": 4 },
+    "source": { "description": "The reckon ledger or remaining-work file this plan was built from, so every row can be traced to the class that put it there.", "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "wave": {
+      "type": "object",
+      "required": ["n", "name", "rows"],
+      "properties": {
+        "n": { "description": "Ordinal position, starting at 0 for work that must land before anything else can be trusted.", "type": "integer", "minimum": 0 },
+        "name": {
+          "description": "Why this wave exists, as a sentence. It carries the scheduling constraint that the ordinal cannot — that the wave's members share a cause, a risk, or a decision that has just been taken. Never replace it with a generic label.",
+          "type": "string",
+          "minLength": 1
+        },
+        "rows": { "description": "The work in this wave.", "type": "array", "items": { "$ref": "#/$defs/scheduleRow" } },
+        "members": { "description": "Row count, carried so a truncated export is detectable.", "type": "integer", "minimum": 0 },
+        "wave_lo": { "description": "Optimistic wall-clock minutes for the wave under the assumed concurrency.", "type": "number", "minimum": 0 },
+        "wave_hi": { "description": "Pessimistic wall-clock minutes for the wave.", "type": "number", "minimum": 0 },
+        "blockers": { "description": "Blocker ids that must lift before this wave can start.", "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "note": { "description": "Anything a scheduler needs that the numbers cannot carry.", "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "scheduleRow": {
+      "type": "object",
+      "required": ["id", "cls", "title", "why"],
+      "properties": {
+        "id": { "description": "The item's id in the tracker or ledger it came from. The join back to the evidence.", "type": "string", "minLength": 1 },
+        "cls": {
+          "description": "The reconciliation class that put this row on the plan. The same closed eight-class partition the reckon ledger uses — see reckon-ledger.json. It matters here because `broken` and `unmeasured` are scheduled identically and mean opposite things: one is a product to fix, the other a check nobody has run, and a plan that loses the difference sends engineers to fix working software.",
+          "enum": ["verified-done", "waived", "broken", "unmeasured", "undecided", "unjoined", "unbuilt", "unnamed"]
+        },
+        "tier": { "description": "Size class, in the same closed vocabulary the reckon ledger's estimates use.", "enum": ["XS", "S", "M", "L", "XL", "XXL"] },
+        "title": { "description": "The item, in the words of whoever raised it.", "type": "string", "minLength": 1 },
+        "why": {
+          "description": "Why it is in THIS wave — the scheduling reason, not a restatement of the title. Where a person has ruled on it, the ruling goes here, because the ruling is the thing that changed and moved the row.",
+          "type": "string",
+          "minLength": 1
+        },
+        "state": { "description": "The tracker's current state for the item, verbatim, or a placeholder when the item has no tracker row. An OPEN vocabulary owned by the project's tracker.", "type": "string", "minLength": 1 },
+        "lo": { "description": "Optimistic minutes for this row.", "type": "number", "minimum": 0 },
+        "med": { "description": "Median minutes for this row.", "type": "number", "minimum": 0 },
+        "hi": { "description": "Pessimistic minutes. Ranges of 4-8x are normal for build work and are not a sign the estimate is bad.", "type": "number", "minimum": 0 },
+        "flows": { "description": "Journey ids this row returns to measurable, when known — what the work buys, expressed in the campaign's own currency.", "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "owner": { "description": "Who must act, when it is not the default owner of the wave.", "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

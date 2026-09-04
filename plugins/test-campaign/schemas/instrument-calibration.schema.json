@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fledgeling.dev/test-campaign/v1/instrument-calibration.json",
+  "title": "Instrument calibration",
+  "description": "A specimen of deliberately planted defects, and — per instrument, per defect — what a CORRECT instrument would say (`truth`) against what this instrument DOES say today (`known`). The pair is the mechanism: `known != truth` is a standing condemnation that every figure the instrument publishes on that axis is void, and it is printed on every run and never silenced. This file is the only thing that makes a coverage measurement auditable, because without it an instrument's blindness is indistinguishable from a clean product. It is written before the instruments are trusted, not after they are questioned.",
+  "type": "object",
+  "required": ["measuredAt", "instruments", "pathologies"],
+  "properties": {
+    "$comment": {
+      "description": "The rules of the file, kept inside the file so that a reader who finds it out of context cannot use it wrongly. At minimum it should state: what `truth` and `known` mean; that `known != truth` is a condemnation printed forever; that DRIFT (`actual != known`) is what sets the checker's exit code; and that `known` may only be raised to `truth` in the same change as the fix that earns it. Prose, one entry per rule.",
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+      ]
+    },
+    "measuredAt": {
+      "description": "The date every `known` in this file was last measured against the real instruments. A `known` older than the instrument's last change is a guess wearing a measurement's clothes, so a checker should refuse to run silently when this date precedes the newest instrument script.",
+      "type": "string",
+      "minLength": 4
+    },
+    "project": {
+      "description": "Optional human name of the system whose instruments these are.",
+      "type": "string",
+      "minLength": 1
+    },
+    "specimenRoot": {
+      "description": "Where the planted-defect fixtures live, so the specimen can be re-run. A calibration record whose fixtures cannot be found proves nothing.",
+      "type": "string",
+      "minLength": 1
+    },
+    "instruments": {
+      "description": "Every instrument whose verdicts this specimen calibrates, INCLUDING instruments that do not exist. Declaring an absent instrument is the point of the file: an axis with no instrument is an axis nobody is watching, and leaving it out of this object turns that silence into apparent health. Keys are instrument names and are the same keys used in every `verdicts` object.",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/instrument" }
+    },
+    "pathologies": {
+      "description": "The planted defects, one entry each, plus at least one healthy control. Each is a real fixture that really runs; a described-but-unplanted pathology calibrates nothing.",
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/pathology" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "instrument": {
+      "description": "One instrument: what it measures, how it is invoked, and which of its outputs count as flagging a defect. An instrument that exists only as a description cannot be drifted against, so `script`/`how` must be real or explicitly null with `absent` set.",
+      "type": "object",
+      "required": ["axis", "flagging"],
+      "properties": {
+        "axis": {
+          "description": "The one thing this instrument can see, stated narrowly. Narrow is the point: an instrument described broadly gets credited with catching defects on axes it never looks at, which is how a condemned instrument keeps its reputation.",
+          "type": "string",
+          "minLength": 1
+        },
+        "script": {
+          "description": "The script that runs it, or null when no such instrument exists. Null obliges `absent` to be present.",
+          "type": ["string", "null"]
+        },
+        "how": {
+          "description": "The command that runs it, when it is a command rather than a script — a test runner invocation, for instance.",
+          "type": "string",
+          "minLength": 1
+        },
+        "flagging": {
+          "description": "The output values that count as this instrument raising a defect. Everything else is a clean report. This list is what makes condemnation judgeable on FLAGGING PARITY rather than string equality: an instrument is condemned when `truth` and `known` disagree about whether the defect gets flagged at all, not merely when the two strings differ.",
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "examples": [["failed", "skipped"], ["flag"], ["not-enforced"]]
+        },
+        "absent": {
+          "description": "Present only when NO such instrument exists. Its text says so plainly and names which pathology is therefore unguarded. This is a load-bearing field: an unguarded axis that is not declared here reads as a passing axis, and every figure the campaign publishes inherits that silence.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": { "properties": { "script": { "type": "null" } }, "required": ["script"] },
+          "then": {
+            "anyOf": [{ "required": ["absent"] }, { "required": ["how"] }],
+            "$comment": "An instrument with no script is either invoked some other way, or does not exist and must say so."
+          }
+        }
+      ]
+    },
+    "pathology": {
+      "description": "One planted defect (or one healthy control) and the full verdict matrix over every declared instrument.",
+      "type": "object",
+      "required": ["id", "fixture", "what", "wild", "verdicts"],
+      "properties": {
+        "id": {
+          "description": "Stable identity of the pathology, referenced by the checker's output and by any report that quotes a condemnation.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["P1", "P6"]
+        },
+        "flow": {
+          "description": "The journey id this specimen fixture is bound to, joining the calibration record to the flow specification. Lets a reader show, on the journey itself, which instruments would have caught a defect in it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "what": {
+          "description": "The planted defect, stated as the state of the world rather than as the symptom. Precise enough that somebody could plant it again from this sentence alone.",
+          "type": "string",
+          "minLength": 1
+        },
+        "wild": {
+          "description": "Why this defect matters outside the specimen — how it arises naturally, and what it costs when nothing catches it. Without this a pathology reads as a puzzle and gets deleted as artificial.",
+          "type": "string",
+          "minLength": 1
+        },
+        "fixture": {
+          "description": "The file that actually plants the defect. It must run in the specimen suite; a fixture that is itself parked measures the instruments' behaviour on parked code, not on the pathology.",
+          "type": "string",
+          "minLength": 1
+        },
+        "control": {
+          "description": "True when this entry is a HEALTHY journey rather than a defect. Nothing should flag it, and it is excluded from the unguarded tally. At least one control is required in practice: an instrument that cannot report a healthy journey cleanly says nothing trustworthy about the others.",
+          "type": "boolean"
+        },
+        "controlNote": {
+          "description": "Why the control is here and what its clean report proves. Only meaningful when `control` is true.",
+          "type": "string",
+          "minLength": 1
+        },
+        "verdicts": {
+          "description": "One entry per declared instrument — ALL of them, including the ones that do not exist. A missing key is not 'not applicable'; it is an unasked question, and the whole file works by asking every question of every instrument.",
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/verdict" }
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": { "properties": { "control": { "const": true } }, "required": ["control"] },
+          "then": { "required": ["controlNote"] }
+        }
+      ]
+    },
+    "verdict": {
+      "description": "What one instrument says, and what it ought to say, about one pathology. The gap between the two is a condemnation and belongs to the instrument, not to the product.",
+      "type": "object",
+      "required": ["truth", "known"],
+      "properties": {
+        "truth": {
+          "description": "What a CORRECT instrument on this axis would report. Fixed by the design of the pathology, not by any instrument's behaviour. It changes only if the pathology itself is redefined — never to accommodate an instrument.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["passed", "failed", "skipped", "flag", "clear", "enforced", "not-enforced"]
+        },
+        "known": {
+          "description": "What this instrument ACTUALLY reported when it was last measured, on the file's `measuredAt` date. When it disagrees with `truth` on flagging parity, the instrument is CONDEMNED on this axis and every figure it has published there is void. Two rules make the field mean anything. First: never edit `known` to quieten a break — a red checker is the instrument's failure, not the record's. Second: `known` may be raised toward `truth` ONLY in the same change as the fix that earns it, with the `reason` dropped in that same change; raising it separately is a claim of an improvement that has not shipped, and it ratchets the record downward instead of up. The value `absent` records that there is no instrument at all.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["passed", "failed", "skipped", "flag", "clear", "enforced", "absent"]
+        },
+        "reason": {
+          "description": "Why the instrument reports what it does. Required whenever `known` is `absent`, and required in practice whenever `known` disagrees with `truth` — that sentence is the condemnation the checker prints, and a condemnation with no cause cannot be acted on. On a pair that AGREES this field is a note, not a condemnation, and a reader must not render it as one.",
+          "type": "string",
+          "minLength": 1
+        },
+        "measuredAt": {
+          "description": "When this specific verdict was measured, if it differs from the file's `measuredAt`. Instruments are usually re-measured together; when one is not, saying so here stops the file's date vouching for a stale cell.",
+          "type": "string",
+          "minLength": 4
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": { "properties": { "known": { "const": "absent" } }, "required": ["known"] },
+          "then": {
+            "required": ["reason"],
+            "$comment": "No instrument is a finding, and a finding states what is unguarded as a result."
+          }
+        }
+      ]
+    }
+  }
+}

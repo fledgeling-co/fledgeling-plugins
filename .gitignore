@@ -26,3 +26,5 @@ plugins/*/evals/runs/
 
 # a symlinked node_modules is not matched by the "node_modules/" directory pattern
 site/node_modules
+# a symlinked .worktrees is not matched by the "/" directory pattern
+.worktrees

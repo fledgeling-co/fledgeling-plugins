@@ -16,6 +16,65 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 - **Active data correction.** Overrules false green claims: checks over 0/0 counts are forced to `unmeasured`, and alarms that caught 0 faults are forced to `armed: false`.
 - **Brand treatment.** Uses the Engine C split-flap mid-turn icon (`icon-engineC-0e8378.png`) across the 1024, 256, 128, and 48px exports and the 3200×1040 banner.
 
+## 2026-09-02
+
+### `reckon` 1.9.4 — two defects that made the ledger stop being a closed world
+
+**A reserved filename was matched as a prefix.** `read_briefs` skipped anything whose name
+merely *began* with `BRIEF-TEMPLATE`, `README`, `00-INDEX` or `LEDGER`, where only those four
+exact basenames are scaffolding. On perch that dropped nine consumed briefs named
+`LEDGER-<TOPIC>-<slug>.md` at discovery — and a file dropped at discovery is not in the
+partition, so no downstream gate can report it missing. The run gated clean over a ledger that
+had lost nine rows. The names are now compared exactly.
+
+**The ratio that gates retirement counted briefs the join is never consulted about.** A brief
+declaring a waived-or-archived status is classed from that status before `classify` reads the
+join, so counting it rates the inferential step on rows it never touched — and the more
+history a project archives, the less it can retire. Perch published 98/224 = 43.8%, withheld
+every retirement claim, and had in fact joined 56 of 56 of the briefs whose class the join
+decides; four briefs its own orchestrator records as merged sat `undecided`. The ledger now
+publishes both denominators — `briefs_joined` over every brief and
+`briefs_joined_adjudicated` over the population the join decides — and `join.weak` reads the
+second. Publishing only the first is the defect; publishing only the second would hide how
+much of a queue is archive.
+
+Measured on perch after both: 233 briefs discovered instead of 224, adjudicated join
+56/56 = 100.0%, warning gone, and 43 brief rows move `undecided` → `retirable`. Two selftest
+sections pin the pair, each shown red against 1.9.3 first, and one of them pins the opposite
+direction — a genuinely weak adjudicated population still warns, and names its population.
+
+## 2026-09-01 (later)
+
+### The gemini.md sweep's audit findings, closed
+
+The sweep earlier today shipped 29 files of which 10 carried auditor findings. A second
+workflow fixed them: 10 fixers, each handed its own file's findings, pipelined into 10 fresh
+re-auditors that re-ran the gate and checked whether each finding was actually closed. 6 came
+back fully closed; 4 carried residue the fixers introduced, which the conductor then fixed by
+hand. All 29 files now sit inside the 150-250 line bound with `verify_quotes.py` at exit 0 and
+14-23 checked `[docs]` claims each.
+
+What the findings were is worth recording, because they are the class of defect prose review
+does not catch. `flagship` shipped a machine-state exemplar labelled `1m<5m, falling` over the
+figures `1m 14.2 · 5m 11.8` — rising, not falling, and its own `max/core 0.89` confirmed which
+figure was the max. Its bound ledger reported `4 of 6 within, 2 breached` over rows that read 3
+and 3. `whats-left` counted `reckon`'s partition as 6 classes when it has eight, in the one row
+whose purpose is to stop a partition being counted short. `create-luke-content` attributed a
+worked example to a `SKILL.md` line that says something else, and put two paraphrases in
+backticks as if they were the skill's own strings. Five overrides across four skills asked for
+a table, ledger or note and shipped an empty schema or a description instead of a filled one.
+
+Two findings were rejected rather than actioned, both traceable to the authoring brief rather
+than to the files. That brief banned the `[measured-here]` tier outright on the grounds that no
+Gemini run of these skills had been read, which was too broad: `ux-craft` cites a real recorded
+run (`Egress Gemini`, 17 Aug 2026, n=1, `geminify/references/evidence.md` §1.1), so its use of
+the tier is earned. `whats-left` and `ux-craft` each carried one genuinely mis-tiered claim —
+an observation about `geminify`'s own gate, not about a run of the host skill — and those were
+re-tiered to `[measured-family]` rather than deleted.
+
+Still true of the whole sweep: no Gemini run of any of these files has been observed, so their
+effect remains reasoned rather than measured, and the corpus behind them is flash-tier only.
+
 ## 2026-09-01
 
 ### tailings 0.2.0: Codex transcript attribution and fail-closed pairing
@@ -37,6 +96,104 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
   call with its output; zero recognized activity and orphan calls or outputs fail closed.
 - **Repository evidence stays attributable.** Cross-reference probes distinguish accessed paths
   from modified paths and refuse broad capture/commit attribution from concurrent work.
+- **Adds a Gemini-calibrated gemini.md**, so the conditional pointer already in SKILL.md now resolves to a real file instead of a missing one. Written by the geminify Mode A procedure and gated by verify_quotes.py.
+
+### Gemini support swept across 26 plugins: 5 new `gemini.md`, 24 refreshed
+
+A workflow ran the `geminify` Mode A procedure over every skill in this marketplace whose
+Gemini layer was missing or had fallen behind its `SKILL.md`. 68 skills carry a `SKILL.md`;
+63 already had a `gemini.md`, and of those, 24 predated their skill's last change by 1 to 8
+days. Those 24 plus the 5 with none were the work set. The other 39 were already current and
+were left alone rather than churned.
+
+The five that had none — `eli5`, `positioning`, `tailings`, `visualization`,
+`create-luke-content` — were worse off than "missing a file": each already carried the
+conditional `Running as a Gemini model?` pointer in its `SKILL.md`, aimed at a `gemini.md`
+that did not exist. A Gemini runner following that pointer found nothing and continued. Those
+five now resolve, and take a minor bump; the 24 refreshes take a patch.
+
+Every file was written by an agent that read the target `SKILL.md` and its references in full,
+ran `scan_skill.py --refs`, and looped `verify_quotes.py` to exit 0 — so each quoted vendor
+sentence is verbatim from Google's bundled corpus. `[docs]` claim counts per file run 14 to 28.
+Authors wrote only their own `gemini.md`: 29 files changed and no `SKILL.md` touched, verified
+against `git status`, because `install_pointer.py` writes this file and `marketplace.json` and
+29 agents editing one file corrupt it. Pointers and version bumps were applied serially
+afterwards.
+
+Each file was then graded by an independent auditor that re-ran the gate and checked ten of
+`geminify`'s own rules. **19 of 29 passed; 10 carry findings that are not yet fixed** — a
+miscounted lint-format set in `create-luke-content`, a worked example attributed to the wrong
+`SKILL.md` line, backticked "quotes" that paraphrase rather than quote, two files with no
+`unmeasured on this skill` list, and `ship-fleet` at 277 lines against the 150–250 target
+(down from 288, so improved rather than introduced). Those are queued, not resolved, and the
+files ship as an improvement on what was there rather than as finished work.
+
+One caveat on the whole sweep: no Gemini run of any of these new files has been observed. Their
+effect is reasoned from the corpus behind `geminify`, not measured, and that corpus is
+flash-tier only.
+
+## 2026-08-31
+
+### generate-investor-portal 1.3.0: a kind's props are claims, not fields
+
+Six defects from one real tenant, an unlisted Australian company, and the rules that follow. Full
+measurements in `references/what-shipped-wrong.md`.
+
+- **The blocker: prose in `governanceGroup.docs[]` asserted eleven documents nobody publishes.**
+  That array's renderer draws a PDF affordance per row, counts the rows into an "N documents"
+  heading, and reserves a date column. Five prose commitments and six third-party standards
+  inherited all three claims, on a governance page, for a company whose own source material says it
+  publishes no documents at all. The array validated, the route returned 200, the tokens were right.
+  The new rule sits in SKILL.md rather than only in a reference: read what a kind **asserts** about
+  what you hand it, because a field that accepts your data is not a field that means it.
+- **Six fields whose rendering contract is not what their type suggests**, each with a visible
+  defect behind it: a hero `headline` array is LINES (a trailing "." got a line of its own) while
+  `identity.freeHeadline` is inline runs; `prose` draws no eyebrow and renders an array body run-on;
+  a `§` ordinal on a kind that renders no eyebrow puts a gap in the *rendered* index; a badge string
+  does not wrap and scrolled a document sideways at 375px; and the ledger joins to the page by
+  **label**, so a qualified ledger label silently reads as an undisclosed value.
+- **Writing `chrome` replaces it wholesale.** `header ?? headerFromRecord(record)` — omit `mark` and
+  the masthead publishes `AE`, the reference tenant's monogram, under another company's name. The
+  footer merges and the header does not, from the same-looking edit.
+- **Three renderer defects recorded so nobody reintroduces them**: a disclosure marker tested against
+  `from === 'mock'`, a value `ValueProvenanceSchema` cannot carry, so it was dead on every tenant
+  while the line above it claimed the rows were marked; a venue fallback of `'the exchange'` that
+  reintroduced, for unlisted tenants, the defect the venue derivation had just removed; and a 4:3
+  `object-fit: cover` on unit media that cropped 26%, 44% and 26% off three product diagrams.
+- **And the instrument, not the page.** A probe reading `getBoundingClientRect()` cannot see an
+  absolutely-positioned `::before`, so it reported four link classes at 15–20px whose real hit area
+  was 14px larger. One target-size class genuinely needed the fix; two did not. Check for the
+  existing extension before enlarging a target, and report a padding change as making the
+  measurement honest rather than as fixing an accessibility defect.
+
+### deck-craft 1.17.0: the collision check could not see a container
+
+- **`chromeCollisions` walked a list of text tags, so a panel through the footer rule read as
+  clean.** The selector was `p,li,td,th,h1,h2,h3,h4,figure,table`. A `<div class="panel">`
+  crossing the footer matches none of them, so the check stepped over it and the slide passed.
+  Measured on a real twelve-slide deck: three panels crossing the rule on three separate slides,
+  by 15.7px, 7.3px and 2.0px, with `chromeCollisions: 0` and a `PASS` verdict. A reader found it
+  by looking at the screen, which is the outcome the gate exists to make unnecessary.
+  - The walk is now every element in the slide, kept if a viewer can *see* it land on the chrome:
+    it carries a background, a visible border, or text of its own.
+  - **The threshold moved to authored pixels, at a hairline.** It was four *rendered* pixels,
+    which at a stage scale of 0.667 is six authored ones, so a box genuinely through the rule by
+    two or three sat in a dead zone the gate could not report.
+  - **A full-height layout wrapper is excluded, on height alone.** Its padding box legitimately
+    extends past the footer; that is what the padding is for. Width is not a discriminator, and
+    testing it was itself a bug — an editorial cover whose copy column is 1290px of a 1920px
+    stage is still a wrapper, and a width test excused every slide except that one.
+  - **The outermost crossing box is reported, not every descendant.** A panel through the rule
+    otherwise arrives once per line of text it holds: five findings for two crossings.
+- **Two new eval assertions, and the second is the control.** `A18` fails the old probe and passes
+  the new one on `evals/fixtures/chrome-boxes.html` — the real deck cut to three slides, one clean,
+  one panel through by 34 authored px, one card through by 4. `A19` asserts the widened walk still
+  reports zero on the clean fixture, because widening a selector is exactly where false positives
+  arrive; it caught the width-test bug above before it shipped.
+- **The general shape, for the next check.** A gate scoped by an enumerated tag list is a hole
+  rather than a scope, and it fails in the direction that reads as success. Scope by what an
+  element *does* — paints, carries text, is chrome — and exclude by a stated property, so a new
+  kind of node is covered the day it is authored rather than the day somebody remembers the list.
 
 ## 2026-08-30
 

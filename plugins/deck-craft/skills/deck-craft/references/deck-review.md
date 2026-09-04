@@ -56,6 +56,40 @@ So when a finding is repaired, ask the two questions that catch this:
 
 A per-slide fix list against a deck-wide cause is how a review closes with everything ticked and the same defect still shipping.
 
+### A check scoped by a tag list is a hole, and it fails as success
+
+The version of this shape that survives longest is not a missing check but a
+present one with the wrong reach. `chromeCollisions` walked
+`p,li,td,th,h1,h2,h3,h4,figure,table` — reasonable-looking, and a list. A
+`<div class="panel">` crossing the footer rule matches none of those, so the
+check stepped over it and printed `0`. Measured on a twelve-slide deck: three
+panels through the rule, by 15.7px, 7.3px and 2.0px, gate green, verdict `PASS`,
+found by a reader looking at the screen.
+
+Two things make it worse than a gap. A zero from a selector that matched nothing
+is **identical** to a zero from a deck with nothing wrong, so it reads as
+evidence. And it is quotable: the review reported "0 chrome collisions" in its
+gate line, which was true of what the check looked at and false of the deck.
+
+So when you write or read a check, ask what its selector CANNOT match:
+
+- **Scope by what an element does, not by what it is called.** Paints a
+  background, carries a border, holds its own text, is chrome — those are
+  properties every future node has. A tag list only covers the nodes somebody
+  thought of, and a card, callout, aside, `<ul>`, `<svg>` or bare `<div>` is
+  authored later without anyone revisiting it.
+- **Exclude by a stated property too.** The full-height layout wrapper here is
+  excluded on height, because its padding box reaching past the footer is what
+  the padding is *for*. The first attempt tested height AND width and was wrong:
+  an editorial cover whose copy column is 1290px of a 1920px stage is still a
+  wrapper. An exclusion needs its own control, or it becomes the next hole.
+- **Denominate a threshold in authored pixels.** The same check required four
+  *rendered* pixels of overlap, which is six authored ones at a stage scale of
+  0.667 — a dead zone that hid a real crossing while looking like precision.
+- **Widening a selector is where false positives arrive**, so pair the fix with
+  a control asserting the clean fixture still reports zero. `A19` in the eval
+  set is that control, and it caught the width bug above before it shipped.
+
 **And the reciprocal: a fix can starve its neighbour.** Space inside a fixed stage is conserved, so every widening is also a narrowing somewhere. Measured on one deck: widening a table's unit column by 44px to stop a mono string colliding with the bar beside it left the next column 20px short, and its text ran into the following cell's status chips — a defect the same gate had reported clean one run earlier. Re-run the whole gate after each repair batch rather than the region you touched; a fix round that only re-checks its own edits converges on a moving defect.
 
 ## Looking is the part that gets skipped
