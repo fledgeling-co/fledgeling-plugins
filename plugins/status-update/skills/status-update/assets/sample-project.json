@@ -612,5 +612,45 @@
   "commits_ahead": 7,
   "worktree_clean": false,
   "pushed": false
+ },
+ "roadmap": [
+  {
+   "round": "Round 4",
+   "goal": "Test the alarms & verify webhook secret rotation",
+   "tasks": ["WEB-5088", "WEB-5089", "WEB-5076"],
+   "tier": "M",
+   "status": "next",
+   "waits_on": "nothing",
+   "estimate_min": [20, 50],
+   "median_min": 30
+  },
+  {
+   "round": "Round 5",
+   "goal": "Resolve staging certificate & Mac build signature",
+   "tasks": ["WEB-5071", "WEB-5074"],
+   "tier": "L",
+   "status": "queued",
+   "waits_on": "signing key from 1Password",
+   "estimate_min": [35, 80],
+   "median_min": 50
+  },
+  {
+   "round": "Round 6",
+   "goal": "Windows smoke run & delivery log backfill",
+   "tasks": ["WEB-5072", "WEB-5079"],
+   "tier": "L",
+   "status": "blocked",
+   "waits_on": "Windows host machine",
+   "estimate_min": [45, 95],
+   "median_min": 60
+  }
+ ],
+ "estimate_remaining": {
+  "serial_min": [100, 225],
+  "parallel_min": [45, 110],
+  "median_min": 65,
+  "lanes": 2,
+  "basis": "measured rates (reckon 1,842-agent benchmark: S=8m, M=15m, L=25m, XL=45m)",
+  "tasks_remaining": 7
  }
 }

@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-09-04
 
+### status-update 1.1.0: roadmaps and measured time estimates
+
+- **What is coming next.** Adds roadmap and estimation support so reports model what is ahead as well as what just landed.
+- **Empirical estimation from `reckon:reckon`.** Sizing is grounded in reckon's measured 1,842-agent benchmark across 31 projects: task size tiers S (3–25m, median 8m), M (7–56m, median 15m), L (14–68m, median 25m), and XL (25–155m, median 45m). Wave parallel arithmetic accounts for the slowest member × 1.1–1.8. Point estimates are explicitly banned in favor of p25–p90 ranges with medians.
+- **Visual roadmap zone in project report.** Renders an estimated duration hero banner with basis provenance, an SVG Gantt timeline diagram (following `visualization:visualization`'s `type-gantt` and `type-timeline` conventions), and a companion table view.
+- **Next round & time in portfolio dashboard.** Derives upcoming round goals and parallel wall-clock ranges into `portfolio.json`, adding a dedicated "Next round & time" column to the dashboard projects table.
+- **Decision work carries zero duration.** Waiting on humans or credentials is not priced as agent time.
+
 ### status-update 1.0.1: living HTML status reports and portfolio dashboard
 
 - **The page is the report.** Replaces scrolling chat status updates with two living HTML pages: `<project>/STATUS.html` for single-project reporting, and `~/Dev/STATUS.html` for a master dashboard across all projects.

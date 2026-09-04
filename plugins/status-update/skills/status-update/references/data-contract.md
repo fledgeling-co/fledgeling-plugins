@@ -98,6 +98,33 @@ nothing is not a pass.
   "not_checked": [{ "axis": "Screens on a phone", "why_not": "No phone in the test setup." }],
   "not_done":    [{ "action": "Smoke run on Windows", "reason": "No Windows machine here.",
                     "what_would_unblock": "A Windows machine.", "size": "a few days" }],
+
+  // What is coming next — the roadmap and estimated time.
+  // Grounded in reckon's measured 1,842-agent corpus:
+  //   S: 3–25m (median 8m) · M: 7–56m (median 15m) · L: 14–68m (median 25m) · XL: 25–155m (median 45m)
+  //   A wave costs its slowest member × 1.1 (median) to 1.8 (p90).
+  //   Decision / waiting work carries NO duration estimate.
+  //   Never print a single point number — point estimates are wrong by a factor of 3.
+  "roadmap": [{
+    "round": "Round 4",                    // round label
+    "goal": "Clear phone blockers & verify 18 flows", // plain words, ~60 chars
+    "tasks": ["WEB-5088", "WEB-5089"],     // task IDs in this round
+    "tier": "M",                           // S | M | L | XL
+    "status": "next",                      // next | queued | blocked
+    "waits_on": "Android test fixture",    // what it waits on, or "nothing"
+    "estimate_min": [18, 45],              // [p25, p90] in minutes (range, never single point)
+    "median_min": 25                       // central estimate in minutes
+  }],
+
+  "estimate_remaining": {
+    "serial_min": [75, 290],               // [low, high] sum of remaining tasks
+    "parallel_min": [35, 110],             // [low, high] wall-clock accounting for lane overlap
+    "median_min": 60,                      // typical wall-clock duration
+    "lanes": 3,                            // concurrent berths (typically 2–5)
+    "basis": "measured rates (reckon 1,842-agent benchmark)", // provenance
+    "tasks_remaining": 7
+  },
+
   "artifacts":   [{ "path": "reports/checks-b7d41ae.md", "kind": "md",
                     "contains": "Every check and what it examined.", "open_first": true }],
 
@@ -143,6 +170,8 @@ them; when nothing does, those two zones render as not reported, which is accura
 | `remaining` | tasks with `outcome: "stuck"`, with their `waiting_hours` |
 | `corrections`, `needs_you` | passed through unchanged |
 | `coverage` | every axis summed into one covered-over-denominator |
+| `next_round` | first roadmap item marked "next" or "queued" (round, goal, tier, estimate) |
+| `time_remaining` | `estimate_remaining.parallel_min` formatted as a range, e.g. "35m–1.8h" |
 
 The six gate kinds keep the dashboard heatmap rectangular — every project contributes six
 cells however many checks it ran. A check with no `kind` is sorted by keyword from its name

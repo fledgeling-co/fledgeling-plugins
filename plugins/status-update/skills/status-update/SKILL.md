@@ -92,6 +92,26 @@ page cannot claim something the data does not support.
 When the script corrects you, fix the underlying data if it was a mistake. If the data was
 right and the correction is wrong, say so in your reply rather than editing the page.
 
+## What is coming next — the roadmap and estimated time
+
+The page models what is coming next as well as what just landed, via `roadmap` and
+`estimate_remaining`. Sizing is grounded in `reckon:reckon`'s measured 1,842-agent corpus across
+31 repositories on this machine.
+
+- **Never write a single point estimate.** Point estimates are wrong by a factor of three in the
+  ordinary case and read as false precision. Always provide a duration range (`[p25, p90]`) with
+  the median called out.
+- **Four empirical task tiers**:
+  - `S` (3–25m, median 8m): read-only check, small fix, 1–2 files.
+  - `M` (7–56m, median 15m): 3–7 files, single subsystem.
+  - `L` (14–68m, median 25m): 8–19 files, cross-seam feature.
+  - `XL` (25–155m, median 45m): 20+ files, whole new surface.
+- **Parallel wave duration**: `wave ≈ max(member) × 1.1` (median) to `1.8` (p90).
+- **Decision work carries no duration estimate.** Waiting on a human decision or an external
+  credential is not agent work — giving it an estimate prices waiting as work.
+- State the basis plainly: `"measured rates (reckon 1,842-agent benchmark)"` or this project's
+  own recorded throughput.
+
 ## Writing for the reader, not for yourself
 
 The pages are read by someone who does not know this codebase — a colleague, a founder, or

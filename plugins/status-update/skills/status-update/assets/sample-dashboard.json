@@ -63,7 +63,9 @@
      "covered": 96,
      "denominator": 100
     }
-   ]
+   ],
+   "next_round": null,
+   "time_remaining": ""
   },
   {
    "project": "warden",
@@ -112,7 +114,9 @@
      "covered": 64,
      "denominator": 64
     }
-   ]
+   ],
+   "next_round": null,
+   "time_remaining": ""
   },
   {
    "project": "relay",
@@ -179,7 +183,15 @@
      "covered": 120,
      "denominator": 160
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 8",
+    "goal": "Verify rebase & security",
+    "tier": "M",
+    "estimate": "35\u201350m",
+    "status": "next"
+   },
+   "time_remaining": "45m\u20131.8h"
   },
   {
    "project": "dossier",
@@ -263,7 +275,15 @@
      "covered": 210,
      "denominator": 300
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 4",
+    "goal": "Fix typecheck errors",
+    "tier": "S",
+    "estimate": "15\u201330m",
+    "status": "next"
+   },
+   "time_remaining": "30\u201375m"
   },
   {
    "project": "splice",
@@ -358,7 +378,15 @@
      "covered": 40,
      "denominator": 95
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 3",
+    "goal": "Awaiting idle measurement host",
+    "tier": "M",
+    "estimate": "25\u201360m",
+    "status": "blocked"
+   },
+   "time_remaining": "1.2\u20133.5h"
   },
   {
    "project": "vigil",
@@ -450,7 +478,15 @@
      "covered": 55,
      "denominator": 120
     }
-   ]
+   ],
+   "next_round": {
+    "round": "wave 3",
+    "goal": "Resolve failed unit tests",
+    "tier": "M",
+    "estimate": "25\u201355m",
+    "status": "next"
+   },
+   "time_remaining": "55m\u20132.2h"
   },
   {
    "project": "lifeline",
@@ -505,7 +541,15 @@
      "covered": 88,
      "denominator": 96
     }
-   ]
+   ],
+   "next_round": {
+    "round": "wave 4",
+    "goal": "Container store repair",
+    "tier": "S",
+    "estimate": "12\u201325m",
+    "status": "next"
+   },
+   "time_remaining": "25\u201360m"
   },
   {
    "project": "harbourmaster",
@@ -554,7 +598,9 @@
      "covered": 30,
      "denominator": 30
     }
-   ]
+   ],
+   "next_round": null,
+   "time_remaining": ""
   },
   {
    "project": "sidetone",
@@ -603,7 +649,15 @@
      "covered": 0,
      "denominator": 0
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 1",
+    "goal": "First pass test suite run",
+    "tier": "M",
+    "estimate": "20\u201345m",
+    "status": "next"
+   },
+   "time_remaining": "45\u201390m"
   },
   {
    "project": "proctor",
@@ -652,7 +706,9 @@
      "covered": 150,
      "denominator": 150
     }
-   ]
+   ],
+   "next_round": null,
+   "time_remaining": ""
   },
   {
    "project": "slipway",
@@ -708,7 +764,15 @@
      "covered": 20,
      "denominator": 40
     }
-   ]
+   ],
+   "next_round": {
+    "round": "wave 3",
+    "goal": "Windows test run deferred",
+    "tier": "L",
+    "estimate": "45\u201390m",
+    "status": "next"
+   },
+   "time_remaining": "2.0\u20134.5h"
   },
   {
    "project": "anvil",
@@ -778,7 +842,15 @@
      "covered": 33,
      "denominator": 70
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 4",
+    "goal": "Waiting for 1Password cert",
+    "tier": "L",
+    "estimate": "40\u201380m",
+    "status": "blocked"
+   },
+   "time_remaining": "2.0\u20134.5h"
   },
   {
    "project": "lecturn",
@@ -827,7 +899,9 @@
      "covered": 44,
      "denominator": 44
     }
-   ]
+   ],
+   "next_round": null,
+   "time_remaining": ""
   },
   {
    "project": "keelhaul",
@@ -882,7 +956,15 @@
      "covered": 70,
      "denominator": 110
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 5",
+    "goal": "Review open PRs",
+    "tier": "M",
+    "estimate": "20\u201345m",
+    "status": "next"
+   },
+   "time_remaining": "40m\u20131.5h"
   },
   {
    "project": "beacon",
@@ -931,7 +1013,9 @@
      "covered": 88,
      "denominator": 88
     }
-   ]
+   ],
+   "next_round": null,
+   "time_remaining": ""
   },
   {
    "project": "tideline",
@@ -1004,7 +1088,15 @@
      "covered": 60,
      "denominator": 140
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 5",
+    "goal": "Re-run empty browser tests",
+    "tier": "M",
+    "estimate": "20\u201345m",
+    "status": "next"
+   },
+   "time_remaining": "45m\u20131.8h"
   },
   {
    "project": "quarterdeck",
@@ -1059,7 +1151,15 @@
      "covered": 130,
      "denominator": 150
     }
-   ]
+   ],
+   "next_round": {
+    "round": "wave 2",
+    "goal": "Egress chain verification",
+    "tier": "L",
+    "estimate": "30\u201365m",
+    "status": "next"
+   },
+   "time_remaining": "1.2\u20133.0h"
   },
   {
    "project": "mainstay",
@@ -1108,7 +1208,9 @@
      "covered": 36,
      "denominator": 36
     }
-   ]
+   ],
+   "next_round": null,
+   "time_remaining": ""
   },
   {
    "project": "capstan",
@@ -1157,7 +1259,15 @@
      "covered": 12,
      "denominator": 80
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 1",
+    "goal": "Run typecheck & lint",
+    "tier": "S",
+    "estimate": "10\u201325m",
+    "status": "next"
+   },
+   "time_remaining": "20\u201350m"
   },
   {
    "project": "bosun",
@@ -1206,7 +1316,9 @@
      "covered": 52,
      "denominator": 52
     }
-   ]
+   ],
+   "next_round": null,
+   "time_remaining": ""
   },
   {
    "project": "halyard",
@@ -1278,7 +1390,15 @@
      "covered": 18,
      "denominator": 60
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 2",
+    "goal": "Waiting for SSH key",
+    "tier": "S",
+    "estimate": "15\u201335m",
+    "status": "blocked"
+   },
+   "time_remaining": "45m\u20132.0h"
   },
   {
    "project": "lodestar",
@@ -1327,7 +1447,9 @@
      "covered": 101,
      "denominator": 101
     }
-   ]
+   ],
+   "next_round": null,
+   "time_remaining": ""
   },
   {
    "project": "dogwatch",
@@ -1387,7 +1509,15 @@
      "covered": 45,
      "denominator": 90
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 6",
+    "goal": "UI user-flow audit",
+    "tier": "M",
+    "estimate": "25\u201350m",
+    "status": "next"
+   },
+   "time_remaining": "50m\u20132.0h"
   },
   {
    "project": "foghorn",
@@ -1436,7 +1566,15 @@
      "covered": 25,
      "denominator": 50
     }
-   ]
+   ],
+   "next_round": {
+    "round": "wave 2",
+    "goal": "Backfill 2024 logs deferred",
+    "tier": "M",
+    "estimate": "25\u201350m",
+    "status": "next"
+   },
+   "time_remaining": "1.0\u20132.5h"
   },
   {
    "project": "gangway",
@@ -1485,7 +1623,9 @@
      "covered": 77,
      "denominator": 77
     }
-   ]
+   ],
+   "next_round": null,
+   "time_remaining": ""
   },
   {
    "project": "jetsam",
@@ -1552,7 +1692,15 @@
      "covered": 28,
      "denominator": 95
     }
-   ]
+   ],
+   "next_round": {
+    "round": "wave 2",
+    "goal": "Close sign-off audit gaps",
+    "tier": "L",
+    "estimate": "35\u201370m",
+    "status": "next"
+   },
+   "time_remaining": "1.5\u20133.2h"
   },
   {
    "project": "kedge",
@@ -1601,7 +1749,9 @@
      "covered": 61,
      "denominator": 61
     }
-   ]
+   ],
+   "next_round": null,
+   "time_remaining": ""
   },
   {
    "project": "landfall",
@@ -1656,7 +1806,15 @@
      "covered": 96,
      "denominator": 140
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 9",
+    "goal": "Final release sign-off",
+    "tier": "S",
+    "estimate": "10\u201320m",
+    "status": "next"
+   },
+   "time_remaining": "20\u201345m"
   },
   {
    "project": "mizzen",
@@ -1721,7 +1879,15 @@
      "covered": 9,
      "denominator": 44
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 5",
+    "goal": "Waiting for GPU test host",
+    "tier": "L",
+    "estimate": "35\u201375m",
+    "status": "blocked"
+   },
+   "time_remaining": "1.8\u20134.0h"
   },
   {
    "project": "netting",
@@ -1770,7 +1936,15 @@
      "covered": 5,
      "denominator": 70
     }
-   ]
+   ],
+   "next_round": {
+    "round": "round 1",
+    "goal": "Execute unit suite",
+    "tier": "S",
+    "estimate": "15\u201330m",
+    "status": "next"
+   },
+   "time_remaining": "30\u201360m"
   }
  ]
 }
