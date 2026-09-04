@@ -1,0 +1,510 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fledgeling.dev/test-campaign/v1/flow-specification.json",
+  "title": "Flow specification",
+  "description": "The catalogue of user journeys a project intends to be true, one entry per journey, written BEFORE and independently of whether any test exists. It is a statement of intent, not a coverage report: a journey belongs here the moment somebody can name it, and it stays here whether it is tested, untestable or broken. Coverage lives in coverage-axes.json, which counts against this file's `flows` as its denominator. Nothing in this schema is specific to one project — `featureArea`, `lane` and `priority` are open vocabularies a project declares in `vocabularies`, and a flow id is a shape rather than a list.",
+  "type": "object",
+  "required": ["generated", "lanesSpecified", "flows"],
+  "properties": {
+    "generated": {
+      "description": "The date this catalogue was last regenerated, ISO 8601 (YYYY-MM-DD or a full timestamp). A reader shows it beside every figure derived from the file, because a journey catalogue ages: surfaces ship and are removed between regenerations. It is NOT a measurement date — no journey here was necessarily run on this day.",
+      "type": "string",
+      "minLength": 4,
+      "examples": ["2026-08-31"]
+    },
+    "project": {
+      "description": "Optional human name of the system this catalogue describes, so a reader holding several campaigns can label them. Never used as a key or a join field.",
+      "type": "string",
+      "minLength": 1
+    },
+    "vocabularies": {
+      "$ref": "#/$defs/vocabularies"
+    },
+    "denominators": {
+      "description": "Per-lane population counts: how many journeys, surfaces and defect cards this lane contains. This is the denominator every per-lane figure must be quoted against, and it exists so that a reader can never present a lane's progress without the size of the lane. Keys are lane names from `lanesSpecified`. It is NOT a coverage record and holds no passed/failed counts.",
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/laneDenominator" },
+      "propertyNames": { "$ref": "#/$defs/laneName" }
+    },
+    "lanesSpecified": {
+      "description": "Every lane whose journeys have actually been enumerated into `flows`. A lane absent from this list has NOT been declared empty — it has not been looked at, and belongs in `lanesPending`. A reader that treats an absent lane as zero-work is reporting an unexamined area as finished.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/laneName" },
+      "uniqueItems": true
+    },
+    "lanesPending": {
+      "description": "Lanes known to exist whose journeys have not been enumerated yet. Publishing this list beside `lanesSpecified` is what stops a partial catalogue reading as a complete one. An empty array means enumeration is complete for the lanes the project knows about — it does not mean the product has no other surfaces.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/laneName" },
+      "uniqueItems": true,
+      "default": []
+    },
+    "flows": {
+      "description": "The journeys themselves. This array's length is the denominator for every axis in coverage-axes.json. Ids must be unique across the whole catalogue, not merely within a lane.",
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/flow" }
+    },
+    "waiverIntegrity": {
+      "$ref": "#/$defs/waiverIntegrity"
+    },
+    "gaps": {
+      "description": "Per lane, the things this lane cannot presently prove and why — a hole in the evidence, named in prose, with the measurement that establishes it. A gap is not a defect and not a to-do: it is an admission recorded at enumeration time so it cannot be silently absorbed later. Keys are lane names.",
+      "type": "object",
+      "additionalProperties": { "type": "array", "items": { "$ref": "#/$defs/gap" } },
+      "propertyNames": { "$ref": "#/$defs/laneName" }
+    },
+    "docCodeDisagreements": {
+      "description": "Per lane, every place the project's own documentation and its shipped code assert different behaviour, together with a ruling on which one ships. This is the single most valuable output of an enumeration pass, because a journey written to the documentation asserts behaviour that does not exist and fails for the wrong reason. Keys are lane names.",
+      "type": "object",
+      "additionalProperties": { "type": "array", "items": { "$ref": "#/$defs/docCodeDisagreement" } },
+      "propertyNames": { "$ref": "#/$defs/laneName" }
+    },
+    "unverified": {
+      "description": "Per lane, claims the enumerator wrote down but did NOT confirm against code or a running system, each with the reason it was left standing. Never read an entry here as either true or false; it is a declared limit on the enumeration. Keys are lane names.",
+      "type": "object",
+      "additionalProperties": { "type": "array", "items": { "$ref": "#/$defs/unverifiedClaim" } },
+      "propertyNames": { "$ref": "#/$defs/laneName" }
+    },
+    "notChecked": {
+      "description": "Per lane, free-prose notes on inputs the enumerator deliberately did not open — a ticket read by title only, a spec skimmed, a subsystem taken on trust — and what a later reader should know as a result. Deliberately unstructured: forcing a schema onto it produced tidy entries nobody wrote. Keys are lane names.",
+      "type": "object",
+      "additionalProperties": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+      "propertyNames": { "$ref": "#/$defs/laneName" }
+    },
+    "misrouted": {
+      "description": "Per lane, journeys that were enumerated in one lane but belong to another, so a lane-scoped reader does not report them missing from the lane that owns them. Entries are heterogeneous by design — some name a single flow, some a set, some only the owning lane — because the note is written the moment the mis-routing is noticed rather than after a taxonomy exists. Keys are lane names.",
+      "type": "object",
+      "additionalProperties": { "type": "array", "items": { "$ref": "#/$defs/misroutedNote" } },
+      "propertyNames": { "$ref": "#/$defs/laneName" }
+    }
+  },
+  "$defs": {
+    "laneName": {
+      "description": "A lane: the unit of ownership an enumeration pass is divided into, usually one agent's or one person's share. An OPEN vocabulary the project declares — never validate against another project's lane list.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9 ._/-]*$",
+      "examples": ["admin", "auth-entry", "cross-cutting-1", "investor-portal"]
+    },
+    "vocabularies": {
+      "description": "Where a project declares its own open vocabularies, so a generic reader can order and group without knowing the project. Optional: a catalogue without it is still valid, and a reader must then treat lanes, priorities and feature areas as unordered strings rather than inventing an order.",
+      "type": "object",
+      "properties": {
+        "priorities": {
+          "description": "The project's priority values in order, MOST urgent first. A reader sorts and gates on this array's index. Without it, `priority` is an opaque label and no reader may claim one flow matters more than another.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true,
+          "examples": [["p0", "p1", "p2"]]
+        },
+        "lanes": {
+          "description": "The project's full lane vocabulary, including lanes not yet enumerated. Superset of `lanesSpecified` + `lanesPending`.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/laneName" },
+          "uniqueItems": true
+        },
+        "featureAreas": {
+          "description": "The project's feature-area vocabulary, if it keeps a closed one. Most projects do not — `featureArea` on a flow is free text — and omitting this is the honest default.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "oracleLadder": {
+          "description": "The oracle rungs this project recognises, ordered WEAKEST first. Every `oracle.rung` in `flows` must appear here; a rung off the ladder cannot be gated on, and a gate that cannot see the rung passes a critical journey proved only by 'the element exists'. The canonical ladder is the default and a project should extend rather than replace it.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true,
+          "default": ["presence", "structural", "structural-visual", "raster-visual", "outcome", "effect-witness", "metamorphic"]
+        },
+        "actors": {
+          "description": "The roles a journey's steps can be performed by, if the project keeps a closed set. Diolog's data shows why this is usually left open: 34 distinct actor strings appeared, most of them one-offs written mid-sentence.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "variantDimensions": {
+          "description": "The axes along which a journey varies. This IS worth declaring, because an undeclared dimension is a dimension nobody sampled.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true,
+          "default": ["viewport", "theme", "role", "tenant", "locale", "data-shape", "flag", "config", "plane", "a11y", "modality"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "laneDenominator": {
+      "description": "The size of one lane along three independent populations. They are separate counts against separate things and must never be summed into one number.",
+      "type": "object",
+      "required": ["journeys"],
+      "properties": {
+        "journeys": {
+          "description": "How many entries in `flows` carry this lane. The denominator for every per-lane journey figure.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "surfaces": {
+          "description": "How many distinct addressable surfaces (routes, screens, modals) this lane covers. A different population from journeys — one surface carries many journeys and one journey crosses many surfaces — so surfaces/journeys is not a ratio of anything.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "cards": {
+          "description": "How many tracker items (defects, tickets) were read while enumerating this lane. A measure of the input the enumeration had, NOT of defects found or open.",
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "flow": {
+      "description": "One user journey: an entry point, a precondition set, an ordered sequence of steps with expected outcomes, its variants and edge cases, and exactly one oracle saying what would prove it.",
+      "type": "object",
+      "required": ["id", "name", "featureArea", "entryPoint", "preconditions", "actions", "oracle", "sources", "existingCoverage", "priority", "lane"],
+      "properties": {
+        "id": {
+          "description": "The stable, pointable identity of this journey. It must survive renames, re-lanings and rewording, because every downstream artefact — test titles, screenshots, CI reports, defect cards, the reader's diagram nodes — joins on this string and nothing else. Shape, not vocabulary: an uppercase prefix and a numeric suffix. Never reuse an id for a different journey; retire it instead.",
+          "type": "string",
+          "pattern": "^[A-Z][A-Za-z0-9]*(-[A-Za-z0-9]+)*-[0-9]+$",
+          "examples": ["FLOW-ADMIN-001", "JOURNEY-CHECKOUT-014"]
+        },
+        "name": {
+          "description": "What the user is trying to do, in one sentence, from the user's side. Not a test name and not a component name — a reader shows this to somebody who has never seen the codebase.",
+          "type": "string",
+          "minLength": 1
+        },
+        "featureArea": {
+          "description": "The product area this journey belongs to, in the project's own words. An OPEN vocabulary: Diolog produced 634 distinct values across 925 journeys, because the useful granularity is 'Admin console shell', not 'admin'. Group on `lane` when you need buckets; use this for labelling.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["Admin console shell", "Investor portal publishing", "Spreadsheet formula bar"]
+        },
+        "marketing": {
+          "description": "True when this journey is something the product publicly claims — a website promise, a pricing-page bullet, a sales demo beat. It raises the cost of leaving the journey unproved, and lets a reader answer 'what do we advertise that nobody has watched work'. Absence means unknown, not false.",
+          "type": "boolean"
+        },
+        "entryPoint": {
+          "description": "Where the journey starts and how the user gets there. Both halves are needed: a route alone loses the fact that the control which reaches it may not be a link.",
+          "type": "object",
+          "required": ["route", "how"],
+          "properties": {
+            "route": {
+              "description": "The address the journey begins at, or an honest description when there is no single one ('any authenticated route'). Never invent a URL to fill this in.",
+              "type": "string",
+              "minLength": 1
+            },
+            "how": {
+              "description": "The control the user actually operates to get here, with the code that implements it where known. This is where sentinel hrefs, dialog triggers and non-navigating controls get recorded — the detail that makes the difference between a journey that can be automated and one that cannot.",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "preconditions": {
+          "description": "Everything that must already be true before step 1 — auth state, seeded data, feature flags, tenant, mounted providers. An empty array is a claim that the journey runs from a cold anonymous session; do not use it as a default for 'not worked out'.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "actions": {
+          "description": "The journey itself, in order. Every step names who acts and what the product is expected to do in response, so the sequence doubles as the test body's outline.",
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/action" }
+        },
+        "variants": {
+          "description": "The same journey under a different condition, one entry per condition that changes the outcome. This is the sampling record for the correctness space: a dimension with no entry here was not considered, which is different from being considered and found not to matter.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/variant" }
+        },
+        "edgeCases": {
+          "description": "Ways this journey misleads whoever tries to observe it, and what the correct observation is. Distinct from `variants`: a variant changes the product's behaviour, an edge case changes what an instrument sees. Diolog's most valuable entries here are traps that make a working surface read as blank.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/edgeCase" }
+        },
+        "oracle": {
+          "description": "The single thing that would prove this journey works, and the strength of proof it rests on. Exactly one per journey, deliberately: a journey with two oracles has two identities and will be half-proved by each.",
+          "$ref": "#/$defs/oracle"
+        },
+        "sources": {
+          "description": "Where this journey came from. Provenance is what lets a reader answer 'who says this is a journey', and what lets a later pass tell an enumerated journey from an invented one.",
+          "$ref": "#/$defs/sources"
+        },
+        "existingCoverage": {
+          "description": "What was found in the codebase when this journey was enumerated. When `status` is `covered` this is a WAIVER — a claim that no new work is needed — and it is treated as such by every reader.",
+          "$ref": "#/$defs/existingCoverage"
+        },
+        "priority": {
+          "description": "How much it costs to leave this journey unproved, in the project's own vocabulary, ordered by `vocabularies.priorities`. An OPEN vocabulary. Never treat an unrecognised value as lowest — treat it as unordered and say so.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["p0", "p1", "p2", "critical", "should", "nice"]
+        },
+        "lane": {
+          "$ref": "#/$defs/laneName"
+        },
+        "notes": {
+          "description": "Anything a later reader needs that has no other home. Free prose; never parsed.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "action": {
+      "type": "object",
+      "required": ["step", "actor", "action", "expected"],
+      "properties": {
+        "step": {
+          "description": "1-based position in the sequence. Steps must run 1..n with no gaps and no repeats; a gap means a step was deleted and the journey no longer describes what it claims to.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "actor": {
+          "description": "Who performs this step. An OPEN vocabulary and usually written mid-sentence — Diolog produced 34 distinct values, of which 'user' and 'system' were 96%. The value that earns its place is `system`: it marks a step nobody performs, which is where an automated run has to wait rather than click.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["user", "system", "investor", "anonymous visitor", "user B"]
+        },
+        "action": {
+          "description": "What is done, in the user's terms. Not a selector and not a function call.",
+          "type": "string",
+          "minLength": 1
+        },
+        "expected": {
+          "description": "What the product must do in response. This is the sentence a failing test quotes, so it has to be specific enough to be wrong — 'the page updates' proves nothing.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "variant": {
+      "type": "object",
+      "required": ["dimension", "value", "difference"],
+      "properties": {
+        "dimension": {
+          "description": "The axis that changes. An OPEN vocabulary declared in `vocabularies.variantDimensions`; the canonical set covers viewport, theme, role, tenant, locale, data-shape, flag, config, plane, a11y and modality.",
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "description": "The specific point on that axis, concrete enough to set up. '<768px' and 'authenticated non-staff', not 'small' and 'other user'.",
+          "type": "string",
+          "minLength": 1
+        },
+        "difference": {
+          "description": "What actually differs — the whole value of the entry. 'It looks different' records that nobody checked; naming the control that disappears records that somebody did.",
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "description": "Where the difference was established, when it was established rather than assumed.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "edgeCase": {
+      "type": "object",
+      "required": ["case", "expected"],
+      "properties": {
+        "case": {
+          "description": "The situation, usually a way of observing the journey that gives a wrong answer.",
+          "type": "string",
+          "minLength": 1
+        },
+        "expected": {
+          "description": "What is actually true, and what an instrument must do instead. Write the correction, not the symptom.",
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "description": "The file, run or measurement this was established from. Optional because some edge cases are reasoned rather than measured — and one without a source should be read as the weaker claim it is.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "oracle": {
+      "type": "object",
+      "required": ["rung", "assertion"],
+      "properties": {
+        "rung": {
+          "description": "How strong the proof is, from `vocabularies.oracleLadder` (weakest first). The canonical ladder: `presence` (an element exists), `structural` (the DOM/state has the right shape), `structural-visual` (layout geometry measured), `raster-visual` (pixels compared), `outcome` (the user-visible result of the action is correct), `effect-witness` (the effect was observed at its destination — a stored row, a sent message, a peer's screen), `metamorphic` (a relation between two runs holds). A gate reads this to refuse a high-priority journey standing on a weak rung. A value off the ladder cannot be gated on and must be reported as ungated, never silently accepted.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["presence", "structural", "structural-visual", "raster-visual", "outcome", "effect-witness", "metamorphic"]
+        },
+        "assertion": {
+          "description": "The specific, falsifiable statement that would prove this journey. It must be able to be wrong: name the count, the value, the address, the row. This is what a later audit compares a test body against to find an oracle gap — a bound test that holds only part of this sentence.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "object",
+      "properties": {
+        "journeys": {
+          "description": "Ids from an earlier or external journey list this flow derives from. Lets a reader answer whether a hand-written test plan was fully absorbed.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "cards": {
+          "description": "Tracker ids (tickets, defects) that describe or motivate this journey.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "docs": {
+          "description": "Repository documents this journey was read out of, with the section where possible. A journey whose only source is a doc is a journey nobody has confirmed the code performs — see `docCodeDisagreements`.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "code": {
+          "description": "The implementation files consulted. A journey with code sources was grounded in what ships; one without was not, however plausible it reads.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "existingCoverage": {
+      "type": "object",
+      "required": ["status", "specFiles"],
+      "properties": {
+        "status": {
+          "description": "What was already there. `absent`: nothing found. `partial`: something exercises part of the journey or part of the oracle. `covered`: a claim that the journey is already proved — a WAIVER, which exempts it from new work and therefore has to carry its target and its lifting condition. A closed vocabulary; these three are methodological, not project vocabulary.",
+          "enum": ["absent", "partial", "covered"]
+        },
+        "specFiles": {
+          "description": "The test files that constitute the coverage claim. Required (possibly empty) so that its emptiness is a recorded fact rather than an omission. When `status` is `covered` it must name at least one file: an unpointed waiver cannot be audited and is the single cheapest way to make a campaign look finished.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "waiverAudit": {
+          "description": "The result of FOLLOWING the pointer — the only thing that turns a waiver from an assertion into evidence. Measured in one real campaign: 198 of 292 `covered` waivers pointed at a file where no unparked case carried the journey. Until this object is present and `targetRuns` is `runs`, a `covered` status is an unverified claim and a reader must present it as one, separately from proved journeys.",
+          "type": "object",
+          "required": ["followed"],
+          "properties": {
+            "followed": {
+              "description": "Whether anybody opened the named files and looked for a live case carrying this journey. False (or absent) means the waiver stands on its author's word.",
+              "type": "boolean"
+            },
+            "targetRuns": {
+              "description": "What was found. `runs`: a live, unparked case carries this journey and executes. `parked`: the case exists but is skipped/fixme, so it can never fail a build. `no-matching-case`: the file exists but nothing in it carries this journey. `absent-file`: the named file is gone. `unknown`: looked, could not tell. Anything other than `runs` means the waiver is broken and the journey returns to the work list — the schema records the finding; it cannot rewrite `status` for you.",
+              "enum": ["runs", "parked", "no-matching-case", "absent-file", "unknown"]
+            },
+            "caseTitle": {
+              "description": "The exact title of the case found to carry this journey, so the join can be re-checked without repeating the search.",
+              "type": "string",
+              "minLength": 1
+            },
+            "instrument": {
+              "description": "What performed the audit — a script name, or the person or agent who read the file. An audit with no named instrument cannot be re-run.",
+              "type": "string",
+              "minLength": 1
+            },
+            "checkedAt": {
+              "description": "When the pointer was followed. A waiver audit ages faster than the catalogue: the target file changes without the journey changing.",
+              "type": "string",
+              "minLength": 4
+            },
+            "liftWhen": {
+              "description": "What would have to become true for this waiver to be lifted — the condition under which the journey re-enters the work list. A waiver with no lifting condition is a permanent exemption wearing a temporary one's clothes.",
+              "type": "string",
+              "minLength": 1
+            },
+            "note": {
+              "description": "Anything the audit found that the fields above cannot hold.",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": { "properties": { "followed": { "const": true } }, "required": ["followed"] },
+              "then": {
+                "required": ["targetRuns"],
+                "$comment": "Claiming the pointer was followed obliges you to say what was at the end of it."
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "covered" } }, "required": ["status"] },
+          "then": {
+            "properties": { "specFiles": { "type": "array", "minItems": 1 } },
+            "$comment": "A waiver must carry its target. `covered` with no specFiles is an exemption pointing at nothing."
+          }
+        }
+      ]
+    },
+    "waiverIntegrity": {
+      "description": "The campaign-wide tally of what happened when waivers were followed. Publish it beside any count of `covered` journeys; a `covered` count on its own is the figure the audit exists to distrust.",
+      "type": "object",
+      "required": ["waivers", "followed", "upheld", "broken"],
+      "properties": {
+        "waivers": { "description": "How many journeys carry `existingCoverage.status === \"covered\"`. The denominator.", "type": "integer", "minimum": 0 },
+        "followed": { "description": "How many of those had their pointer actually followed. `waivers - followed` is the number still standing on their author's word.", "type": "integer", "minimum": 0 },
+        "upheld": { "description": "How many followed waivers found a live case carrying the journey (`targetRuns === \"runs\"`).", "type": "integer", "minimum": 0 },
+        "broken": { "description": "How many followed waivers found no live case. These are journeys the campaign was counting as done. In the campaign this schema is derived from, 198 of 292.", "type": "integer", "minimum": 0 },
+        "instrument": { "description": "What performed the audit, or the string recording that NO instrument exists for it. An absent waiver-integrity instrument is a declared blindness and belongs in instrument-calibration.json.", "type": ["string", "null"] },
+        "checkedAt": { "description": "When the sweep ran.", "type": "string", "minLength": 4 }
+      },
+      "additionalProperties": false
+    },
+    "gap": {
+      "type": "object",
+      "required": ["what", "why"],
+      "properties": {
+        "what": { "description": "The thing that cannot presently be proved, stated as a limitation rather than as a task.", "type": "string", "minLength": 1 },
+        "why": { "description": "Why it stays open — usually that the obvious single fix is not sufficient. This is what stops the gap being re-discovered and re-abandoned.", "type": "string", "minLength": 1 },
+        "evidence": { "description": "The measurement, file:line or run that establishes the gap is real. A gap without evidence is a suspicion.", "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "docCodeDisagreement": {
+      "type": "object",
+      "required": ["claim", "doc", "code", "whichShips"],
+      "properties": {
+        "claim": { "description": "The disputed statement about behaviour, in one sentence.", "type": "string", "minLength": 1 },
+        "doc": { "description": "Which documents assert it, named specifically enough to correct them.", "type": "string", "minLength": 1 },
+        "code": { "description": "What the implementation actually does, with the file that decides it.", "type": "string", "minLength": 1 },
+        "whichShips": { "description": "The ruling: which one is true of the running product, and what a journey written to the loser would wrongly assert. Never leave this as 'unclear' — an unruled disagreement produces a test that fails for the wrong reason.", "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "unverifiedClaim": {
+      "type": "object",
+      "required": ["item", "whyNot"],
+      "properties": {
+        "item": { "description": "The specific claim left unconfirmed.", "type": "string", "minLength": 1 },
+        "whyNot": { "description": "What was and was not traced. Precise about the boundary, so the next pass starts where this one stopped rather than repeating it.", "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "misroutedNote": {
+      "description": "A note that some journey sits in the wrong lane. Intentionally loose: entries are written when noticed and carry whichever identifiers were to hand. A reader uses it only to avoid double-counting and to avoid reporting a journey as missing from its owning lane.",
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "lane": { "description": "The lane this note was recorded in.", "type": "string", "minLength": 1 },
+        "owningLane": { "description": "The lane that should own the journey.", "type": "string", "minLength": 1 },
+        "suggestedLane": { "description": "Where it is proposed to move, when ownership is not yet settled.", "type": "string", "minLength": 1 },
+        "flow": { "description": "A single mis-routed flow id.", "type": "string", "minLength": 1 },
+        "flows": { "description": "Several mis-routed flow ids.", "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "journeys": { "description": "Ids from the source journey list that the flows derive from.", "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "item": { "description": "A prose description when no id exists yet.", "type": "string", "minLength": 1 },
+        "kind": { "description": "What sort of mis-routing this is, in the project's own words.", "type": "string", "minLength": 1 },
+        "why": { "description": "Why it landed in the wrong lane. Usually because a cross-cutting dimension pulled it there, which is worth knowing before the next enumeration repeats it.", "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

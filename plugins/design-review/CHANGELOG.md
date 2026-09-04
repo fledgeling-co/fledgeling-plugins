@@ -1,5 +1,9 @@
 # design-review changelog
 
+## 2.3.1 - 2026-09-01
+
+Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
+
 ## 2.3.0 - 2026-08-31
 
 The report template now carries a Distinctiveness block with the comparison set, `n/4 MET` score, four counts, and an explicit n/a path. A new eval keeps counted lookalike evidence at Medium while leaving unsupported aesthetic adjectives in Open questions.

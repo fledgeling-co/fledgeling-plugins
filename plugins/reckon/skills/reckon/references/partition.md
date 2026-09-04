@@ -161,7 +161,8 @@ Three conditions, all of them load-bearing. `presence` proves a thing is on
 screen, which is compatible with it doing nothing, so retiring on it retires
 intent on the weakest evidence the ladder has. A token-overlap join is a
 guess, and the gate refuses a retirement that rests on one. And where the join
-as a whole is weak — under half the briefs tied to anything — retirement
+as a whole is weak — under half of the briefs *whose class the join decides*
+tied to anything, which is not the same as under half of all briefs — retirement
 claims are withheld across the board and the briefs stay in their documentary
 class.
 

@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fledgeling.dev/test-campaign/v1/coverage-axes.json",
+  "title": "Coverage axes",
+  "description": "What is actually known about a journey catalogue, published as eight SEPARATELY DENOMINATED axes and never as one number. This schema exists to make a single blended coverage figure unrepresentable. The eight axes measure different things against different populations — a journey named in a comment, a journey bound to a test title, a journey a CI step can fail a build on, a journey CI runs but cannot fail on, a journey no CI step touches, a CASE observed passing, a screenshot filed under a journey, a surface a judge looked at — and averaging any two of them destroys the only information they carry. `axes` is closed: adding a ninth property, or any `coverage`/`pct`/`overall` key at the top level, fails validation on purpose.",
+  "type": "object",
+  "required": ["generated", "population", "axes", "isFloor"],
+  "properties": {
+    "generated": {
+      "description": "When these figures were measured. Every axis is a measurement with a shelf life; a reader shows this date or it is quoting an unknown.",
+      "type": "string",
+      "minLength": 4
+    },
+    "tool": {
+      "description": "What produced the figures — a script name, or an honest statement that they were assembled by hand. 'Hand-built' is a valid answer and a more useful one than a tool name that did not actually run.",
+      "type": "string",
+      "minLength": 1
+    },
+    "project": {
+      "description": "Optional human name of the system measured.",
+      "type": "string",
+      "minLength": 1
+    },
+    "population": {
+      "description": "The set being measured, and where it came from. Every `of` in `axes` must be drawn from this, so that a reader can tell an axis quoted against the whole catalogue from one quoted against a subset.",
+      "type": "object",
+      "required": ["flows", "source"],
+      "properties": {
+        "flows": { "description": "How many journeys are in scope. This is the denominator for the journey-shaped axes and it must equal the length of `flows` in the flow specification named by `source`.", "type": "integer", "minimum": 0 },
+        "byPriority": { "description": "The population split by the project's priority vocabulary, so a gate can be quoted against the priority band it actually protects. Keys are the project's own priority values.", "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } },
+        "byLane": { "description": "The population split by lane, for the same reason.", "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } },
+        "source": { "description": "The path of the flow specification these figures count against. Without it no axis can be re-derived and none can be trusted.", "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "whyNotReckon": {
+      "description": "When a general reconciliation tool was available and NOT used, the reason. The failure this field prevents is real: a tool's percentages were computed over a different campaign's registry, and publishing them as this campaign's would have been the exact error the tool exists to prevent. Silence here reads as 'the tool's numbers are these numbers'.",
+      "type": "string",
+      "minLength": 1
+    },
+    "axes": {
+      "description": "The eight axes. All eight are required and no ninth is permitted: a project that wants to add a measure adds it to `knownWeak` or publishes a second file, because a new key here would be averaged into the others by the first reader who sees it.",
+      "type": "object",
+      "required": [
+        "named_any_mention",
+        "bound_to_a_test_title",
+        "ci_enforced_blocking",
+        "report_mode_only",
+        "in_no_ci_step",
+        "distinct_recorded_passes",
+        "frames_captured",
+        "surfaces_judged"
+      ],
+      "properties": {
+        "named_any_mention": {
+          "allOf": [{ "$ref": "#/$defs/axis" }],
+          "description": "Journeys whose id appears anywhere in a test file, INCLUDING in comment prose. The weakest axis and the one most often mistaken for coverage: a comment mention proves somebody knew the journey existed and nothing else. Publish it only beside `bound_to_a_test_title`, whose shortfall is the size of the lie."
+        },
+        "bound_to_a_test_title": {
+          "allOf": [{ "$ref": "#/$defs/axis" }],
+          "description": "Journeys whose id appears in a test or describe TITLE, so a specific case is tied to the journey and a runner can report on it by name. This is the join every downstream artefact depends on. Not evidence that the case runs, and not evidence that it asserts anything."
+        },
+        "ci_enforced_blocking": {
+          "allOf": [{ "$ref": "#/$defs/axis" }],
+          "description": "Journeys bound to a case that a CI step executes AND that can fail the build — the step is required, not report-mode, and its project/flag gate is satisfied. The only axis on which a regression is caught by machinery rather than by somebody looking. Never merge with `report_mode_only`: the difference between them is the whole value of CI."
+        },
+        "report_mode_only": {
+          "allOf": [{ "$ref": "#/$defs/axis" }],
+          "description": "Journeys CI runs but cannot fail a build on — continue-on-error, an unrequired check, a report artefact nobody gates on. These look identical to enforced journeys in a green dashboard, which is why they get their own count. Promoting one is work, and it is scheduled work, not a formality."
+        },
+        "in_no_ci_step": {
+          "allOf": [{ "$ref": "#/$defs/axis" }],
+          "description": "Journeys no CI step executes at all, whatever their local status. Publish the priority split here above all others: a high-priority journey in this bucket is the campaign's worst position, since it is named, bound, and completely unwatched."
+        },
+        "distinct_recorded_passes": {
+          "allOf": [{ "$ref": "#/$defs/axis" }],
+          "description": "CASE ids observed passing in a recorded run. A DIFFERENT POPULATION from the journey axes — one journey can be carried by several cases and one case by several journeys — so this number must be quoted against `ofCases`, never against the journey total, and never subtracted from it."
+        },
+        "frames_captured": {
+          "allOf": [{ "$ref": "#/$defs/axis" }],
+          "description": "Screenshots that exist and are filed under a journey. Counts pictures, not proof: a frame captured is not a frame anybody looked at, and a frame filed under a journey is not evidence it shows that journey unless the capture recorded what it was pointed at. Carry `flows` beside `n` so the picture-per-journey ratio is visible."
+        },
+        "surfaces_judged": {
+          "allOf": [{ "$ref": "#/$defs/axis" }],
+          "description": "Surfaces on which a verdict was recorded against a frame — a human or a model actually looked and ruled. Almost always the smallest axis, and the one whose marginal value must be argued rather than assumed; record that argument in `knownWeak`."
+        }
+      },
+      "additionalProperties": false
+    },
+    "isFloor": {
+      "description": "Must be true. Every axis is a lower bound on what is known and an upper bound on nothing: an unnamed journey is not a missing journey, it is an unexamined one. Fixing this to `true` is a refusal to publish these figures as a ceiling.",
+      "const": true
+    },
+    "floorNote": {
+      "description": "Which specific floors are softest, in prose — where a count is inflated by weak inclusion, and where two axes count different populations. Read as a caveat on the numbers above rather than as commentary.",
+      "type": "string",
+      "minLength": 1
+    },
+    "knownWeak": {
+      "description": "Weaknesses the measurement itself found, each with its own count. These are not axes: they are named failure modes inside the axes above, and a reader shows them as deductions rather than folding them in. Keys are the project's own names for the weakness.",
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/weakness" }
+    },
+    "blockedNotUnbuilt": {
+      "description": "Journeys or lanes that cannot be measured because of a harness, environment or data problem — NOT because the product lacks the feature. The distinction decides who owns the work, and collapsing it turns an environment fault into a product backlog item. Keys name the blocker; values describe it. An entry recording that a suspected blocker turned out NOT to block is worth keeping, because the belief will recur.",
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": false,
+  "not": {
+    "anyOf": [
+      { "required": ["coverage"] },
+      { "required": ["coveragePct"] },
+      { "required": ["coverage_pct"] },
+      { "required": ["overall"] },
+      { "required": ["percent"] },
+      { "required": ["pct"] },
+      { "required": ["score"] },
+      { "required": ["total"] },
+      { "required": ["summary"] }
+    ],
+    "$comment": "There is no single coverage number. Any of these keys would be read as one, whatever its description said."
+  },
+  "$defs": {
+    "axis": {
+      "description": "One axis: a count, the population it is counted against where one exists, and a sentence saying exactly what the count means. `means` is required because every one of these has been misread at least once.",
+      "type": "object",
+      "required": ["n", "means"],
+      "properties": {
+        "n": {
+          "description": "The count. A raw integer, never a percentage — a percentage hides which denominator it used, and these axes have four different ones.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "of": {
+          "description": "The journey denominator, when this axis counts journeys. Omit it rather than borrowing another axis's denominator; an axis that counts something else must use `ofCases` or leave both absent and say why in `means`.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "ofCases": {
+          "description": "The CASE denominator, for axes that count cases rather than journeys. Present precisely so that a case count can never be quoted against the journey total.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "flows": {
+          "description": "How many distinct journeys this axis's artefacts are spread across, when `n` counts artefacts (frames, verdicts) rather than journeys. Prevents 3,000 screenshots of one screen reading as broad coverage.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "byPriority": {
+          "description": "The axis split by the project's priority vocabulary. Required in practice for `in_no_ci_step`, where the high-priority share is the finding.",
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "p0": {
+          "description": "Shorthand for the count in the project's most urgent priority band, when only that band is broken out. Use `byPriority` when more than one band matters.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "p0Of": {
+          "description": "The denominator for `p0` — the size of that priority band in the population, not the whole population.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "sessionStart": {
+          "description": "What this axis read at the start of the work being reported, so movement is visible and a reader can tell a campaign that ran from one that was already there. It is the only number here that is about the work rather than the product.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "p0SessionStart": {
+          "description": "The same baseline for the most urgent priority band.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "means": {
+          "description": "One sentence defining the count precisely enough that somebody could reproduce it. Not a label — a definition, including what it deliberately excludes.",
+          "type": "string",
+          "minLength": 1
+        },
+        "instrument": {
+          "description": "The script or command that produced `n`, so it can be re-run. An axis with no named instrument was measured once, by somebody, somehow.",
+          "type": "string",
+          "minLength": 1
+        },
+        "measuredAt": {
+          "description": "When this axis specifically was measured, if it differs from the file's `generated` date. Axes drift apart when a long campaign re-measures some and not others.",
+          "type": "string",
+          "minLength": 4
+        },
+        "note": {
+          "description": "Anything qualifying this axis that `means` should not carry.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "weakness": {
+      "description": "A named weakness inside the axes: work that counts toward an axis but should not be trusted by it.",
+      "type": "object",
+      "required": ["means"],
+      "properties": {
+        "n": { "description": "How many instances. Absent when the weakness is qualitative rather than counted — say so in `status` rather than writing 0.", "type": "integer", "minimum": 0 },
+        "ofInert": { "description": "A denominator drawn from another weakness, when this one is a subset of it.", "type": "integer", "minimum": 0 },
+        "sessionStart": { "description": "What this read at the start of the reported work.", "type": "integer", "minimum": 0 },
+        "status": { "description": "Where a weakness is a claim rather than a count, its standing — `UNPROVEN` is the honest value for a technique whose marginal value has not been demonstrated.", "type": "string", "minLength": 1 },
+        "means": { "description": "What the weakness is and why it undermines the axis it sits inside.", "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

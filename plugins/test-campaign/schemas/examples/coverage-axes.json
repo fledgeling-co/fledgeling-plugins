@@ -1,0 +1,28 @@
+{
+  "generated": "2026-09-02",
+  "tool": "scripts/measure-axes.mjs",
+  "project": "Notekeeper",
+  "population": {
+    "flows": 2,
+    "byPriority": { "p0": 1, "p1": 1 },
+    "source": "campaign/flow-specification.json"
+  },
+  "axes": {
+    "named_any_mention": { "n": 2, "of": 2, "means": "the flow id appears anywhere in a spec file, including in a comment" },
+    "bound_to_a_test_title": { "n": 2, "of": 2, "means": "a test or describe title carries the id" },
+    "ci_enforced_blocking": { "n": 1, "of": 2, "p0": 1, "p0Of": 1, "means": "run by a required CI step that can fail the build" },
+    "report_mode_only": { "n": 0, "means": "run by CI in a step that cannot fail the build" },
+    "in_no_ci_step": { "n": 1, "of": 2, "byPriority": { "p0": 0, "p1": 1 }, "means": "no CI step executes it" },
+    "distinct_recorded_passes": { "n": 3, "ofCases": 4, "means": "case ids observed passing in a recorded run; cases, not flows" },
+    "frames_captured": { "n": 6, "flows": 2, "means": "screenshots on disk filed under a flow id" },
+    "surfaces_judged": { "n": 1, "means": "a verdict recorded against a frame by a human or a model" }
+  },
+  "isFloor": true,
+  "floorNote": "named_any_mention counts a comment mention; the bound figure beside it is the honest one. distinct_recorded_passes counts cases and cannot be subtracted from the flow total.",
+  "knownWeak": {
+    "inert_cases": { "n": 1, "means": "test.skip with a title: never executes, and the waiver on FLOW-NOTES-002 leans on it" }
+  },
+  "blockedNotUnbuilt": {
+    "anonymous_fixture": "no signed-out fixture exists, so the redirect journey is unwritable — harness, not product"
+  }
+}

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1 - 2026-09-01
+
+Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
+
 ## 2.2.0 - 2026-08-28
 
 ### A loop cannot report that its own watcher died

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fledgeling.dev/test-campaign/v1/defect-cards.json",
+  "title": "Defect cards",
+  "description": "The defects a campaign is reconciling, exported from whatever tracker the project uses, as a flat array. Its purpose is to let a reader join a journey to the tracker items that describe it WITHOUT reaching into the tracker, and to let a reconciliation distinguish a defect the campaign found from one that already existed — which is the difference between a campaign that discovered something and one that inventoried what was already known. Nothing here is a coverage figure: a card's `state` is a tracker's opinion, not evidence, and a card marked done is not a journey proved. The vocabulary of `state` belongs to the project's tracker and is never enumerated here.",
+  "type": "array",
+  "items": { "$ref": "#/$defs/card" },
+  "$defs": {
+    "card": {
+      "type": "object",
+      "required": ["id", "state", "title", "origin"],
+      "properties": {
+        "id": {
+          "description": "The tracker's own identifier, exactly as the tracker renders it. Every other artefact joins on this string, so it must not be normalised, prefixed or re-cased on export.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["WEB-5143", "ISSUE-284"]
+        },
+        "n": {
+          "description": "The numeric part of the id, when the tracker has one. Carried separately only so a reader can sort chronologically without parsing the id; never use it as an identity.",
+          "type": "integer"
+        },
+        "state": {
+          "description": "The tracker's workflow state, verbatim. An OPEN vocabulary owned by the project's tracker — 'Done', 'Todo', 'Needs More Work' and 'Backlog' are one project's words. A reader must not map an unrecognised state onto done or not-done; it shows the state as written and counts it separately.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["Backlog", "Todo", "Done", "Needs More Work"]
+        },
+        "title": {
+          "description": "The defect in one line, stated as the observed wrong behaviour rather than as the proposed fix. A title naming a fix hides what was measured.",
+          "type": "string",
+          "minLength": 1
+        },
+        "desc": {
+          "description": "The card body, usually Markdown, carrying the measurement: what was probed, what came back, and which hypotheses were eliminated. This is the field a reconciliation reads to decide whether a defect was measured or merely suspected, so exporting a truncated body degrades the ledger that consumes it.",
+          "type": "string"
+        },
+        "origin": {
+          "description": "Whether this card was raised BY the campaign or already existed when it started. The distinction is what makes a campaign's yield measurable: without it, a tracker full of pre-existing defects reads as a campaign that found a great deal. `found` means this campaign raised it; `original` means it predated the campaign. A project with a third category should name it rather than force it into these two.",
+          "type": "string",
+          "minLength": 1,
+          "examples": ["found", "original"]
+        },
+        "flows": {
+          "description": "Journey ids from the flow specification that this defect breaks, when the join is known. Optional because most trackers do not carry it — and a card with no flows is not a card affecting no journeys, it is a card nobody joined.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "surface": {
+          "description": "The surface the defect is on, when it is surface-scoped.",
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "description": "How much it costs, in the project's own vocabulary. An OPEN vocabulary.",
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "description": "Link back to the tracker item, so a reader can leave the campaign surface for the authority.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

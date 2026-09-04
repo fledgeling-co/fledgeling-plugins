@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How long the remaining work takes · reckon estimation corpus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:#f5f5f5; --color-paper-2:#ececec; --color-ink:#2d3142;
+      --color-muted:#4f5d75; --color-soft:#7a8399; --color-rule:rgba(45,49,66,0.12);
+      --color-accent:#eb6c36;
+      --font-sans:'Geist',system-ui,sans-serif; --font-serif:'Instrument Serif',serif;
+      --font-mono:'Geist Mono',ui-monospace,monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); min-height: 100vh; padding: 3rem 2rem; color: var(--color-ink); }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { margin-bottom: 2.5rem; }
+    .header-eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.75rem; }
+    h1 { font-family: var(--font-serif); font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
+    .subtitle { font-size: 1rem; line-height: 1.55; color: var(--color-muted); max-width: 62ch; }
+    h2 { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin: 3.5rem 0 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--color-rule); }
+    .lead { font-size: 0.95rem; line-height: 1.6; color: var(--color-muted); max-width: 68ch; margin-bottom: 1.5rem; }
+    .lead strong { color: var(--color-ink); font-weight: 600; }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; margin-top: 1.75rem; }
+    .kpi { background: #fff; border: 1px solid var(--color-rule); border-radius: 6px; padding: 1.1rem 1.25rem; }
+    .kpi .eyebrow { font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.55rem; }
+    .kpi .figure { font-family: var(--font-sans); font-size: 1.9rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+    .kpi .figure.accent { color: var(--color-accent); }
+    .kpi .note { font-size: 0.75rem; line-height: 1.5; color: var(--color-muted); margin-top: 0.5rem; }
+    .diagram-container { background: var(--color-paper-2); border-radius: 8px; border: 1px solid var(--color-rule); padding: 1.5rem; overflow-x: auto; }
+    svg { width: 100%; min-width: 760px; display: block; }
+    .cards { display: grid; grid-template-columns: 1.1fr 1fr 0.9fr; gap: 1rem; margin-top: 1.5rem; }
+    @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
+    .card { background: #fff; border-radius: 6px; border: 1px solid var(--color-rule); padding: 1.25rem; }
+    .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.875rem; padding-bottom: 0.875rem; border-bottom: 1px solid rgba(45,49,66,0.08); }
+    .card-dot { width: 7px; height: 7px; border-radius: 50%; flex: 0 0 7px; }
+    .card-dot.coral { background: var(--color-accent); } .card-dot.ink { background: var(--color-ink); } .card-dot.muted { background: var(--color-muted); }
+    .card h3 { font-size: 0.875rem; font-weight: 600; }
+    .card p { color: var(--color-muted); font-size: 0.8125rem; line-height: 1.55; }
+    .tablewrap { overflow-x: auto; background: #fff; border: 1px solid var(--color-rule); border-radius: 6px; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.8125rem; }
+    caption { text-align: left; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-muted); padding: 0.9rem 1rem 0.6rem; }
+    th { text-align: left; font-size: 0.6rem; font-family: var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-muted); font-weight: 500; padding: 0.6rem 1rem; border-bottom: 1px solid var(--color-rule); }
+    td { padding: 0.6rem 1rem; border-bottom: 1px solid rgba(45,49,66,0.06); vertical-align: top; line-height: 1.5; }
+    tbody tr:last-child td { border-bottom: none; }
+    td.n, th.n { text-align: right; font-family: var(--font-mono); }
+    td.tier { font-family: var(--font-mono); font-weight: 600; }
+    tr.focal td { background: rgba(235,108,54,0.06); }
+    tr.focal td.tier, tr.focal td.n.hero { color: var(--color-accent); font-weight: 600; }
+    .limits { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .limit { background: #fff; border: 1px solid var(--color-rule); border-left: 2px solid var(--color-accent); border-radius: 0 6px 6px 0; padding: 1.1rem 1.25rem; }
+    .limit h3 { font-size: 0.8125rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .limit p { font-size: 0.8125rem; line-height: 1.55; color: var(--color-muted); }
+    .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(45,49,66,0.10); font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.05em; color: var(--color-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem; line-height: 1.7; }
+    code { font-family: var(--font-mono); font-size: 0.95em; background: rgba(45,49,66,0.05); padding: 0.08em 0.35em; border-radius: 3px; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <p class="header-eyebrow">Estimation corpus · reckon 1.9.0</p>
+    <h1>How long the remaining work takes</h1>
+    <p class="subtitle">Every duration <code>reckon</code> prints was measured, not assumed. This is where the numbers came from, what actually predicts them, and the four things they cannot tell you.</p>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi">
+      <p class="eyebrow">Agent units measured</p>
+      <p class="figure accent">1,842</p>
+      <p class="note">One sidechain tree each, timed first record to last. Opus&nbsp;4.8 and Opus&nbsp;5 only.</p>
+    </div>
+    <div class="kpi">
+      <p class="eyebrow">Transcript files parsed</p>
+      <p class="figure">2,230</p>
+      <p class="note">From <code>~/.claude/projects/**/subagents/</code>, yielding 2,572 units before model filtering.</p>
+    </div>
+    <div class="kpi">
+      <p class="eyebrow">Parent sessions</p>
+      <p class="figure">88</p>
+      <p class="note">Across 31 distinct projects, so no single repo's habits dominate.</p>
+    </div>
+    <div class="kpi">
+      <p class="eyebrow">Observation window</p>
+      <p class="figure">47 days</p>
+      <p class="note">14 July – 30 August 2026, one operator, one machine.</p>
+    </div>
+  </div>
+
+  <h2>What actually predicts duration</h2>
+  <p class="lead">Stage labels predict loosely. <strong>Volume of work predicts well.</strong> Counting <code>Edit</code> and <code>Write</code> calls per unit separates the population cleanly, and it is the signal the tier assignment rests on. The gap between the ends of each row is the finding: <strong>the spread is enormous, and it widens with size.</strong></p>
+
+  <div class="diagram-container">
+    <svg viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="edits-title edits-desc">
+      <title id="edits-title">Agent wall-clock by number of files touched</title>
+      <desc id="edits-desc">Dumbbell chart with five rows ordered by files touched, from read-only to forty or more. Each row shows two points on a shared zero to one hundred and fifty minute scale: the twenty-fifth percentile and the ninetieth percentile of agent wall-clock. Read-only units span one to seventeen point two minutes. One to four files spans four point one to twenty-six point eight. Five to fourteen files spans nine point eight to sixty-three point six. Fifteen to thirty-nine files spans seventeen point three to eighty-seven point two. Forty or more files spans forty point nine to one hundred and forty point seven. The distance between the two points grows with every row.</desc>
+
+      <rect width="100%" height="100%" fill="#f5f5f5"/>
+
+      <!-- gridlines, y 56..408 -->
+      <line x1="352" y1="56" x2="352" y2="408" stroke="rgba(45,49,66,0.08)" stroke-width="0.8"/>
+      <line x1="504" y1="56" x2="504" y2="408" stroke="rgba(45,49,66,0.08)" stroke-width="0.8"/>
+      <line x1="656" y1="56" x2="656" y2="408" stroke="rgba(45,49,66,0.08)" stroke-width="0.8"/>
+      <line x1="808" y1="56" x2="808" y2="408" stroke="rgba(45,49,66,0.08)" stroke-width="0.8"/>
+      <line x1="960" y1="56" x2="960" y2="408" stroke="rgba(45,49,66,0.08)" stroke-width="0.8"/>
+      <!-- domain floor: axis line replaces the gridline -->
+      <line x1="200" y1="40" x2="200" y2="420" stroke="rgba(45,49,66,0.25)" stroke-width="1"/>
+
+      <!-- row 1 · no edits · p25 1.0 -> x205 · p90 17.2 -> x287 -->
+      <line x1="205" y1="96" x2="287" y2="96" stroke="rgba(45,49,66,0.55)" stroke-width="1"/>
+      <circle cx="205" cy="96" r="6" fill="#f5f5f5" stroke="#4f5d75" stroke-width="1.5"/>
+      <circle cx="287" cy="96" r="6" fill="#eb6c36" stroke="#2d3142" stroke-width="1"/>
+      <text x="205" y="86" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">1.0</text>
+      <text x="299" y="100" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace">17.2</text>
+      <text x="188" y="100" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="end">No edits (read-only)</text>
+
+      <!-- row 2 · 1-4 files · p25 4.1 -> x221 · p90 26.8 -> x336 -->
+      <line x1="221" y1="160" x2="336" y2="160" stroke="rgba(45,49,66,0.55)" stroke-width="1"/>
+      <circle cx="221" cy="160" r="6" fill="#f5f5f5" stroke="#4f5d75" stroke-width="1.5"/>
+      <circle cx="336" cy="160" r="6" fill="#eb6c36" stroke="#2d3142" stroke-width="1"/>
+      <text x="221" y="150" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">4.1</text>
+      <text x="348" y="164" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace">26.8</text>
+      <text x="188" y="164" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="end">1–4 files</text>
+
+      <!-- row 3 · 5-14 files · p25 9.8 -> x250 · p90 63.6 -> x522 -->
+      <line x1="250" y1="224" x2="522" y2="224" stroke="rgba(45,49,66,0.55)" stroke-width="1"/>
+      <circle cx="250" cy="224" r="6" fill="#f5f5f5" stroke="#4f5d75" stroke-width="1.5"/>
+      <circle cx="522" cy="224" r="6" fill="#eb6c36" stroke="#2d3142" stroke-width="1"/>
+      <text x="238" y="228" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="end">9.8</text>
+      <text x="534" y="228" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace">63.6</text>
+      <text x="188" y="228" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="end">5–14 files</text>
+
+      <!-- row 4 · 15-39 files · p25 17.3 -> x288 · p90 87.2 -> x642 -->
+      <line x1="288" y1="288" x2="642" y2="288" stroke="rgba(45,49,66,0.55)" stroke-width="1"/>
+      <circle cx="288" cy="288" r="6" fill="#f5f5f5" stroke="#4f5d75" stroke-width="1.5"/>
+      <circle cx="642" cy="288" r="6" fill="#eb6c36" stroke="#2d3142" stroke-width="1"/>
+      <text x="276" y="292" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="end">17.3</text>
+      <text x="654" y="292" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace">87.2</text>
+      <text x="188" y="292" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="end">15–39 files</text>
+
+      <!-- row 5 · 40+ files · p25 40.9 -> x407 · p90 140.7 -> x913 -->
+      <line x1="407" y1="352" x2="913" y2="352" stroke="rgba(45,49,66,0.55)" stroke-width="1"/>
+      <circle cx="407" cy="352" r="6" fill="#f5f5f5" stroke="#4f5d75" stroke-width="1.5"/>
+      <circle cx="913" cy="352" r="6" fill="#eb6c36" stroke="#2d3142" stroke-width="1"/>
+      <text x="395" y="356" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="end">40.9</text>
+      <text x="925" y="356" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace">140.7</text>
+      <text x="188" y="356" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="end">40+ files</text>
+
+      <!-- tick labels + axis title -->
+      <text x="200" y="440" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">0</text>
+      <text x="352" y="440" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">30</text>
+      <text x="504" y="440" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">60</text>
+      <text x="656" y="440" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">90</text>
+      <text x="808" y="440" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">120</text>
+      <text x="960" y="440" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">150</text>
+      <text x="580" y="456" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em" text-anchor="middle">MINUTES OF AGENT WALL-CLOCK</text>
+
+      <!-- legend -->
+      <line x1="200" y1="476" x2="960" y2="476" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+      <circle cx="206" cy="493" r="6" fill="#f5f5f5" stroke="#4f5d75" stroke-width="1.5"/>
+      <text x="220" y="497" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace">p25 — the fast quarter</text>
+      <circle cx="392" cy="493" r="6" fill="#eb6c36" stroke="#2d3142" stroke-width="1"/>
+      <text x="406" y="497" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace">p90 — plan against this end</text>
+      <text x="960" y="497" fill="#7a8399" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">rows ordered by files touched, ascending</text>
+    </svg>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-header"><span class="card-dot coral"></span><h3>The gap is the point</h3></div>
+      <p>A read-only unit's range is 16 minutes wide. A 40-file unit's is 100. Sizing work by its median alone throws away the thing that actually decides whether an afternoon is enough.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-dot ink"></span><h3>Why not the median</h3></div>
+      <p>Measured p90 ÷ median is <strong>3.4</strong> for build work and <strong>3.1</strong> for research. A point estimate is wrong by a factor of three in the ordinary case, and it reads as precision.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-dot muted"></span><h3>The connector is a gap</h3></div>
+      <p>It spans two percentiles of one population. It is not a trajectory — nothing here says a unit moves from one end to the other, or that the distribution between them is even.</p>
+    </div>
+  </div>
+
+  <h2>The same figures as a table</h2>
+  <div class="tablewrap">
+    <table>
+      <caption>Agent wall-clock in minutes, by files touched · Opus 4.8 and Opus 5 pooled</caption>
+      <thead>
+        <tr><th>Files touched</th><th class="n">Units</th><th class="n">p25</th><th class="n">Median</th><th class="n">p90</th><th class="n">Spread (p90÷med)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>No edits (read-only)</td><td class="n">1,093</td><td class="n">1.0</td><td class="n">3.0</td><td class="n">17.2</td><td class="n">5.7×</td></tr>
+        <tr><td>1–4 files</td><td class="n">249</td><td class="n">4.1</td><td class="n">7.9</td><td class="n">26.8</td><td class="n">3.4×</td></tr>
+        <tr><td>5–14 files</td><td class="n">227</td><td class="n">9.8</td><td class="n">19.2</td><td class="n">63.6</td><td class="n">3.3×</td></tr>
+        <tr><td>15–39 files</td><td class="n">210</td><td class="n">17.3</td><td class="n">32.0</td><td class="n">87.2</td><td class="n">2.7×</td></tr>
+        <tr><td>40+ files</td><td class="n">63</td><td class="n">40.9</td><td class="n">63.7</td><td class="n">140.7</td><td class="n">2.2×</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The four tiers reckon prints</h2>
+  <p class="lead">The bands above become four tiers. A work item is assigned one from its class and the wording of its title, and every assignment records the reason — because <strong>the ranges are measured and the assignment is a heuristic</strong>, and conflating those two would be this skill's own failure mode.</p>
+  <div class="tablewrap">
+    <table>
+      <caption>Tier ranges · p25 to p90, median called out</caption>
+      <thead>
+        <tr><th>Tier</th><th>Shape that earns it</th><th class="n">Range</th><th class="n">Median</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="tier">S</td><td>Read-only, or one to two files — a check, a small fix</td><td class="n">3–25 min</td><td class="n">8 min</td></tr>
+        <tr><td class="tier">M</td><td>Three to seven files, one subsystem</td><td class="n">7–56 min</td><td class="n">15 min</td></tr>
+        <tr><td class="tier">L</td><td>Eight to nineteen files, or crosses a seam</td><td class="n">14–68 min</td><td class="n">25 min</td></tr>
+        <tr><td class="tier">XL</td><td>Twenty or more files, or a new surface end to end</td><td class="n">25–155 min</td><td class="n">45 min</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>How a wave is costed</h2>
+  <p class="lead">A wave runs its members in parallel, so it costs its slowest member rather than their sum — measured wall-clock ÷ slowest member was <strong>1.05 at the median</strong> and 1.8 at p90 across 253 real waves. But that rule alone lets a big wave claim a speed nothing has achieved, so the low bound is the <strong>largest</strong> of three candidates, not the first.</p>
+
+  <div class="diagram-container">
+    <svg viewBox="0 0 1000 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="wave-title wave-desc">
+      <title id="wave-title">How a wave's low bound is computed</title>
+      <desc id="wave-desc">A flow diagram. Wave members, each carrying a p25 to p90 range, feed three parallel candidate bounds. The first is the measured bound, the slowest member multiplied by one point zero five. The second is the capacity bound, total work divided by available slots. The third is the observed ceiling, serial time divided by four point zero. The three converge on a maximum operation, whose result is the wave's published low bound.</desc>
+
+      <defs>
+        <marker id="wv-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="#4f5d75"/>
+        </marker>
+        <marker id="wv-arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="#eb6c36"/>
+        </marker>
+      </defs>
+
+      <rect width="100%" height="100%" fill="#f5f5f5"/>
+
+      <!-- ARROWS FIRST so z-order puts them behind the nodes -->
+      <!-- input -> bound A (up) -->
+      <path d="M 240,208 H 302 A 8 8 0 0 0 310,200 V 108 A 8 8 0 0 1 318,100 H 372" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#wv-arrow)"/>
+      <!-- input -> bound B (straight, shares y) -->
+      <line x1="240" y1="220" x2="372" y2="220" stroke="#4f5d75" stroke-width="1" marker-end="url(#wv-arrow)"/>
+      <!-- input -> bound C (down) -->
+      <path d="M 240,232 H 302 A 8 8 0 0 1 310,240 V 332 A 8 8 0 0 0 318,340 H 372" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#wv-arrow)"/>
+      <!-- bound A -> merge -->
+      <path d="M 680,100 H 752 A 8 8 0 0 1 760,108 V 212" fill="none" stroke="#4f5d75" stroke-width="1"/>
+      <!-- bound B -> merge -->
+      <line x1="680" y1="220" x2="752" y2="220" stroke="#4f5d75" stroke-width="1"/>
+      <!-- bound C -> merge (accent: this is the one that binds on a large wave) -->
+      <path d="M 680,340 H 752 A 8 8 0 0 0 760,332 V 228" fill="none" stroke="#eb6c36" stroke-width="1.2"/>
+      <!-- merge -> output -->
+      <line x1="768" y1="220" x2="812" y2="220" stroke="#4f5d75" stroke-width="1" marker-end="url(#wv-arrow)"/>
+
+      <!-- arrow label: masked, 10px clear of the connector, drawn before nodes -->
+      <rect x="736" y="176" width="48" height="16" fill="#f5f5f5"/>
+      <text x="760" y="188" fill="#2d3142" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.06em" text-anchor="middle">MAX</text>
+
+      <!-- NODES -->
+      <!-- input: oval = start -->
+      <rect x="56" y="196" width="184" height="48" rx="20" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
+      <text x="148" y="215" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Wave members</text>
+      <text x="148" y="231" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">each a p25–p90 range</text>
+
+      <!-- bound A -->
+      <rect x="380" y="72" width="300" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="400" y="98" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">Measured</text>
+      <text x="400" y="114" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace">slowest member × 1.05</text>
+
+      <!-- bound B -->
+      <rect x="380" y="192" width="300" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="400" y="218" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">Capacity</text>
+      <text x="400" y="234" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace">total work ÷ slots</text>
+
+      <!-- bound C · focal -->
+      <rect x="380" y="312" width="300" height="56" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+      <text x="400" y="338" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">Observed ceiling</text>
+      <text x="400" y="354" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace">serial ÷ 4.0× (measured p90)</text>
+
+      <!-- merge dot -->
+      <circle cx="760" cy="220" r="4" fill="#2d3142"/>
+
+      <!-- output · focal -->
+      <rect x="820" y="196" width="144" height="48" rx="20" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+      <text x="892" y="215" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Wave low bound</text>
+      <text x="892" y="231" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">rounded up</text>
+
+      <!-- annotation -->
+      <text x="380" y="400" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace">The high bound runs separately: slowest × 1.8, widened to × 2.2 above 8 members.</text>
+    </svg>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-header"><span class="card-dot coral"></span><h3>Why the third bound exists</h3></div>
+      <p>Twenty items across eight slots is <em>arithmetically</em> fast. Measured speedup over serial was 2.2× median and 4.0× at p90, so a plan implying better than 4.0× is describing something that has never happened.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-dot ink"></span><h3>Rounding has a direction</h3></div>
+      <p>A randomised audit over 500 trials caught the last leak: rounding a low bound <em>down</em> by half a minute produced a 4.03× schedule. Bounds now round away from optimism.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-dot muted"></span><h3>Concurrency has a lid</h3></div>
+      <p>Peak actually reached was 5 at the median, 10 at p90, 16 at most. Past about 8 members the slowest-member property degrades to 1.55, so a bigger wave widens its own upper bound.</p>
+    </div>
+  </div>
+
+  <h2>Stage figures, for reference</h2>
+  <p class="lead">Stage was the first thing tried as a predictor and it survives only as context — a brief carries its stage before it carries anything else, but the volume signal above is what the tiers rest on. <strong>Design, triage and review are thin samples</strong> and are marked as such rather than printed at the same weight.</p>
+  <div class="tablewrap">
+    <table>
+      <caption>Agent wall-clock in minutes, by inferred stage</caption>
+      <thead>
+        <tr><th>Stage</th><th class="n">Units</th><th class="n">p25</th><th class="n">Median</th><th class="n">p75</th><th class="n">p90</th><th>Sample</th></tr>
+      </thead>
+      <tbody>
+        <tr class="focal"><td class="tier">build</td><td class="n">511</td><td class="n">13.4</td><td class="n hero">27.3</td><td class="n">48.1</td><td class="n">93.7</td><td>solid</td></tr>
+        <tr><td class="tier">research</td><td class="n">512</td><td class="n">2.4</td><td class="n">5.6</td><td class="n">10.9</td><td class="n">17.1</td><td>solid</td></tr>
+        <tr><td class="tier">verify</td><td class="n">109</td><td class="n">2.6</td><td class="n">6.0</td><td class="n">12.2</td><td class="n">24.3</td><td>usable</td></tr>
+        <tr><td class="tier">design</td><td class="n">27</td><td class="n">6.3</td><td class="n">9.8</td><td class="n">26.0</td><td class="n">104.6</td><td>thin</td></tr>
+        <tr><td class="tier">review</td><td class="n">22</td><td class="n">1.2</td><td class="n">3.1</td><td class="n">4.9</td><td class="n">11.4</td><td>thin</td></tr>
+        <tr><td class="tier">triage</td><td class="n">13</td><td class="n">10.1</td><td class="n">12.2</td><td class="n">25.5</td><td class="n">28.7</td><td>thin</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What these numbers cannot say</h2>
+  <div class="limits">
+    <div class="limit">
+      <h3>They carry no failure rate</h3>
+      <p>A unit that ran forty minutes and produced work later rejected counts identically to one that landed. These answer how long an agent will be <em>busy</em> — not how long until the work is accepted.</p>
+    </div>
+    <div class="limit">
+      <h3>Wall-clock includes waiting</h3>
+      <p>A unit stalled behind a rate limit measures longer than the same work would today. That is honest for planning and wrong for costing, so nothing here is a claim about model spend.</p>
+    </div>
+    <div class="limit">
+      <h3>One machine, one operator</h3>
+      <p>31 projects, one hardware profile, one convention that serialises merges. A repo with a slower test suite will differ, and no correction factor is offered because none was measured.</p>
+    </div>
+    <div class="limit">
+      <h3>The tier assignment is unvalidated</h3>
+      <p>The ranges are measured; deciding which tier an item belongs to reads its wording, not its work. That heuristic has never been checked against outcomes, which is why every estimate ships with the reason it landed where it did.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Source: 2,230 subagent transcripts · 1,842 Opus 4.8 / Opus 5 units · 88 sessions · 31 projects · 14 Jul – 30 Aug 2026</span>
+    <span>Excluded: 25 units under 3s (harness, not work) · 1 over 10h (stalled, not slow)</span>
+    <span>reckon 1.9.0 · references/estimation.md</span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 ---
 name: geminify
 description: >-
-  Add a Gemini-calibrated `gemini.md` to an existing skill, so the same skill works on Google's models as well as Claude's. Reads the target skill, scans it for the unbounded scopes and assumed verification that Gemini handles differently, assembles the file from a shared core plus only the modules the skill's own subject matter earns, tags every claim by how strong its evidence actually is, gates the result by checking each quoted vendor sentence appears verbatim in Google's published guidance, then installs the conditional pointer and bumps the version. Use whenever someone wants a skill to work on Gemini — "geminify design-craft", "add Gemini support to this skill", "make this skill work in Antigravity", "write a gemini.md for X", "/geminify" — and whenever a skill produced weak output under a Gemini model and the skill itself is not at fault. NOT for fixing a skill that is broken for every model (use improve-skill), and NOT for authoring a new skill (use create-skill).
+  Two modes. Mode A adds a Gemini-calibrated `gemini.md` to an existing skill, so the same skill works on Google's models as well as Claude's: reads the target, scans it for the unbounded scopes and assumed verification that Gemini handles differently, assembles the file from a shared core plus only the modules the skill's own subject matter earns, tags every claim by how strong its evidence actually is, gates the result by checking each quoted vendor sentence appears verbatim in Google's published guidance, then installs the conditional pointer and bumps the version. Mode B calibrates the session the runner is already in, when a Gemini model is serving it and no target is named: `session_calibrate.py` reports which loaded skills ship a `gemini.md`, which names are on disk but unpublished by their marketplace and will fail with `Unknown skill`, and which referral lanes are out-of-family for the serving model, then the runner posts a receipt ledger where a Skill tool call discharges a row and conforming output does not. Use whenever someone wants a skill to work on Gemini — "geminify design-craft", "add Gemini support to this skill", "make this skill work in Antigravity", "write a gemini.md for X", "/geminify" — whenever a skill produced weak output under a Gemini model and the skill itself is not at fault, and whenever a session is served by a Gemini-family model and should apply the overrides to the skills it has loaded. NOT for fixing a skill that is broken for every model (use improve-skill), and NOT for authoring a new skill (use create-skill).
 ---
 
 # geminify
@@ -20,6 +20,23 @@ rewrite of the skill: the canon transfers. What does not transfer is the
 assumption that a rule stated in prose gets executed.
 
 **Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives the scan's rows, the fired modules and the vendor quotes a count each, turns `150–250 lines` and the batch's `--bump none` into a bound ledger read back off the written file, and adds the prerequisite-receipt checks `verify_quotes.py` cannot make. Other models skip it.
+
+## Two modes, and which one you are in
+
+| You were asked to | Mode | Runs |
+|---|---|---|
+| geminify a named skill: `geminify design-craft`, "write a gemini.md for X" | **A** | the six steps under *Mode A* |
+| calibrate the session you are running in: `/geminify` with no target, or a hook told you this session is served by Gemini | **B** | the four steps under *Mode B* |
+
+Mode B exists because it was already happening without a procedure. Between 18
+August and 1 September 2026 six sessions invoked this skill; three were runners
+calibrating themselves rather than authoring anything, and one of those loaded five
+skills and read zero `gemini.md` files while running on Gemini. Nothing noticed,
+because nothing counted.
+
+A target named in the invocation means Mode A; no target means Mode B. When the
+invocation names a target *and* the session is on Gemini, run Mode B first — four
+tool calls, and it changes how Mode A's judgement calls go.
 
 ## The finding everything here rests on
 
@@ -77,7 +94,7 @@ is the part that carries weight.
 
 Full evidence, including what is n=1 and what is not: `references/evidence.md`.
 
-## Procedure
+## Mode A — write a `gemini.md` for a target skill
 
 ### 1. Read the target in full
 
@@ -234,6 +251,74 @@ this skill. A generic pointer gets skipped.
 the canonical copy and say which mirror you left alone; duplicating creates drift
 that nothing checks.
 
+## Mode B — calibrate the session you are running in
+
+Four steps, four tool calls. The output is a ledger you post once and read back
+at the end, not a disposition you hold.
+
+### 1. Build the ledger
+
+```bash
+python3 scripts/session_calibrate.py \
+    --skills <plugin:skill,plugin:skill,…> --model <the model serving this session>
+```
+
+Name every skill this session has loaded or been told to use. Pass
+`--skills-from-transcript <path>` instead when the session already has turns and
+you want the list taken from what was actually invoked.
+
+Three things come back: which skills ship a `gemini.md` and where, which names are
+on disk but unpublished by their marketplace, and which referral lanes are
+out-of-family for the model serving you.
+
+### 2. Read every `gemini.md` it lists, then say the count
+
+The script prints `read-count to report when you claim calibration: N of N`. Read
+all N, then write the fraction. A skill with no `gemini.md` needs no substitute:
+the core overrides apply to it unmodified, and saying so is the honest row.
+
+An unloadable name is worth one sentence to the user now rather than a silent
+failure later: `create-test-suite:create-test-suite` returned `Unknown skill` on
+ten calls while its directory sat in the cache the whole time.
+
+### 3. Post the receipt ledger before the work, not after
+
+Paste the table the script emits and leave the receipt column empty. Fill a row at
+the moment you make the Skill tool call.
+
+```markdown
+| skill | invoked (y/n) | receipt |
+|---|---|---|
+| design-craft:design-craft | y | Skill call, turn 14 |
+| ux-craft:ux-craft | y | Skill call, turn 15 |
+| positioning:positioning | n | — |
+```
+
+A phase that names an upstream skill is discharged by the Skill tool call. Writing
+output that conforms to that skill's rules is not a receipt, and this is the
+distinction the whole mode turns on: one recorded session wrote *"I executed their
+underlying scripts directly rather than re-issuing duplicate Skill tool calls"*,
+and the skills it named had never been invoked in that session at all.
+
+### 4. Apply the four core overrides for the rest of the session
+
+- **Give every categorical scope a number before you start on it.** "All states",
+  "every surface", "each flow" are satisfiable with one instance, and on one
+  measured run they were: `all states` → 1, `all menus` → 0, `all flows` → 0.
+- **Make each phase depend on the previous phase's file.** The mechanism a Gemini
+  runner named for its own skipped step: *"When an agent can complete step B
+  without the literal output of step A, it naturally collapses both into one pass
+  to minimize steps."* Name the artifact step A writes and read it in step B.
+- **Attach the command to the claim.** A verification sentence carries the command
+  that produced it and that command's output, because a claim with nothing
+  checkable behind it reads identically to one with everything behind it.
+- **Exclude your own family from any out-of-family consult.** The script prints the
+  lanes that qualify. 225 of the window's 2,062 `agy` dispatches were issued by a
+  Gemini-family model calling Gemini, which records an independence never obtained.
+
+Mode B changes nothing about the work itself. It changes what has to be true
+before the run may describe itself as having followed the skills it loaded.
+
 ## What not to do
 
 - **Never fabricate a `[measured]` claim,** and never quote a paraphrase. Both
@@ -263,6 +348,13 @@ that nothing checks.
   references is a handful of reads, and a subagent's summary loses exactly the
   sentences step 4 asks you to quote back. Reserve a subagent for a target whose
   references run to thousands of lines, and use one rather than several.
+- **Do not treat Mode B as discharged by having read this file.** Its output is a
+  posted ledger with a read-count and a receipt column. A session that describes
+  the overrides without running `session_calibrate.py` has done the thing Mode B
+  exists to catch.
+- **Do not run Mode A's gates in Mode B.** `verify_quotes.py` and
+  `install_pointer.py` check a file being authored; in Mode B no file is being
+  authored, and running them reports on the wrong artifact.
 
 ## References
 
@@ -279,3 +371,6 @@ that nothing checks.
   shape-by-lane capability matrix and regenerates it on demand, so C9 points at
   `python3 <defer>/skills/defer/scripts/lane_pick.py --matrix` rather than pinning
   figures that go stale.
+- `scripts/session_calibrate.py` — Mode B's instrument. Reports gemini.md coverage,
+  unloadable skill names, and the referral lanes that are out-of-family for the
+  model serving the session.

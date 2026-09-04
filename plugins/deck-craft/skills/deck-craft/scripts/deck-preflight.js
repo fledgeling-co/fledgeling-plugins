@@ -327,21 +327,72 @@
         if (owner && owner !== s) return;
         const dr = rect(d);
         if (!dr.height) return;
-        s.querySelectorAll('p,li,td,th,h1,h2,h3,h4,figure,table').forEach((el) => {
+        // WALK EVERY PAINTED BOX, NOT A LIST OF TEXT TAGS.
+        //
+        // This selector was `p,li,td,th,h1,h2,h3,h4,figure,table` and that is a
+        // hole rather than a scope: a `<div class="panel">` crossing the footer
+        // rule matches none of them, so the check walked past it and reported
+        // the slide clean. Measured on a real twelve-slide deck: three panels
+        // crossing the rule on three separate slides, by 15.7px, 7.3px and
+        // 2.0px, with `chromeCollisions: 0` and a PASS verdict — and the defect
+        // was found by a reader looking at the screen, which is the outcome this
+        // whole file exists to make unnecessary. `evals/fixtures/chrome-boxes.html`
+        // is that deck reduced to three slides.
+        //
+        // A box counts if a viewer can SEE it land on the chrome: it carries a
+        // background, a visible border, or text of its own.
+        const slideR = rect(s);
+        const hits = [];
+        s.querySelectorAll('*').forEach((el) => {
           if (d.contains(el) || el.contains(d)) return;
-          // Ignore full-bleed background images or scrims
+          // Chrome is never content. Widening the walk to every element brought
+          // the docks themselves into scope, so each slide's own footer scored
+          // as a box colliding with a footer — three phantoms on the fixture.
+          if (docks.indexOf(el) !== -1 || el.matches(chromeSel)) return;
           if (el.tagName === 'IMG' || el.classList.contains('photo') || el.classList.contains('scrim')) return;
           const r = rect(el);
           if (!r.width || !r.height || !vis(el)) return;
+          // A FULL-HEIGHT LAYOUT WRAPPER IS NOT CONTENT. The padding box of the
+          // element that fills the slide legitimately extends past the footer —
+          // that is what its bottom padding is for — so measuring it reports one
+          // finding per slide that no edit can ever clear. Only what sits INSIDE
+          // it can collide.
+          //
+          // HEIGHT is the discriminating property and width is not: an editorial
+          // cover whose copy column is 1290px of a 1920px stage is still a
+          // full-height wrapper, and a width test excused every slide except
+          // that one. A box already spanning the slide cannot meaningfully
+          // "cross" a footer drawn on top of it.
+          if (r.height >= slideR.height * 0.92) return;
+          const cs = getComputedStyle(el);
+          const paints = cs.backgroundColor !== 'rgba(0, 0, 0, 0)'
+                      || parseFloat(cs.borderBottomWidth) > 0
+                      || parseFloat(cs.borderTopWidth) > 0
+                      || !!(el.textContent || '').trim();
+          if (!paints) return;
           const overlapY = Math.min(r.bottom, dr.bottom) - Math.max(r.top, dr.top);
           const overlapX = Math.min(r.right, dr.right) - Math.max(r.left, dr.left);
-          if (overlapY > 4 && overlapX > 4) {
-            out.collisions.push({ slide: idOf(s, i),
-                                  chrome: String(d.className || d.tagName).slice(0, 30),
-                                  text: (el.textContent || '').trim().slice(0, 40),
-                                  byPx: Math.round(Math.min(overlapY, overlapX) / k) });
+          // IN AUTHORED PIXELS, AND AT A HAIRLINE. The threshold was four
+          // RENDERED pixels, which at a stage scale of 0.667 is six authored
+          // ones — so a box genuinely through the rule by two or three sat in a
+          // dead zone the gate could not report. A crossing is a crossing.
+          if (overlapY / k > 1 && overlapX / k > 4) {
+            hits.push({ el, by: Math.round(Math.min(overlapY, overlapX) / k) });
           }
         });
+        // Report the OUTERMOST crossing box, not every descendant inside it. A
+        // panel through the rule otherwise arrives once per line of text it
+        // holds — five findings for two crossings on the fixture — and the
+        // outermost box is also the one an author actually moves.
+        hits
+          .filter((h) => !hits.some((o) => o !== h && o.el.contains(h.el)))
+          .forEach((h) => {
+            out.collisions.push({ slide: idOf(s, i),
+                                  chrome: String(d.className || d.tagName).slice(0, 30),
+                                  node: `${h.el.tagName}.${String(h.el.className).slice(0, 24)}`,
+                                  text: (h.el.textContent || '').trim().slice(0, 40),
+                                  byPx: h.by });
+          });
       });
     });
 

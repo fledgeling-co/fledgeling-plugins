@@ -2,6 +2,10 @@
 
 All notable changes to the `warrant` plugin.
 
+## 0.3.2 - 2026-09-01
+
+Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
+
 ## 0.2.0 — 2026-08-19
 
 The planes could not tell a missing oracle from a missing judge, and `lot` would size a sample

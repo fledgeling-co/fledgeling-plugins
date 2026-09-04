@@ -21,6 +21,7 @@
 - Teach `slice.py` to render Codex messages, agent messages, calls, and outputs.
 - Keep the Claude fixture suite green and add synthetic, redacted Codex schema, attribution,
   pairing, zero-recognition, and repository-scope controls.
+- Adds a Gemini-calibrated `gemini.md`, so the conditional pointer already in `SKILL.md` now resolves to a real file instead of a missing one. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
 
 ## 0.1.0 — 2026-08-25
 
