@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.6.0 - 2026-09-05
+
+Expands the module catalogue with anti-passive-audit rules and rendered visual reference requirements.
+
+- **Third lever in `visual` module.** Mandates that mock and design references exist as rendered raster files
+  on disk (e.g., `.png` under evidence), paired 1:1 with inventory surfaces in an explicit manifest (`pairs.json`),
+  and compared via differential or witness passes. Prohibits paper-to-paper mock substitution and enforces full
+  lineage metadata (target, channel, subject, sha256).
+- **Passive validation vs active execution in `gate` module.** Distinguishes static syntax or registry checks
+  (e.g., `campaign.py check` or schema linting) from active phase execution. Explicitly bars reporting a skill's
+  verification phases as completed based solely on pre-existing green schema checks.
+
 ## 0.5.0 - 2026-09-01
 
 A second mode, from a measured gap in how the skill was already being used. Between 18 August and 1 September 2026 six sessions invoked `geminify:geminify`; three of them were runners calibrating themselves rather than authoring anything, and the skill had no procedure for that case. One of the three (`graft/aa239a23`) loaded five skills and read zero `gemini.md` files while running on Gemini, and nothing detected it because nothing counted. A fourth (`Dev/de51503f`) asked for a real `gemini.md`, ran `scan_skill.py`, then wrote nothing, gated nothing and installed nothing.
