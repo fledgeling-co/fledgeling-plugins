@@ -2,6 +2,24 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.18.0 — 2026-09-05
+
+Enforces active test execution and rendered reference mock pairing in Gemini-calibrated campaigns,
+closing the loopholes that allowed runs to claim completion without executing active tests.
+
+- **Anti-passive-audit enforcement.** `campaign.py check` over existing files verifies only JSON schema
+  well-formedness; it is barred from standing as active campaign execution. The campaign only clears when
+  active phases (harness runs, test execution, visual captures) have completed.
+- **Rendered mock raster pipeline.** All reference mock screens must be rendered to disk rasters
+  (`evidence/shots/mock/<id>.png`) before comparison. Unrendered HTML files cannot be evaluated;
+  `witness-worklist.py` must exit 0 with zero demoted references.
+- **Surface pairing manifest.** Mandates `evidence/shots/pairs.json` mapping 100% of inventory surfaces,
+  with evaluated verdicts in `witness-verdicts.json` and a strictly positive capture-lineage ratchet.
+- **On-paper vs on-glass invariant.** Prohibits substituting HTML mocks for implementation captures on display
+  servers. A platform lacking a display server must record `shot: null` with an explicit structural reason.
+- **Vacuous requirements treated as unbuilt scope.** When external effects lack production providers,
+  requirements are treated as unbuilt capabilities and routed to `shipyard:intake` rather than passing tests.
+
 ## 0.17.0 — 2026-09-02
 
 Adds the UI-flow-campaign standard: how coverage of user journeys is counted, calibrated,
