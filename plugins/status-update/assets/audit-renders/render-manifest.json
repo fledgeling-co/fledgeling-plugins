@@ -1,0 +1,40 @@
+{
+  "takes": {
+    "A2-shallow": {
+      "source": "icon-A2-shallow.svg",
+      "kind": "svg",
+      "source_sha256": "5886b030bdf85e63b7434d60a3672ec51b093306d61a82e6c731f3ceda6fd7e5",
+      "source_mtime": 1788494871.4893343,
+      "rendered_at": 1788495449.199093
+    },
+    "engineC-0e8378": {
+      "source": "icon-engineC-0e8378.png",
+      "kind": "raster-mask",
+      "source_sha256": "8b5eb8d0fb10a6c7c0032d49af64d52eec155801bebb04870cf421dbca648af3",
+      "source_mtime": 1788489006.9390836,
+      "rendered_at": 1788495449.5083032
+    },
+    "master": {
+      "source": "icon.png",
+      "kind": "png",
+      "source_sha256": "7f124530774ced35a68e5c3dc7e2e2f021b6ce3848262164ea5fb11d96415af3",
+      "source_mtime": 1788495448.7644062,
+      "rendered_at": 1788495449.6126661
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

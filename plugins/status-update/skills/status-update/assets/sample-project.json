@@ -1,0 +1,616 @@
+{
+ "project": "webhook-relay",
+ "updated": "2026-09-04T09:41:00+10:00",
+ "verdict": {
+  "token": "needs-work",
+  "number": "7 of 14",
+  "unit": "tasks finished",
+  "headline": "Two checks have never been tested; one passed over a run that examined nothing.",
+  "run_label": "third pass",
+  "head_sha": "b7d41ae"
+ },
+ "tasks": [
+  {
+   "id": "WEB-5081",
+   "title": "Retry queue drains in order",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "9c1f22a",
+   "note": "merged"
+  },
+  {
+   "id": "WEB-5082",
+   "title": "Signature check on inbound hooks",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "2f8ad91",
+   "note": "merged"
+  },
+  {
+   "id": "WEB-5083",
+   "title": "Dead-letter view",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "4ab7de0",
+   "note": "merged"
+  },
+  {
+   "id": "WEB-5084",
+   "title": "Per-tenant rate limit",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "77bc105",
+   "note": "merged"
+  },
+  {
+   "id": "WEB-5085",
+   "title": "Delivery log export",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "e10c4b2",
+   "note": "merged"
+  },
+  {
+   "id": "WEB-5086",
+   "title": "Guard against an empty test run",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "5d9a318",
+   "note": "merged"
+  },
+  {
+   "id": "WEB-5087",
+   "title": "Dark-mode colour tokens",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "c3e7f04",
+   "note": "merged"
+  },
+  {
+   "id": "WEB-5088",
+   "title": "Harness that tests the alarms",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "in-flight",
+   "version": "11e9d3c",
+   "note": "sent back for rework"
+  },
+  {
+   "id": "WEB-5089",
+   "title": "Contrast fix on the muted rail",
+   "origin": "planned",
+   "stage": "being checked",
+   "outcome": "in-flight",
+   "version": "a4b1f60",
+   "note": "review open"
+  },
+  {
+   "id": "WEB-5074",
+   "title": "Replay from a chosen time",
+   "origin": "carried",
+   "stage": "being checked",
+   "outcome": "in-flight",
+   "version": "8be0c21",
+   "note": "review open"
+  },
+  {
+   "id": "WEB-5076",
+   "title": "Rotate the webhook secret",
+   "origin": "carried",
+   "stage": "being checked",
+   "outcome": "in-flight",
+   "version": "6f2dd93",
+   "note": "review open"
+  },
+  {
+   "id": "WEB-5071",
+   "title": "Sign the Mac build",
+   "origin": "carried",
+   "stage": "not started",
+   "outcome": "blocked",
+   "version": "",
+   "note": "waiting for the signing key"
+  },
+  {
+   "id": "WEB-5072",
+   "title": "Smoke run on Windows",
+   "origin": "carried",
+   "stage": "not started",
+   "outcome": "blocked",
+   "version": "",
+   "note": "waiting for a Windows machine"
+  },
+  {
+   "id": "WEB-5079",
+   "title": "Backfill the 2024 delivery log",
+   "origin": "carried",
+   "stage": "not started",
+   "outcome": "blocked",
+   "version": "",
+   "note": "waiting for approval to spend"
+  }
+ ],
+ "gates": [
+  {
+   "name": "Types line up",
+   "command": "pnpm -r typecheck",
+   "exit_code": 0,
+   "counts": "412/412",
+   "state": "done"
+  },
+  {
+   "name": "Unit tests",
+   "command": "pnpm vitest run",
+   "exit_code": 1,
+   "counts": "318/321",
+   "state": "needs-work"
+  },
+  {
+   "name": "Browser tests",
+   "command": "pnpm acceptance:run --tag web",
+   "exit_code": 0,
+   "counts": "0/0",
+   "state": "done"
+  },
+  {
+   "name": "Code style",
+   "command": "pnpm eslint . --max-warnings 0",
+   "exit_code": 0,
+   "counts": "1204/1204",
+   "state": "done"
+  },
+  {
+   "name": "Text contrast",
+   "command": "python3 tools/design-lint.py",
+   "exit_code": 0,
+   "counts": "10.03:1 vs >=4.5:1",
+   "state": "done"
+  },
+  {
+   "name": "Download size",
+   "command": "node scripts/size-budget.mjs",
+   "exit_code": 1,
+   "counts": "20KB vs <=11KB",
+   "state": "needs-work"
+  },
+  {
+   "name": "Mac signing",
+   "command": "xcrun notarytool submit dist.zip",
+   "exit_code": null,
+   "counts": "not run",
+   "state": "blocked"
+  }
+ ],
+ "armed": [
+  {
+   "check": "Text contrast",
+   "mutation": "lowered the contrast limit to 1 to 1",
+   "case_reddened": "no test noticed",
+   "red": 0,
+   "green": 38,
+   "sha": "b7d41ae",
+   "armed": false
+  },
+  {
+   "check": "Screen-reader labels",
+   "mutation": "removed the column headers from every table",
+   "case_reddened": "table headers announce their column",
+   "red": 1,
+   "green": 38,
+   "sha": "b7d41ae",
+   "armed": true
+  },
+  {
+   "check": "Types line up",
+   "mutation": "made a function return the wrong type",
+   "case_reddened": "the build stops on a type error",
+   "red": 3,
+   "green": 412,
+   "sha": "b7d41ae",
+   "armed": true
+  },
+  {
+   "check": "Download size",
+   "mutation": "added 40 KB of unused code",
+   "case_reddened": "download stays under budget",
+   "red": 6,
+   "green": 24,
+   "sha": "b7d41ae",
+   "armed": true
+  },
+  {
+   "check": "Unit tests",
+   "mutation": "made the counter return an empty list",
+   "case_reddened": "counts parse on both sides",
+   "red": 11,
+   "green": 321,
+   "sha": "b7d41ae",
+   "armed": true
+  }
+ ],
+ "findings": [
+  {
+   "id": "F-04",
+   "score": 94,
+   "severity": "high",
+   "file_line": "src/gate/counts.ts:88",
+   "claim": "a run that examined nothing is reported as a pass",
+   "state": "needs-work"
+  },
+  {
+   "id": "F-11",
+   "score": 88,
+   "severity": "high",
+   "file_line": "src/relay/session.ts:64",
+   "claim": "a replayed hook can be delivered twice",
+   "state": "blocked"
+  },
+  {
+   "id": "F-19",
+   "score": 81,
+   "severity": "high",
+   "file_line": "src/queue/retry.ts:140",
+   "claim": "the retry queue loses order under load",
+   "state": "in-flight"
+  },
+  {
+   "id": "F-07",
+   "score": 66,
+   "severity": "medium",
+   "file_line": "src/report/render.ts:212",
+   "claim": "totals are read from a locale-formatted string",
+   "state": "in-flight"
+  },
+  {
+   "id": "F-23",
+   "score": 66,
+   "severity": "medium",
+   "file_line": "src/api/tenant.ts:51",
+   "claim": "rate limit counts per process, not per tenant",
+   "state": "needs-work"
+  },
+  {
+   "id": "F-08",
+   "score": 62,
+   "severity": "medium",
+   "file_line": "src/relay/secret.ts:33",
+   "claim": "an old secret stays valid after rotation",
+   "state": "in-flight"
+  },
+  {
+   "id": "F-26",
+   "score": 62,
+   "severity": "medium",
+   "file_line": "src/queue/deadletter.ts:19",
+   "claim": "the dead-letter view drops rows past 500",
+   "state": "needs-work"
+  },
+  {
+   "id": "F-12",
+   "score": 58,
+   "severity": "medium",
+   "file_line": "src/ui/table.tsx:74",
+   "claim": "sorting resets the page you were on",
+   "state": "in-flight"
+  },
+  {
+   "id": "F-15",
+   "score": 58,
+   "severity": "medium",
+   "file_line": "src/ui/theme.css:12",
+   "claim": "the muted rail is unreadable in dark mode",
+   "state": "needs-work"
+  },
+  {
+   "id": "F-31",
+   "score": 58,
+   "severity": "medium",
+   "file_line": "src/api/export.ts:88",
+   "claim": "an export over 50 MB times out with no message",
+   "state": "blocked"
+  },
+  {
+   "id": "F-16",
+   "score": 52,
+   "severity": "medium",
+   "file_line": "src/relay/verify.ts:20",
+   "claim": "signature check accepts an empty body",
+   "state": "in-flight"
+  },
+  {
+   "id": "F-28",
+   "score": 52,
+   "severity": "medium",
+   "file_line": "src/ui/filter.tsx:41",
+   "claim": "the filter count ignores hidden rows",
+   "state": "done"
+  },
+  {
+   "id": "F-09",
+   "score": 45,
+   "severity": "medium",
+   "file_line": "docs/plans/WEB-5088.md:41",
+   "claim": "the plan cites a version that never landed",
+   "state": "done"
+  },
+  {
+   "id": "F-20",
+   "score": 45,
+   "severity": "medium",
+   "file_line": "src/ui/toast.tsx:16",
+   "claim": "two toasts stack on top of each other",
+   "state": "in-flight"
+  },
+  {
+   "id": "F-33",
+   "score": 45,
+   "severity": "medium",
+   "file_line": "src/api/log.ts:102",
+   "claim": "log timestamps drop the time zone",
+   "state": "needs-work"
+  },
+  {
+   "id": "F-17",
+   "score": 38,
+   "severity": "medium",
+   "file_line": "src/ui/nav.tsx:29",
+   "claim": "the current page is not marked in the nav",
+   "state": "in-flight"
+  },
+  {
+   "id": "F-35",
+   "score": 38,
+   "severity": "medium",
+   "file_line": "src/api/health.ts:8",
+   "claim": "the health check never times out",
+   "state": "done"
+  },
+  {
+   "id": "F-05",
+   "score": 30,
+   "severity": "low",
+   "file_line": "src/ui/button.tsx:12",
+   "claim": "the disabled button still shows a pointer cursor",
+   "state": "done"
+  },
+  {
+   "id": "F-21",
+   "score": 30,
+   "severity": "low",
+   "file_line": "src/ui/form.tsx:60",
+   "claim": "the error text is not tied to its field",
+   "state": "in-flight"
+  },
+  {
+   "id": "F-38",
+   "score": 30,
+   "severity": "low",
+   "file_line": "README.md:14",
+   "claim": "the setup steps name an old package manager",
+   "state": "done"
+  },
+  {
+   "id": "F-13",
+   "score": 24,
+   "severity": "low",
+   "file_line": "src/ui/table.tsx:118",
+   "claim": "the empty table says nothing at all",
+   "state": "in-flight"
+  },
+  {
+   "id": "F-24",
+   "score": 24,
+   "severity": "low",
+   "file_line": "src/ui/badge.tsx:7",
+   "claim": "colour is the only signal on the status badge",
+   "state": "needs-work"
+  },
+  {
+   "id": "F-40",
+   "score": 24,
+   "severity": "low",
+   "file_line": "src/ui/print.css:3",
+   "claim": "the print sheet keeps the dark background",
+   "state": "done"
+  },
+  {
+   "id": "F-27",
+   "score": 20,
+   "severity": "low",
+   "file_line": "src/ui/icons.tsx:44",
+   "claim": "two icons share one stroke weight and one does not",
+   "state": "done"
+  },
+  {
+   "id": "F-42",
+   "score": 20,
+   "severity": "low",
+   "file_line": "package.json:31",
+   "claim": "a dependency is pinned to a range, not a version",
+   "state": "in-flight"
+  },
+  {
+   "id": "F-30",
+   "score": 12,
+   "severity": "low",
+   "file_line": "src/ui/footer.tsx:9",
+   "claim": "the copyright year is written by hand",
+   "state": "done"
+  },
+  {
+   "id": "F-44",
+   "score": 12,
+   "severity": "low",
+   "file_line": "docs/README.md:2",
+   "claim": "a heading level is skipped",
+   "state": "done"
+  },
+  {
+   "id": "F-46",
+   "score": 8,
+   "severity": "low",
+   "file_line": "src/ui/theme.css:88",
+   "claim": "one spacing value sits off the scale",
+   "state": "done"
+  }
+ ],
+ "corrections": [
+  {
+   "earlier_claim": "All 14 tasks verified",
+   "said_pct": 100,
+   "true_pct": 64,
+   "true_state": "9 of 14 were re-checked after the rebase; 5 were not.",
+   "mechanism": "The run log from before the rebase was read as current.",
+   "caught_by": "the checks re-run at version b7d41ae"
+  },
+  {
+   "earlier_claim": "Browser tests all passing",
+   "said_pct": 95,
+   "true_pct": 0,
+   "true_state": "The run examined 0 tests and still reported success.",
+   "mechanism": "The tag matched no files, and the runner treats that as a pass.",
+   "caught_by": "the guard against an empty test run"
+  },
+  {
+   "earlier_claim": "Contrast fine on all 38 pairs",
+   "said_pct": 88,
+   "true_pct": 76,
+   "true_state": "29 of 38 pairs pass; the muted rail sits at 3.1 to 1.",
+   "mechanism": "One pair was measured and the result assumed to hold for the rest.",
+   "caught_by": "the contrast check, run over all 38 pairs"
+  },
+  {
+   "earlier_claim": "Every check proven able to fail",
+   "said_pct": 80,
+   "true_pct": 55,
+   "true_state": "4 of 5 alarm tests found a fault; the contrast one found none.",
+   "mechanism": "A test that ran was counted as a test that noticed.",
+   "caught_by": "the alarm-test harness, WEB-5088"
+  },
+  {
+   "earlier_claim": "Tests cover the new code",
+   "said_pct": 72,
+   "true_pct": 41,
+   "true_state": "41% of the new lines are reached by a test.",
+   "mechanism": "The figure was quoted for the whole repository, not the new work.",
+   "caught_by": "coverage re-measured on the branch alone"
+  }
+ ],
+ "coverage": [
+  {
+   "axis": "Screens on a phone",
+   "covered": 6,
+   "denominator": 24
+  },
+  {
+   "axis": "Printing",
+   "covered": 0,
+   "denominator": 12
+  },
+  {
+   "axis": "Screen readers",
+   "covered": 3,
+   "denominator": 12
+  },
+  {
+   "axis": "Windows",
+   "covered": 0,
+   "denominator": 7
+  },
+  {
+   "axis": "Reduced motion",
+   "covered": 1,
+   "denominator": 6
+  },
+  {
+   "axis": "Long lists",
+   "covered": 1,
+   "denominator": 4
+  }
+ ],
+ "not_checked": [
+  {
+   "axis": "Screens on a phone",
+   "why_not": "No phone in the test setup."
+  },
+  {
+   "axis": "Printing",
+   "why_not": "The test browser ignores print styles."
+  },
+  {
+   "axis": "Screen readers",
+   "why_not": "Needs a device and a person."
+  },
+  {
+   "axis": "Windows",
+   "why_not": "No Windows machine here."
+  },
+  {
+   "axis": "Reduced motion",
+   "why_not": "Same test-browser limit as printing."
+  },
+  {
+   "axis": "Long lists",
+   "why_not": "The test data was never built."
+  }
+ ],
+ "not_done": [
+  {
+   "action": "Smoke run on Windows",
+   "reason": "No Windows machine here.",
+   "what_would_unblock": "A Windows machine.",
+   "size": "a few days"
+  },
+  {
+   "action": "Sign the Mac build",
+   "reason": "The signing key was withheld.",
+   "what_would_unblock": "The signing key.",
+   "size": "an afternoon"
+  },
+  {
+   "action": "Backfill the 2024 log",
+   "reason": "Costs more than this round allows.",
+   "what_would_unblock": "Approval to spend $40.",
+   "size": "a week"
+  }
+ ],
+ "artifacts": [
+  {
+   "path": "reports/checks-b7d41ae.md",
+   "kind": "md",
+   "contains": "Every check and what it examined.",
+   "open_first": true
+  },
+  {
+   "path": "reports/alarm-tests.json",
+   "kind": "json",
+   "contains": "Each fault we caused, and what noticed.",
+   "open_first": false
+  },
+  {
+   "path": "logs/browser-empty-run.txt",
+   "kind": "md",
+   "contains": "The run that examined nothing.",
+   "open_first": false
+  },
+  {
+   "path": "mocks/report-b7d41ae.html",
+   "kind": "html",
+   "contains": "This report at that version.",
+   "open_first": false
+  }
+ ],
+ "git": {
+  "branch": "feat/WEB-5088-alarms",
+  "commits_ahead": 7,
+  "worktree_clean": false,
+  "pushed": false
+ }
+}
