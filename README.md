@@ -340,6 +340,14 @@ You ask for the write-up after a long session and get something that reads well 
 
 <br clear="left" />
 
+<a href="plugins/status-update/README.md"><img src="plugins/status-update/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [status-update](plugins/status-update/README.md)
+
+A status update in chat is read once and then scrolls away. This writes it as two pages instead — one for the project, one for every project at once — built from 2,400 real status reports, so the sections are what agents already write, including the one they write most and nobody designs for: the part where they correct what they told you earlier.
+
+<br clear="left" />
+
 <a href="plugins/stocktake/README.md"><img src="plugins/stocktake/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [stocktake](plugins/stocktake/README.md) · **Uses multiple models**

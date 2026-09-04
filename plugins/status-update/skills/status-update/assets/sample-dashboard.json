@@ -1,0 +1,1776 @@
+{
+ "updated": "2026-09-04T09:00:00Z",
+ "machine": {
+  "load_per_core": 0.78,
+  "mem_free_gb": 6.4,
+  "mem_total_gb": 32,
+  "disk_free_gb": 128,
+  "disk_total_gb": 926,
+  "worktrees": 41
+ },
+ "flight": {
+  "runners_live": 9,
+  "runners_cap": 12,
+  "wave": "round 7",
+  "queued": 14,
+  "parked": 3
+ },
+ "projects": [
+  {
+   "project": "atlas",
+   "updated": "2026-09-04T06:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "24 of 24"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 24,
+    "total": 24
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 96,
+     "denominator": 100
+    }
+   ]
+  },
+  {
+   "project": "warden",
+   "updated": "2026-09-04T04:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "18 of 18"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 18,
+    "total": 18
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 64,
+     "denominator": 64
+    }
+   ]
+  },
+  {
+   "project": "relay",
+   "updated": "2026-09-04T08:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "31 of 44"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 31,
+    "total": 44
+   },
+   "defects_open": 2,
+   "corrections": [
+    {
+     "retracted_claim": "every route was covered",
+     "true_state": "four routes had no test at all",
+     "caught_by": "a fresh run on a clean checkout",
+     "when": "2026-09-04T05:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "REL-0311",
+     "blocked_on": "a review nobody has picked up",
+     "age_hours": 26
+    },
+    {
+     "item_id": "REL-0318",
+     "blocked_on": "a decision on the export format",
+     "age_hours": 11
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 120,
+     "denominator": 160
+    }
+   ]
+  },
+  {
+   "project": "dossier",
+   "updated": "2026-09-04T07:00:00Z",
+   "verdict": {
+    "token": "needs-work",
+    "number": "52 of 61"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "needs-work"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 52,
+    "total": 61
+   },
+   "defects_open": 7,
+   "corrections": [
+    {
+     "retracted_claim": "the vendor prices were right",
+     "true_state": "three of five were wrong",
+     "caught_by": "reading the vendor page ourselves",
+     "when": "2026-09-04T02:00:00Z"
+    },
+    {
+     "retracted_claim": "the import finished",
+     "true_state": "it stopped at 8,412 of 12,000 rows",
+     "caught_by": "counting the stored rows",
+     "when": "2026-09-03T03:00:00Z"
+    },
+    {
+     "retracted_claim": "the cache was warm",
+     "true_state": "every request missed it",
+     "caught_by": "timing two identical calls",
+     "when": "2026-09-02T04:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "DOS-0902",
+     "blocked_on": "a rate limit that resets nightly",
+     "age_hours": 63
+    },
+    {
+     "item_id": "DOS-0915",
+     "blocked_on": "the vendor key",
+     "age_hours": 41
+    },
+    {
+     "item_id": "DOS-0931",
+     "blocked_on": "a flaky test we cannot reproduce",
+     "age_hours": 9
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 210,
+     "denominator": 300
+    }
+   ]
+  },
+  {
+   "project": "splice",
+   "updated": "2026-09-04T00:00:00Z",
+   "verdict": {
+    "token": "blocked",
+    "number": "12 of 28"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "needs-work"
+    },
+    {
+     "name": "types",
+     "state": "blocked"
+    },
+    {
+     "name": "security",
+     "state": "unmeasured"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 12,
+    "total": 28
+   },
+   "defects_open": 4,
+   "corrections": [
+    {
+     "retracted_claim": "the speed target was met",
+     "true_state": "it was measured while two other jobs ran",
+     "caught_by": "repeating it on an idle machine",
+     "when": "2026-09-03T21:00:00Z"
+    },
+    {
+     "retracted_claim": "the branch was merged",
+     "true_state": "it was merged into the wrong branch",
+     "caught_by": "reading the merge history",
+     "when": "2026-09-01T23:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "SPL-0142",
+     "blocked_on": "an idle host to measure on",
+     "age_hours": 214
+    },
+    {
+     "item_id": "SPL-0150",
+     "blocked_on": "the same idle host",
+     "age_hours": 188
+    },
+    {
+     "item_id": "SPL-0151",
+     "blocked_on": "a decision on the tolerance",
+     "age_hours": 133
+    },
+    {
+     "item_id": "SPL-0166",
+     "blocked_on": "a review",
+     "age_hours": 77
+    },
+    {
+     "item_id": "SPL-0171",
+     "blocked_on": "the upstream fix",
+     "age_hours": 52
+    }
+   ],
+   "needs_you": [
+    {
+     "ask": "Say whether \u00b110% is close enough on the speed target",
+     "kind": "decision",
+     "waiting_since": "2026-08-31T09:00:00Z",
+     "one_line": "Five tasks are stopped behind this one answer."
+    }
+   ],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 40,
+     "denominator": 95
+    }
+   ]
+  },
+  {
+   "project": "vigil",
+   "updated": "2026-09-04T07:00:00Z",
+   "verdict": {
+    "token": "needs-work",
+    "number": "14 of 21"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "needs-work"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "needs-work"
+    }
+   ],
+   "done_of_total": {
+    "done": 14,
+    "total": 21
+   },
+   "defects_open": 5,
+   "corrections": [
+    {
+     "retracted_claim": "fourteen of fourteen were finished",
+     "true_state": "the check only proved the code compiled",
+     "caught_by": "opening the app and looking",
+     "when": "2026-09-04T03:00:00Z"
+    },
+    {
+     "retracted_claim": "the design matched the drawing",
+     "true_state": "the spacing was off on every card",
+     "caught_by": "measuring the rendered page",
+     "when": "2026-09-03T07:00:00Z"
+    },
+    {
+     "retracted_claim": "the suite was green",
+     "true_state": "the filter ran zero tests and still passed",
+     "caught_by": "printing the number it ran",
+     "when": "2026-09-02T07:00:00Z"
+    },
+    {
+     "retracted_claim": "nothing was left to do",
+     "true_state": "nine tasks had never been measured",
+     "caught_by": "listing what no test names",
+     "when": "2026-09-01T07:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "VIG-0088",
+     "blocked_on": "a design that nobody has drawn",
+     "age_hours": 96
+    },
+    {
+     "item_id": "VIG-0093",
+     "blocked_on": "the sign-off",
+     "age_hours": 34
+    }
+   ],
+   "needs_you": [
+    {
+     "ask": "Look at the four rebuilt screens",
+     "kind": "review",
+     "waiting_since": "2026-09-03T13:00:00Z",
+     "one_line": "Built and waiting; nobody has looked yet."
+    }
+   ],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 55,
+     "denominator": 120
+    }
+   ]
+  },
+  {
+   "project": "lifeline",
+   "updated": "2026-09-04T08:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "22 of 30"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 22,
+    "total": 30
+   },
+   "defects_open": 1,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "LIF-0044",
+     "blocked_on": "a version of the CLI we can read",
+     "age_hours": 58
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 88,
+     "denominator": 96
+    }
+   ]
+  },
+  {
+   "project": "harbourmaster",
+   "updated": "2026-09-03T22:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "9 of 9"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 9,
+    "total": 9
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 30,
+     "denominator": 30
+    }
+   ]
+  },
+  {
+   "project": "sidetone",
+   "updated": "2026-09-03T03:00:00Z",
+   "verdict": {
+    "token": "unmeasured",
+    "number": "16 of 16"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "unmeasured"
+    },
+    {
+     "name": "tests",
+     "state": "unmeasured"
+    },
+    {
+     "name": "types",
+     "state": "unmeasured"
+    },
+    {
+     "name": "security",
+     "state": "unmeasured"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 16,
+    "total": 16
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 0,
+     "denominator": 0
+    }
+   ]
+  },
+  {
+   "project": "proctor",
+   "updated": "2026-09-04T03:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "41 of 41"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 41,
+    "total": 41
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 150,
+     "denominator": 150
+    }
+   ]
+  },
+  {
+   "project": "slipway",
+   "updated": "2026-09-02T09:00:00Z",
+   "verdict": {
+    "token": "waived",
+    "number": "5 of 12"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "waived"
+    },
+    {
+     "name": "security",
+     "state": "waived"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 5,
+    "total": 12
+   },
+   "defects_open": 1,
+   "corrections": [
+    {
+     "retracted_claim": "the upgrade kept the description",
+     "true_state": "it overwrote it in seven files",
+     "caught_by": "diffing the files afterwards",
+     "when": "2026-09-02T08:00:00Z"
+    }
+   ],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 20,
+     "denominator": 40
+    }
+   ]
+  },
+  {
+   "project": "anvil",
+   "updated": "2026-09-03T19:00:00Z",
+   "verdict": {
+    "token": "blocked",
+    "number": "7 of 19"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "needs-work"
+    },
+    {
+     "name": "types",
+     "state": "blocked"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 7,
+    "total": 19
+   },
+   "defects_open": 3,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "ANV-0021",
+     "blocked_on": "disk space on the build host",
+     "age_hours": 118
+    },
+    {
+     "item_id": "ANV-0025",
+     "blocked_on": "a container image that builds",
+     "age_hours": 101
+    },
+    {
+     "item_id": "ANV-0028",
+     "blocked_on": "the same image",
+     "age_hours": 84
+    },
+    {
+     "item_id": "ANV-0033",
+     "blocked_on": "a decision on the backend",
+     "age_hours": 47
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 33,
+     "denominator": 70
+    }
+   ]
+  },
+  {
+   "project": "lecturn",
+   "updated": "2026-09-03T13:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "13 of 13"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 13,
+    "total": 13
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 44,
+     "denominator": 44
+    }
+   ]
+  },
+  {
+   "project": "keelhaul",
+   "updated": "2026-09-04T07:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "18 of 26"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 18,
+    "total": 26
+   },
+   "defects_open": 2,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "KEE-0207",
+     "blocked_on": "a schema nobody has agreed",
+     "age_hours": 72
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 70,
+     "denominator": 110
+    }
+   ]
+  },
+  {
+   "project": "beacon",
+   "updated": "2026-09-04T02:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "27 of 27"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 27,
+    "total": 27
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 88,
+     "denominator": 88
+    }
+   ]
+  },
+  {
+   "project": "tideline",
+   "updated": "2026-09-04T05:00:00Z",
+   "verdict": {
+    "token": "needs-work",
+    "number": "20 of 25"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "needs-work"
+    },
+    {
+     "name": "types",
+     "state": "needs-work"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 20,
+    "total": 25
+   },
+   "defects_open": 6,
+   "corrections": [
+    {
+     "retracted_claim": "the deploy was live",
+     "true_state": "the old version was still being served",
+     "caught_by": "checking the address it points at",
+     "when": "2026-09-03T15:00:00Z"
+    },
+    {
+     "retracted_claim": "the form rejected bad input",
+     "true_state": "it accepted anything",
+     "caught_by": "submitting an empty form",
+     "when": "2026-09-02T13:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "TID-0410",
+     "blocked_on": "the staging database",
+     "age_hours": 145
+    },
+    {
+     "item_id": "TID-0416",
+     "blocked_on": "a review",
+     "age_hours": 29
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 60,
+     "denominator": 140
+    }
+   ]
+  },
+  {
+   "project": "quarterdeck",
+   "updated": "2026-09-04T08:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "33 of 40"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 33,
+    "total": 40
+   },
+   "defects_open": 1,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "QUA-0512",
+     "blocked_on": "a font licence",
+     "age_hours": 19
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 130,
+     "denominator": 150
+    }
+   ]
+  },
+  {
+   "project": "mainstay",
+   "updated": "2026-09-03T17:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "11 of 11"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 11,
+    "total": 11
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 36,
+     "denominator": 36
+    }
+   ]
+  },
+  {
+   "project": "capstan",
+   "updated": "2026-09-03T07:00:00Z",
+   "verdict": {
+    "token": "unmeasured",
+    "number": "8 of 8"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "unmeasured"
+    },
+    {
+     "name": "tests",
+     "state": "unmeasured"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "unmeasured"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 8,
+    "total": 8
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 12,
+     "denominator": 80
+    }
+   ]
+  },
+  {
+   "project": "bosun",
+   "updated": "2026-09-04T00:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "15 of 15"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 15,
+    "total": 15
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 52,
+     "denominator": 52
+    }
+   ]
+  },
+  {
+   "project": "halyard",
+   "updated": "2026-09-03T11:00:00Z",
+   "verdict": {
+    "token": "blocked",
+    "number": "4 of 17"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "blocked"
+    },
+    {
+     "name": "types",
+     "state": "blocked"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 4,
+    "total": 17
+   },
+   "defects_open": 2,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "HAL-0106",
+     "blocked_on": "the certificate",
+     "age_hours": 168
+    },
+    {
+     "item_id": "HAL-0112",
+     "blocked_on": "the same certificate",
+     "age_hours": 156
+    },
+    {
+     "item_id": "HAL-0119",
+     "blocked_on": "a decision on the fallback",
+     "age_hours": 90
+    }
+   ],
+   "needs_you": [
+    {
+     "ask": "A certificate for the staging host",
+     "kind": "credential",
+     "waiting_since": "2026-09-01T19:00:00Z",
+     "one_line": "Nothing here can be tested until it exists."
+    }
+   ],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 18,
+     "denominator": 60
+    }
+   ]
+  },
+  {
+   "project": "lodestar",
+   "updated": "2026-09-03T21:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "29 of 29"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 29,
+    "total": 29
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 101,
+     "denominator": 101
+    }
+   ]
+  },
+  {
+   "project": "dogwatch",
+   "updated": "2026-09-04T06:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "12 of 21"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 12,
+    "total": 21
+   },
+   "defects_open": 3,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "DOG-0033",
+     "blocked_on": "a machine with a GPU",
+     "age_hours": 110
+    },
+    {
+     "item_id": "DOG-0037",
+     "blocked_on": "a test account",
+     "age_hours": 38
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 45,
+     "denominator": 90
+    }
+   ]
+  },
+  {
+   "project": "foghorn",
+   "updated": "2026-09-03T00:00:00Z",
+   "verdict": {
+    "token": "waived",
+    "number": "6 of 14"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "waived"
+    },
+    {
+     "name": "security",
+     "state": "waived"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 6,
+    "total": 14
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 25,
+     "denominator": 50
+    }
+   ]
+  },
+  {
+   "project": "gangway",
+   "updated": "2026-09-04T01:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "21 of 21"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 21,
+    "total": 21
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 77,
+     "denominator": 77
+    }
+   ]
+  },
+  {
+   "project": "jetsam",
+   "updated": "2026-09-04T04:00:00Z",
+   "verdict": {
+    "token": "needs-work",
+    "number": "9 of 16"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "needs-work"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 9,
+    "total": 16
+   },
+   "defects_open": 4,
+   "corrections": [
+    {
+     "retracted_claim": "the endpoint returned rows",
+     "true_state": "it returned an empty list",
+     "caught_by": "reading the response body",
+     "when": "2026-09-03T12:00:00Z"
+    }
+   ],
+   "remaining": [
+    {
+     "item_id": "JET-0075",
+     "blocked_on": "the API contract",
+     "age_hours": 128
+    },
+    {
+     "item_id": "JET-0081",
+     "blocked_on": "a review",
+     "age_hours": 22
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 28,
+     "denominator": 95
+    }
+   ]
+  },
+  {
+   "project": "kedge",
+   "updated": "2026-09-03T20:00:00Z",
+   "verdict": {
+    "token": "done",
+    "number": "17 of 17"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "done"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "done"
+    }
+   ],
+   "done_of_total": {
+    "done": 17,
+    "total": 17
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 61,
+     "denominator": 61
+    }
+   ]
+  },
+  {
+   "project": "landfall",
+   "updated": "2026-09-04T08:00:00Z",
+   "verdict": {
+    "token": "in-flight",
+    "number": "25 of 34"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "in-flight"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "done"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 25,
+    "total": 34
+   },
+   "defects_open": 2,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "LAN-0260",
+     "blocked_on": "a decision on pricing copy",
+     "age_hours": 15
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 96,
+     "denominator": 140
+    }
+   ]
+  },
+  {
+   "project": "mizzen",
+   "updated": "2026-09-03T14:00:00Z",
+   "verdict": {
+    "token": "blocked",
+    "number": "3 of 11"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "done"
+    },
+    {
+     "name": "tests",
+     "state": "blocked"
+    },
+    {
+     "name": "types",
+     "state": "blocked"
+    },
+    {
+     "name": "security",
+     "state": "done"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 3,
+    "total": 11
+   },
+   "defects_open": 1,
+   "corrections": [],
+   "remaining": [
+    {
+     "item_id": "MIZ-0012",
+     "blocked_on": "the SSH key",
+     "age_hours": 176
+    },
+    {
+     "item_id": "MIZ-0018",
+     "blocked_on": "a console session on the host",
+     "age_hours": 162
+    },
+    {
+     "item_id": "MIZ-0024",
+     "blocked_on": "the same console session",
+     "age_hours": 66
+    }
+   ],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 9,
+     "denominator": 44
+    }
+   ]
+  },
+  {
+   "project": "netting",
+   "updated": "2026-09-03T05:00:00Z",
+   "verdict": {
+    "token": "unmeasured",
+    "number": "10 of 10"
+   },
+   "gates": [
+    {
+     "name": "build",
+     "state": "unmeasured"
+    },
+    {
+     "name": "tests",
+     "state": "done"
+    },
+    {
+     "name": "types",
+     "state": "unmeasured"
+    },
+    {
+     "name": "security",
+     "state": "unmeasured"
+    },
+    {
+     "name": "design",
+     "state": "unmeasured"
+    },
+    {
+     "name": "sign-off",
+     "state": "unmeasured"
+    }
+   ],
+   "done_of_total": {
+    "done": 10,
+    "total": 10
+   },
+   "defects_open": 0,
+   "corrections": [],
+   "remaining": [],
+   "needs_you": [],
+   "coverage": [
+    {
+     "axis": "work watched by tests",
+     "covered": 5,
+     "denominator": 70
+    }
+   ]
+  }
+ ]
+}

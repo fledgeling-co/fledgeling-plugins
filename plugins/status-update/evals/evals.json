@@ -1,0 +1,48 @@
+{
+  "skill_name": "status-update",
+  "note": "Prompts only. No comparative run has been made — see EVALS.md for what was verified mechanically and what these would settle.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "ok that's the retry queue done and merged. where are we on webhook-relay overall?",
+      "expected_output": "Writes .status/project.json, renders STATUS.html and the dashboard, opens the page, and replies in two lines — not a prose status report in chat.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "wave 3 is finished. 9 of 14 tasks landed, two of the checks turned out to never have been tested, and I was wrong earlier when I said all 14 were verified — 5 weren't re-checked after the rebase. update the status.",
+      "expected_output": "The correction becomes a corrections[] row with all four atoms; the two untested checks become armed[] rows with red:0 and render as untested; verdict.token is needs-work.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "give me a status update",
+      "expected_output": "Identifies the project from cwd, updates the existing project.json rather than starting one, and does not invent fields it has no news about.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "the acceptance suite passed — exit 0. mark it green and push the status out.",
+      "expected_output": "If the suite examined nothing (0/0), the renderer forces it to unmeasured and the reply says so, rather than rendering a pass the data does not support.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "how's the whole portfolio looking this morning?",
+      "expected_output": "Opens ~/Dev/STATUS.html rather than one project page, and leads with what needs the user.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "update ARMADA.md with what we just shipped here",
+      "expected_output": "Should NOT trigger — that is armada-sync:armada-sync's job. Near-miss test.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "plan the next wave across every project in ~/Dev",
+      "expected_output": "Should NOT trigger — planning belongs to ship-armada:ship-armada. Near-miss test.",
+      "files": []
+    }
+  ]
+}

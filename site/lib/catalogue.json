@@ -25,7 +25,7 @@
       "id": "standing",
       "label": "Knowing where things stand",
       "blurb": "What is finished, what is not, and what nobody has actually checked.",
-      "count": 7
+      "count": 8
     },
     {
       "id": "long-runs",
@@ -133,7 +133,8 @@
       },
       "neighbours": [
         "ship-fleet",
-        "armada-sync"
+        "armada-sync",
+        "status-update"
       ]
     },
     {
@@ -1925,6 +1926,49 @@
         "defer": false
       },
       "neighbours": []
+    },
+    {
+      "name": "status-update",
+      "version": "1.0.0",
+      "group": "standing",
+      "groupLabel": "Knowing where things stand",
+      "description": "Report status as two living HTML pages instead of a long chat message. One project writes .status/project.json; the skill renders that project's STATUS.html, derives its row on the portfolio dashboard at ~/Dev/STATUS.html, opens the page and replies in two lines. Built from 2,400 real status reports, so the zones are what agents already write — including the self-correction block nine mining lanes independently found to be the most consistent section after the headline.",
+      "trigger": "Report status as two living HTML pages instead of a long chat message. Use this whenever you would otherwise write a status update, progress summary, or end-of-work report in a ~/Dev project — after shipping a feature, finishing a fleet or wave, running a test campaign, closing gaps, completing a review, or when someone asks \"where are we\", \"what's left\", \"how did that go\", \"give me a status update\", \"what shipped\", or \"update the dashboard\". It writes one data file per project, renders that project's STATUS.html and the portfolio dashboard at ~/Dev/STATUS.html, opens the page, and replies in two lines. Use it even when the request sounds like it wants prose — the page is the report, and the chat message is a pointer to it. NOT for planning work (use ship-armada or ship-fleet), and NOT for the ARMADA.md manifest, which armada-sync owns.",
+      "blurb": "A status update in chat is read once and then scrolls away. This writes it as two pages instead — one for the project, one for every project at once — built from 2,400 real status reports, so the sections are what agents already write, including the one they write most and nobody designs for: the part where they correct what they told you earlier.",
+      "readme": "Claude writes you a status update. It runs long, it is hard to skim, and by tomorrow it has\nscrolled away. Ask again next week and you get another one — with no way to tell whether\nthings got better, and no way to see this project against the other twenty-six.\n\nThis skill replaces that with two pages that stay put.\n\n**The project page** answers what happened here: how the round went, where the work is, which\nchecks ran, what broke, what was left undone on purpose, and what nobody checked. **The\ndashboard** at `~/Dev/STATUS.html` answers the question a chat message never could — how does\nthis project compare to everything else you have running.\n\nThen Claude opens the page and says two lines. That is the whole interaction.\n\n> `webhook-relay: 7 of 14 tasks finished, two checks never tested — STATUS.html is open.`\n> `Waiting on you: the staging database password, blocked since Tuesday.`\n\n## What is on the pages\n\nNot a design opinion. The zones are what Claude Code agents already write, counted.\n\nThe pages were built from 2,400 real status reports pulled out of fourteen days of session\ntranscripts across 27 projects — 634 distinct reporting concerns, 8,959 occurrences. Every\nzone traces to a count.\n\nThe most interesting thing the count found is a section most status pages would never\ninclude. Nine separate mining passes, working on different slices of the corpus and unaware\nof each other, reported the same fact in their own words: **these reports are\nconfession-first.** After the headline, the most consistent section is the agent correcting\nsomething it told you earlier — and it is usually given more room than the wins. One pass\nput it at 11 of 20 reports, another at 15 of 38, another at 12 of 40.\n\nSo *What we got wrong* is a first-class zone with four columns — what we said, what was\nactually true, why we got it wrong, and how we found out — and it is always shown, with an\nempty state when there is nothing, because an absent section and an empty one read very\ndifferently.\n\nThe rest, in the order they earned their place: how the round went · where the work is ·\nchecks that ran · **do the alarms work?** · problems found · what we got wrong · what nobody\nchecked · left undone on purpose · files to open · where the code sits.\n\n## Do the alarms work?\n\nThe zone worth understanding, because it is the one people have not usually seen.\n\nA check that has never failed might be watching carefully, or might be broken and silently\npassing everything. Those two look identical from outside. The only way to tell them apart is\nto break the code on purpose and see whether the check notices.\n\nThe page shows that as a pair for each check: how many tests caught the fault when the code\nwas deliberately broken, against how many pass normally. A check where breaking the code\ncaught nothing is an alarm with a flat battery, and it renders as the loudest thing on the\npage after an outright failure — because a reassurance nobody has earned is worse than no\nreassurance at all.\n\n## It argues with the data\n\nTwo claims get overruled rather than trusted, and both come from the corpus, where each was\nmade and then quietly retracted in a later report.\n\n**A check that examined nothing is not a pass.** A check reporting success over zero tests\nbecomes *nobody checked this*. Exit code zero over an empty run means the check never ran.\nThis fired the first time it was tested — on the sample data written for the templates.\n\n**An alarm that caught nothing is not armed.** A row claiming a check was proved able to\nfail, while recording that nothing failed when the code was broken, is a contradiction, and\nthe page shows the truth.\n\n## Written for someone who was not there\n\nThe pages are read by a colleague, a founder, or by you in six months. So there is no\njargon on them: no gates, no shas, no coverage, no verdicts. Checks, versions, problems\nfound, how it went.\n\nThat mattered more than it sounds. The first version of these pages used *armed* thirty\ntimes and *verdict* thirty-one, and those words each needed a sentence of explanation — so\nthe page filled up with sentences where the pictures belonged. Replacing the words is what\nmade room for the charts.\n\n## Using it\n\nYou mostly do not. Every project's `CLAUDE.md` points here, so Claude reaches for it when it\nwould otherwise write you a status update. To ask directly:\n\n```\n/status-update\n```\n\nor just say *where are we*, *what's left*, *how did that go*, or *update the dashboard*.\n\nBehind it, one command does everything:\n\n```bash\npython3 scripts/render.py sync <project>\n```\n\nClaude writes one file — `.status/project.json` — and the rest is derived: the project page,\nthe project's row on the dashboard, and the dashboard itself. Deriving the row rather than\nwriting it twice is what stops the two pages disagreeing, and that kind of drift stays\ninvisible until someone reads both.\n\nBoth files are committed with the work they describe, so a status change is reviewable and\nthe history of what was claimed survives a later contradiction.\n\n## Where things live\n\n```\n~/Dev/STATUS.html               the dashboard — every project\n~/Dev/.status/portfolio.json    its data, derived\n~/Dev/<project>/STATUS.html     that project's page\n~/Dev/<project>/.status/project.json   the one file anything writes\n```\n\nIf the dashboard is ever lost or falls behind, `render.py rebuild` rescans every project and\nreconstructs it, naming anything it had to skip.\n\n## What it will not do\n\n- **It does not touch `ARMADA.md`.** That manifest is prose for orchestrators to plan from;\n  these pages are numbers for a person to read. `armada-sync` owns the first, this owns the\n  second, and you generally want both after a substantial piece of work.\n- **It does not plan.** `ship-armada` and `ship-fleet` decide what happens next; this reports\n  what happened.\n- **It does not run your checks.** It records what they reported. If a check has not run this\n  session, the page says *nobody checked this* rather than quietly showing green.\n\n## Honest limits\n\nThe zone list is self-reported: the independent critic that was meant to audit it stalled\nmid-run and was killed, so nothing walked all 634 concerns against the final twenty zones.\nThe corpus is one developer's fourteen days, so these are the habits of agents working in one\nportfolio rather than a general finding. And nothing measures whether these pages actually\nbeat the chat updates they replace — that is a design position taken from the corpus's shape,\nnot a result. `EVALS.md` says what was and was not run.\n\nFull provenance, including the counts behind every zone, is in\n`skills/status-update/references/evidence.md`.",
+      "license": "MIT",
+      "keywords": [],
+      "allowedTools": null,
+      "boundary": {
+        "text": "NOT for planning work (use ship-armada or ship-fleet), and NOT for the ARMADA.",
+        "referrals": [
+          {
+            "name": "ship-armada",
+            "here": true
+          }
+        ]
+      },
+      "examplePrompts": [
+        "where are we",
+        "what's left",
+        "how did that go",
+        "give me a status update",
+        "what shipped",
+        "update the dashboard"
+      ],
+      "icon": "/icons/status-update.png",
+      "install": "/plugin install status-update@fledgeling-plugins",
+      "repoUrl": "https://github.com/fledgeling-co/fledgeling-plugins/tree/main/plugins/status-update",
+      "signals": {
+        "evals": true,
+        "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/status-update/EVALS.md",
+        "scripts": true,
+        "references": 3,
+        "defer": false
+      },
+      "neighbours": [
+        "ship-armada"
+      ]
     }
   ]
 }

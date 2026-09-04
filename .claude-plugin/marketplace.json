@@ -598,6 +598,17 @@
       },
       "source": "./plugins/visualization",
       "category": "development"
+    },
+    {
+        "name": "status-update",
+        "description": "Report status as two living HTML pages instead of a long chat message. One project writes .status/project.json; the skill renders that project's STATUS.html, derives its row on the portfolio dashboard at ~/Dev/STATUS.html, opens the page and replies in two lines. Built from 2,400 real status reports, so the zones are what agents already write \u2014 including the self-correction block nine mining lanes independently found to be the most consistent section after the headline.",
+        "version": "1.0.0",
+        "author": {
+            "name": "Fledgeling",
+            "email": "lukerhodes27@gmail.com"
+        },
+        "source": "./plugins/status-update",
+        "category": "development"
     }
   ]
 }
