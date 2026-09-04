@@ -415,4 +415,13 @@ Known rough edges:
 - One email address per company workspace for now.
 - The price-sensitive classifier is tuned to over-flag.`,
   },
+
+  "status-update": {
+    prompt: "ok that's the retry queue done and merged. where are we on webhook-relay overall?",
+    output: `webhook-relay: 7 of 14 tasks finished, two checks never tested — STATUS.html is open.
+Waiting on you: the staging database password, blocked since Tuesday.
+
+~/Dev/webhook-relay/STATUS.html (open in Chrome)
+~/Dev/STATUS.html (portfolio dashboard updated)`,
+  },
 };
