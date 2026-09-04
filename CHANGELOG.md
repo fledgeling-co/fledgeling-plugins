@@ -4,6 +4,18 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-04
+
+### status-update 1.0.1: living HTML status reports and portfolio dashboard
+
+- **The page is the report.** Replaces scrolling chat status updates with two living HTML pages: `<project>/STATUS.html` for single-project reporting, and `~/Dev/STATUS.html` for a master dashboard across all projects.
+- **One data write, everything derived.** Agents write only `<project>/.status/project.json`; `scripts/render.py sync <project>` renders the project report, derives its dashboard row, and updates the portfolio dashboard automatically to prevent drift.
+- **Derived from 2,400 real status reports.** Mined from 14 days of transcripts across 27 projects (634 concerns, 8,959 occurrences). Sections match what agents already write — including the first-class self-correction block that nine independent mining passes found to be the most consistent section after the headline.
+- **Real chart forms from visualization.** Uses Sankey task flow, dumbbell alarm checks, beeswarm problem severity, slopegraph correction comparisons, treemap unmeasured scopes, and heat-strip cross-project check matrices.
+- **Plain words over developer jargon.** Replaces internal terms (gate, armed, mutation, sha, verdict) with plain English explanations and defines remaining terms via `<dfn>`.
+- **Active data correction.** Overrules false green claims: checks over 0/0 counts are forced to `unmeasured`, and alarms that caught 0 faults are forced to `armed: false`.
+- **Brand treatment.** Uses the Engine C split-flap mid-turn icon (`icon-engineC-0e8378.png`) across the 1024, 256, 128, and 48px exports and the 3200×1040 banner.
+
 ## 2026-09-01
 
 ### tailings 0.2.0: Codex transcript attribution and fail-closed pairing
