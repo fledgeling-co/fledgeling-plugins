@@ -267,6 +267,16 @@ bucket that collapsed. The two together are suggestive rather than settled — n
 has measured the with-reference case on this corpus — so write it as the documented
 strong path and mark it unmeasured.
 
+**Third lever — rendered reference rasters and manifest pairing:** Where the
+skill calls for visual comparison against mocks or reference designs, the
+references must exist as rendered raster files on disk (e.g., `.png` in an
+evidence directory), paired 1:1 with inventory surfaces via an explicit pairing
+manifest (`pairs.json`), and compared via geometric differential or visual witness
+passes. Never leave references as unrendered `.html` documents or Figma links,
+never substitute reference mocks for implementation captures, and record full
+capture lineage (target, channel, subject, sha256) in a provenance manifest to
+prevent filename-only evidence binding.
+
 ## `gate` — the skill ships a deterministic check
 
 **Trigger:** preflight, probe, lint, blocker, exit code, denominator, worklist,
@@ -283,6 +293,14 @@ ungated and the delivery says so.
 `DESIGN.md`, `UX.md`, `claims.json`) exist and are non-empty before checking final
 properties. If an upstream skill or tool call was skipped, the gate must fail with
 an explicit error and exit code 1.
+
+**Passive validation vs active execution:** A static checker, schema validator,
+or registry checker (e.g. `campaign.py check` or checking an existing JSON or
+markdown ledger) confirms only that a record on disk is syntactically well-formed.
+It does NOT constitute executing the lifecycle or phases of the skill. When a
+skill prescribes active phases (authoring test suites, running harnesses, executing
+captures, running journeys), passing an existing schema check must never be
+reported as having executed the skill.
 
 **Why:** **[measured-here]** on this skill's own quote gate, a one-line change
 took the checked count to zero and turned every file green; only re-running the
