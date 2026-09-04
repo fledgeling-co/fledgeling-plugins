@@ -22,11 +22,13 @@ $ python3 scripts/render.py --self-test
   pass  an unknown check state fails
   pass  a check over zero counts is forced to unmeasured
   pass  an alarm that caught nothing is forced to unarmed
-  pass  a dashboard row derives from project data alone
+  pass  an invalid roadmap item fails
+  pass  a non-object estimate_remaining fails
+  pass  a dashboard row derives next round and time range
   pass  project-template.html has a data block
   pass  dashboard-template.html has a data block
 
-10 of 10 checks passed
+12 of 12 checks passed
 exit 0
 ```
 

@@ -44,6 +44,10 @@ version of these pages shipped with `armed` thirty times and `verdict` thirty-on
 | mechanism | why we got it wrong |
 | caught by | how we found out |
 | artifacts | files to open |
+| roadmap / upcoming waves | what is coming next |
+| estimate / duration | estimated time (always a range, never a single point) |
+| task size tier (S/M/L/XL) | size: small (3–25m), medium (7–56m), large (14–68m), very large (25–155m) |
+| basis | how we sized it (measured past runs) |
 
 Keep an id such as `WEB-5089` as it is — it is a name, and the reader can carry it to a
 tracker. Label its column *task*.

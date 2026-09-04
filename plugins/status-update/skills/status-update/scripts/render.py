@@ -72,9 +72,21 @@ def validate_project(d: dict) -> list[str]:
     _require(v["token"] in STATES, f'verdict.token "{v["token"]}" is not one of {STATES}')
 
     for key in ("tasks", "gates", "armed", "findings", "corrections", "coverage",
-                "not_checked", "not_done", "artifacts", "needs_you", "remaining"):
+                "not_checked", "not_done", "artifacts", "needs_you", "remaining", "roadmap"):
         if key in d and not isinstance(d[key], list):
             raise DataError(f'"{key}" must be a list')
+
+    if "estimate_remaining" in d and not isinstance(d["estimate_remaining"], dict):
+        raise DataError('"estimate_remaining" must be a JSON object')
+
+    for i, rd in enumerate(d.get("roadmap", [])):
+        if not isinstance(rd, dict):
+            raise DataError(f"roadmap[{i}] must be an object")
+        if not rd.get("round") or not rd.get("goal"):
+            raise DataError(f'roadmap[{i}] missing "round" or "goal"')
+        if "estimate_min" in rd and isinstance(rd["estimate_min"], list):
+            if len(rd["estimate_min"]) != 2:
+                warn.append(f'roadmap[{i}].estimate_min should be a [low, high] range, not a single point')
 
     for i, g in enumerate(d.get("gates", [])):
         if g.get("state") not in STATES:
@@ -149,6 +161,34 @@ def derive_row(p: dict) -> dict:
 
     stuck = [t for t in tasks if t.get("outcome") == "stuck"]
 
+    next_rd = None
+    for rd in p.get("roadmap", []):
+        if rd.get("status") in ("next", "queued"):
+            est_str = ""
+            if rd.get("estimate_min"):
+                lo, hi = rd["estimate_min"]
+                est_str = f"{lo}–{hi}m" if hi < 60 else f"{lo}m–{hi/60:.1f}h"
+            next_rd = {
+                "round": rd.get("round", ""),
+                "goal": rd.get("goal", ""),
+                "tier": rd.get("tier", "M"),
+                "estimate": est_str,
+                "status": rd.get("status", "next"),
+            }
+            break
+
+    time_rem = ""
+    er = p.get("estimate_remaining") or {}
+    if er.get("parallel_min"):
+        plo, phi = er["parallel_min"]
+        if phi < 60:
+            time_rem = f"{plo}–{phi}m"
+        else:
+            time_rem = f"{plo}m–{phi/60:.1f}h" if plo < 60 else f"{plo/60:.1f}–{phi/60:.1f}h"
+    elif er.get("median_min"):
+        med = er["median_min"]
+        time_rem = f"~{med}m" if med < 60 else f"~{med/60:.1f}h"
+
     return {
         "project": p["project"],
         "updated": p["updated"],
@@ -166,6 +206,8 @@ def derive_row(p: dict) -> dict:
         "needs_you": p.get("needs_you", []),
         "coverage": ([{"axis": "work watched by tests",
                        "covered": covered, "denominator": denom}] if denom else []),
+        "next_round": next_rd,
+        "time_remaining": time_rem,
     }
 
 
@@ -327,16 +369,26 @@ def self_test() -> int:
     cases.append(("an alarm that caught nothing is forced to unarmed", passed))
     failed += not passed
 
+    check("an invalid roadmap item fails",
+          lambda: validate_project({**good, "roadmap": [{"round": "R1"}]}), True)
+    check("a non-object estimate_remaining fails",
+          lambda: validate_project({**good, "estimate_remaining": "5 hours"}), True)
+
     row = derive_row({**good, "tasks": [{"outcome": "done"}, {"outcome": "stuck"}],
                       "findings": [{"state": "needs-work"}, {"state": "done"}],
                       "gates": [{"name": "pnpm test", "state": "needs-work"},
-                                {"name": "tsc", "state": "done"}]})
+                                {"name": "tsc", "state": "done"}],
+                      "roadmap": [{"round": "Round 2", "goal": "Next wave", "status": "next",
+                                   "estimate_min": [20, 50]}],
+                      "estimate_remaining": {"parallel_min": [30, 90], "median_min": 45}})
     ok = (row["done_of_total"] == {"done": 1, "total": 2}
           and row["defects_open"] == 1
           and len(row["gates"]) == len(GATE_KINDS)
           and dict((g["name"], g["state"]) for g in row["gates"])["tests"] == "needs-work"
-          and dict((g["name"], g["state"]) for g in row["gates"])["design"] == "unmeasured")
-    cases.append(("a dashboard row derives from project data alone", ok))
+          and dict((g["name"], g["state"]) for g in row["gates"])["design"] == "unmeasured"
+          and row["next_round"]["round"] == "Round 2"
+          and "–" in row["time_remaining"])
+    cases.append(("a dashboard row derives next round and time range", ok))
     failed += not ok
 
     for t in (ASSETS / "project-template.html", ASSETS / "dashboard-template.html"):

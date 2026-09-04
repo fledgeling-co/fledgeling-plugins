@@ -37,8 +37,20 @@ empty state when there is nothing, because an absent section and an empty one re
 differently.
 
 The rest, in the order they earned their place: how the round went · where the work is ·
-checks that ran · **do the alarms work?** · problems found · what we got wrong · what nobody
+**what is coming next & roadmap** · checks that ran · **do the alarms work?** · problems found · what we got wrong · what nobody
 checked · left undone on purpose · files to open · where the code sits.
+
+## What is coming next and estimated time
+
+The page is not backward-looking only: it maps upcoming rounds, size tiers, and estimated time remaining.
+
+Estimates are grounded in `reckon:reckon`'s measured 1,842-agent benchmark across 31 projects on this machine:
+- **Never a point estimate.** Point estimates are wrong by a factor of three in the ordinary case and read as false precision; the skill always presents duration ranges (`[p25, p90]`) with the median called out.
+- **Four empirical task tiers**: S (3–25m, median 8m), M (7–56m, median 15m), L (14–68m, median 25m), and XL (25–155m, median 45m).
+- **Parallel wave arithmetic**: a wave costs its slowest member × 1.1 (median) to 1.8 (p90), with 2.2× median speedup across parallel berths.
+- **Decision work carries no duration estimate**, because waiting on a person's decision or a third-party credential is not agent work.
+
+The project page displays an estimated duration banner and an SVG Gantt roadmap timeline; the portfolio dashboard surfaces each project's next round and estimated time remaining directly in the main projects table.
 
 ## Do the alarms work?
 
