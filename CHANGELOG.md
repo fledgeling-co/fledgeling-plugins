@@ -4,6 +4,20 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-05
+
+### test-campaign 0.18.0: active execution enforcement and rendered mock pairing
+
+- **Anti-passive-audit enforcement.** Pre-existing green schema checks (`campaign.py check`) cannot stand for executing the campaign's active phases.
+- **Rendered mock rasters.** Reference mock screens must be rendered to disk PNGs (`evidence/shots/mock/`) and paired 1:1 with inventory surfaces in `pairs.json`.
+- **On-paper vs on-glass invariant.** Forbids photographing HTML mocks to simulate live GUI windows on a display server. Surfaces without a display server must be explicitly recorded as `shot: null` with structural reasons.
+- **Vacuity treated as unbuilt scope.** Requirements asserting external effects with no production provider cannot be reported as verified and must be intaked as unbuilt work.
+
+### geminify 0.6.0: visual reference rasters and active gate execution
+
+- **`visual` module Third Lever.** Enforces rendered on-disk rasters, 1:1 pairing manifests, and capture provenance tracking to prevent paper-to-paper visual comparisons.
+- **`gate` module active execution guard.** Mandates that deterministic gates differentiate static schema validation from active phase execution, barring passive pass reports.
+
 ## 2026-09-04
 
 ### status-update 1.1.0: roadmaps and measured time estimates

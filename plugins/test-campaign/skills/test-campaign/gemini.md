@@ -200,45 +200,49 @@ read back through.
 
 ## Override 6 — describe the capture before judging it
 
-*Phase 8, the wall in phase 9, and `assets/judge-contract.md`.* **[docs]** "Ask the model to describe the images before
-performing the task in the prompt", and "To improve the response, point out which parts of the image are most relevant to the
-prompt." So per capture, in order: name what is in it — regions, copy, visible spacing — then judge it against the step's
-declared atoms. An **empty** computed style value means *not implemented*.
+*Phase 8, Phase 8a, and `assets/judge-contract.md`.* **[docs]** "Ask the model to describe the images before performing the
+task in the prompt", and "To improve the response, point out which parts of the image are most relevant to the prompt." So per
+capture: describe regions, copy, and layout before judging against declared atoms. An **empty** computed style value means
+*not implemented*.
 
-**Decide a difference on its box, not on a ratio.** `task-bound-flows.md §5` measures a real one-step spacing change at 558
-pixels of 1,296,000 — ratio 0.00043, which every threshold passes — in a 114×13 box at density 0.377, unmistakable. Run
-`geometry-gate.py --stable` and quote `agrees` / `defect` / `unstable`.
+**Decide a difference on its box, not on a ratio.** `task-bound-flows.md §5` measures a spacing regression at 558 of 1,296,000 pixels
+(ratio 0.00043, which every threshold passes) in a 114×13 box at density 0.377, unmistakable. Run `geometry-gate.py --stable` and
+quote `agrees` / `defect` / `unstable`.
 
-**Supply the reference, do not only describe it.** **[docs]** "For UI generation, the model shows high design adherence and
-parity based on a reference input, whether it's a screenshot, an image, or a full design system." Phase 8 has one and
-`assets/capture-pairs.template.mjs` shoots the pair under identical conditions, so hand both over. **[measured-family]** every
-static-page task in the benchmark was a prose brief with no reference, and that is the bucket that collapsed; the
-with-reference case is unmeasured.
+**Supply rendered rasters, not HTML sources.** **[docs]** "For UI generation, the model shows high design adherence and parity
+based on a reference input, whether it's a screenshot, an image, or a full design system." Render all reference mock screens to
+`evidence/shots/mock/<id>.png` before comparison. An unrendered `.html` file cannot be evaluated; `witness-worklist.py` must
+exit 0 with 0 demoted references.
 
-## Override 7 — three shorter ones
+**The on-paper vs on-glass invariant:** A mock is a reference, never an implementation capture. It is forbidden to photograph an
+HTML mock and file it as a live application capture (`shot:`). If a platform lacks a display server on this host, record `shot: null`
+with an explicit structural `reason:`; never simulate glass by photographing a mock. Every inventory surface must be mapped in
+`pairs.json`, and `witness-verdicts.json` must record evaluated verdicts for all judgeable captures.
+
+## Override 7 — shorter invariants
 
 **The requirement inventory may not exceed its documents** (phase 1). **[docs]** Google's strictly-grounded system instruction
-is meant to be used verbatim, and its last clause binds here: "If the exact answer is not explicitly written in the context,
-you must state that the information is not available." **[derived]** So every `REQ-*` carries `source` as a file and a line,
-and the same holds for `provider`: a symbol you remember is not a census, and `vacuity-check.py --gate` resolves it or does
-not.
+binds here: "If the exact answer is not explicitly written in the context, you must state that the information is not available."
+Every `REQ-*` carries `source` as file:line.
 
-**Decide the write posture before the sweep** (phase 7). **[docs]** the agentic template's last rule: "Inhibit your response:
-only take an action after all the above reasoning is completed. Once you've taken an action, you cannot take it back."
-`SKILL.md §7` asks the same thing in the same place — a sweep that clicks every control on a surface of save buttons is a
-mutation storm. Name the target disposable or install the refusal firewall, in the ledger, before the first click.
+**Vacuity is an unbuilt capability, never a passing feature.** When `vacuity-check.py` identifies vacuous requirements (an external
+effect with no production provider), they must NOT be reported as verified. Route every vacuous requirement to `shipyard:intake` as
+an unbuilt brief.
 
-**Read what the prompt names; do not answer from memory.** **[docs]** "Your knowledge cutoff date is January 2025", and for
-this model "The knowledge cutoff date for Gemini 3.7 Flash is March 2026". **[measured-family]** two shapes: a Windows 10
-accent colour on a Windows 11 surface, a previous-generation published value returned confidently; and `COD Dossier` §1.2.4,
-where a prompt naming three skills was answered from memory without loading any. Load, then answer: read the PRD, the design
-md, the mocks and the harness's own `--help` first, since a selection flag that does not exist fails like a clean selective
-run of nothing.
+**Decide the write posture before the sweep** (phase 7). **[docs]** the agentic template's last rule: "Inhibit your response: only
+take an action after all the above reasoning is completed. Once you've taken an action, you cannot take it back." Name the target
+disposable or install the refusal firewall before the first click.
+
+**Read what the prompt names; do not answer from memory.** **[docs]** "Your knowledge cutoff date is January 2025". Load the PRD,
+specs, mocks and `--help` before answering.
 
 ## The stop condition
 
-**[docs]** "By default, Gemini 3 models provide direct and efficient answers." A campaign feels finished well before the
-ledger's last row, so the exit condition is mechanical and the skill owns it already: it ends when `campaign.py check` exits
-0, `strict-check.py` holds or rises, and `capture-lineage.py --gate` and `vacuity-check.py --gate` both clear — not when the
-findings feel sufficient. Stopping earlier is declared in the reply and the ledger: `SELECTIVE — ran 12 cases, carried 62,
-last full run 6 days old`.
+**[docs]** "By default, Gemini 3 models provide direct and efficient answers." A campaign feels finished well before the ledger's
+last row. **A passive registry check is not running the campaign:** `campaign.py check` over an existing registry only checks JSON
+well-formedness; it does not execute tests or captures. The campaign only ends when:
+1. All declared mock screens exist as rendered PNG rasters in `evidence/shots/mock/`.
+2. `evidence/shots/pairs.json` exists, mapping 100% of inventory surfaces (with 0 demoted references in `witness-worklist.py`).
+3. `evidence/shots/captures.json` records every capture with verified channel, subject, and target provenance.
+4. `witness-verdicts.json` records verdicts for all judgeable captures, and `capture-lineage.py --gate` passes with ratchet > 0.
+5. `campaign.py check` exits 0, `strict-check.py` holds or rises, and vacuous/unmeasured requirements are routed to intake briefs.
