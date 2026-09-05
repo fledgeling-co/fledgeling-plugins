@@ -1,5 +1,5 @@
 {
-  "skill_name": "throughline",
+  "skill_name": "create-story",
   "note": "Prompts only. No comparative run has been made against the no-skill baseline; EVALS.md records what was verified mechanically and what these prompts would settle.",
   "evals": [
     {

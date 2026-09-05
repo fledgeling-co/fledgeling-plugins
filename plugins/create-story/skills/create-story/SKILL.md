@@ -1,5 +1,5 @@
 ---
-name: throughline
+name: create-story
 description: >-
   Write long-form fiction whose paragraphs connect: stories, chapters, scenes, novellas,
   game narrative prose, audiobook scripts, serialised episodes. Use this whenever someone
@@ -16,7 +16,7 @@ description: >-
   story is involved (use that person's content skill).
 ---
 
-# Throughline: prose that follows on
+# create-story: prose that follows on
 
 A model writing a long story keeps the plot and loses the seams. The outline is honoured,
 the characters are the right ones, and the second paragraph of a scene reads as if it were
@@ -28,7 +28,7 @@ self-contained idea; its prior on relationships resolves tension early; and reas
 inside the drafting call flattens the prose. Each of the four has a mechanical counter here, and
 each of the four counters traces to an entry (E1 to E12) in `references/evidence.md`.
 
-The counters are four files and three scripts rather than a longer prompt. A story bible
+The counters are four files and four scripts rather than a longer prompt. A story bible
 and a beat sheet fix what each scene is for. A per-scene exit state, in JSON, carries who
 is where, holding what, feeling what, and what is still open, so the next scene is
 conditioned on the last one rather than on an impression of the book. A context-pack
@@ -135,7 +135,24 @@ states only and writes the promises table to `story/critique/chapter-<n>.md`
 (`references/passes.md`, "Chapter close"). Setups unpaid for three scenes and payoffs
 whose setup never appeared are the two rows it fills.
 
-### 6. Reply
+### 6. Narrated version, when asked
+
+"Make an audiobook version", "a read-aloud", "an ElevenLabs prompt", "something I can
+listen to" all mean one file at `story/narration/<name>.md` in the shape
+`references/narration.md` gives: synopsis, setup notes, then the speech in paste-ready
+parts with audio tags. A condensed telling is drafted from the ledger and the exit states
+along one named route, naming the forks as it passes them; a single scene is drafted from
+its scene file. One drafter subagent, one critic subagent, the same caps as a scene. Gate it
+with:
+
+```
+python3 scripts/narration_check.py story/narration/<name>.md
+```
+
+Exit 0 and a critic report close it. The duration goes in the reply as the checker's range,
+never as one number.
+
+### 7. Reply
 
 The reply is at most six lines: which scenes closed, word counts, any seam that would not
 close, and the path of the ledger. The prose is on disk; do not paste it into the reply.
@@ -164,9 +181,8 @@ wrong while drafting, say so in one sentence in the reply and draft it as writte
 - `## Excluded` is honoured by omission: the drafter is not told what the excluded material
   was, only that it exists, and the critic checks the prose for it.
 - Subagents run no git operations. This session owns commits, when the user asks for them.
-- No spend: no research panels, no image or audio generation. An ElevenLabs prompt or a
-  read-aloud script is a scene with a `words` band and a `## Voice` section for performance,
-  drafted the same way.
+- No spend: no research panels, no image or audio generation. A narrated version is a
+  prompt for the user's voice model, written and checked here; rendering it is theirs.
 
 ## What the scripts cannot see
 

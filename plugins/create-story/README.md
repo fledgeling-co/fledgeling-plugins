@@ -1,4 +1,4 @@
-# throughline
+# create-story
 
 Ask Claude for a chapter and you get the plot you asked for, told by someone who keeps forgetting what they wrote a paragraph ago. The characters are right. The outline is honoured. And the second paragraph of every scene reads as though it was written after a night's sleep, with the first one a vague memory. Readers feel it as the story losing its train of thought, and it's the reason a model's long fiction is easy to skim and hard to finish.
 
@@ -6,7 +6,7 @@ This skill is a way of writing stories where each paragraph has to take somethin
 
 ## Why it happens
 
-Three deep-research reports were bought on this question (the reports are in `docs/deep-research/`, all read in full, with 21 claims traced in `skills/throughline/references/evidence.md`). They agree on four causes, and each one gets a mechanical counter rather than a paragraph of instructions.
+Three deep-research reports were bought on this question (the reports are in `docs/deep-research/`, all read in full, with 21 claims traced in `skills/create-story/references/evidence.md`). They agree on four causes, and each one gets a mechanical counter rather than a paragraph of instructions.
 
 **The whole manuscript is in the room.** When a model can see everything it has written, the early chapters pull on every sentence it writes, and the link to the paragraph it just finished gets diluted. It's the same reason a person can't proofread a book by re-reading the whole thing every time they add a line. Counter: the drafter never sees the manuscript. A script builds its entire input from the story bible, the state at the end of the last scene, the beat card for this one, and the last two paragraphs written. That's the window, and because a script builds it, nobody widens it by hand.
 
@@ -24,6 +24,10 @@ The first time, you get a story bible and a beat sheet back and nothing else, be
 
 If you're the author, say so. The skill routes to your voice skill (`create-luke-content:create-luke-content` for Luke) for the voice rules and runs that skill's lint on every scene as well as its own. It owns what connects to what; your voice skill owns how it reads.
 
+## A version you can listen to
+
+Ask for an audiobook version, a read-aloud or an ElevenLabs prompt and you get one file: a synopsis, setup notes for the person doing the pasting, and the speech itself in parts under the paste limit with vocal direction in the model's own tags. A condensed telling is built from the exit states rather than the prose, follows one named route through any forks and names the others as it passes them. A checker fails it on a tag the model doesn't know, an SSML break the model ignores, setup text that would be read aloud, and a part over the limit, and it reports the running time as a range, because a word count is not a duration. The rules come from the ElevenLabs v3 guide as fetched on 5 September 2026, kept in `docs/elevenlabs/`. It writes the prompt; rendering it spends your credits and stays yours.
+
 ## What's in the box
 
 ```
@@ -36,11 +40,12 @@ story/
   critique/<id>.md  what the fresh reader found
 ```
 
-Three scripts, each with a self-test:
+Four scripts, each with a self-test:
 
 - `context_pack.py` builds the drafter's whole input and refuses to include more.
 - `transition_audit.py` reads each paragraph seam for a pronoun, a connective, a shared name, a shared word or a spoken line, and fails on none. It also fails on a word count outside the beat's band, first-person leaks in a third-person scene, em dashes, and five stock tells (*a testament to*, *tapestry*, *delve*, *little did they know*, *in a world where*).
 - `story_state.py` validates the bible's shapes, and fails a scene whose exit contradicts its beat card.
+- `narration_check.py` gates a read-aloud script before it goes near a voice model.
 
 ## What it won't do
 
