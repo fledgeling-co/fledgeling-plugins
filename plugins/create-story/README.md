@@ -22,6 +22,8 @@ Say what you want written. *Write the next scene. Turn this outline into chapter
 
 The first time, you get a story bible and a beat sheet back and nothing else, because prose written from an unapproved outline is prose you'll throw away. Say the beats stand and the scenes get drafted one at a time. Each one is drafted by a fresh subagent that sees only its pack, gated by the audit, read by a second fresh subagent that's never seen the drafting conversation, and closed when two scripts both exit clean. The prose lands on disk; the reply is six lines saying what closed and what didn't.
 
+**Whose voice it's in** is composed rather than guessed. Name the authors you like and the skill builds the bible's voice from cards: your own voice as the base (Luke's comes from `create-luke-content:create-luke-content`), then up to three influences, each a card of observable habits (person, tense, how long the sentences run, how much is dialogue, the named moves, what to borrow and what to leave) drawn from interviews, reviews and stylometry rather than from memory of the books. The composed voice declares its bands, and every drafted scene is measured against them.
+
 If you're the author, say so. The skill routes to your voice skill (`create-luke-content:create-luke-content` for Luke) for the voice rules and runs that skill's lint on every scene as well as its own. It owns what connects to what; your voice skill owns how it reads.
 
 ## A version you can listen to
@@ -40,12 +42,13 @@ story/
   critique/<id>.md  what the fresh reader found
 ```
 
-Four scripts, each with a self-test:
+Five scripts, each with a self-test:
 
 - `context_pack.py` builds the drafter's whole input and refuses to include more.
 - `transition_audit.py` reads each paragraph seam for a pronoun, a connective, a shared name, a shared word or a spoken line, and fails on none. It also fails on a word count outside the beat's band, first-person leaks in a third-person scene, em dashes, and five stock tells (*a testament to*, *tapestry*, *delve*, *little did they know*, *in a world where*).
 - `story_state.py` validates the bible's shapes, and fails a scene whose exit contradicts its beat card.
 - `narration_check.py` gates a read-aloud script before it goes near a voice model.
+- `voice_card.py` composes the voice from author cards and measures a scene against its bands.
 
 ## What it won't do
 

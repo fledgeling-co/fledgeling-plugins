@@ -22,7 +22,7 @@ Markdown with `##` sections. Section headings are how `context_pack.py` selects 
 
 | Heading | Goes into the pack |
 |---|---|
-| `## Voice` | always. Five checkable rules plus a sample of at most 300 words. |
+| `## Voice` | always. Composed by `scripts/voice_card.py compose` from a base card and up to three influence cards in `references/influences.md`: a `bands:` line, at most five rules with their card named, borrow and leave lists, and a sample of at most 300 words. |
 | `## World` | always. The rules of the setting that any scene can touch. |
 | `## Excluded` | always. Material from rejected drafts or other stories that the drafter is not to reuse. |
 | `## <Character name>` | when that name is in the beat's `present` or `also_present`. |

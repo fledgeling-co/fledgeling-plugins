@@ -4,17 +4,21 @@ A bible is the one document the drafter can read about the story. Sections are p
 
 ## Voice
 
-Rules the drafter holds on every scene, as five checkable statements:
+bands: {"sentence_mean": [8.0, 18.0], "dialogue_share": [0.05, 0.6], "person": "third", "tense": "past"}
+composed_from: ["Luke Rhodes", "Richard Matheson", "Hugh Howey"]
 
-1. Third person past tense, close on the point-of-view character; the narrator knows what that character knows and no more.
-2. Plain literal sentences. A metaphor appears at most once per scene and only where a literal phrase does not exist.
-3. Sentence length varies; short sentences fall where something changes. No two paragraphs in a row open with the same word.
-4. Australian spelling. No em dashes; a semicolon, comma, full stop or parentheses does the work instead.
-5. Dialogue is short and people do not explain themselves; a line of dialogue is at most two sentences.
+1. No em dashes anywhere; a semicolon for a linked clause, a comma for a light pause, a full stop to split. (Luke Rhodes)
+2. Third person limited fixed on one character; the reader sees what he sees and shares his moods, nothing more. (Richard Matheson)
+3. One scene is one chapter; the chapter list is the scene list. (Hugh Howey)
+4. Spiky sentence lengths that turn where the thought turns, never a metronomic short-then-long alternation. (Luke Rhodes)
+5. Flat, direct, almost journalistic sentences that report a survival chore and a horror in the same register. (Richard Matheson)
 
-Sample (the register to match, 120 words):
+Borrow: the dry, understated wit used sparingly, never explained (Luke Rhodes); the calm register where energy comes from the material rather than from exclamation (Luke Rhodes); the chore-and-horror flatness (Richard Matheson); the memory as backstory (Richard Matheson); the scene-as-chapter discipline (Hugh Howey); the physical specificity of hands on machines (Hugh Howey).
+Leave: the technical-writing furniture (bold key terms, "Note:" callouts) which belongs to product prose, not to a scene (Luke Rhodes); the vampire apparatus and the last-man premise (Richard Matheson); the silo, the cleaning, the stairs; the setting is the book (Hugh Howey).
 
-> Bisk reached the platform as the lights went. The beacon behind her was still lit, a small hard point in the dark, and she kept her back to it so she could see the tunnel mouth. The tunnel mouth was where they would come from. She had counted the sounds on the way up: the wet dragging step, the clicking, the long silence between. The silence was the part she disliked. She disliked it because it meant they were listening too. Bisk set her shell against the beacon post and let the heat of it come through, and for a while there was only that, the warmth at her back and the cold in front.
+Sample:
+
+Bisk reached the platform as the lights went. The beacon behind her was still lit, a small hard point in the dark, and she kept her back to it so she could see the tunnel mouth. The tunnel mouth was where they would come from. She had counted the sounds on the way up: the wet dragging step, the clicking, the long silence between. The silence was the part she disliked. She disliked it because it meant they were listening too. Bisk set her shell against the beacon post and let the heat of it come through, and for a while there was only that, the warmth at her back and the cold in front.
 
 ## World
 

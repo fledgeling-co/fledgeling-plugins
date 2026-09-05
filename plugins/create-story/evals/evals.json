@@ -7,7 +7,9 @@
       "name": "outline-to-first-scene",
       "prompt": "Here's the outline for chapter one of my novella (attached). Write the first scene, about 800 words, third person past, close on Bisk.",
       "expected_output": "No prose is written on the first turn. A story/ directory appears with bible.md and beats.json validated by story_state.py validate-beats, presented as proposals in under 12 lines, and the turn ends waiting for the beat sheet to be approved.",
-      "files": ["outline.md"],
+      "files": [
+        "outline.md"
+      ],
       "assertions": [
         "story/bible.md exists with ## Voice, ## World, ## Excluded and one ## section per named character",
         "story/beats.json exists and story_state.py validate-beats exits 0",
@@ -20,7 +22,10 @@
       "name": "continue-from-approved-beats",
       "prompt": "Beat sheet's fine, go ahead and write L1-hold-01 and L1-hold-02.",
       "expected_output": "Two scenes drafted one at a time through context_pack.py and a drafter subagent, each gated by transition_audit.py exit 0 and check-exit exit 0, with a critique file and a ledger row per scene, and prose kept out of the reply.",
-      "files": ["story/bible.md", "story/beats.json"],
+      "files": [
+        "story/bible.md",
+        "story/beats.json"
+      ],
       "assertions": [
         "story/packs/L1-hold-01.md and story/packs/L1-hold-02.md exist and contain a <previous_paragraphs> element",
         "transition_audit.py exits 0 on both scene files with --beat and --bible supplied",
@@ -35,7 +40,9 @@
       "name": "drift-complaint-on-existing-chapter",
       "prompt": "This chapter keeps the plot but reads like every paragraph was written separately. Can you fix the flow without changing what happens?",
       "expected_output": "The chapter is audited with transition_audit.py first, orphan paragraphs are named by number with the audit line, and fixes go back through a drafter subagent with the paragraphs either side, at most two re-entries per seam; the plot beats are unchanged.",
-      "files": ["chapter-3.md"],
+      "files": [
+        "chapter-3.md"
+      ],
       "assertions": [
         "transition_audit.py was run on the input before any edit and its orphan list is quoted",
         "the revised file passes transition_audit.py with exit 0",
@@ -48,7 +55,11 @@
       "name": "premature-resolution-held-open",
       "prompt": "Write the scene where Bisk and Fettle argue about leaving. The beat says the argument stays unresolved and tension ends higher.",
       "expected_output": "The exit state keeps the argument in open_threads, check-exit exits 0, and the last paragraph shares a word with the beat's last_image. A draft that reconciles them fails check-exit and goes back to the drafter with the thread named.",
-      "files": ["story/bible.md", "story/beats.json", "story/state/L1-hold-02.json"],
+      "files": [
+        "story/bible.md",
+        "story/beats.json",
+        "story/state/L1-hold-02.json"
+      ],
       "assertions": [
         "story/state/<id>.json open_threads contains the argument thread",
         "check-exit exits 0",
@@ -60,7 +71,10 @@
       "name": "luke-as-author-routes-voice",
       "prompt": "Write this next scene in my voice (Luke). Beats are in story/beats.json.",
       "expected_output": "create-luke-content:create-luke-content is invoked before drafting, the bible's ## Voice section is derived from its rules, and the scene passes that skill's voice_lint.py at the book persona's format as well as transition_audit.py.",
-      "files": ["story/bible.md", "story/beats.json"],
+      "files": [
+        "story/bible.md",
+        "story/beats.json"
+      ],
       "assertions": [
         "the Skill tool was called with create-luke-content:create-luke-content before the drafter subagent was spawned",
         "voice_lint.py was run on the scene file and its result is quoted",
@@ -95,11 +109,32 @@
       "name": "chapter-close-promises",
       "prompt": "That's the last scene of chapter one done. Close the chapter.",
       "expected_output": "One critic subagent reads the chapter's exit states only and writes story/critique/chapter-1.md with unpaid setups older than three scenes and payoffs with no setup.",
-      "files": ["story/state/L1-hold-01.json", "story/state/L1-hold-02.json", "story/state/L1-hold-03.json", "story/beats.json"],
+      "files": [
+        "story/state/L1-hold-01.json",
+        "story/state/L1-hold-02.json",
+        "story/state/L1-hold-03.json",
+        "story/beats.json"
+      ],
       "assertions": [
         "story/critique/chapter-1.md exists",
         "the critic was given state files and not scene files",
         "each row names a setup or payoff string that appears in a state file or beat card"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "influences-composed-into-voice",
+      "prompt": "Write the opening scene in my voice, but I want it to feel like Andy Weir and Hugh Howey. Beats are in story/beats.json.",
+      "expected_output": "The bible's ## Voice section is produced by voice_card.py compose with base Luke Rhodes and the two influences, carries a bands line and rules naming their cards, and the drafted scene passes voice_card.py check as well as the transition audit and the create-luke-content lint.",
+      "files": [
+        "story/bible.md",
+        "story/beats.json"
+      ],
+      "assertions": [
+        "story/bible.md ## Voice contains a bands: line and composed_from listing Luke Rhodes, Andy Weir and Hugh Howey",
+        "no rule in the Voice section names a plot, setting or character from either author's books",
+        "voice_card.py check exits 0 on the scene",
+        "transition_audit.py exits 0 on the scene"
       ]
     }
   ]
