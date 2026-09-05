@@ -28,7 +28,7 @@ self-contained idea; its prior on relationships resolves tension early; and reas
 inside the drafting call flattens the prose. Each of the four has a mechanical counter here, and
 each of the four counters traces to an entry (E1 to E12) in `references/evidence.md`.
 
-The counters are four files and four scripts rather than a longer prompt. A story bible
+The counters are four files and five scripts rather than a longer prompt. A story bible
 and a beat sheet fix what each scene is for. A per-scene exit state, in JSON, carries who
 is where, holding what, feeling what, and what is still open, so the next scene is
 conditioned on the last one rather than on an impression of the book. A context-pack
@@ -38,16 +38,33 @@ with an orphan paragraph. And critique runs in a fresh context, never in the dra
 
 ## Whose voice
 
-The skill owns structure and continuity. The voice comes from one of two places:
+The skill owns structure and continuity. The voice is composed, and the composition is
+written down so a critic can quote which card a slip breaks:
 
-- **The author is a named person.** Invoke that person's content skill first
-  (`create-luke-content:create-luke-content` for Luke, routed to its book persona), derive
-  the bible's `## Voice` section from its rules, and run its lint on every drafted scene at
-  the format that persona names. The voice skill governs how the prose reads; this skill
-  governs what connects to what.
-- **No author is named.** The bible's `## Voice` section is the voice: five checkable rules
-  and a sample of at most 300 words, written during planning and approved with the beat
-  sheet. `transition_audit.py` is the only lint.
+- **The base is the author.** When the author is a named person, invoke that person's
+  content skill first (`create-luke-content:create-luke-content` for Luke, routed to its
+  book persona) and use its card in `references/influences.md` as the base; run that
+  skill's lint on every drafted scene at the format the persona names, as well as this
+  skill's checks. When no author is named, the base is a card the user picks or one
+  written for the story during planning.
+- **Influences are at most three named authors** from the catalogue, chosen with the user
+  from the books they say they like. A card carries observable habits (person, tense,
+  sentence-length band, dialogue share, named moves, what to borrow and what to leave),
+  never themes or plots, because an influence is a way of writing and a borrowed subject
+  reads as pastiche.
+- **Compose, then measure.** `voice_card.py compose --base "Luke Rhodes" --influence
+  "Andy Weir" --influence "Hugh Howey"` prints the `## Voice` section: merged bands, at
+  most five rules with their card named, borrow and leave lists, and the sample slot.
+  Paste it into the bible. After each draft, `voice_card.py check story/scenes/<id>.md
+  --bible story/bible.md` fails a scene outside the bands, and the critic's Voice table
+  quotes a slip against each rule.
+- **Recall is kept apart from sources.** A card's `recall:` lines come from a model trained
+  on the books (`docs/recall-brief.md`, run from a plain terminal); `compose --use-recall`
+  admits them after the sourced moves, each suffixed [recall], so the critic knows which
+  rule rests on a citation and which on memory.
+- **An author not in the catalogue** gets a card before drafting: sourced from interviews,
+  reviews or stylometry that state observable features, with the sources listed on the
+  card, never from memory of the books.
 
 ## Procedure
 
@@ -119,9 +136,10 @@ through the drafter, apply its exit-state patch, then:
 ```
 python3 scripts/story_state.py check-exit --beats story/beats.json --beat <id> --state story/state/<id>.json
 python3 scripts/transition_audit.py story/scenes/<id>.md --beat <id> --beats story/beats.json --bible story/bible.md
+python3 scripts/voice_card.py check story/scenes/<id>.md --bible story/bible.md
 ```
 
-Both exit 0 closes the scene. Append `{id, status: "closed", words, audit_exit, critique_rows}`
+All three exit 0 closes the scene. Append `{id, status: "closed", words, audit_exit, critique_rows}`
 to `story/ledger.json`. Repeat from step 3 for the next card.
 
 Two subagents per scene (drafter, critic) and at most two drafter re-entries. A scene
@@ -177,7 +195,7 @@ wrong while drafting, say so in one sentence in the reply and draft it as writte
   section named in the card's `bible_sections`, not a larger tail.
 - Prose is never rewritten in this session's context; edits go back through the drafter
   with the quoted sentences.
-- Scripts decide. A scene closes on two exit-0 results, not on a reading.
+- Scripts decide. A scene closes on three exit-0 results, not on a reading.
 - `## Excluded` is honoured by omission: the drafter is not told what the excluded material
   was, only that it exists, and the critic checks the prose for it.
 - Subagents run no git operations. This session owns commits, when the user asks for them.

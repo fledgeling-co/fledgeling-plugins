@@ -92,6 +92,14 @@ The corpus is the three Dossier panel reports exported into `docs/deep-research/
 
 **Consequence.** The skill stops after writing the bible and beat sheet when neither existed, and drafts prose only once the user has said the beat sheet stands.
 
+## E13. Influences are cards of observable habits, sourced, never remembered plots
+
+**Source.** A free Dossier local research loop (handle `dr_7dcc00535d2c820e`, 5 September 2026, four workers, 29 registered sources across 23 domains), which found author method statements (Howey on scenes as chapters; Stine on writing a chapter backwards from its fixed ending; Sawyer's one-viewpoint-per-scene rule; Gibson on condensing and the hook on every page; Scarrow on stripping profanity after the first draft; Applegate on pace and ghostwriting) and outlet reviews naming person, tense, paragraph and sentence habits (Publishers Weekly on Peace's one-sentence paragraphs and fragments; The Comics Journal on Kirkman's subtext-free dialogue; Language Log and Ben Blatt's counts on Rowling). Gaps recorded per author in the run: no peer-reviewed stylometry for eleven of the twelve, and no established-outlet review at all for Scarrow or Riddle. E11 (voice locking with rules plus a sample) is the rule this extends.
+
+**Finding.** What a review or an author can state about style is observable and countable: person, tense, chapter as scene, sentence fragments, dialogue share, the chapter-ending fake-out. What they do not state is a number for sentence length; the numeric bands on most cards are therefore absent, and the two that carry one (Peace, Luke) say where the number came from.
+
+**Consequence.** `references/influences.md` holds one card per author with person, tense, optional bands, three to five moves, borrow and leave lists, and the sources. `scripts/voice_card.py compose` merges a base card and up to three influences into the bible's `## Voice` section deterministically, base rule first then round robin; `voice_card.py check` measures a scene against the merged bands and fails outside them. A card carries no theme, plot or setting, and its leave list names the borrowed subject as the pastiche trap. A recall layer from a model trained on the books, when one is used, is marked as recall on the card and never cited as a source.
+
 ## Discarded options, with the reason
 
 - **An MCP lore server** (c5, Gemini report). The state files on disk read by a tool call are the same shape without a server process; the drafter reads one JSON file either way. Revisit if a story outgrows one directory.

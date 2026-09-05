@@ -6,7 +6,7 @@ The session that built it had one instruction and no user in the room, so two of
 
 ## What was verified mechanically
 
-Three self-test suites, each asserting both directions, because a gate that can't fail isn't a gate.
+Four self-test suites, each asserting both directions, because a gate that can't fail isn't a gate.
 
 ```
 $ python3 scripts/transition_audit.py --self-test
@@ -58,6 +58,27 @@ exit 0
 ```
 
 The narration checker was also run on the game project's existing five-part read-aloud script, which it passed with three warnings (consecutive tag-led sentences) and a duration range of 5.7 to 7.2 minutes for 1,004 spoken words.
+
+```
+$ python3 scripts/voice_card.py --self-test
+  pass  the catalogue parses two cards
+  pass  moves parse as a list
+  pass  compose emits a bands line
+  pass  overlapping bands intersect
+  pass  base person wins
+  pass  rules round-robin base first
+  pass  no sample warns in the block
+  pass  dialogue share is measured
+  pass  the fixture scene passes its bands
+  pass  a missing sample warns
+  pass  a long-sentence scene fails the band
+  pass  an unknown influence is refused
+
+all self-tests passed
+exit 0
+```
+
+The influence catalogue was built from a free Dossier local research loop (handle `dr_7dcc00535d2c820e`) run by four workers and a fact-checker, 29 registered sources across 23 domains, with the gaps recorded per author: no peer-reviewed stylometry exists for eleven of the twelve authors, and Scarrow and Riddle have no review in an established outlet at all, so their cards rest on author statements and blog reviews and say so. Composing Luke's base with Andy Weir and Hugh Howey produced a five-rule Voice section with the bands intersected and each rule naming its card.
 
 The audit demonstrated failing on a deliberately bad three-paragraph scene (a station platform, then a fish market, then a beacon described as *a testament to endurance*):
 
