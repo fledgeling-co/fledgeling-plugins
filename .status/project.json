@@ -1,13 +1,13 @@
 {
   "project": "fledgeling-plugins",
-  "updated": "2026-09-05T18:50:00+10:00",
+  "updated": "2026-09-05T19:25:00+10:00",
   "verdict": {
     "token": "needs-work",
     "number": "1 of 1",
     "unit": "plugin built, unevaluated",
-    "headline": "create-story has narration and author-influence layers; nothing has measured it against no skill.",
+    "headline": "create-story 1.1.0 is on main and pushed; nothing has measured it against no skill.",
     "run_label": "create-story build",
-    "head_sha": "35caf60"
+    "head_sha": "5694019"
   },
   "tasks": [
     {
@@ -100,12 +100,12 @@
     },
     {
       "id": "TL-7",
-      "title": "Merge plugin/create-story into main and push",
+      "title": "Merge into main and push (1.1.0)",
       "origin": "planned",
-      "stage": "not started",
-      "outcome": "stuck",
-      "blocked_by": "the user's say-so; nobody asked for a push",
-      "waiting_hours": 0
+      "stage": "being checked",
+      "outcome": "done",
+      "version": "5694019",
+      "note": "fast-forward, branch deleted; digest draft hook failed on missing site/node_modules, being re-run"
     }
   ],
   "gates": [
@@ -253,21 +253,6 @@
         90
       ],
       "median_min": 45
-    },
-    {
-      "round": "Ship",
-      "goal": "Merge the branch and push the marketplace",
-      "tasks": [
-        "TL-7"
-      ],
-      "tier": "S",
-      "status": "queued",
-      "waits_on": "the user",
-      "estimate_min": [
-        5,
-        15
-      ],
-      "median_min": 8
     }
   ],
   "estimate_remaining": {
@@ -328,9 +313,9 @@
     }
   ],
   "git": {
-    "branch": "plugin/create-story",
-    "commits_ahead": 4,
+    "branch": "main",
+    "commits_ahead": 0,
     "worktree_clean": true,
-    "pushed": false
+    "pushed": true
   }
 }
