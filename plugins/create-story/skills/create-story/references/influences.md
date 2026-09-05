@@ -59,7 +59,7 @@ moves:
 - Narrate as a log or journal entry when the frame allows: dated, first person, the narrator talking to a reader who is not there.
 - Humour is the narrator's default register, not a device laid on top; the joke arrives inside the technical sentence.
 - Every technical detail is carried by a line of wit so a general reader stays with it.
-- A flashback lands only when the reader is already asking the question it answers.
+- A flashback lands only when the reader is already asking the question it answers; in Project Hail Mary the present timeline is first-person present and the flashbacks first-person past, so the tense is the timeline marker.
 borrow:
 - the competence-under-pressure narrator who explains by doing
 - the flashback placed as an answer
@@ -70,6 +70,7 @@ sources:
 - Weir on Goodreads Q&A: "Originally I had it in mind for the whole book to be just his log entries."
 - Writer's Digest interview, 22 Jan 2018: "The humor is just my narration style."
 - Astronomy interview, 16 Mar 2026: "I tried to structure my flashbacks such that you are happy when they happen."
+- IGC Publishing review of Project Hail Mary, 27 Nov 2025: "written in first person present tense ... helped by the first person past tense flashbacks" (small-press outlet)
 
 ## Hugh Howey
 
@@ -91,6 +92,7 @@ sources:
 - Howey, "Questions about my process", 16 Mar 2012: "Then I'll make a list of scenes, which become my chapters."
 - Howey, "Writing insights part three", 24 Aug 2017: "Short paragraphs stand out – but only if used sparingly!"
 - The Astromech review of Wool, 3 Dec 2025: "He writes machinery, movement and physical danger particularly well."
+- Bookreporter excerpt of Wool's first page: "The children were playing while Holston climbed to his death; he could hear them" (close third, past); the rotation to Jahns, Juliette and Lukas rests on reader-level sources and is held loosely
 - bands: paragraph_max follows from Howey's three-to-seven-sentence paragraphs; the number is a judgement
 
 ## Alex Scarrow
@@ -117,7 +119,7 @@ sources:
 ## David Peace
 
 works: the Red Riding Quartet (1974, 1977, 1980, 1983)
-person: first
+person: any
 tense: past
 sentence_mean: 3-10
 paragraph_max: 60
@@ -126,6 +128,7 @@ moves:
 - Repeated leitmotif phrases that come back changed, the repetition doing the work a summary would.
 - Dialogue monosyllabic and abrupt, in the dialect of the place.
 - Interior monologue as the narration, no reflective pauses; the plot churns.
+- The narrating person is a per-strand choice: 1974 is one first-person narrator, 1977 alternates two by chapter, 1980 is one narrator with interpolated transmissions that shift person, and 1983 runs three strands, one of them in the second person.
 borrow:
 - the fragment as a unit of dread
 - the returning phrase
@@ -134,6 +137,8 @@ leave:
 sources:
 - Publishers Weekly review of 1974, 3 Jan 2000: "Peace's style is punchy and tough, replete with one-sentence paragraphs, partial sentences and a plenitude of f-words"; "The dialogue is monosyllabic, abrupt, and the plot churns with narrative adrenaline."
 - Irish Times, 26 May 2018: "the use of leitmotif and repetition, the power of terse one- and two-word sentences, terrifying interior monologues"
+- Penguin Random House page for Nineteen Eighty-Three, 9 Feb 2010: "With three separate narrators whose paths are on a collision course"
+- Publisher preview of 1974's opening page (AbeBooks listing): first person past, "'Yeah, thanks,' I said"; Vertigo essay (Terry Pitts, 2024) on 1977's alternating narrators and Hunter throughout 1980; a reader review and a Goodreads quote for 1983's second-person Piggott strand (held loosely, reader-level sources)
 - bands: sentence_mean and paragraph_max follow from the one-sentence paragraphs and one- and two-word sentences above; the ceiling is a judgement
 
 ## Robert J. Sawyer
@@ -201,7 +206,7 @@ tense: any
 moves:
 - Very short chapters, some only a snippet of dialogue or a news item, so that things are felt to happen at once in many places.
 - Viewpoint changes at the chapter boundary, never inside a chapter.
-- In a dual-narrator book, each chapter is headed with the narrator's name and both narrate in first person.
+- In a dual-narrator book, each chapter is headed with the narrator's name, both narrate in first person, and the tense is present.
 borrow:
 - the snippet chapter as a pacing device
 - the chapter heading as the viewpoint marker
@@ -211,7 +216,8 @@ sources:
 - Riddle on Goodreads Q&A: "I used short chapters to add a sense that things were happening rapidly and concurrently in many places."
 - BookRags study guide to The Atlantis Gene: "The viewpoint switches from chapter to chapter."
 - NetMassimo review of Winter World, 29 Nov 2023: "The story is told in the first person by the two protagonists"
-- Winter World's present tense rests on a single Goodreads reader status (20 Jun 2020) and is held loosely
+- Mythcreants, 13 Nov 2020, quoting Winter World's opening under the heading "Chapter 1, Emma": "The station jolts, throwing me into the wall. My head spins." (first person present, confirmed from the book's own text)
+- Gregg Borodaty review of Winter World, 2020: "Each chapter ping-pongs between the two main characters"
 
 ## J. K. Rowling
 
