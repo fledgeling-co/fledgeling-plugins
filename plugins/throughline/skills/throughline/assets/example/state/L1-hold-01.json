@@ -1,0 +1,25 @@
+{
+  "scene": "L1-hold-01",
+  "time": "night, just after the last train",
+  "location": "evac platform, back against the beacon post",
+  "characters": {
+    "Bisk": {
+      "position": "back against the beacon post, facing the tunnel mouth",
+      "holding": [],
+      "wants": "to hold the platform until dawn",
+      "feels": "steady on the surface, cold underneath",
+      "knows": ["the train has gone", "the infected click, then go silent to listen"]
+    }
+  },
+  "items": {
+    "beacon": {"where": "platform, behind Bisk", "status": "lit, fuel unknown"}
+  },
+  "open_threads": [
+    "the infected have not reached the platform",
+    "who set the beacon burning"
+  ],
+  "promises": [
+    {"setup": "the station voice has said 'you don't have to stay' before", "paid": false}
+  ],
+  "last_paragraph": "The train went. She heard it before she felt it, the rails singing under the platform, then the wind of it, then nothing but the beacon and the tunnel and the first click from the dark."
+}

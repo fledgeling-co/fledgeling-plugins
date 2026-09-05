@@ -1,0 +1,74 @@
+{
+  "story": "The Beacon (example)",
+  "scenes": [
+    {
+      "id": "L1-hold-01",
+      "title": "The beacon",
+      "pov": "Bisk",
+      "person": "third",
+      "tense": "past",
+      "location": "evac platform, tunnel mouth",
+      "time": "night, ten minutes before the last train",
+      "present": [
+        "Bisk"
+      ],
+      "also_present": [
+        "Station voice"
+      ],
+      "goal": "Bisk means to hold the platform so the evacuation completes",
+      "change": "the last train leaves without her",
+      "function": "dread settling into resolve",
+      "exit": {
+        "unresolved": [
+          "the infected have not reached the platform",
+          "who set the beacon burning"
+        ],
+        "tension": "higher",
+        "last_image": "the first click from the dark"
+      },
+      "words": {
+        "min": 150,
+        "max": 400
+      },
+      "hooks": {
+        "setups": [
+          "the station voice has said 'you don't have to stay' before"
+        ],
+        "payoffs": []
+      }
+    },
+    {
+      "id": "L1-hold-02",
+      "title": "First wave",
+      "pov": "Bisk",
+      "person": "third",
+      "tense": "past",
+      "location": "evac platform, tunnel mouth",
+      "time": "night, minutes after the train",
+      "present": [
+        "Bisk"
+      ],
+      "goal": "survive the first wave without leaving the beacon",
+      "change": "Bisk learns the infected stop at the light",
+      "function": "terror, then a working hypothesis",
+      "exit": {
+        "unresolved": [
+          "who set the beacon burning",
+          "whether the light holds when the fuel runs low"
+        ],
+        "tension": "same",
+        "last_image": "the beacon flame guttering once"
+      },
+      "words": {
+        "min": 500,
+        "max": 1000
+      },
+      "hooks": {
+        "setups": [],
+        "payoffs": [
+          "the station voice has said 'you don't have to stay' before"
+        ]
+      }
+    }
+  ]
+}

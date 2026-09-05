@@ -1,0 +1,40 @@
+{
+  "takes": {
+    "A2-spine": {
+      "source": "icon-A2-spine.svg",
+      "kind": "svg",
+      "source_sha256": "a8cc2442c35d3a7463daca0aa9ba5bed9994f71524f613d69ea206335887a2d8",
+      "source_mtime": 1788592930.02742,
+      "rendered_at": 1788592930.523137
+    },
+    "A3-weave": {
+      "source": "icon-A3-weave.svg",
+      "kind": "svg",
+      "source_sha256": "3ea6f98f8ec25dac2072a145f34ff518d93d20fa0a1a07a87cd58c2b20dc90fa",
+      "source_mtime": 1788592930.0616648,
+      "rendered_at": 1788592930.771878
+    },
+    "master": {
+      "source": "icon.png",
+      "kind": "png",
+      "source_sha256": "db84d9f3bfce85921ebda66301c18fe3a54fa4e49cf60fc63b04aa30b6bf3999",
+      "source_mtime": 1788592896.5475352,
+      "rendered_at": 1788592930.884717
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}
