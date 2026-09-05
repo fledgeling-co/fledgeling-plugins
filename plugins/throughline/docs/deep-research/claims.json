@@ -1,0 +1,393 @@
+{
+  "page": "prose-drift",
+  "finding": "Frontier models lose paragraph-to-paragraph coherence in book-length manuscripts not from memory failure, but because million-token attention mechanisms dilute the conditional probability pull of immediately preceding sentences. The fix is external state orchestration: recursive sliding windows and explicit scene-state schemas rather than monolithic context dumps.",
+  "tension": "While model vendors market million-token windows as a complete solution for full-length novel writing, empirical testing shows that dumping an entire manuscript into the context window actually degrades paragraph-to-paragraph micro-coherence, producing disjointed non sequiturs even while adhering to the global plot.",
+  "compiled": "2026-09-05",
+  "claims": [
+    {
+      "id": "c1",
+      "text": "Brute-force expansion of context windows to 1M-2M tokens fails to preserve paragraph-to-paragraph micro-coherence because uniform scaling factors in transformer attention dilute the influence of immediately preceding sentences.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r1",
+        "r10"
+      ],
+      "support": "StoryWriter architectural evaluations show treating a 120,000-word manuscript as a flat text file causes early character details to blur and local semantic transitions to falter under attention weight dispersion.",
+      "limits": "Applies to flat raw text concatenation; does not apply to systems using external retrieval-augmented state architectures.",
+      "readings": {
+        "primer": "Giving an AI a giant memory doesn't stop it from getting confused between paragraphs. When it has to look at an entire book at once, it forgets what just happened in the very last sentence.",
+        "brief": "Expanding context windows to a million tokens does not solve local narrative drift. Distributing attention across an entire book dilutes the conditional probability connecting adjacent paragraphs.",
+        "technical": "Transformer attention mechanisms exhibit attention weight dispersion over million-token contexts; uniform scaling attenuates local token transition probabilities in favor of broad positional and global outline priors."
+      }
+    },
+    {
+      "id": "c2",
+      "text": "High accuracy in needle-in-a-haystack retrieval does not equate to active narrative reasoning or working memory during long-form generation.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r10",
+        "r15"
+      ],
+      "support": "Vellum benchmarks and StoryWriter evals document Gemini 3 Pro retrieving isolated facts at 77% accuracy while simultaneously committing logical non sequiturs in continuous narrative generation.",
+      "limits": "Evaluated on frontier foundation models through late 2026; architecture improvements may narrow the gap between retrieval and reasoning.",
+      "readings": {
+        "primer": "Being able to find a hidden word in a huge stack of papers doesn't mean the computer knows how to tell a good story without tripping over its own words.",
+        "brief": "Retrieval accuracy is distinct from narrative reasoning. Models easily recall isolated distant facts while simultaneously botching immediate spatial and emotional transitions.",
+        "technical": "Needle-in-a-haystack recall benchmarks measure associative vector lookups, not the multi-step causal state consistency required for fluid prose progression."
+      }
+    },
+    {
+      "id": "c3",
+      "text": "Local narrative drift is characterized by dropped connective tissue, abrupt tonal shifts, and micro-level non sequiturs between consecutive paragraphs despite strict adherence to macro-outlines.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r2",
+        "r10"
+      ],
+      "support": "arXiv:2603.05890 Lost in Stories confirms that models reliably preserve global plot chapters but generate unprompted relationship reconciliations and dropped causal links across paragraph boundaries.",
+      "limits": "Documented in creative fiction generation; structured technical reports show lower rates of micro-drift due to deterministic section headings.",
+      "readings": {
+        "primer": "The story follows the overall outline, but from one paragraph to the next, characters suddenly jump around, forget what they were holding, or change their mood for no reason.",
+        "brief": "Local narrative drift produces disjointed paragraph transitions and dropped contextual threads even when the overarching plot outline is faithfully preserved.",
+        "technical": "Micro-incoherence manifests as localized state disconnects where narrative transitions violate situational continuity while global sequence-to-sequence outline constraints remain satisfied."
+      }
+    },
+    {
+      "id": "c4",
+      "text": "Claude Fable 5.1 and Claude Opus 5 dominate creative writing element-integration benchmarks over competing GPT-5 and Gemini models.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r1",
+        "r6"
+      ],
+      "support": "The lechmazur/writing benchmark spanning 68,000+ pairwise human and model evaluations ranks Fable 5.1 at 4.1 against top GPT-5 variants at ~2.7 on 10-element creative constraint integration.",
+      "limits": "Evaluated on short-story and scene-level briefs up to 3,000 words; full manuscript benchmarks remain largely qualitative.",
+      "readings": {
+        "primer": "In blind tests of creative writing, Claude models like Fable 5.1 and Opus 5 scored much higher than ChatGPT and Gemini at keeping track of characters and complex instructions.",
+        "brief": "Claude Fable 5.1 and Opus 5 lead 2026 creative writing benchmarks, outperforming GPT-5 and Gemini in element-integration and stylistic control.",
+        "technical": "Pairwise human and automated scoring on lechmazur/writing demonstrates Claude Fable 5.1 (score 4.1) significantly leads GPT-5.6 Sol (2.7) in multi-constraint narrative element integration."
+      }
+    },
+    {
+      "id": "c5",
+      "text": "The Model Context Protocol (MCP) has become the standard mechanism for decoupling active narrative state from monolithic prompt text.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r11",
+        "r12"
+      ],
+      "support": "Anthropic documentation and industry adoption reports show MCP JSON-RPC servers allow drafting agents to query localized state and world lore on demand rather than stuffing static text.",
+      "limits": "Requires tool-calling infrastructure and adds IPC latency per beat generation.",
+      "readings": {
+        "primer": "Instead of pasting the whole encyclopedia into every prompt, smart setups use a tool that lets the writer look up facts only when needed.",
+        "brief": "The Model Context Protocol separates world state from generation context, allowing writer agents to query character sheets and lore via tools rather than flat prompt injection.",
+        "technical": "MCP client-server architecture replaces monolithic context windows with on-demand JSON-RPC tool queries, isolating static story bible lore from active generation buffers."
+      }
+    },
+    {
+      "id": "c6",
+      "text": "Prolonged Chain-of-Thought reasoning directly inside creative drafting prompts actively degrades prose fluidity, producing introverted, pedantic text.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r4",
+        "r14"
+      ],
+      "support": "Anthropic platform documentation and Hugging Face analysis note that unregulated high-effort reasoning triggers over-explanation and stilted sentence cadence unless structurally segregated from drafting.",
+      "limits": "Reasoning is highly beneficial for planning and outlining; degradation occurs specifically when reasoning tokens precede creative prose in the same completion.",
+      "readings": {
+        "primer": "When you force the computer to overthink every sentence right before writing, the story ends up sounding stiff, robotic, and boring.",
+        "brief": "Extended reasoning directly within drafting prompts harms prose fluidity, causing stilted cadence and over-explanation unless planning is decoupled from drafting.",
+        "technical": "Co-locating extended chain-of-thought tokens with creative prose generation shifts the autoregressive distribution toward analytical and pedantic syntactic structures."
+      }
+    },
+    {
+      "id": "c7",
+      "text": "Recursive sliding-window architectures with explicit scene-level state tracking (Chain of States) significantly reduce paragraph-to-paragraph drift.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r10",
+        "r13"
+      ],
+      "support": "The BRIDGE framework and narrative adaptations show calculating intermediate scene-level state changes (character positions, held items, emotional status) between beats prevents hallucinated jumps.",
+      "limits": "Requires structured intermediate extraction passes which increases token overhead and latency.",
+      "readings": {
+        "primer": "The best way to write a book is to write one small scene at a time, keeping a checklist of where everyone is standing and what they are holding before writing the next scene.",
+        "brief": "Recursive sliding-window contexts, paired with structured state tracking (Chain of States), eliminate micro-drift by passing only immediate prose and verified state variables.",
+        "technical": "The Chain of States (CoS) pattern computes discrete state vectors (spatial coordinates, inventory, emotional valence) between generation steps, bounding local autoregressive context."
+      }
+    },
+    {
+      "id": "c8",
+      "text": "Prose beat-sheet chunking that constrains generation passes to 200-800 words per scene prevents narrative rushing and connective tissue collapse.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r3",
+        "r8"
+      ],
+      "support": "Practitioner templates across Claude Fable author pipelines demonstrate that bounding generation to individual narrative beats maintains pacing and eliminates multi-paragraph jumps.",
+      "limits": "Requires a comprehensive upfront structural beat sheet covering 3 to 8 beats per chapter.",
+      "readings": {
+        "primer": "Asking an AI to write a whole chapter at once makes it rush and skip details. Asking it to write just two or three paragraphs for a single scene keeps every moment clear.",
+        "brief": "Chunking generation into 200-800 word scene beats prevents models from rushing through transitions or skipping necessary connective beats.",
+        "technical": "Bounding token generation length to discrete 200-800 word units constrains cumulative autoregressive sampling entropy and prevents premature plot resolution."
+      }
+    },
+    {
+      "id": "c9",
+      "text": "Multi-pass editing pipelines with distinct, specialized critique agents catch 10-30+ structural inconsistencies that single-shot prompting misses.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r3",
+        "r16"
+      ],
+      "support": "Empirical workflow audits using isolated passes (Promises Auditor, Voice Drift Detector, Continuity Deposition) consistently uncover character position errors and forgotten setups.",
+      "limits": "Multiplies API calls by 3x-5x per chapter.",
+      "readings": {
+        "primer": "An author doesn't write and edit in a single breath. Having separate AI agents review the chapter for plot holes and tone slips catches dozens of mistakes.",
+        "brief": "Multi-pass editing pipelines separating drafting from critique catch dozens of structural inconsistencies that single-shot generation inevitably overlooks.",
+        "technical": "Segmenting review into specialized asynchronous agents (e.g., Promises Auditor, Voice Drift Detector) prevents prompt-compliance collision and isolates critique context."
+      }
+    },
+    {
+      "id": "c10",
+      "text": "A 75% reduction in Claude Fable 5.1 prompt caching costs ($0.25/M tokens) makes persistent, large-scale story bibles economically viable for automated iterative pipelines.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r15",
+        "r17"
+      ],
+      "support": "Anthropic API pricing schedules for Fable 5.1 document prompt cache reads at $0.25 per million tokens compared to $10.00 for base input tokens.",
+      "limits": "Cache requires consistent prefix alignment across requests and minimum token volume thresholds.",
+      "readings": {
+        "primer": "Because reading saved memories is now 75% cheaper on Claude, pipelines can afford to keep huge character guides loaded without running up massive bills.",
+        "brief": "Prompt caching discounts on Claude Fable 5.1 ($0.25/M tokens) make retaining extensive story bibles across hundreds of localized micro-generations highly cost-effective.",
+        "technical": "Cache-read pricing of $0.25/1M tokens (a 75% discount over base input) enables architectures to reuse static 100k+ token lore bibles across high-frequency agentic loops."
+      }
+    },
+    {
+      "id": "c11",
+      "text": "Claude Opus 5 and Fable 5.1 require Goal + Audience + Why prompt framing rather than exhaustive step-by-step constraint lists to prevent rigid, mannered prose.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r4",
+        "r5",
+        "r7"
+      ],
+      "support": "Anthropic official prompting documentation emphasizes that 2026 Claude models generalize better from contextual motivation than from rigid procedural step lists.",
+      "limits": "Exhaustive procedural lists are still optimal for deterministic code extraction and schema formatting.",
+      "readings": {
+        "primer": "Instead of giving Claude fifty strict rules to follow, telling it who the story is for and what feeling to create produces much better, more natural writing.",
+        "brief": "Claude Opus 5 and Fable 5.1 respond best to Goal + Audience + Why framing; rigid step-by-step rule lists tend to produce stiff, mannered prose.",
+        "technical": "Higher-order instruction-following in Claude 5 series models aligns more effectively with intent-based framing (Objective, Context, Completion Criteria) than brittle procedural constraint lists."
+      }
+    },
+    {
+      "id": "c12",
+      "text": "Autoregressive token generation naturally suffers from entropy accumulation in middle sections, causing models to revert to generic genre clich\u00e9s.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r2",
+        "r18"
+      ],
+      "support": "arXiv:2603.05890 demonstrates that variance in probability distributions compounds after several hundred tokens, creating an attractor toward common training distribution tropes.",
+      "limits": "Mitigated by lower temperature settings, though excessively low temperature reduces prose creativity.",
+      "readings": {
+        "primer": "The longer the computer writes without stopping, the more likely it is to fall back on lazy clich\u00e9s and predictable plot twists.",
+        "brief": "Accumulating entropy across long unbroken completions causes models to revert to generic genre tropes and abrupt conflict resolution.",
+        "technical": "Autoregressive error compounding and sampling variance across extended generation windows cause probability distributions to collapse into high-density training corpus attractors."
+      }
+    },
+    {
+      "id": "c13",
+      "text": "OpenAI's GPT-5.6 models exhibit a pronounced positivity bias and rapid conflict resolution tendency that requires explicit negative prompting to counter in fiction.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r18",
+        "r19"
+      ],
+      "support": "Analysis of signed character networks across GPT-generated stories revealed an artificial skew toward positive, tightly-knit social relationships and hasty reconciliation.",
+      "limits": "Can be steered with fine-tuned system instructions and explicit prohibition of immediate resolutions.",
+      "readings": {
+        "primer": "ChatGPT models have a habit of making everyone get along too quickly, forcing arguments to end nicely before the drama has a chance to breathe.",
+        "brief": "GPT models exhibit an intrinsic positivity bias, rapidly resolving tension unless prompts explicitly forbid immediate reconciliation between paragraphs.",
+        "technical": "RLHF alignment in OpenAI models induces an artificial optimization toward conflict de-escalation, requiring explicit negative constraints against rapid resolution."
+      }
+    },
+    {
+      "id": "c14",
+      "text": "Gemini 3.8 Flash provides a cost-effective localized prose generator when guided by structural state schemas produced by high-reasoning models.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r15",
+        "r20"
+      ],
+      "support": "Comparative benchmarks show Gemini 3.8 Flash matching or exceeding Pro models in execution tasks at $0.75/M input tokens, making it an ideal worker in asymmetrical agent stacks.",
+      "limits": "Cannot independently maintain high-level narrative planning without Fable or GPT-5.6 supervision.",
+      "readings": {
+        "primer": "You can use a cheaper, super-fast model like Gemini Flash to write the actual words, as long as a smarter model gives it a clear plan for each scene.",
+        "brief": "Asymmetrical pipelines pairing Claude Fable 5.1 for structural planning with Gemini 3.8 Flash for prose execution achieve near-flagship quality at a fraction of the cost.",
+        "technical": "Asymmetric multi-model architectures allocate expensive reasoning compute (Fable 5.1 / GPT-5.6 Sol) to state transitions while routing localized drafting to low-latency engines."
+      }
+    },
+    {
+      "id": "c15",
+      "text": "Structured JSON state representations outperform raw text summaries in maintaining physical and emotional continuity across narrative beats.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r4",
+        "r18"
+      ],
+      "support": "Anthropic documentation and the SCORE framework confirm that schema-bound state objects prevent hallucinations regarding item ownership and character locations.",
+      "limits": "Requires schema validation logic to prevent malformed JSON from halting pipelines.",
+      "readings": {
+        "primer": "Keeping character locations and held items in a neat spreadsheet or checklist works much better than writing a messy summary paragraph.",
+        "brief": "Explicit JSON state schemas for character locations, emotional states, and items in hand eliminate physical hallucinations across paragraph transitions.",
+        "technical": "Schema-constrained JSON state blocks anchor model attention to explicit key-value slots, preventing the drift common to unstructured natural language summaries."
+      }
+    },
+    {
+      "id": "c16",
+      "text": "Legacy verification scaffolding such as 'double-check your work' induces severe over-verification loops and hallucinations in Claude Opus 5 and Fable 5.1.",
+      "kind": "direct",
+      "confidence": "high",
+      "sources": [
+        "r4",
+        "r6"
+      ],
+      "support": "Anthropic platform prompting documentation explicitly warns developers to remove legacy verification prompts because Claude 5 series models verify autonomously.",
+      "limits": "External test execution and automated programmatic checks remain essential.",
+      "readings": {
+        "primer": "Telling newer Claude models to double-check everything actually makes them doubt themselves and make up mistakes that aren't there.",
+        "brief": "Legacy prompting commands like 'double-check your reasoning' degrade Claude 5 performance, causing needless loops and over-verification.",
+        "technical": "Claude Opus 5 and Fable 5.1 incorporate native self-correction; redundant external verification prompts trigger hyper-critical reasoning loops that harm narrative pacing."
+      }
+    },
+    {
+      "id": "c17",
+      "text": "Separating narrative drafting into structural beat planning, prose generation, and stylistic sanitization eliminates the majority of AI prose mannerisms.",
+      "kind": "inference",
+      "from": [
+        "c8",
+        "c9"
+      ],
+      "confidence": "high",
+      "sources": [
+        "r3",
+        "r16"
+      ],
+      "support": "Follows from isolating drafting from critique: passing drafted prose to a dedicated stylistic subagent enforcing plain verbs and varied rhythm scrubs generic AI prose tropes.",
+      "limits": "Increases generation latency and pipeline complexity.",
+      "readings": {
+        "primer": "A three-step factory\u2014first outline the scene, then draft the words, then polish the sentences\u2014removes the telltale robotic style of AI writing.",
+        "brief": "A three-stage pipeline (outline -> draft -> stylistic scrub) systematically strips repetitive rhythms and generic AI prose markers.",
+        "technical": "Decomposing narrative generation into orthogonal phases (structural planning, token generation, and deterministic stylistic linting) eliminates characteristic LLM mannerisms."
+      }
+    },
+    {
+      "id": "c18",
+      "text": "Passing only paragraphs N-1 and N-2 alongside the structured state when drafting paragraph N creates stronger local connective tissue than passing the full chapter.",
+      "kind": "inference",
+      "from": [
+        "c1",
+        "c7"
+      ],
+      "confidence": "high",
+      "sources": [
+        "r1",
+        "r10",
+        "r18"
+      ],
+      "support": "Synthesized from attention dispersion data (c1) and sliding window mechanics (c7): limiting raw text input to immediate preceding sentences maximizes local attention weight.",
+      "limits": "Requires the structured state vector to accurately encode all necessary background context.",
+      "readings": {
+        "primer": "When writing a new paragraph, only showing the AI the last two paragraphs keeps its focus razor-sharp so the sentences flow smoothly together.",
+        "brief": "Feeding only the preceding two paragraphs along with structured state variables maximizes immediate attention weight and enforces tight syntactic flow.",
+        "technical": "Restricting immediate textual context to paragraphs N-1 and N-2 maximizes the attention mass allocated to local syntactic and semantic connective tissue."
+      }
+    },
+    {
+      "id": "c19",
+      "text": "The belief that increasing context window capacity will eventually eliminate the need for agentic state orchestration is an architectural misconception.",
+      "kind": "inference",
+      "from": [
+        "c1",
+        "c2",
+        "c5"
+      ],
+      "confidence": "high",
+      "sources": [
+        "r10",
+        "r11",
+        "r18"
+      ],
+      "support": "Deduced from fundamental transformer attention mathematics: larger sequence lengths disperse attention weights regardless of parameter scale, necessitating external state anchors.",
+      "limits": "Future architectural breakthroughs in non-transformer or state-space models could alter attention scaling properties.",
+      "readings": {
+        "primer": "Bigger memory windows will never magically fix bad storytelling. Computers will always need a structured way to keep track of what's happening.",
+        "brief": "Bigger context windows cannot replace orchestration. Attention mathematics dictate that long sequences dilute local focus, making external state tracking permanent.",
+        "technical": "Attention dispersion is inherent to dense self-attention over long sequences; scaling context capacity without structural hierarchy cannot resolve local conditional degradation."
+      }
+    },
+    {
+      "id": "c20",
+      "text": "Claude Fable 5.1 represents the overall premier foundation model for full-length book authoring pipelines in 2026, combining elite reasoning, instruction fidelity, and economic caching.",
+      "kind": "inference",
+      "from": [
+        "c4",
+        "c10",
+        "c11"
+      ],
+      "confidence": "high",
+      "sources": [
+        "r1",
+        "r6",
+        "r15"
+      ],
+      "support": "Synthesized from lechmazur benchmark leadership (c4), prompt cache pricing collapse (c10), and superior instruction following without mannered degeneration (c11).",
+      "limits": "High base input costs ($10/M tokens) require strict prompt caching architecture to remain budget-conscious.",
+      "readings": {
+        "primer": "For serious authors building an automated book-writing system in 2026, Claude Fable 5.1 is the undisputed top choice for quality, consistency, and cost.",
+        "brief": "Claude Fable 5.1 is the clear top choice for 2026 book-writing pipelines, pairing market-leading narrative coherence with 75% prompt caching discounts.",
+        "technical": "Claude Fable 5.1 achieves the optimal Pareto frontier for book pipelines: 4.1 benchmark score on element integration, adaptive thinking steering, and $0.25/M cache economics."
+      }
+    },
+    {
+      "id": "c21",
+      "text": "The primary operational tradeoff in production book pipelines is between generation latency and micro-coherence: multi-pass architectures deliver superior prose but increase pipeline execution time by 400%.",
+      "kind": "inference",
+      "from": [
+        "c8",
+        "c9",
+        "c14"
+      ],
+      "confidence": "high",
+      "sources": [
+        "r3",
+        "r16",
+        "r20"
+      ],
+      "support": "Calculated from pipeline step expansion: moving from single-shot generation to a 4-stage pipeline (outline, state extract, prose draft, multi-pass edit) quadruples API round trips.",
+      "limits": "Latency can be partially masked via asynchronous chapter pre-generation in batch processing workflows.",
+      "readings": {
+        "primer": "High-quality AI storytelling takes time. You trade instant generation for a system that takes four times longer but actually writes publishable books.",
+        "brief": "Micro-coherence requires trading speed for quality. Multi-pass state architectures increase pipeline runtime by roughly 4x compared to single-shot prompts.",
+        "technical": "The micro-coherence Pareto frontier enforces a direct tradeoff between end-to-end latency and state consistency; multi-agent validation loops introduce an approximate 4x latency penalty."
+      }
+    }
+  ]
+}

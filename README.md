@@ -143,6 +143,14 @@ Draws the chart or the diagram, and can prove the result rather than asking you 
 
 <br clear="left" />
 
+<a href="plugins/throughline/README.md"><img src="plugins/throughline/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [throughline](plugins/throughline/README.md)
+
+For long fiction. Claude keeps the plot and loses the thread: the second paragraph of a scene reads as though the first was a vague memory. This drafts one scene at a time from a scripted pack the drafter cannot widen, fails a scene where a paragraph shares nothing with the one before it, and has a fresh reader check that nobody made up too early.
+
+<br clear="left" />
+
 <a href="plugins/ux-craft/README.md"><img src="plugins/ux-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [ux-craft](plugins/ux-craft/README.md)

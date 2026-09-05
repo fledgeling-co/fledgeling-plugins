@@ -609,6 +609,17 @@
       },
       "source": "./plugins/status-update",
       "category": "development"
+    },
+    {
+      "name": "throughline",
+      "description": "Write long-form fiction whose paragraphs connect. A story bible, a beat sheet and a per-scene exit state carry the story between scenes; a script assembles the drafter's whole context (bible sections, entry state, beat card, the last two paragraphs) so the window cannot widen; a transition audit fails a scene with an orphan paragraph; and a fresh-context critic reads what the drafter cannot. Built from three deep-research reports on why models keep the plot and lose the thread.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/throughline",
+      "category": "development"
     }
   ]
 }
