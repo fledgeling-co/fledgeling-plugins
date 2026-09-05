@@ -1,0 +1,1972 @@
+<title>webhook-relay — project report</title>
+<style>
+/* ============================================================================
+   Project report — one project, ten zones.
+
+   Ground: cool bone in light, near-black slate in dark, drawn from terminal
+   themes rather than from a product palette. Colour is spent on the six states
+   and nothing else, and the ember accent belongs to one idea only — a check
+   nobody has proved can fail, and work nobody has looked at.
+
+   Type: Iowan Old Style (display) · Seravek (interface) · SF Mono (numbers and
+   paths). All present on macOS; each stack names a generic fallback. Nothing
+   is fetched.
+   ========================================================================== */
+
+:root {
+  /* ground and plates */
+  --ground:   #E5E5DF;
+  --plate:    #F2F2ED;
+  --plate-2:  #EAEAE4;
+  --plate-3:  #DCDCD6;
+  --rule:     #CBCBC3;
+  --rule-2:   #A8A89F;
+
+  /* ink */
+  --ink:      #16171A;
+  --ink-2:    #3D4147;
+  --ink-3:    #62666C;
+
+  /* the six states — closed set, each always carrying a glyph and a word */
+  --pass:     #2C6B3D;  --pass-bg:    #CEE0D1;
+  --active:   #175492;  --active-bg:  #CCDCE8;
+  --fail:     #A32C26;  --fail-bg:    #EFD1CD;
+  --blocked:  #643D8E;  --blocked-bg: #DDD1EB;
+  --alarm:    #A8500E;  --alarm-bg:   #F0DCC5;
+  --muted:    #5A605C;  --muted-bg:   #DEDFD9;
+
+  --focus:    #175492;
+  --sel-bg:   #CCDCE8;
+
+  /* type */
+  --font-display: "Iowan Old Style", "Athelas", "Hoefler Text", Georgia, serif;
+  --font-ui:      "Seravek", "Avenir Next", Optima, "Gill Sans", sans-serif;
+  --font-mono:    "SF Mono", Menlo, Monaco, "Andale Mono", monospace;
+
+  --t-11: 11px; --t-12: 12px; --t-13: 13px; --t-14: 14px;
+  --t-16: 16px; --t-18: 18px; --t-20: 20px; --t-24: 24px;
+  --t-hero: clamp(40px, 7vw, 72px);
+
+  /* space */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+
+  --radius: 3px;
+  --edge:   3px;
+  --hair:   1px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground:   #131417;
+    --plate:    #191B1F;
+    --plate-2:  #1F2126;
+    --plate-3:  #262930;
+    --rule:     #2E323A;
+    --rule-2:   #454B54;
+
+    --ink:      #E8E8E2;
+    --ink-2:    #A7ACAA;
+    --ink-3:    #848A87;
+
+    --pass:     #7EBE8A;  --pass-bg:    #1D3222;
+    --active:   #6FB0DE;  --active-bg:  #152F3E;
+    --fail:     #E8897F;  --fail-bg:    #3A1E1B;
+    --blocked:  #B79BE8;  --blocked-bg: #291E3C;
+    --alarm:    #E39A45;  --alarm-bg:   #37280F;
+    --muted:    #8A918B;  --muted-bg:   #232922;
+
+    --focus:    #6FB0DE;
+    --sel-bg:   #152F3E;
+  }
+}
+
+/* ---------- base ---------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--t-14);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--sel-bg); color: var(--ink); }
+::-webkit-scrollbar { height: 10px; width: 10px; }
+::-webkit-scrollbar-track { background: var(--plate-2); }
+::-webkit-scrollbar-thumb { background: var(--rule-2); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 1px; }
+
+a { color: var(--ink); text-decoration: underline;
+    text-decoration-color: var(--rule-2); text-underline-offset: 3px;
+    text-decoration-thickness: 1px; }
+a:hover { color: var(--focus); text-decoration-color: var(--focus); }
+a:active { opacity: .72; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+           overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.mono { font-family: var(--font-mono); font-size: var(--t-12);
+        font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.num  { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.absent { color: var(--ink-3); font-style: italic; }
+
+/* A term and its one-clause definition travel together. */
+dfn { font-style: normal; }
+.gloss { display: block; margin-top: 3px; max-width: 34ch;
+         font-size: var(--t-11); line-height: 1.35; color: var(--ink-3);
+         text-transform: none; letter-spacing: 0; font-weight: 400; }
+
+.shell { max-width: 1200px; margin: 0 auto; padding: var(--s-6) var(--s-5) var(--s-8); }
+
+/* ---------- masthead ------------------------------------------------------ */
+
+.masthead { display: flex; flex-wrap: wrap; align-items: baseline;
+            gap: var(--s-2) var(--s-5); padding-bottom: var(--s-3);
+            border-bottom: var(--hair) solid var(--rule-2); }
+.masthead .kicker { font-size: var(--t-11); text-transform: uppercase;
+                    letter-spacing: .16em; color: var(--ink-3); }
+.masthead h1 { margin: 0; font-family: var(--font-display); font-size: var(--t-24);
+               font-weight: 600; letter-spacing: -.01em; }
+.masthead .stamp { margin-left: auto; color: var(--ink-2); }
+
+/* ---------- 01 · the hero -------------------------------------------------- */
+
+.hero { padding: var(--s-2) 0 var(--s-2) var(--s-5);
+        border-left: var(--edge) solid var(--rule-2);
+        display: grid; grid-template-columns: minmax(0, 1fr) auto;
+        gap: var(--s-4) var(--s-6); align-items: end; }
+.hero.s-edge-done       { border-left-color: var(--pass); }
+.hero.s-edge-in-flight  { border-left-color: var(--active); }
+.hero.s-edge-needs-work { border-left-color: var(--fail); }
+.hero.s-edge-blocked    { border-left-color: var(--blocked); }
+.hero.s-edge-unmeasured { border-left-color: var(--alarm); }
+.hero.s-edge-waived     { border-left-color: var(--muted); }
+.hero-main { min-width: 0; }
+.hero-number { margin: var(--s-3) 0 0; font-family: var(--font-display);
+               font-size: var(--t-hero); line-height: 1; letter-spacing: -.03em;
+               font-variant-numeric: lining-nums; }
+.hero-unit { margin: var(--s-1) 0 0; font-size: var(--t-16); color: var(--ink-2);
+             letter-spacing: .01em; }
+.hero-line { margin: var(--s-4) 0 0; font-size: var(--t-16); color: var(--ink-2);
+             max-width: 52ch; text-wrap: pretty; }
+.hero-meta { display: grid; gap: var(--s-4); justify-items: start; align-content: end;
+             margin: 0; max-width: 34ch; }
+.hero-meta dt { font-size: var(--t-11); text-transform: uppercase; letter-spacing: .14em;
+                color: var(--ink-3); font-weight: 600; }
+.hero-meta dd { margin: var(--s-1) 0 0; font-size: var(--t-14); }
+
+.meter { margin-top: var(--s-5); max-width: 420px; }
+.meter-track { height: 8px; background: var(--plate-3);
+               border: var(--hair) solid var(--rule); border-radius: 1px; overflow: hidden; }
+.meter-fill { display: block; height: 100%; background: var(--ink); }
+.meter-cap { display: block; margin-top: var(--s-2); font-size: var(--t-12); color: var(--ink-3); }
+.meter-cap b { font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+               color: var(--ink); font-weight: 600; }
+
+@media (max-width: 760px) {
+  .hero { grid-template-columns: minmax(0, 1fr); padding-left: var(--s-4); }
+  .hero-meta { grid-template-columns: repeat(2, auto); gap: var(--s-4) var(--s-5); }
+}
+
+/* ---------- toolbar -------------------------------------------------------- */
+
+.toolbar { position: sticky; top: 0; z-index: 20; display: flex; flex-wrap: wrap;
+           align-items: center; gap: var(--s-3) var(--s-4);
+           margin: var(--s-5) 0; padding: var(--s-2) var(--s-3);
+           background: var(--plate-3); border: var(--hair) solid var(--rule);
+           border-radius: var(--radius); }
+.toolbar-label { font-size: var(--t-11); text-transform: uppercase;
+                 letter-spacing: .14em; color: var(--ink-3); }
+.segment { display: inline-flex; border: var(--hair) solid var(--rule-2);
+           border-radius: var(--radius); overflow: hidden; }
+.segment button, .toggle {
+  font: inherit; font-size: var(--t-13); line-height: 20px; padding: 4px 12px;
+  white-space: nowrap; background: var(--plate); color: var(--ink-2); cursor: pointer;
+  transition: background .22s ease, color .22s ease, border-color .22s ease;
+}
+.segment button { border: 0; border-right: var(--hair) solid var(--rule-2); }
+.segment button:last-child { border-right: 0; }
+.segment button:focus-visible { outline-offset: -3px; }
+.segment button:hover, .toggle:hover:not(:disabled) { background: var(--plate-2); color: var(--ink); }
+.segment button:active, .toggle:active:not(:disabled) { background: var(--plate-3); }
+.segment button[aria-pressed="true"] { background: var(--ink); color: var(--plate); font-weight: 600; }
+.toggle { border: var(--hair) solid var(--rule-2); border-radius: var(--radius);
+          display: inline-flex; align-items: center; gap: var(--s-2); }
+.toggle::before { content: ""; width: 9px; height: 9px; border: var(--hair) solid currentColor;
+                  border-radius: 1px; background: transparent; transition: background .22s ease; }
+.toggle[aria-pressed="true"] { color: var(--ink); border-color: var(--ink-3); }
+.toggle[aria-pressed="true"]::before { background: currentColor; }
+.toggle:disabled { opacity: .45; cursor: not-allowed; }
+.toolbar-status { margin: 0 0 0 auto; font-size: var(--t-12); color: var(--ink-3); }
+
+/* ---------- zones ---------------------------------------------------------- */
+
+.zone { position: relative; z-index: 0; margin-bottom: var(--s-5); background: var(--plate);
+        border: var(--hair) solid var(--rule); border-radius: var(--radius); }
+.zone-hd { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-3);
+           padding: var(--s-3) var(--s-4); background: var(--plate-2);
+           border-bottom: var(--hair) solid var(--rule);
+           border-radius: var(--radius) var(--radius) 0 0; }
+.zone-no { font-family: var(--font-mono); font-size: var(--t-12); color: var(--ink-3); }
+.zone-hd h2 { margin: 0; font-family: var(--font-display); font-size: var(--t-18);
+              font-weight: 600; letter-spacing: -.005em; }
+.zone-note { margin: 0; flex: 1 1 26ch; max-width: 62ch;
+             font-size: var(--t-13); color: var(--ink-2); text-wrap: pretty; }
+.zone-body { padding: var(--s-4); }
+.zone-empty { margin: 0; padding: var(--s-5) 0; color: var(--ink-2); font-size: var(--t-13); }
+.zone-empty .mark { font-family: var(--font-mono); font-size: var(--t-11);
+                    text-transform: uppercase; letter-spacing: .1em; color: var(--ink-3);
+                    margin-right: var(--s-2); }
+.scroll { overflow-x: auto; }
+
+/* ---------- charts --------------------------------------------------------- */
+
+.chart { display: block; width: 100%; height: auto; }
+.chart text { font-family: var(--font-ui); }
+
+.c-eyebrow { font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+             letter-spacing: .18em; fill: var(--ink-3); }
+.c-eyebrow.is-thr { fill: var(--ink); }
+.c-name    { font-size: 12px; font-weight: 600; fill: var(--ink); }
+.c-name.is-flat { fill: var(--alarm); }
+.c-cell    { font-size: 14px; font-weight: 600; fill: var(--ink); }
+.c-value, .c-tick, .c-blank {
+  font-family: var(--font-mono); font-size: 10px; fill: var(--ink-3);
+  font-variant-numeric: tabular-nums; }
+.c-value.is-flat { fill: var(--alarm); font-weight: 700; }
+.c-tick.is-thr { fill: var(--ink); font-weight: 600; }
+.c-blank { fill: var(--alarm); }
+.c-legend  { font-size: 10px; fill: var(--ink-2); }
+.c-source  { font-family: var(--font-mono); font-size: 9px; letter-spacing: .06em;
+             fill: var(--ink-3); }
+.c-mark    { font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+             letter-spacing: .06em; fill: var(--ink); }
+
+.grid       { stroke: var(--ink); stroke-width: .8; }
+.band-rule  { stroke: var(--ink); stroke-width: 1; }
+.axis       { stroke: var(--ink); stroke-width: 1; }
+.rule-legend{ stroke: var(--ink); stroke-width: 1; }
+.leader     { stroke: var(--ink); stroke-width: .8; }
+.mask       { fill: var(--plate); }
+.thr        { stroke: var(--ink); stroke-width: 1.4; }
+.bar-cap    { stroke: var(--ink); stroke-width: 2; }
+
+/* Sankey */
+.sk-node { fill: var(--ink); }
+.sk-flow { fill: var(--ink); }
+.sk-flow-focal { fill: var(--alarm); }
+
+/* Bars */
+.bar { stroke: var(--plate); stroke-width: 1; }
+.bar.s-pass    { fill: var(--pass); }
+.bar.s-active  { fill: var(--active); }
+.bar.s-fail    { fill: var(--fail); }
+.bar.s-blocked { fill: var(--blocked); }
+.bar.s-alarm   { fill: var(--alarm); }
+.bar.s-muted   { fill: var(--muted); }
+.blank-rule { stroke: var(--alarm); stroke-width: 2; stroke-dasharray: 3 5; stroke-linecap: round; }
+
+/* Dumbbell — the pair separates by fill weight, so it survives greyscale */
+.db-conn  { stroke: var(--ink); stroke-width: 1; }
+.db-ref   { fill: var(--plate); stroke: var(--ink-3); stroke-width: 1.5; }
+.db-focal { fill: var(--alarm); stroke: var(--ink); stroke-width: 1; }
+.db-focal.is-flat { fill: var(--alarm); stroke: var(--alarm); stroke-width: 2.5; }
+.db-halo { fill: none; stroke: var(--alarm); stroke-width: 1.5; }
+.row-alarm { fill: var(--alarm); }
+
+/* Beeswarm */
+.bs-dot { fill: var(--ink); stroke: var(--ink-3); stroke-width: .75; }
+.bs-dot.is-focal { fill: var(--alarm); stroke: var(--ink); stroke-width: 1.2; }
+
+/* Slopegraph */
+.sl-line { stroke: var(--ink); stroke-width: 1.2; }
+.sl-line.is-focal { stroke: var(--alarm); stroke-width: 2.4; }
+.sl-dot  { fill: var(--ink); }
+.sl-dot.is-focal { fill: var(--alarm); }
+
+/* Treemap */
+.tm-under { fill: var(--plate); }
+.tm-cell  { fill: var(--ink); stroke: var(--ink); stroke-width: 1; }
+.tm-cell.is-focal { fill: var(--alarm); stroke: var(--alarm); stroke-width: 1.5; }
+
+/* Hover and keyboard highlight on a mark */
+.chart [data-tip] { transition: opacity .18s ease; }
+.chart.is-dimmed [data-tip] { opacity: .45; }
+.chart [data-tip].is-lit { opacity: 1; }
+
+/* ---------- state chips ---------------------------------------------------- */
+
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px 2px 6px;
+        border-radius: 2px; font-family: var(--font-mono); font-size: var(--t-11);
+        white-space: nowrap; border: var(--hair) solid var(--rule); }
+.chip .gl { width: 9px; height: 9px; flex: none; }
+.chip-lg { font-size: var(--t-13); padding: 4px 12px 4px 9px; }
+.chip-lg .gl { width: 11px; height: 11px; }
+.s-pass    { color: var(--pass);    background: var(--pass-bg); }
+.s-active  { color: var(--active);  background: var(--active-bg); }
+.s-fail    { color: var(--fail);    background: var(--fail-bg); }
+.s-blocked { color: var(--blocked); background: var(--blocked-bg); }
+.s-alarm   { color: var(--alarm);   background: var(--alarm-bg); }
+.s-muted   { color: var(--muted);   background: var(--muted-bg); }
+
+/* ---------- tables --------------------------------------------------------- */
+
+table { border-collapse: collapse; width: 100%; font-size: var(--t-13);
+        font-variant-numeric: tabular-nums; }
+thead th { text-align: left; padding: var(--s-2) var(--s-3);
+           border-bottom: var(--hair) solid var(--rule-2);
+           font-size: var(--t-11); font-weight: 600; text-transform: uppercase;
+           letter-spacing: .09em; color: var(--ink-3); white-space: nowrap;
+           background: var(--plate); }
+thead th.num { text-align: right; }
+tbody th, tbody td { padding: var(--s-2) var(--s-3); vertical-align: top; text-align: left;
+                     border-bottom: var(--hair) solid var(--rule); font-weight: 400; }
+tbody th { font-weight: 600; }
+tbody td.num, tbody th.num { text-align: right; white-space: nowrap; }
+tbody tr:nth-child(even) { background: var(--plate-2); }
+tbody tr { transition: background .2s ease; }
+tbody tr:hover { background: var(--plate-3); }
+caption { text-align: left; }
+
+th button.sort { font: inherit; color: inherit; background: none; border: 0; padding: 0;
+                 cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+                 text-transform: inherit; letter-spacing: inherit; }
+th button.sort:hover:not(:disabled) { color: var(--ink); }
+th button.sort:active:not(:disabled) { opacity: .7; }
+th button.sort:disabled { opacity: .4; cursor: not-allowed; }
+th button.sort .arrow::after { content: "\2195"; opacity: .35; }
+th[aria-sort="ascending"] button.sort .arrow::after  { content: "\2191"; opacity: 1; }
+th[aria-sort="descending"] button.sort .arrow::after { content: "\2193"; opacity: 1; }
+th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { color: var(--ink); }
+
+/* the table twin every chart carries */
+.tv { margin-top: var(--s-4); border-top: var(--hair) solid var(--rule); }
+.tv > summary { list-style: none; cursor: pointer; padding: var(--s-2) 0 0;
+                font-size: var(--t-12); color: var(--ink-3);
+                display: inline-flex; align-items: center; gap: var(--s-2);
+                transition: color .22s ease; }
+.tv > summary::-webkit-details-marker { display: none; }
+.tv > summary::before { content: "+"; font-family: var(--font-mono); font-size: var(--t-13);
+                        width: 14px; text-align: center; }
+.tv[open] > summary::before { content: "\2212"; }
+.tv > summary:hover { color: var(--ink); }
+.tv > summary:active { opacity: .7; }
+.tv > .scroll { margin-top: var(--s-3); }
+
+/* ---------- files, tiles --------------------------------------------------- */
+
+.files { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); }
+.files li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-3);
+            padding-bottom: var(--s-3); border-bottom: var(--hair) solid var(--rule); }
+.files li:last-child { border-bottom: 0; padding-bottom: 0; }
+.files li.first { border-left: var(--edge) solid var(--active); padding-left: var(--s-3); }
+.files .says { color: var(--ink-2); font-size: var(--t-13); flex: 1 1 24ch; }
+
+/* ---------- roadmap / estimation banner ------------------------------------- */
+.banner-est {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: var(--s-4) var(--s-5); margin-bottom: var(--s-4);
+  background: var(--surface-1); border: var(--hair) solid var(--rule); border-radius: var(--radius);
+  gap: var(--s-4);
+}
+.est-main { min-width: 0; }
+.est-time { font-family: var(--font-display); font-size: var(--t-28); font-weight: 700; color: var(--ink); margin: var(--s-1) 0; font-variant-numeric: tabular-nums; }
+.est-sub { font-size: var(--t-14); color: var(--ink-2); margin-bottom: var(--s-1); }
+.est-basis { font-size: var(--t-11); color: var(--ink-3); }
+.est-stat { text-align: right; flex: none; }
+.est-count { font-family: var(--font-display); font-size: var(--t-24); font-weight: 700; color: var(--ink); margin: var(--s-1) 0; font-variant-numeric: tabular-nums; }
+.est-unit { font-family: var(--font-ui); font-size: var(--t-13); font-weight: 400; color: var(--ink-2); }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+         gap: var(--s-4); margin: 0; }
+.tile { display: grid; gap: var(--s-1); align-content: start;
+        padding-left: var(--s-3); border-left: var(--hair) solid var(--rule); }
+.tile dt { font-size: var(--t-11); text-transform: uppercase; letter-spacing: .14em;
+           color: var(--ink-3); font-weight: 600; }
+.tile dd { margin: 0; font-family: var(--font-mono); font-size: var(--t-20); line-height: 1.2;
+           overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.tile dd .qual { display: block; margin-top: 3px; font-family: var(--font-ui);
+                 font-size: var(--t-12); color: var(--ink-3); }
+.tile.t-warn dd { color: var(--alarm); }
+.tile.t-pass dd { color: var(--pass); }
+
+/* ---------- tooltip -------------------------------------------------------- */
+
+#tip { position: absolute; z-index: 20; pointer-events: none; max-width: 34ch;
+       padding: var(--s-2) var(--s-3); background: var(--ink); color: var(--plate);
+       border-radius: var(--radius); font-size: var(--t-12); line-height: 1.4;
+       box-shadow: 0 2px 8px rgb(0 0 0 / .22); }
+
+/* ---------- footer --------------------------------------------------------- */
+
+.colophon { margin-top: var(--s-7); padding-top: var(--s-3);
+            border-top: var(--hair) solid var(--rule-2);
+            font-size: var(--t-12); color: var(--ink-3); }
+
+/* ---------- motion --------------------------------------------------------- */
+
+/* No opacity in the reveal: a zone that fails to animate must never render blank. */
+@keyframes rise { from { transform: translateY(8px); } to { transform: none; } }
+@keyframes settle { from { opacity: .4; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero, .zone { animation: rise .42s cubic-bezier(.2,.7,.3,1) both;
+                 animation-delay: calc(var(--i, 0) * 40ms); }
+  .zone.is-sorting tbody { animation: settle .2s ease both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important;
+                           transition-duration: .001ms !important; }
+}
+@media print {
+  * { animation: none !important; transition: none !important; }
+  .toolbar, #tip { display: none !important; }
+  .tv > .scroll { display: block !important; }
+}
+</style>
+
+<svg class="sr-only" aria-hidden="true" focusable="false">
+  <symbol id="g-pass" viewBox="0 0 10 10"><circle cx="5" cy="5" r="3.6" fill="currentColor"/></symbol>
+  <symbol id="g-active" viewBox="0 0 10 10"><path d="M2.4 1.4 8.2 5 2.4 8.6Z" fill="currentColor"/></symbol>
+  <symbol id="g-fail" viewBox="0 0 10 10"><path d="M2 2 8 8M8 2 2 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="g-blocked" viewBox="0 0 10 10"><rect x="1.6" y="1.6" width="6.8" height="6.8" fill="currentColor"/></symbol>
+  <symbol id="g-alarm" viewBox="0 0 10 10"><path d="M5 .9 9.4 8.8H.6Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5 4v2.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></symbol>
+  <symbol id="g-muted" viewBox="0 0 10 10"><rect x="1.4" y="4.2" width="7.2" height="1.6" fill="currentColor"/></symbol>
+</svg>
+
+<!--
+  The report's data, exactly as this project's agent writes it. Field names follow
+  the mined project.json contract; the plain wording a reader sees is applied when
+  the page is drawn, never stored here. Two deliberate departures, both documented
+  in the summary that shipped with this file: "tasks" replaces the contract's
+  "delivered" and "remaining", because the zone that showed them is now one figure;
+  and "armed" rows carry the name of the check each one proves.
+
+  Replace this block wholesale, or point loadReport() at a fetch. Nothing on the
+  page is drawn from anything else.
+-->
+<script type="application/json" id="report-data">
+{
+ "project": "fledgeling-plugins",
+ "updated": "2026-09-05T18:05:00+10:00",
+ "verdict": {
+  "token": "needs-work",
+  "number": "1 of 1",
+  "unit": "plugin built, unevaluated",
+  "headline": "throughline is built and committed; nothing has measured it against no skill.",
+  "run_label": "throughline build",
+  "head_sha": "5279135"
+ },
+ "tasks": [
+  {
+   "id": "TL-1",
+   "title": "Scripts: context pack, transition audit, state check",
+   "origin": "planned",
+   "stage": "being checked",
+   "outcome": "done",
+   "version": "5279135",
+   "note": "20 self-tests pass; gate fails a bad fixture"
+  },
+  {
+   "id": "TL-2",
+   "title": "SKILL.md and three reference files",
+   "origin": "planned",
+   "stage": "being checked",
+   "outcome": "done",
+   "version": "5279135",
+   "note": "voice lint clean on hard checks"
+  },
+  {
+   "id": "TL-3",
+   "title": "README and EVALS in Luke's voice",
+   "origin": "planned",
+   "stage": "being checked",
+   "outcome": "done",
+   "version": "5279135",
+   "note": "voice lint clean on hard checks"
+  },
+  {
+   "id": "TL-4",
+   "title": "Icon, banner and audit sheets",
+   "origin": "planned",
+   "stage": "being checked",
+   "outcome": "done",
+   "version": "5279135",
+   "note": "three hand-authored takes; image engines skipped to avoid unapproved spend"
+  },
+  {
+   "id": "TL-5",
+   "title": "Marketplace registration in four places",
+   "origin": "planned",
+   "stage": "being checked",
+   "outcome": "done",
+   "version": "5279135",
+   "note": "catalogue build exit 0"
+  },
+  {
+   "id": "TL-6",
+   "title": "Run the eight eval prompts with and without the skill",
+   "origin": "planned",
+   "stage": "not started",
+   "outcome": "stuck",
+   "blocked_by": "a decision on whether to spend the subagent runs",
+   "waiting_hours": 0
+  },
+  {
+   "id": "TL-7",
+   "title": "Merge plugin/throughline into main and push",
+   "origin": "planned",
+   "stage": "not started",
+   "outcome": "stuck",
+   "blocked_by": "the user's say-so; nobody asked for a push",
+   "waiting_hours": 0
+  }
+ ],
+ "gates": [
+  {
+   "name": "Transition audit self-test",
+   "command": "python3 scripts/transition_audit.py --self-test",
+   "exit_code": 0,
+   "counts": "10/10",
+   "state": "done",
+   "kind": "tests"
+  },
+  {
+   "name": "State checker self-test",
+   "command": "python3 scripts/story_state.py --self-test",
+   "exit_code": 0,
+   "counts": "10/10",
+   "state": "done",
+   "kind": "tests"
+  },
+  {
+   "name": "Skill file reads cleanly for a model",
+   "command": "agent_voice_lint.py --format skill SKILL.md",
+   "exit_code": 0,
+   "counts": "9/9",
+   "state": "done",
+   "kind": "sign-off"
+  },
+  {
+   "name": "README and EVALS read as Luke",
+   "command": "voice_lint.py --format marketing README.md EVALS.md",
+   "exit_code": 0,
+   "counts": "6/6",
+   "state": "done",
+   "kind": "sign-off"
+  },
+  {
+   "name": "Icon contact sheet resolves and passes the bar",
+   "command": "audit_sheet.py check assets",
+   "exit_code": 0,
+   "counts": "3/3",
+   "state": "done",
+   "kind": "design"
+  },
+  {
+   "name": "Banner is sized, sourced and scored",
+   "command": "banner_sheet.py check assets",
+   "exit_code": 0,
+   "counts": "5/5",
+   "state": "done",
+   "kind": "design"
+  },
+  {
+   "name": "Marketplace catalogue builds",
+   "command": "node site/scripts/build-catalogue.mjs",
+   "exit_code": 0,
+   "counts": "55/55",
+   "state": "done",
+   "kind": "build"
+  },
+  {
+   "name": "Skill beats no skill on the eval prompts",
+   "command": "not run",
+   "exit_code": 0,
+   "counts": "0/8",
+   "state": "unmeasured",
+   "kind": "tests"
+  }
+ ],
+ "armed": [
+  {
+   "check": "Orphan paragraph gate",
+   "mutation": "fed a scene whose second paragraph shares nothing with the first",
+   "case_reddened": "both seams flagged, exit 1",
+   "red": 2,
+   "green": 6,
+   "sha": "5279135",
+   "armed": true
+  },
+  {
+   "check": "Word band gate",
+   "mutation": "fixture scene at 180 words under a 400 to 900 band",
+   "case_reddened": "word-band failure, exit 1",
+   "red": 1,
+   "green": 1,
+   "sha": "5279135",
+   "armed": true
+  }
+ ],
+ "corrections": [
+  {
+   "earlier_claim": "The example scene passes the audit clean",
+   "said_pct": 100,
+   "true_pct": 0,
+   "true_state": "It failed on word count the first time the beat card and the scene were checked together.",
+   "mechanism": "The first audit run was made without the beat card, so the word band was never applied.",
+   "caught_by": "re-running the audit with --beat for the EVALS write-up"
+  }
+ ],
+ "not_checked": [
+  {
+   "axis": "Whether the skill beats a plain prompt",
+   "why_not": "No eval run was made; that comparison needs the subagent runs in evals.json."
+  },
+  {
+   "axis": "Whether the trigger fires on the right requests",
+   "why_not": "The two near-miss prompts were written but not run."
+  }
+ ],
+ "not_done": [
+  {
+   "action": "Image-generation engines for the icon",
+   "reason": "Metered calls with nobody present to approve the spend.",
+   "what_would_unblock": "A go-ahead on media-gen-pro spend.",
+   "size": "an hour"
+  }
+ ],
+ "roadmap": [
+  {
+   "round": "Eval run",
+   "goal": "Run 8 prompts with and without the skill, grade, view",
+   "tasks": [
+    "TL-6"
+   ],
+   "tier": "L",
+   "status": "next",
+   "waits_on": "a go-ahead on subagent spend",
+   "estimate_min": [
+    30,
+    90
+   ],
+   "median_min": 45
+  },
+  {
+   "round": "Ship",
+   "goal": "Merge the branch and push the marketplace",
+   "tasks": [
+    "TL-7"
+   ],
+   "tier": "S",
+   "status": "queued",
+   "waits_on": "the user",
+   "estimate_min": [
+    5,
+    15
+   ],
+   "median_min": 8
+  }
+ ],
+ "estimate_remaining": {
+  "serial_min": [
+   35,
+   105
+  ],
+  "parallel_min": [
+   35,
+   105
+  ],
+  "median_min": 53,
+  "lanes": 1,
+  "basis": "measured rates (reckon 1,842-agent benchmark)",
+  "tasks_remaining": 2
+ },
+ "artifacts": [
+  {
+   "path": "plugins/throughline/EVALS.md",
+   "kind": "md",
+   "contains": "What was verified, which checkpoints the user was not asked, and what would settle the open question.",
+   "open_first": true
+  },
+  {
+   "path": "plugins/throughline/README.md",
+   "kind": "md",
+   "contains": "What the skill does and why, for a reader who was not there."
+  },
+  {
+   "path": "plugins/throughline/assets/audit.html",
+   "kind": "html",
+   "contains": "Three icon takes scored at six sizes."
+  },
+  {
+   "path": "plugins/throughline/assets/banner-audit.html",
+   "kind": "html",
+   "contains": "The banner at four display widths."
+  }
+ ],
+ "needs_you": [
+  {
+   "ask": "Name and icon were chosen without you",
+   "kind": "decision",
+   "waiting_since": "2026-09-05T17:30:00+10:00",
+   "one_line": "throughline over tenon (Codex preferred tenon); one thread through separated slabs."
+  },
+  {
+   "ask": "Run the evals, or ship unevaluated",
+   "kind": "decision",
+   "waiting_since": "2026-09-05T18:00:00+10:00",
+   "one_line": "Eight prompts written; the with-skill versus no-skill run is the one thing that would show the skill earns its place."
+  }
+ ],
+ "git": {
+  "branch": "plugin/throughline",
+  "commits_ahead": 1,
+  "worktree_clean": true,
+  "pushed": false
+ }
+}
+</script>
+
+<div class="shell">
+  <header class="masthead"><span class="kicker">Project report</span><h1>webhook-relay</h1><span class="stamp mono">updated 4 September 2026, 09:41</span></header>
+
+  <section class="zone" id="zone-headline" style="--i:1"
+           aria-labelledby="h-headline" data-attention="none">
+    <header class="zone-hd">
+      <span class="zone-no">01</span>
+      <h2 id="h-headline">How this round went</h2>
+    </header>
+    <div class="zone-body" data-zone="headline"><div class="hero s-edge-needs-work"><div class="hero-main"><span class="chip s-fail chip-lg"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-fail"/></svg>tried, did not pass</span><p class="hero-number">7 of 14</p><p class="hero-unit">tasks finished</p><p class="hero-line">Two checks have never been tested; one passed over a run that examined nothing.</p><div class="meter" role="img" aria-label="7 of 14 tasks finished, 50 per cent of the round"><div class="meter-track"><i class="meter-fill" style="width:50%"></i></div><span class="meter-cap"><b>50%</b> of this round</span></div></div><dl class="hero-meta"><div><dt><dfn>Round<span class="gloss">one pass of work across the whole project</span></dfn></dt><dd>third pass</dd></div><div><dt><dfn>Version<span class="gloss">the seven-character stamp naming exactly which copy of the code this report describes</span></dfn></dt><dd class="mono">b7d41ae</dd></div></dl></div></div>
+  </section>
+
+  <div class="toolbar" role="group" aria-label="Table controls">
+    <span class="toolbar-label" id="filter-label">Rows</span>
+    <div class="segment" role="group" aria-labelledby="filter-label">
+      <button type="button" id="f-all" aria-pressed="true">All</button>
+      <button type="button" id="f-attn" aria-pressed="false">Only what needs attention</button>
+    </div>
+    <button type="button" class="toggle" id="f-open" aria-pressed="false">Open every table</button>
+    <p class="toolbar-status" id="filter-status" role="status" aria-live="polite"></p>
+  </div>
+
+  <p class="zone-empty" id="load-error" hidden></p>
+
+  <main>
+
+    <section class="zone" id="zone-flow" style="--i:2"
+             aria-labelledby="h-flow" data-attention="chip">
+      <header class="zone-hd">
+        <span class="zone-no">02</span>
+        <h2 id="h-flow">Where the work is</h2>
+      </header>
+      <div class="zone-body" data-zone="flow"><svg class="chart" viewBox="0 0 1000 500" role="img" aria-labelledby="flow-title flow-desc"><title id="flow-title">Where the work is</title><desc id="flow-desc">14 tasks flow left to right through three stages. 9 planned this round, 5 carried over. 8 code written, 3 being checked, 3 not started. 7 finished, 4 still going, 3 stuck. Ribbon width is the number of tasks.</desc><text class="c-eyebrow" x="266" y="26" text-anchor="middle">WHERE IT CAME FROM</text><text class="c-eyebrow" x="506" y="26" text-anchor="middle">HOW FAR IT GOT</text><text class="c-eyebrow" x="746" y="26" text-anchor="middle">WHERE IT ENDED UP</text><path class="sk-flow" fill-opacity=".16" d="M272,100 C386,100 386,80 500,80 L500,208 C386,208 386,228 272,228 Z" data-tip="Planned this round to Code written — 8 tasks"/><path class="sk-flow" fill-opacity=".16" d="M272,228 C386,228 386,248 500,248 L500,264 C386,264 386,244 272,244 Z" data-tip="Planned this round to Being checked — 1 task"/><path class="sk-flow" fill-opacity=".16" d="M272,284 C386,284 386,264 500,264 L500,296 C386,296 386,316 272,316 Z" data-tip="Carried over to Being checked — 2 tasks"/><path class="sk-flow" fill-opacity=".16" d="M512,80 C626,80 626,80 740,80 L740,192 C626,192 626,192 512,192 Z" data-tip="Code written to Finished — 7 tasks"/><path class="sk-flow" fill-opacity=".16" d="M512,192 C626,192 626,232 740,232 L740,248 C626,248 626,208 512,208 Z" data-tip="Code written to Still going — 1 task"/><path class="sk-flow" fill-opacity=".16" d="M512,248 C626,248 626,248 740,248 L740,296 C626,296 626,296 512,296 Z" data-tip="Being checked to Still going — 3 tasks"/><path class="sk-flow sk-flow-focal" fill-opacity=".34" d="M272,316 C386,316 386,336 500,336 L500,384 C386,384 386,364 272,364 Z" data-tip="Carried over to Not started — 3 tasks"/><path class="sk-flow sk-flow-focal" fill-opacity=".34" d="M512,336 C626,336 626,336 740,336 L740,384 C626,384 626,384 512,384 Z" data-tip="Not started to Stuck — 3 tasks"/><rect class="sk-node" x="260" y="100" width="12" height="144" data-tip="Planned this round — 9 tasks"/><text class="c-name" x="252" y="170" text-anchor="end">Planned this round</text><text class="c-value" x="252" y="184" text-anchor="end">9 tasks</text><rect class="sk-node" x="260" y="284" width="12" height="80" data-tip="Carried over — 5 tasks"/><text class="c-name" x="252" y="322" text-anchor="end">Carried over</text><text class="c-value" x="252" y="336" text-anchor="end">5 tasks</text><rect class="sk-node" x="500" y="80" width="12" height="128" data-tip="Code written — 8 tasks"/><text class="c-name" x="506" y="59" text-anchor="middle">Code written</text><text class="c-value" x="506" y="72" text-anchor="middle">8 tasks</text><rect class="sk-node" x="500" y="248" width="12" height="48" data-tip="Being checked — 3 tasks"/><text class="c-name" x="506" y="227" text-anchor="middle">Being checked</text><text class="c-value" x="506" y="240" text-anchor="middle">3 tasks</text><rect class="sk-node" x="500" y="336" width="12" height="48" data-tip="Not started — 3 tasks"/><text class="c-name" x="506" y="315" text-anchor="middle">Not started</text><text class="c-value" x="506" y="328" text-anchor="middle">3 tasks</text><rect class="sk-node" x="740" y="80" width="12" height="112" data-tip="Finished — 7 tasks"/><text class="c-name" x="768" y="134">Finished</text><text class="c-value" x="768" y="148">7 tasks</text><rect class="sk-node" x="740" y="232" width="12" height="64" data-tip="Still going — 4 tasks"/><text class="c-name" x="768" y="262">Still going</text><text class="c-value" x="768" y="276">4 tasks</text><rect class="sk-node" x="740" y="336" width="12" height="48" data-tip="Stuck — 3 tasks"/><text class="c-name" x="768" y="358">Stuck</text><text class="c-value" x="768" y="372">3 tasks</text><line class="rule-legend" stroke-opacity=".18" x1="40" y1="462" x2="960" y2="462"/><text class="c-eyebrow" x="40" y="478">LEGEND</text><text class="c-source" x="960" y="478" text-anchor="end">WIDTH = 16PX PER TASK · 14 TASKS · 4 SEP 2026</text><rect class="sk-flow" fill-opacity=".16" x="120" y="488" width="16" height="8"/><text class="c-legend" x="148" y="497">one task, wherever it went</text><rect class="sk-flow sk-flow-focal" fill-opacity=".34" x="320" y="488" width="16" height="8"/><text class="c-legend" x="348" y="497">3 carried-over tasks that were never started</text></svg><details class="tv" id="tv-flow"><summary>As a table</summary><div class="scroll"><table><caption class="sr-only">Every task in this round</caption><thead><tr><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="0" data-kind="text">Task<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="1" data-kind="text">What it is<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="2" data-kind="text">Came from<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="3" data-kind="text">How far it got<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="4" data-kind="text">Where it ended up<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="5" data-kind="text">Version<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="6" data-kind="text">Note<span class="arrow" aria-hidden="true"></span></button></th></tr></thead><tbody><tr><th scope="row"><span class="mono">WEB-5081</span></th><td>Retry queue drains in order</td><td>Planned this round</td><td>code written</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td><td><span class="mono">9c1f22a</span></td><td>merged</td></tr><tr><th scope="row"><span class="mono">WEB-5082</span></th><td>Signature check on inbound hooks</td><td>Planned this round</td><td>code written</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td><td><span class="mono">2f8ad91</span></td><td>merged</td></tr><tr><th scope="row"><span class="mono">WEB-5083</span></th><td>Dead-letter view</td><td>Planned this round</td><td>code written</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td><td><span class="mono">4ab7de0</span></td><td>merged</td></tr><tr><th scope="row"><span class="mono">WEB-5084</span></th><td>Per-tenant rate limit</td><td>Planned this round</td><td>code written</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td><td><span class="mono">77bc105</span></td><td>merged</td></tr><tr><th scope="row"><span class="mono">WEB-5085</span></th><td>Delivery log export</td><td>Planned this round</td><td>code written</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td><td><span class="mono">e10c4b2</span></td><td>merged</td></tr><tr><th scope="row"><span class="mono">WEB-5086</span></th><td>Guard against an empty test run</td><td>Planned this round</td><td>code written</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td><td><span class="mono">5d9a318</span></td><td>merged</td></tr><tr><th scope="row"><span class="mono">WEB-5087</span></th><td>Dark-mode colour tokens</td><td>Planned this round</td><td>code written</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td><td><span class="mono">c3e7f04</span></td><td>merged</td></tr><tr><th scope="row"><span class="mono">WEB-5088</span></th><td>Harness that tests the alarms</td><td>Planned this round</td><td>code written</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td><td><span class="mono">11e9d3c</span></td><td>sent back for rework</td></tr><tr><th scope="row"><span class="mono">WEB-5089</span></th><td>Contrast fix on the muted rail</td><td>Planned this round</td><td>being checked</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td><td><span class="mono">a4b1f60</span></td><td>review open</td></tr><tr><th scope="row"><span class="mono">WEB-5074</span></th><td>Replay from a chosen time</td><td>Carried over</td><td>being checked</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td><td><span class="mono">8be0c21</span></td><td>review open</td></tr><tr><th scope="row"><span class="mono">WEB-5076</span></th><td>Rotate the webhook secret</td><td>Carried over</td><td>being checked</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td><td><span class="mono">6f2dd93</span></td><td>review open</td></tr><tr><th scope="row"><span class="mono">WEB-5071</span></th><td>Sign the Mac build</td><td>Carried over</td><td>not started</td><td><span class="chip s-blocked"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-blocked"/></svg>stuck, waiting on something</span></td><td><span class="mono"><span class="absent">not recorded</span></span></td><td>waiting for the signing key</td></tr><tr><th scope="row"><span class="mono">WEB-5072</span></th><td>Smoke run on Windows</td><td>Carried over</td><td>not started</td><td><span class="chip s-blocked"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-blocked"/></svg>stuck, waiting on something</span></td><td><span class="mono"><span class="absent">not recorded</span></span></td><td>waiting for a Windows machine</td></tr><tr><th scope="row"><span class="mono">WEB-5079</span></th><td>Backfill the 2024 delivery log</td><td>Carried over</td><td>not started</td><td><span class="chip s-blocked"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-blocked"/></svg>stuck, waiting on something</span></td><td><span class="mono"><span class="absent">not recorded</span></span></td><td>waiting for approval to spend</td></tr></tbody></table></div></details></div>
+    </section>
+
+    <section class="zone" id="zone-roadmap" style="--i:2.5"
+             aria-labelledby="h-roadmap" data-attention="chip">
+      <header class="zone-hd">
+        <span class="zone-no">03</span>
+        <h2 id="h-roadmap">What is coming next</h2>
+        <p class="zone-note">Planned rounds, size tiers, and estimated time ranges grounded in reckon&rsquo;s 1,842-agent measured benchmark. Never a point estimate.</p>
+      </header>
+      <div class="zone-body" data-zone="roadmap"><div class="banner-est"><div class="est-main"><span class="c-eyebrow c-soft">TIME REMAINING (ESTIMATED)</span><p class="est-time">45m – 1.8h</p><p class="est-sub">typical 1.1 hours across 2 parallel lanes</p><p class="est-basis mono">measured rates (reckon 1,842-agent benchmark: S=8m, M=15m, L=25m, XL=45m) — never a point estimate</p></div><div class="est-stat"><span class="c-eyebrow c-soft">WORK AHEAD</span><p class="est-count">7 <span class="est-unit">tasks</span></p><p class="est-sub">3 planned rounds</p></div></div><svg class="chart" viewBox="0 0 1000 262" role="img" aria-labelledby="rdm-title rdm-desc"><title id="rdm-title">What is coming next</title><desc id="rdm-desc">3 planned rounds, showing goals, size tiers and estimated duration ranges.</desc><line class="axis" stroke-opacity=".25" x1="40" y1="36" x2="960" y2="36"/><text class="c-eyebrow" x="40" y="24">PLANNED ROUND</text><text class="c-eyebrow" x="240" y="24">GOAL &amp; WAITING ON</text><text class="c-eyebrow" x="660" y="24">DURATION RANGE (P25–P90)</text><text class="c-eyebrow" x="960" y="24" text-anchor="end">STATUS</text><line class="grid" stroke-opacity=".08" x1="40" y1="106" x2="960" y2="106"/><text class="c-name" x="40" y="80" fill="var(--accent)" font-weight="700">Round 4</text><text class="c-source mono" x="40" y="96">tier M · 3 tasks</text><text class="c-cell" x="240" y="80">Test the alarms &amp; verify webhook secret rotation</text><text class="c-legend" x="240" y="96">waits on: nothing</text><rect x="660" y="66" width="160" height="22" rx="4" fill-opacity=".24" class="sk-flow-focal" stroke="var(--accent)" stroke-width="1.2"/><text class="c-value mono" x="740" y="81" text-anchor="middle" font-size="11">20–50 min</text><text class="c-name" x="960" y="82" text-anchor="end">next</text><line class="grid" stroke-opacity=".08" x1="40" y1="160" x2="960" y2="160"/><text class="c-name" x="40" y="134">Round 5</text><text class="c-source mono" x="40" y="150">tier L · 2 tasks</text><text class="c-cell" x="240" y="134">Resolve staging certificate &amp; Mac build signature</text><text class="c-legend" x="240" y="150">waits on: signing key from 1Password</text><rect x="660" y="120" width="220" height="22" rx="4" fill-opacity=".12" class="sk-flow" stroke="var(--muted)" stroke-width="1.2"/><text class="c-value mono" x="770" y="135" text-anchor="middle" font-size="11">35–80 min</text><text class="c-name" x="960" y="136" text-anchor="end">queued</text><line class="grid" stroke-opacity=".08" x1="40" y1="214" x2="960" y2="214"/><text class="c-name" x="40" y="188">Round 6</text><text class="c-source mono" x="40" y="204">tier L · 2 tasks</text><text class="c-cell" x="240" y="188">Windows smoke run &amp; delivery log backfill</text><text class="c-legend" x="240" y="204">waits on: Windows host machine</text><rect x="660" y="174" width="220" height="22" rx="4" fill-opacity=".15" class="f-st-stuck" stroke="var(--st-blocked)" stroke-width="1.2"/><text class="c-value mono" x="770" y="189" text-anchor="middle" font-size="11">45–95 min</text><text class="c-name" x="960" y="190" text-anchor="end">blocked</text><line class="rule-legend" stroke-opacity=".18" x1="40" y1="238" x2="960" y2="238"/><text class="c-source mono" x="40" y="252">TIER S = 3–25M (MEDIAN 8M) · M = 7–56M (15M) · L = 14–68M (25M) · XL = 25–155M (45M)</text><text class="c-source mono" x="960" y="252" text-anchor="end">DERIVED FROM RECKON:RECKON 1,842-AGENT BENCHMARK</text></svg><details class="tv" id="tv-roadmap"><summary>As a table</summary><div class="scroll"><table><caption class="sr-only">Planned rounds and estimated durations</caption><thead><tr><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="0" data-kind="text">Round<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="1" data-kind="text">Goal<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="2" data-kind="text">Tasks<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="3" data-kind="text">Size tier<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="4" data-kind="text">Status<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="5" data-kind="text">Waiting on<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" class="num" aria-sort="none"><button type="button" class="sort" data-col="6" data-kind="num">Estimated duration<span class="arrow" aria-hidden="true"></span></button></th></tr></thead><tbody><tr><th scope="row"><span class="mono">Round 4</span></th><td>Test the alarms &amp; verify webhook secret rotation</td><td><span class="mono">WEB-5088</span>, <span class="mono">WEB-5089</span>, <span class="mono">WEB-5076</span></td><td>tier M</td><td><span class="chip s-active">next</span></td><td>nothing</td><td class="num"><span class="mono">20–50 min</span></td></tr><tr><th scope="row"><span class="mono">Round 5</span></th><td>Resolve staging certificate &amp; Mac build signature</td><td><span class="mono">WEB-5071</span>, <span class="mono">WEB-5074</span></td><td>tier L</td><td><span class="chip s-muted">queued</span></td><td>signing key from 1Password</td><td class="num"><span class="mono">35–80 min</span></td></tr><tr><th scope="row"><span class="mono">Round 6</span></th><td>Windows smoke run &amp; delivery log backfill</td><td><span class="mono">WEB-5072</span>, <span class="mono">WEB-5079</span></td><td>tier L</td><td><span class="chip s-blocked">blocked</span></td><td>Windows host machine</td><td class="num"><span class="mono">45–95 min</span></td></tr></tbody></table></div></details></div>
+    </section>
+
+    <section class="zone" id="zone-checks" style="--i:3"
+             aria-labelledby="h-checks" data-attention="chip">
+      <header class="zone-hd">
+        <span class="zone-no">04</span>
+        <h2 id="h-checks">Checks that ran</h2>
+      </header>
+      <div class="zone-body" data-zone="checks"><svg class="chart" viewBox="0 0 1000 500" role="img" aria-labelledby="checks-title checks-desc"><title id="checks-title">Checks that ran</title><desc id="checks-desc">7 checks, each drawn against its own limit. A bar is the value that check measured as a share of its limit, and the mark at 100 per cent is the limit itself. 2 checks measured nothing and carry a dashed rule where a bar would be.</desc><text class="c-tick" x="260" y="424" text-anchor="middle">0%</text><line class="grid" stroke-opacity=".08" x1="389" y1="56" x2="389" y2="404"/><text class="c-tick" x="389" y="424" text-anchor="middle">50%</text><line class="grid" stroke-opacity=".08" x1="648" y1="56" x2="648" y2="404"/><text class="c-tick" x="648" y="424" text-anchor="middle">150%</text><line class="grid" stroke-opacity=".08" x1="777" y1="56" x2="777" y2="404"/><text class="c-tick" x="777" y="424" text-anchor="middle">200%</text><line class="axis" stroke-opacity=".25" x1="260" y1="40" x2="260" y2="420"/><line class="thr" stroke-opacity=".55" x1="518" y1="56" x2="518" y2="404"/><text class="c-tick is-thr" x="518" y="424" text-anchor="middle">100%</text><text class="c-eyebrow is-thr" x="518" y="46" text-anchor="middle">THE LIMIT</text><text class="c-name" x="248" y="71" text-anchor="end">Types line up</text><text class="c-value" x="248" y="84" text-anchor="end">all 412 must pass</text><rect class="bar s-pass" x="260" y="64" width="258" height="16" data-tip="Types line up — 412 of 412, all 412 must pass"/><line class="bar-cap" stroke-opacity=".80" x1="518" y1="60" x2="518" y2="84"/><text class="c-value" x="528" y="76">412 of 412</text><text class="c-name" x="248" y="123" text-anchor="end">Unit tests</text><text class="c-value" x="248" y="136" text-anchor="end">all 321 must pass</text><rect class="bar s-fail" x="260" y="116" width="256" height="16" data-tip="Unit tests — 318 of 321, all 321 must pass"/><line class="bar-cap" stroke-opacity=".80" x1="518" y1="112" x2="518" y2="136"/><text class="c-value" x="526" y="128">318 of 321</text><text class="c-name" x="248" y="175" text-anchor="end">Browser tests</text><text class="c-value" x="248" y="188" text-anchor="end">no limit recorded</text><line class="blank-rule" x1="260" y1="176" x2="880" y2="176"/><rect class="mask" x="260" y="168" width="132" height="16" data-tip="Browser tests — nothing was measured"/><text class="c-blank" x="260" y="180">nothing was measured</text><text class="c-name" x="248" y="227" text-anchor="end">Code style</text><text class="c-value" x="248" y="240" text-anchor="end">all 1204 must pass</text><rect class="bar s-pass" x="260" y="220" width="258" height="16" data-tip="Code style — 1204 of 1204, all 1204 must pass"/><line class="bar-cap" stroke-opacity=".80" x1="518" y1="216" x2="518" y2="240"/><text class="c-value" x="528" y="232">1204 of 1204</text><text class="c-name" x="248" y="279" text-anchor="end">Text contrast</text><text class="c-value" x="248" y="292" text-anchor="end">must reach 4.5:1</text><rect class="bar s-pass" x="260" y="272" width="576" height="16" data-tip="Text contrast — 10.03:1, must reach 4.5:1"/><line class="bar-cap" stroke-opacity=".80" x1="518" y1="268" x2="518" y2="292"/><text class="c-value" x="846" y="284">10.03:1</text><text class="c-name" x="248" y="331" text-anchor="end">Download size</text><text class="c-value" x="248" y="344" text-anchor="end">must stay under 11KB</text><rect class="bar s-fail" x="260" y="324" width="470" height="16" data-tip="Download size — 20KB, must stay under 11KB"/><line class="bar-cap" stroke-opacity=".80" x1="518" y1="320" x2="518" y2="344"/><text class="c-value" x="740" y="336">20KB</text><text class="c-name" x="248" y="383" text-anchor="end">Mac signing</text><text class="c-value" x="248" y="396" text-anchor="end">no limit recorded</text><line class="blank-rule" x1="260" y1="384" x2="880" y2="384"/><rect class="mask" x="260" y="376" width="132" height="16" data-tip="Mac signing — nothing was measured"/><text class="c-blank" x="260" y="388">nothing was measured</text><line class="rule-legend" stroke-opacity=".18" x1="40" y1="462" x2="960" y2="462"/><text class="c-eyebrow" x="40" y="478">LEGEND</text><text class="c-source" x="960" y="478" text-anchor="end">BAR = SHARE OF THAT CHECK&#39;S OWN LIMIT · ROWS IN THE ORDER THEY RAN · 4 SEP 2026</text><rect class="bar s-pass" x="120" y="488" width="16" height="8"/><text class="c-legend" x="148" y="497">passed</text><rect class="bar s-fail" x="212" y="488" width="16" height="8"/><text class="c-legend" x="240" y="497">tried, did not pass</text><line class="blank-rule" x1="375" y1="493" x2="391" y2="493"/><text class="c-legend" x="403" y="497">measured nothing, so it proves nothing</text></svg><details class="tv" id="tv-checks"><summary>As a table</summary><div class="scroll"><table><caption class="sr-only">Every check that ran this round</caption><thead><tr><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="0" data-kind="text">Check<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="1" data-kind="text">What was run<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="2" data-kind="text">What it measured<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="3" data-kind="text">Its limit<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" class="num" aria-sort="none"><button type="button" class="sort" data-col="4" data-kind="num">Share of the limit<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="5" data-kind="text">How it went<span class="arrow" aria-hidden="true"></span></button></th></tr></thead><tbody><tr><th scope="row">Types line up</th><td><code class="mono">pnpm -r typecheck</code></td><td>412 of 412</td><td>all 412 must pass</td><td class="num">100%</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row">Unit tests</th><td><code class="mono">pnpm vitest run</code></td><td>318 of 321</td><td>all 321 must pass</td><td class="num">99.1%</td><td><span class="chip s-fail"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-fail"/></svg>tried, did not pass</span></td></tr><tr><th scope="row">Browser tests</th><td><code class="mono">pnpm acceptance:run --tag web</code></td><td>nothing was measured</td><td>no limit recorded</td><td class="num"><span class="absent">no share</span></td><td><span class="chip s-alarm"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-alarm"/></svg>nobody checked</span></td></tr><tr><th scope="row">Code style</th><td><code class="mono">pnpm eslint . --max-warnings 0</code></td><td>1204 of 1204</td><td>all 1204 must pass</td><td class="num">100%</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row">Text contrast</th><td><code class="mono">python3 tools/design-lint.py</code></td><td>10.03:1</td><td>must reach 4.5:1</td><td class="num">222.9%</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row">Download size</th><td><code class="mono">node scripts/size-budget.mjs</code></td><td>20KB</td><td>must stay under 11KB</td><td class="num">181.8%</td><td><span class="chip s-fail"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-fail"/></svg>tried, did not pass</span></td></tr><tr><th scope="row">Mac signing</th><td><code class="mono">xcrun notarytool submit dist.zip</code></td><td>not run</td><td>no limit recorded</td><td class="num"><span class="absent">no share</span></td><td><span class="chip s-blocked"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-blocked"/></svg>stuck, waiting on something</span></td></tr></tbody></table></div></details></div>
+    </section>
+
+    <section class="zone" id="zone-alarms" style="--i:4"
+             aria-labelledby="h-alarms" data-attention="chip">
+      <header class="zone-hd">
+        <span class="zone-no">05</span>
+        <h2 id="h-alarms">Do the alarms work?</h2>
+        <p class="zone-note">A check that never fails might be watching closely, or might be broken and passing everything. Breaking the code on purpose is the only way to tell them apart.</p>
+      </header>
+      <div class="zone-body" data-zone="alarms"><svg class="chart" viewBox="0 0 1000 500" role="img" aria-labelledby="alarms-title alarms-desc"><title id="alarms-title">Do the alarms work?</title><desc id="alarms-desc">5 checks were tested by breaking the code on purpose. Each row carries two counts on one shared scale from 0 to 500 tests: how many tests noticed the fault, and how many pass when nothing is broken. 1 check noticed nothing.</desc><text class="c-tick" x="200" y="440" text-anchor="middle">0</text><line class="grid" stroke-opacity=".08" x1="352" y1="56" x2="352" y2="408"/><text class="c-tick" x="352" y="440" text-anchor="middle">100</text><line class="grid" stroke-opacity=".08" x1="504" y1="56" x2="504" y2="408"/><text class="c-tick" x="504" y="440" text-anchor="middle">200</text><line class="grid" stroke-opacity=".08" x1="656" y1="56" x2="656" y2="408"/><text class="c-tick" x="656" y="440" text-anchor="middle">300</text><line class="grid" stroke-opacity=".08" x1="808" y1="56" x2="808" y2="408"/><text class="c-tick" x="808" y="440" text-anchor="middle">400</text><line class="grid" stroke-opacity=".08" x1="960" y1="56" x2="960" y2="408"/><text class="c-tick" x="960" y="440" text-anchor="middle">500</text><line class="axis" stroke-opacity=".25" x1="200" y1="40" x2="200" y2="420"/><text class="c-eyebrow" x="580" y="456" text-anchor="middle">NUMBER OF TESTS</text><rect class="row-alarm" fill-opacity=".12" x="40" y="68" width="924" height="56"/><line class="db-conn" stroke-opacity=".55" x1="200" y1="96" x2="258" y2="96"/><circle class="db-ref" cx="258" cy="96" r="6" data-tip="Text contrast — 38 tests pass when nothing is broken"/><circle class="db-halo" cx="200" cy="96" r="12"/><circle class="db-focal is-flat" cx="200" cy="96" r="6" data-tip="Text contrast — 0 tests noticed the fault"/><text class="c-name is-flat" x="188" y="100" text-anchor="end">Text contrast</text><text class="c-value is-flat" x="200" y="84" text-anchor="middle">0 — nothing noticed</text><text class="c-value" x="270" y="100">38</text><line class="db-conn" stroke-opacity=".55" x1="202" y1="160" x2="258" y2="160"/><circle class="db-ref" cx="258" cy="160" r="6" data-tip="Screen-reader labels — 38 tests pass when nothing is broken"/><circle class="db-focal" cx="202" cy="160" r="6" data-tip="Screen-reader labels — 1 tests noticed the fault"/><text class="c-name" x="188" y="164" text-anchor="end">Screen-reader labels</text><text class="c-value" x="202" y="148" text-anchor="middle">1</text><text class="c-value" x="270" y="164">38</text><line class="db-conn" stroke-opacity=".55" x1="205" y1="224" x2="826" y2="224"/><circle class="db-ref" cx="826" cy="224" r="6" data-tip="Types line up — 412 tests pass when nothing is broken"/><circle class="db-focal" cx="205" cy="224" r="6" data-tip="Types line up — 3 tests noticed the fault"/><text class="c-name" x="188" y="228" text-anchor="end">Types line up</text><text class="c-value" x="205" y="212" text-anchor="middle">3</text><text class="c-value" x="838" y="228">412</text><line class="db-conn" stroke-opacity=".55" x1="209" y1="288" x2="236" y2="288"/><circle class="db-ref" cx="236" cy="288" r="6" data-tip="Download size — 24 tests pass when nothing is broken"/><circle class="db-focal" cx="209" cy="288" r="6" data-tip="Download size — 6 tests noticed the fault"/><text class="c-name" x="188" y="292" text-anchor="end">Download size</text><text class="c-value" x="209" y="276" text-anchor="middle">6</text><text class="c-value" x="248" y="292">24</text><line class="db-conn" stroke-opacity=".55" x1="217" y1="352" x2="688" y2="352"/><circle class="db-ref" cx="688" cy="352" r="6" data-tip="Unit tests — 321 tests pass when nothing is broken"/><circle class="db-focal" cx="217" cy="352" r="6" data-tip="Unit tests — 11 tests noticed the fault"/><text class="c-name" x="188" y="356" text-anchor="end">Unit tests</text><text class="c-value" x="205" y="356" text-anchor="end">11</text><text class="c-value" x="700" y="356">321</text><line class="rule-legend" stroke-opacity=".18" x1="40" y1="462" x2="960" y2="462"/><text class="c-eyebrow" x="40" y="478">LEGEND</text><text class="c-source" x="960" y="478" text-anchor="end">ROWS BY HOW MANY NOTICED, FEWEST FIRST · 0-500 TESTS · 4 SEP 2026</text><circle class="db-focal" cx="126" cy="493" r="6"/><text class="c-legend" x="148" y="497">tests that noticed when we broke the code</text><circle class="db-ref" cx="407" cy="493" r="6"/><text class="c-legend" x="429" y="497">tests that pass when nothing is broken</text><circle class="db-halo" cx="673" cy="493" r="9"/><circle class="db-focal is-flat" cx="673" cy="493" r="5"/><text class="c-legend" x="695" y="497">an alarm that noticed nothing</text></svg><details class="tv" id="tv-alarms"><summary>As a table</summary><div class="scroll"><table><caption class="sr-only">What each alarm test broke, and what noticed</caption><thead><tr><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="0" data-kind="text">Check<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="1" data-kind="text">What we broke on purpose<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="2" data-kind="text">What noticed<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" class="num" aria-sort="none"><button type="button" class="sort" data-col="3" data-kind="num">Noticed<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" class="num" aria-sort="none"><button type="button" class="sort" data-col="4" data-kind="num">Pass normally<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="5" data-kind="text">Version<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="6" data-kind="text">Does the alarm work?<span class="arrow" aria-hidden="true"></span></button></th></tr></thead><tbody><tr><th scope="row">Text contrast</th><td>lowered the contrast limit to 1 to 1</td><td>no test noticed</td><td class="num">0</td><td class="num">38</td><td><span class="mono">b7d41ae</span></td><td><span class="chip s-alarm"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-alarm"/></svg>no, it noticed nothing</span></td></tr><tr><th scope="row">Screen-reader labels</th><td>removed the column headers from every table</td><td>table headers announce their column</td><td class="num">1</td><td class="num">38</td><td><span class="mono">b7d41ae</span></td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>yes, it noticed</span></td></tr><tr><th scope="row">Types line up</th><td>made a function return the wrong type</td><td>the build stops on a type error</td><td class="num">3</td><td class="num">412</td><td><span class="mono">b7d41ae</span></td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>yes, it noticed</span></td></tr><tr><th scope="row">Download size</th><td>added 40 KB of unused code</td><td>download stays under budget</td><td class="num">6</td><td class="num">24</td><td><span class="mono">b7d41ae</span></td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>yes, it noticed</span></td></tr><tr><th scope="row">Unit tests</th><td>made the counter return an empty list</td><td>counts parse on both sides</td><td class="num">11</td><td class="num">321</td><td><span class="mono">b7d41ae</span></td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>yes, it noticed</span></td></tr></tbody></table></div></details></div>
+    </section>
+
+    <section class="zone" id="zone-problems" style="--i:5"
+             aria-labelledby="h-problems" data-attention="chip">
+      <header class="zone-hd">
+        <span class="zone-no">06</span>
+        <h2 id="h-problems">Problems found</h2>
+      </header>
+      <div class="zone-body" data-zone="problems"><svg class="chart" viewBox="0 0 1000 500" role="img" aria-labelledby="problems-title problems-desc"><title id="problems-title">Problems found</title><desc id="problems-desc">28 problems, one dot each, placed left to right by how serious they are on a scale from 0 to 100. The up-and-down spread is packing so that no two dots overlap and carries no meaning. 3 dots sit in the serious band.</desc><text class="c-tick" data-tick="x" data-value="0" x="80" y="440" text-anchor="middle">0</text><line class="grid" stroke-opacity=".08" x1="300" y1="56" x2="300" y2="408"/><text class="c-tick" data-tick="x" data-value="25" x="300" y="440" text-anchor="middle">25</text><line class="grid" stroke-opacity=".08" x1="520" y1="56" x2="520" y2="408"/><text class="c-tick" data-tick="x" data-value="50" x="520" y="440" text-anchor="middle">50</text><line class="grid" stroke-opacity=".08" x1="740" y1="56" x2="740" y2="408"/><text class="c-tick" data-tick="x" data-value="75" x="740" y="440" text-anchor="middle">75</text><line class="grid" stroke-opacity=".08" x1="960" y1="56" x2="960" y2="408"/><text class="c-tick" data-tick="x" data-value="100" x="960" y="440" text-anchor="middle">100</text><line class="band-rule" stroke-opacity=".22" x1="375" y1="56" x2="375" y2="408"/><text class="c-eyebrow" x="227" y="70" text-anchor="middle">MINOR</text><line class="band-rule" stroke-opacity=".22" x1="665" y1="56" x2="665" y2="408"/><text class="c-eyebrow" x="520" y="70" text-anchor="middle">WORTH FIXING</text><text class="c-eyebrow" x="813" y="70" text-anchor="middle">SERIOUS</text><line class="axis" stroke-opacity=".25" x1="80" y1="420" x2="960" y2="420"/><circle class="bs-dot is-focal" fill-opacity=".95" data-value="94" data-name="F-04" cx="907" cy="230" r="4" data-tip="F-04 — a run that examined nothing is reported as a pass (94 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="88" data-name="F-11" cx="854" cy="230" r="4" data-tip="F-11 — a replayed hook can be delivered twice (88 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="81" data-name="F-19" cx="793" cy="230" r="4" data-tip="F-19 — the retry queue loses order under load (81 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="66" cx="661" cy="230" r="4" data-tip="F-07 — totals are read from a locale-formatted string (66 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="66" cx="661" cy="220" r="4" data-tip="F-23 — rate limit counts per process, not per tenant (66 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="62" cx="626" cy="230" r="4" data-tip="F-08 — an old secret stays valid after rotation (62 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="62" cx="626" cy="220" r="4" data-tip="F-26 — the dead-letter view drops rows past 500 (62 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="58" cx="590" cy="230" r="4" data-tip="F-12 — sorting resets the page you were on (58 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="58" cx="590" cy="220" r="4" data-tip="F-15 — the muted rail is unreadable in dark mode (58 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="58" cx="590" cy="240" r="4" data-tip="F-31 — an export over 50 MB times out with no message (58 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="52" cx="538" cy="230" r="4" data-tip="F-16 — signature check accepts an empty body (52 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="52" cx="538" cy="220" r="4" data-tip="F-28 — the filter count ignores hidden rows (52 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="45" cx="476" cy="230" r="4" data-tip="F-09 — the plan cites a version that never landed (45 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="45" cx="476" cy="220" r="4" data-tip="F-20 — two toasts stack on top of each other (45 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="45" cx="476" cy="240" r="4" data-tip="F-33 — log timestamps drop the time zone (45 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="38" cx="414" cy="230" r="4" data-tip="F-17 — the current page is not marked in the nav (38 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="38" cx="414" cy="220" r="4" data-tip="F-35 — the health check never times out (38 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="30" cx="344" cy="230" r="4" data-tip="F-05 — the disabled button still shows a pointer cursor (30 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="30" cx="344" cy="220" r="4" data-tip="F-21 — the error text is not tied to its field (30 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="30" cx="344" cy="240" r="4" data-tip="F-38 — the setup steps name an old package manager (30 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="24" cx="291" cy="230" r="4" data-tip="F-13 — the empty table says nothing at all (24 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="24" cx="291" cy="220" r="4" data-tip="F-24 — colour is the only signal on the status badge (24 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="24" cx="291" cy="240" r="4" data-tip="F-40 — the print sheet keeps the dark background (24 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="20" cx="256" cy="230" r="4" data-tip="F-27 — two icons share one stroke weight and one does not (20 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="20" cx="256" cy="220" r="4" data-tip="F-42 — a dependency is pinned to a range, not a version (20 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="12" cx="186" cy="230" r="4" data-tip="F-30 — the copyright year is written by hand (12 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="12" cx="186" cy="220" r="4" data-tip="F-44 — a heading level is skipped (12 of 100)"/><circle class="bs-dot" fill-opacity=".55" data-value="8" cx="150" cy="230" r="4" data-tip="F-46 — one spacing value sits off the scale (8 of 100)"/><line class="leader" stroke-opacity=".40" x1="907" y1="132" x2="907" y2="222"/><rect class="mask" x="885" y="114" width="44" height="13"/><text class="c-mark" data-name="F-04" data-role="label" x="907" y="124" text-anchor="middle">F-04</text><line class="leader" stroke-opacity=".40" x1="854" y1="324" x2="854" y2="238"/><rect class="mask" x="832" y="326" width="44" height="13"/><text class="c-mark" data-name="F-11" data-role="label" x="854" y="336" text-anchor="middle">F-11</text><line class="leader" stroke-opacity=".40" x1="793" y1="132" x2="793" y2="222"/><rect class="mask" x="771" y="114" width="44" height="13"/><text class="c-mark" data-name="F-19" data-role="label" x="793" y="124" text-anchor="middle">F-19</text><line class="rule-legend" stroke-opacity=".18" x1="40" y1="462" x2="960" y2="462"/><text class="c-eyebrow" x="40" y="478">LEGEND</text><text class="c-source" x="960" y="478" text-anchor="end">SERIOUSNESS = THE AGENT&#39;S OWN 0-100 RATING · 28 PROBLEMS, 3 SERIOUS · 4 SEP 2026</text><circle class="bs-dot" fill-opacity=".55" cx="126" cy="493" r="4"/><text class="c-legend" x="148" y="497">one problem</text><circle class="bs-dot is-focal" fill-opacity=".95" cx="245" cy="493" r="4"/><text class="c-legend" x="267" y="497">F-04, the most serious one</text><line class="leader" stroke-opacity=".40" x1="446" y1="486" x2="446" y2="500"/><text class="c-legend" x="468" y="497">up and down is packing only, and means nothing</text></svg><details class="tv" id="tv-problems"><summary>As a table</summary><div class="scroll"><table><caption class="sr-only">Every problem found this round</caption><thead><tr><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="0" data-kind="text">Problem<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" class="num" aria-sort="none"><button type="button" class="sort" data-col="1" data-kind="num">How serious<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="2" data-kind="text">Band<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="3" data-kind="text">Where<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="4" data-kind="text">What is wrong<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="5" data-kind="text">State<span class="arrow" aria-hidden="true"></span></button></th></tr></thead><tbody><tr><th scope="row"><span class="mono">F-04</span></th><td class="num">94</td><td>serious</td><td><code class="mono">src/gate/counts.ts:88</code></td><td>a run that examined nothing is reported as a pass</td><td><span class="chip s-fail"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-fail"/></svg>tried, did not pass</span></td></tr><tr><th scope="row"><span class="mono">F-11</span></th><td class="num">88</td><td>serious</td><td><code class="mono">src/relay/session.ts:64</code></td><td>a replayed hook can be delivered twice</td><td><span class="chip s-blocked"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-blocked"/></svg>stuck, waiting on something</span></td></tr><tr><th scope="row"><span class="mono">F-19</span></th><td class="num">81</td><td>serious</td><td><code class="mono">src/queue/retry.ts:140</code></td><td>the retry queue loses order under load</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td></tr><tr><th scope="row"><span class="mono">F-07</span></th><td class="num">66</td><td>worth fixing</td><td><code class="mono">src/report/render.ts:212</code></td><td>totals are read from a locale-formatted string</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td></tr><tr><th scope="row"><span class="mono">F-23</span></th><td class="num">66</td><td>worth fixing</td><td><code class="mono">src/api/tenant.ts:51</code></td><td>rate limit counts per process, not per tenant</td><td><span class="chip s-fail"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-fail"/></svg>tried, did not pass</span></td></tr><tr><th scope="row"><span class="mono">F-08</span></th><td class="num">62</td><td>worth fixing</td><td><code class="mono">src/relay/secret.ts:33</code></td><td>an old secret stays valid after rotation</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td></tr><tr><th scope="row"><span class="mono">F-26</span></th><td class="num">62</td><td>worth fixing</td><td><code class="mono">src/queue/deadletter.ts:19</code></td><td>the dead-letter view drops rows past 500</td><td><span class="chip s-fail"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-fail"/></svg>tried, did not pass</span></td></tr><tr><th scope="row"><span class="mono">F-12</span></th><td class="num">58</td><td>worth fixing</td><td><code class="mono">src/ui/table.tsx:74</code></td><td>sorting resets the page you were on</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td></tr><tr><th scope="row"><span class="mono">F-15</span></th><td class="num">58</td><td>worth fixing</td><td><code class="mono">src/ui/theme.css:12</code></td><td>the muted rail is unreadable in dark mode</td><td><span class="chip s-fail"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-fail"/></svg>tried, did not pass</span></td></tr><tr><th scope="row"><span class="mono">F-31</span></th><td class="num">58</td><td>worth fixing</td><td><code class="mono">src/api/export.ts:88</code></td><td>an export over 50 MB times out with no message</td><td><span class="chip s-blocked"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-blocked"/></svg>stuck, waiting on something</span></td></tr><tr><th scope="row"><span class="mono">F-16</span></th><td class="num">52</td><td>worth fixing</td><td><code class="mono">src/relay/verify.ts:20</code></td><td>signature check accepts an empty body</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td></tr><tr><th scope="row"><span class="mono">F-28</span></th><td class="num">52</td><td>worth fixing</td><td><code class="mono">src/ui/filter.tsx:41</code></td><td>the filter count ignores hidden rows</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row"><span class="mono">F-09</span></th><td class="num">45</td><td>worth fixing</td><td><code class="mono">docs/plans/WEB-5088.md:41</code></td><td>the plan cites a version that never landed</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row"><span class="mono">F-20</span></th><td class="num">45</td><td>worth fixing</td><td><code class="mono">src/ui/toast.tsx:16</code></td><td>two toasts stack on top of each other</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td></tr><tr><th scope="row"><span class="mono">F-33</span></th><td class="num">45</td><td>worth fixing</td><td><code class="mono">src/api/log.ts:102</code></td><td>log timestamps drop the time zone</td><td><span class="chip s-fail"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-fail"/></svg>tried, did not pass</span></td></tr><tr><th scope="row"><span class="mono">F-17</span></th><td class="num">38</td><td>worth fixing</td><td><code class="mono">src/ui/nav.tsx:29</code></td><td>the current page is not marked in the nav</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td></tr><tr><th scope="row"><span class="mono">F-35</span></th><td class="num">38</td><td>worth fixing</td><td><code class="mono">src/api/health.ts:8</code></td><td>the health check never times out</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row"><span class="mono">F-05</span></th><td class="num">30</td><td>minor</td><td><code class="mono">src/ui/button.tsx:12</code></td><td>the disabled button still shows a pointer cursor</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row"><span class="mono">F-21</span></th><td class="num">30</td><td>minor</td><td><code class="mono">src/ui/form.tsx:60</code></td><td>the error text is not tied to its field</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td></tr><tr><th scope="row"><span class="mono">F-38</span></th><td class="num">30</td><td>minor</td><td><code class="mono">README.md:14</code></td><td>the setup steps name an old package manager</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row"><span class="mono">F-13</span></th><td class="num">24</td><td>minor</td><td><code class="mono">src/ui/table.tsx:118</code></td><td>the empty table says nothing at all</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td></tr><tr><th scope="row"><span class="mono">F-24</span></th><td class="num">24</td><td>minor</td><td><code class="mono">src/ui/badge.tsx:7</code></td><td>colour is the only signal on the status badge</td><td><span class="chip s-fail"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-fail"/></svg>tried, did not pass</span></td></tr><tr><th scope="row"><span class="mono">F-40</span></th><td class="num">24</td><td>minor</td><td><code class="mono">src/ui/print.css:3</code></td><td>the print sheet keeps the dark background</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row"><span class="mono">F-27</span></th><td class="num">20</td><td>minor</td><td><code class="mono">src/ui/icons.tsx:44</code></td><td>two icons share one stroke weight and one does not</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row"><span class="mono">F-42</span></th><td class="num">20</td><td>minor</td><td><code class="mono">package.json:31</code></td><td>a dependency is pinned to a range, not a version</td><td><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>being worked on now</span></td></tr><tr><th scope="row"><span class="mono">F-30</span></th><td class="num">12</td><td>minor</td><td><code class="mono">src/ui/footer.tsx:9</code></td><td>the copyright year is written by hand</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row"><span class="mono">F-44</span></th><td class="num">12</td><td>minor</td><td><code class="mono">docs/README.md:2</code></td><td>a heading level is skipped</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr><tr><th scope="row"><span class="mono">F-46</span></th><td class="num">8</td><td>minor</td><td><code class="mono">src/ui/theme.css:88</code></td><td>one spacing value sits off the scale</td><td><span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-pass"/></svg>finished</span></td></tr></tbody></table></div></details></div>
+    </section>
+
+    <section class="zone" id="zone-wrong" style="--i:6"
+             aria-labelledby="h-wrong" data-attention="all">
+      <header class="zone-hd">
+        <span class="zone-no">07</span>
+        <h2 id="h-wrong">What we got wrong</h2>
+        <p class="zone-note">Everything here is something this project&rsquo;s agent told you earlier and has since taken back.</p>
+      </header>
+      <div class="zone-body" data-zone="wrong"><svg class="chart" viewBox="0 0 1000 500" role="img" aria-labelledby="wrong-title wrong-desc"><title id="wrong-title">What we got wrong</title><desc id="wrong-desc">5 corrections. The left axis is what this project&#39;s agent said was true and the right axis is what was actually true, both as a share from 0 to 100 per cent on one scale. Every line falls.</desc><line class="axis" stroke-opacity=".25" x1="320" y1="40" x2="320" y2="420"/><line class="axis" stroke-opacity=".25" x1="680" y1="40" x2="680" y2="420"/><text class="c-eyebrow" data-axis="from" data-state="WHAT WE SAID" x="320" y="440" text-anchor="middle">WHAT WE SAID</text><text class="c-eyebrow" data-axis="to" data-state="WHAT WAS ACTUALLY TRUE" x="680" y="440" text-anchor="middle">WHAT WAS ACTUALLY TRUE</text><line class="sl-line" data-series="All 14 tasks verified" data-from="100" data-to="64" x1="320" y1="40" x2="680" y2="176.8" stroke-opacity="0.8" data-tip="All 14 tasks verified — said 100%, was 64%"/><circle class="sl-dot" cx="320" cy="40" r="3"/><circle class="sl-dot" cx="680" cy="176.8" r="3"/><text class="c-name" data-series="All 14 tasks verified" data-end="from" data-role="name" x="272" y="44" text-anchor="end">All 14 tasks verified</text><text class="c-value" data-series="All 14 tasks verified" data-end="from" x="304" y="44" text-anchor="end">100%</text><text class="c-value" data-series="All 14 tasks verified" data-end="to" x="696" y="180.8">64%</text><text class="c-name" data-series="All 14 tasks verified" data-end="to" data-role="name" x="728" y="180.8">All 14 tasks verified</text><line class="sl-line is-focal" data-series="Browser tests all passing" data-from="95" data-to="0" x1="320" y1="59" x2="680" y2="420" stroke-opacity="1" data-tip="Browser tests all passing — said 95%, was 0%"/><circle class="sl-dot is-focal" cx="320" cy="59" r="4"/><circle class="sl-dot is-focal" cx="680" cy="420" r="4"/><text class="c-name" data-series="Browser tests all passing" data-end="from" data-role="name" x="272" y="63" text-anchor="end">Browser tests all passing</text><text class="c-value" data-series="Browser tests all passing" data-end="from" x="304" y="63" text-anchor="end">95%</text><text class="c-value" data-series="Browser tests all passing" data-end="to" x="696" y="424">0%</text><text class="c-name" data-series="Browser tests all passing" data-end="to" data-role="name" x="728" y="424">Browser tests all passing</text><line class="sl-line" data-series="Contrast fine on all 38 pairs" data-from="88" data-to="76" x1="320" y1="85.6" x2="680" y2="131.2" stroke-opacity="0.7" data-tip="Contrast fine on all 38 pairs — said 88%, was 76%"/><circle class="sl-dot" cx="320" cy="85.6" r="3"/><circle class="sl-dot" cx="680" cy="131.2" r="3"/><text class="c-name" data-series="Contrast fine on all 38 pairs" data-end="from" data-role="name" x="272" y="89.6" text-anchor="end">Contrast fine on all 38 pairs</text><text class="c-value" data-series="Contrast fine on all 38 pairs" data-end="from" x="304" y="89.6" text-anchor="end">88%</text><text class="c-value" data-series="Contrast fine on all 38 pairs" data-end="to" x="696" y="135.2">76%</text><text class="c-name" data-series="Contrast fine on all 38 pairs" data-end="to" data-role="name" x="728" y="135.2">Contrast fine on all 38 pairs</text><line class="sl-line" data-series="Every check proven able to fail" data-from="80" data-to="55" x1="320" y1="116" x2="680" y2="211" stroke-opacity="0.7" data-tip="Every check proven able to fail — said 80%, was 55%"/><circle class="sl-dot" cx="320" cy="116" r="3"/><circle class="sl-dot" cx="680" cy="211" r="3"/><text class="c-name" data-series="Every check proven able to fail" data-end="from" data-role="name" x="272" y="120" text-anchor="end">Every check proven able to fail</text><text class="c-value" data-series="Every check proven able to fail" data-end="from" x="304" y="120" text-anchor="end">80%</text><text class="c-value" data-series="Every check proven able to fail" data-end="to" x="696" y="215">55%</text><text class="c-name" data-series="Every check proven able to fail" data-end="to" data-role="name" x="728" y="215">Every check proven able to fail</text><line class="sl-line" data-series="Tests cover the new code" data-from="72" data-to="41" x1="320" y1="146.4" x2="680" y2="264.2" stroke-opacity="0.6" data-tip="Tests cover the new code — said 72%, was 41%"/><circle class="sl-dot" cx="320" cy="146.4" r="3"/><circle class="sl-dot" cx="680" cy="264.2" r="3"/><text class="c-name" data-series="Tests cover the new code" data-end="from" data-role="name" x="272" y="150.4" text-anchor="end">Tests cover the new code</text><text class="c-value" data-series="Tests cover the new code" data-end="from" x="304" y="150.4" text-anchor="end">72%</text><text class="c-value" data-series="Tests cover the new code" data-end="to" x="696" y="268.2">41%</text><text class="c-name" data-series="Tests cover the new code" data-end="to" data-role="name" x="728" y="268.2">Tests cover the new code</text><line class="rule-legend" stroke-opacity=".18" x1="40" y1="462" x2="960" y2="462"/><text class="c-eyebrow" x="40" y="478">LEGEND</text><text class="c-source" x="960" y="478" text-anchor="end">BOTH AXES 0-100% · 5 CORRECTIONS · 4 SEP 2026</text><line class="sl-line" stroke-opacity=".8" x1="120" y1="493" x2="138" y2="493"/><circle class="sl-dot" cx="138" cy="493" r="3"/><text class="c-legend" x="148" y="497">a correction</text><line class="sl-line is-focal" x1="245" y1="493" x2="263" y2="493"/><circle class="sl-dot is-focal" cx="263" cy="493" r="4"/><text class="c-legend" x="273" y="497">Browser tests all passing, the one that produced a false pass</text></svg><details class="tv" id="tv-wrong"><summary>As a table</summary><div class="scroll"><table><caption class="sr-only">Every correction, and how we got it wrong</caption><thead><tr><th scope="col">What we said</th><th scope="col" class="num">Said</th><th scope="col" class="num">Was</th><th scope="col">What was actually true</th><th scope="col">How we got it wrong</th><th scope="col">How we found out</th></tr></thead><tbody><tr><th scope="row">All 14 tasks verified</th><td class="num">100%</td><td class="num">64%</td><td>9 of 14 were re-checked after the rebase; 5 were not.</td><td>The run log from before the rebase was read as current.</td><td>the checks re-run at version b7d41ae</td></tr><tr><th scope="row">Browser tests all passing</th><td class="num">95%</td><td class="num">0%</td><td>The run examined 0 tests and still reported success.</td><td>The tag matched no files, and the runner treats that as a pass.</td><td>the guard against an empty test run</td></tr><tr><th scope="row">Contrast fine on all 38 pairs</th><td class="num">88%</td><td class="num">76%</td><td>29 of 38 pairs pass; the muted rail sits at 3.1 to 1.</td><td>One pair was measured and the result assumed to hold for the rest.</td><td>the contrast check, run over all 38 pairs</td></tr><tr><th scope="row">Every check proven able to fail</th><td class="num">80%</td><td class="num">55%</td><td>4 of 5 alarm tests found a fault; the contrast one found none.</td><td>A test that ran was counted as a test that noticed.</td><td>the alarm-test harness, WEB-5088</td></tr><tr><th scope="row">Tests cover the new code</th><td class="num">72%</td><td class="num">41%</td><td>41% of the new lines are reached by a test.</td><td>The figure was quoted for the whole repository, not the new work.</td><td>coverage re-measured on the branch alone</td></tr></tbody></table></div></details></div>
+    </section>
+
+    <section class="zone" id="zone-unwatched" style="--i:7"
+             aria-labelledby="h-unwatched" data-attention="all">
+      <header class="zone-hd">
+        <span class="zone-no">08</span>
+        <h2 id="h-unwatched">What nobody checked</h2>
+        <p class="zone-note">Nothing here failed. Nothing here passed either.</p>
+      </header>
+      <div class="zone-body" data-zone="unwatched"><svg class="chart" viewBox="0 0 1000 500" role="img" aria-labelledby="unwatched-title unwatched-desc"><title id="unwatched-title">What nobody checked</title><desc id="unwatched-desc">6 areas of the work hold 54 things no check has looked at. Each rectangle&#39;s area is the number of unchecked things in that area, and the largest is screens on a phone at 18 of 24.</desc><rect class="tm-under" x="42" y="42" width="301" height="376" rx="2"/><rect class="tm-cell is-focal" data-share="33.3" x="42" y="42" width="301" height="376" rx="2" fill-opacity=".18" stroke-opacity="1" data-tip="Screens on a phone — 18 of 24 never checked. No phone in the test setup."/><text class="c-cell" x="54" y="68">Screens on a phone</text><text class="c-value" x="54" y="86">18 of 24 · 33%</text><rect class="tm-under" x="347" y="42" width="200" height="376" rx="2"/><rect class="tm-cell" data-share="22.2" x="347" y="42" width="200" height="376" rx="2" fill-opacity="0.1" stroke-opacity=".30" data-tip="Printing — 12 of 12 never checked. The test browser ignores print styles."/><text class="c-cell" x="359" y="68">Printing</text><text class="c-value" x="359" y="86">12 of 12</text><rect class="tm-under" x="551" y="42" width="267" height="210" rx="2"/><rect class="tm-cell" data-share="16.7" x="551" y="42" width="267" height="210" rx="2" fill-opacity="0.1" stroke-opacity=".30" data-tip="Screen readers — 9 of 12 never checked. Needs a device and a person."/><text class="c-cell" x="563" y="68">Screen readers</text><text class="c-value" x="563" y="86">9 of 12 · 17%</text><rect class="tm-under" x="551" y="256" width="267" height="162" rx="2"/><rect class="tm-cell" data-share="13" x="551" y="256" width="267" height="162" rx="2" fill-opacity="0.1" stroke-opacity=".30" data-tip="Windows — 7 of 7 never checked. No Windows machine here."/><text class="c-cell" x="563" y="282">Windows</text><text class="c-value" x="563" y="300">7 of 7 · 13%</text><rect class="tm-under" x="822" y="42" width="132" height="233" rx="2"/><rect class="tm-cell" data-share="9.3" x="822" y="42" width="132" height="233" rx="2" fill-opacity="0.1" stroke-opacity=".30" data-tip="Reduced motion — 5 of 6 never checked. Same test-browser limit as printing."/><text class="c-cell" x="834" y="68">Reduced motion</text><text class="c-value" x="834" y="86">5 of 6</text><rect class="tm-under" x="822" y="279" width="132" height="139" rx="2"/><rect class="tm-cell" data-share="5.6" x="822" y="279" width="132" height="139" rx="2" fill-opacity="0.1" stroke-opacity=".30" data-tip="Long lists — 3 of 4 never checked. The test data was never built."/><text class="c-cell" x="834" y="305">Long lists</text><text class="c-value" x="834" y="323">3 of 4</text><line class="rule-legend" stroke-opacity=".18" x1="40" y1="462" x2="960" y2="462"/><text class="c-eyebrow" x="40" y="478">LEGEND</text><text class="c-source" x="960" y="478" text-anchor="end">AREA = THINGS NOBODY CHECKED · 54 ACROSS 6 AREAS · 4 SEP 2026</text><rect class="tm-cell" fill-opacity="0.14" stroke-opacity=".30" x="120" y="488" width="16" height="8"/><text class="c-legend" x="148" y="497">area = things nobody checked</text><rect class="tm-cell is-focal" fill-opacity=".18" stroke-opacity="1" x="331" y="488" width="16" height="8"/><text class="c-legend" x="359" y="497">Screens on a phone, the largest unchecked area</text><rect class="tm-cell" fill-opacity="0.04" stroke-opacity=".30" x="640" y="488" width="16" height="8"/><text class="c-legend" x="668" y="497">stronger contrast means more unchecked</text></svg><details class="tv" id="tv-unwatched"><summary>As a table</summary><div class="scroll"><table><caption class="sr-only">What nobody checked, and why</caption><thead><tr><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="0" data-kind="text">Area of the work<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" class="num" aria-sort="none"><button type="button" class="sort" data-col="1" data-kind="num">Never checked<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" class="num" aria-sort="none"><button type="button" class="sort" data-col="2" data-kind="num">Out of<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" class="num" aria-sort="none"><button type="button" class="sort" data-col="3" data-kind="num">Share of all unchecked<span class="arrow" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none"><button type="button" class="sort" data-col="4" data-kind="text">Why nobody checked<span class="arrow" aria-hidden="true"></span></button></th></tr></thead><tbody><tr><th scope="row">Screens on a phone</th><td class="num">18</td><td class="num">24</td><td class="num">33%</td><td>No phone in the test setup.</td></tr><tr><th scope="row">Printing</th><td class="num">12</td><td class="num">12</td><td class="num">22%</td><td>The test browser ignores print styles.</td></tr><tr><th scope="row">Screen readers</th><td class="num">9</td><td class="num">12</td><td class="num">17%</td><td>Needs a device and a person.</td></tr><tr><th scope="row">Windows</th><td class="num">7</td><td class="num">7</td><td class="num">13%</td><td>No Windows machine here.</td></tr><tr><th scope="row">Reduced motion</th><td class="num">5</td><td class="num">6</td><td class="num">9%</td><td>Same test-browser limit as printing.</td></tr><tr><th scope="row">Long lists</th><td class="num">3</td><td class="num">4</td><td class="num">6%</td><td>The test data was never built.</td></tr></tbody></table></div></details></div>
+    </section>
+
+    <section class="zone" id="zone-notdone" style="--i:8"
+             aria-labelledby="h-notdone" data-attention="none">
+      <header class="zone-hd">
+        <span class="zone-no">09</span>
+        <h2 id="h-notdone">Left undone on purpose</h2>
+      </header>
+      <div class="zone-body" data-zone="notdone"><div class="scroll"><table><caption class="sr-only">Work set aside on purpose</caption><thead><tr><th scope="col">What we did not do</th><th scope="col">Why</th><th scope="col">What it is waiting for</th><th scope="col">How big</th></tr></thead><tbody><tr><th scope="row">Smoke run on Windows</th><td>No Windows machine here.</td><td>A Windows machine.</td><td>a few days</td></tr><tr><th scope="row">Sign the Mac build</th><td>The signing key was withheld.</td><td>The signing key.</td><td>an afternoon</td></tr><tr><th scope="row">Backfill the 2024 log</th><td>Costs more than this round allows.</td><td>Approval to spend $40.</td><td>a week</td></tr></tbody></table></div></div>
+    </section>
+
+    <section class="zone" id="zone-files" style="--i:9"
+             aria-labelledby="h-files" data-attention="none">
+      <header class="zone-hd">
+        <span class="zone-no">10</span>
+        <h2 id="h-files">Files to open</h2>
+      </header>
+      <div class="zone-body" data-zone="files"><ul class="files"><li class="first"><a class="mono" href="reports/checks-b7d41ae.md">reports/checks-b7d41ae.md</a><span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false"><use href="#g-active"/></svg>open this one first</span><span class="says">Every check and what it examined.</span></li><li><a class="mono" href="reports/alarm-tests.json">reports/alarm-tests.json</a><span class="says">Each fault we caused, and what noticed.</span></li><li><a class="mono" href="logs/browser-empty-run.txt">logs/browser-empty-run.txt</a><span class="says">The run that examined nothing.</span></li><li><a class="mono" href="mocks/report-b7d41ae.html">mocks/report-b7d41ae.html</a><span class="says">This report at that version.</span></li></ul></div>
+    </section>
+
+    <section class="zone" id="zone-code" style="--i:10"
+             aria-labelledby="h-code" data-attention="none">
+      <header class="zone-hd">
+        <span class="zone-no">11</span>
+        <h2 id="h-code">Where the code sits</h2>
+      </header>
+      <div class="zone-body" data-zone="code"><dl class="tiles"><div class="tile"><dt><dfn>Branch<span class="gloss">a separate copy of the work, kept apart from the main one</span></dfn></dt><dd><span class="mono">feat/WEB-5088-alarms</span></dd></div><div class="tile t-warn"><dt>Changes not yet shared</dt><dd>7<span class="qual">still only on this machine</span></dd></div><div class="tile t-warn"><dt>Unsaved changes</dt><dd>some<span class="qual">not yet committed</span></dd></div><div class="tile t-warn"><dt>Shared with the team</dt><dd>no<span class="qual">nobody else can see it</span></dd></div></dl></div>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    Drawn from this project&rsquo;s own report file.
+  </footer>
+</div>
+
+<script>
+/* ============================================================================
+   render.js — every zone of the project report, built from the data.
+
+   Pure string builders: no DOM, no globals beyond the export at the foot. The
+   same file runs in two places, which is the point.
+
+     · at build time, under node, to write the static markup into the page, so
+       the report is complete with JavaScript switched off;
+     · in the browser, over the same data, so that swapping the data swaps the
+       page. Nothing on the page is authored as markup only.
+
+   Coordinates are computed from the data, never typed in. Colour, type size
+   and spacing come from CSS custom properties by way of a class name, so one
+   figure serves light and dark without a second copy.
+   ========================================================================== */
+
+"use strict";
+
+/* ---------- shared vocabulary --------------------------------------------
+   Six states, closed set. The left column is what an agent writes; the right
+   is what a reader sees. Nothing else on the page names a state.            */
+
+var STATE = {
+  "done":       { word: "finished",                    cls: "s-pass",    glyph: "g-pass" },
+  "in-flight":  { word: "being worked on now",         cls: "s-active",  glyph: "g-active" },
+  "needs-work": { word: "tried, did not pass",         cls: "s-fail",    glyph: "g-fail" },
+  "blocked":    { word: "stuck, waiting on something", cls: "s-blocked", glyph: "g-blocked" },
+  "unmeasured": { word: "nobody checked",              cls: "s-alarm",   glyph: "g-alarm" },
+  "waived":     { word: "left undone on purpose",      cls: "s-muted",   glyph: "g-muted" }
+};
+
+function esc(v) {
+  return String(v == null ? "" : v).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+function has(v) { return v != null && String(v).trim() !== ""; }
+function dash(v) { return has(v) ? esc(v) : '<span class="absent">not recorded</span>'; }
+function r1(n) { return Math.round(n * 10) / 10; }
+function px(n) { return String(Math.round(n)); }
+
+/** A state chip: colour, glyph and word together, so colour is never alone. */
+function chip(token, big) {
+  var s = STATE[token] || STATE.unmeasured;
+  return '<span class="chip ' + s.cls + (big ? " chip-lg" : "") + '">' +
+    '<svg class="gl" aria-hidden="true" focusable="false"><use href="#' + s.glyph + '"/></svg>' +
+    esc(s.word) + "</span>";
+}
+
+/** Opens an accessible figure. Title is the first child, before anything else. */
+function fig(slug, title, desc) {
+  return '<svg class="chart" viewBox="0 0 1000 500" role="img" ' +
+    'aria-labelledby="' + slug + '-title ' + slug + '-desc">' +
+    '<title id="' + slug + '-title">' + esc(title) + "</title>" +
+    '<desc id="' + slug + '-desc">' + esc(desc) + "</desc>";
+}
+
+/** The legend strip every figure shares, so a reader finds it where they left it. */
+function legend(keys, source) {
+  var out = '<line class="rule-legend" stroke-opacity=".18" x1="40" y1="462" x2="960" y2="462"/>' +
+    '<text class="c-eyebrow" x="40" y="478">LEGEND</text>' +
+    '<text class="c-source" x="960" y="478" text-anchor="end">' + esc(source) + "</text>";
+  var x = 120;
+  for (var i = 0; i < keys.length; i++) {
+    out += keys[i].mark(x);
+    out += '<text class="c-legend" x="' + px(x + 28) + '" y="497">' + esc(keys[i].label) + "</text>";
+    x += 28 + keys[i].label.length * 5.4 + 32;
+  }
+  return out;
+}
+
+/** Every figure's twin: the same values, reachable without seeing anything. */
+function tableView(id, caption, head, rows, sortable) {
+  var ths = head.map(function (h, i) {
+    var cls = h.num ? ' class="num"' : "";
+    var label = esc(h.label);
+    if (sortable) {
+      label = '<button type="button" class="sort" data-col="' + i + '" data-kind="' +
+        (h.num ? "num" : "text") + '">' + label + '<span class="arrow" aria-hidden="true"></span></button>';
+    }
+    return '<th scope="col"' + cls + (sortable ? ' aria-sort="none"' : "") + ">" + label + "</th>";
+  }).join("");
+  var trs = rows.map(function (cells) {
+    var tds = cells.map(function (c, i) {
+      var cls = head[i].num ? ' class="num"' : "";
+      return i === 0 ? '<th scope="row"' + cls + ">" + c + "</th>" : "<td" + cls + ">" + c + "</td>";
+    }).join("");
+    return "<tr>" + tds + "</tr>";
+  }).join("");
+  return '<details class="tv" id="tv-' + id + '"><summary>As a table</summary>' +
+    '<div class="scroll"><table><caption class="sr-only">' + esc(caption) + "</caption>" +
+    "<thead><tr>" + ths + "</tr></thead><tbody>" + trs + "</tbody></table></div></details>";
+}
+
+function empty(sentence) {
+  return '<p class="zone-empty"><span class="mark">nothing</span> ' + esc(sentence) + "</p>";
+}
+
+/* ==========================================================================
+   0 · Masthead — the project's own name and when this was written
+   ========================================================================== */
+
+function zoneMeta(data) {
+  // Read the stamp's own fields rather than converting it: the reader wants the
+  // time the agent wrote, not that time moved into another zone.
+  var m = String(data.updated || "").match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+  var stamp = m
+    ? "updated " + (+m[3]) + " " +
+      ["January","February","March","April","May","June","July","August",
+       "September","October","November","December"][+m[2] - 1] + " " + m[1] +
+      ", " + m[4] + ":" + m[5]
+    : "no update time recorded";
+  return '<span class="kicker">Project report</span>' +
+    "<h1>" + esc(data.project || "unnamed project") + "</h1>" +
+    '<span class="stamp mono">' + esc(stamp) + "</span>";
+}
+
+/* ==========================================================================
+   1 · How this round went — a hero figure and one meter
+   ========================================================================== */
+
+function zoneHeadline(data) {
+  var v = data.verdict || {};
+  var token = STATE[v.token] ? v.token : "unmeasured";
+  var done = 0, total = (data.tasks || []).length;
+  (data.tasks || []).forEach(function (t) { if (t.outcome === "done") done++; });
+  var pct = total ? (done / total) * 100 : 0;
+
+  return '<div class="hero s-edge-' + token + '">' +
+    '<div class="hero-main">' +
+      chip(token, true) +
+      '<p class="hero-number">' + esc(v.number || (done + " of " + total)) + "</p>" +
+      '<p class="hero-unit">' + esc(v.unit || "tasks finished") + "</p>" +
+      '<p class="hero-line">' + esc(v.headline || "No sentence was recorded.") + "</p>" +
+      '<div class="meter" role="img" aria-label="' + done + " of " + total + " tasks finished, " +
+        Math.round(pct) + ' per cent of the round">' +
+        '<div class="meter-track"><i class="meter-fill" style="width:' + r1(pct) + '%"></i></div>' +
+        '<span class="meter-cap"><b>' + Math.round(pct) + "%</b> of this round</span>" +
+      "</div>" +
+    "</div>" +
+    '<dl class="hero-meta">' +
+      '<div><dt><dfn>Round<span class="gloss">one pass of work across the whole project</span></dfn></dt>' +
+      "<dd>" + dash(v.run_label) + "</dd></div>" +
+      '<div><dt><dfn>Version<span class="gloss">the seven-character stamp naming exactly which copy of the code this report describes</span></dfn></dt>' +
+      '<dd class="mono">' + dash(v.head_sha) + "</dd></div>" +
+    "</dl></div>";
+}
+
+/* ==========================================================================
+   2 · Where the work is — Sankey
+   Width is volume and volume is conserved: every node's ribbons sum to its own
+   bar, and all three columns carry the same total.
+   ========================================================================== */
+
+var FROM = [{ key: "planned", label: "Planned this round" }, { key: "carried", label: "Carried over" }];
+var STAGE = [
+  { key: "code written",  label: "Code written" },
+  { key: "being checked", label: "Being checked" },
+  { key: "not started",   label: "Not started" }
+];
+var END = [
+  { key: "done",      label: "Finished" },
+  { key: "in-flight", label: "Still going" },
+  { key: "blocked",   label: "Stuck" }
+];
+
+function zoneFlow(data) {
+  var tasks = data.tasks || [];
+  if (!tasks.length) return empty("No tasks were recorded for this round.");
+
+  var total = tasks.length;
+  var tally = function (items, field) {
+    return items.map(function (n) {
+      return tasks.filter(function (t) { return t[field] === n.key; }).length;
+    });
+  };
+  var c1 = tally(FROM, "origin"), c2 = tally(STAGE, "stage"), c3 = tally(END, "outcome");
+
+  // One scale for the whole figure: 224px of band shared out across the round.
+  var BAND = 224, k = BAND / total, GUT = 40, BW = 12;
+  var cols = [
+    { x: 260, items: FROM,  n: c1 },
+    { x: 500, items: STAGE, n: c2 },
+    { x: 740, items: END,   n: c3 }
+  ];
+  cols.forEach(function (col) {
+    var stack = BAND + GUT * (col.items.length - 1);
+    var y = Math.round((40 + (380 - stack) / 2) / 4) * 4;
+    col.bars = col.n.map(function (n) {
+      var h = Math.round(n * k), bar = { y: y, h: h, n: n, out: y, into: y };
+      y += h + GUT;
+      return bar;
+    });
+  });
+
+  // Cross-tabs, taken in a fixed top-to-bottom order so that no two ribbons
+  // share an attach point and none has to cross another.
+  var links = [];
+  function link(a, ai, b, bi, f1, f2) {
+    var n = tasks.filter(function (t) {
+      return t[f1] === a.items[ai].key && t[f2] === b.items[bi].key;
+    }).length;
+    if (!n) return;
+    var h = Math.round(n * k), s = a.bars[ai], d = b.bars[bi];
+    links.push({
+      n: n, h: h, x0: a.x + BW, x1: b.x, t0: s.out, t1: d.into,
+      from: a.items[ai].label, to: b.items[bi].label,
+      focal: (a.items[ai].key === "carried" && b.items[bi].key === "not started") ||
+             (a.items[ai].key === "not started" && b.items[bi].key === "blocked")
+    });
+    s.out += h; d.into += h;
+  }
+  var i, j;
+  for (i = 0; i < FROM.length; i++)
+    for (j = 0; j < STAGE.length; j++) link(cols[0], i, cols[1], j, "origin", "stage");
+  for (i = 0; i < STAGE.length; i++)
+    for (j = 0; j < END.length; j++) link(cols[1], i, cols[2], j, "stage", "outcome");
+
+  var svg = fig("flow", "Where the work is",
+    total + " tasks flow left to right through three stages. " +
+    c1.map(function (n, x) { return n + " " + FROM[x].label.toLowerCase(); }).join(", ") + ". " +
+    c2.map(function (n, x) { return n + " " + STAGE[x].label.toLowerCase(); }).join(", ") + ". " +
+    c3.map(function (n, x) { return n + " " + END[x].label.toLowerCase(); }).join(", ") +
+    ". Ribbon width is the number of tasks.");
+
+  ["WHERE IT CAME FROM", "HOW FAR IT GOT", "WHERE IT ENDED UP"].forEach(function (h, ci) {
+    svg += '<text class="c-eyebrow" x="' + px(cols[ci].x + BW / 2) + '" y="26" text-anchor="middle">' +
+      h + "</text>";
+  });
+
+  // Ribbons before bars, so the bars cap them; the focal path paints last.
+  links.forEach(function (l) { if (!l.focal) svg += ribbon(l, "sk-flow"); });
+  links.forEach(function (l) { if (l.focal) svg += ribbon(l, "sk-flow sk-flow-focal"); });
+
+  cols.forEach(function (col, ci) {
+    col.bars.forEach(function (bar, bi) {
+      var label = col.items[bi].label, qty = bar.n + (bar.n === 1 ? " task" : " tasks");
+      svg += '<rect class="sk-node" x="' + px(col.x) + '" y="' + px(bar.y) + '" width="' + BW +
+        '" height="' + px(bar.h) + '" data-tip="' + esc(label + " — " + qty) + '"/>';
+      if (ci === 0) {
+        svg += '<text class="c-name" x="' + px(col.x - 8) + '" y="' + px(bar.y + bar.h / 2 - 2) +
+          '" text-anchor="end">' + esc(label) + "</text>" +
+          '<text class="c-value" x="' + px(col.x - 8) + '" y="' + px(bar.y + bar.h / 2 + 12) +
+          '" text-anchor="end">' + qty + "</text>";
+      } else if (ci === 2) {
+        svg += '<text class="c-name" x="' + px(col.x + BW + 16) + '" y="' + px(bar.y + bar.h / 2 - 2) +
+          '">' + esc(label) + "</text>" +
+          '<text class="c-value" x="' + px(col.x + BW + 16) + '" y="' + px(bar.y + bar.h / 2 + 12) +
+          '">' + qty + "</text>";
+      } else {
+        // Centred in the gutter above the bar, on clean paper, so no mask is needed.
+        var top = bi === 0 ? 40 : col.bars[bi - 1].y + col.bars[bi - 1].h;
+        var mid = (top + bar.y) / 2;
+        svg += '<text class="c-name" x="' + px(col.x + BW / 2) + '" y="' + px(mid - 1) +
+          '" text-anchor="middle">' + esc(label) + "</text>" +
+          '<text class="c-value" x="' + px(col.x + BW / 2) + '" y="' + px(mid + 12) +
+          '" text-anchor="middle">' + qty + "</text>";
+      }
+    });
+  });
+
+  svg += legend([
+    { label: "one task, wherever it went", mark: function (x) {
+        return '<rect class="sk-flow" fill-opacity=".16" x="' + px(x) + '" y="488" width="16" height="8"/>'; } },
+    { label: c3[2] + " carried-over tasks that were never started", mark: function (x) {
+        return '<rect class="sk-flow sk-flow-focal" fill-opacity=".34" x="' + px(x) + '" y="488" width="16" height="8"/>'; } }
+  ], "WIDTH = " + Math.round(k) + "PX PER TASK · " + total + " TASKS · 4 SEP 2026");
+
+  var rows = tasks.map(function (t) {
+    var origin = FROM.filter(function (f) { return f.key === t.origin; })[0];
+    return ['<span class="mono">' + dash(t.id) + "</span>", esc(t.title),
+      esc(origin ? origin.label : t.origin), esc(t.stage), chip(t.outcome),
+      '<span class="mono">' + dash(t.version) + "</span>", esc(t.note)];
+  });
+  return svg + "</svg>" + tableView("flow", "Every task in this round", [
+    { label: "Task" }, { label: "What it is" }, { label: "Came from" },
+    { label: "How far it got" }, { label: "Where it ended up" }, { label: "Version" }, { label: "Note" }
+  ], rows, true);
+}
+
+/** One closed path per ribbon. Both controls sit on the corridor midline, each
+ *  at the y of the edge it steers, so the band meets its bar square-on. */
+function ribbon(l, cls) {
+  var mid = (l.x0 + l.x1) / 2;
+  var d = "M" + r1(l.x0) + "," + r1(l.t0) +
+    " C" + r1(mid) + "," + r1(l.t0) + " " + r1(mid) + "," + r1(l.t1) + " " + r1(l.x1) + "," + r1(l.t1) +
+    " L" + r1(l.x1) + "," + r1(l.t1 + l.h) +
+    " C" + r1(mid) + "," + r1(l.t1 + l.h) + " " + r1(mid) + "," + r1(l.t0 + l.h) + " " +
+    r1(l.x0) + "," + r1(l.t0 + l.h) + " Z";
+  return '<path class="' + cls + '" fill-opacity="' + (cls.indexOf("focal") > -1 ? ".34" : ".16") +
+    '" d="' + d + '" data-tip="' +
+    esc(l.from + " to " + l.to + " — " + l.n + (l.n === 1 ? " task" : " tasks")) + '"/>';
+}
+
+/* ==========================================================================
+   2b · What is coming next — planned rounds, size tiers, and estimated time
+   ========================================================================== */
+
+function zoneRoadmap(data) {
+  var roadmap = data.roadmap || [];
+  var est = data.estimate_remaining || {};
+  if (!roadmap.length && !est.parallel_min && !est.median_min) {
+    return empty("No planned rounds or roadmap recorded.");
+  }
+
+  var timeStr = "";
+  if (est.parallel_min && est.parallel_min.length === 2) {
+    var lo = est.parallel_min[0], hi = est.parallel_min[1];
+    var loStr = lo < 60 ? lo + "m" : r1(lo / 60) + "h";
+    var hiStr = hi < 60 ? hi + "m" : r1(hi / 60) + "h";
+    timeStr = loStr + " – " + hiStr;
+  } else if (est.median_min) {
+    timeStr = est.median_min < 60 ? "~" + est.median_min + "m" : "~" + r1(est.median_min / 60) + "h";
+  } else {
+    timeStr = "not estimated";
+  }
+
+  var medianStr = est.median_min ? (est.median_min < 60 ? est.median_min + " min" : r1(est.median_min / 60) + " hours") : "";
+  var tasksRem = est.tasks_remaining != null ? est.tasks_remaining : roadmap.reduce(function (acc, r) { return acc + (r.tasks ? r.tasks.length : 0); }, 0);
+  var lanesStr = est.lanes ? est.lanes + " parallel lanes" : "single lane";
+  var basisStr = est.basis || "measured rates (reckon 1,842-agent benchmark: S=8m, M=15m, L=25m, XL=45m)";
+
+  var heroHtml = '<div class="banner-est">' +
+    '<div class="est-main">' +
+      '<span class="c-eyebrow c-soft">TIME REMAINING (ESTIMATED)</span>' +
+      '<p class="est-time">' + esc(timeStr) + '</p>' +
+      (medianStr ? '<p class="est-sub">typical ' + esc(medianStr) + ' across ' + esc(lanesStr) + '</p>' : '') +
+      '<p class="est-basis mono">' + esc(basisStr) + ' — never a point estimate</p>' +
+    '</div>' +
+    '<div class="est-stat">' +
+      '<span class="c-eyebrow c-soft">WORK AHEAD</span>' +
+      '<p class="est-count">' + tasksRem + ' <span class="est-unit">tasks</span></p>' +
+      '<p class="est-sub">' + roadmap.length + ' planned round' + (roadmap.length === 1 ? '' : 's') + '</p>' +
+    '</div>' +
+  '</div>';
+
+  var ROW_H = 54, Y0 = 60, H = Y0 + roadmap.length * ROW_H + 40;
+  var svg = '<svg class="chart" viewBox="0 0 1000 ' + H + '" role="img" ' +
+    'aria-labelledby="rdm-title rdm-desc">' +
+    '<title id="rdm-title">What is coming next</title>' +
+    '<desc id="rdm-desc">' + roadmap.length + ' planned rounds, showing goals, size tiers and estimated duration ranges.</desc>';
+
+  svg += '<line class="axis" stroke-opacity=".25" x1="40" y1="36" x2="960" y2="36"/>' +
+    '<text class="c-eyebrow" x="40" y="24">PLANNED ROUND</text>' +
+    '<text class="c-eyebrow" x="240" y="24">GOAL &amp; WAITING ON</text>' +
+    '<text class="c-eyebrow" x="660" y="24">DURATION RANGE (P25–P90)</text>' +
+    '<text class="c-eyebrow" x="960" y="24" text-anchor="end">STATUS</text>';
+
+  roadmap.forEach(function (rd, i) {
+    var y = Y0 + i * ROW_H;
+    var isNext = rd.status === "next";
+    var isBlocked = rd.status === "blocked";
+    var bgCls = isNext ? 'fill-opacity=".24" class="sk-flow-focal"' : (isBlocked ? 'fill-opacity=".15" class="f-st-stuck"' : 'fill-opacity=".12" class="sk-flow"');
+    var strokeCol = isNext ? 'var(--accent)' : (isBlocked ? 'var(--st-blocked)' : 'var(--muted)');
+
+    svg += '<line class="grid" stroke-opacity=".08" x1="40" y1="' + (y + 46) + '" x2="960" y2="' + (y + 46) + '"/>';
+
+    svg += '<text class="c-name" x="40" y="' + (y + 20) + '"' + (isNext ? ' fill="var(--accent)" font-weight="700"' : '') + '>' +
+      esc(rd.round) + '</text>' +
+      '<text class="c-source mono" x="40" y="' + (y + 36) + '">tier ' + esc(rd.tier || "M") + ' · ' + (rd.tasks ? rd.tasks.length : 0) + ' tasks</text>';
+
+    svg += '<text class="c-cell" x="240" y="' + (y + 20) + '">' + esc(rd.goal) + '</text>' +
+      '<text class="c-legend" x="240" y="' + (y + 36) + '">waits on: ' + esc(rd.waits_on || "nothing") + '</text>';
+
+    var tierW = { S: 90, M: 160, L: 220, XL: 280 }[rd.tier || "M"] || 160;
+    var durText = rd.estimate_min ? rd.estimate_min[0] + "–" + rd.estimate_min[1] + " min" : (rd.tier || "M");
+    svg += '<rect x="660" y="' + (y + 6) + '" width="' + tierW + '" height="22" rx="4" ' + bgCls + ' stroke="' + strokeCol + '" stroke-width="1.2"/>' +
+      '<text class="c-value mono" x="' + (660 + tierW / 2) + '" y="' + (y + 21) + '" text-anchor="middle" font-size="11">' + esc(durText) + '</text>';
+
+    var stWord = isNext ? "next" : (isBlocked ? "blocked" : "queued");
+    svg += '<text class="c-name" x="960" y="' + (y + 22) + '" text-anchor="end">' + esc(stWord) + '</text>';
+  });
+
+  svg += '<line class="rule-legend" stroke-opacity=".18" x1="40" y1="' + (H - 24) + '" x2="960" y2="' + (H - 24) + '"/>' +
+    '<text class="c-source mono" x="40" y="' + (H - 10) + '">TIER S = 3–25M (MEDIAN 8M) · M = 7–56M (15M) · L = 14–68M (25M) · XL = 25–155M (45M)</text>' +
+    '<text class="c-source mono" x="960" y="' + (H - 10) + '" text-anchor="end">DERIVED FROM RECKON:RECKON 1,842-AGENT BENCHMARK</text>' +
+    '</svg>';
+
+  var head = [
+    { label: "Round" }, { label: "Goal" }, { label: "Tasks" },
+    { label: "Size tier" }, { label: "Status" }, { label: "Waiting on" },
+    { label: "Estimated duration", num: true }
+  ];
+  var rows = roadmap.map(function (rd) {
+    var durStr = rd.estimate_min ? rd.estimate_min[0] + "–" + rd.estimate_min[1] + " min" : (rd.tier || "—");
+    var stWord = rd.status === "next" ? "next" : (rd.status === "blocked" ? "blocked" : "queued");
+    return [
+      '<span class="mono">' + esc(rd.round) + '</span>',
+      esc(rd.goal),
+      (rd.tasks || []).map(function (t) { return '<span class="mono">' + esc(t) + '</span>'; }).join(", "),
+      'tier ' + esc(rd.tier || "M"),
+      '<span class="chip ' + (rd.status === "next" ? "s-active" : (rd.status === "blocked" ? "s-blocked" : "s-muted")) + '">' + esc(stWord) + '</span>',
+      esc(rd.waits_on || "nothing"),
+      '<span class="mono">' + esc(durStr) + '</span>'
+    ];
+  });
+  var table = tableView("roadmap", "Planned rounds and estimated durations", head, rows, true);
+
+  return heroHtml + svg + table;
+}
+
+/* ==========================================================================
+   3 · Checks that ran — horizontal bars against each check's own limit
+   ========================================================================== */
+
+/**
+ * Reads the three shapes a check reports its result in, and returns the value,
+ * its named limit, and the share of that limit the value reached. A check that
+ * examined nothing has no share at all: it is drawn as an explicit empty track,
+ * never as a full bar, because none out of none is not a pass.
+ */
+function readCounts(raw) {
+  var text = String(raw == null ? "" : raw).trim();
+  var frac = text.match(/^(\d+)\s*\/\s*(\d+)$/);
+  if (frac) {
+    var a = +frac[1], b = +frac[2];
+    if (b === 0) return { blank: true, observed: "nothing was measured", limit: "no limit recorded" };
+    return { share: (a / b) * 100, observed: a + " of " + b, limit: "all " + b + " must pass" };
+  }
+  var sides = text.split(/\s+vs\s+/i);
+  if (sides.length === 2) {
+    var left = sides[0].trim(), right = sides[1].trim();
+    var ln = left.match(/^([\d.]+)/), rn = right.match(/^(<=|>=)\s*([\d.]+)/);
+    if (ln && rn) {
+      var up = rn[1] === ">=";
+      return {
+        share: (parseFloat(ln[1]) / parseFloat(rn[2])) * 100,
+        observed: left,
+        limit: (up ? "must reach " : "must stay under ") + right.slice(2).trim()
+      };
+    }
+  }
+  return { blank: true, observed: text || "nothing was measured", limit: "no limit recorded" };
+}
+
+function zoneChecks(data) {
+  var gates = data.gates || [];
+  if (!gates.length) return empty("No check ran this round.");
+
+  var X0 = 260, X1 = 880, W = X1 - X0, MAX = 240, PITCH = 52, Y0 = 72;
+  var s2x = function (s) { return X0 + Math.min(s, MAX) / MAX * W; };
+  var limitX = s2x(100);
+
+  var read = gates.map(function (g) {
+    var c = readCounts(g.counts);
+    // A check that examined nothing is never a pass, whatever it exited with.
+    c.state = c.blank && g.state === "done" ? "unmeasured" : (STATE[g.state] ? g.state : "unmeasured");
+    c.gate = g;
+    return c;
+  });
+  var blanks = read.filter(function (c) { return c.blank; }).length;
+
+  var svg = fig("checks", "Checks that ran",
+    gates.length + " checks, each drawn against its own limit. A bar is the value that check " +
+    "measured as a share of its limit, and the mark at 100 per cent is the limit itself. " +
+    blanks + " checks measured nothing and carry a dashed rule where a bar would be.");
+
+  [0, 50, 150, 200].forEach(function (t) {
+    if (t > 0) svg += '<line class="grid" stroke-opacity=".08" x1="' + px(s2x(t)) + '" y1="56" x2="' + px(s2x(t)) + '" y2="404"/>';
+    svg += '<text class="c-tick" x="' + px(s2x(t)) + '" y="424" text-anchor="middle">' + t + "%</text>";
+  });
+  svg += '<line class="axis" stroke-opacity=".25" x1="' + X0 + '" y1="40" x2="' + X0 + '" y2="420"/>' +
+    '<line class="thr" stroke-opacity=".55" x1="' + px(limitX) + '" y1="56" x2="' + px(limitX) + '" y2="404"/>' +
+    '<text class="c-tick is-thr" x="' + px(limitX) + '" y="424" text-anchor="middle">100%</text>' +
+    '<text class="c-eyebrow is-thr" x="' + px(limitX) + '" y="46" text-anchor="middle">THE LIMIT</text>';
+
+  read.forEach(function (c, i) {
+    var y = Y0 + i * PITCH;
+    svg += '<text class="c-name" x="248" y="' + px(y - 1) + '" text-anchor="end">' +
+      esc(c.gate.name) + "</text>" +
+      '<text class="c-value" x="248" y="' + px(y + 12) + '" text-anchor="end">' + esc(c.limit) + "</text>";
+    if (c.blank) {
+      svg += '<line class="blank-rule" x1="' + X0 + '" y1="' + px(y) + '" x2="' + X1 +
+        '" y2="' + px(y) + '"/>' +
+        '<rect class="mask" x="' + X0 + '" y="' + px(y - 8) + '" width="132" height="16" ' +
+        'data-tip="' + esc(c.gate.name + " — nothing was measured") + '"/>' +
+        '<text class="c-blank" x="' + X0 + '" y="' + px(y + 4) + '">nothing was measured</text>';
+    } else {
+      var w = s2x(c.share) - X0;
+      svg += '<rect class="bar ' + STATE[c.state].cls + '" x="' + X0 + '" y="' + px(y - 8) +
+        '" width="' + px(w) + '" height="16" data-tip="' +
+        esc(c.gate.name + " — " + c.observed + ", " + c.limit) + '"/>' +
+        '<line class="bar-cap" stroke-opacity=".80" x1="' + px(limitX) + '" y1="' + px(y - 12) + '" x2="' + px(limitX) +
+        '" y2="' + px(y + 12) + '"/>' +
+        '<text class="c-value" x="' + px(X0 + w + 10) + '" y="' + px(y + 4) + '">' + esc(c.observed) + "</text>";
+    }
+  });
+
+  svg += legend([
+    { label: "passed", mark: function (x) {
+        return '<rect class="bar s-pass" x="' + px(x) + '" y="488" width="16" height="8"/>'; } },
+    { label: "tried, did not pass", mark: function (x) {
+        return '<rect class="bar s-fail" x="' + px(x) + '" y="488" width="16" height="8"/>'; } },
+    { label: "measured nothing, so it proves nothing", mark: function (x) {
+        return '<line class="blank-rule" x1="' + px(x) + '" y1="493" x2="' + px(x + 16) + '" y2="493"/>'; } }
+  ], "BAR = SHARE OF THAT CHECK'S OWN LIMIT · ROWS IN THE ORDER THEY RAN · 4 SEP 2026");
+
+  var rows = read.map(function (c) {
+    return [esc(c.gate.name), '<code class="mono">' + dash(c.gate.command) + "</code>",
+      esc(c.observed), esc(c.limit),
+      c.blank ? '<span class="absent">no share</span>' : r1(c.share) + "%", chip(c.state)];
+  });
+  return svg + "</svg>" + tableView("checks", "Every check that ran this round", [
+    { label: "Check" }, { label: "What was run" }, { label: "What it measured" },
+    { label: "Its limit" }, { label: "Share of the limit", num: true }, { label: "How it went" }
+  ], rows, true);
+}
+
+/* ==========================================================================
+   4 · Do the alarms work? — dumbbell
+   ========================================================================== */
+
+/** A round ceiling above the data, so the axis is never truncated and the ticks
+ *  divide into five whole steps. */
+function niceCeiling(hi) {
+  if (hi <= 0) return 1;
+  var m = Math.pow(10, Math.floor(Math.log10(hi)));
+  var steps = [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10];
+  for (var i = 0; i < steps.length; i++) if (steps[i] * m >= hi) return steps[i] * m;
+  return 10 * m;
+}
+
+function zoneAlarms(data) {
+  var armed = (data.armed || []).slice();
+  if (!armed.length) {
+    return empty("No alarm was tested this round, so not one of the checks above is proven able to fail.");
+  }
+  armed.sort(function (a, b) { return (+a.red || 0) - (+b.red || 0); });
+
+  var X0 = 200, X1 = 960, W = X1 - X0, hi = 0;
+  armed.forEach(function (a) { hi = Math.max(hi, +a.red || 0, +a.green || 0); });
+  var ceil = niceCeiling(hi);                       // the floor is always 0: never truncated
+  var v2x = function (v) { return X0 + (v / ceil) * W; };
+  var PITCH = { 4: 88, 5: 64, 6: 64, 7: 52, 8: 48 }[armed.length] || 64;
+  var Y0 = { 6: 76, 7: 72, 8: 68 }[armed.length] || 96;
+  var dead = armed.filter(function (a) { return (+a.red || 0) === 0; }).length;
+
+  var svg = fig("alarms", "Do the alarms work?",
+    armed.length + " checks were tested by breaking the code on purpose. Each row carries two " +
+    "counts on one shared scale from 0 to " + ceil + " tests: how many tests noticed the fault, " +
+    "and how many pass when nothing is broken. " + dead + " check noticed nothing.");
+
+  var step = ceil / 5;
+  for (var t = 0; t <= ceil + 0.001; t += step) {
+    if (t > 0) svg += '<line class="grid" stroke-opacity=".08" x1="' + px(v2x(t)) + '" y1="56" x2="' + px(v2x(t)) + '" y2="408"/>';
+    svg += '<text class="c-tick" x="' + px(v2x(t)) + '" y="440" text-anchor="middle">' +
+      (Math.round(t * 10) / 10) + "</text>";
+  }
+  svg += '<line class="axis" stroke-opacity=".25" x1="' + X0 + '" y1="40" x2="' + X0 + '" y2="420"/>' +
+    '<text class="c-eyebrow" x="580" y="456" text-anchor="middle">NUMBER OF TESTS</text>';
+
+  armed.forEach(function (a, i) {
+    var y = Y0 + i * PITCH, red = +a.red || 0, green = +a.green || 0, flat = red === 0;
+    var xf = v2x(red), xr = v2x(green);
+    var left = Math.min(xf, xr), right = Math.max(xf, xr);
+    var lv = xf <= xr ? red : green, rv = xf <= xr ? green : red;
+    if (flat) {
+      svg += '<rect class="row-alarm" fill-opacity=".12" x="40" y="' + px(y - PITCH / 2 + 4) + '" width="924" height="' +
+        px(PITCH - 8) + '"/>';
+    }
+    svg += '<line class="db-conn" stroke-opacity=".55" x1="' + px(left) + '" y1="' + px(y) + '" x2="' + px(right) +
+      '" y2="' + px(y) + '"/>' +
+      '<circle class="db-ref" cx="' + px(xr) + '" cy="' + px(y) + '" r="6" data-tip="' +
+      esc(a.check + " — " + green + " tests pass when nothing is broken") + '"/>' +
+      (flat ? '<circle class="db-halo" cx="' + px(xf) + '" cy="' + px(y) + '" r="12"/>' : "") +
+      '<circle class="db-focal' + (flat ? " is-flat" : "") + '" cx="' + px(xf) + '" cy="' + px(y) +
+      '" r="6" data-tip="' + esc(a.check + " — " + red + " tests noticed the fault") + '"/>' +
+      '<text class="c-name' + (flat ? " is-flat" : "") + '" x="188" y="' + px(y + 4) +
+      '" text-anchor="end">' + esc(a.check) + "</text>";
+    // A value on the floor would land its label where the row name already sits,
+    // so it goes above its own dot instead.
+    if (left - 12 < X0) {
+      svg += '<text class="c-value' + (flat ? " is-flat" : "") + '" x="' + px(left) + '" y="' +
+        px(y - 12) + '" text-anchor="middle">' + (flat ? "0 — nothing noticed" : lv) + "</text>";
+    } else {
+      svg += '<text class="c-value" x="' + px(left - 12) + '" y="' + px(y + 4) +
+        '" text-anchor="end">' + lv + "</text>";
+    }
+    svg += '<text class="c-value" x="' + px(right + 12) + '" y="' + px(y + 4) + '">' + rv + "</text>";
+  });
+
+  svg += legend([
+    { label: "tests that noticed when we broke the code", mark: function (x) {
+        return '<circle class="db-focal" cx="' + px(x + 6) + '" cy="493" r="6"/>'; } },
+    { label: "tests that pass when nothing is broken", mark: function (x) {
+        return '<circle class="db-ref" cx="' + px(x + 6) + '" cy="493" r="6"/>'; } },
+    { label: "an alarm that noticed nothing", mark: function (x) {
+        return '<circle class="db-halo" cx="' + px(x + 6) + '" cy="493" r="9"/>' +
+          '<circle class="db-focal is-flat" cx="' + px(x + 6) + '" cy="493" r="5"/>'; } }
+  ], "ROWS BY HOW MANY NOTICED, FEWEST FIRST · 0-" + ceil + " TESTS · 4 SEP 2026");
+
+  var rows = armed.map(function (a) {
+    return [esc(a.check), esc(a.mutation), esc(a.case_reddened), String(+a.red || 0),
+      String(+a.green || 0), '<span class="mono">' + dash(a.sha) + "</span>",
+      (+a.red || 0) > 0
+        ? '<span class="chip s-pass"><svg class="gl" aria-hidden="true" focusable="false">' +
+          '<use href="#g-pass"/></svg>yes, it noticed</span>'
+        : '<span class="chip s-alarm"><svg class="gl" aria-hidden="true" focusable="false">' +
+          '<use href="#g-alarm"/></svg>no, it noticed nothing</span>'];
+  });
+  return svg + "</svg>" + tableView("alarms", "What each alarm test broke, and what noticed", [
+    { label: "Check" }, { label: "What we broke on purpose" }, { label: "What noticed" },
+    { label: "Noticed", num: true }, { label: "Pass normally", num: true },
+    { label: "Version" }, { label: "Does the alarm work?" }
+  ], rows, true);
+}
+
+/* ==========================================================================
+   5 · Problems found — beeswarm
+   ========================================================================== */
+
+var BANDS = [
+  { to: 33.5, label: "MINOR" },
+  { to: 66.5, label: "WORTH FIXING" },
+  { to: 100,  label: "SERIOUS" }
+];
+function bandOf(v) {
+  for (var i = 0; i < BANDS.length; i++) if (v <= BANDS[i].to) return BANDS[i].label.toLowerCase();
+  return BANDS[BANDS.length - 1].label.toLowerCase();
+}
+
+function zoneProblems(data) {
+  var found = (data.findings || []).slice();
+  if (!found.length) return empty("No problem was found this round.");
+  found.sort(function (a, b) { return (+b.score || 0) - (+a.score || 0); });
+
+  var X0 = 80, X1 = 960, W = X1 - X0, MID = 230, R = 4, PITCH = 2 * R + 2;
+  var v2x = function (v) { return X0 + (v / 100) * W; };
+  var serious = found.filter(function (f) { return (+f.score || 0) > BANDS[1].to; }).length;
+
+  var svg = fig("problems", "Problems found",
+    found.length + " problems, one dot each, placed left to right by how serious they are on a " +
+    "scale from 0 to 100. The up-and-down spread is packing so that no two dots overlap and " +
+    "carries no meaning. " + serious + " dots sit in the serious band.");
+
+  [0, 25, 50, 75, 100].forEach(function (t) {
+    if (t > 0) svg += '<line class="grid" stroke-opacity=".08" x1="' + px(v2x(t)) + '" y1="56" x2="' + px(v2x(t)) + '" y2="408"/>';
+    svg += '<text class="c-tick" data-tick="x" data-value="' + t + '" x="' + px(v2x(t)) +
+      '" y="440" text-anchor="middle">' + t + "</text>";
+  });
+  var prev = 0;
+  BANDS.forEach(function (b) {
+    if (b.to < 100) {
+      svg += '<line class="band-rule" stroke-opacity=".22" x1="' + px(v2x(b.to)) + '" y1="56" x2="' + px(v2x(b.to)) + '" y2="408"/>';
+    }
+    svg += '<text class="c-eyebrow" x="' + px(v2x((prev + b.to) / 2)) + '" y="70" text-anchor="middle">' +
+      b.label + "</text>";
+    prev = b.to;
+  });
+  svg += '<line class="axis" stroke-opacity=".25" x1="' + X0 + '" y1="420" x2="' + X1 + '" y2="420"/>';
+
+  // Greedy dodge: dots sharing a value share an x and step apart vertically.
+  var seen = {}, labelled = 0, labels = "";
+  found.forEach(function (f, idx) {
+    var v = +f.score || 0, x = v2x(v), key = String(v), n = seen[key] || 0;
+    seen[key] = n + 1;
+    var off = n === 0 ? 0 : (n % 2 ? -Math.ceil(n / 2) : Math.ceil(n / 2)) * PITCH;
+    var y = MID + off;
+    // Only a dot that carries a visible label carries a name: a name nothing shows
+    // is a binding nothing can cross-check.
+    svg += '<circle class="bs-dot' + (idx === 0 ? " is-focal" : "") + '" fill-opacity="' +
+      (idx === 0 ? ".95" : ".55") + '" data-value="' + v + '"' +
+      (labelled < 3 ? ' data-name="' + esc(f.id) + '"' : "") +
+      ' cx="' + px(x) + '" cy="' + px(y) + '" r="' + R +
+      '" data-tip="' + esc(f.id + " — " + f.claim + " (" + v + " of 100)") + '"/>';
+    if (labelled < 3) {
+      var above = labelled !== 1, ty = above ? 124 : 336;
+      labels += '<line class="leader" stroke-opacity=".40" x1="' + px(x) + '" y1="' + px(above ? ty + 8 : ty - 12) +
+        '" x2="' + px(x) + '" y2="' + px(above ? y - R - 4 : y + R + 4) + '"/>' +
+        '<rect class="mask" x="' + px(x - 22) + '" y="' + px(ty - 10) + '" width="44" height="13"/>' +
+        '<text class="c-mark" data-name="' + esc(f.id) + '" data-role="label" x="' + px(x) +
+        '" y="' + px(ty) + '" text-anchor="middle">' + esc(f.id) + "</text>";
+      labelled++;
+    }
+  });
+  svg += labels;
+
+  svg += legend([
+    { label: "one problem", mark: function (x) {
+        return '<circle class="bs-dot" fill-opacity=".55" cx="' + px(x + 6) + '" cy="493" r="4"/>'; } },
+    { label: found[0].id + ", the most serious one", mark: function (x) {
+        return '<circle class="bs-dot is-focal" fill-opacity=".95" cx="' + px(x + 6) + '" cy="493" r="4"/>'; } },
+    { label: "up and down is packing only, and means nothing", mark: function (x) {
+        return '<line class="leader" stroke-opacity=".40" x1="' + px(x + 6) + '" y1="486" x2="' + px(x + 6) + '" y2="500"/>'; } }
+  ], "SERIOUSNESS = THE AGENT'S OWN 0-100 RATING · " + found.length + " PROBLEMS, " + serious +
+     " SERIOUS · 4 SEP 2026");
+
+  var rows = found.map(function (f) {
+    return ['<span class="mono">' + dash(f.id) + "</span>", String(+f.score || 0),
+      esc(bandOf(+f.score || 0)), '<code class="mono">' + dash(f.file_line) + "</code>",
+      esc(f.claim), chip(f.state)];
+  });
+  return svg + "</svg>" + tableView("problems", "Every problem found this round", [
+    { label: "Problem" }, { label: "How serious", num: true }, { label: "Band" },
+    { label: "Where" }, { label: "What is wrong" }, { label: "State" }
+  ], rows, true);
+}
+
+/* ==========================================================================
+   6 · What we got wrong — slopegraph
+   ========================================================================== */
+
+function zoneCorrections(data) {
+  var corr = data.corrections || [];
+  if (!corr.length) return empty("Nothing was corrected this round.");
+
+  var XA = 320, XB = 680, TOP = 40, BOT = 420;
+  var v2y = function (v) { return BOT - (v / 100) * (BOT - TOP); };   // one scale, both axes
+  var rows = corr.slice().sort(function (a, b) { return (+b.said_pct || 0) - (+a.said_pct || 0); });
+  var worst = rows.reduce(function (m, c) {
+    return ((+c.said_pct || 0) - (+c.true_pct || 0)) > ((+m.said_pct || 0) - (+m.true_pct || 0)) ? c : m;
+  }, rows[0]);
+
+  var svg = fig("wrong", "What we got wrong",
+    rows.length + " corrections. The left axis is what this project's agent said was true and the " +
+    "right axis is what was actually true, both as a share from 0 to 100 per cent on one scale. " +
+    "Every line falls.");
+
+  svg += '<line class="axis" stroke-opacity=".25" x1="' + XA + '" y1="' + TOP + '" x2="' + XA + '" y2="' + BOT + '"/>' +
+    '<line class="axis" stroke-opacity=".25" x1="' + XB + '" y1="' + TOP + '" x2="' + XB + '" y2="' + BOT + '"/>' +
+    '<text class="c-eyebrow" data-axis="from" data-state="WHAT WE SAID" x="' + XA +
+    '" y="440" text-anchor="middle">WHAT WE SAID</text>' +
+    '<text class="c-eyebrow" data-axis="to" data-state="WHAT WAS ACTUALLY TRUE" x="' + XB +
+    '" y="440" text-anchor="middle">WHAT WAS ACTUALLY TRUE</text>';
+
+  rows.forEach(function (c, i) {
+    var f = +c.said_pct || 0, t = +c.true_pct || 0;
+    var y0 = v2y(f), y1 = v2y(t), focal = c === worst;
+    var tone = ' stroke-opacity="' + (focal ? 1 : r1(0.80 - i * 0.04)) + '"';
+    svg += '<line class="sl-line' + (focal ? " is-focal" : "") + '" data-series="' + esc(c.earlier_claim) +
+      '" data-from="' + f + '" data-to="' + t + '" x1="' + XA + '" y1="' + r1(y0) + '" x2="' + XB +
+      '" y2="' + r1(y1) + '"' + tone + ' data-tip="' +
+      esc(c.earlier_claim + " — said " + f + "%, was " + t + "%") + '"/>' +
+      '<circle class="sl-dot' + (focal ? " is-focal" : "") + '" cx="' + XA + '" cy="' + r1(y0) +
+      '" r="' + (focal ? 4 : 3) + '"/>' +
+      '<circle class="sl-dot' + (focal ? " is-focal" : "") + '" cx="' + XB + '" cy="' + r1(y1) +
+      '" r="' + (focal ? 4 : 3) + '"/>' +
+      '<text class="c-name" data-series="' + esc(c.earlier_claim) + '" data-end="from" data-role="name" ' +
+      'x="272" y="' + r1(y0 + 4) + '" text-anchor="end">' + esc(c.earlier_claim) + "</text>" +
+      '<text class="c-value" data-series="' + esc(c.earlier_claim) + '" data-end="from" x="304" y="' +
+      r1(y0 + 4) + '" text-anchor="end">' + f + "%</text>" +
+      '<text class="c-value" data-series="' + esc(c.earlier_claim) + '" data-end="to" x="696" y="' +
+      r1(y1 + 4) + '">' + t + "%</text>" +
+      '<text class="c-name" data-series="' + esc(c.earlier_claim) + '" data-end="to" data-role="name" ' +
+      'x="728" y="' + r1(y1 + 4) + '">' + esc(c.earlier_claim) + "</text>";
+  });
+
+  svg += legend([
+    { label: "a correction", mark: function (x) {
+        return '<line class="sl-line" stroke-opacity=".8" x1="' + px(x) + '" y1="493" x2="' + px(x + 18) + '" y2="493"/>' +
+          '<circle class="sl-dot" cx="' + px(x + 18) + '" cy="493" r="3"/>'; } },
+    { label: worst.earlier_claim + ", the one that produced a false pass", mark: function (x) {
+        return '<line class="sl-line is-focal" x1="' + px(x) + '" y1="493" x2="' + px(x + 18) +
+          '" y2="493"/><circle class="sl-dot is-focal" cx="' + px(x + 18) + '" cy="493" r="4"/>'; } }
+  ], "BOTH AXES 0-100% · " + rows.length + " CORRECTIONS · 4 SEP 2026");
+
+  var tab = rows.map(function (c) {
+    return [esc(c.earlier_claim), (+c.said_pct || 0) + "%", (+c.true_pct || 0) + "%",
+      esc(c.true_state), esc(c.mechanism), esc(c.caught_by)];
+  });
+  return svg + "</svg>" + tableView("wrong", "Every correction, and how we got it wrong", [
+    { label: "What we said" }, { label: "Said", num: true }, { label: "Was", num: true },
+    { label: "What was actually true" }, { label: "How we got it wrong" }, { label: "How we found out" }
+  ], tab, false);
+}
+
+/* ==========================================================================
+   7 · What nobody checked — treemap
+   ========================================================================== */
+
+/** Squarified layout (Bruls, Huizing, van Wijk 2000): each row is laid against
+ *  the shorter side of what is left, which keeps every cell near square and so
+ *  keeps two areas comparable by eye. */
+function squarify(items, x, y, w, h, out) {
+  if (!items.length) return;
+  if (items.length === 1) { out.push({ c: items[0].c, x: x, y: y, w: w, h: h }); return; }
+  var side = Math.min(w, h), row = [], sum = 0, best = Infinity;
+  for (var i = 0; i < items.length; i++) {
+    var trySum = sum + items[i].area, thick = trySum / side, worst = 0;
+    for (var j = 0; j <= i; j++) {
+      var len = items[j].area / thick;
+      worst = Math.max(worst, thick / len, len / thick);
+    }
+    if (worst > best) break;
+    best = worst; sum = trySum; row.push(items[i]);
+  }
+  var t = sum / side, pos = 0;
+  row.forEach(function (it) {
+    var len = it.area / t;
+    if (w >= h) out.push({ c: it.c, x: x, y: y + pos, w: t, h: len });
+    else out.push({ c: it.c, x: x + pos, y: y, w: len, h: t });
+    pos += len;
+  });
+  var rest = items.slice(row.length);
+  if (w >= h) squarify(rest, x + t, y, w - t, h, out);
+  else squarify(rest, x, y + t, w, h - t, out);
+}
+
+function zoneUnwatched(data) {
+  var why = {};
+  (data.not_checked || []).forEach(function (n) { why[n.axis] = n.why_not; });
+  var cells = (data.coverage || []).map(function (c) {
+    return { name: c.axis, un: (+c.denominator || 0) - (+c.covered || 0),
+             of: +c.denominator || 0, why: why[c.axis] || "" };
+  }).filter(function (c) { return c.un > 0; })
+    .sort(function (a, b) { return b.un - a.un; });
+
+  if (!cells.length) return empty("Every declared area of the work was checked.");
+  var total = cells.reduce(function (s, c) { return s + c.un; }, 0);
+
+  var X = 40, Y = 40, PW = 916, PH = 380, GAP = 2;   // 2px inset each side = a 4px gutter
+  var boxes = [];
+  squarify(cells.map(function (c) { return { c: c, area: (c.un / total) * PW * PH }; }),
+    X, Y, PW, PH, boxes);
+
+  var svg = fig("unwatched", "What nobody checked",
+    cells.length + " areas of the work hold " + total + " things no check has looked at. Each " +
+    "rectangle's area is the number of unchecked things in that area, and the largest is " +
+    cells[0].name.toLowerCase() + " at " + cells[0].un + " of " + cells[0].of + ".");
+
+  boxes.forEach(function (b, i) {
+    var x = Math.round(b.x) + GAP, y = Math.round(b.y) + GAP;
+    var w = Math.round(b.w) - GAP * 2, h = Math.round(b.h) - GAP * 2;
+    var share = (b.c.un / total) * 100, focal = i === 0;
+    svg += '<rect class="tm-under" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="2"/>' +
+      '<rect class="tm-cell' + (focal ? " is-focal" : "") + '" data-share="' + r1(share) +
+      '" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="2"' +
+      ' fill-opacity="' + (focal ? ".18" : r1(0.14 - (i - 1) * 0.02)) +
+      '" stroke-opacity="' + (focal ? "1" : ".30") + '" data-tip="' +
+      esc(b.c.name + " — " + b.c.un + " of " + b.c.of + " never checked. " + b.c.why) + '"/>' +
+      '<text class="c-cell" x="' + (x + 12) + '" y="' + (y + 26) + '">' + esc(b.c.name) + "</text>" +
+      '<text class="c-value" x="' + (x + 12) + '" y="' + (y + 44) + '">' + b.c.un + " of " + b.c.of +
+      (w > 200 ? " · " + Math.round(share) + "%" : "") + "</text>";
+  });
+
+  svg += legend([
+    { label: "area = things nobody checked", mark: function (x) {
+        return '<rect class="tm-cell" fill-opacity="0.14" stroke-opacity=".30" x="' + px(x) + '" y="488" width="16" height="8"/>'; } },
+    { label: cells[0].name + ", the largest unchecked area", mark: function (x) {
+        return '<rect class="tm-cell is-focal" fill-opacity=".18" stroke-opacity="1" x="' + px(x) + '" y="488" width="16" height="8"/>'; } },
+    { label: "stronger contrast means more unchecked", mark: function (x) {
+        return '<rect class="tm-cell" fill-opacity="0.04" stroke-opacity=".30" x="' + px(x) + '" y="488" width="16" height="8"/>'; } }
+  ], "AREA = THINGS NOBODY CHECKED · " + total + " ACROSS " + cells.length + " AREAS · 4 SEP 2026");
+
+  var rows = cells.map(function (c) {
+    return [esc(c.name), String(c.un), String(c.of), Math.round(c.un / total * 100) + "%", esc(c.why)];
+  });
+  return svg + "</svg>" + tableView("unwatched", "What nobody checked, and why", [
+    { label: "Area of the work" }, { label: "Never checked", num: true },
+    { label: "Out of", num: true }, { label: "Share of all unchecked", num: true },
+    { label: "Why nobody checked" }
+  ], rows, true);
+}
+
+/* ==========================================================================
+   8-10 · Left undone on purpose · Files to open · Where the code sits
+   ========================================================================== */
+
+function zoneNotDone(data) {
+  var rows = data.not_done || [];
+  if (!rows.length) return empty("Nothing was set aside on purpose this round.");
+  return '<div class="scroll"><table><caption class="sr-only">Work set aside on purpose</caption>' +
+    '<thead><tr><th scope="col">What we did not do</th><th scope="col">Why</th>' +
+    '<th scope="col">What it is waiting for</th><th scope="col">How big</th></tr></thead><tbody>' +
+    rows.map(function (n) {
+      return '<tr><th scope="row">' + esc(n.action) + "</th><td>" + esc(n.reason) + "</td><td>" +
+        esc(n.what_would_unblock) + "</td><td>" + esc(n.size) + "</td></tr>";
+    }).join("") + "</tbody></table></div>";
+}
+
+function zoneFiles(data) {
+  var rows = data.artifacts || [];
+  if (!rows.length) return empty("This round wrote no files.");
+  return '<ul class="files">' + rows.map(function (a) {
+    return "<li" + (a.open_first ? ' class="first"' : "") + ">" +
+      '<a class="mono" href="' + esc(a.path) + '">' + esc(a.path) + "</a>" +
+      (a.open_first ? '<span class="chip s-active"><svg class="gl" aria-hidden="true" focusable="false">' +
+        '<use href="#g-active"/></svg>open this one first</span>' : "") +
+      '<span class="says">' + esc(a.contains) + "</span></li>";
+  }).join("") + "</ul>";
+}
+
+function zoneCode(data) {
+  var g = data.git;
+  if (!g) return empty("No repository state was recorded.");
+  function tile(label, gloss, value, note, tone) {
+    return '<div class="tile' + (tone ? " t-" + tone : "") + '"><dt>' +
+      (gloss ? "<dfn>" + esc(label) + '<span class="gloss">' + esc(gloss) + "</span></dfn>" : esc(label)) +
+      "</dt><dd>" + value + (note ? '<span class="qual">' + esc(note) + "</span>" : "") + "</dd></div>";
+  }
+  var ahead = Number.isFinite(+g.commits_ahead) ? +g.commits_ahead : null;
+  return '<dl class="tiles">' +
+    tile("Branch", "a separate copy of the work, kept apart from the main one",
+      '<span class="mono">' + dash(g.branch) + "</span>", "", null) +
+    tile("Changes not yet shared", "", ahead === null ? "—" : String(ahead),
+      ahead === null ? "not recorded" : "still only on this machine", ahead > 0 ? "warn" : "pass") +
+    tile("Unsaved changes", "", g.worktree_clean === true ? "none" : "some",
+      g.worktree_clean === false ? "not yet committed" : "everything is committed",
+      g.worktree_clean === true ? "pass" : "warn") +
+    tile("Shared with the team", "", g.pushed === true ? "yes" : "no",
+      g.pushed === true ? "" : "nobody else can see it", g.pushed === true ? "pass" : "warn") +
+    "</dl>";
+}
+
+/* ---------- the one call the page makes ---------------------------------- */
+
+function buildAll(data) {
+  return {
+    "meta":      zoneMeta(data),
+    "headline":  zoneHeadline(data),
+    "flow":      zoneFlow(data),
+    "roadmap":   zoneRoadmap(data),
+    "checks":    zoneChecks(data),
+    "alarms":    zoneAlarms(data),
+    "problems":  zoneProblems(data),
+    "wrong":     zoneCorrections(data),
+    "unwatched": zoneUnwatched(data),
+    "notdone":   zoneNotDone(data),
+    "files":     zoneFiles(data),
+    "code":      zoneCode(data)
+  };
+}
+
+if (typeof module !== "undefined" && module.exports) { module.exports = { buildAll: buildAll }; }
+
+/* ============================================================================
+   shell.js — the page's own wiring. Everything visible is drawn by render.js;
+   this file loads the data, mounts it, and adds the three things a picture on
+   its own cannot do: sort, filter, and answer a pointer.
+   ========================================================================== */
+
+/**
+ * THE SEAM. This is the one function a real deployment replaces. Swap the body
+ * for `return (await fetch("project.json")).json();` and nothing else on the
+ * page moves: every zone is drawn from whatever this returns.
+ */
+async function loadReport() {
+  return JSON.parse(document.getElementById("report-data").textContent);
+}
+
+/* ---------- mount ---------------------------------------------------------
+   The markup shipped in this file is the output of these same functions over
+   the same data, so the page is complete before any of this runs. Re-drawing
+   here is what makes the data block, not the markup, the source of truth.   */
+
+function mount(data) {
+  var zones = buildAll(data);
+  document.querySelector(".masthead").innerHTML = zones.meta;
+  Object.keys(zones).forEach(function (id) {
+    var host = document.querySelector('[data-zone="' + id + '"]');
+    if (host) host.innerHTML = zones[id];
+  });
+  document.title = (data.project || "project") + " — project report";
+}
+
+/* ---------- filtering ------------------------------------------------------ */
+
+var ATTENTION = ["s-fail", "s-blocked", "s-alarm"];
+var state = { attention: false };
+
+function needsAttention(row, mode) {
+  if (mode === "all") return true;
+  if (mode === "none") return false;
+  return ATTENTION.some(function (c) { return row.querySelector("." + c); });
+}
+
+function applyFilter(animate) {
+  var shown = 0, hidden = 0;
+  document.querySelectorAll("section.zone").forEach(function (section) {
+    var mode = section.dataset.attention || "chip";
+    section.querySelectorAll("table").forEach(function (table) {
+      var rows = table.querySelectorAll("tbody tr"), live = 0;
+      rows.forEach(function (row) {
+        var hide = state.attention && !needsAttention(row, mode);
+        row.hidden = hide;
+        if (!hide) live++;
+      });
+      shown += live;
+      hidden += rows.length - live;
+      // With nothing left to order, ordering it is not an option.
+      table.querySelectorAll("button.sort").forEach(function (b) { b.disabled = live < 2; });
+    });
+    if (animate) {
+      section.classList.remove("is-sorting");
+      void section.offsetWidth;
+      section.classList.add("is-sorting");
+    }
+  });
+  document.getElementById("filter-status").textContent = state.attention
+    ? shown + " rows shown, " + hidden + " hidden"
+    : shown + " rows, all shown";
+}
+
+/* ---------- sorting -------------------------------------------------------- */
+
+function cellValue(row, col, kind) {
+  var cell = row.children[col];
+  var text = cell ? cell.textContent.trim() : "";
+  if (kind !== "num") return text.toLowerCase();
+  var n = parseFloat(text.replace(/[^0-9.\-]/g, ""));
+  return isNaN(n) ? -Infinity : n;
+}
+
+function wireSorting() {
+  document.addEventListener("click", function (e) {
+    var button = e.target.closest("button.sort");
+    if (!button || button.disabled) return;
+    var table = button.closest("table");
+    var head = button.closest("th");
+    var col = +button.dataset.col, kind = button.dataset.kind;
+    var dir = head.getAttribute("aria-sort") === "ascending" ? "descending" : "ascending";
+    table.querySelectorAll("th[aria-sort]").forEach(function (th) { th.setAttribute("aria-sort", "none"); });
+    head.setAttribute("aria-sort", dir);
+    // querySelectorAll rather than table.tBodies / tbody.rows: the same result,
+    // and it does not assume the HTMLTable* interfaces are implemented.
+    var body = table.querySelector("tbody");
+    var rows = Array.prototype.slice.call(body.querySelectorAll("tr"));
+    rows.sort(function (a, b) {
+      var x = cellValue(a, col, kind), y = cellValue(b, col, kind);
+      if (x < y) return dir === "ascending" ? -1 : 1;
+      if (x > y) return dir === "ascending" ? 1 : -1;
+      return 0;
+    });
+    rows.forEach(function (r) { body.appendChild(r); });
+    var section = table.closest("section.zone");
+    if (section) {
+      section.classList.remove("is-sorting");
+      void section.offsetWidth;
+      section.classList.add("is-sorting");
+    }
+  });
+}
+
+/* ---------- pointer ------------------------------------------------------- */
+
+function wireTooltip() {
+  var tip = document.createElement("div");
+  tip.id = "tip";
+  tip.setAttribute("role", "presentation");
+  tip.hidden = true;
+  document.body.appendChild(tip);
+
+  document.addEventListener("mouseover", function (e) {
+    var mark = e.target.closest("[data-tip]");
+    if (!mark) return;
+    // Labels arrive from the data block; never concatenate them into markup.
+    tip.textContent = mark.getAttribute("data-tip");
+    tip.hidden = false;
+    var chart = mark.closest(".chart");
+    if (chart) { chart.classList.add("is-dimmed"); mark.classList.add("is-lit"); }
+  });
+  document.addEventListener("mousemove", function (e) {
+    if (tip.hidden) return;
+    var w = tip.offsetWidth, h = tip.offsetHeight;
+    var x = Math.min(e.pageX + 14, window.scrollX + document.documentElement.clientWidth - w - 8);
+    var y = e.pageY - h - 14;
+    if (y < window.scrollY + 4) y = e.pageY + 18;
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
+  });
+  document.addEventListener("mouseout", function (e) {
+    var mark = e.target.closest("[data-tip]");
+    if (!mark) return;
+    tip.hidden = true;
+    var chart = mark.closest(".chart");
+    if (chart) { chart.classList.remove("is-dimmed"); mark.classList.remove("is-lit"); }
+  });
+}
+
+/* ---------- controls ------------------------------------------------------- */
+
+function wireControls() {
+  var all = document.getElementById("f-all");
+  var attn = document.getElementById("f-attn");
+  var open = document.getElementById("f-open");
+
+  function setMode(on) {
+    state.attention = on;
+    all.setAttribute("aria-pressed", String(!on));
+    attn.setAttribute("aria-pressed", String(on));
+    applyFilter(true);
+  }
+  all.addEventListener("click", function () { setMode(false); });
+  attn.addEventListener("click", function () { setMode(true); });
+  open.addEventListener("click", function () {
+    var next = open.getAttribute("aria-pressed") !== "true";
+    open.setAttribute("aria-pressed", String(next));
+    document.querySelectorAll("details.tv").forEach(function (d) { d.open = next; });
+    applyFilter(false);
+  });
+}
+
+loadReport().then(function (data) {
+  mount(data);
+  wireControls();
+  wireSorting();
+  wireTooltip();
+  applyFilter(false);
+}).catch(function (err) {
+  var slot = document.getElementById("load-error");
+  if (slot) {
+    slot.hidden = false;
+    slot.textContent = "The data could not be read, so this page still shows the copy it was " +
+      "published with. " + err.message;
+  }
+});
+</script>
