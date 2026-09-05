@@ -1,68 +1,304 @@
 {
   "project": "fledgeling-plugins",
-  "updated": "2026-09-05T18:05:00+10:00",
+  "updated": "2026-09-05T18:40:00+10:00",
   "verdict": {
     "token": "needs-work",
     "number": "1 of 1",
     "unit": "plugin built, unevaluated",
-    "headline": "throughline is built and committed; nothing has measured it against no skill.",
-    "run_label": "throughline build",
+    "headline": "create-story (renamed from throughline) is built with a narration reference; nothing has measured it against no skill.",
+    "run_label": "create-story build",
     "head_sha": "5279135"
   },
   "tasks": [
-    {"id": "TL-1", "title": "Scripts: context pack, transition audit, state check", "origin": "planned", "stage": "being checked", "outcome": "done", "version": "5279135", "note": "20 self-tests pass; gate fails a bad fixture"},
-    {"id": "TL-2", "title": "SKILL.md and three reference files", "origin": "planned", "stage": "being checked", "outcome": "done", "version": "5279135", "note": "voice lint clean on hard checks"},
-    {"id": "TL-3", "title": "README and EVALS in Luke's voice", "origin": "planned", "stage": "being checked", "outcome": "done", "version": "5279135", "note": "voice lint clean on hard checks"},
-    {"id": "TL-4", "title": "Icon, banner and audit sheets", "origin": "planned", "stage": "being checked", "outcome": "done", "version": "5279135", "note": "three hand-authored takes; image engines skipped to avoid unapproved spend"},
-    {"id": "TL-5", "title": "Marketplace registration in four places", "origin": "planned", "stage": "being checked", "outcome": "done", "version": "5279135", "note": "catalogue build exit 0"},
-    {"id": "TL-6", "title": "Run the eight eval prompts with and without the skill", "origin": "planned", "stage": "not started", "outcome": "stuck", "blocked_by": "a decision on whether to spend the subagent runs", "waiting_hours": 0},
-    {"id": "TL-7", "title": "Merge plugin/throughline into main and push", "origin": "planned", "stage": "not started", "outcome": "stuck", "blocked_by": "the user's say-so; nobody asked for a push", "waiting_hours": 0}
+    {
+      "id": "TL-1",
+      "title": "Scripts: context pack, transition audit, state check",
+      "origin": "planned",
+      "stage": "being checked",
+      "outcome": "done",
+      "version": "5279135",
+      "note": "20 self-tests pass; gate fails a bad fixture"
+    },
+    {
+      "id": "TL-2",
+      "title": "SKILL.md and three reference files",
+      "origin": "planned",
+      "stage": "being checked",
+      "outcome": "done",
+      "version": "5279135",
+      "note": "voice lint clean on hard checks"
+    },
+    {
+      "id": "TL-3",
+      "title": "README and EVALS in Luke's voice",
+      "origin": "planned",
+      "stage": "being checked",
+      "outcome": "done",
+      "version": "5279135",
+      "note": "voice lint clean on hard checks"
+    },
+    {
+      "id": "TL-4",
+      "title": "Icon, banner and audit sheets",
+      "origin": "planned",
+      "stage": "being checked",
+      "outcome": "done",
+      "version": "5279135",
+      "note": "three hand-authored takes; image engines skipped to avoid unapproved spend"
+    },
+    {
+      "id": "TL-5",
+      "title": "Marketplace registration in four places",
+      "origin": "planned",
+      "stage": "being checked",
+      "outcome": "done",
+      "version": "5279135",
+      "note": "catalogue build exit 0"
+    },
+    {
+      "id": "TL-8",
+      "title": "Narrated-version reference and checker from the ElevenLabs v3 guide",
+      "origin": "planned",
+      "stage": "being checked",
+      "outcome": "done",
+      "note": "10 self-tests pass; the existing Kiln read-aloud passes with 3 warnings"
+    },
+    {
+      "id": "TL-9",
+      "title": "Rename throughline to create-story everywhere",
+      "origin": "planned",
+      "stage": "being checked",
+      "outcome": "done",
+      "note": "catalogue build exit 0 after the rename"
+    },
+    {
+      "id": "TL-6",
+      "title": "Run the eight eval prompts with and without the skill",
+      "origin": "planned",
+      "stage": "not started",
+      "outcome": "stuck",
+      "blocked_by": "a decision on whether to spend the subagent runs",
+      "waiting_hours": 0
+    },
+    {
+      "id": "TL-7",
+      "title": "Merge plugin/create-story into main and push",
+      "origin": "planned",
+      "stage": "not started",
+      "outcome": "stuck",
+      "blocked_by": "the user's say-so; nobody asked for a push",
+      "waiting_hours": 0
+    }
   ],
   "gates": [
-    {"name": "Transition audit self-test", "command": "python3 scripts/transition_audit.py --self-test", "exit_code": 0, "counts": "10/10", "state": "done", "kind": "tests"},
-    {"name": "State checker self-test", "command": "python3 scripts/story_state.py --self-test", "exit_code": 0, "counts": "10/10", "state": "done", "kind": "tests"},
-    {"name": "Skill file reads cleanly for a model", "command": "agent_voice_lint.py --format skill SKILL.md", "exit_code": 0, "counts": "9/9", "state": "done", "kind": "sign-off"},
-    {"name": "README and EVALS read as Luke", "command": "voice_lint.py --format marketing README.md EVALS.md", "exit_code": 0, "counts": "6/6", "state": "done", "kind": "sign-off"},
-    {"name": "Icon contact sheet resolves and passes the bar", "command": "audit_sheet.py check assets", "exit_code": 0, "counts": "3/3", "state": "done", "kind": "design"},
-    {"name": "Banner is sized, sourced and scored", "command": "banner_sheet.py check assets", "exit_code": 0, "counts": "5/5", "state": "done", "kind": "design"},
-    {"name": "Marketplace catalogue builds", "command": "node site/scripts/build-catalogue.mjs", "exit_code": 0, "counts": "55/55", "state": "done", "kind": "build"},
-    {"name": "Skill beats no skill on the eval prompts", "command": "not run", "exit_code": 0, "counts": "0/8", "state": "unmeasured", "kind": "tests"}
+    {
+      "name": "Transition audit self-test",
+      "command": "python3 scripts/transition_audit.py --self-test",
+      "exit_code": 0,
+      "counts": "10/10",
+      "state": "done",
+      "kind": "tests"
+    },
+    {
+      "name": "State checker self-test",
+      "command": "python3 scripts/story_state.py --self-test",
+      "exit_code": 0,
+      "counts": "10/10",
+      "state": "done",
+      "kind": "tests"
+    },
+    {
+      "name": "Narration checker self-test",
+      "command": "python3 scripts/narration_check.py --self-test",
+      "exit_code": 0,
+      "counts": "10/10",
+      "state": "done",
+      "kind": "tests"
+    },
+    {
+      "name": "Skill file reads cleanly for a model",
+      "command": "agent_voice_lint.py --format skill SKILL.md",
+      "exit_code": 0,
+      "counts": "9/9",
+      "state": "done",
+      "kind": "sign-off"
+    },
+    {
+      "name": "README and EVALS read as Luke",
+      "command": "voice_lint.py --format marketing README.md EVALS.md",
+      "exit_code": 0,
+      "counts": "6/6",
+      "state": "done",
+      "kind": "sign-off"
+    },
+    {
+      "name": "Icon contact sheet resolves and passes the bar",
+      "command": "audit_sheet.py check assets",
+      "exit_code": 0,
+      "counts": "3/3",
+      "state": "done",
+      "kind": "design"
+    },
+    {
+      "name": "Banner is sized, sourced and scored",
+      "command": "banner_sheet.py check assets",
+      "exit_code": 0,
+      "counts": "5/5",
+      "state": "done",
+      "kind": "design"
+    },
+    {
+      "name": "Marketplace catalogue builds",
+      "command": "node site/scripts/build-catalogue.mjs",
+      "exit_code": 0,
+      "counts": "55/55",
+      "state": "done",
+      "kind": "build"
+    },
+    {
+      "name": "Skill beats no skill on the eval prompts",
+      "command": "not run",
+      "exit_code": 0,
+      "counts": "0/8",
+      "state": "unmeasured",
+      "kind": "tests"
+    }
   ],
   "armed": [
-    {"check": "Orphan paragraph gate", "mutation": "fed a scene whose second paragraph shares nothing with the first", "case_reddened": "both seams flagged, exit 1", "red": 2, "green": 6, "sha": "5279135", "armed": true},
-    {"check": "Word band gate", "mutation": "fixture scene at 180 words under a 400 to 900 band", "case_reddened": "word-band failure, exit 1", "red": 1, "green": 1, "sha": "5279135", "armed": true}
+    {
+      "check": "Orphan paragraph gate",
+      "mutation": "fed a scene whose second paragraph shares nothing with the first",
+      "case_reddened": "both seams flagged, exit 1",
+      "red": 2,
+      "green": 6,
+      "sha": "5279135",
+      "armed": true
+    },
+    {
+      "check": "Word band gate",
+      "mutation": "fixture scene at 180 words under a 400 to 900 band",
+      "case_reddened": "word-band failure, exit 1",
+      "red": 1,
+      "green": 1,
+      "sha": "5279135",
+      "armed": true
+    }
   ],
   "corrections": [
-    {"earlier_claim": "The example scene passes the audit clean", "said_pct": 100, "true_pct": 0, "true_state": "It failed on word count the first time the beat card and the scene were checked together.", "mechanism": "The first audit run was made without the beat card, so the word band was never applied.", "caught_by": "re-running the audit with --beat for the EVALS write-up"}
+    {
+      "earlier_claim": "The example scene passes the audit clean",
+      "said_pct": 100,
+      "true_pct": 0,
+      "true_state": "It failed on word count the first time the beat card and the scene were checked together.",
+      "mechanism": "The first audit run was made without the beat card, so the word band was never applied.",
+      "caught_by": "re-running the audit with --beat for the EVALS write-up"
+    }
   ],
   "not_checked": [
-    {"axis": "Whether the skill beats a plain prompt", "why_not": "No eval run was made; that comparison needs the subagent runs in evals.json."},
-    {"axis": "Whether the trigger fires on the right requests", "why_not": "The two near-miss prompts were written but not run."}
+    {
+      "axis": "Whether the skill beats a plain prompt",
+      "why_not": "No eval run was made; that comparison needs the subagent runs in evals.json."
+    },
+    {
+      "axis": "Whether the trigger fires on the right requests",
+      "why_not": "The two near-miss prompts were written but not run."
+    }
   ],
   "not_done": [
-    {"action": "Image-generation engines for the icon", "reason": "Metered calls with nobody present to approve the spend.", "what_would_unblock": "A go-ahead on media-gen-pro spend.", "size": "an hour"}
+    {
+      "action": "Image-generation engines for the icon",
+      "reason": "Metered calls with nobody present to approve the spend.",
+      "what_would_unblock": "A go-ahead on media-gen-pro spend.",
+      "size": "an hour"
+    }
   ],
   "roadmap": [
-    {"round": "Eval run", "goal": "Run 8 prompts with and without the skill, grade, view", "tasks": ["TL-6"], "tier": "L", "status": "next", "waits_on": "a go-ahead on subagent spend", "estimate_min": [30, 90], "median_min": 45},
-    {"round": "Ship", "goal": "Merge the branch and push the marketplace", "tasks": ["TL-7"], "tier": "S", "status": "queued", "waits_on": "the user", "estimate_min": [5, 15], "median_min": 8}
+    {
+      "round": "Eval run",
+      "goal": "Run 8 prompts with and without the skill, grade, view",
+      "tasks": [
+        "TL-6"
+      ],
+      "tier": "L",
+      "status": "next",
+      "waits_on": "a go-ahead on subagent spend",
+      "estimate_min": [
+        30,
+        90
+      ],
+      "median_min": 45
+    },
+    {
+      "round": "Ship",
+      "goal": "Merge the branch and push the marketplace",
+      "tasks": [
+        "TL-7"
+      ],
+      "tier": "S",
+      "status": "queued",
+      "waits_on": "the user",
+      "estimate_min": [
+        5,
+        15
+      ],
+      "median_min": 8
+    }
   ],
   "estimate_remaining": {
-    "serial_min": [35, 105],
-    "parallel_min": [35, 105],
+    "serial_min": [
+      35,
+      105
+    ],
+    "parallel_min": [
+      35,
+      105
+    ],
     "median_min": 53,
     "lanes": 1,
     "basis": "measured rates (reckon 1,842-agent benchmark)",
     "tasks_remaining": 2
   },
   "artifacts": [
-    {"path": "plugins/throughline/EVALS.md", "kind": "md", "contains": "What was verified, which checkpoints the user was not asked, and what would settle the open question.", "open_first": true},
-    {"path": "plugins/throughline/README.md", "kind": "md", "contains": "What the skill does and why, for a reader who was not there."},
-    {"path": "plugins/throughline/assets/audit.html", "kind": "html", "contains": "Three icon takes scored at six sizes."},
-    {"path": "plugins/throughline/assets/banner-audit.html", "kind": "html", "contains": "The banner at four display widths."}
+    {
+      "path": "plugins/create-story/EVALS.md",
+      "kind": "md",
+      "contains": "What was verified, which checkpoints the user was not asked, and what would settle the open question.",
+      "open_first": true
+    },
+    {
+      "path": "plugins/create-story/README.md",
+      "kind": "md",
+      "contains": "What the skill does and why, for a reader who was not there."
+    },
+    {
+      "path": "plugins/create-story/assets/audit.html",
+      "kind": "html",
+      "contains": "Three icon takes scored at six sizes."
+    },
+    {
+      "path": "plugins/create-story/assets/banner-audit.html",
+      "kind": "html",
+      "contains": "The banner at four display widths."
+    }
   ],
   "needs_you": [
-    {"ask": "Name and icon were chosen without you", "kind": "decision", "waiting_since": "2026-09-05T17:30:00+10:00", "one_line": "throughline over tenon (Codex preferred tenon); one thread through separated slabs."},
-    {"ask": "Run the evals, or ship unevaluated", "kind": "decision", "waiting_since": "2026-09-05T18:00:00+10:00", "one_line": "Eight prompts written; the with-skill versus no-skill run is the one thing that would show the skill earns its place."}
+    {
+      "ask": "Icon concept was chosen without you",
+      "kind": "decision",
+      "waiting_since": "2026-09-05T17:30:00+10:00",
+      "one_line": "One thread through separated slabs; the name is settled as create-story."
+    },
+    {
+      "ask": "Run the evals, or ship unevaluated",
+      "kind": "decision",
+      "waiting_since": "2026-09-05T18:00:00+10:00",
+      "one_line": "Eight prompts written; the with-skill versus no-skill run is the one thing that would show the skill earns its place."
+    }
   ],
-  "git": {"branch": "plugin/throughline", "commits_ahead": 1, "worktree_clean": true, "pushed": false}
+  "git": {
+    "branch": "plugin/create-story",
+    "commits_ahead": 1,
+    "worktree_clean": true,
+    "pushed": false
+  }
 }

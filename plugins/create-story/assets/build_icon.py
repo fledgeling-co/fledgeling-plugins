@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""build_icon.py: the `throughline` icon, "One Thread Through Separate Slabs".
+"""build_icon.py: the `create-story` icon, "One Thread Through Separate Slabs".
 
 Porcelain cushion tile carrying one toy-scale object, matching the fledgeling
 set (direction 2a, porcelain + gel object): four graphite slabs stacked with

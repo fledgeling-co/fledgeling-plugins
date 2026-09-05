@@ -456,13 +456,13 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
 <script type="application/json" id="report-data">
 {
  "project": "fledgeling-plugins",
- "updated": "2026-09-05T18:05:00+10:00",
+ "updated": "2026-09-05T18:40:00+10:00",
  "verdict": {
   "token": "needs-work",
   "number": "1 of 1",
   "unit": "plugin built, unevaluated",
-  "headline": "throughline is built and committed; nothing has measured it against no skill.",
-  "run_label": "throughline build",
+  "headline": "create-story (renamed from throughline) is built with a narration reference; nothing has measured it against no skill.",
+  "run_label": "create-story build",
   "head_sha": "5279135"
  },
  "tasks": [
@@ -512,6 +512,22 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "note": "catalogue build exit 0"
   },
   {
+   "id": "TL-8",
+   "title": "Narrated-version reference and checker from the ElevenLabs v3 guide",
+   "origin": "planned",
+   "stage": "being checked",
+   "outcome": "done",
+   "note": "10 self-tests pass; the existing Kiln read-aloud passes with 3 warnings"
+  },
+  {
+   "id": "TL-9",
+   "title": "Rename throughline to create-story everywhere",
+   "origin": "planned",
+   "stage": "being checked",
+   "outcome": "done",
+   "note": "catalogue build exit 0 after the rename"
+  },
+  {
    "id": "TL-6",
    "title": "Run the eight eval prompts with and without the skill",
    "origin": "planned",
@@ -522,7 +538,7 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
   },
   {
    "id": "TL-7",
-   "title": "Merge plugin/throughline into main and push",
+   "title": "Merge plugin/create-story into main and push",
    "origin": "planned",
    "stage": "not started",
    "outcome": "stuck",
@@ -542,6 +558,14 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
   {
    "name": "State checker self-test",
    "command": "python3 scripts/story_state.py --self-test",
+   "exit_code": 0,
+   "counts": "10/10",
+   "state": "done",
+   "kind": "tests"
+  },
+  {
+   "name": "Narration checker self-test",
+   "command": "python3 scripts/narration_check.py --self-test",
    "exit_code": 0,
    "counts": "10/10",
    "state": "done",
@@ -692,33 +716,33 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
  },
  "artifacts": [
   {
-   "path": "plugins/throughline/EVALS.md",
+   "path": "plugins/create-story/EVALS.md",
    "kind": "md",
    "contains": "What was verified, which checkpoints the user was not asked, and what would settle the open question.",
    "open_first": true
   },
   {
-   "path": "plugins/throughline/README.md",
+   "path": "plugins/create-story/README.md",
    "kind": "md",
    "contains": "What the skill does and why, for a reader who was not there."
   },
   {
-   "path": "plugins/throughline/assets/audit.html",
+   "path": "plugins/create-story/assets/audit.html",
    "kind": "html",
    "contains": "Three icon takes scored at six sizes."
   },
   {
-   "path": "plugins/throughline/assets/banner-audit.html",
+   "path": "plugins/create-story/assets/banner-audit.html",
    "kind": "html",
    "contains": "The banner at four display widths."
   }
  ],
  "needs_you": [
   {
-   "ask": "Name and icon were chosen without you",
+   "ask": "Icon concept was chosen without you",
    "kind": "decision",
    "waiting_since": "2026-09-05T17:30:00+10:00",
-   "one_line": "throughline over tenon (Codex preferred tenon); one thread through separated slabs."
+   "one_line": "One thread through separated slabs; the name is settled as create-story."
   },
   {
    "ask": "Run the evals, or ship unevaluated",
@@ -728,7 +752,7 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
   }
  ],
  "git": {
-  "branch": "plugin/throughline",
+  "branch": "plugin/create-story",
   "commits_ahead": 1,
   "worktree_clean": true,
   "pushed": false

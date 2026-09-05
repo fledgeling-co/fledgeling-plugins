@@ -1,4 +1,4 @@
-# Banner verdict: throughline
+# Banner verdict: create-story
 
 Ships. Checked on the sheet at 1600, 900, 400 and 200 css px and the 1:1 lockup crop.
 

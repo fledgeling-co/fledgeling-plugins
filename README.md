@@ -71,6 +71,14 @@ A proper Mac app icon rather than a picture of one. It studies 532 real icons, g
 
 <br clear="left" />
 
+<a href="plugins/create-story/README.md"><img src="plugins/create-story/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [create-story](plugins/create-story/README.md)
+
+For long fiction. Claude keeps the plot and loses the thread: the second paragraph of a scene reads as though the first was a vague memory. This drafts one scene at a time from a scripted pack the drafter cannot widen, fails a scene where a paragraph shares nothing with the one before it, and has a fresh reader check that nobody made up too early.
+
+<br clear="left" />
+
 <a href="plugins/create-swe-project/README.md"><img src="plugins/create-swe-project/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [create-swe-project](plugins/create-swe-project/README.md)
@@ -140,14 +148,6 @@ For apps that run in a terminal window. It does the character counting nobody ge
 ### [visualization](plugins/visualization/README.md)
 
 Draws the chart or the diagram, and can prove the result rather than asking you to trust it. Thirty-nine diagram types and fourteen chart forms, one self-contained HTML file, and twelve checkers that ship inside the skill so the thing doing the drawing can run them against what it just wrote. Colour for more than one series is computed against a perceptual gate instead of chosen, because the five hand-picked colours it inherited turned out to be five greys with a tint. It will not give you a truncated bar chart, a second y-axis, or a one-bar bar chart, and it says why.
-
-<br clear="left" />
-
-<a href="plugins/throughline/README.md"><img src="plugins/throughline/assets/icon-256.png" align="left" width="110" alt="" /></a>
-
-### [throughline](plugins/throughline/README.md)
-
-For long fiction. Claude keeps the plot and loses the thread: the second paragraph of a scene reads as though the first was a vague memory. This drafts one scene at a time from a scripted pack the drafter cannot widen, fails a scene where a paragraph shares nothing with the one before it, and has a fresh reader check that nobody made up too early.
 
 <br clear="left" />
 
