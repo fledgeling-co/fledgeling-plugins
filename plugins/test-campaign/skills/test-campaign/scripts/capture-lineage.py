@@ -21,8 +21,8 @@ This is `warrant:oracle`'s lineage plane with *picture* substituted for *figure*
 There, a displayed number without a `data-source-ref` is the defect the plane
 exists to find. Here, a published capture without a recorded target is.
 
-FOUR PASSES, ALL EXACT, NONE NEEDING A MODEL
---------------------------------------------
+SIX PASSES, ALL EXACT, NONE NEEDING A MODEL
+-------------------------------------------
   1 unsourced  an image with no manifest entry, or an entry with no target
   2 untied     the target does not resolve to the subject's declared route
   3 shared     two subjects, one sha256, undeclared — or declared with nothing
@@ -30,6 +30,11 @@ FOUR PASSES, ALL EXACT, NONE NEEDING A MODEL
   4 unaccounted an image in the shots directory no subject publishes, and no
               entry declares deliberately unpublished with a reason
   5 unjudged   published with no be-my-witness verdict — ratchets, does not block
+  6 fabricated the capture script wrote to the page between navigation and the
+              shutter (`provenance.scriptCalls` above zero), so the picture shows
+              what the script authored rather than what the product rendered.
+              A published entry with no `provenance` at all is counted as
+              unprovenanced, and that count ratchets the way unjudged does.
 
 A judgement inserted anywhere on this ladder would be the thing the ladder exists
 to make unnecessary. Vision tops out near 40% recall on fine-grained UI diffs; a
@@ -121,7 +126,9 @@ def subjects_of(inventory: dict) -> dict[str, dict]:
     for s in inventory.get("surface", []):
         if s.get("id"):
             out[s["id"]] = {"kind": "surface", "route": route_of(s),
-                            "shot": s.get("shot"), "name": s.get("name") or s.get("label", "")}
+                            "shot": s.get("shot"), "name": s.get("name") or s.get("label", ""),
+                            "unpairedReason": s.get("unpairedReason"),
+                            "status": s.get("status"), "reason": s.get("reason")}
     for f in inventory.get("flow", []):
         for step in f.get("steps", []):
             sid = step.get("id")
@@ -131,7 +138,9 @@ def subjects_of(inventory: dict) -> dict[str, dict]:
             # surface, not a separate address.
             surf = out.get(step.get("surface", ""), {})
             out[sid] = {"kind": "step", "route": step.get("route") or surf.get("route", ""),
-                        "shot": step.get("shot"), "name": step.get("label", "")}
+                        "shot": step.get("shot"), "name": step.get("label", ""),
+                        "unpairedReason": step.get("unpairedReason"),
+                        "status": step.get("status"), "reason": step.get("reason")}
     return out
 
 
@@ -209,6 +218,26 @@ def analyse(d: Path) -> dict:
     # in the directory unpublished is a capture nobody is relying on.
     published = {sid: rec["shot"] for sid, rec in subjects.items() if rec.get("shot")}
 
+    # 0.19.0 — the seventh pass, counting the other direction. Every pass below
+    # is derived from the subjects that carry a shot, so a surface that produced
+    # no capture left the denominator rather than counting against it, and the
+    # comparison population became whatever happened to be shot. Seven projects
+    # asked in the same words — "the visual screen comparison should be up in
+    # the several hundreds based on all of the variations" — after each had
+    # published a clean result over a couple of dozen pairs.
+    unpaired, excused = [], []
+    for sid, rec in sorted(subjects.items()):
+        if rec.get("shot"):
+            continue
+        reason = str(rec.get("unpairedReason") or "").strip()
+        status = str(rec.get("status") or "").strip().lower()
+        if reason:
+            excused.append(f"{sid}: {reason}")
+        elif status in ("manual", "blocked") and str(rec.get("reason") or "").strip():
+            excused.append(f"{sid}: {status} — {rec.get('reason')}")
+        else:
+            unpaired.append(f"{sid} ({rec.get('name') or rec.get('kind')}) has no capture")
+
     unsourced, untied, manual, reconstructed = [], [], [], []
     by_hash: dict[str, list[str]] = {}
 
@@ -276,20 +305,65 @@ def analyse(d: Path) -> dict:
         else:
             unaccounted.append(f"{rel}: no subject publishes it and no manifest entry names it")
 
+    # 0.19.0. Seven cards on one project were moved to Verified on captures whose
+    # on-screen state the capture script had written with page.evaluate — a chat
+    # turn and its "Used 2 sources" footer, a docked export tray, a pair of run
+    # controls — or onto which it had painted a box reading "Verified: …". The
+    # vision judge passed all seven, because nothing in this manifest recorded how
+    # a state was reached and so nothing could refuse them. The capture helper now
+    # counts every script call between the last navigation and the shutter; a
+    # published capture with one is not the product's rendering.
+    fabricated: list[str] = []
+    provenanced = 0
+    for sid, shot in sorted(published.items()):
+        prov = (by_path.get(shot) or {}).get("provenance")
+        if not isinstance(prov, dict):
+            continue
+        provenanced += 1
+        try:
+            calls = int(prov.get("scriptCalls") or 0)
+        except (TypeError, ValueError):
+            calls = 1   # a count that cannot be read is not a count of zero
+        if calls > 0:
+            notes = [str(x).replace("\n", " ")[:60] for x in (prov.get("scriptCallNotes") or [])[:3]]
+            fabricated.append(f"{sid} → {shot}: the capture script made {calls} script call(s) to "
+                              f"the page between navigation and shutter"
+                              + (f" ({'; '.join(notes)})" if notes else "")
+                              + ". A state the script wrote is not a state the product reached.")
+
     ver_path = d / VERDICTS
     verdicts = json.loads(ver_path.read_text()) if ver_path.exists() else []
-    judged_ids = {v.get("subject") for v in verdicts if v.get("verdict")}
+    # 0.19.0. A verdict is a judgement only when something judged. A pairing
+    # script once wrote `gate: "pass"` onto 2,853 rows whose two files existed,
+    # with `advisory: true`, no findings and no judge named, and those rows were
+    # reported as verification over 902 flows a real judge had failed the day
+    # before. So a row counts as judged only when it names its judge and is not
+    # marked advisory; everything else is a pairing record, and unjudged.
+    def is_judgement(v: dict) -> bool:
+        if not v.get("verdict"):
+            return False
+        if v.get("advisory") is True or (isinstance(v.get("conformance"), dict)
+                                          and v["conformance"].get("advisory") is True):
+            return False
+        judge = v.get("judge")
+        named = (isinstance(judge, dict) and bool(judge.get("model"))) or (isinstance(judge, str) and judge.strip())
+        return bool(named or v.get("model"))
+    unjudged_records = [v.get("subject") for v in verdicts if v.get("verdict") and not is_judgement(v)]
+    judged_ids = {v.get("subject") for v in verdicts if is_judgement(v)}
     refuted = [v for v in verdicts if str(v.get("verdict", "")).lower()
                in ("fail", "invalid-capture", "not-evidence", "mismatch")]
     judgeable = [s for s in published if s not in {m.split(" ")[0] for m in manual}]
     judged = [s for s in judgeable if s in judged_ids]
 
     return {
+        "subjects": len(subjects), "unpaired": unpaired, "excused": excused,
         "published": len(published), "images": len(images),
         "unsourced": unsourced, "untied": untied, "shared": shared,
         "unaccounted": unaccounted,
         "reconstructed": reconstructed, "manual": manual,
+        "fabricated": fabricated, "provenanced": provenanced,
         "judged": len(judged), "judgeable": len(judgeable),
+        "verdictsNotJudgements": [str(x) for x in unjudged_records if x],
         "refuted": [f"{v.get('subject')}: {v.get('verdict')} — {v.get('reason', 'no reason recorded')}"
                     for v in refuted],
         "distinctImages": len(by_hash),
@@ -342,6 +416,42 @@ def main() -> int:
         return 2
     d = Path(args[0])
 
+    if "--seed-drop" in args:
+        # Watch the unpaired pass fail: blank one subject's shot in a scratch copy
+        # of the inventory and require `missing` to rise.
+        sid = args[args.index("--seed-drop") + 1].strip()
+        inv_path = d / "inventory.json"
+        if not inv_path.exists():
+            print(f"seed-drop: no inventory at {inv_path}")
+            return 2
+        before = analyse(d)
+        original = inv_path.read_text()
+        inv = json.loads(original)
+        hit = False
+        for s in inv.get("surface", []):
+            if s.get("id") == sid and s.get("shot"):
+                s["shot"] = None; hit = True
+        for f in inv.get("flow", []):
+            for st in f.get("steps", []):
+                if st.get("id") == sid and st.get("shot"):
+                    st["shot"] = None; hit = True
+        if not hit:
+            print(f"seed-drop: {sid} is not a subject with a shot, so dropping it proves nothing")
+            return 2
+        try:
+            inv_path.write_text(json.dumps(inv, indent=1) + "\n")
+            after = analyse(d)
+        finally:
+            inv_path.write_text(original)
+        if len(after["unpaired"]) > len(before["unpaired"]):
+            print(f"seed-drop CAUGHT — dropping {sid}'s capture raised missing from "
+                  f"{len(before['unpaired'])} to {len(after['unpaired'])}. The pass counts the "
+                  f"population, not the shots directory.")
+            return 0
+        print(f"seed-drop FALSE PASS — dropping {sid}'s capture changed nothing. The pass is "
+              f"deriving its population from the captures that exist.")
+        return 2
+
     if "--seed-swap" in args:
         pair = args[args.index("--seed-swap") + 1].split(",")
         if len(pair) != 2:
@@ -357,9 +467,20 @@ def main() -> int:
         print(json.dumps(a, indent=1))
         return 0
 
-    hard = len(a["unsourced"]) + len(a["untied"]) + len(a["shared"]) + len(a["unaccounted"])
+    hard = (len(a["unsourced"]) + len(a["untied"]) + len(a["shared"]) + len(a["unaccounted"])
+            + len(a["fabricated"]))
     print(f"published captures: {a['published']}  ·  distinct images: {a['distinctImages']}  "
           f"·  files in shots dir: {a['images']}")
+    print(f"pairs {a['published']} of {a['subjects']} subject(s) captured  ·  missing {len(a['unpaired'])}"
+          f"  ·  excused {len(a['excused'])}")
+    if a["unpaired"]:
+        print("   MISSING — subjects the comparison population never saw (ratchets; a rise fails):")
+        for r in a["unpaired"][:12]:
+            print(f"   {r}")
+        if len(a["unpaired"]) > 12:
+            print(f"   … and {len(a['unpaired']) - 12} more")
+        print("   → capture each, or record `unpairedReason` on the subject with the structural "
+              "reason it cannot have one")
     if a["published"] and a["distinctImages"] < a["published"]:
         print(f"   {a['published'] - a['distinctImages']} published cell(s) show a picture "
               f"another cell also shows")
@@ -383,6 +504,13 @@ def main() -> int:
          "· files in shots dir: 11` and exited 0."),
         ("RECONSTRUCTED — the manifest disagrees with the bytes", a["reconstructed"],
          "A manifest written after the fact is not provenance."),
+        ("FABRICATED — the capture script wrote to the page before the shutter", a["fabricated"],
+         "Reach the state through the product: seed it through the API before the run, or "
+         "drive the product's own controls and record each step under `provenance.reached`. "
+         "Annotate a finding in the case record, never on the picture. Any page.evaluate, "
+         "addScriptTag, addStyleTag or setContent between navigation and shutter makes the "
+         "capture not-evidence whatever it shows, because a judge cannot tell script-authored "
+         "HTML from the product's, and seven cards were once verified on exactly that."),
         ("REFUTED BY THE WITNESS", a["refuted"],
          "be-my-witness judged these against their reference and rejected them."),
     ):
@@ -399,11 +527,21 @@ def main() -> int:
         for m in a["manual"][:10]:
             print(f"   {m}")
 
+    pn = a["provenanced"]
+    print(f"\nPROVENANCED {pn} of {a['published']} published capture(s) record how their state "
+          f"was reached")
+    if pn < a["published"]:
+        print("   A capture with no provenance cannot be told from one whose state the script wrote.")
+
     jn, jd = a["judged"], a["judgeable"]
     print(f"\nJUDGED {jn} of {jd} judgeable capture(s)"
           + (f" ({100 * jn / jd:.0f}%)" if jd else ""))
     if jn < jd:
         print("   An unjudged capture is an uncompared one. It is not a pass.")
+    if a.get("verdictsNotJudgements"):
+        print(f"   {len(a['verdictsNotJudgements'])} verdict row(s) name no judge or are marked advisory "
+              f"— a pairing record, counted as unjudged: {', '.join(a['verdictsNotJudgements'][:5])}"
+              + (" …" if len(a['verdictsNotJudgements']) > 5 else ""))
 
     ratchet_path = d / RATCHET_FILE
     prior = json.loads(ratchet_path.read_text()) if ratchet_path.exists() else None
@@ -427,7 +565,19 @@ def main() -> int:
                   f"with no reason recorded. Pass --reason \"...\" so the next reader sees "
                   f"why the bar moved.")
             return 1
-        rec = {"judged": jn, "judgeable": jd,
+        if prior and pn < prior.get("provenanced", 0) and not reason:
+            print(f"\nREFUSED — that would lower the provenance floor from "
+                  f"{prior['provenanced']} to {pn} with no reason recorded. A capture helper "
+                  f"that stopped recording how a state was reached is the change this floor "
+                  f"exists to notice.")
+            return 1
+        if prior and "missing" in prior and len(a["unpaired"]) > prior["missing"] and not reason:
+            print(f"\nREFUSED — that would raise the missing-pair floor from {prior['missing']} to "
+                  f"{len(a['unpaired'])} with no reason recorded. Subjects that lost their capture "
+                  f"are the change this floor exists to notice.")
+            return 1
+        rec = {"judged": jn, "judgeable": jd, "provenanced": pn, "published": a["published"],
+               "missing": len(a["unpaired"]), "subjects": a["subjects"],
                "at": datetime.now(timezone.utc).isoformat(timespec="seconds")}
         if reason:
             rec["loweredBecause" if prior and jn < prior["judged"] else "reason"] = reason
@@ -448,6 +598,23 @@ def main() -> int:
         print(f"\nratchet: {prior['judged']} — {'held' if jn == prior['judged'] else f'rose to {jn}'}")
     else:
         print(f"\nno ratchet recorded yet — run with --set-ratchet to pin {jn}")
+
+    if prior and "missing" in prior:
+        if len(a["unpaired"]) > prior["missing"]:
+            print(f"ratchet: missing {prior['missing']} — FAILED, rose to {len(a['unpaired'])}. "
+                  f"Subjects fell out of the comparison population.")
+            hard += 1
+        else:
+            print(f"ratchet: missing {prior['missing']} — "
+                  f"{'held' if len(a['unpaired']) == prior['missing'] else 'fell to ' + str(len(a['unpaired']))}")
+    if prior and "provenanced" in prior:
+        if pn < prior["provenanced"]:
+            print(f"ratchet: provenanced {prior['provenanced']} — FAILED, fell to {pn}. The capture "
+                  f"helper stopped recording how a state was reached.")
+            hard += 1
+        else:
+            print(f"ratchet: provenanced {prior['provenanced']} — "
+                  f"{'held' if pn == prior['provenanced'] else f'rose to {pn}'}")
 
     if hard:
         print(f"\n{hard} hard failure(s). A wall of captures whose subjects are unproved is "

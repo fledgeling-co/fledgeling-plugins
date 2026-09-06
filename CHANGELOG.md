@@ -4,6 +4,36 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-06
+
+### test-campaign 0.19.0: gates for the demands one owner made more than once
+
+Mined from 69 sessions across 17 projects in one week — 1,649 owner interventions, 28
+demands made more than once, 16 candidate gates each adversarially refuted — and weighted by
+the asks that followed a completion claim. Evidence with every session id in
+`plugins/test-campaign/docs/evidence-2026-09-06-intervention-mining.md`.
+
+- **The state census.** A surface declares `states` against a floor of loading, empty,
+  populated and error plus each menu, tab, filter and drawer; `check` prints `States: N of M`
+  and refuses an undeclared surface, a floor gap, a stray state and an unproved cell. Asked
+  for in the same words in four projects after a campaign had reported itself complete on a
+  surface count.
+- **A raster pass owes a reading.** `comparison.reader` and `expectation` are required, a
+  downscaled reading is inconclusive, and a verdict must name its judge; a pairing script had
+  written `pass` onto 2,853 rows whose two files existed.
+- **Unpaired and fabricated.** `capture-lineage.py` gains a pass that counts subjects with no
+  capture against the population (with a `missing` ratchet and `--seed-drop`) and one that
+  refuses any capture the script wrote to (`provenance.scriptCalls`), after seven cards were
+  verified on script-written state.
+- **What is left.** `campaign.py next` exits 3 while unblocked work remains; `init` records the
+  directive and stop condition and `check` prints them first; `check --line` for a turn in
+  flight; a fail-to-pass close owes evidence the failure never stood on; every finding leaves
+  as a brief that exists or a recorded waiver; a blocked row records its attempt; a mutating
+  case names a declared write target; `phase`, `ran`, `reopen` and `corpus` record what the
+  report used to assert.
+- Gate suite 129 → 180; `gemini.md` refreshed (22/22 quotes); every skill named as something
+  to invoke carries its `plugin:skill` form.
+
 ## 2026-09-05
 
 ### test-campaign 0.18.0: active execution enforcement and rendered mock pairing

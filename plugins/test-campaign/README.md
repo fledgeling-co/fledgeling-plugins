@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that reads what your project claims to do, tests it across the states and viewports and roles nobody gets to, and leaves one browsable page where the gaps are as visible as the passes.</p>
 
 <p align="center">
-  <img alt="Version 0.9.0" src="https://img.shields.io/badge/version-0.9.0-D33C21">
+  <img alt="Version 0.19.0" src="https://img.shields.io/badge/version-0.19.0-D33C21">
   <img alt="SWE skill: testing" src="https://img.shields.io/badge/SWE_skill-testing-434A55">
   <img alt="Lanes: web, RN, iOS, macOS, Windows, Linux" src="https://img.shields.io/badge/lanes-web_·_RN_·_iOS_·_macOS_·_Windows_·_Linux-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

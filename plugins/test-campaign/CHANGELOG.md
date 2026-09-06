@@ -2,6 +2,125 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.19.0 — 2026-09-06
+
+Gates for the demands one owner made more than once. Sourced from a week of sessions in
+which this skill ran on Opus, Fable and Gemini across seventeen projects, mined for every
+turn the owner had to take, weighted by the demands he restated and by the follow-ups that
+said a delivered result was not good enough.
+
+The corpus: 69 sessions, 17 projects, 2026-08-30 to 2026-09-06; 1,649 interventions, 1,571
+after removing compaction echoes of live turns; 1,229 judged preventable by a gate; 28
+demands made in two or more sessions or three or more times in one, 21 of them about
+testing; 99 asks made straight after the assistant had claimed completion or verification.
+Read by 59 Opus extractors, clustered into 16 candidate gates, each candidate handed to an
+Opus refuter told to drop it, then re-ranked by the repeated asks each would have cut. No
+candidate was dropped whole; ten were reworded, six merged into an existing rule, and the
+ledger added seven the clustering had not named. The full method, every session id, the
+chains and the ranked list: `docs/evidence-2026-09-06-intervention-mining.md`.
+
+The demand at the top, in the owner's words in four projects, each time after a campaign had
+reported itself complete on a surface count: *"every screen at a minimum has a loading state,
+empty state, content state and then any menus, selected tabs, filters"*. The coverage model had
+called State the single highest-yield axis for a year while nothing in `campaign.py` read a
+`states` field. Beside it, in the same words across nine projects: *"the visual screen
+comparison should be up in the several hundreds based on all of the variations"*, over a
+population the campaign had taken from the shots directory rather than from the sample. And
+the instruction to keep going, restated 82 times in 11 projects while `check` had already
+printed *Finish them… never silently* into those sessions 8, 16, 30 and 87 times.
+
+### What `campaign.py check` now counts and refuses
+
+Every one of these is an exit code or a printed denominator, because the week's prose rules
+were in the file the whole time.
+
+- **The state census.** A surface declares `states` against the floor `loading · empty ·
+  populated · error` plus each menu, tab, filter and drawer it opens, or `statesNotApplicable`
+  with a reason; a case names its `state`; a capture records it. `check` prints `States: 14 of
+  22 declared state cell(s) proved · 9 captured` and refuses a surface declaring no states
+  while the state axis is sampled, a floor state neither declared nor excused, a case naming a
+  state its surface never declared, and a declared cell no passing effect-rung case proves.
+- **A raster pass owes a reading.** `comparison.reader`, `comparison.expectation` and the
+  long edge the reader saw (`--comparison-judged-long-edge`); `Comparisons: 12 of 14
+  raster-visual pass(es) name what read both images`; a pass missing either is refused, and a
+  reading over a downscaled frame is inconclusive. A pairing script had written `pass` onto
+  2,853 rows whose two files existed.
+- **A fail closes on evidence the failure never stood on.** `set` stamps `closedFrom` (status,
+  rung, evidence hashes) when a red case goes green; `check` refuses a pass whose artifacts
+  are that set, or whose rung is lower.
+- **A finding leaves with somewhere to go.** A red case or a `DEF-*` row carries `brief` (a
+  path that exists) or `waived` (who decided); `card` is printed and not verified. `Routed: 7
+  of 9 finding(s) filed as a brief · 2 waived`, refused while any finding has neither.
+- **The run's own ask.** `init --directive` and `--stop-when` are the first two lines `check`
+  prints; `NOT DECLARED` names what to record.
+- **A blocked row records an attempt.** `set --clearing-command/-exit/-output/-lifts/-owner`;
+  a blocked case with no recorded command is refused; a block naming a credential owes
+  `--clearing-searched`, what the env files and the secrets broker were found to hold.
+- **A case that writes names a declared target.** `init --mutable-target` or
+  `--no-mutable-target <reason>`; a case sets `mutates` and `target`; `set --armed` refuses a
+  mutating case against an undeclared target; `Write targets:` prints the census.
+- **Which phases ran.** `campaign.py phase --ran 0,1,2 --skipped "4: reason"`; `Phases: ran …
+  · skipped … · unrecorded …`; a skip with no reason is refused.
+- **What is left.** `campaign.py next` prints `remaining N · blocked B · next: <id>` and exits
+  3 while an unblocked row remains — its own exit code, because `check`'s exit 1 carries
+  forty conditions and was observed non-zero with zero open cases. `check --line` is the
+  one-line form for a turn in flight; `Remaining:` prints on every run.
+- **Printed, not refused:** `Root:`, `Design of record:`, `Corpus: 38 of 41 document(s) read`
+  (`campaign.py corpus`), `Runs: 3 recorded · last … exit 0` (`campaign.py ran`) — and with no
+  run recorded, `Runs: NOT DECLARED — 74 passing case(s) and no recorded run`. A refusal there
+  opened red on every existing campaign in the gate suite, which is the gate that gets switched
+  off within a week. `campaign.py reopen --surfaces … --by "wave 3"` returns a touched
+  surface's passes to `open`, so a merged wave re-enters `next`.
+
+### What `capture-lineage.py` now sees
+
+- **Fabricated.** The capture template's `shoot()` counts every script call made to the page
+  between navigation and shutter and records the steps that reached the state under
+  `provenance`; a published capture with `provenance.scriptCalls` above zero is a hard
+  failure, in this gate and in `check`. Seven cards on one project had been moved to Verified
+  on captures whose state the script had written with `page.evaluate`, or onto which it had
+  painted a box reading *"Verified: …"*; every other field on those entries was correct. All
+  seven were retracted on the board the same day.
+- **Unpaired.** The seventh pass counts subjects with no capture against the subject
+  population — `pairs 29 of 31 subject(s) captured · missing 2 · excused 0` — so a surface
+  that produced no picture counts against the denominator instead of leaving it.
+  `unpairedReason` excuses a subject and is counted apart; `missing` ratchets beside `judged`
+  and `provenanced`; `--seed-drop SURF-ID` watches the pass fail.
+- **A verdict names its judge.** A verdict row with no judge named, or marked advisory, is a
+  pairing record and counts as unjudged.
+
+`assets/judge-contract.md` gains the control that a capture testifying about itself is
+`not-evidence`; `evidence-page.py` prints the `open -a "Google Chrome"` command beside the
+path it wrote. The gate suite goes from 129 to 180 cases, each new gate proved to fire and to
+clear.
+
+### What changed in the text
+
+`SKILL.md` (+300 lines): the directive and stop condition under *Before the phases*; phase 0's
+three facts, the write target, and the root and design-of-record lines; phase 1's corpus
+denominator; phase 3's state floor; phase 5's raster-pass reading and the blocked-row attempt;
+phase 6's recorded run; phase 8a's sixth and seventh passes; phase 9's new refusals, the
+sixteen printed lines and the phase record; two obligations in *What counts as done*
+(findings routed; and, restated, unchecked is failed); and six standing rules — *Print the
+denominator, and the remaining set before the pass count*; *A turn ends on the next item, or on
+a blocker that covers every remaining one*; *A run states its own finish line*; *Characterise,
+do not assert-correct, and let the re-run close it*; *Delegate sparingly, and account for every
+agent you dispatched*; *A phase in flight says so*; *A state the capture script wrote is not a
+state the product reached*. Every skill named as something to invoke now carries its
+`plugin:skill` form, because a bare name fails the Skill tool silently — 53 of 77 invocations
+across 51,763 transcripts failed that way. `references/capture-lineage.md` and
+`references/coverage-model.md` carry the two new measurements. `gemini.md` is refreshed
+against the new file (302 lines, over the 150–250 target because the count contract grew by
+ten printed lines; quote gate 22 of 22).
+
+### What this release does not do
+
+The wave dispatch/return census stays prose in *Delegate sparingly* and
+`references/campaign-estimates.md`; no script here reads a workflow journal. The pair
+population is subjects — surfaces and flow steps — so a state cell without its own `shot`
+counts in `States:` and not in `pairs`. The `Runs:` and `Corpus:` figures are self-reported.
+And nothing here can see a turn end: `next`'s exit 3 is for a goal loop to read.
+
 ## 0.18.0 — 2026-09-05
 
 Enforces active test execution and rendered reference mock pairing in Gemini-calibrated campaigns,

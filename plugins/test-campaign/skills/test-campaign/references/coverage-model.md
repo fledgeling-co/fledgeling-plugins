@@ -20,7 +20,7 @@ carries all ten, and an axis with one value is still declared, as held fixed.
 | Axis | Typical values | Why it earns a column |
 |---|---|---|
 | **Surface** | route, screen, portalled dialog, sheet | The unit of navigation. Note which surfaces are *not* routes — a modal has no URL and gets missed by route enumeration. |
-| **State** | empty · loading · partial · populated · over-full · error · refused · stale | The single highest-yield axis. Most surfaces are only ever tested populated. |
+| **State** | empty · loading · partial · populated · over-full · error · refused · stale | The single highest-yield axis. Most surfaces are only ever tested populated. Declared per surface under `states` against the floor `loading · empty · populated · error` (plus each menu, tab, filter and drawer), claimed per case under `state`; `campaign.py check` prints `States: N of M` and refuses an undeclared surface while this axis is sampled — added in 0.19.0 after four projects asked for it in one week, each after a campaign had reported itself complete on a surface count. |
 | **Viewport** | the project's own breakpoints, plus one below the smallest | Truncation, reflow and scroll-trap defects live only here. |
 | **Theme** | light · dark · high-contrast · forced-colors | Contrast and focus-ring defects are theme-local by construction. |
 | **Role** | each permission level, including the one that may only read | A write control rendered to a viewer is a defect no happy-path case can see. |

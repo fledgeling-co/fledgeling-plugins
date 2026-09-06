@@ -132,6 +132,10 @@ for c in cases:
         c["armed"] = True
         c.setdefault("capture", {}).update(
             {"method": "SCK window-scoped", "frameStatus": "complete"})
+    if c.get("oracle") == "raster-visual":
+        # 0.19.0: a raster pass owes what read both images and against what
+        c["comparison"] = {"reader": "be-my-witness/claude-opus-5",
+                           "expectation": "docs/mocks/dashboard.html"}
     if c["id"] == "CASE-0006":
         c["oracle"] = "structural-visual"       # no longer claims pixels
     if c["id"] == "CASE-0007":
@@ -413,6 +417,100 @@ else
   FAIL=$((FAIL+1))
 fi
 
+# ── fabricated: the capture script wrote to the page before the shutter ─────
+# Seven cards on one project were moved to Verified on captures whose state the
+# script had written with page.evaluate, or onto which it had painted a box
+# reading "Verified: …". Every manifest entry was correct; nothing recorded how
+# the state was reached. The helper now counts script calls, and the gate refuses
+# any published capture with one.
+F="$WORK/lineage-fab"
+mkdir -p "$F/evidence/shots"
+png "$F/evidence/shots/SURF-001.png" 40 30 90 40 10
+png "$F/evidence/shots/SURF-002.png" 40 30 10 40 90
+cat >"$F/inventory.json" <<'JSON'
+{"requirement":[],"component":[],"flow":[],"surface":[
+ {"id":"SURF-001","name":"Chat","route":"/chat","shot":"evidence/shots/SURF-001.png"},
+ {"id":"SURF-002","name":"Sheets","route":"/sheets","shot":"evidence/shots/SURF-002.png"}]}
+JSON
+# a verdict that names no judge is a pairing record: it must not count as judged
+echo '[{"subject":"SURF-001","verdict":"pass","reason":"fixture","conformance":{"advisory":true}}]' >"$F/witness-verdicts.json"
+fabmanifest() { # fabmanifest <scriptCalls on SURF-001> <SURF-002 records provenance: yes|no>
+  python3 - "$F" "$1" "$2" <<'PY'
+import hashlib, json, pathlib, sys
+d, calls, prov2 = pathlib.Path(sys.argv[1]), int(sys.argv[2]), sys.argv[3]
+def sha(rel): return hashlib.sha256((d / rel).read_bytes()).hexdigest()
+rows = []
+for sid, tgt in (("SURF-001", "http://h/chat"), ("SURF-002", "http://h/sheets")):
+    rel = f"evidence/shots/{sid}.png"
+    row = {"path": rel, "subject": sid, "target": tgt, "channel": "playwright/chromium", "sha256": sha(rel)}
+    if sid == "SURF-001":
+        row["provenance"] = {"reached": ["goto /chat"], "scriptCalls": calls,
+                             "scriptCallNotes": ["evaluate: () => { const t = document.createElement('div'); t.innerHTML"] if calls else []}
+    elif prov2 == "yes":
+        row["provenance"] = {"reached": ["goto /sheets", "click 'Guardian'"], "scriptCalls": 0, "scriptCallNotes": []}
+    rows.append(row)
+(d / "evidence/shots/captures.json").write_text(json.dumps(rows, indent=1) + "\n")
+PY
+}
+fabmanifest 1 yes
+out="$(cl "$F" --gate)"; rc=$?
+if grep -qF -- "JUDGED 0 of" <<<"$out" && grep -qF -- "name no judge or are marked advisory" <<<"$out"; then
+  say "ok    an advisory verdict naming no judge is not a judgement"; PASS=$((PASS+1))
+else
+  echo "FAIL  an advisory, judge-less verdict should count as unjudged"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+echo '[{"subject":"SURF-001","verdict":"pass","reason":"fixture","judge":{"model":"claude-opus-5"}}]' >"$F/witness-verdicts.json"
+out="$(cl "$F" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "FABRICATED" <<<"$out" && grep -qF -- "not a state the product reached" <<<"$out"; then
+  say "ok    a capture whose script wrote to the page is fabricated"; PASS=$((PASS+1))
+else
+  echo "FAIL  a script-written capture should be fabricated (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+out="$(python3 "$S/campaign.py" check "$F" 2>&1)"
+if grep -qF -- "whose state was written by the capture script" <<<"$out"; then
+  say "ok    campaign.py check refuses the same fabricated shot"; PASS=$((PASS+1))
+else
+  echo "FAIL  check should refuse a fabricated shot"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+fabmanifest 0 yes
+out="$(python3 "$S/campaign.py" check "$F" 2>&1)"
+if ! grep -qF -- "whose state was written by the capture script" <<<"$out"; then
+  say "ok    check drops the fabricated blocker once the state is product-reached"; PASS=$((PASS+1))
+else
+  echo "FAIL  check should not flag a zero-call capture"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+out="$(cl "$F" --gate)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "PROVENANCED 2 of 2" <<<"$out"; then
+  say "ok    product-reached captures clear and the provenance count prints"; PASS=$((PASS+1))
+else
+  echo "FAIL  provenanced captures should clear (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+# the provenance floor may not fall quietly: pin 2, then stop recording on one
+out="$(cl "$F" --set-ratchet)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF '"provenanced": 2' "$F/capture-ratchet.json"; then
+  say "ok    the ratchet records the provenance floor beside judged"; PASS=$((PASS+1))
+else
+  echo "FAIL  --set-ratchet should record provenanced (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+fabmanifest 0 no
+out="$(cl "$F" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "provenanced 2 — FAILED, fell to 1" <<<"$out"; then
+  say "ok    a helper that stops recording provenance fails the floor"; PASS=$((PASS+1))
+else
+  echo "FAIL  a falling provenance floor should fail (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+out="$(cl "$F" --set-ratchet)"; rc=$?
+if [ "$rc" = 1 ] && grep -qF -- "lower the provenance floor" <<<"$out"; then
+  say "ok    lowering the provenance floor without a reason is refused"; PASS=$((PASS+1))
+else
+  echo "FAIL  lowering provenanced with no reason should be refused (exit $rc)"; echo "$out" | sed 's/^/      /'
+  FAIL=$((FAIL+1))
+fi
+
 # ── the published-shot audit inside campaign.py check ──────────────────────
 out="$(python3 "$S/campaign.py" check "$D" 2>&1)"
 if grep -qF -- "Wall:" <<<"$out"; then
@@ -569,6 +667,344 @@ if python3 "$S/campaign.py" add "$V" --kind requirement --file /dev/stdin >/dev/
   echo "FAIL  a bogus effect class should be refused at add time"; FAIL=$((FAIL+1))
 else
   say "ok    a bogus requirement effect class is refused"; PASS=$((PASS+1))
+fi
+
+# ── the state census: surface × state is the owner's denominator ────────────
+# Asked for in four projects in one week, each time after a campaign reported
+# itself complete on a surface count: "every screen at a minimum has a loading
+# state, empty state, content state and then any menus, selected tabs, filters".
+ST="$WORK/states"
+python3 "$S/campaign.py" init "$ST" --project States --lanes web --axes "surface,state" >/dev/null
+echo '[{"id":"REQ-001","class":"behaviour","text":"the inbox lists threads"}]' >"$WORK/st-r.json"
+echo '[{"label":"Inbox"},{"label":"Login"}]' >"$WORK/st-s.json"
+cat >"$WORK/st-c.json" <<'JSON'
+[ {"surface":"SURF-001","req":"REQ-001","lane":"web","oracle":"outcome"},
+  {"surface":"SURF-002","req":"REQ-001","lane":"web","oracle":"outcome"} ]
+JSON
+python3 "$S/campaign.py" add "$ST" --kind requirement --file "$WORK/st-r.json" >/dev/null
+python3 "$S/campaign.py" add "$ST" --kind surface --file "$WORK/st-s.json" >/dev/null
+python3 "$S/campaign.py" add "$ST" --kind case --file "$WORK/st-c.json" >/dev/null
+png "$ST/shots/s1.png" 40 30 1 2 3
+png "$ST/shots/s2.png" 40 30 4 5 6
+python3 "$S/campaign.py" set "$ST" --case CASE-0001 --status pass --evidence shots/s1.png --armed >/dev/null
+python3 "$S/campaign.py" set "$ST" --case CASE-0002 --status pass --evidence shots/s2.png --armed >/dev/null
+expect "a surface with no states while the state axis is sampled does not clear" 1 "$ST" \
+  "declaring no states while the campaign samples the state axis"
+
+states() { # states <SURF-001 states as JSON array> — SURF-002 is a login page: no floor state applies
+  python3 - "$ST" "$1" <<'PY'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); inv = json.loads((d / "inventory.json").read_text())
+for s in inv["surface"]:
+    if s["id"] == "SURF-001":
+        s["states"] = json.loads(sys.argv[2])
+    if s["id"] == "SURF-002":
+        s["statesNotApplicable"] = {f: "a login page has no data to load, empty, populate or fail" for f in ("loading", "empty", "populated", "error")}
+(d / "inventory.json").write_text(json.dumps(inv, indent=1) + "\n")
+PY
+}
+states '["loading","empty","populated"]'
+expect "a declared surface missing a floor state does not clear" 1 "$ST" "missing a floor state"
+states '["loading","empty","populated","error"]'
+expect "a declared state cell nothing proves does not clear" 1 "$ST" \
+  "declared state cell(s) no passing effect-rung case proves"
+# prove every cell: one passing outcome case per state, each naming its state
+python3 - "$ST" <<'PY'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); p = d / "cases.json"; cases = json.loads(p.read_text())
+cases[0]["state"] = "populated"
+for i, st in enumerate(("loading", "empty", "error"), start=3):
+    cases.append({"id": f"CASE-{i:04d}", "surface": "SURF-001", "req": "REQ-001", "lane": "web",
+                  "oracle": "outcome", "state": st, "status": "pass", "armed": True,
+                  "evidence": ["shots/s1.png"]})
+p.write_text(json.dumps(cases, indent=2))
+PY
+expect "every declared state cell proved by an effect-rung case clears" 0 "$ST" "Every case accounted for"
+out="$(python3 "$S/campaign.py" check "$ST" 2>&1)"
+if grep -qF -- "States:     4 of 4 declared state cell(s)" <<<"$out"; then
+  say "ok    check prints the state census with its denominator"; PASS=$((PASS+1))
+else
+  echo "FAIL  check should print 'States:     4 of 4'"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+python3 - "$ST" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "cases.json"; cases = json.loads(p.read_text())
+cases[1]["state"] = "hover"     # SURF-002 declares no states at all
+p.write_text(json.dumps(cases, indent=2))
+PY
+expect "a case naming a state its surface never declared does not clear" 1 "$ST" \
+  "naming a state their surface never declared"
+
+# ── a raster pass owes a reading; a fail closes on new evidence; a finding is routed ──
+RR="$WORK/reader"
+python3 "$S/campaign.py" init "$RR" --project Reader --lanes web >/dev/null
+echo '[{"id":"REQ-001","class":"behaviour","text":"the dashboard matches its design"}]' >"$WORK/rr-r.json"
+echo '[{"label":"Dashboard"}]' >"$WORK/rr-s.json"
+cat >"$WORK/rr-c.json" <<'JSON'
+[ {"surface":"SURF-001","req":"REQ-001","lane":"web","oracle":"raster-visual"},
+  {"surface":"SURF-001","req":"REQ-001","lane":"web","oracle":"outcome"} ]
+JSON
+python3 "$S/campaign.py" add "$RR" --kind requirement --file "$WORK/rr-r.json" >/dev/null
+python3 "$S/campaign.py" add "$RR" --kind surface --file "$WORK/rr-s.json" >/dev/null
+python3 "$S/campaign.py" add "$RR" --kind case --file "$WORK/rr-c.json" >/dev/null
+png "$RR/shots/d1.png" 40 30 9 9 9
+png "$RR/shots/d2.png" 40 30 8 8 8
+rset() { python3 "$S/campaign.py" set "$RR" "$@" >/dev/null; }
+rset --case CASE-0001 --status pass --evidence shots/d1.png --armed --capture-method playwright --frame-status complete
+rset --case CASE-0002 --status pass --evidence shots/d2.png --armed
+expect "a raster-visual pass naming no reader does not clear" 1 "$RR" "no named reader or expectation"
+rset --case CASE-0001 --comparison-reader "be-my-witness/claude-opus-5" --comparison-expectation "docs/mocks/dashboard.html"
+expect "naming what read both images and against what clears" 0 "$RR" "Every case accounted for"
+out="$(python3 "$S/campaign.py" check "$RR" 2>&1)"
+if grep -qF -- "Comparisons: 1 of 1 raster-visual" <<<"$out"; then
+  say "ok    check prints the comparison denominator"; PASS=$((PASS+1))
+else
+  echo "FAIL  check should print 'Comparisons: 1 of 1'"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+rset --case CASE-0001 --comparison-judged-long-edge 20
+expect "a reading over a downscaled image does not clear" 1 "$RR" "downscaled reading is inconclusive"
+rset --case CASE-0001 --comparison-judged-long-edge 40
+expect "a reading at capture scale clears" 0 "$RR" "Every case accounted for"
+# a red case that goes green on the artifacts the failure stood on
+rset --case CASE-0002 --status fail
+rset --case CASE-0002 --status pass
+expect "a fail closed on the evidence it failed on does not clear" 1 "$RR" "on the evidence they failed on"
+png "$RR/shots/d3.png" 40 30 7 7 7
+rset --case CASE-0002 --evidence shots/d3.png
+expect "a fail closed on evidence the failure never stood on clears" 0 "$RR" "Every case accounted for"
+python3 - "$RR" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "cases.json"; cases = json.loads(p.read_text())
+cases[1]["oracle"] = "presence"      # closed below the rung it failed on
+p.write_text(json.dumps(cases, indent=2))
+PY
+expect "a fail closed at a lower rung does not clear" 1 "$RR" "below the outcome rung it failed on"
+python3 - "$RR" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "cases.json"; cases = json.loads(p.read_text())
+cases[1]["oracle"] = "outcome"
+p.write_text(json.dumps(cases, indent=2))
+PY
+# a finding with nowhere to go
+rset --case CASE-0002 --status fail
+expect "a failing case with no brief and no waiver does not clear" 1 "$RR" "with nowhere to go"
+rset --case CASE-0002 --brief briefs/missing.md
+expect "a brief that does not exist is not a route" 1 "$RR" "does not exist"
+mkdir -p "$RR/briefs"; echo "# brief" >"$RR/briefs/missing.md"
+expect "a finding filed as a brief that exists clears" 0 "$RR" "Routed:     1 of 1 finding(s) filed"
+python3 - "$RR" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1]) / "cases.json"; cases = json.loads(p.read_text())
+del cases[1]["brief"]; cases[1]["waived"] = "owner: by design, the legacy tenant keeps this behaviour"
+p.write_text(json.dumps(cases, indent=2))
+PY
+expect "a finding waived with who decided clears" 0 "$RR" "1 waived"
+
+# ── the run's own ask, its blocks, its write targets, and what is left ───────
+RN="$WORK/run-ask"
+python3 "$S/campaign.py" init "$RN" --project Ask --lanes web \
+  --directive "prove the Done column shipped" --stop-when "every card binds to a live case" \
+  --mutable-target "acme-sandbox: seeded fixture tenant, owner-sanctioned" >/dev/null
+echo '[{"id":"REQ-001","class":"behaviour","text":"saving a name persists it"}]' >"$WORK/rn-r.json"
+echo '[{"label":"Profile"}]' >"$WORK/rn-s.json"
+cat >"$WORK/rn-c.json" <<'JSON'
+[ {"surface":"SURF-001","req":"REQ-001","lane":"web","oracle":"outcome"},
+  {"surface":"SURF-001","req":"REQ-001","lane":"web","oracle":"outcome"},
+  {"surface":"SURF-001","req":"REQ-001","lane":"web","oracle":"outcome"} ]
+JSON
+python3 "$S/campaign.py" add "$RN" --kind requirement --file "$WORK/rn-r.json" >/dev/null
+python3 "$S/campaign.py" add "$RN" --kind surface --file "$WORK/rn-s.json" >/dev/null
+python3 "$S/campaign.py" add "$RN" --kind case --file "$WORK/rn-c.json" >/dev/null
+nset() { python3 "$S/campaign.py" set "$RN" "$@" >/dev/null; }
+out="$(python3 "$S/campaign.py" check "$RN" 2>&1)"
+if grep -qF -- "Directive:  prove the Done column shipped" <<<"$out" && grep -qF -- "Stop when:  every card binds" <<<"$out"; then
+  say "ok    check prints the directive and stop condition first"; PASS=$((PASS+1))
+else
+  echo "FAIL  check should print the directive and stop condition"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+out="$(python3 "$S/campaign.py" check "$RR" 2>&1)"
+if grep -qF -- "Directive:  NOT DECLARED" <<<"$out"; then
+  say "ok    a run with no recorded ask says so"; PASS=$((PASS+1))
+else
+  echo "FAIL  an undeclared directive should print NOT DECLARED"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+out="$(python3 "$S/campaign.py" next "$RN" 2>&1)"; rc=$?
+if [ "$rc" = 3 ] && grep -qF -- "remaining 3" <<<"$out" && grep -qF -- "next: CASE-0001" <<<"$out"; then
+  say "ok    next exits 3 while unblocked work remains and names the head"; PASS=$((PASS+1))
+else
+  echo "FAIL  next should exit 3 with remaining 3 (exit $rc)"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+out="$(python3 "$S/campaign.py" check "$RN" --line 2>&1)"
+if [ "$(wc -l <<<"$out" | tr -d ' ')" = 1 ] && grep -qF -- "remaining 3 next CASE-0001" <<<"$out"; then
+  say "ok    check --line is one line carrying the remaining count"; PASS=$((PASS+1))
+else
+  echo "FAIL  --line should be one line with remaining"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+# a blocked row records an attempt, not a description of one
+nset --case CASE-0001 --status "blocked: the export service is down"
+expect "a blocked case with no recorded attempt does not clear" 1 "$RN" "no recorded attempt"
+nset --case CASE-0001 --clearing-command "curl -sI http://127.0.0.1:4100/health" --clearing-exit 7 \
+     --clearing-output "connection refused" --clearing-lifts "start the export service" --clearing-owner "platform"
+out="$(python3 "$S/campaign.py" check "$RN" 2>&1)"
+if ! grep -qF -- "no recorded attempt" <<<"$out" && grep -qF -- "never ran" <<<"$out"; then
+  say "ok    a recorded attempt clears the attempt blocker and the block still holds the gate"; PASS=$((PASS+1))
+else
+  echo "FAIL  a recorded attempt should clear only the attempt blocker"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+# a credential block owes what was searched
+nset --case CASE-0002 --status "blocked: RESEND_API_KEY absent on this host" \
+     --clearing-command "env | grep RESEND" --clearing-exit 1 --clearing-lifts "the key" --clearing-owner "owner"
+expect "a credential block nobody searched for does not clear" 1 "$RN" "nobody looked for"
+nset --case CASE-0002 --clearing-searched "apps/api/.env.local: unset; warden: no key named RESEND"
+out="$(python3 "$S/campaign.py" check "$RN" 2>&1)"
+if ! grep -qF -- "nobody looked for" <<<"$out"; then
+  say "ok    recording what was searched clears the credential blocker"; PASS=$((PASS+1))
+else
+  echo "FAIL  --clearing-searched should clear the credential blocker"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+# a case that writes names a declared target
+png "$RN/shots/p.png" 40 30 3 3 3
+nset --case CASE-0003 --status pass --evidence shots/p.png --mutates --target "nowhere"
+expect "a mutating case naming an undeclared target does not clear" 1 "$RN" "naming no declared write target"
+if python3 "$S/campaign.py" set "$RN" --case CASE-0003 --armed >/dev/null 2>&1; then
+  echo "FAIL  arming a mutating case with an undeclared target should be refused"; FAIL=$((FAIL+1))
+else
+  say "ok    arming a mutating case with an undeclared target is refused"; PASS=$((PASS+1))
+fi
+nset --case CASE-0003 --target "acme-sandbox"
+nset --case CASE-0003 --armed
+out="$(python3 "$S/campaign.py" check "$RN" 2>&1)"
+if ! grep -qF -- "naming no declared write target" <<<"$out" && grep -qF -- "Write targets: acme-sandbox" <<<"$out"; then
+  say "ok    a declared target clears the write blocker and prints the census"; PASS=$((PASS+1))
+else
+  echo "FAIL  a declared write target should clear and print"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+nset --case CASE-0001 --status "skip: the export service is deferred to the next campaign"
+nset --case CASE-0002 --status "skip: no key on this host, hermetic peer covers the protocol"
+out="$(python3 "$S/campaign.py" next "$RN" 2>&1)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "remaining 0" <<<"$out"; then
+  say "ok    next exits 0 once nothing unblocked remains"; PASS=$((PASS+1))
+else
+  echo "FAIL  next should exit 0 with nothing remaining (exit $rc)"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# ── a skipped phase says why ─────────────────────────────────────────────────
+out="$(python3 "$S/campaign.py" check "$RN" 2>&1)"
+if grep -qF -- "Phases:     NOT DECLARED" <<<"$out"; then
+  say "ok    a run that recorded no phases says so"; PASS=$((PASS+1))
+else
+  echo "FAIL  unrecorded phases should print NOT DECLARED"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+python3 "$S/campaign.py" phase "$RN" --ran 0,1,2,3,5,6 --skipped "4: no display server on this host" --skipped "8" >/dev/null
+expect "a phase skipped with no reason does not clear" 1 "$RN" "skipped with no reason"
+python3 "$S/campaign.py" phase "$RN" --skipped "8: no design of record is mapped for this product" >/dev/null
+out="$(python3 "$S/campaign.py" check "$RN" 2>&1)"
+if grep -qF -- "Phases:     ran 0 1 2 3 5 6 · skipped 4 (no display server on this host), 8 (no design of record is mapped for this product) · unrecorded 6a 7 8a 9" <<<"$out" \
+   && ! grep -qF -- "skipped with no reason" <<<"$out"; then
+  say "ok    check prints ran, skipped-with-reason and unrecorded phases"; PASS=$((PASS+1))
+else
+  echo "FAIL  check should print the three phase sets"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+
+# ── a built harness is not a run one; a wave re-opens what it touched; the corpus has a denominator ──
+out="$(python3 "$S/campaign.py" check "$RN" 2>&1)"
+if grep -qF -- "Runs:       NOT DECLARED" <<<"$out" && grep -qF -- "passing case(s) and no recorded run" <<<"$out" \
+   && grep -qF -- "Corpus:     NOT DECLARED" <<<"$out" && grep -qF -- "Root:       NOT DECLARED" <<<"$out"; then
+  say "ok    passes with no recorded run, no corpus and no root are all named"; PASS=$((PASS+1))
+else
+  echo "FAIL  check should name the missing run, corpus and root"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+python3 "$S/campaign.py" ran "$RN" --command "pnpm test:e2e --project=web" --exit 0 --cases 3 >/dev/null
+python3 "$S/campaign.py" corpus "$RN" --pattern "docs/**/spec*.md,docs/**/plan*.md" --present 41 --read 38 >/dev/null
+out="$(python3 "$S/campaign.py" check "$RN" 2>&1)"
+if grep -qF -- "Runs:       1 recorded" <<<"$out" && grep -qF -- 'pnpm test:e2e --project=web` exit 0 · 3 case(s)' <<<"$out" \
+   && grep -qF -- "Corpus:     38 of 41 document(s) read" <<<"$out" && ! grep -qF -- "no recorded run" <<<"$out"; then
+  say "ok    a recorded run and corpus print with their denominators"; PASS=$((PASS+1))
+else
+  echo "FAIL  ran/corpus should print and clear the run blocker"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+out="$(python3 "$S/campaign.py" reopen "$RN" --surfaces SURF-001 --by "wave 3 (PR #412)" 2>&1)"
+if grep -qF -- "reopened 1 case(s)" <<<"$out" && grep -qF -- "CASE-0003" <<<"$out"; then
+  say "ok    a wave that touched a surface re-opens its passing case"; PASS=$((PASS+1))
+else
+  echo "FAIL  reopen should return the passing case to open"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+out="$(python3 "$S/campaign.py" next "$RN" 2>&1)"; rc=$?
+if [ "$rc" = 3 ] && grep -qF -- "next: CASE-0003" <<<"$out"; then
+  say "ok    a reopened case is remaining work again"; PASS=$((PASS+1))
+else
+  echo "FAIL  next should count the reopened case (exit $rc)"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+python3 "$S/campaign.py" set "$RN" --case CASE-0003 --status pass --evidence shots/p.png >/dev/null
+
+# ── unpaired: a subject with no capture counts against the denominator ───────
+UP="$WORK/lineage-unpaired"
+mkdir -p "$UP/evidence/shots"
+png "$UP/evidence/shots/SURF-001.png" 40 30 50 60 70
+png "$UP/evidence/shots/SURF-002.png" 40 30 80 90 10
+cat >"$UP/inventory.json" <<'JSON'
+{"requirement":[],"component":[],"flow":[],"surface":[
+ {"id":"SURF-001","name":"Inbox","route":"/inbox","shot":"evidence/shots/SURF-001.png"},
+ {"id":"SURF-002","name":"Calendar","route":"/calendar","shot":"evidence/shots/SURF-002.png"},
+ {"id":"SURF-003","name":"Settings","route":"/settings"}]}
+JSON
+echo '[{"subject":"SURF-001","verdict":"pass","reason":"fixture","judge":{"model":"claude-opus-5"}}]' >"$UP/witness-verdicts.json"
+python3 - "$UP" <<'PY'
+import hashlib, json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); rows = []
+for sid, tgt in (("SURF-001", "http://h/inbox"), ("SURF-002", "http://h/calendar")):
+    rel = f"evidence/shots/{sid}.png"
+    rows.append({"path": rel, "subject": sid, "target": tgt, "channel": "playwright/chromium",
+                 "sha256": hashlib.sha256((d / rel).read_bytes()).hexdigest(),
+                 "provenance": {"reached": [f"goto {tgt}"], "scriptCalls": 0, "scriptCallNotes": []}})
+(d / "evidence/shots/captures.json").write_text(json.dumps(rows, indent=1) + "\n")
+PY
+out="$(cl "$UP" --gate)"; rc=$?
+if grep -qF -- "pairs 2 of 3 subject(s) captured" <<<"$out" && grep -qF -- "missing 1" <<<"$out"; then
+  say "ok    a subject with no capture is counted as missing against the population"; PASS=$((PASS+1))
+else
+  echo "FAIL  the unpaired pass should count SURF-003 as missing (exit $rc)"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+out="$(cl "$UP" --set-ratchet)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF '"missing": 1' "$UP/capture-ratchet.json"; then
+  say "ok    the ratchet records the missing-pair floor"; PASS=$((PASS+1))
+else
+  echo "FAIL  --set-ratchet should record missing (exit $rc)"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+python3 - "$UP" <<'PY'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); inv = json.loads((d / "inventory.json").read_text())
+inv["surface"].append({"id": "SURF-004", "name": "Billing", "route": "/billing"})
+(d / "inventory.json").write_text(json.dumps(inv, indent=1) + "\n")
+PY
+out="$(cl "$UP" --gate)"; rc=$?
+if [ "$rc" = 2 ] && grep -qF -- "missing 1 — FAILED, rose to 2" <<<"$out"; then
+  say "ok    a subject falling out of the comparison population fails the floor"; PASS=$((PASS+1))
+else
+  echo "FAIL  a rising missing count should fail the ratchet (exit $rc)"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+python3 - "$UP" <<'PY'
+import json, pathlib, sys
+d = pathlib.Path(sys.argv[1]); inv = json.loads((d / "inventory.json").read_text())
+inv["surface"][-1]["unpairedReason"] = "billing is served by a third-party iframe no channel can capture"
+(d / "inventory.json").write_text(json.dumps(inv, indent=1) + "\n")
+PY
+out="$(cl "$UP" --gate)"; rc=$?
+if grep -qF -- "missing 1" <<<"$out" && grep -qF -- "excused 1" <<<"$out" && ! grep -qF -- "FAILED, rose" <<<"$out"; then
+  say "ok    a structural reason excuses a subject and is counted apart"; PASS=$((PASS+1))
+else
+  echo "FAIL  unpairedReason should excuse the subject (exit $rc)"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+out="$(cl "$UP" --seed-drop SURF-001)"; rc=$?
+if [ "$rc" = 0 ] && grep -qF -- "seed-drop CAUGHT" <<<"$out"; then
+  say "ok    dropping a subject's capture turns the unpaired pass red"; PASS=$((PASS+1))
+else
+  echo "FAIL  a seeded drop must be caught (exit $rc)"; echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
+fi
+if grep -qF '"shot": "evidence/shots/SURF-001.png"' "$UP/inventory.json"; then
+  say "ok    seed-drop restores the inventory it borrowed"; PASS=$((PASS+1))
+else
+  echo "FAIL  seed-drop left the inventory changed"; FAIL=$((FAIL+1))
 fi
 
 # ── vacuity-check: the requirement-level and test-tree half ─────────────────
@@ -1160,7 +1596,7 @@ else
   echo "FAIL  a ratchet of 0 should be refused (exit $rc)"
   echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
 fi
-echo '[{"subject":"SURF-001","verdict":"pass","reason":"matches its reference"}]' >"$UN/witness-verdicts.json"
+echo '[{"subject":"SURF-001","verdict":"pass","reason":"matches its reference","judge":{"model":"claude-opus-5"}}]' >"$UN/witness-verdicts.json"
 out="$(cl "$UN" --set-ratchet)"; rc=$?
 if [ "$rc" = 0 ] && grep -qF -- "ratchet set to 1" <<<"$out"; then
   say "ok    a judged capture earns a ratchet the gate can hold"; PASS=$((PASS+1))

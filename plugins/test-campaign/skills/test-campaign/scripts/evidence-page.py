@@ -590,6 +590,8 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
     if uncovered:
         print(f"  {len(uncovered)} surface(s) carry no case and are rendered as gaps: "
               f"{', '.join(s['id'] for s in uncovered)}")
+    # The page is for a reader; a path in a log is not a page they have seen.
+    print(f'  open -a "Google Chrome" {out.resolve()}   # then say in one sentence what to look at')
     return 0
 
 

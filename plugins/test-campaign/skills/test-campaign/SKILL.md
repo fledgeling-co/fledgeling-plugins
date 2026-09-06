@@ -67,7 +67,7 @@ them.
 
 ---
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It extends the campaign's existing count contract to the cells `campaign.py check` cannot see — surfaces, states, controls, captures, flow atoms — requires every number in the delivery note to be pasted output from `campaign.py check`, `strict-check.py`, `attach-shots.py` or `witness-worklist.py` rather than a claim about them, adds a bound ledger that reads every stated maximum back off the artifact, and names the two phases whose work a Gemini run should hand to another model. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It extends the campaign's count contract to the cells `campaign.py check` now prints — `States`, `Comparisons`, `Routed`, `Write targets`, `Phases`, `Remaining` — requires every number in the delivery note to be pasted output from `campaign.py check`, `next`, `strict-check.py`, `capture-lineage.py` or `witness-worklist.py` rather than a claim about them, reads every stated maximum (`provenance.scriptCalls` = 0, `missing` may not rise, a judged edge no smaller than the capture's) back off the artifact, names the two phases whose work a Gemini run should hand to another model, and carries the one family-specific rule the week's sessions measured: a turn in flight prints `check --line`. Other models skip it.
 
 ## The campaign
 
@@ -135,6 +135,26 @@ python3 $S/campaign.py scope <dir> --selective \
     --decided-by "default"
 ```
 
+**The run's own ask goes on the registry beside its scope.** A campaign runs for
+days — the journey standard below comes from one that ran four — and the
+conversation it started in does not survive that intact: a compaction, a gateway
+error or a model switch drops it, and the owner retypes the paragraph. Measured
+across 69 sessions in one week, the same standing instruction was restated 22
+times in 9 projects, and in 4 sessions the owner wrote it twice inside the opening
+message. So `init` records two more things — the directive in the words it was
+given, and the condition that ends the run — and `check` prints both as its first
+two lines, so a context that lost the conversation recovers them from the command
+it already has to run.
+
+```bash
+python3 $S/campaign.py init <dir> --project NAME --lanes web \
+    --directive "prove the tasks in the Done column shipped; report.html is the deliverable" \
+    --stop-when "every card in the corpus binds to a live case, strict-check holds or rises"
+```
+
+They are not the sample and not the basis: those say which cells ran; these say
+what somebody asked for and how anyone tells it is finished.
+
 The floor selection may never reach below: **every `critical` flow's effect-rung
 case, the gate's own checks, and anything the mapping could not place.** The
 default for an unmappable test is *include*. Change-to-test mapping is a
@@ -154,10 +174,43 @@ is run, how a test authenticates, whether there is a tenant or workspace context
 what the base URL is, and whether the backend shares a real database. Mirror what
 is there; never impose a parallel framework beside one that exists.
 
-Two facts to establish here because they change what is safe to do at all:
-**where the development API writes**, and **whether the feature needs a secure
-context** — a feature gated on one silently hides itself on an origin that is not
-one, and the symptom reads as a styling bug.
+Three facts to establish here because they change what is safe to do at all:
+**where the development API writes**, **which tenant and dataset this campaign
+may mutate**, and **whether the feature needs a secure context** — a feature
+gated on one silently hides itself on an origin that is not one, and the symptom
+reads as a styling bug.
+
+The first two are one fact and one decision. Learning that the development API
+writes to the production cluster tells you the risk; it does not tell you where
+to put the writes. Take the safe target from the project or its owner rather than
+inferring one, and record it before any case is authored:
+
+```bash
+python3 $S/campaign.py init <dir> ... \
+    --mutable-target "acme-sandbox: seeded fixture tenant, owner-sanctioned"
+# or, for a campaign that only reads
+python3 $S/campaign.py init <dir> ... --no-mutable-target "read-only campaign"
+```
+
+A case that writes sets `mutates` and names its target under `target`, and
+`check` refuses one naming a target the campaign never declared. Arming counts
+as writing — reverting a behaviour and watching the case go red performs the
+action the case asserts — so `set --armed` refuses a mutating case against an
+undeclared target. The write posture in phase 7 governs the sweep that clicks
+everything; it fires two phases after the cases that write are authored, which
+is why this sits here. One run was asked the same question five times — *which
+companies are OK to test and mutate against* — each time after write-path cases
+had started against a stack whose database was production. A case that never
+sets `mutates` is invisible to this census, and the printed line says so.
+
+Two more lines `check` prints before any figure: `Root:` — the tree the campaign
+was measured in, from `sourceRoot` — and `Design of record:` — the mock the build
+is measured against, taken from the project's own documents (its `CLAUDE.md`,
+`DESIGN.md`, the mock folder it names) rather than from whichever HTML happened
+to be on disk, and recorded with `init --design-of-record`. Seven asks in three
+projects were *measure the project I named*, and five in one were *the design of
+record is the project's own mock*; a figure that names neither is about an
+unnamed tree.
 
 And one that decides whether the campaign can make its central claim at all:
 **for each lane, what gets built and whether it can be drawn.** A lane whose
@@ -197,7 +250,11 @@ Read `references/project-comprehension.md` and produce the requirement inventory
 stable `REQ-*` ids, each classed **affordance**, **behaviour**, **honesty
 guardrail** or **deferred**, each carrying whether the evidence is observed,
 reported, contradicted or **vacuous**. A contradiction between a document and the
-render is a finding before a single test exists.
+render is a finding before a single test exists. Record the corpus with its denominator — `campaign.py corpus <dir> --pattern
+"docs/**/spec*.md,docs/**/plan*.md" --present 41 --read 38` — because *verify
+against every spec, plan and brief* was asked 8 times in 7 projects and answered
+with a count of requirements observed, and `check` prints `Corpus: 38 of 41
+document(s) read` beside the rest; the figure is self-reported and the line says so.
 
 `vacuous` is the fifth class and the one that catches the failure above: the
 guarantee holds, and it holds because the capability it constrains never runs. A
@@ -270,6 +327,24 @@ A case then records which of them it drove, under `actuates`, and only a passing
 case at `outcome` or above moves the count — driving a control and asserting the
 control is still there has measured the click and not the effect.
 `references/inert-ui.md`.
+
+**List each surface's states, and hold every surface to the floor.** A surface
+declares the states it can be in under `states`: the four floor states
+`loading`, `empty`, `populated` and `error`, plus one entry for each menu, tab,
+filter, drawer and dialog it opens. A surface that genuinely cannot enter a
+floor state records `statesNotApplicable` with the reason. A case records the
+state it drove the surface into under `state`, and a capture records it on its
+manifest entry. `check` prints `States: 14 of 22 declared state cell(s) proved ·
+9 captured` on every run, and refuses a surface declaring no states while the
+campaign samples the state axis, a floor state neither declared nor excused, a
+case naming a state its surface never declared, and a declared cell no passing
+effect-rung case proves. The demand behind this was made in four projects in one
+week, each time after a campaign had reported itself complete on a surface
+count: *"every screen at a minimum has a loading state, empty state, content
+state and then any menus, selected tabs, filters"*. Those campaigns had counted
+22, 55 and 41-of-42 surfaces; the owner counted surface × state, and
+`references/coverage-model.md` had called State the single highest-yield axis
+for a year while nothing in `campaign.py` read it.
 
 Write the surface map from `assets/surface-map.template.mjs`: where each surface
 lives, how to reach it through the closed actuation list, and — for the ones you
@@ -389,7 +464,7 @@ to clear when a declared plane has no passing case on it. Measured across seven
 projects in one week, every one reporting its backlog implemented and verified:
 each had retired stated intent on a weaker plane than the intent lived on — a
 compiler suite for a desktop app, a mock peer for live sync, unit tests for
-buttons that ran empty closures. The rung was honest every time. `reckon` reads
+buttons that ran empty closures. The rung was honest every time. `reckon:reckon` reads
 the same field and holds such a brief `undecided` rather than retiring it.
 
 **A credential-gated external is a bounded pair of states, not a hedge.** Three
@@ -431,6 +506,20 @@ one whose lane never ran to `blocked: <reason>`. Both hold the gate shut: "we do
 not know" is a weaker claim than "no difference found", and folding the two
 together is how a partial measurement comes to read as agreement.
 
+A `blocked` reason records an attempt rather than describing one. Name the
+command that was run, its exit status and output, the one thing that would lift
+the block and who can meet it — `set --clearing-command … --clearing-exit …
+--clearing-lifts … --clearing-owner …` — the shape `--cannot-attach` already owes
+a `-glass` lane. `check` counts a blocked row with no recorded command as
+unattempted and refuses it, because an unexecuted reason reads identically to an
+executed one, and a lane reported as waiting on the user's authentication has come
+back already authenticated. Where the block is a credential, record under
+`--clearing-searched` what the env files and the secrets broker were found to
+hold: a key is not missing until they have been listed, and the measured case is a
+lane reported blocked on a key the broker held. One attempt, its output kept
+whatever it said — retrying a deterministic red until it goes green is the
+opposite move, and `references/task-bound-flows.md` refuses it.
+
 Do not let a model plan the coverage. Hand it a path and a cell from the sample
 and ask for the implementation. Generated plans measured against a real QA team's
 own list came back 27% valuable, 50.5% duplicate, 22.5% invalid — so deduplication
@@ -440,6 +529,15 @@ against the coverage model is most of the value, not a polish step.
 
 Run with the project's own command. Green twice — flakes and isolation breaks
 surface on run two, and a second green also proves isolation.
+
+Record the run that produced the passes — `campaign.py ran <dir> --command "pnpm
+test:e2e" --exit 0 --cases 74` — so `check` can print `Runs: 3 recorded · last
+… exit 0` beside them; with none recorded it prints `Runs: NOT DECLARED — 74
+passing case(s) and no recorded run`, a line rather than a refusal, because a
+refusal that opens red on every existing campaign is switched off within a week.
+Six projects asked in one week: a campaign reported *a built state matrix, a
+9-test causal suite, 4/4 mutants killed* and could not say which command had run,
+when, or how many comparisons it produced. Building the harness is not running it.
 
 Stabilisation is where a suite goes quietly hollow: each reframe is defensible and
 the sum stops proving anything. So every weakening is written down with what still
@@ -451,13 +549,39 @@ red, restore. An assertion nobody has watched fail is not known to bite.
 ```bash
 python3 $S/campaign.py set <dir> --case CASE-0117 --status pass \
     --evidence evidence/shots/publish.png --armed \
-    --capture-method "ScreenCaptureKit window-scoped" --frame-status complete
+    --capture-method "ScreenCaptureKit window-scoped" --frame-status complete \
+    --comparison-reader "be-my-witness:be-my-witness / claude-opus-5" \
+    --comparison-expectation docs/ui-mockups/publish.html
 ```
 
 The two capture flags are required for a `raster-visual` pass and cost nothing
 elsewhere. Where the platform reports a per-frame status, anything but a complete
 frame makes the case `inconclusive` — a stale frame recorded as evidence asserts
 the application's previous state.
+
+**A `raster-visual` pass owes a reading, not just a picture.** The rung says
+pixels were captured *against a reference*, and until 0.19.0 the only things
+checked were that the pixels existed and that a capture method was named — so a
+case could pass on a file, and a pairing script once wrote `pass` onto 2,853 rows
+whose two files existed. A pass carries the obligation shape `effect-witness`
+carries: `--comparison-reader`, the judge or checker that read both images, named
+the way a verdict names its judge; and `--comparison-expectation`, the written
+thing it was graded against — the reference path, or the stated expectation where
+the surface has no design of record. A pass missing either is `inconclusive`: it
+was attempted and nothing measured it. File existence, a byte hash and a
+whole-frame pixel ratio are each reachable without anything having looked.
+
+Record the long edge the reader actually saw (`--comparison-judged-long-edge`).
+Downscaling a full-page frame destroys text below roughly 7px of glyph height, so
+a verdict issued over an image smaller than its capture is `inconclusive` rather
+than a pass: crop so the paired regions land under the reader's ceiling and
+compare them at capture scale. On one project the comparison that ran was over
+full-page thumbnails and could not have found what it reported. `check` prints
+`Comparisons: 12 of 14 raster-visual pass(es) name what read both images`.
+
+The reading is a condition, not a verdict. What holds the gate is that nobody
+looked — a judge's `fail` is a finding for the case record, and a model verdict
+still never gates.
 
 On a selective run, name what ran and carry the rest — everything unnamed becomes
 `unselected: <basis>`, except the always-run floor, which `carry` refuses and
@@ -554,8 +678,8 @@ geometry. Subtract the shell, then the tenant's own data, then what was already
 decided. Not a pixel diff — rendering noise buries the signal, and a pixel
 comparison is a tripwire, never a verdict.
 
-Where the surface has meaningful UI, hand it to `design-review` for rendered
-quality, and to `mockup-fidelity` where the parity question is React or React
+Where the surface has meaningful UI, hand it to `design-review:design-review` for rendered
+quality, and to `mockup-fidelity:mockup-fidelity` where the parity question is React or React
 Native specific. Their absence is a named coverage gap, not a silent skip.
 
 ### 8a · Tie every published picture to its subject
@@ -573,10 +697,13 @@ python3 $S/capture-lineage.py <dir> --set-ratchet
 
 The capture step writes `evidence/shots/captures.json` as it shoots — subject,
 the target the channel was actually pointed at, the channel itself, the bytes'
-sha256 and the conditions. `assets/capture-pairs.template.mjs` does this for the
+sha256 and the conditions — and how the state on screen was reached: the steps
+driven through the product under `provenance.reached`, and the number of script
+calls made to the page between navigation and shutter under
+`provenance.scriptCalls`. `assets/capture-pairs.template.mjs` does this for the
 browser lane; a lane with its own capture path owes the same manifest.
 
-Five passes, all exact, none needing a model, each able to end the run:
+Six passes, all exact, none needing a model, each able to end the run:
 **unsourced** (no manifest entry, or no target — the filename is doing the work);
 **untied** (the target does not resolve to the subject's route, which is also how
 a lane whose surfaces carry source-file routes learns it needs the on-glass
@@ -585,10 +712,36 @@ or declared with nothing outside the declaration agreeing that they are one
 address); **unaccounted** (an image in the shots directory no subject publishes
 and no entry records an `unpublishedReason` for, because every other pass here is
 derived from published captures and one campaign read `published captures: 0 ·
-files in shots dir: 11` and exited 0); **unjudged** (published with no
-`be-my-witness` verdict — this one ratchets rather than blocks, for the same
+files in shots dir: 11` and exited 0); **fabricated** (the capture script made a
+script call to the page between navigation and shutter — `provenance.scriptCalls`
+above zero — so the picture shows what the script authored; seven cards on one
+project were verified on exactly that, three with the expected HTML inserted by
+`page.evaluate` and four with a painted box reading *"Verified: …"*, and a
+published capture recording no `provenance` at all is counted and ratchets the way
+unjudged does); **unjudged** (published with no
+`be-my-witness:be-my-witness` verdict — this one ratchets rather than blocks, for the same
 reason `strict-check.py` ratchets, and a ratchet of 0 is refused because a floor
-nothing has passed under cannot fall).
+nothing has passed under cannot fall; a verdict row that names no judge or is
+marked advisory is a pairing record and counts as unjudged, because a script
+once wrote `pass` onto 2,853 rows whose two files existed and those rows were
+reported as verification over 902 flows a judge had failed the day before).
+
+**A seventh pass — unpaired — counts the other direction.** `unaccounted` finds
+an image no subject publishes; nothing found a subject no image depicts, because
+every pass here was derived from the subjects that carry a `shot`, so a surface
+that produced no capture left the denominator rather than counting against it,
+and the comparison population became whatever happened to be shot. `--gate` now
+prints `pairs 47 of 190 subject(s) captured · missing 143 · excused 2` before any
+visual verdict. A subject with no pair owes a capture, or `unpairedReason` on its
+inventory record naming the structural reason it cannot have one — a third-party
+iframe, a surface only a person can reach — which is counted apart. Missing
+ratchets rather than blocks on first run, for the reason `unjudged` does, and
+`--seed-drop SURF-ID` watches the pass fail. This is the demand made in the same
+words across 9 projects — *the visual screen comparison should be up in the
+several hundreds based on all of the variations* — 21 times, 5 of them straight
+after a campaign had published a clean result over a couple of dozen pairs, and
+each time the population had come from the shots directory rather than from the
+sample.
 
 Then run the seeded check. Swapping two subjects' manifest entries must turn the
 tie pass red; a swap that passes means the pass is not reading what it claims to,
@@ -597,7 +750,7 @@ and every verdict it has issued is worthless. That is the campaign's own
 is never a curiosity.
 
 Deterministic image statistics cannot answer the subject question — run
-`be-my-witness`'s `prescan.py` against the worst capture in that measured
+`be-my-witness:be-my-witness`'s `prescan.py` against the worst capture in that measured
 campaign and it returns `isEvidence: true, settled: true`, exit 0. Provenance can,
 and only if it is recorded at capture time.
 
@@ -619,17 +772,36 @@ recorder or counted nothing**, **any critical journey is uncut at a durable
 boundary, any journey has no case, or any previous-build comparison names no
 change-intent manifest**, **any surface declaring controls has none of them
 actuated by a passing effect-rung case, or two destinations of one navigation
-shell publish one identical image**, or **any requirement claiming an effect outside
-the product is recorded `observed` with no effect-witness case behind it**. Resolve each, or mark it `skip: <reason>` / `n/a: <reason>` — an
+shell publish one identical image**, **any published shot whose state the capture
+script wrote, any surface declaring no states while the campaign samples the state
+axis, or any declared state cell no passing effect-rung case proves**, or **any
+requirement claiming an effect outside the product is recorded `observed` with no
+effect-witness case behind it**, **any raster-visual pass naming no reader or
+expectation, any case closed from fail on the evidence it failed on, any finding with
+neither a brief that exists nor a waiver, any blocked case with no recorded attempt,
+any mutating case naming no declared write target, or any phase recorded skipped with
+no reason**. Resolve each, or mark it `skip: <reason>` / `n/a: <reason>` — an
 unrecognised status counts as open, deliberately.
 
-Four denominators print on every run, green or red — the plane census
-(`Planes: in-tree 12 · hermetic 4 · live-glass 6`, or NOT DECLARED), the journey ledger
-(`Journeys: 4 declared, 2 critical · boundaries 18/20 cut`, or NOT DECLARED), because the campaign this rule
-came from was green and what was worth knowing sat in a number nobody printed; a
+Sixteen lines print on every run, green or red, because the campaign this rule
+came from was green and what was worth knowing sat in a number nobody printed:
+the directive and the stop condition first (or `NOT DECLARED`, with what to
+record), then `Root:`, `Design of record:`, `Corpus: 38 of 41 document(s) read`
+and `Runs: 3 recorded · last … exit 0`, the plane census (`Planes: in-tree 12 · hermetic 4 · live-glass 6`), the
+journey ledger (`Journeys: 4 declared, 2 critical · boundaries 18/20 cut`), a
 per-lane row carrying that lane's cases, passes, effect-rung passes, armed count
-and oracle mix; and `Controls: 11 of 18 declared control(s) actuated`, or
-`NOT DECLARED` where no surface lists any.
+and oracle mix, `Controls: 11 of 18 declared control(s) actuated`, `States: 14 of
+22 declared state cell(s) proved · 9 captured`, `Comparisons: 12 of 14
+raster-visual pass(es) name what read both images`, `Routed: 7 of 9 finding(s)
+filed as a brief · 2 waived`, `Write targets: acme-sandbox · 6 case(s) declare a
+write`, `Phases: ran 0 1 2 3 5 6 · skipped 4 (no display server) · unrecorded 8a
+9`, and `Remaining: 42 · blocked with a recorded attempt 3 · next: CASE-0117`.
+Each reads `NOT DECLARED` with the reason it matters where nothing declared it —
+the denominator a campaign prints is the one its owner is asked to accept, and a
+surface count was accepted four times in one week where surface × state was
+meant. `check --line` prints the same figures as one line for a turn in flight,
+and `campaign.py next` prints the remaining set and exits 3 while an unblocked
+member of it remains.
 
 `evidence-page.py` builds the page. Every rendered capture carries how its subject
 was established — **witnessed** (judged against its reference), **manifest** (the
@@ -642,6 +814,18 @@ with per-step atoms, surfaces, the component atlas, defects, **not covered**, an
 methods. Every row is an anchor. `references/evidence-and-ids.md` has the id
 scheme, the artifact bundle and the judge's constraints;
 `assets/judge-contract.md` has the judge itself, if you run one.
+
+Record which phases ran and which were skipped, with the reason: `campaign.py
+phase <dir> --ran 0,1,2,3,5,6 --skipped "4: no display server on this host"`.
+`check` prints all three sets — ran, skipped with its reason, unrecorded — and
+refuses a skip with no reason. Asked for in 6 projects, 5 times straight after a
+completion claim: *carry out every expectation the test-campaign skill lays out;
+where a phase was skipped, say so*. Thirteen green gates say nothing about the
+phases they never touched.
+
+`evidence-page.py` prints the `open -a "Google Chrome" <path>` command beside the
+path it wrote, because a path in a log is not a page a reader has seen. Run it,
+and say in one sentence what to look at.
 
 `export-warrant` writes `.warrant/suite-health.json` and
 `.warrant/oracle-coverage.json` where the `warrant` plugin reads them: the armed
@@ -676,6 +860,22 @@ recorded `vacuous`.** A guarantee nobody can distinguish from a product that
 never acts is not verified, however many cases point at it — 230 cases and 220
 armings did not distinguish it once.
 
+A second thing the campaign as a whole owes: **every finding leaves the run with
+somewhere to go.** A red case and a `DEF-*` row are findings; a report that lists
+them and stops is where they die, and `fail` is a resolved status, so a campaign
+with nine defects otherwise exits 0. Each carries `brief: <path>` — a file that
+exists in the project's intake folder — or `waived: <who decided, why>`. `check`
+prints `Routed: 7 of 9 finding(s) filed as a brief · 2 waived` beside the other
+denominators and refuses while any finding has neither. The path is checkable and
+a card id is not: `card` travels beside the brief as a claim the gate prints and
+cannot verify, because a card id that existed only in an agent's reply was one of
+three measured linkage failures, and a gate satisfied by any string reproduces it.
+An inconclusive or blocked row is not a finding and needs no brief — its `skip:`
+or `n/a:` reason is already its recorded waiver. What the campaign does not do is
+set state on the board of record: a verdict written back is `shipyard:verify`'s,
+and a campaign that closes its own cards is grading its own work.
+`references/progress-reporting.md` §7 has the pipeline the brief then follows.
+
 `campaign.py check` answers a different and easier question: is every case
 accounted for. Both run, and `strict-check.py` is the one that reports the number
 a reader should believe. Measured on two real campaigns the same day: one scored
@@ -707,6 +907,14 @@ subject; the claim is checkable only against what the channel was pointed at, an
 only if that was written down while the shutter was open. Everything else — the
 path, the caption, the surface it was attached to — is restatement of the claim.
 
+**A state the capture script wrote is not a state the product reached.** A judge
+cannot tell script-authored HTML from the product's rendering, and a box painted
+onto a real page reading *"Verified: …"* is a verdict the capture wrote for
+itself; seven cards were moved to Verified on those two shapes in one day. Reach
+the state through the product — seed it through the API, drive its own controls —
+and let the helper record the steps; `provenance.scriptCalls` above zero is
+`fabricated`, and a finding belongs in the case record rather than on the picture.
+
 **Prove it ran before reading what it shows.** Classify the launch first — did a
 process start, from which built artifact, and did it reach a display server. When
 it did not, the checks downstream are not failing, they are vacuous, and running
@@ -731,10 +939,17 @@ while doing nothing. A control is proved by actuation plus a state read outside
 it; a destination by an identity that differs from its siblings'.
 `references/inert-ui.md`.
 
-**Print the denominator.** Everywhere, in every sweep, in the report, in the
-reply. Where several axes measure one subject, each keeps its own denominator
-and no combined percent is published — a blend hides whichever axis is weakest,
-and the weakest is the only one worth acting on.
+**Print the denominator, and the remaining set before the pass count.**
+Everywhere, in every sweep, in the report, in the reply. Where several axes
+measure one subject, each keeps its own denominator and no combined percent is
+published — a blend hides whichever axis is weakest, and the weakest is the only
+one worth acting on. Say how many you acted on against how many there were —
+cards audited, cards changed, captures opened, pairs compared — rather than a
+figure whose denominator is the number of things that happened to exist: "925
+flows verified" was answered with *did you actually analyse the screenshot?*, and
+"12 tasks verified" with *then why did you mark them as verified?* A report opens
+with what is open, blocked, inconclusive and never measured, then the passes;
+`check` prints that partition and `check --line` prints it as one line.
 `references/flow-coverage-axes.md`.
 
 **Running everything is a decision, not a default.** A run selects; full coverage
@@ -747,7 +962,38 @@ the rest is unchanged since a dated full run; it never says the suite passes.
 **A carried verdict decays.** A carried pass is evidence about the code as it was
 at the last full run. That age goes on the verdict line, and past the declared
 bound it becomes a blocker — twelve consecutive selective runs are a full suite
-nobody has executed in a fortnight.
+nobody has executed in a fortnight. A verdict on a surface a wave has just changed decays at once: after a merge,
+`campaign.py reopen <dir> --surfaces SURF-004,SURF-009 --by "wave 3 (PR #412)"`
+returns every passing or carried case on those surfaces to `open`, so `next`
+counts them and `check` refuses to clear until they have run again — asked for in
+six projects as *after each wave, invoke the campaign to its fullest extent over
+what the wave touched*.
+
+**A turn ends on the next item, or on a blocker that covers every remaining one.**
+The remaining set is this run's declared worklist — open and unoracled cases, and
+blocked rows with no recorded attempt — never the whole registry, so selection
+stays a decision rather than becoming an obligation. A stop is defensible when
+every row left cites a recorded attempt naming its lift and its owner; it is not
+defensible on a summary of what was just finished. "42 remaining, next is
+SURF-012" is a resume point, not a reason, and a resume point somebody else has to
+act on is the same work billed twice: across 69 sessions in one week the
+instruction to keep going was restated 82 times in 11 projects, one session took
+the same one-line instruction ten times, and `check` had already printed *Finish
+them… never silently* into those sessions 8, 16, 30 and 87 times while the turn
+was handed back anyway. So the code is its own: `campaign.py next` prints
+`remaining N · blocked B · next: <id>` and exits 3 while an unblocked row
+remains, on an exit code that says one thing where `check`'s exit 1 carries forty
+conditions. Nothing here can see a turn end; hand exit 3 to
+`better-goal:better-goal` when the run is meant to carry itself to zero. And a
+self-estimate of remaining context is not a blocker: the harness compacts and the
+registry survives it, so *you have 25% left* ends nothing — it was answered *8% is
+more than enough, continue* four times in two projects.
+
+**A run states its own finish line.** Scope says what this run covered; the
+directive and stop condition say what it was for and when it is over. Both live
+on the registry, because the instruction that only ever existed in the
+conversation is the one a resumed campaign silently drops — and a campaign that
+cannot say what would end it ends when attention runs out.
 
 **Calibrate an instrument before quoting it.** A coverage figure is the output
 of a counting instrument, and those have been wrong more often than the products
@@ -774,10 +1020,22 @@ Windows UIPI without saying so. Mark what a lane cannot support as `n/a` with th
 structural reason rather than leaving it open forever.
 `references/harness-lanes.md`.
 
-**Characterise, do not assert-correct.** When a red assertion is a real defect,
-that red **is** the reproduction. Write the case describing behaviour as it is,
-give the defect a `DEF-*` id, and let the fix flip the case. `test.fail()` passes
-on any failure, including the wrong one.
+**Characterise, do not assert-correct, and let the re-run close it.** When a red
+assertion is a real defect, that red **is** the reproduction. Write the case
+describing behaviour as it is, give the defect a `DEF-*` id, and let the fix flip
+the case. `test.fail()` passes on any failure, including the wrong one. The flip
+is the half that gets skipped: the fix lands, a commit exists, some other suite is
+green, and the case closes on that rather than on the check that opened it — a
+render fix shipped twice while the same misalignment sat on screen because nobody
+pointed the camera at it again, and the owner's reply was *don't just check that
+there are commits for a task, verify visually*. So a case moving from `fail` to
+`pass` owes evidence that did not exist when it failed, at the rung it failed on
+or higher: a capture taken after the fix for a raster rung, a re-issued request
+for a live one. `set` records the status, rung and evidence hashes a case held
+while it was red under `closedFrom`, and `check` refuses a close whose artifacts
+are the ones the failure stood on. Same reasoning as re-arming an edited assertion
+in phase 6 — the moment the subject changes is the one place a green can be
+manufactured.
 
 **Fix only what the campaign is for.** A product bug the suite caught gets a
 surgical fix. A styling inconsistency you noticed in passing gets flagged, not
@@ -787,10 +1045,32 @@ changed.
 around half of known bugs with false positives. Judge output is a hypothesis
 until a deterministic check reproduces it. Nightly and advisory.
 
-**Delegate sparingly.** A breadth read across many files, or one lane of a
-multi-lane campaign, is worth a subagent. Planning, the sample decision, the
-differential triage and the final report stay in the main thread — they are where
-the judgement is, and they need the whole context.
+**Delegate sparingly, and account for every agent you dispatched.** A breadth
+read across many files, or one lane of a multi-lane campaign, is worth a
+subagent. Planning, the sample decision, the differential triage and the final
+report stay in the main thread — they are where the judgement is, and they need
+the whole context. When you do fan out, a wave is not complete until every
+dispatched agent is accounted for: derive failure from `started − results`, never
+from an error field, because a harness kill writes no error row — 92 agents once
+died silently at 180 seconds each, and 146 failed to return across 147 journals
+whose error count read 0. Before reporting a wave, print dispatched / returned /
+lost with each lost lane's id and its last observed state, and resume an
+unreconciled lane rather than reporting around it.
+`references/campaign-estimates.md` carries the measurement.
+
+**A phase in flight says so.** The registry is the state of the work and the next
+phase reads it; the reader does not. So a turn that opens a long tool sequence,
+dispatches a batch, or returns from waiting on one emits a line first — the
+phase, what is running, what it waits on. Those three events are the trigger
+rather than a predicted duration, because the runs that went silent are the ones
+whose length was misjudged: fourteen minutes of file reads and fifteen
+consecutive polls of a background wave each looked short from inside, and the
+owner's *no visible output* nudge arrived 91 times in one week, 48 of them on one
+relay-served lane. `campaign.py check --line` prints the phase's own figures
+where it has them; where a phase has none the line carries none, because a
+denominator invented to satisfy a narration rule is the unbacked number the rest
+of this file refuses. One line, not a report; the report is phase 9's. A turn
+with no visible output is an unfinished turn.
 
 ---
 
@@ -860,11 +1140,16 @@ claim at a nearby selector all raise the number and lower what the suite knows �
 make the defect the specification. `references/campaign-prohibitions.md` carries them as
 a list to read a diff against.
 
-**A progress report carries every axis measured, a denominator per row, the campaign's
-own start, each term of art defined, a size against every defect, and what the estimate
-excludes.** The visual-judging axis is reported whatever it found: over 75 surfaces its
-verdict was *not proven* rather than *proven useless*, and saying so is the reason a
-reader can decide whether to keep paying for it. `references/progress-reporting.md`.
+**A progress report carries every axis measured, a denominator per row, the
+campaign's own start, each term of art defined, a size against every defect, what
+the estimate excludes, and what could start now.** The visual-judging axis is
+reported whatever it found: over 75 surfaces its verdict was *not proven* rather
+than *proven useless*, and saying so is the reason a reader can decide whether to
+keep paying for it. A status turn names what is running, what is blocked on it,
+and the lane that could start now — and starts it; a turn spent waiting on one
+lane while an independent lane sits unstarted is reported as idle capacity with
+the reason, because *is there anything else that could run in parallel* was asked
+51 times across 8 projects. `references/progress-reporting.md`.
 
 ### Publish the artefacts a generic reader can consume
 
@@ -980,12 +1265,23 @@ npx --yes ajv-cli@5 validate -s <schema>.schema.json -d <artefact>.json \
 
 ## Scripts
 
-- `campaign.py` — the registry: init, lane, scope, add, set, carry, check, report.
+- `campaign.py` — the registry: init, lane, scope, add, set, carry, check, report,
+  phase, ran, reopen, corpus, next.
   Entities are requirement, surface, flow, component, journey, case and defect.
-  `check` prints a per-lane ledger and the control census on every run, and
-  refuses a surface whose declared controls nothing actuates, an actuation naming
-  a control its surface never declared, and two destinations of one shell that
-  publish one image.
+  `check` prints a per-lane ledger, the control census and the state census on
+  every run, and refuses a surface whose declared controls nothing actuates, an
+  actuation naming a control its surface never declared, two destinations of one
+  shell that publish one image, a surface declaring no states while the state
+  axis is sampled, a declared state cell no passing effect-rung case proves, and
+  a published shot whose state the capture script wrote, a raster-visual pass naming
+  no reader, a case closed from fail on the evidence it failed on, a finding with
+  neither a brief that exists nor a waiver, a blocked case with no recorded attempt, a
+  mutating case naming no declared write target, and a phase skipped with no reason.
+  `init` records the directive, the stop condition and the write targets; `phase`
+  records what ran and what was skipped; `ran` records the command behind the passes;
+  `reopen` returns a touched surface's cases to open; `corpus` records documents read of
+  documents present; `next` prints the remaining set and exits 3 while an unblocked row
+  remains; `check --line` is the one-line form.
 - `strict-check.py` — the verdict under *unchecked is failed*, with its ratchet
   and the one reason the ratchet may be lowered.
 - `geometry-gate.py` — decide a visual difference on its bounding box and the
@@ -997,8 +1293,9 @@ npx --yes ajv-cli@5 validate -s <schema>.schema.json -d <artefact>.json \
   same-size images — no browser, no project layout — so it moves between projects
   unchanged. `--selftest` needs no files.
 - `capture-lineage.py` — the deterministic plane for pictures: unsourced, untied,
-  shared, unaccounted and unjudged captures, the ratchet, and `--seed-swap` to
-  watch the gate fail. A share is admissible only where every member names the
+  shared, unaccounted, fabricated, unpaired and unjudged captures, the judged,
+  provenance and missing-pair ratchets, and `--seed-swap` / `--seed-drop` to watch two
+  of the passes fail. A share is admissible only where every member names the
   others with a `sharesReason` and the recorded targets agree; an image on disk
   nobody publishes is a finding until an entry records why it is unpublished.
 - `vacuity-check.py` — the requirement-level and test-tree half of the effect
@@ -1010,9 +1307,10 @@ npx --yes ajv-cli@5 validate -s <schema>.schema.json -d <artefact>.json \
   recognises no block in a corpus that has files in it.
 - `attach-shots.py` — wire captures to the surfaces they depict; reports both gaps,
   and refuses to write an attachment the capture manifest does not corroborate.
-- `witness-worklist.py` — pairs to hand to `be-my-witness`, and what cannot be
+- `witness-worklist.py` — pairs to hand to `be-my-witness:be-my-witness`, and what cannot be
   judged; demotes a reference that was never rendered to an image.
-- `evidence-page.py` — the living page.
+- `evidence-page.py` — the living page; prints the `open` command beside the path it
+  wrote.
 
 ## Assets
 
@@ -1080,3 +1378,10 @@ Then:
 
 Exit 75 means not admitted; read `retry_after_sec` and come back rather than
 looping or reporting the lane blocked.
+
+
+A contention override the owner has given stands until it is withdrawn. Where the
+owner has said to run with the load, report the concurrency chosen and run under a
+watcher rather than stopping on a load figure — five projects asked for this in
+one week after a run halted itself on machine load — and where no such override
+exists, the governor's answer is the answer.
