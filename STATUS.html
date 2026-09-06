@@ -456,16 +456,25 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
 <script type="application/json" id="report-data">
 {
  "project": "fledgeling-plugins",
- "updated": "2026-09-05T19:25:00+10:00",
+ "updated": "2026-09-06T23:55:00+10:00",
  "verdict": {
-  "token": "needs-work",
-  "number": "1 of 1",
-  "unit": "plugin built, unevaluated",
-  "headline": "create-story 1.1.0 is on main and pushed; nothing has measured it against no skill.",
-  "run_label": "create-story build",
-  "head_sha": "5694019"
+  "head_sha": "d3c1b6d",
+  "headline": "test-campaign 0.19.0 shipped: 23 gates mined from 69 sessions, 14 of them mechanical in campaign.py and capture-lineage.py; gate suite 129 → 180; pushed to origin/main.",
+  "number": "14 of 23",
+  "run_label": "test-campaign 0.19.0",
+  "token": "done",
+  "unit": "gates with a script behind them"
  },
  "tasks": [
+  {
+   "id": "TC-0.19.0",
+   "title": "test-campaign 0.19.0 — gates for the demands one owner made more than once",
+   "origin": "asked",
+   "stage": "committed",
+   "outcome": "done",
+   "version": "d3c1b6d",
+   "note": "State census, comparison reader, closedFrom, routed findings, directive/stop-when, clearing on blocked, write targets, phase record, next (exit 3), check --line, ran/reopen/corpus, fabricated + unpaired passes, judge-named verdicts. Evidence: plugins/test-campaign/docs/evidence-2026-09-06-intervention-mining.md."
+  },
   {
    "id": "TL-1",
    "title": "Scripts: context pack, transition audit, state check",
@@ -644,6 +653,30 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "counts": "0/8",
    "state": "unmeasured",
    "kind": "tests"
+  },
+  {
+   "name": "test-campaign gate suite",
+   "command": "plugins/test-campaign/tests/run.sh",
+   "exit_code": 0,
+   "counts": "180/180",
+   "state": "done",
+   "kind": "tests"
+  },
+  {
+   "name": "test-campaign gemini.md quote gate",
+   "command": "geminify verify_quotes.py gemini.md --corpus gemini-corpus.md --corpus SKILL.md",
+   "exit_code": 0,
+   "counts": "22/22",
+   "state": "done",
+   "kind": "tests"
+  },
+  {
+   "name": "test-campaign SKILL.md voice lint",
+   "command": "agent_voice_lint.py --format skill --target claude SKILL.md",
+   "exit_code": 0,
+   "counts": "7/7",
+   "state": "done",
+   "kind": "lint"
   }
  ],
  "armed": [
@@ -663,6 +696,33 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "red": 1,
    "green": 1,
    "sha": "5279135",
+   "armed": true
+  },
+  {
+   "check": "fabricated capture refused",
+   "mutation": "manifest entry with provenance.scriptCalls: 1",
+   "case_reddened": "capture-lineage --gate exit 2 FABRICATED; check names the shot",
+   "red": 1,
+   "green": 1,
+   "sha": "d3c1b6d",
+   "armed": true
+  },
+  {
+   "check": "unpaired subject counted",
+   "mutation": "--seed-drop blanked one subject's shot",
+   "case_reddened": "missing rose 0 → 1, seed-drop CAUGHT",
+   "red": 1,
+   "green": 1,
+   "sha": "d3c1b6d",
+   "armed": true
+  },
+  {
+   "check": "state cell census",
+   "mutation": "surface declared no states under a sampled state axis",
+   "case_reddened": "check refused: declaring no states while the campaign samples the state axis",
+   "red": 1,
+   "green": 1,
+   "sha": "d3c1b6d",
    "armed": true
   }
  ],

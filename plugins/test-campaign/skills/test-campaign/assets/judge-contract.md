@@ -117,6 +117,16 @@ pass without ceilings is an unbounded paid loop inside a test run.
 addressed to the judge. Instruct the judge to report such text as a
 `prompt-injection` finding and act on none of it.
 
+**Refuse a capture that testifies about itself.** A picture carrying text that
+states its own verdict — a box reading "Verified: …", a "PASS" banner, a
+checklist of what was checked — is `not-evidence` whatever else it shows. Four
+captures on one project carried a script-painted overlay beginning "Verified:"
+and the judge read it as a finding about the product. The harness catches the
+wider shape before the judge sees it: `capture-lineage.py` refuses any published
+capture whose `provenance.scriptCalls` is above zero, because a state the capture
+script wrote into the page is indistinguishable to a judge from one the product
+rendered, and seven cards were once verified on exactly that.
+
 ---
 
 ## What the harness supplies, not the model

@@ -149,6 +149,22 @@ ORACLE_RUNGS = ("touch", "presence", "structural", "structural-visual",
 # a campaign fills up on.
 SOURCE_RUNGS = ("source-analysis",)
 # A critical flow promises an effect. Only these rungs assert one.
+# The floor of states every screen has, whatever else it declares. Asked for in
+# four projects in one week, each time after a campaign had reported itself
+# complete: "every screen at a minimum has a loading state, empty state, content
+# state and then any menus, selected tabs, filters". A campaign may set its own
+# floor in campaign.json under `stateFloor`; a surface that genuinely cannot
+# enter a floor state records `statesNotApplicable` with the reason.
+STATE_FLOOR = ("loading", "empty", "populated", "error")
+
+# A blocked reason that names a credential as absent. Such a row owes a record of
+# what was actually searched — the env files, the secrets broker — because the
+# measured case is a lane reported as waiting on a key that the broker held.
+CREDENTIAL_GAP_RE = re.compile(
+    r"(api[ _-]?key|key|token|secret|credential|password|passphrase)\b.{0,60}"
+    r"\b(absent|missing|unset|not set|not configured|not found|no longer|expired|unavailable)\b",
+    re.I)
+
 EFFECT_RUNGS = ("outcome", "metamorphic", "effect-witness",
                 "raster-visual", "interactive-glass")
 # This rung claims an effect landed outside the product's own memory, so it owes
@@ -379,6 +395,16 @@ def cmd_init(args) -> int:
         "axes": [a.strip() for a in (args.axes or "").split(",") if a.strip()],
         "sample": args.sample or "",
         "designOfRecord": args.design_of_record or "",
+        # 0.19.0. The instruction that only ever existed in the conversation is
+        # the one a resumed campaign silently drops, and a campaign that cannot
+        # say what would end it ends when attention runs out. Both live here.
+        "directive": (args.directive or "").strip(),
+        "stopWhen": (args.stop_when or "").strip(),
+        # Learning that the dev API writes to production tells you the risk; it
+        # does not tell you where to put the writes. One run was asked "which
+        # companies are OK to test and mutate against" five times.
+        "mutableTargets": [t.strip() for t in (args.mutable_target or []) if t.strip()],
+        "mutableTargetsWaived": (args.no_mutable_target or "").strip(),
     }
     save(d, "campaign", campaign)
     if not paths(d)["inventory"].exists():
@@ -476,6 +502,20 @@ def cmd_set(args) -> int:
     if not hit:
         sys.exit(f"No case {args.case}.")
 
+    if args.status and state_of(hit.get("status", "open")) == "fail" \
+            and state_of(args.status) == "pass":
+        # The moment a red case goes green is the one place a green can be
+        # manufactured, so record what the failure stood on: `check` refuses a
+        # pass whose evidence is entirely this set, or whose rung is lower.
+        shas = []
+        for e in hit.get("evidence", []):
+            p = (d / e) if not Path(e).is_absolute() else Path(e)
+            try:
+                shas.append(hashlib.sha256(p.read_bytes()).hexdigest())
+            except OSError:
+                shas.append(f"missing:{e}")
+        hit["closedFrom"] = {"status": hit.get("status"), "oracle": hit.get("oracle"),
+                             "evidence": list(hit.get("evidence", [])), "evidenceShas": shas}
     if args.status:
         hit["status"] = args.status
     for e in args.evidence or []:
@@ -500,6 +540,38 @@ def cmd_set(args) -> int:
             w["effect"] = args.effect_class
         if args.effect_count is not None:
             w["count"] = args.effect_count
+    if args.comparison_reader or args.comparison_expectation or args.comparison_judged_long_edge is not None:
+        cmp = hit.setdefault("comparison", {})
+        if args.comparison_reader:
+            cmp["reader"] = args.comparison_reader
+        if args.comparison_expectation:
+            cmp["expectation"] = args.comparison_expectation
+        if args.comparison_judged_long_edge is not None:
+            cmp["judgedLongEdge"] = args.comparison_judged_long_edge
+    clearing_bits = {k: getattr(args, f"clearing_{k}") for k in
+                     ("command", "exit", "output", "lifts", "owner", "searched")}
+    if any(v is not None and v != "" for v in clearing_bits.values()):
+        cl = hit.setdefault("clearing", {})
+        for k, v in clearing_bits.items():
+            if v is not None and v != "":
+                cl[k] = v
+    if args.mutates:
+        hit["mutates"] = True
+    if args.target:
+        hit["target"] = args.target
+    if args.armed and hit.get("mutates") is True:
+        campaign = load(d, "campaign", {})
+        declared = [str(t) for t in (campaign.get("mutableTargets") or [])]
+        names = {t.split(":")[0].strip() for t in declared} | set(declared)
+        if str(hit.get("target") or "").strip() not in names:
+            sys.exit(f"{hit['id']} writes and names no declared target — arming performs the "
+                     f"write, so declare the target with `init --mutable-target` first.")
+    if args.brief:
+        hit["brief"] = args.brief
+    if args.waived:
+        hit["waived"] = args.waived
+    if args.card:
+        hit["card"] = args.card
     if args.note:
         hit["note"] = args.note
 
@@ -886,6 +958,20 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
     hollow_source: list[str] = []
     carried_unbased = []
     legacy_rung, bad_raster, unwitnessed_raster = [], [], []
+    # 0.19.0 — three obligations a green case owes and did not, each measured:
+    #   hollow_comparison  a raster-visual pass with nothing named as having read
+    #                      both images (a pairing script wrote `pass` on 2,853
+    #                      rows whose two files existed)
+    #   closed_on_failing_evidence  a fail→pass close resting on the artifacts the
+    #                      failure stood on (a render fix shipped twice while the
+    #                      same misalignment sat on screen; the card closed on a
+    #                      commit)
+    #   unrouted findings  a red case or DEF row with no brief and no waiver (a
+    #                      campaign with red cases exits 0 because `fail` is a
+    #                      resolved status, and the report is where they die)
+    hollow_comparison: list[str] = []
+    raster_passes = raster_with_reader = 0
+    closed_on_failing_evidence: list[str] = []
     invalid_interactive_glass = []
     seen_artifacts: dict[str, list[str]] = {}
     lane_proof = campaign.get("laneProof", {})
@@ -930,6 +1016,33 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
             if c.get("armed") is True:
                 armed += 1
 
+        # A case that was red and is now green owes evidence the failure never
+        # stood on, at the rung it failed on or higher. `set` stamps `closedFrom`
+        # at the moment of the close; this reads it back. A commit, another
+        # suite's green or a push exit code is not that evidence.
+        cf = c.get("closedFrom") or {}
+        if st == "pass" and cf and state_of(str(cf.get("status", ""))) == "fail":
+            old_shas = set(cf.get("evidenceShas") or [])
+            old_ev = set(cf.get("evidence") or [])
+            fresh = False
+            for e in c.get("evidence", []):
+                p = (d / e) if not Path(e).is_absolute() else Path(e)
+                try:
+                    h = hashlib.sha256(p.read_bytes()).hexdigest()
+                except OSError:
+                    h = None
+                if (h and h not in old_shas) or (h is None and e not in old_ev):
+                    fresh = True
+            def _rank(r):
+                return ALL_RUNGS.index(r) if r in ALL_RUNGS else -1
+            if not fresh:
+                closed_on_failing_evidence.append(
+                    f"{c['id']} passes on the evidence it failed on")
+            elif _rank(c.get("oracle")) < _rank(cf.get("oracle")):
+                closed_on_failing_evidence.append(
+                    f"{c['id']} closed at {c.get('oracle')}, below the {cf.get('oracle')} "
+                    f"rung it failed on")
+
         # A rung that claims pixels must produce pixels, and they must be this
         # case's pixels. One screenshot attached to twelve cases is the cheapest
         # way a wall of captures comes to mean nothing, and it is exact to
@@ -948,6 +1061,35 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
                 unwitnessed_raster.append(
                     f"{c['id']} names no capture method, so nothing says these "
                     f"pixels came off a display server")
+            # The rung says pixels were captured AGAINST A REFERENCE, and until
+            # 0.19.0 the only things checked were that the pixels existed and
+            # that a capture method was named — so a case could pass on a file.
+            # A pass owes what read both images and what it was graded against,
+            # the way effect-witness owes a recorder; and a reading taken over a
+            # downscaled frame is inconclusive, because text below roughly 7px of
+            # glyph height is unreadable to any judge.
+            raster_passes += 1
+            cmp = c.get("comparison") or {}
+            if cmp.get("reader") and cmp.get("expectation"):
+                raster_with_reader += 1
+            else:
+                missing_bits = [k for k in ("reader", "expectation") if not cmp.get(k)]
+                hollow_comparison.append(
+                    f"{c['id']} names no comparison {' or '.join(missing_bits)} — nothing "
+                    f"says anything read both images")
+            judged_edge = cmp.get("judgedLongEdge")
+            if judged_edge and shots:
+                first = (d / shots[0]) if not Path(shots[0]).is_absolute() else Path(shots[0])
+                info0 = inspect_raster(first)
+                cap_edge = max(int(info0.get("width") or 0), int(info0.get("height") or 0))
+                try:
+                    judged_edge = int(judged_edge)
+                except (TypeError, ValueError):
+                    judged_edge = 0
+                if cap_edge and judged_edge < cap_edge:
+                    hollow_comparison.append(
+                        f"{c['id']} was judged at a long edge of {judged_edge}px over a "
+                        f"{cap_edge}px capture — a downscaled reading is inconclusive, not a pass")
 
         # A rung that claims an effect landed outside the product must say what
         # saw it and how many. Zero is a reading and it is not a pass: the whole
@@ -1023,12 +1165,28 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
     # the group must name the others, so declaring one side is not enough.
     manifest_path = d / "evidence/shots/captures.json"
     shares: dict[str, set[str]] = {}
+    # 0.19.0. The same manifest carries `provenance.scriptCalls` — every script call
+    # the capture helper made to the page between navigation and shutter. Seven
+    # cards were once verified on captures whose state the script had written, and
+    # every other field on those entries was correct. A published shot with a call
+    # count above zero is refused here as well as by capture-lineage.py, so the two
+    # gates cannot disagree about the same picture.
+    fabricated_shots: list[str] = []
     if manifest_path.exists():
         try:
+            sid_by_path = {v: k for k, v in published_shots.items()}
             for e in json.loads(manifest_path.read_text()):
-                sid_for_path = {v: k for k, v in published_shots.items()}.get(str(e.get("path", "")))
+                sid_for_path = sid_by_path.get(str(e.get("path", "")))
                 if sid_for_path and e.get("sharesWith") and e.get("sharesReason"):
                     shares[sid_for_path] = set(e["sharesWith"])
+                prov = e.get("provenance")
+                if sid_for_path and isinstance(prov, dict):
+                    try:
+                        calls = int(prov.get("scriptCalls") or 0)
+                    except (TypeError, ValueError):
+                        calls = 1
+                    if calls > 0:
+                        fabricated_shots.append(f"{sid_for_path} ({calls} script call(s))")
         except (json.JSONDecodeError, OSError):
             shares = {}
 
@@ -1202,6 +1360,146 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
         f"{sid} ({len(driven[sid])} of {declared_count[sid]} control(s) driven, 0 actuated)"
         for sid in sorted(declared_controls)
         if not actuated[sid] and owed_controls[sid] and not (owed_controls[sid] - driven[sid])]
+
+    # ── THE STATE CENSUS ────────────────────────────────────────────────────
+    #
+    # A surface lists the states it can be in under `states`, a case records the
+    # state it drove the surface into under `state`, and a capture records it on
+    # its manifest entry. Absent means NOT DECLARED rather than clean, for the
+    # same reason the control census says so.
+    #
+    # The demand this counts was made in four projects in one week, each time
+    # after a campaign had reported itself complete: "every screen at a minimum
+    # has a loading state, empty state, content state and then any menus,
+    # selected tabs, filters". Those campaigns had counted surfaces — 22, 55,
+    # 41 of 42 — while the owner counted surface × state, and the coverage model
+    # had called State the single highest-yield axis for a year without one line
+    # of this file reading it.
+    state_axis = any(str(a).strip().lower() == "state" for a in (campaign.get("axes") or []))
+    state_floor = [str(x) for x in (campaign.get("stateFloor") or STATE_FLOOR)]
+    declared_states: dict[str, list[str]] = {
+        s["id"]: [str(x) for x in (s.get("states") or [])]
+        for s in surfaces if s.get("states")}
+    na_states: dict[str, dict[str, str]] = {
+        s["id"]: {str(k): str(v) for k, v in (s.get("statesNotApplicable") or {}).items()}
+        for s in surfaces}
+    surfaces_without_states = [
+        s["id"] for s in surfaces
+        if s["id"] not in declared_states
+        and not all(f in na_states.get(s["id"], {}) for f in state_floor)]
+    state_floor_gaps = [
+        f"{sid} lacks {capped([f for f in state_floor if f not in sts and f not in na_states.get(sid, {})], 4)}"
+        for sid, sts in sorted(declared_states.items())
+        if any(f not in sts and f not in na_states.get(sid, {}) for f in state_floor)]
+    proved_states: dict[str, set[str]] = {sid: set() for sid in declared_states}
+    unknown_states: list[str] = []
+    for c in cases:
+        st = c.get("state")
+        if not st:
+            continue
+        sid = c.get("surface")
+        if sid not in declared_states:
+            unknown_states.append(f"{c['id']} names state {str(st)!r} on {sid or 'no surface'}, "
+                                  f"which declares none")
+            continue
+        if str(st) not in declared_states[sid]:
+            unknown_states.append(f"{c['id']} names state {str(st)!r} — not among {sid}'s "
+                                  f"declared states")
+            continue
+        if state_of(c.get("status", "open")) == "pass" and c.get("oracle") in EFFECT_RUNGS:
+            proved_states[sid].add(str(st))
+    captured_states: set[tuple[str, str]] = set()
+    if manifest_path.exists():
+        try:
+            for e in json.loads(manifest_path.read_text()):
+                if e.get("subject") in declared_states and e.get("state"):
+                    captured_states.add((str(e["subject"]), str(e["state"])))
+        except (json.JSONDecodeError, OSError):
+            pass
+    states_total = sum(len(set(v)) for v in declared_states.values())
+    states_proved = sum(len(proved_states[sid]) for sid in declared_states)
+    states_captured = sum(1 for sid, st in captured_states if st in declared_states.get(sid, []))
+    states_unproved = [
+        f"{sid}:{st}" for sid, sts in sorted(declared_states.items())
+        for st in dict.fromkeys(sts) if st not in proved_states[sid]]
+
+    # ── ROUTED FINDINGS ─────────────────────────────────────────────────────
+    #
+    # `fail` is a resolved status, so a campaign with nine red cases and a DEF
+    # table exits 0 and hands back. Where those go is the campaign's obligation:
+    # `brief` — a path that exists, because a card id that exists only in a reply
+    # was one of three measured linkage failures and a gate satisfied by any
+    # string reproduces it — or `waived` with who decided. `card` travels beside
+    # the brief as a claim the gate prints and cannot verify.
+    findings: list[tuple[str, dict]] = [
+        (c["id"], c) for c in cases if state_of(c.get("status", "open")) == "fail"]
+    findings += [(str(r.get("id") or "DEF-?"), r) for r in inventory.get("defect", [])]
+    routed_filed = routed_waived = 0
+    unrouted_findings: list[str] = []
+    for fid, row in findings:
+        brief = str(row.get("brief") or "").strip()
+        if brief and ((d / brief).exists() or Path(brief).exists()):
+            routed_filed += 1
+        elif str(row.get("waived") or "").strip():
+            routed_waived += 1
+        else:
+            unrouted_findings.append(fid + (f" (brief {brief!r} does not exist)" if brief else ""))
+
+    # ── THE RUN'S OWN ASK, ITS BLOCKS, ITS WRITE TARGETS, AND WHAT IS LEFT ──
+    #
+    # Four small censuses added in 0.19.0, each from a demand made in several
+    # projects in one week. The directive and stop condition are printed first
+    # by `check` so a context that lost the conversation recovers them from the
+    # command it already runs. A `blocked` row records an attempt, not a
+    # description of one; a lane "waiting on the user's authentication" once came
+    # back already authenticated. A case that writes names a declared target. And
+    # `remaining` is the worklist a turn hands back with — the head of it is the
+    # next item, and a turn that ends on a summary instead is what `next` exits
+    # 3 on.
+    directive = str(campaign.get("directive") or "").strip()
+    stop_when = str(campaign.get("stopWhen") or "").strip()
+    runs = [r for r in (campaign.get("runs") or []) if isinstance(r, dict)]
+    passing_cases = sum(1 for c in cases if state_of(c.get("status", "open")) == "pass")
+    passes_without_run = passing_cases if (passing_cases and not runs) else 0
+    corpus = campaign.get("corpus") if isinstance(campaign.get("corpus"), dict) else {}
+    reopened = [c["id"] for c in cases if c.get("reopenedBy") and state_of(c.get("status", "open")) == "open"]
+    root = str(campaign.get("sourceRoot") or "").strip()
+    design_of_record = str(campaign.get("designOfRecord") or "").strip()
+    phases_rec = campaign.get("phases") or {}
+    phases_ran = [str(p) for p in (phases_rec.get("ran") or [])]
+    phases_skipped = {str(k): str(v or "") for k, v in (phases_rec.get("skipped") or {}).items()}
+    phases_unrecorded = [p for p in PHASES if p not in phases_ran and p not in phases_skipped]
+    phases_skipped_unreasoned = [p for p, why in phases_skipped.items() if not why.strip()]
+    blocked_unattempted: list[str] = []
+    credential_unsearched: list[str] = []
+    for c in cases:
+        status = str(c.get("status", ""))
+        if not status.startswith("blocked"):
+            continue
+        clearing = c.get("clearing") or {}
+        if not str(clearing.get("command") or "").strip():
+            blocked_unattempted.append(c["id"])
+        if CREDENTIAL_GAP_RE.search(status) and not str(clearing.get("searched") or "").strip():
+            credential_unsearched.append(c["id"])
+    declared_targets = [str(t) for t in (campaign.get("mutableTargets") or [])]
+    target_names = {t.split(":")[0].strip() for t in declared_targets} | set(declared_targets)
+    targets_waived = str(campaign.get("mutableTargetsWaived") or "").strip()
+    undeclared_targets: list[str] = []
+    mutating = 0
+    for c in cases:
+        if c.get("mutates") is not True:
+            continue
+        mutating += 1
+        tgt = str(c.get("target") or "").strip()
+        if not tgt or tgt not in target_names:
+            undeclared_targets.append(f"{c['id']}" + (f" → {tgt!r}" if tgt else " (no target)"))
+    remaining_ids = [
+        c["id"] for c in cases
+        if state_of(c.get("status", "open")) in ("open", "unoracled")
+        or str(c.get("status", "")).startswith("unoracled")
+        or (str(c.get("status", "")).startswith("blocked") and c["id"] in blocked_unattempted)]
+    blocked_ids = [c["id"] for c in cases
+                   if str(c.get("status", "")).startswith("blocked") and c["id"] not in blocked_unattempted]
 
     # ── DESTINATION DISTINCTNESS ────────────────────────────────────────────
     #
@@ -1473,6 +1771,42 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
                         f"`structural-visual` (labels and hierarchy exist) or "
                         f"`raster-visual` (pixels captured off a display server). "
                         f"`visual` buys no effect credit until you do")
+    if phases_skipped_unreasoned:
+        blockers.append(f"{len(phases_skipped_unreasoned)} phase(s) recorded as skipped with no "
+                        f"reason ({', '.join(phases_skipped_unreasoned)}) — a skipped phase says "
+                        f"why, so a reader can tell it from one nobody started")
+    if blocked_unattempted:
+        blockers.append(f"{len(blocked_unattempted)} blocked case(s) with no recorded attempt "
+                        f"({capped(blocked_unattempted, 4)}) — a blocked reason records an "
+                        f"attempt rather than describing one: `--clearing-command`, its exit and "
+                        f"output, what lifts it and who owns that")
+    if credential_unsearched:
+        blockers.append(f"{len(credential_unsearched)} case(s) blocked on a credential nobody "
+                        f"looked for ({capped(credential_unsearched, 4)}) — record under "
+                        f"`--clearing-searched` what the env files and the secrets broker hold; "
+                        f"a key is not missing until they have been listed")
+    if undeclared_targets:
+        blockers.append(f"{len(undeclared_targets)} mutating case(s) naming no declared write "
+                        f"target ({capped(undeclared_targets, 3)}) — declare the tenant or "
+                        f"dataset this campaign may write to with `init --mutable-target`, "
+                        f"because the dev API pointing at production tells you the risk and "
+                        f"not where to put the writes")
+    if hollow_comparison:
+        blockers.append(f"{len(hollow_comparison)} raster-visual pass(es) with no named reader or "
+                        f"expectation ({capped(hollow_comparison, 2)}) — a picture is not a "
+                        f"comparison until something read both images against a written "
+                        f"expectation; record `--comparison-reader` and "
+                        f"`--comparison-expectation`, or resolve the case inconclusive")
+    if closed_on_failing_evidence:
+        blockers.append(f"{len(closed_on_failing_evidence)} case(s) closed from fail on the "
+                        f"evidence they failed on ({capped(closed_on_failing_evidence, 2)}) — a "
+                        f"fix is verified by a re-run at the rung the case failed on, never by a "
+                        f"commit or another suite's green")
+    if unrouted_findings:
+        blockers.append(f"{len(unrouted_findings)} finding(s) with nowhere to go "
+                        f"({capped(unrouted_findings, 3)}) — a red case or a DEF row leaves the "
+                        f"run as `brief: <a path that exists>` or `waived: <who decided, why>`; a "
+                        f"report that lists them and stops is where they die")
     if bad_raster:
         blockers.append(f"{len(bad_raster)} raster-visual claim(s) whose artifact is "
                         f"not a usable capture — a visual claim without pixels is a "
@@ -1496,6 +1830,11 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
                         f"{'; …' if len(duplicate_shots) > 3 else ''}) "
                         f"— a wall whose cells repeat is a gallery, not a survey. Declare a "
                         f"genuine share in captures.json, or capture each subject")
+    if fabricated_shots:
+        blockers.append(f"{len(fabricated_shots)} published shot(s) whose state was written by "
+                        f"the capture script ({capped(fabricated_shots, 5)}) — a state the "
+                        f"script wrote is not a state the product reached; reach it through "
+                        f"the product and record the steps under `provenance.reached`")
     if filename_only:
         blockers.append(f"{len(filename_only)} shot(s) bound to their subject by filename "
                         f"alone ({capped(filename_only, 5)}) — run "
@@ -1534,6 +1873,27 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
         blockers.append(f"{len(unknown_actuations)} case(s) actuating a control their surface "
                         f"never declared ({capped(unknown_actuations, 2)}) — add the control "
                         f"to the surface, so the census has a denominator to count against")
+    if state_axis and surfaces_without_states:
+        blockers.append(f"{len(surfaces_without_states)} surface(s) declaring no states while the "
+                        f"campaign samples the state axis ({capped(surfaces_without_states, 4)}) — "
+                        f"every screen has at least a {', '.join(state_floor[:-1])} and "
+                        f"{state_floor[-1]} state, plus each menu, tab, filter and drawer it opens; "
+                        f"list them under `states`, or record `statesNotApplicable` with a reason "
+                        f"per floor state. A campaign that counts surfaces reports 22 where the "
+                        f"owner counts surface × state")
+    if state_floor_gaps:
+        blockers.append(f"{len(state_floor_gaps)} surface(s) missing a floor state "
+                        f"({capped(state_floor_gaps, 3)}) — declare it, or `statesNotApplicable` "
+                        f"with the reason it cannot occur")
+    if unknown_states:
+        blockers.append(f"{len(unknown_states)} case(s) naming a state their surface never "
+                        f"declared ({capped(unknown_states, 2)}) — add it to the surface, so the "
+                        f"census has a denominator to count against")
+    if states_unproved:
+        blockers.append(f"{len(states_unproved)} declared state cell(s) no passing effect-rung "
+                        f"case proves ({capped(states_unproved, 4)}) — a state declared and never "
+                        f"driven is the cell the owner asks about after the campaign reports itself "
+                        f"complete")
     if unreached_planes:
         blockers.append(f"{len(unreached_planes)} requirement(s) declaring a plane no passing "
                         f"case reaches ({capped(unreached_planes, 2)}) — evidence from one "
@@ -1643,11 +2003,40 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
         },
         "legacyRungCases": legacy_rung,
         "badRasterClaims": bad_raster,
+        "hollowComparisons": hollow_comparison,
+        "rasterPasses": raster_passes,
+        "rasterWithReader": raster_with_reader,
+        "closedOnFailingEvidence": closed_on_failing_evidence,
+        "findings": len(findings),
+        "routedFiled": routed_filed,
+        "routedWaived": routed_waived,
+        "unroutedFindings": unrouted_findings,
+        "directive": directive,
+        "stopWhen": stop_when,
+        "runs": runs,
+        "passesWithoutRun": passes_without_run,
+        "corpus": corpus,
+        "reopened": reopened,
+        "root": root,
+        "designOfRecord": design_of_record,
+        "phasesRan": phases_ran,
+        "phasesSkipped": phases_skipped,
+        "phasesUnrecorded": phases_unrecorded,
+        "blockedUnattempted": blocked_unattempted,
+        "credentialUnsearched": credential_unsearched,
+        "mutableTargets": declared_targets,
+        "mutableTargetsWaived": targets_waived,
+        "mutatingCases": mutating,
+        "undeclaredTargets": undeclared_targets,
+        "remaining": remaining_ids,
+        "blockedWithAttempt": blocked_ids,
+        "next": remaining_ids[0] if remaining_ids else "",
         "duplicateArtifacts": duplicate_artifacts,
         "badShots": bad_shots,
         "duplicateShots": duplicate_shots,
         "declaredShares": declared_shares,
         "filenameOnlyShots": filename_only,
+        "fabricatedShots": fabricated_shots,
         "publishedShots": len(published_shots),
         "distinctPublishedImages": len(shot_hashes),
         "unwitnessedPixelClaims": unwitnessed_raster,
@@ -1695,6 +2084,15 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
         "controlExceptionsValidated": sum(len(v) for v in permanent_exceptions.values()),
         "controlExceptionValidationProblems": exception_validation_problems,
         "unknownActuations": unknown_actuations,
+        "stateAxis": state_axis,
+        "statesDeclared": states_total,
+        "statesProved": states_proved,
+        "statesCaptured": states_captured,
+        "surfacesDeclaringStates": len(declared_states),
+        "surfacesWithoutStates": surfaces_without_states,
+        "stateFloorGaps": state_floor_gaps,
+        "statesUnproved": states_unproved,
+        "unknownStates": unknown_states,
         "navigationShells": {k: sorted(v) for k, v in shells.items()},
         "collapsedDestinations": collapsed_destinations,
         "destinationsUncased": destinations_uncased,
@@ -1733,10 +2131,41 @@ def cmd_check(args) -> int:
     if args.json:
         print(json.dumps(a, indent=2))
         return 0 if a["clear"] else 1
+    if getattr(args, "line", False):
+        # One machine-produced line for a turn in flight, so a figure written
+        # mid-run comes from the registry rather than from recollection.
+        counts = " ".join(f"{k}={v}" for k, v in (a.get("counts") or {}).items())
+        print(f"{a['project']} · scope {a.get('runScope') or 'undeclared'} · {counts} · "
+              f"states {a['statesProved']}/{a['statesDeclared']} · "
+              f"routed {a['routedFiled']}/{a['findings']} · "
+              f"remaining {len(a['remaining'])} next {a['next'] or '—'} · "
+              f"{'clear' if a['clear'] else f'{len(a['blockers'])} blocker(s)'}")
+        return 0 if a["clear"] else 1
 
     c = a["counts"]
     o = a["observations"]
+    print(f"Directive:  {a['directive'] or 'NOT DECLARED — record the ask with `init --directive`; a run that cannot state its own ask cannot be resumed'}")
+    print(f"Stop when:  {a['stopWhen'] or 'NOT DECLARED — record it with `init --stop-when`; a run that cannot say what ends it ends when attention runs out'}")
     print(f"{a['project']} · lanes: {', '.join(a['lanes']) or 'none declared'}")
+    print(f"Root:       {a['root'] or 'NOT DECLARED — set `sourceRoot` in campaign.json; a figure names the tree it was measured in'}")
+    dor_missing = ("NOT DECLARED — take it from the project's own documents (CLAUDE.md, DESIGN.md, "
+                   "the mock the project names) and record it with `init --design-of-record`")
+    print(f"Design of record: {a['designOfRecord'] or dor_missing}")
+    if a["corpus"]:
+        print(f"Corpus:     {a['corpus'].get('read')} of {a['corpus'].get('present')} document(s) read "
+              f"({a['corpus'].get('pattern')}) — self-reported by `campaign.py corpus`")
+    else:
+        print("Corpus:     NOT DECLARED — record documents read of documents present with `campaign.py corpus`")
+    if a["runs"]:
+        last = a["runs"][-1]
+        print(f"Runs:       {len(a['runs'])} recorded · last {last.get('at')} `{last.get('command')}` "
+              f"exit {last.get('exit')}" + (f" · {last.get('cases')} case(s)" if last.get('cases') is not None else ""))
+    else:
+        print(f"Runs:       NOT DECLARED — {a['passesWithoutRun']} passing case(s) and no recorded run; "
+              f"a built harness is not a run one, so record the command behind these passes with "
+              f"`campaign.py ran --command … --exit …`")
+    if a["reopened"]:
+        print(f"Reopened:   {len(a['reopened'])} case(s) returned to open by a wave that touched their surface")
     print(f"Requirements: {a['requirements']} inventoried, {len(a['requirementsUntested'])} with no case")
     print(f"Surfaces:   {a['surfaces']} enumerated, {len(a['surfacesUncovered'])} with no case")
     if a["effectRequirements"] or a["requirementsVacuous"]:
@@ -1803,6 +2232,41 @@ def cmd_check(args) -> int:
         print("Controls:   NOT DECLARED — no surface lists its controls, so nothing here "
               "counts them. A control renders and accepts a click whether or not its "
               "handler does anything.")
+    if a["surfacesDeclaringStates"]:
+        print(f"States:     {a['statesProved']} of {a['statesDeclared']} declared state cell(s) "
+              f"proved by a passing effect-rung case · {a['statesCaptured']} captured, across "
+              f"{a['surfacesDeclaringStates']} surface(s) that declare any")
+    elif a["stateAxis"]:
+        print("States:     NOT DECLARED — the campaign samples the state axis and no surface lists "
+              "its states, so the denominator here is surfaces where the owner's is surface × state.")
+    else:
+        print("States:     NOT DECLARED — no surface lists its states, so nothing here counts them. "
+              "Most surfaces are only ever tested populated.")
+    if a["rasterPasses"]:
+        print(f"Comparisons: {a['rasterWithReader']} of {a['rasterPasses']} raster-visual "
+              f"pass(es) name what read both images and against what")
+    if a["findings"]:
+        print(f"Routed:     {a['routedFiled']} of {a['findings']} finding(s) filed as a brief · "
+              f"{a['routedWaived']} waived")
+    else:
+        print("Routed:     nothing to route — no failing case and no DEF-* row")
+    if a["mutableTargets"]:
+        print(f"Write targets: {', '.join(a['mutableTargets'])} · {a['mutatingCases']} case(s) "
+              f"declare a write")
+    elif a["mutableTargetsWaived"]:
+        print(f"Write targets: waived — {a['mutableTargetsWaived']}")
+    else:
+        print("Write targets: NOT DECLARED — no target is recorded, so a case that writes has "
+              "nowhere sanctioned to write; a case that never sets `mutates` is invisible here")
+    if a["phasesRan"] or a["phasesSkipped"]:
+        skipped = ", ".join(f"{k} ({v or 'NO REASON'})" for k, v in a["phasesSkipped"].items())
+        print(f"Phases:     ran {' '.join(a['phasesRan']) or '—'} · skipped {skipped or '—'} · "
+              f"unrecorded {' '.join(a['phasesUnrecorded']) or '—'}")
+    else:
+        print("Phases:     NOT DECLARED — record each with `campaign.py phase --ran` / `--skipped "
+              "N: reason`, because thirteen green gates say nothing about the phases they never touched")
+    print(f"Remaining:  {len(a['remaining'])} · blocked with a recorded attempt "
+          f"{len(a['blockedWithAttempt'])} · next: {a['next'] or '—'}")
     if a["navigationShells"]:
         print(f"Shells:     {len(a['navigationShells'])} navigation shell(s), "
               f"{sum(len(v) for v in a['navigationShells'].values())} destination(s)")
@@ -1905,6 +2369,11 @@ def cmd_check(args) -> int:
     if a.get("publishedShots"):
         print(f"Wall:       {a['publishedShots']} published shot(s) · "
               f"{a['distinctPublishedImages']} distinct image(s)")
+    if a.get("fabricatedShots"):
+        print("   published shots whose state the capture script wrote (not the product's rendering):")
+        for line in a["fabricatedShots"][:6]:
+            print(f"      {line}")
+        print(capped_tail(a["fabricatedShots"], 6, indent="      "))
     if a.get("duplicateShots"):
         print("   published shots showing the same picture under different subjects:")
         for ids in list(a["duplicateShots"].values())[:6]:
@@ -1939,6 +2408,137 @@ def cmd_check(args) -> int:
     print("\nFinish them, resolve each to skip:/n-a: with a reason, or declare the stop with "
           "its resume point — in the reply, the verdict line and the report. Never silently.")
     return 1
+
+
+# ── phase ───────────────────────────────────────────────────────────────────
+
+PHASES = ("0", "1", "2", "3", "4", "5", "6", "6a", "7", "8", "8a", "9")
+
+def cmd_phase(args) -> int:
+    """Record which phases this run ran and which it skipped, with the reason.
+
+    Asked for in six projects, five times straight after a completion claim:
+    "carry out every expectation the test-campaign skill lays out; where a phase
+    was skipped, say so". A campaign that reports thirteen green gates has said
+    nothing about the phases those gates never touched, and the reader cannot
+    tell a phase that ran from one nobody started. `check` prints all three
+    sets — ran, skipped with its reason, unrecorded — on every run.
+    """
+    d = Path(args.dir).resolve()
+    campaign = load(d, "campaign", {})
+    rec = campaign.setdefault("phases", {"ran": [], "skipped": {}})
+    for p in (args.ran or "").split(","):
+        p = p.strip()
+        if not p:
+            continue
+        if p not in PHASES:
+            sys.exit(f"'{p}' is not a phase. One of: {', '.join(PHASES)}.")
+        if p not in rec["ran"]:
+            rec["ran"].append(p)
+        rec["skipped"].pop(p, None)
+    for item in args.skipped or []:
+        p, _, reason = item.partition(":")
+        p = p.strip(); reason = reason.strip()
+        if p not in PHASES:
+            sys.exit(f"'{p}' is not a phase. One of: {', '.join(PHASES)}.")
+        rec["skipped"][p] = reason
+        if p in rec["ran"]:
+            rec["ran"].remove(p)
+    save(d, "campaign", campaign)
+    unrecorded = [p for p in PHASES if p not in rec["ran"] and p not in rec["skipped"]]
+    print(f"Phases:     ran {' '.join(rec['ran']) or '—'} · skipped "
+          f"{', '.join(f'{k} ({v or 'NO REASON'})' for k, v in rec['skipped'].items()) or '—'} · "
+          f"unrecorded {' '.join(unrecorded) or '—'}")
+    return 0
+
+
+# ── ran · reopen · corpus ────────────────────────────────────────────────────
+
+def cmd_ran(args) -> int:
+    """Record a run of the suite: the command, when, its exit, how many cases.
+
+    Six projects asked for it in one week: a campaign reported "a built state
+    matrix, a 9-test causal suite, 4/4 mutants killed" and could not say which
+    command had run, when, or how many comparisons it produced. Building the
+    harness is not running it. `check` prints the last run beside the passes
+    and refuses passing cases that no run is recorded behind.
+    """
+    d = Path(args.dir).resolve()
+    campaign = load(d, "campaign", {})
+    runs = campaign.setdefault("runs", [])
+    runs.append({"command": args.command, "exit": args.exit, "cases": args.cases,
+                 "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                 "note": args.note or ""})
+    save(d, "campaign", campaign)
+    print(f"Runs:       {len(runs)} recorded · last {runs[-1]['at']} `{args.command}` exit {args.exit}"
+          + (f" · {args.cases} case(s)" if args.cases is not None else ""))
+    return 0
+
+
+def cmd_reopen(args) -> int:
+    """A merged wave re-opens the passes on the surfaces it touched.
+
+    A carried verdict decays with age; a verdict on a surface a wave has just
+    changed decays at once, and six projects asked for the campaign to be re-run
+    over what a wave touched rather than carried across it. Every passing or
+    carried case on the named surfaces returns to `open` with `reopenedBy` set,
+    so `next` counts it and `check` refuses to clear until it has run again.
+    """
+    d = Path(args.dir).resolve()
+    surfaces = {s.strip() for s in args.surfaces.split(",") if s.strip()}
+    cases = load(d, "cases", [])
+    reopened = []
+    for c in cases:
+        if c.get("surface") in surfaces and state_of(c.get("status", "open")) in ("pass", "unselected"):
+            c["reopenedBy"] = args.by
+            c["reopenedFrom"] = c.get("status")
+            c["status"] = "open"
+            reopened.append(c["id"])
+    save(d, "cases", cases)
+    print(f"reopened {len(reopened)} case(s) on {len(surfaces)} surface(s) by {args.by!r}: "
+          f"{capped(reopened, 8) if reopened else '—'}")
+    return 0
+
+
+def cmd_corpus(args) -> int:
+    """Record the document corpus phase 1 read, with its denominator.
+
+    Seven projects asked "verify against every spec, plan and brief" and got a
+    count of requirements observed; the number that answers the question is
+    documents read of documents present. Self-reported, and printed as such.
+    """
+    d = Path(args.dir).resolve()
+    campaign = load(d, "campaign", {})
+    campaign["corpus"] = {"pattern": args.pattern, "present": args.present, "read": args.read,
+                          "at": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+    save(d, "campaign", campaign)
+    print(f"Corpus:     {args.read} of {args.present} document(s) read ({args.pattern})")
+    return 0
+
+
+# ── next ────────────────────────────────────────────────────────────────────
+
+def cmd_next(args) -> int:
+    """What a turn hands back with. Exit 3 while unblocked work remains.
+
+    `check`'s exit 1 is raised by some forty conditions and was observed non-zero
+    in sessions with zero open cases, so it cannot say whether work is left. This
+    exit code says one thing: the remaining set — open, unoracled, and blocked
+    with no recorded attempt — is not empty, and its head is the next item. A
+    turn that ends on a summary of what was just finished, with this non-zero,
+    is the turn one owner had to answer with the same one-line instruction five
+    times. Hand the code to a goal loop when the run is meant to carry itself.
+    """
+    d = Path(args.dir).resolve()
+    a = audit(d)
+    print(f"remaining {len(a['remaining'])} · blocked {len(a['blockedWithAttempt'])} · "
+          f"next: {a['next'] or '—'}")
+    if a["remaining"]:
+        print(f"   {capped(a['remaining'], 8)}")
+        print("   The turn ends by starting the head of this list, or by recording the attempt "
+              "that blocks every member of it. Never on a summary.")
+        return 3
+    return 0
 
 
 # ── report ──────────────────────────────────────────────────────────────────
@@ -2200,6 +2800,12 @@ def main() -> int:
     i.add_argument("--sample", help="Declare a deliberate sample: which cells, chosen how, "
                                     "and what it cannot speak for.")
     i.add_argument("--design-of-record", help="Path/URL of the mock the build is measured against.")
+    i.add_argument("--directive", help="The run's ask, in the words it was given. `check` prints it first.")
+    i.add_argument("--stop-when", help="The condition that ends the run, so anyone can tell it is finished.")
+    i.add_argument("--mutable-target", action="append",
+                   help="A tenant or dataset this campaign may write to, e.g. "
+                        "'acme-sandbox: seeded fixture tenant, owner-sanctioned'. Repeatable.")
+    i.add_argument("--no-mutable-target", help="Reason no write target is declared (a read-only campaign).")
     i.add_argument("--force", action="store_true")
     i.set_defaults(fn=cmd_init)
 
@@ -2235,6 +2841,27 @@ def main() -> int:
     s.add_argument("--effect-count", type=int,
                    help="How many events of that class the recorder saw. Zero is a "
                         "reading, and it is not a pass.")
+    s.add_argument("--comparison-reader",
+                   help="What read both images for a raster-visual pass — the judge or checker, "
+                        "named the way a verdict names its judge.")
+    s.add_argument("--comparison-expectation",
+                   help="What the reading was graded against: the reference path, or the written "
+                        "expectation where the surface has no design of record.")
+    s.add_argument("--comparison-judged-long-edge", type=int,
+                   help="Long edge in px of the image the reader actually saw; below the capture's "
+                        "own long edge the reading is inconclusive.")
+    s.add_argument("--brief", help="Path to the intake brief this finding was filed as (must exist).")
+    s.add_argument("--card", help="Tracker card id, printed beside the brief; not verified.")
+    s.add_argument("--waived", help="Who decided this finding is not being filed, and why.")
+    s.add_argument("--clearing-command", help="The command that was run to clear a blocked case.")
+    s.add_argument("--clearing-exit", type=int, help="Its exit status.")
+    s.add_argument("--clearing-output", help="What it printed, kept whatever it said.")
+    s.add_argument("--clearing-lifts", help="The one thing that would clear the block.")
+    s.add_argument("--clearing-owner", help="Who can meet it.")
+    s.add_argument("--clearing-searched",
+                   help="For a credential block: what the env files and the secrets broker were found to hold.")
+    s.add_argument("--mutates", action="store_true", help="This case writes to the product's data.")
+    s.add_argument("--target", help="The declared write target this case writes to.")
     s.add_argument("--note")
     s.set_defaults(fn=cmd_set)
 
@@ -2287,6 +2914,39 @@ def main() -> int:
     c = sub.add_parser("check")
     c.add_argument("dir")
     c.add_argument("--json", action="store_true")
+    c.add_argument("--line", action="store_true",
+                   help="One line for a turn in flight: scope, counts, states, routed, remaining, verdict.")
+
+    rn = sub.add_parser("ran", help="Record a run of the suite: command, exit, case count.")
+    rn.add_argument("dir")
+    rn.add_argument("--command", required=True)
+    rn.add_argument("--exit", type=int, required=True)
+    rn.add_argument("--cases", type=int)
+    rn.add_argument("--note")
+    rn.set_defaults(fn=cmd_ran)
+
+    ro = sub.add_parser("reopen", help="A merged wave re-opens the passes on the surfaces it touched.")
+    ro.add_argument("dir")
+    ro.add_argument("--surfaces", required=True, help="Comma-separated surface ids the wave changed.")
+    ro.add_argument("--by", required=True, help="What touched them, e.g. 'wave 3 (PR #412)'.")
+    ro.set_defaults(fn=cmd_reopen)
+
+    co = sub.add_parser("corpus", help="Record the document corpus phase 1 read, with its denominator.")
+    co.add_argument("dir")
+    co.add_argument("--pattern", required=True, help="The globs the corpus was enumerated with.")
+    co.add_argument("--present", type=int, required=True)
+    co.add_argument("--read", type=int, required=True)
+    co.set_defaults(fn=cmd_corpus)
+
+    ph = sub.add_parser("phase", help="Record which phases ran and which were skipped, with the reason.")
+    ph.add_argument("dir")
+    ph.add_argument("--ran", help="Comma-separated phases that ran, e.g. 0,1,2,3")
+    ph.add_argument("--skipped", action="append", help="'N: reason' — repeatable")
+    ph.set_defaults(fn=cmd_phase)
+
+    n = sub.add_parser("next", help="What is left, and what to start: exit 3 while unblocked work remains.")
+    n.add_argument("dir")
+    n.set_defaults(fn=cmd_next)
     c.add_argument("--control-exception-validator")
     c.add_argument("--control-exception-validator-sha256")
     c.add_argument("--control-exception-manifest")

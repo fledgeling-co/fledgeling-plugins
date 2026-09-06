@@ -63,9 +63,50 @@ const pairs = [];
  */
 const captures = [];
 
-async function shoot(page, url, file, subject) {
+/* ── provenance — HOW THE STATE ON SCREEN WAS REACHED ──────────────────────
+ * Seven cards on one project were moved to Verified on captures whose state the
+ * capture script had written into the page with page.evaluate — a chat turn
+ * and its sources footer, a docked export tray, a pair of run controls — or
+ * onto which it had painted a box reading "Verified: …". The vision judge
+ * passed all seven, because nothing recorded how the state was reached.
+ *
+ * So shoot() counts every script call made to the page between navigation and
+ * the shutter and writes it into the entry as `provenance.scriptCalls`, and
+ * capture-lineage.py refuses a published capture whose count is above zero.
+ * Reach a state through the product: seed it through the API before the run,
+ * carry auth in storageState rather than an init script, and drive the
+ * product's own controls inside `reach`, naming each step so the manifest
+ * records it. Annotate a finding in the case record, never on the picture.
+ */
+const SCRIPT_METHODS = ['evaluate', 'evaluateHandle', 'addScriptTag', 'addStyleTag',
+  'setContent', '$eval', '$$eval', 'addInitScript'];
+
+function watchScriptCalls(page) {
+  if (page.__scriptCalls) return page.__scriptCalls;
+  const log = [];
+  for (const m of SCRIPT_METHODS) {
+    const orig = typeof page[m] === 'function' ? page[m].bind(page) : null;
+    if (!orig) continue;
+    page[m] = (...a) => {
+      log.push(`${m}: ${String(a[0]).replace(/\s+/g, ' ').slice(0, 60)}`);
+      return orig(...a);
+    };
+  }
+  page.__scriptCalls = log;
+  return log;
+}
+
+async function shoot(page, url, file, subject, reach) {
   await page.setViewportSize(VIEWPORT);
+  const log = watchScriptCalls(page);
   await page.goto(url, { waitUntil: 'domcontentloaded' });
+  // Calls made before this navigation cannot have touched this page — except an
+  // init script, which runs at every load and stays counted.
+  const kept = log.filter((x) => x.startsWith('addInitScript'));
+  log.length = 0;
+  log.push(...kept);
+  const reached = [`goto ${url}`];
+  if (reach) await reach(page, (step) => reached.push(String(step)));
   await page.waitForLoadState('networkidle', { timeout: 6000 }).catch(() => {});
   await page.waitForTimeout(SETTLE_MS);
   mkdirSync(path.dirname(file), { recursive: true });
@@ -86,6 +127,11 @@ async function shoot(page, url, file, subject) {
         dpr: page.viewportSize()?.deviceScaleFactor ?? 1,
         settleMs: SETTLE_MS,
       },
+      provenance: {
+        reached,                          // the steps, through the product, that put this state on screen
+        scriptCalls: log.length,          // any script call between navigation and shutter — the gate refuses > 0
+        scriptCallNotes: [...log],
+      },
     });
   }
   return file;
@@ -94,7 +140,10 @@ async function shoot(page, url, file, subject) {
 export function definePairCaptures(surfaces) {
   for (const s of surfaces) {
     test(`CAPTURE ${s.id} ${s.name}`, async ({ page }) => {
-      const built = await shoot(page, s.route, path.join(OUT, `${s.id}.png`), s.id);
+      // s.reach drives the product to the state this surface names — a click on
+      // its own control, a fill in its own field — and names each step:
+      //   reach: async (page, step) => { await page.getByRole('button', { name: 'Guardian' }).click(); step("click 'Guardian'"); }
+      const built = await shoot(page, s.route, path.join(OUT, `${s.id}.png`), s.id, s.reach);
 
       const mock = MOCKS[s.id];
       if (!mock || mock.kind === 'none') {
@@ -128,7 +177,8 @@ export function definePairCaptures(surfaces) {
         `without=${pairs.length - withRef}\n` +
         `Every pair carries the viewport and settle it was taken at. Hand pairs.json to\n` +
         `be-my-witness; a pair with reference:null is an UNCOMPARED surface, not a passing one.\n` +
-        `captures.json records what each shot DEPICTS and where the channel was pointed.\n` +
+        `captures.json records what each shot DEPICTS, where the channel was pointed, and\n` +
+        `how its state was reached; a script call before the shutter makes it FABRICATED.\n` +
         `Gate it with capture-lineage.py before publishing: without it the wall rests on\n` +
         `filenames, which is how 20 captures of three unrelated documents once passed.\n`,
     );
