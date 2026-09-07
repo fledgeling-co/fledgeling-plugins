@@ -5,7 +5,7 @@
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> mockup-fidelity</h1>
 
 <p align="center">
-  <img alt="Version 3.0.0" src="https://img.shields.io/badge/version-3.0.0-D33C21">
+  <img alt="Version 3.4.2" src="https://img.shields.io/badge/version-3.4.2-D33C21">
   <img alt="SWE skill: verification" src="https://img.shields.io/badge/SWE_skill-verification-434A55">
   <img alt="Silent false passes: 4 to 0" src="https://img.shields.io/badge/silent_false_passes-4_to_0-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

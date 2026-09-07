@@ -1,7 +1,7 @@
 ---
 name: positioning
 description: >-
-  Decide what a product should stand for, and be able to show your working. Runs its own Dossier deep-research panels (free CLI lane and paid API lane, one or more panels decomposed by archetype) rather than emitting prompts for a human to paste elsewhere, generates candidate positions under trawl's persona frame portfolio before the research runs so the panels discriminate rather than describe, then binds every positioning move to a claim id and a product-truth row in a ledger whose check command fails when a hero line rests on capability that has not shipped or on a citation nobody verified. Ships nine templated markdown reports plus one designed interactive HTML decision surface built through design-craft and ux-craft, with GSAP where scroll carries the argument, Three.js only where the strategy canvas needs a real volume, media-gen-pro for imagery and mermaid for diagrams, taking the project's DESIGN.md when it has one and authoring one when it does not, then gated by a design-review pass before anyone sees it. Use whenever someone wants to position or re-position a product, choose between positioning options, run market or competitor or customer research for a positioning decision, write a positioning brief or messaging architecture, name a category, find a beachhead, or "work out how to market this" — including "positioning pipeline", and including when they never say the word positioning. For a research question that is not a positioning decision, use dossier-report; for a launch site, launch-craft.
+  Decide what a product should stand for, and be able to show your working. Runs its own Dossier deep-research panels (free CLI lane and paid API lane, one or more panels decomposed by archetype) rather than emitting prompts for a human to paste elsewhere, generates candidate positions under trawl's persona frame portfolio before the research runs so the panels discriminate rather than describe, then binds every positioning move to a claim id and a product-truth row in a ledger whose check command fails when a hero line rests on capability that has not shipped or on a citation nobody verified. Ships nine templated markdown reports plus one designed interactive HTML decision surface built through design-craft:design-craft and ux-craft:ux-craft, with GSAP where scroll carries the argument, Three.js only where the strategy canvas needs a real volume, media-gen-pro for imagery and mermaid for diagrams, taking the project's DESIGN.md when it has one and authoring one when it does not, then gated by a design-review:design-review pass before anyone sees it. Use whenever someone wants to position or re-position a product, choose between positioning options, run market or competitor or customer research for a positioning decision, write a positioning brief or messaging architecture, name a category, find a beachhead, or "work out how to market this" — including "positioning pipeline", and including when they never say the word positioning. For a research question that is not a positioning decision, use dossier-report:dossier-report; for a launch site, launch-craft.
 ---
 
 # Positioning
@@ -19,7 +19,7 @@ carried forward rather than tidied away.
 
 ## What this replaces
 
-`positioning-pipeline` (DiologIR, 1.0.1) wrote two Gemini Deep Research prompts
+`positioning-pipeline:positioning-pipeline` (DiologIR, 1.0.1) wrote two Gemini Deep Research prompts
 and a launcher page with copy buttons, then asked the user to run the research
 in a browser and come back with the output. Its four-book grounding and its
 territory template were good enough to keep, and they are carried forward here
@@ -281,4 +281,4 @@ grep's status.
 | `scripts/positioning_lint.py` | The gate |
 
 Credit: the four-book distillation, the territory template's shape and the
-product-research persona come from `positioning-pipeline` by DiologIR.
+product-research persona come from `positioning-pipeline:positioning-pipeline` by DiologIR.

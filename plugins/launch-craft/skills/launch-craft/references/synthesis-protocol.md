@@ -1,67 +1,53 @@
-# Synthesis Protocol: OVERVIEW.md & PRD.md
+# Synthesis protocol: OVERVIEW.md and PRD.md
 
-This protocol defines the exact extraction, aggregation, and synthesis standards for turning scattered project files into authoritative product documentation using Gemini 3.7 Flash High.
+The output describes the repository's actual product and separates implemented behavior from plans and mocks. The orchestrator reads the source material or supplies it to a runner; the bundled inventory helper alone does not perform synthesis.
 
----
+## Input contract
 
-## 1. Input Corpus Aggregation
+Discover the repository's actual directories, using these conventions as starting points:
 
-The synthesis engine scans and indexes:
-1. **Feature Briefs (`docs/features-to-triage/*.md`)**:
-   - Extracts: Feature name, core rationale, target audience, technical scope, and platform implications.
-2. **Implementation Plans & Specs (`docs/plans/*.md`, `docs/specs/*.md`)**:
-   - Extracts: Component architecture, data models, state machines, API endpoints.
-3. **Mock UIs (`design/mocks/html/*.html`, `mocks/*.html`)**:
-   - Extracts: Screen hierarchies, interactive states, UI component taxonomy.
-4. **Application Codebase (`src/`, `apps/`, `packages/`, config files)**:
-   - Extracts: Runtime frameworks, database adapters, IPC/networking protocols, active routes.
+| Input | What it can establish |
+| --- | --- |
+| `docs/features-to-triage/*.md` | Requested behavior, rationale, scope and acceptance intent |
+| `docs/plans/*.md`, `docs/specs/*.md` | Approved design or implementation intent |
+| `design/mocks/html/*.html`, `mocks/*.html` | Designed screens and states |
+| Source, manifests, tests and captured execution | Architecture, dependencies and observed implementation |
+| Positioning and commercial decisions | Audience, category, approved prices and entitlements |
 
----
+Record the complete in-scope source list before drafting. Give every brief an explicit requirement row or a reason it is outside scope. The scan helper counts conventional files and prints their paths; it does not classify status.
 
-## 2. Gemini Invocation Standard
+## Runner brief
 
-Run the aggregation prompt through `agy`:
-```bash
-perl -e 'alarm shift @ARGV; exec @ARGV' 900 agy --new-project --model gemini-3.7-flash-high -p "<aggregation_prompt>" > /tmp/synthesis.md 2>/tmp/synthesis.log
+Use the selected runtime's supported runner interface. Pass a prompt file when supported; do not construct a shell command by interpolating source text. A runner must have access to every path named in its brief. Replace all template fields before dispatch.
+
+```text
+<context>
+Project root: [absolute path]
+Accepted decisions: [paths and relevant decisions]
+In-scope inventory: [complete file list]
+Existing documents to preserve: [paths]
+Output paths: [OVERVIEW.md, PRD.md, feature-trace.md]
+</context>
+
+<task>
+Read the listed material. Produce OVERVIEW.md describing product purpose,
+architecture, actual dependencies, modules and key workflows. Produce PRD.md
+with audience, feature requirements, acceptance criteria and status. Produce
+feature-trace.md mapping every in-scope brief to a requirement ID and source.
+
+Separate Built, In Progress, Planned, Triaged and Backlog. Use Built only where
+implementation evidence supports it; record the evidence locator and any
+execution limitation. A mock or plan alone does not establish shipped behavior.
+
+Use only approved audience, pricing, platform and entitlement facts. Mark
+unknown facts as unresolved instead of filling them from an example product.
+
+Write only the named outputs. Return their paths, the count of briefs covered,
+any excluded briefs with reasons, and unresolved factual conflicts. Keep the
+return concise; the documents carry the full substance.
+</task>
 ```
 
-### Prompt Construction Template:
-```
-You are an expert Principal Software Architect and Product Lead.
-Examine the provided project codebase files, mock HTML, implementation plans, and feature briefs in docs/features-to-triage/.
+## Acceptance
 
-Generate two authoritative documents:
-
-PART 1: OVERVIEW.md
-- Project Identity & Mission Statement
-- System Architecture Diagram (Mermaid)
-- Core Technology Stack & Module Map
-- Runtime Infrastructure & Deployment Target
-- Key Workflows & Data Flows
-
-PART 2: PRD.md
-- Product Vision & Goals
-- User Personas (Primary: Home Network Admins, Secondary: Gamers/Power Users)
-- Complete Feature Requirement Traceability Matrix:
-  * ID / Name
-  * Status (Built / In Progress / Triaged / Backlog)
-  * User Story & Acceptance Criteria
-  * Target Platforms (Windows, Mac, iPad, iPhone, Linux)
-  * Originating Brief / Source File
-- Non-Functional Requirements (Latency, Privacy, Memory Footprint, Offline Resilience)
-- Security & BYOK Architecture
-```
-
----
-
-## 3. Output Schema & Invariants
-
-### Invariants for `OVERVIEW.md`:
-- Must include a clean Mermaid architecture diagram.
-- Must list actual dependencies and runtimes discovered from repository package manifests.
-- Must avoid speculative filler text.
-
-### Invariants for `PRD.md`:
-- Every file in `docs/features-to-triage/` MUST map to at least one numbered requirement row in the PRD matrix.
-- Must explicitly state the dual pricing and deployment posture ($9.99 BYOK/self-hosted vs $4.99/mo hosted).
-- Must explicitly enumerate platform support across all 5 target operating systems.
+Check coverage against the original inventory, read representative source-linked claims and resolve conflicting statuses before site implementation. Document length follows the product's complexity; do not pad each heading to a fixed length. Include an architecture diagram where it clarifies relationships, and validate its names against the source.

@@ -82,10 +82,10 @@ The negative delay skips to the end; `fill-mode: both` holds the final keyframe.
 
 ### Verify it rather than assuming it — and know what this engine cannot verify
 
-**On the sanctioned engine, print and reduced-motion emulation do not work.** `Emulation.setEmulatedMedia` is accepted and inert (measured 13 Aug 2026), so `matchMedia('print')` stays false and a "print pass" run through Obscura returns the screen rendering with a clean result. That is the exact collision `visual-verification.md` Phase 0 rule 4 exists to prevent, so:
+**In the recorded Obscura build, print and reduced-motion emulation did not work.** `Emulation.setEmulatedMedia` is accepted and inert (measured 13 Aug 2026), so `matchMedia('print')` stays false and a "print pass" run through Obscura returns the screen rendering with a clean result. That is the exact collision `visual-verification.md` Phase 0 rule 4 exists to prevent, so when that limitation reproduces, use the following source checks and inspect the actual exported PDF:
 
-- **The structural fix above is the verification.** Written with the resting style as the final style, `animation: none` yields the settled design *by construction* — there is nothing to emulate. Prefer the invert over any check.
-- **Grep instead of emulate**, which works on any engine: list every rule that sets `opacity` under 0.05, `visibility: hidden`, a near-zero `scale`, or a fully-dashed SVG stroke as a **resting** state, and check each one is inside `@keyframes` rather than on the selector. `scripts/design-lint.py`'s `reveal-blank` check does exactly this and fails at major. Each hit is content that will be missing from the PDF.
+- **The structural fix above makes the fallback explicit.** Written with the resting style as the final style, `animation: none` yields the settled design *by construction* — there is nothing to emulate. Prefer the invert, then inspect the export; source structure alone does not prove its rendered result.
+- **Use a static source check when emulation is unavailable**: list every rule that sets `opacity` under 0.05, `visibility: hidden`, a near-zero `scale`, or a fully-dashed SVG stroke as a **resting** state, and check each one is inside `@keyframes` rather than on the selector. `scripts/design-lint.py`'s `reveal-blank` check does exactly this and fails at major. Each hit is content that will be missing from the PDF.
 - **Check for transient overlay labels** ("Checking…", "Loading…") that are visible at rest, because they will print.
 - **Say "not checked"** for the emulated passes in your report rather than reporting them clean.
 
@@ -112,7 +112,7 @@ When exporting an existing design (a deck, a scrolling page) rather than authori
 
 ## Phase 5: PDF export (when the user wants a file, not a dialog)
 
-If the user wants an actual `.pdf` (to attach, email, or upload), render it through **Obscura** — the only sanctioned browser on this machine. Playwright, Puppeteer, `chrome-headless-shell` and the Chrome MCP are removed; do not reach for them and do not tell the user to install one.
+If the user wants an actual `.pdf`, use an available, permitted browser or PDF renderer that supports the document's print requirements. The commands below are Obscura examples from the original environment; discover the current interface before using them and do not treat those historical tool restrictions as global.
 
 Two routes, in order of preference:
 
@@ -126,14 +126,14 @@ obscura serve --port 9222 &
 # then send Page.printToPDF with printBackground:true, paperWidth:8.5, paperHeight:11
 ```
 
-Serve the document over HTTP first (`python3 -m http.server`) and pass the served URL — `file://` breaks relative `@font-face` and image URLs, and the PDF then bakes in fallback fonts and missing images permanently. **Web fonts do not load in this engine at all**, so a PDF exported here carries the fallback face: that is a limitation to state in the handover, not a defect to hunt. When the user needs the real typeface in the PDF, the honest answer is the browser's own Print dialog on their machine.
+Serve the document over HTTP first (`python3 -m http.server`) and pass the served URL — `file://` breaks relative `@font-face` and image URLs, and the PDF then bakes in fallback fonts and missing images permanently. The recorded Obscura build did not load web fonts. Check the current renderer and exported file: if it substitutes a font, report that limit or use an available renderer that preserves the face. Do not claim a fallback solely from the historical observation.
 
 Wait for the page to settle before printing (network idle plus a short delay for any JS that lays out content).
 
 ## Phase 6: Verify the export
 
-Open the resulting PDF (Read tool) and check page by page: no content split mid-section; no blank pages from stray `break-after`; meaningful backgrounds present, decorative ones dropped; images loaded; page count matches the `.page` count. Fonts will be the fallback face on this engine — check the *layout* survived the substitution rather than checking the face. If anything is off, fix the print CSS in the source and re-export — never hand-edit the PDF.
+Open the resulting PDF (Read tool) and check page by page: no content split mid-section; no blank pages from stray `break-after`; meaningful backgrounds present, decorative ones dropped; images loaded; page count matches the `.page` count. Check the actual embedded or rendered fonts; if a fallback was required, also inspect its effect on layout. If anything is off, fix the print CSS in the source and re-export — never hand-edit the PDF.
 
 ## Summarize
 
-Report: the screen file, the print file (if separate), the PDF (if exported); the page count; anything that was frozen or removed for print; the physical checks you ran (grayscale, hairline weights, fold order where it applies); and anything you could not verify — including the emulated print and reduced-motion passes, which this engine cannot perform.
+Report: the screen file, the print file (if separate), the PDF (if exported); the page count; anything that was frozen or removed for print; the physical checks you ran (grayscale, hairline weights, fold order where it applies); and anything you could not verify — including any print or reduced-motion behavior the selected engine could not exercise.

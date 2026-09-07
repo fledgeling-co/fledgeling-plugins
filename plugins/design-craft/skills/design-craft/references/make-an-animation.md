@@ -86,7 +86,7 @@ Scrub through at 0.25× increments and check: every beat lands ≥300ms after th
 
 The artifact is already the renderer — every frame is a deterministic function of `t`, so export = seek + screenshot + encode. **This is also the reason the engine on this machine can export a timeline piece at all:** Obscura executes no CSS animation and no GSAP timeline (measured 13 Aug 2026), so a piece driven by anything other than the `__animStage.setTime()` bridge cannot be captured here, frame one included. The bridge is not a convenience — it is the export path.
 
-Requires `ffmpeg` on PATH plus **Obscura** (`obscura --version`); Playwright, Puppeteer and `chrome-headless-shell` are removed from this machine, so tell the user what is missing rather than reaching for one or degrading silently. Serve the piece over HTTP first, then drive `obscura serve` over CDP: for each frame, `Runtime.evaluate` the seek, then `Page.captureScreenshot`, and pipe the PNGs into ffmpeg.
+The example path uses `ffmpeg` plus **Obscura**. Discover the current permitted renderer and its seek/capture interface; another available browser may perform the same deterministic export. The original machine's removed tools are not a global restriction. Serve the piece over HTTP first, then drive `obscura serve` over CDP: for each frame, `Runtime.evaluate` the seek, then `Page.captureScreenshot`, and pipe the PNGs into ffmpeg.
 
 ```bash
 python3 -m http.server 4311 &                  # serve the directory
@@ -97,7 +97,7 @@ ffmpeg -y -f image2pipe -framerate 30 -i - -vf scale=1920:1080 \
        -c:v libx264 -pix_fmt yuv420p -crf 18 out.mp4
 ```
 
-Set the capture viewport with `Emulation.setDeviceMetricsOverride` (1920×1080, `deviceScaleFactor: 2`) — that domain **does** work here, unlike `setEmulatedMedia`. Two things to check before trusting a long export: **web fonts do not load in this engine**, so the exported video carries the fallback face and that must be stated in the handover; and **if most exported frames are identical the bridge is not seeking** (wrong global name, or the page animates outside the `t` model).
+Set the capture viewport with `Emulation.setDeviceMetricsOverride` (1920×1080, `deviceScaleFactor: 2`) — that domain **does** work here, unlike `setEmulatedMedia`. Two things to check before trusting a long export: verify the actual loaded font, because the recorded Obscura build substituted fallback faces; and **if most exported frames are identical the bridge is not seeking** (wrong global name, or the page animates outside the `t` model).
 
 Quality levers: **fps** 30 default, 60 for fast motion, 24 for a filmic feel. **crf** 18 ≈ visually lossless, 23 smaller, >28 artifacts. `deviceScaleFactor: 2` supersamples so text stays crisp after encoding. Every frame is a real screenshot, so a 60s piece at 30fps is 1,800 screenshots — **export a sub-range while iterating**, full range only at the end. This exports seekable timelines only — never try to screen-record arbitrary HTML this way.
 

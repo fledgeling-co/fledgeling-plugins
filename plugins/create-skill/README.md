@@ -7,7 +7,7 @@
 <p align="center"><strong>Build a new skill properly, from the interview outward.</strong></p>
 
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-C4622D">
+  <img alt="Version 1.4.2" src="https://img.shields.io/badge/version-1.4.2-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
@@ -60,3 +60,9 @@ The evals here are **process** evals: they check the pipeline's phases happen in
 The no-skill baseline is a fair comparison but a blunt one. Where a skill's value is consistency rather than peak quality, a single-run comparison will understate it, and the right measurement is variance across repeated runs. The pipeline says which claim it's making.
 
 Deep material: [the discovery protocol](skills/create-skill/references/discovery.md) · [evals and judging](skills/create-skill/references/evals-and-judging.md) · [prompting the agents it spawns](skills/create-skill/references/opus-5-prompting.md)
+
+Runner briefs use a [local contract](skills/create-skill/references/runner-contract.md):
+Opus 5 for intake, triage and planning, Gemini 3.8 for implementation after the
+plan, and GPT-6 for orchestration. The runtime supplies exact model selectors;
+user choices override defaults. Required checks stay explicit, with no repeated
+generic self-review.

@@ -1,7 +1,7 @@
 ---
 name: geminify
 description: >-
-  Two modes. Mode A adds a Gemini-calibrated `gemini.md` to an existing skill, so the same skill works on Google's models as well as Claude's: reads the target, scans it for the unbounded scopes and assumed verification that Gemini handles differently, assembles the file from a shared core plus only the modules the skill's own subject matter earns, tags every claim by how strong its evidence actually is, gates the result by checking each quoted vendor sentence appears verbatim in Google's published guidance, then installs the conditional pointer and bumps the version. Mode B calibrates the session the runner is already in, when a Gemini model is serving it and no target is named: `session_calibrate.py` reports which loaded skills ship a `gemini.md`, which names are on disk but unpublished by their marketplace and will fail with `Unknown skill`, and which referral lanes are out-of-family for the serving model, then the runner posts a receipt ledger where a Skill tool call discharges a row and conforming output does not. Use whenever someone wants a skill to work on Gemini — "geminify design-craft", "add Gemini support to this skill", "make this skill work in Antigravity", "write a gemini.md for X", "/geminify" — whenever a skill produced weak output under a Gemini model and the skill itself is not at fault, and whenever a session is served by a Gemini-family model and should apply the overrides to the skills it has loaded. NOT for fixing a skill that is broken for every model (use improve-skill), and NOT for authoring a new skill (use create-skill).
+  Two modes. Mode A adds a Gemini-calibrated `gemini.md` to an existing skill, so the same skill works on Google's models as well as Claude's: reads the target, scans it for the unbounded scopes and assumed verification that Gemini handles differently, assembles the file from a shared core plus only the modules the skill's own subject matter earns, tags every claim by how strong its evidence actually is, gates the result by checking each quoted vendor sentence appears verbatim in Google's published guidance, then installs the conditional pointer and bumps the version. Mode B calibrates the session the runner is already in, when a Gemini model is serving it and no target is named: `session_calibrate.py` reports which loaded skills ship a `gemini.md`, which source names have an invalid namespace or are unpublished by their marketplace and may fail at runtime, and which referral lanes are out-of-family for the serving model, then the runner posts a receipt ledger where a Skill tool call discharges a row and conforming output does not. Use whenever someone wants a skill to work on Gemini — "geminify design-craft", "add Gemini support to this skill", "make this skill work in Antigravity", "write a gemini.md for X", "/geminify:geminify" — whenever a skill produced weak output under a Gemini model and the skill itself is not at fault, and whenever a session is served by a Gemini-family model and should apply the overrides to the skills it has loaded. NOT for fixing a skill that is broken for every model (use improve-skill:improve-skill), and NOT for authoring a new skill (use create-skill:create-skill).
 ---
 
 # geminify
@@ -11,8 +11,9 @@ model the author was running. Most of the skills in this ecosystem were written
 against Claude's failure modes, and several of their most deliberate decisions are
 *removals*: guidance stripped out because Claude over-does that thing when told to.
 
-On Gemini those removals leave a vacuum, and the vacuum fills with something
-plausible. This skill writes the layer that fills it deliberately instead.
+Some earlier Gemini runs acknowledged requirements without executing them.
+This skill turns the relevant requirements into observable steps, while keeping
+model-specific claims tied to the models and harnesses that were measured.
 
 The output is one file, `gemini.md`, beside the target's `SKILL.md`, plus a
 conditional pointer at the top of the SKILL.md that other models skip. Not a
@@ -26,7 +27,7 @@ assumption that a rule stated in prose gets executed.
 | You were asked to | Mode | Runs |
 |---|---|---|
 | geminify a named skill: `geminify design-craft`, "write a gemini.md for X" | **A** | the six steps under *Mode A* |
-| calibrate the session you are running in: `/geminify` with no target, or a hook told you this session is served by Gemini | **B** | the four steps under *Mode B* |
+| calibrate the session you are running in: `/geminify:geminify` with no target, or a hook told you this session is served by Gemini | **B** | the four steps under *Mode B* |
 
 Mode B exists because it was already happening without a procedure. Between 18
 August and 1 September 2026 six sessions invoked this skill; three were runners
@@ -37,6 +38,16 @@ because nothing counted.
 A target named in the invocation means Mode A; no target means Mode B. When the
 invocation names a target *and* the session is on Gemini, run Mode B first — four
 tool calls, and it changes how Mode A's judgement calls go.
+
+## Model scope and current workflow
+
+The benchmark below measures Gemini 3.7 Flash and the named earlier sessions;
+it is not evidence of Gemini 3.8 capability or delivery failure rates. For a new
+model, retain concrete acceptance contracts, but treat earlier route-out rules
+and thinking defaults as hypotheses to evaluate. Do not override the user's
+Gemini 3.8 implementation choice after Opus 5 intake, triage and planning solely
+because the older corpus scored a shape poorly. GPT-6 may orchestrate this work.
+Resolve each role to the exact model and supported settings the harness exposes.
 
 ## The finding everything here rests on
 
@@ -83,7 +94,7 @@ shadows)*.
 So there are two failure directions, not one. A categorical scope collapses to a
 single instance; a stated maximum is exceeded on every instance. Both are a number in
 the brief that nothing reads back. C1 catches the first, `bounded-constraint` catches
-the second, and **C9 says which work should not be attempted at all** — which is the
+the second, and **C9 records when the measured configuration needs a different lane** — which is the
 health checklist's own rule: **[docs]** *"Avoid using prompts that ask the model to
 perform a task for which it has a known, fundamental limitation."*
 
@@ -93,6 +104,10 @@ advice for this family, so the raw gap is an upper bound; the same-scaffold cont
 is the part that carries weight.
 
 Full evidence, including what is n=1 and what is not: `references/evidence.md`.
+
+The session scanner checks exact source identity and marketplace membership;
+it cannot prove that a running Skill tool loaded the plugin. Keep its source
+resolution separate from the live invocation receipt.
 
 ## Mode A — write a `gemini.md` for a target skill
 
@@ -127,8 +142,8 @@ Outputs, derived from the target rather than from a template:
 - **The module triggers** — which optional sections this file needs, decided by
   what the skill demonstrably contains. A skill that renders nothing gets no
   capture guidance. Measured across four skills: `design-craft` triggers `visual`
-  first (11 hits), `deck-craft` triggers `authorship` (11), `design-review`
-  triggers `gate` (10), and `clarify` — which renders nothing — triggers one
+  first (11 hits), `deck-craft:deck-craft` triggers `authorship` (11), `design-review`
+  triggers `gate` (10), and `clarify:clarify` — which renders nothing — triggers one
   module and carries a single quota row.
 
 Read the scan; do not just run it. It reports candidates, and a phrase like
@@ -173,7 +188,8 @@ epistemic-status block · the route-out block.
 `delegation` · `injection` · `bounded-constraint` · `count-contract` · `emphasis`.
 
 **The route-out block (C9) goes near the top, before the overrides**, and only when
-the target's own work lands in a shape the corpus measured behind. It names those
+the target's work and serving model match the measured configuration, or a
+current task-specific evaluation supports the restriction. It names those
 shapes and hands over one command rather than a pinned model, because the numbers
 move and a lane restated in fourteen files is a policy nobody can change:
 
@@ -327,7 +343,7 @@ before the run may describe itself as having followed the skills it loaded.
 - **Never write the file without reading the target.** The scan is an instrument,
   not a substitute.
 - **Do not rewrite the skill.** If the skill is wrong for every model, that is
-  `improve-skill`'s job, and mixing the two produces a change nobody can review.
+  `improve-skill:improve-skill`'s job, and mixing the two produces a change nobody can review.
   Mention it in a sentence and stay in scope.
 - **Do not add emphasis.** **[docs]** *"Remove language outside of the core task
   from the prompt that attempts to influence performance using emotional appeals,
@@ -360,14 +376,15 @@ before the run may describe itself as having followed the skills it loaded.
 
 - `references/gemini-corpus.md` — Google's own words, verbatim, grouped by the
   module that uses them. Quote from here; `verify_quotes.py` checks against it.
-  The full fifteen-source material lives in the `gemini-prompt-engineering` skill.
+  This bundled corpus is sufficient; an optional external research skill is not
+  a runtime dependency. Refresh changed vendor facts from the linked sources.
 - `references/modules.md` — the core sections and the module catalogue: what each
   one says, its trigger, and the citation behind it.
 - `references/evidence.md` — both measured sources: the single run in full (§1) and
   the 106-task benchmark comparison with its controls and confounds (§2), what each
   does and does not establish, and the two out-of-family consults behind this
   skill's own design.
-- **The routing numbers are not copied here.** `defer` reads the same corpus into a
+- **The routing numbers are not copied here.** `defer:defer` reads the same corpus into a
   shape-by-lane capability matrix and regenerates it on demand, so C9 points at
   `python3 <defer>/skills/defer/scripts/lane_pick.py --matrix` rather than pinning
   figures that go stale.

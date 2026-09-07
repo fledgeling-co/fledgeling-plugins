@@ -109,7 +109,7 @@ scale decision:
 - **Shared.** Two requirements' screenshots have the same sha256. One capture cannot
   be evidence for two different claims; the second is unevidenced.
 
-Where a campaign exists, `test-campaign`'s `capture-lineage.py <dir> --gate` performs
+Where a campaign exists, `test-campaign:test-campaign`'s `capture-lineage.py <dir> --gate` performs
 both over the whole evidence set and exits 2 on either. Where one does not, the two
 checks are still owed per requirement — they are a comparison of two strings and a
 hash, not an instrument.

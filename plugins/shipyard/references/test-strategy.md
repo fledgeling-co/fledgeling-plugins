@@ -11,7 +11,7 @@ score) and because AI-written suites tailored to pass the code they ship with ca
 |---|---|---|
 | Unit | Local logic, validation, boundary values, pure transforms | Expected values from an **independent source of truth** (a known-good literal, a worked example, the spec) — an assertion that recomputes the value the way the code does passes by construction and can never disagree with the code |
 | Contract / integration | Service boundaries, schemas, error propagation | Failure paths tested, not just the happy arm |
-| **E2E UI (per flow)** | Every user flow, action, and menu in the spec, driven in the repo's own harness (via `/acceptance-e2e`) | Outcome assertions (content and behaviour), never element-existence; green **twice**; a committed spec with no recorded run is a loud failure at the next stage |
+| **E2E UI (per flow)** | Every user flow, action, and menu in the spec, driven in the repo's own harness (via `/acceptance-e2e:acceptance-e2e`) | Outcome assertions (content and behaviour), never element-existence; green **twice**; a committed spec with no recorded run is a loud failure at the next stage |
 | **Visual (per state)** | The state matrix below, per surface | Curated snapshots of the matrix — not screenshots of every page; stable environment; paired with semantic assertions |
 | Accessibility | Semantics and keyboard operation | Role/name/state assertions; keyboard paths; axe pass |
 | Regression | The observed defect cannot recur | The red→green proof (`evidence-rules.md`) — fails against the pre-fix behaviour |

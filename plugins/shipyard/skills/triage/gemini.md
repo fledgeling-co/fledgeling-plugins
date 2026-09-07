@@ -41,10 +41,10 @@ corpus measured far enough behind to route — `static-page`, `brownfield-integr
 `visual-design`, `regression-sensitive` — all describe *producing* an artifact, and `lane_pick.py`
 returns the policy answer unchanged for `referral` anyway. `visual-design` is the closest near-miss
 and still wrong: the UI & logic preview names surfaces in words for a designer. The one lane that
-does bind is the skill's own — step 6's out-of-family review, `codex gpt-5.6-sol` at `medium` →
-`agy` → `grok`. `[derived]` A Gemini agent here should **skip the agy lane**, since the point of
-that gate is a reviewer outside the author's family and agy is inside yours; if codex and grok are
-both down, record the fallback as a downgrade exactly as the skill already requires.
+does bind is the skill's own: choose a capable supported reviewer outside the
+actual author's family. For a Gemini-authored triage artifact, skip Gemini; Opus
+or GPT can be independent. If only an in-family authorized lane remains, record
+the loss of independence and keep any independent gate unmet.
 
 ## What transfers intact
 

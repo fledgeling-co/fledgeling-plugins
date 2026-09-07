@@ -24,14 +24,14 @@ lanes for one feature.
 
 | Status | Meaning | Set by | Markdown-lane equivalent |
 |---|---|---|---|
-| *(untriaged)* | A brief exists, nothing has run | `intake` | file in `docs/features-to-triage/` |
-| `Needs More Info` | Triage found an essential gap only a human can close | `triage` | `Status: Needs More Info` |
-| `To Do` | **Triaged** — verdict + assumptions recorded, ready for the planner | `triage` | `Status: Ready for Plan` |
-| `Ready for AI` | **Planned** — plan committed, gates passed; design mocks done or explicitly not needed | `plan` (+ `design`) | `Status: Ready for Work` |
-| `In Progress` | A worker holds it — visible on the board so two operators never collide | `work` (at start) | `Status: In Progress` |
-| `Developer Review` | **Self-verified** — built, same-family-validated, evidence tables filled | `work` (at end) | `Status: In Review` |
-| `Done` | **Cross-family verified** — an out-of-family verifier graded it against the running app | `verify` | `Status: Done` |
-| `Needs More Work` | **Failed verification** — the verifier's verdict table is the work order | `verify` | `Status: Needs More Work` |
+| *(untriaged)* | A brief exists, nothing has run | `shipyard:intake` | file in `docs/features-to-triage/` |
+| `Needs More Info` | Triage found an essential gap only a human can close | `shipyard:triage` | `Status: Needs More Info` |
+| `To Do` | **Triaged** — verdict + assumptions recorded, ready for the planner | `shipyard:triage` | `Status: Ready for Plan` |
+| `Ready for AI` | **Planned** — plan committed, gates passed; design mocks done or explicitly not needed | `shipyard:plan` (+ `shipyard:design`) | `Status: Ready for Work` |
+| `In Progress` | A worker holds it — visible on the board so two operators never collide | `shipyard:work` (at start) | `Status: In Progress` |
+| `Developer Review` | **Ready for independent review** — built, required checks run, evidence tables filled | `shipyard:work` (at end) | `Status: In Review` |
+| `Done` | **Cross-family verified** — an out-of-family verifier graded it against the running app | `shipyard:verify` | `Status: Done` |
+| `Needs More Work` | **Failed verification** — the verifier's verdict table is the work order | `shipyard:verify` | `Status: Needs More Work` |
 
 Rules that hold on both lanes:
 
@@ -39,7 +39,7 @@ Rules that hold on both lanes:
   and map names → ids. A named state missing from the board means: list the available states in
   your final message and make **no** status change — never guess an id. If `Done` or
   `Needs More Work` are missing from a board, say so; the verdict comment still carries the truth.
-- **Never downgrade** a status, with one exception: `verify` may set `Needs More Work` from
+- **Never downgrade** a status, with one exception: `shipyard:verify` may set `Needs More Work` from
   `Developer Review` — that transition is the failure path existing on purpose, and its artifact
   (the verdict table) travels with it.
 - **A status move without its artifact is invalid.** `To Do` requires the triage section/comment;
@@ -47,9 +47,9 @@ Rules that hold on both lanes:
   completion note with every Clause/Reachability row ✅; `Done`/`Needs More Work` require the
   verifier's verdict comment. The artifact's absence is visible to the next stage — that is the
   design: a skipped stage fails loudly at the next gate instead of silently at merge.
-- **`Needs More Work` re-enters at `gap-fix`** (or `work` when the verifier found whole missing
+- **`Needs More Work` re-enters at `shipyard:gap-fix`** (or `shipyard:work` when the verifier found whole missing
   slices), with the verdict table as the gap list. On completion the item returns to
-  `Developer Review` and `verify` runs again — fresh context, fresh verifier.
+  `Developer Review` and `shipyard:verify` runs again — fresh context, fresh verifier.
 
 ## Reading and writing
 

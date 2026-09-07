@@ -7,7 +7,7 @@
 # Deck Craft
 
 <p align="center">
-  <img alt="Version 1.15.0" src="https://img.shields.io/badge/version-1.15.0-D33C21">
+  <img alt="Version 1.17.1" src="https://img.shields.io/badge/version-1.17.1-D33C21">
   <img alt="SWE skill: making" src="https://img.shields.io/badge/SWE_skill-making-434A55">
   <img alt="Gate assertions: 17 to 3" src="https://img.shields.io/badge/gate_assertions-17_to_3-756E60">
   <img alt="Blind panel: 2 families, 14 to 0" src="https://img.shields.io/badge/blind_panel-2_families_14_to_0-756E60">

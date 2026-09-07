@@ -595,7 +595,7 @@ distance from the glyphs, after the cell's inner wrapper margins and the
 number. The declared gutter and the perceived gutter are two
 measurements, and only one of them is on screen.
 
-This is not hypothetical here. `design-review`'s `probeDividerProximity`
+This is not hypothetical here. `design-review:design-review`'s `probeDividerProximity`
 run against a page already published from this skill returned **twenty
 below-floor violations** — one stat cell measuring 14.3px from its rule
 with `padding-right: 0` (the gap came from somewhere nobody had decided),
@@ -614,7 +614,7 @@ Three consequences for the markup:
 - **Nothing in a divided row may clip.** A row that runs out of width
   wraps or stacks; it never cuts a cell's final words.
 
-`design-review` measures the rendered ink and is the real gate;
+`design-review:design-review` measures the rendered ink and is the real gate;
 `scripts/audit_page.py` catches the cheap source-level form — a rule
 declared with no gutter on that side at all.
 
@@ -657,7 +657,7 @@ classification decides most of what follows, and it is the one this file
 previously left implicit — which is how a page ends up with a beautiful
 hero and an unreadable 96-character measure.
 
-Route the layout through `design-craft` with `ux-craft`'s lens on flow and
+Route the layout through `design-craft:design-craft` with `ux-craft:ux-craft`'s lens on flow and
 states. State the mode once in the direction record and let it bind.
 
 ### Measure, scale and rhythm

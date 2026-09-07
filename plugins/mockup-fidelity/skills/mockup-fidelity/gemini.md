@@ -1,4 +1,4 @@
-# Running `mockup-fidelity` on Gemini
+# Running `mockup-fidelity:mockup-fidelity` on Gemini
 
 Read this once, whole, before the SKILL.md — every override names the section it lands on. **[docs]** the health
 checklist warns against a prompt "with non-linear logic or conditionals that require the model to piece together
@@ -32,7 +32,14 @@ code is quoted rather than an impression of the report; whether an authored just
 under THE LAW rule 5; whether the native lane's artifacts get produced in order; anything about React Native or
 a real browser engine; whether these overrides help.
 
-## Route out first — and only Phase 6
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 **[docs]** Under **Task outside of model capabilities**: "Avoid using prompts that ask the model to perform a
 task for which it has a known, fundamental limitation." **[measured-family]** 106 tasks against `claude-opus-5`

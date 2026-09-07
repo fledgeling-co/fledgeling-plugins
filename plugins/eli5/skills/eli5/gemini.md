@@ -1,21 +1,23 @@
 # eli5 on a Gemini runner
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this once, before `SKILL.md`, then work from `SKILL.md` with the overrides below. Each names the
 section it lands on, because a side-file is the shape Google's own checklist warns about — **[docs]**
 *"Avoid writing a prompt with non-linear logic or conditionals that require the model to piece together
 fragmented instructions from multiple different places in the prompt."*
 
-The canon transfers: `eli5`'s pedagogy — invariant, misconception, structure-mapping table, boundary,
+The canon transfers: `eli5:eli5`'s pedagogy — invariant, misconception, structure-mapping table, boundary,
 prediction beat — is model-independent and none of it changes here. What does not transfer is the
-assumption that a rule stated in prose gets executed, and `eli5` states several of its floors and caps in
+assumption that a rule stated in prose gets executed, and `eli5:eli5` states several of its floors and caps in
 prose that no part of the gate reads back.
 
 ## Epistemic status
 
 `[docs]` is quoted verbatim from `geminify/references/gemini-corpus.md`. `[measured-family]` is one recorded Gemini
 run of a *different* skill (n=1) plus a 106-task benchmark running `gemini-3.7-flash` at `medium` and `high` against
-`claude-opus-5`. `[derived]` is reasoning from those onto `eli5`'s rules, and says so. There is no
-`[measured-here]`: no transcript of a Gemini run of `eli5` has been read. Every rate below is **flash-tier**; on Pro
+`claude-opus-5`. `[derived]` is reasoning from those onto `eli5:eli5`'s rules, and says so. There is no
+`[measured-here]`: no transcript of a Gemini run of `eli5:eli5` has been read. Every rate below is **flash-tier**; on Pro
 the overrides hold as `[docs]`-grounded discipline and every `[measured-family]` number is an open question.
 
 **Unmeasured on this skill** — the distinctive predictions this file makes, all on family or docs backing:
@@ -26,7 +28,7 @@ the overrides hold as `[docs]`-grounded discipline and every `[measured-family]`
 4. that `surface-reach` gets discharged with a `<!-- surface: … -->` comment instead of a library
 5. that the geometry contract gets written into a comment and then not honoured
 6. whether supplying a reference image lifts the page — the documented strong path, never measured
-7. whether the benchmark's `static-page` numbers hold for an explainer; that bucket's briefs were not `eli5` briefs
+7. whether the benchmark's `static-page` numbers hold for an explainer; that bucket's briefs were not `eli5:eli5` briefs
 
 The `emphasis` module is absent: the scan found zero shouted passages. `delegation` fired at its minimum and is
 folded into override 4, because `SKILL.md` already closes the half that matters: `Build it in this session rather
@@ -37,7 +39,7 @@ that lands is folded into override 7.
 
 **[docs]** The health checklist says it outright, under **Task outside of model capabilities**: *"Avoid
 using prompts that ask the model to perform a task for which it has a known, fundamental limitation."* Two
-of `eli5`'s deliverable shapes sit in buckets the corpus measured well behind, and both are the same file:
+of `eli5:eli5`'s deliverable shapes sit in buckets the corpus measured well behind, and both are the same file:
 
 | shape | what it is here | `[measured-family]` |
 |---|---|---|
@@ -48,11 +50,11 @@ of `eli5`'s deliverable shapes sit in buckets the corpus measured well behind, a
 python3 <defer>/skills/defer/scripts/lane_pick.py --task implementation --shape static-page
 ```
 
-`brownfield-integration` and `regression-sensitive` get no row: `eli5` writes one new file, breaks no existing
+`brownfield-integration` and `regression-sensitive` get no row: `eli5:eli5` writes one new file, breaks no existing
 contract, and Phases 1 and 2 reason rather than author a page. Where the run builds it anyway, distrust the rendered
 artifact, not the pedagogy behind it.
 
-## What transferred intact — most of `eli5` needs nothing from this file
+## What transferred intact — most of `eli5:eli5` needs nothing from this file
 
 - **Every threshold in the gate** — `prose-budget` 350, `prose-block` 50, `prose-run` 120, `opening-budget` 90,
   `no-template-boilerplate` at 3, `plain-statements` at 4, `names-things` at 4, `visual-scenes` at 3. **[docs]**
@@ -106,7 +108,7 @@ toast in its set on a run that passed 37 of its 39 other assertions.
 **[docs]** Google treats these as a component in their own right — *"Restrictions on what the model must adhere to
 when generating a response, including what the model can and can't do."* — and the **Recap** is where they go: a
 *"Concise repeat of the key points of the prompt, especially the constraints and response format, at the end of the
-prompt."* This ledger is that recap. `eli5` is unusually well defended, because `lint_explainer.py` reads most of
+prompt."* This ledger is that recap. `eli5:eli5` is unusually well defended, because `lint_explainer.py` reads most of
 its caps back off the produced file. Four it does not — fill these from the artifact, never from the brief:
 
 | bound | stated at | limit | readback | observed | within? |
@@ -155,7 +157,7 @@ over the emitted markup — `x + width` inside the viewBox, no two boxes overlap
 × 0.55 × font-size` of clearance either side of a centred anchor, arrows computed edge to edge. **[docs]**
 *"Gemini's code execution tool enables the model to generate and run Python code, and should be enabled whenever the
 model needs to perform any kind of arithmetic, counting, or calculation."* Then capture it (override 5). With no
-capture, say so: `evidence.md` §1.9 — `eli5`'s *open-loop visual blindness* — is unmitigated for this file.
+capture, say so: `evidence.md` §1.9 — `eli5:eli5`'s *open-loop visual blindness* — is unmitigated for this file.
 
 ## 4. Phases become files, not notes
 
@@ -164,7 +166,7 @@ recorded run whose skill composition was phrased as a lens rather than a gate, b
 the run's own diagnosis named the mechanism: nothing downstream depended on a file only those skills produce.
 
 Phase 1 asks you to `Name three things in your working notes`. Working notes are not a file, so nothing reads them
-back. Write `notes.md` — filled like this, from `eli5`'s own Phase 1 and 2 vocabulary — and read it before markup:
+back. Write `notes.md` — filled like this, from `eli5:eli5`'s own Phase 1 and 2 vocabulary — and read it before markup:
 
 ```
 topic         virtual memory — what one address does on the way to a byte
@@ -193,8 +195,8 @@ comment `surface-reach` reads. Fill both from `notes.md` rather than composing t
 
 **Skill composition, converted.** `Load dataviz before the first line of chart code` is a `Skill` tool call,
 discharged by the call and the palette validator's output; chart code that conforms to `dataviz`'s rules is not a
-receipt for having loaded it. Same for `/remotion-best-practices` when a clip is in scope. The one skill `eli5`
-deliberately does *not* invoke is `agent-voice`: `evidence.md` §4.8 — its gate passed the unreadable artifact — so
+receipt for having loaded it. Same for `/remotion-best-practices` when a clip is in scope. The one skill `eli5:eli5`
+deliberately does *not* invoke is `agent-voice:agent-voice`: `evidence.md` §4.8 — its gate passed the unreadable artifact — so
 read that skill's `ai-writing-signs.md` §1.7 and §2.3 and report no check from it.
 
 ## 5. Describe the capture before you judge it
@@ -205,7 +207,7 @@ a failure: *"A prompt can fail because the model did not understand the image at
 perform the correct reasoning steps afterward."* `[measured-family]` The comparison run opened 4 images for
 a 10-cell artifact and reported on all ten.
 
-The denominator for an `eli5` page is one capture per depth pass × theme, plus one at a narrow width and one under
+The denominator for an `eli5:eli5` page is one capture per depth pass × theme, plus one at a narrow width and one under
 reduced motion — for a three-pass page in two themes, **8 captures**. Open all of them and report the fraction. Crop
 to the diagram, name what is in the crop, then judge it. When a label looks wrong, say what is in the image before
 changing CSS, and capture in Chromium: Obscura drops whitespace at inline-element boundaries.
@@ -219,7 +221,7 @@ collapsed. Where the requester has a mock, a screenshot or a palette, supply it 
 
 **[docs]** *"you must change your strategy or arguments, not repeat the same failed call."*
 `[measured-family]` Four consecutive invocations of one absent tool with nothing changed between them.
-Three of `eli5`'s build steps fail permanently rather than transiently, and each pivots on attempt 1:
+Three of `eli5:eli5`'s build steps fail permanently rather than transiently, and each pivots on attempt 1:
 `vendor_lib.py` refusing a checksum mismatch or a split Three.js build (pass a local path, or take the
 single-file r169 route); a `media-gen-pro` call, which bills per image, so a retry costs money against a
 cap of three; and a `Read` that hits a token ceiling on `evidence.md`, which takes a line range instead.
@@ -243,6 +245,6 @@ detail you cannot source is stated as omitted in the third pass, not filled in �
 answer is not explicitly written in the context, you must state that the information is not available."*
 
 **One tension worth naming.** **[docs]** *"Prompts without few-shot examples are likely to be less effective."* But
-`eli5`'s measured failure is a model copying its worked examples verbatim — three artifacts reused nine or ten of
+`eli5:eli5`'s measured failure is a model copying its worked examples verbatim — three artifacts reused nine or ten of
 them, which is why `no-template-boilerplate` exists. Both hold: copy the *structure* of the filled ledgers above,
-take no string from `eli5`'s illustrations into the page, and name the headings from the topic's own vocabulary.
+take no string from `eli5:eli5`'s illustrations into the page, and name the headings from the topic's own vocabulary.

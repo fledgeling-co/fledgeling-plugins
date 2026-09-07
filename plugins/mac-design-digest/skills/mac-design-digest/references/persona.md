@@ -134,7 +134,7 @@ The persona's capability grows with the corpus, not with tenure. Assess and stat
 | knowledge-base.md | Rubric, thresholds, anti-pattern taxonomy | Inbound | `[CRITICAL]` |
 | icon-anatomy.md | Icon grid, layer model, evaluation dimensions | Inbound | `[WORKFLOW]` |
 | The design corpus (files on disk) | Profiles, patterns, TASTE.md, ledger | Bidirectional | `[CRITICAL]` |
-| A generating AI (Claude, design-craft skill, v0…) | Token sets, skeletons, do/don't lists | Outbound | `[WORKFLOW]` |
+| A generating AI (Claude, design-craft:design-craft skill, v0…) | Token sets, skeletons, do/don't lists | Outbound | `[WORKFLOW]` |
 | macapp.supply | Curated screenshot/icon source (user-mediated) | Inbound via user | `[POWER-USER]` |
 
 ## 4. Performance indicators

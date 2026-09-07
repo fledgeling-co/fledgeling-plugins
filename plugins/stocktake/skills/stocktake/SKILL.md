@@ -29,7 +29,7 @@ Three failure modes shape the whole design, and each of them produces a board th
 reads as healthy:
 
 **The card says done and nothing produces the data.** A surface renders, the schema
-validates, the suite is green, and no code ever wrote the value. `spec-validation`
+validates, the suite is green, and no code ever wrote the value. `spec-validation:spec-validation`
 exists because roughly half of a 110-ticket corpus shipped not-as-specified while
 reading as complete.
 
@@ -46,7 +46,7 @@ load-bearing rather than stylistic.
 
 ---
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns the sweep's categorical scopes into a filled quota ledger, makes every verdict row carry the lane's argv and its output, reads this skill's bounds — one judge, three cards per brief, the 50KB packet — back off the produced run, and converts spec-validation and clarify into phases that emit trace.md and decisions.md. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns the sweep's categorical scopes into a filled quota ledger, makes every verdict row carry the lane's argv and its output, reads this skill's bounds — one judge, three cards per brief, the 50KB packet — back off the produced run, and converts `spec-validation:spec-validation` and `clarify:clarify` into phases that emit trace.md and decisions.md. Other models skip it.
 
 ## The order that makes this work
 
@@ -102,7 +102,7 @@ a branch that never merged is a delivery failure, not an implementation one.
 
 ### 3 · Trace each requirement to its producer
 
-`spec-validation`'s method, unchanged: classify every claimed-done requirement as
+`spec-validation:spec-validation`'s method, unchanged: classify every claimed-done requirement as
 **REAL**, **AUTHORED** or **MOCK**, with `file:line` for each verdict, by finding the
 code that produces the value rather than the code that displays it. An honest empty
 state is not a gap; a missing producer is.
@@ -112,7 +112,7 @@ Invoke that skill where it is installed rather than reimplementing it.
 ### 4 · Judge whether the tests could fail
 
 A green suite is a claim, and `references/testing-adequacy.md` carries the checks that
-test it, drawn from `test-campaign`:
+test it, drawn from `test-campaign:test-campaign`:
 
 - **Which rung of oracle** each critical requirement stands on. "The element exists"
   under a flow that moves money fails the gate rather than passing quietly.
@@ -243,7 +243,7 @@ it refuses by default. Refusing is the feature.
 
 ### 8 · Open decisions get referred, not parked
 
-A decision the reader has to make is a cost to them. Apply `clarify`'s gate: settle it
+A decision the reader has to make is a cost to them. Apply `clarify:clarify`'s gate: settle it
 from the material where it is settled, refer it out of family where it is technical,
 and take your own recommendation where you can name one and say why. What survives —
 taste, cost, scope, risk, their own systems — reaches them as one question, and
@@ -252,15 +252,15 @@ anything irreversible reaches them regardless of how certain you are.
 ### 9 · Write the briefs, then run them
 
 Cards with work remaining get one brief each in `docs/features-to-triage/`, written so
-`ship-fleet` can orchestrate without re-deriving anything: the requirement list, what
+`ship-fleet:ship-fleet` can orchestrate without re-deriving anything: the requirement list, what
 is built, what is missing with `file:line`, where the work sits, what the tests do and
 do not cover, and the blocked items separated out with their owners named.
 
-Write one brief per card. `ship-fleet` fans out per brief, so a file serving twelve cards is
+Write one brief per card. `ship-fleet:ship-fleet` fans out per brief, so a file serving twelve cards is
 one work item rather than twelve — `gates.py briefs-written` holds the ratio at 3 cards per
 brief and reads each file for the card key it claims to cover.
 
-Then hand the directory to `ship-fleet`, which fans the briefs out and returns each
+Then hand the directory to `ship-fleet:ship-fleet`, which fans the briefs out and returns each
 card to this skill's own gates to decide where it lands. Record where each card went with
 `board_ledger.py record --dispatch <run-id>`, or why one card waits with
 `--deferred <reason> --deferred-by <who decided>`.
@@ -312,7 +312,7 @@ direction, which is the thing this skill exists to prevent.
 ## Arming a full sweep
 
 A whole board is 7–18 hours of serial lane time and will outlive the session. Arm it
-with `better-goal` rather than trusting a long run to stay on task: the ledger is the
+with `better-goal:better-goal` rather than trusting a long run to stay on task: the ledger is the
 worklist, `scripts/gates.py` is the gate set, and the run resumes from the ledger.
 
 `references/running-long.md` carries the gate set and the two traps that make a long

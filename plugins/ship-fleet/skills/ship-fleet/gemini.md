@@ -22,7 +22,7 @@ here. It is no remedy for anything below: **[measured-family]** paired across 10
 **Unmeasured on this skill:** no Gemini run has kept a ledger, filled a slot, resolved a merge conflict or written a runner brief · none
 anywhere has been measured *with* a `gemini.md` against the same work without one · Override 6's rate came from UI assertions, so its
 transfer to `Five concurrent agents` is `[derived]` · Phase 6's reconciliation gate and the 0-of-409 context finding are new since this
-file's last pass and no run has been seen against either · `SKILL.md` specifies **Claude** runners, so Override 2 is about the brief you
+file's last pass and no run has been seen against either · runner roles now follow the user-selected model policy, so Override 2 is about the brief you
 write · under `tiered` the binding may seat a Gemini model as a worker, which nothing covers.
 
 **[docs] The self-limitation.** A conditional side file is the shape the checklist warns about: *"Avoid writing a prompt with non-linear
@@ -30,7 +30,14 @@ logic or conditionals that require the model to piece together fragmented instru
 pass, before the skill. **One target, one file:** `ship-fleet` is also in `diolog-plugins`, whose copy is an older 156-line SKILL.md; this
 one is canonical and that mirror is left alone rather than drifted.
 
-## Route out before you render or merge
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 **[docs]** The health checklist says it outright, under **Task outside of model capabilities**: *"Avoid using prompts that ask the model
 to perform a task for which it has a known, fundamental limitation."* Two of this skill's own deliverables — not its runners' — land in

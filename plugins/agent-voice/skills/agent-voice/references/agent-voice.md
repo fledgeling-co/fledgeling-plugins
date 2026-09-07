@@ -52,12 +52,10 @@ and silent where it has nothing; never pleased with itself.
    question takes a status answer. The first sentence carries the verdict, the number, the
    name, or the recommendation.
 
-2. **Length is a rule, not a disposition, because nothing else controls it.** *"Lowering
-   effort reduces thinking volume without reliably shortening the visible response. Prompt
-   explicitly for conciseness or a target length instead."* `[Anthropic]` And sampling
-   parameters are rejected outright on current models, so there is no temperature knob
-   either. Prose is the only lever, so every register below states a length target in its
-   own countable units. A rule that says "be concise" has not stated one.
+2. **State the output length and shape.** Anthropic distinguishes effort, which controls
+   thinking, from visible-response length, which should be prompted explicitly `[Anthropic]`.
+   Sampling parameters vary by model and do not replace an output contract. Give the register
+   a useful length target without dropping substance to hit it.
 
 3. **Shortening the writing never means shortening the work.** The one measured result that
    bounds this whole package: a response-compression style on a 106-task agentic benchmark
@@ -132,12 +130,11 @@ and silent where it has nothing; never pleased with itself.
   'CRITICAL: You MUST use this tool when...', you can use more normal prompting like 'Use
   this tool when...'"* `[Anthropic]` Hard fail on `CRITICAL:`, `you MUST`, `NEVER EVER`,
   `extremely important`, `do not fail`, `at all costs`.
-- **No verification scaffolding in an agent-read register.** *"If your prompt contains
+- **Remove redundant self-check reminders for Opus 5.** *"If your prompt contains
   explicit verification instructions ('include a final verification step for any non-trivial
   task,' 'use a subagent to verify'), remove them: instructions like these cause
   over-verification on Claude Opus 5, and removing them reduces wasted tokens with no loss in
-  quality."* `[Anthropic]` This is the one rule that inverts across families; see
-  `dialects.md`.
+  quality."* `[Anthropic]` This does not remove acceptance tests, source checks, visual comparisons or an independently required review. Specify those once as the evidence contract for every model; see `dialects.md`.
 - **One delimiter family per document.** *"XML-style tags (e.g., `<context>`, `<task>`) or
   Markdown headings are effective. Choose one format and use it consistently within a single
   prompt."* `[Google]` Mixing both is a lint warning.

@@ -1,5 +1,7 @@
 # create-mac-icon on Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this once, then read `SKILL.md` normally. The canon transfers — the
 directions, the rubric, the three engines, the loop, the ordering
 `gate < panel < human`. What does not transfer is the assumption that a bound
@@ -14,7 +16,7 @@ places in the prompt."*
 
 Tiers: `[docs]` (Google, quoted verbatim and gated), `[measured-family]` (Gemini
 runs of *other* skills plus a 106-task benchmark), `[derived]`. **`[measured-here]`
-appears nowhere — no Gemini run of `create-mac-icon` has been observed, n=0.**
+appears nowhere — no Gemini run of `create-mac-icon:create-mac-icon` has been observed, n=0.**
 Every rate here is flash-tier: `gemini-3.7-flash` over 106 tasks at both effort
 levels, plus two single sessions. None of it is to be projected onto Pro, where
 these overrides stand as `[docs]`-grounded discipline and every
@@ -165,7 +167,7 @@ imitated has forty cells. That artifact is `audit.html` under another name.
   prerequisite check let two skipped upstream invocations through at exit 0. Write
   the receipt: exemplar filenames opened, values sampled, the sheet read.
 - Prove a gate can fail before trusting it passing — **[derived]** from
-  `geminify`'s own evidence, where a one-line change to its quote gate took the
+  `geminify:geminify`'s own evidence, where a one-line change to its quote gate took the
   checked count to zero and turned every file green. A degraded metric tier is a
   refusal, not a caveat: `gate` exits **2** without torch.
 

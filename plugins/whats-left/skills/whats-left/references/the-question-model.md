@@ -1,7 +1,7 @@
 # The question model
 
 `title`, `why`, and every option's `label`, `consequence` and `because` are
-Luke-voice prose. Write them through `/create-luke-content` (format `marketing`)
+Luke-voice prose. Write them through `/create-luke-content:create-luke-content` (format `marketing`)
 before building the page; its lint catches the em dashes and AI phrasings that
 `validate_model.py` does not look at.
 
@@ -48,7 +48,7 @@ inline. `url` is what gets linked; `key` is what the link says, and falls back t
 
 Only what you genuinely cannot settle: taste, cost, risk appetite, scope, or a
 fact only the reader can see. Anything answerable by reading the repository is
-not a question — it is work you have not done. `clarify` carries the full gate
+not a question — it is work you have not done. `clarify:clarify` carries the full gate
 and this skill defers to it.
 
 The specific temptation here is the survey question: "should we do X?" where you
@@ -57,7 +57,7 @@ recommendation looking for cover.
 
 ## Questions from reckon's undecided rows and scope forks
 
-When ingesting `reckon`'s ledger:
+When ingesting `reckon:reckon`'s ledger:
 - `undecided` rows (contradicted claims, vacuous requirements, or scope-narrowed
   architectural briefs) are natural question candidates.
 - Frame scope-narrowing forks clearly by consequence: e.g. "Build the standalone

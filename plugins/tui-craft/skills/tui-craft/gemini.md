@@ -1,5 +1,7 @@
 # tui-craft, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this in one pass before `## The loop`, then run the skill as written. Each override names the
 section of `SKILL.md` it lands on, because **[docs]** a conditional side-file is the shape
 Google's checklist warns about — **Conflicting internal references**: "Avoid writing a prompt with
@@ -47,7 +49,7 @@ frames is what Google calls `HIGH` work — "multi-step planning, verified code 
 3.7 Flash defaults to `MEDIUM`. Raise it for that reason only: paired across 106 tasks, `high`
 beat `medium` on 24, lost on 24, tied on 58.
 
-**Unmeasured on this skill** — none of this has been observed on a Gemini run of `tui-craft`:
+**Unmeasured on this skill** — none of this has been observed on a Gemini run of `tui-craft:tui-craft`:
 
 - **No Gemini run of this skill exists.** n=0; the family sessions touched no cell grid, no pty
   and no ruler dump, so **whether the categorical collapse reaches captures** and **whether gate
@@ -223,16 +225,16 @@ neither substituting for the other: `references/patterns.md` §9 before the stat
 
 ## Override 7 — a routed-out skill is a phase with an output file (§What the gates decide)
 
-`SKILL.md:212` calls `ux-craft`, `design-craft` and `be-my-witness` `standing dependencies rather
+`SKILL.md:212` calls `ux-craft:ux-craft`, `design-craft:design-craft` and `be-my-witness:be-my-witness` `standing dependencies rather
 than optional extras`. **[measured-family]** that is the phrasing one run skipped outright: told
-every design decision goes through `design-craft` with `ux-craft`'s lens, it invoked neither, and
+every design decision goes through `design-craft:design-craft` with `ux-craft:ux-craft`'s lens, it invoked neither, and
 its own diagnosis named the mechanism — the rules were in context and nothing downstream depended
 on a file only those skills produce. **[docs]** The remedy is chaining: "Chain prompts: For
 complex tasks that involve multiple sequential steps, make each step a prompt and chain the
 prompts together in a sequence."
 
-So run them as ordered phases with artifacts between: `ux-craft` writes `UX.md` (the flow, the six
-states, the trunk test), `design-craft` writes `DESIGN.md` (hierarchy and restraint, minus the
+So run them as ordered phases with artifacts between: `ux-craft:ux-craft` writes `UX.md` (the flow, the six
+states, the trunk test), `design-craft:design-craft` writes `DESIGN.md` (hierarchy and restraint, minus the
 type scale), the build reads both, and the capture round refuses to start if either file is
 missing or empty. **[derived]** That refusal is Override 2's receipt check again; where a skill is
 unavailable, name the substitution in `UX.md` so the next phase reads the gap.

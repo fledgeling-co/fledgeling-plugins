@@ -60,8 +60,8 @@ those shapes, the brief carries `lane_pick.py --task implementation --shape <sha
   500 register entries, a 30s interval floor, and now a heartbeat deadline of three intervals
   floored at 120s. **[docs]** *"Instead, provide objective constraints"*. These already are, which
   is why they survive here when the prose around them does not.
-- **The new operating rule is already a readback.** ``armed: true` is a claim, `last_poll_at` is the
-  evidence.` names a field, a comparison and the moment they disagree. Execute it; do not restate it.
+- **The new operating rule is already a readback.** `armed: true` is a claim; `last_poll_at` is the
+  evidence. names a field, a comparison and the moment they disagree. Execute it; do not restate it.
 - **`templates.md` ships filled artifacts** — a five-row ledger, a populated state file, the arming
   sequence — so the gap is what *you* fill in beside them. **The skill does not shout** (**[derived]**
   zero MANDATORY / CRITICAL / FORBIDDEN tokens in 838 lines), **delegation is capped** at `one agent,
@@ -128,12 +128,11 @@ defect, because `preflight.sh`, `arm.sh --dry-run` and `status.sh` only run if s
 itself a five-row review, all `PASS`, naming a browser engine that failed on all four invocation
 attempts and never ran. The skill states the rule in its own words — ``armed: true` is a claim,
 `last_poll_at` is the evidence` — and it holds one step earlier: `Monitor` returning is the evidence
-that the loop is armed, `arm.sh` printing the line is not. So step 6 is pasted output, and a
-denominator of zero is named rather than reported as a pass:
+that the loop is armed, `arm.sh` printing the line is not. So step 6 uses actual output, and a denominator of zero is named rather than reported as a pass. The following illustrates the receipt shape; it is not evidence of a run:
 
 ```
-PREFLIGHT   preflight.sh --probe '…' --skills 'better-goal' --interval 120 → exit 0
-            probe deterministic, 6 line(s) · /better-goal model-invocable · 1 warn
+PREFLIGHT   preflight.sh --probe '…' --skills 'better-goal:better-goal' --interval 120 → exit 0
+            probe deterministic, 6 line(s) · /better-goal:better-goal model-invocable · 1 warn
 ARM         arm.sh --slug benchmarks … --dry-run → exit 0; then without it → exit 0
 SENTINEL    registered on SessionStart — the settings readback above returned true
 MONITOR     Monitor({ command: "…/watch.sh benchmarks …", persistent: true }) → returned,
@@ -184,7 +183,7 @@ scheduled fire only runs skills the model may invoke on its own. Read them out o
 **[measured-family]** The read-then-answer half, from `COD Dossier` §1.2.4: asked a question that
 *named three skills*, the run answered from memory without loading any, then, asked to fix it,
 inverted the error and launched a skill instead of answering. Both directions are wrong here. When
-the request names a skill or file — `loop on /code-review every hour` — load it first, then write
+the request names a skill or file — `loop on the bundled /code-review command every hour` — load it first, then write
 the tick protocol; when the user asks about a loop, answer from `status.sh` rather than arming
 something. `preflight.sh --skills` is the mechanical half only: it proves a skill *can* be invoked
 from a wake, the trap `mechanics.md` names as a loop that ticks forever and reviews nothing.

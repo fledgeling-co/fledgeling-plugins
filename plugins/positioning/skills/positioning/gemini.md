@@ -1,5 +1,7 @@
 # positioning, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Written against a Claude model's failure modes. Gemini's differ, and this house's deliberate *removals* — verification scaffolding most of all — leave a vacuum that fills with something plausible. Read this once,
 before `## Where everything lands`, then follow the skill with the overrides below; each names the line it lands on. What needs work here: six scopes stated as a class rather than a count, four skill invocations
 that nothing downstream needs a file from, a `--verified` flag the gate trusts because the writer set it, and a nine-document promise the lint counts five of.
@@ -90,7 +92,7 @@ input of the next prompt".
 `[derived]` This skill invokes four — `/trawl:trawl` (Phase 1), `/design-craft:design-craft` and `/ux-craft:ux-craft` (Phase 5), `/design-review:design-review` (Phase 5's gate). One is already artifact-gated and
 safe: design-review's `scripts/worklist.py check` exits non-zero while any cell is open, and `report-design.md`:86 makes that exit code the definition of finished. The other three are not, and Phase 5's is
 conditional in the worst possible place — `Take the project's DESIGN.md when it has one; author one to docs/positioning/DESIGN.md when it does not` (SKILL.md:175–177). On a project that already has a `DESIGN.md`, no
-file at all proves design-craft ran, and `ux-craft` never names an output. Convert all three into sequential phases with a file between them:
+file at all proves design-craft ran, and `ux-craft:ux-craft` never names an output. Convert all three into sequential phases with a file between them:
 
 ```javascript
 await Skill({ skill: "trawl:trawl" })                    // → docs/positioning/60-candidates-cut.md + the shortlist

@@ -95,7 +95,7 @@ skipped, and writes down a degradation. It reports everything else.
 ## What it refuses to do
 
 - **Re-do the work.** That spends more than the session it audits.
-- **Grade code quality or architecture.** That is `code-review`, and mixing them
+- **Grade code quality or architecture.** That is `code-review:code-review`, and mixing them
   produces a report whose reader cannot tell a fabricated verification from a
   naming preference.
 - **Judge a choice a Claude session would plausibly have made.** Where no control

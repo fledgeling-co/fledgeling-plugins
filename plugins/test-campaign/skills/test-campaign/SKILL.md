@@ -828,7 +828,7 @@ path it wrote, because a path in a log is not a page a reader has seen. Run it,
 and say in one sentence what to look at.
 
 `export-warrant` writes `.warrant/suite-health.json` and
-`.warrant/oracle-coverage.json` where the `warrant` plugin reads them: the armed
+`.warrant/oracle-coverage.json` where the `warrant:warrant` plugin reads them: the armed
 ratio and the effect-rung count per surface, in warrant's own shape. Run it when
 the repository carries a `.warrant/`, then warrant's `rollup_classes.py` to key
 the result by defect class.
@@ -1329,20 +1329,20 @@ Copy these into the project rather than authoring the shapes from scratch:
 
 ## Execution planes and machine admission
 
-This skill's execution-plane axis and `harbourmaster`'s plane table are the same
+This skill's execution-plane axis and `harbourmaster:harbourmaster`'s plane table are the same
 axis named twice. Keep them consistent, and take the concurrency number from
 measurement rather than habit:
 
 | Lane | Plane | Berth weight |
 |---|---|---|
 | Web, unit and integration suites | local, via `governor-run` | 4 |
-| Native macOS execution and assertions | `proctor` | none — it takes a machine-wide foreground turn |
+| Native macOS execution and assertions | `proctor:proctor` | none — it takes a machine-wide foreground turn |
 | iOS Simulator | local | 4; the simulator is heavy |
-| Visual capture, accessibility audit | `proctor`, read-only | none — read-only calls do not contend |
+| Visual capture, accessibility audit | `proctor:proctor`, read-only | none — read-only calls do not contend |
 
 Synthetic-event actuation contends globally: two campaigns driving at once
 interleave, and the second one's click lands in whatever window the first raised.
-`proctor` already runs a machine-wide turn queue for this — route into it rather
+`proctor:proctor` already runs a machine-wide turn queue for this — route into it rather
 than starting parallel native runners.
 
 ```bash

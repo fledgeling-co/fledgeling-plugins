@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that runs a real test campaign against a native macOS app, and the MCP server that gives it the instruments.</p>
 
 <p align="center">
-  <img alt="Version 0.5.0" src="https://img.shields.io/badge/version-0.5.0-D33C21">
+  <img alt="Version 0.7.2" src="https://img.shields.io/badge/version-0.7.2-D33C21">
   <img alt="SWE skill: testing" src="https://img.shields.io/badge/SWE_skill-testing-434A55">
   <img alt="MCP tools: 20" src="https://img.shields.io/badge/MCP_tools-20-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -120,11 +120,11 @@ The behavioural evals were run against a no-skill baseline; the results and the 
 
 | To | For |
 |---|---|
-| [`design-review`](../design-review/README.md) | Judging whether a rendered UI is any good. Proctor supplies the captures and the accessibility data; the judgement belongs there. |
-| `acceptance-e2e` | Web features and Playwright suites. Proctor is the native counterpart, not a replacement. |
-| `mac-design-studio` | The native-conformance rubric when there's no mockup: the macOS 27 control ladder, type ramp and native-tells audit are the oracle for "is this a correct, native Mac UI". Proctor measures; that skill says what native is. |
+| [`design-review:design-review`](../design-review/README.md) | Judging whether a rendered UI is any good. Proctor supplies the captures and the accessibility data; the judgement belongs there. |
+| `acceptance-e2e:acceptance-e2e` | Web features and Playwright suites. Proctor is the native counterpart, not a replacement. |
+| `mac-design-studio:mac-design-studio` | The native-conformance rubric when there's no mockup: the macOS 27 control ladder, type ramp and native-tells audit are the oracle for "is this a correct, native Mac UI". Proctor measures; that skill says what native is. |
 | `mockup-fidelity` | React and React Native measured against a mockup. Its present/divergent/absent ledger is the right method for native fidelity too, so this skill reuses it. |
-| `macosify` | Fixing native-idiom problems. Proctor finds them; that skill refits them. |
+| `macosify:macosify` | Fixing native-idiom problems. Proctor finds them; that skill refits them. |
 
 A web view inside a Mac app is still Proctor's, because reaching it means attaching to the host process. A pure web app in a browser isn't.
 

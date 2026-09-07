@@ -17,7 +17,7 @@ description: >-
 
 Take **everything that remains** in a repo's feature pipeline and drive it to merged, verified
 production code. You are the orchestrator: survey the pipeline, build one durable plan-and-ledger
-(`ORCHESTRATOR.md`), then conduct concurrent `ship-feature` runs in dependency order — verifying,
+(`ORCHESTRATOR.md`), then conduct concurrent `ship-feature:ship-feature` runs in dependency order — verifying,
 merging, and updating the ledger as each lands. One feature = one run; your job is everything
 between the runs.
 
@@ -40,11 +40,7 @@ plans `docs/plans/`, briefs `docs/features-to-triage/`, mocks under `design/`, r
 
 ## Operating discipline
 
-- **You stay in-session, on the session model, holding the map.** Runner agents are Opus at
-  `effort: 'high'`, launched ONLY through the verified single-agent-Workflow lane in
-  `references/scheduling-and-concurrency.md` — never as direct background Agent calls, whose
-  model override has been observed not to stick and whose effort defaults to xhigh. Never hand
-  the orchestration itself to a subagent.
+- **You stay in-session, holding the map.** Runner roles follow the user-selected model policy in shipyard's `references/model-lanes.md`. Resolve a supported agent/CLI route and observe its execution; do not force every runner to Opus or assume one harness's background behavior applies to another. Keep integration decisions with the conductor.
 - **`ORCHESTRATOR.md` is the memory, not the transcript.** Update it after every state change;
   a fresh session must be able to resume the whole fleet from that file alone. After compaction:
   re-read it, the DESIGN md, and the ledger before acting.
@@ -62,12 +58,10 @@ plans `docs/plans/`, briefs `docs/features-to-triage/`, mocks under `design/`, r
   climbing from ~3 to 50. Treat a request to run wider as a request to lose work silently.
 - **A global agent budget, not two independent caps.** Runner slots × each runner's inner ≤4
   waves multiply into the same rate limiter — budget the product (default: slots × wave ≤ ~16;
-  8 slots means telling runners to run leaner waves, or run 4–6 slots at full width). Confirm
-  fleet size with the user at the go-ahead.
-- **Take the slot count from `harbourmaster`.** Its `berths.py` reports what this Mac can carry
+  keep the number of runners within the resolved user/tool/five-runner cap and reduce inner waves as needed). Record the selected concurrency; ask only if it exceeds existing authorization.
+- **Take the slot count from `harbourmaster:harbourmaster`.** Its `berths.py` reports what this Mac can carry
   right now, and the loop re-reads it on every refill because pressure moves under a long fleet.
-  The 8 above is what an uninstalled or unreadable governor falls back to, not the starting
-  number. Resolve its path once in the conductor and pass that path into every runner's brief —
+  If the governor is missing or unreadable, use `min(2, maxRunners)`, where `maxRunners` already respects the user, tool and five-runner caps. A measured zero launches no work; persist the scheduling state and wait through the supported resume mechanism. Resolve its path once in the conductor and pass that path into every runner's brief —
   a spawned agent does not reliably inherit `CLAUDE_PLUGIN_ROOT`, so a runner that re-derives
   the path finds nothing and reports harbourmaster missing on a machine that has it.
   `references/scheduling-and-concurrency.md` carries the resolution, the hand-down, and the
@@ -147,7 +141,7 @@ minted later follow the ledger-lock rule in the scheduling reference.
 **With no `tiered` argument, behave exactly as this file otherwise describes.** Invoked with it —
 normally by flagship or ship-armada passing it down — three things change:
 
-- **`defer` and the out-of-family gates are off.** Judgement stays in-family; the perch binding
+- **`defer:defer` and the out-of-family gates are off.** Judgement stays in-family; the perch binding
   selects the model. **Never name a model in a runner prompt** — the binding is the only control
   surface, and a prompt that names one either contradicts it or duplicates it.
 - **You may be a worker yourself.** Your tier is decided by your directory: `~/Dev` and the `bella*` /
@@ -159,7 +153,7 @@ normally by flagship or ship-armada passing it down — three things change:
 - **Runner prompts carry scaffolding.** Enumerate every deliverable rather than describing a
   category, name each gate with its expected exit code, state that tests verify correctness and are
   never edited to pass, and say plainly that a blocked report is a result while a gate reported green
-  but not run is not. Pass `tiered` on to `ship-feature`.
+  but not run is not. Pass `tiered` on to `ship-feature:ship-feature`.
 
 Full protocol and the worker-brief template: flagship's `references/tiered-delegation.md`.
 
@@ -170,13 +164,13 @@ when the DAG allows overlap (the ready-queue + `Promise.race` scheduler is in th
 reference; guard the empty-race and null-return rules from shipyard's
 `references/operational-rules.md`).
 
-Each slot = one Opus runner (verified lane, first-action self-check, transcript-verified) whose
+Each slot = one runner on the resolved supported lane (execution metadata recorded) whose
 prompt invokes **`ship-feature:ship-feature`** on its item with: the item's paths and resume state, the
 matched mock, the context contract below, the lane-routing propagation block — and **two stop
 rules**:
 
 - **Stop before verify.** Runners run ship-feature through e2e-green and report
-  *ready-to-verify*. **You** spawn the `verify` stage per item as a fresh agent (that stage's
+  *ready-to-verify*. **You** spawn the `shipyard:verify` stage per item as a fresh agent (that stage's
   fresh-context rule is structural: a runner cannot verify its own build). A *ready-to-verify*
   report is a claim about a bundle, so treat it as one: an item whose evidence bundle is empty
   goes back to its runner rather than into the verify queue, because verify's first act would be
@@ -248,11 +242,11 @@ reports `completed` with dead agents, or a fan-out lost to rate limits mid-run, 
 `workflow-resume:workflow-resume` skill's job — use it before relaunching anything, because a manual relaunch
 cold-starts and re-pays for work the journal already holds. Discovered children join the DAG.
 At the end: every item `Done` / parked-with-reason, statuses final, hierarchy refreshed, and
-the backlog reconciled against the test campaign with `reckon` to ensure no unmeasured or unbuilt
+the backlog reconciled against the test campaign with `reckon:reckon` to ensure no unmeasured or unbuilt
 scope was silently dropped. Needs-input items and undecided forks are handed over as decisions
 rather than a list — in an attended run one consolidated round; for a long unattended run's
 accumulated questions, the `whats-left:whats-left` skill builds the decision page. For a fleet expected to run
-to a verifiable finish line unattended, arm it with `better-goal` at launch — the built-in stop
+to a verifiable finish line unattended, arm it with `better-goal:better-goal` at launch — the built-in stop
 mechanisms fail silently past eight blocked turns, and a fleet is exactly the run length that trips them.
 
 ## Model routing
@@ -260,9 +254,7 @@ mechanisms fail silently past eight blocked turns, and a fleet is exactly the ru
 The lane table, effort discipline, and both invariants (REVIEWER ≥ WRITER; VERIFIER ∉ writer's
 family) are canonical in shipyard's `references/model-lanes.md` +
 `references/model-and-effort.md` — propagate them into every runner prompt rather than pinning
-everything to Opus. Fleet-level notes: runner top level stays Opus-at-high via the verified
-lane; executor lanes per `executor-lanes.md` (picked per slice shape by `defer`, Claude fail-back, verify-fix
-loop, revert-rate kill-switch); the out-of-family review gates and the per-item verifier follow
+everything to Opus. Fleet-level notes: runner top level follows the user-selected coordination role via a supported, observed lane; executor lanes per `executor-lanes.md` (user preference first, measured shape fallback, bounded fix loop); the out-of-family review gates and the per-item verifier follow
 their ordered lane sets and are **mandatory where available** — their fallback is a logged
 downgrade in the artifact, never a silent pass; the egress opt-out is re-grepped before every
 external call because it is the only kill-switch reaching runners already in motion.
@@ -304,9 +296,9 @@ python3 <reckon>/scripts/reckon.py check docs/reckoning/<date>/ledger.json  # ex
 
 **Any of `unbuilt`, `broken`, `unmeasured` or `undecided` above zero is another
 wave, not a footnote.** Route each class to the stage that can close it —
-`broken` to `gap-fix`, `unmeasured` to the campaign's oracle-construction phase,
-`undecided` to `spec-validation` in fresh context, `unbuilt` to `plan` then
-`work` — and run again. The loop ends when the ledger is drained *and* the
+`broken` to `shipyard:gap-fix`, `unmeasured` to the campaign's oracle-construction phase,
+`undecided` to `spec-validation:spec-validation` in fresh context, `unbuilt` to `shipyard:plan` then
+`shipyard:work` — and run again. The loop ends when the ledger is drained *and* the
 reconciliation is clean, and a run that ends any other way says which class it
 stopped on and how many rows it held.
 
@@ -315,7 +307,7 @@ A campaign whose newest run predates the fleet's merges is stale by
 construction, so re-anchoring is part of finishing rather than a separate errand.
 And evidence from one plane does not retire intent on another: a requirement
 declaring `live-glass` is not satisfied by an `in-tree` pass however green,
-which `campaign.py check` and `reckon` now both refuse. `test-campaign`'s
+which `campaign.py check` and `reckon:reckon` now both refuse. `test-campaign:test-campaign`'s
 `references/inert-ui.md` carries the measurement.
 
 **Say the shape of the finish in the report.** "49 of 49 merged, reconciliation
@@ -371,7 +363,7 @@ correct drifted rows, continue at Phase 5 or the earliest phase whose output is 
 
 - **A fleet multiplies whatever the evidence layer gets wrong.** One campaign's captures being
   filed by filename is a bad page; twenty items' verdicts resting on the same shape is a Done
-  column nobody can audit. Where the repo carries a campaign, `test-campaign`'s
+  column nobody can audit. Where the repo carries a campaign, `test-campaign:test-campaign`'s
   `capture-lineage.py <dir> --gate` runs once per repo rather than once per item, and its exit
   code gates the column — the cheapest place in the whole fleet to catch a mis-bound picture.
 - Respect ship-feature's gates — never merge a branch whose pre-merge gate hasn't passed, never

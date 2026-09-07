@@ -4,7 +4,7 @@ description: >-
   The shipyard pipeline's router and map — explains the seven stage skills (intake, triage,
   plan, design, work, verify, gap-fix), the status machine they move features through, and which
   stage a given situation calls for. Use when someone asks "how does the shipyard pipeline
-  work", "which stage do I run", "what's the status flow", or invokes /shipyard without naming a
+  work", "which stage do I run", "what's the status flow", or invokes /shipyard:shipyard without naming a
   stage. It routes and explains; the stage skills do the work, and the conductors (ship-feature,
   ship-fleet, ship-armada) drive them end to end.
 ---
@@ -21,24 +21,24 @@ itself.
 
 | You have | Run | It produces |
 |---|---|---|
-| A rough idea ("an app that does X") | `intake` | Briefs in `docs/features-to-triage/`, plus separable AI-proposed companions |
-| A brief or ticket needing a readiness check | `triage` | The verdict + assumptions → status `To Do`, or `Needs More Info` with essential questions |
-| A triaged feature needing its build plan | `plan` | A committed `docs/plans/<id>.md` with a test strategy → `Ready for AI` |
-| A user-facing feature needing its UI settled | `design` | All-platform mocks + a state matrix, gated by design-review and be-my-witness |
-| A planned feature ready to build | `work` | The branch in `.worktrees/<ID>` with evidence tables → `Developer Review` |
-| A built feature awaiting grading | `verify` | A cross-family verdict against the running app → `Done` or `Needs More Work` |
-| A failed verdict or a QA gap list | `gap-fix` | The gaps closed in code → back to `Developer Review` for re-verification |
+| A rough idea ("an app that does X") | `shipyard:intake` | Briefs in `docs/features-to-triage/`, plus separable AI-proposed companions |
+| A brief or ticket needing a readiness check | `shipyard:triage` | The verdict + assumptions → status `To Do`, or `Needs More Info` with essential questions |
+| A triaged feature needing its build plan | `shipyard:plan` | A committed `docs/plans/<id>.md` with a test strategy → `Ready for AI` |
+| A user-facing feature needing its UI settled | `shipyard:design` | All-platform mocks + a state matrix, gated by design-review and be-my-witness |
+| A planned feature ready to build | `shipyard:work` | The branch in `.worktrees/<ID>` with evidence tables → `Developer Review` |
+| A built feature awaiting grading | `shipyard:verify` | A cross-family verdict against the running app → `Done` or `Needs More Work` |
+| A failed verdict or a QA gap list | `shipyard:gap-fix` | The gaps closed in code → back to `Developer Review` for re-verification |
 
-For a whole feature end to end, use the `ship-feature` conductor; for a backlog, `ship-fleet`;
-for a portfolio, `ship-armada`. Prefer a conductor whenever the goal is a finished feature
+For a whole feature end to end, use the `ship-feature:ship-feature` conductor; for a backlog, `ship-fleet:ship-fleet`;
+for a portfolio, `ship-armada:ship-armada`. Prefer a conductor whenever the goal is a finished feature
 rather than one stage's artifact.
 
 ## The status machine (one enum, complete)
 
 `(untriaged)` → `Needs More Info` | `To Do` → `Ready for AI` → `In Progress` →
-`Developer Review` → `Done` | `Needs More Work` (→ `gap-fix` → `Developer Review` → …)
+`Developer Review` → `Done` | `Needs More Work` (→ `shipyard:gap-fix` → `Developer Review` → …)
 
-Only `verify` sets `Done`. Every transition requires its artifact; the full rules live in
+Only `shipyard:verify` sets `Done`. Every transition requires its artifact; the full rules live in
 `${CLAUDE_PLUGIN_ROOT}/references/tracker-adapter.md`, which also covers the two substrates
 (markdown specs vs a tasks-MCP board).
 

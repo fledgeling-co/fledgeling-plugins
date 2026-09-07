@@ -8,7 +8,7 @@
 The repo-wide orchestrator for Claude Code: it surveys everything left in a project's pipeline, writes one durable plan, then conducts ship-feature runs until the ledger says done.</p>
 
 <p align="center">
-  <img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-D33C21">
+  <img alt="Version 2.9.4" src="https://img.shields.io/badge/version-2.9.4-D33C21">
   <img alt="SWE skill: backlog orchestration" src="https://img.shields.io/badge/SWE_skill-backlog_orchestration-434A55">
   <img alt="Global agent budget" src="https://img.shields.io/badge/agent_budget-global-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

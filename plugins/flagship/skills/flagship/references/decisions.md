@@ -27,7 +27,7 @@ and 0 resolutions. `supervision-decision-rules.md` was `Status: Not started`. So
 exists and the corpus does not yet**, and the router below is what you actually apply.
 
 One bug worth knowing: two of those `no-answer` records attempted a lane that is **not
-installed on the machine**. The panel and `defer` both advertise it. See `lanes.md`.
+installed on the machine**. The panel and `defer:defer` both advertise it. See `lanes.md`.
 
 ## R1–R5, in order. The first that resolves ends it.
 
@@ -71,12 +71,12 @@ appearing to ask it.
 ## Delivery
 
 Batch. One `AskUserQuestion` of at most four, two options each, described by what changes if
-chosen. For a session's worth of accumulated decisions build one page with `whats-left`
+chosen. For a session's worth of accumulated decisions build one page with `whats-left:whats-left`
 instead — that skill exists for exactly this and carries the confirmed-versus-defaulted
 distinction, which matters because a pre-selected recommendation nobody looked at, exported as
 though chosen, is a decision attributed to a person who never made it.
 
-Run `clarify` before composing. It carries the gate, the referral lanes, the composition rules
+Run `clarify:clarify` before composing. It carries the gate, the referral lanes, the composition rules
 and a linter.
 
 ### The page is blind to the channel where answers happen, so it manufactures pending items

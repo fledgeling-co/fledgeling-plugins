@@ -51,12 +51,12 @@ adjacent ground and are better at it:
 
 | Hand off to | For |
 |---|---|
-| `acceptance-e2e` | End-to-end acceptance criteria traceability, multi-surface sweeps (Web, macOS, iOS, Windows), and test suite orchestration. `acceptance-e2e` invokes `proctor` for all macOS native app execution and geometry assertions. |
-| `be-my-witness` | Automated visual diff-masking and comparison against reference design mocks. Proctor captures live UI frames and component slices, then hands them to `be-my-witness` to classify layout, styling, and typography deviations with mock-as-oracle discipline. |
-| `design-review` | Judging whether a rendered UI is any good. Proctor supplies the captures and the accessibility data; the judgement belongs there. |
-| `mac-design-studio` | The native-conformance rubric when there is no mockup: the macOS 27 control ladder, type ramp, label tiers, 8pt grid and the ten-point native-tells audit are the oracle for "is this a correct, native Mac UI". Proctor measures the rendered tree and pixels; that skill says what native is. |
-| `mockup-fidelity` | React and React Native builds measured against a reference mockup. Its ledger discipline (present, divergent, absent, with the burden of proof on the build) is the right method for native fidelity too, and this skill reuses it rather than inventing a second one. |
-| `macosify` | Fixing native-idiom problems. Proctor finds them; that skill refits them. |
+| `acceptance-e2e:acceptance-e2e` | End-to-end acceptance criteria traceability, multi-surface sweeps (Web, macOS, iOS, Windows), and test suite orchestration. `acceptance-e2e:acceptance-e2e` invokes `proctor:proctor` for all macOS native app execution and geometry assertions. |
+| `be-my-witness:be-my-witness` | Automated visual diff-masking and comparison against reference design mocks. Proctor captures live UI frames and component slices, then hands them to `be-my-witness:be-my-witness` to classify layout, styling, and typography deviations with mock-as-oracle discipline. |
+| `design-review:design-review` | Judging whether a rendered UI is any good. Proctor supplies the captures and the accessibility data; the judgement belongs there. |
+| `mac-design-studio:mac-design-studio` | The native-conformance rubric when there is no mockup: the macOS 27 control ladder, type ramp, label tiers, 8pt grid and the ten-point native-tells audit are the oracle for "is this a correct, native Mac UI". Proctor measures the rendered tree and pixels; that skill says what native is. |
+| `mockup-fidelity:mockup-fidelity` | React and React Native builds measured against a reference mockup. Its ledger discipline (present, divergent, absent, with the burden of proof on the build) is the right method for native fidelity too, and this skill reuses it rather than inventing a second one. |
+| `macosify:macosify` | Fixing native-idiom problems. Proctor finds them; that skill refits them. |
 
 A web view inside a Mac app is still Proctor's, because reaching it means
 attaching to the host process. A pure web app in a browser is not.
@@ -71,7 +71,7 @@ Proctor knows when to use, combine, and author across three testing instruments:
   - Live accessibility tree inspection, background process-directed actions (no cursor theft).
   - Spatial geometry assertions (`horizontalAlignment`, `alignedWith`, `containedIn`, `frameEquals`).
   - ScreenCaptureKit frames with cryptographic trust (`trustworthy: true`, `SCFrameStatus`).
-  - Native 2x crop inspection (`proctor_zoom`), automated design diffs (`/be-my-witness`), and multi-run determinism scoring (`proctor_stability`).
+  - Native 2x crop inspection (`proctor_zoom`), automated design diffs (`/be-my-witness:be-my-witness`), and multi-run determinism scoring (`proctor_stability`).
 
 ### 2. Deep Links (Fast Navigation & State Setup)
 - **When to use**: Navigating directly into specific views, deep screens, or authenticated states without executing dozens of manual navigation clicks.
@@ -405,16 +405,16 @@ ScreenCaptureKit behaviour rather than a bug in the run. Never treat an
 untrustworthy frame as evidence; capture again with the window raised and say
 that you did.
 
-**Automated Diff-Masking with `/be-my-witness`**:
+**Automated Diff-Masking with `/be-my-witness:be-my-witness`**:
 When verifying an implementation against reference design mocks:
 1. Capture the live window or menu extra at native 2x resolution.
 2. Use `proctor_zoom` or bounding-box crops to extract component slices (e.g. Menu Header, Meter Bar, Command Rows).
-3. Hand off the capture and reference mock slices to `/be-my-witness`.
-4. `/be-my-witness` runs deterministic pre-scan, computes YIQ delta masks, and applies the **Dual-Oracle Discipline** (design mock is the visual oracle for layout, typography, and control hierarchy; test expectation is the behavioral oracle). Any text alignment shifts or missing trailing tokens are flagged as High-Severity Visual Regressions.
+3. Hand off the capture and reference mock slices to `/be-my-witness:be-my-witness`.
+4. `/be-my-witness:be-my-witness` runs deterministic pre-scan, computes YIQ delta masks, and applies the **Dual-Oracle Discipline** (design mock is the visual oracle for layout, typography, and control hierarchy; test expectation is the behavioral oracle). Any text alignment shifts or missing trailing tokens are flagged as High-Severity Visual Regressions.
 
-**Native Conformance Rubric (`mac-design-studio`)**:
+**Native Conformance Rubric (`mac-design-studio:mac-design-studio`)**:
 *Is it a correct, native Mac UI* stands on its own and takes the platform as the
-reference: `mac-design-studio`'s `native-foundation.md` is the rubric — the
+reference: `mac-design-studio:mac-design-studio`'s `native-foundation.md` is the rubric — the
 macOS 27 control ladder, the 11-role type ramp, the label tiers, the 8pt grid,
 concentric radii and Liquid Glass discipline — and its ten-point native-tells
 audit is the checklist. Measure the rendered tree and the captures against it:
@@ -438,8 +438,8 @@ high-resolution desktop software from roughly 19% to 48–73%. The compose path 
 **find → zoom → assert**, and a region around 1000px on its long edge keeps
 enough context to disambiguate what you are looking at.
 
-Route the judged question "does this look any good" to `design-review`, with
-your captures attached; route "is this native" to the `mac-design-studio`
+Route the judged question "does this look any good" to `design-review:design-review`, with
+your captures attached; route "is this native" to the `mac-design-studio:mac-design-studio`
 rubric above. The two are complementary — one judges craft, the other judges
 platform fit — and a Mac app can pass one and fail the other.
 

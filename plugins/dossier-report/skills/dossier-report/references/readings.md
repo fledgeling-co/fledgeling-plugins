@@ -241,7 +241,7 @@ Three rules hold across all three:
 
 ## Writing the three
 
-Route every word through `create-luke-content`, once per reading, giving
+Route every word through `create-luke-content:create-luke-content`, once per reading, giving
 it the claim-graph rows rather than the finished prose of another
 register. Three passes from the graph produce three registers of one
 argument; one pass plus two rewrites produces one register and two

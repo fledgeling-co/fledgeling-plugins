@@ -1,5 +1,7 @@
 # design-craft, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 This skill was written against a Claude model's failure modes, and several of its most deliberate
 decisions are *removals* — verification scaffolding especially. On this family a removal leaves a
 vacuum that fills with something plausible. Read this once, in full, **before** §2 Workflow, then
@@ -12,7 +14,7 @@ copy of this file, because a duplicate drifts with nothing checking it.
 
 **`[docs]`** is Google's published guidance, quoted verbatim and gated by `verify_quotes.py`.
 **`[measured-here]`** is `Egress Gemini`, 17 Aug 2026 — a Gemini model given a macOS + Windows 11
-CI-runner mock brief, invoking **this skill** plus `ux-craft`; **n=1**, read from the written record
+CI-runner mock brief, invoking **this skill** plus `ux-craft:ux-craft`; **n=1**, read from the written record
 (`geminify/references/evidence.md` §1.1) rather than the raw transcript. **`[measured-family]`** is
 106 benchmark tasks scoring `gemini-3.7-flash` against `claude-opus-5`, plus the `COD Dossier` run
 (n=1). **`[derived]`** is marked in place.

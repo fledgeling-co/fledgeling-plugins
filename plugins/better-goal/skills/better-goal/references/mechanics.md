@@ -230,7 +230,7 @@ default text output nothing prints until the run ends, so add
 
 ## What `/goal` adds, and what it costs
 
-`/goal <condition>` remains available and composes: `/goal /better-goal <intent>`
+`/goal <condition>` remains available and composes: `/goal /better-goal:better-goal <intent>`
 starts the harness under a built-in goal. It is additive only — nothing here
 depends on it — and it carries three limits worth knowing before relying on it.
 

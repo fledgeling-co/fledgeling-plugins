@@ -1,5 +1,7 @@
 # report, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this once before Phase 0, then run the skill as written with these overrides.
 
 A number *measured*, one *read off a single sample* and one *inferred* render identically. `claims.json` turns that
@@ -22,7 +24,7 @@ prompts requiring deep reasoning, such as multi-step planning, verified code gen
 scenarios"* — though raising it is no remedy: paired across the 106 tasks, `high` beat `medium` on 24, lost on 24, tied
 on 58.
 
-**Unmeasured on this skill:** no Gemini run of `report` has been observed — not the three-reading collapse, not citation
+**Unmeasured on this skill:** no Gemini run of `report:report` has been observed — not the three-reading collapse, not citation
 integrity surviving simplification, not the six-capture protocol, not Override 1's conversion. **[docs]** A caution
 about this file's shape: *"Avoid writing a prompt with non-linear logic or conditionals that require the model to piece
 together fragmented instructions from multiple different places in the prompt."* Read it in one pass — each override
@@ -103,14 +105,14 @@ read those two off the artifact.
 
 ## Override 1 — chained passes with file outputs, not lenses (Phases 2–5)
 
-SKILL.md:67 reads *Design work goes through `design-craft` with `ux-craft`'s lens*, and SKILL.md:71 anticipates the
+SKILL.md:67 reads *Design work goes through `design-craft:design-craft` with `ux-craft:ux-craft`'s lens*, and SKILL.md:71 anticipates the
 failure: *Neither is a gesture at a skill name.*
 
 **[measured-family]** That phrasing is the one measured to fail. On `COD Dossier` the skill said *"Every design decision
-goes through `design-craft` with `ux-craft`'s lens"* and neither `Skill()` call ran; its own diagnosis named the
+goes through `design-craft:design-craft` with `ux-craft:ux-craft`'s lens"* and neither `Skill()` call ran; its own diagnosis named the
 mechanism — nothing downstream needed a file only those skills produce. A Pro-tier transcript reclassified a project
 rule the same way, as *"might be a general guideline for agents"*. **[derived]** And it is checkable here:
-`audit_report.py:965` requires `DESIGN.md` to exist but never reads it, and nothing is required of the `ux-craft` half.
+`audit_report.py:965` requires `DESIGN.md` to exist but never reads it, and nothing is required of the `ux-craft:ux-craft` half.
 
 - **Phase 2 → three chained passes over `claims.json`**, each from the ledger, never from another register's prose
   (SKILL.md:200–202: *one pass plus two rewrites produces one register and two translations of it*).
@@ -184,7 +186,7 @@ names, **then** answer: two ordered steps, neither substituting for the other.
 The skill also caps delegation — delegate only for a wide sweep reconstructing a long session, *keep the count low* — so
 write the number down: **one subagent maximum, for the Phase 1 harvest; zero elsewhere.** **[docs]** Google's guidance
 on a model that answered correctly but *"didn't stay within the bounds of the options"* prescribes reframing as a closed
-choice, so settle the live forks in writing before Phase 4: `/report tldr` versus the full report, the build lane per
+choice, so settle the live forks in writing before Phase 4: `/report:report tldr` versus the full report, the build lane per
 figure, whether the verdict layer applies.
 
 ## Override 5 — six captures, and describe the crop before judging it (Phase 7)

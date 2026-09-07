@@ -8,7 +8,7 @@
 A diff review that learns your repository at runtime instead of carrying somebody else's project map.</p>
 
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D4703A">
+  <img alt="Version 1.3.2" src="https://img.shields.io/badge/version-1.3.2-D4703A">
   <img alt="SWE skill: review" src="https://img.shields.io/badge/SWE_skill-review-434A55">
   <img alt="Read-only on source" src="https://img.shields.io/badge/read--only-on_source-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -95,9 +95,9 @@ Ask in plain language ("review my changes", "review this PR", "security pass on 
 "can I push this?"), or invoke it directly:
 
 ```
-/code-review
-/code-review deep security
-/code-review quick frontend dead-code
+/code-review:code-review
+/code-review:code-review deep security
+/code-review:code-review quick frontend dead-code
 ```
 
 Depths are `quick`, `standard` (the default) and `deep`. Areas are `frontend`, `backend`, `next`,
@@ -119,9 +119,10 @@ handles the pattern-decidable half of the prepush gate.
 
 ## What it's built on
 
-The pipeline architecture is adapted from the `code-review:code-review` skill built into the Claude Code CLI:
+The pipeline architecture is adapted from the built-in `code-review` skill in the Claude Code CLI:
 the per-depth budget lines, the named orthogonal angles, the three-verdict verify, the gap sweep and
-the finding floor all come from there.
+the original finding floor came from there. Current prompts stop on completed
+coverage, so a low finding count no longer triggers a repeated pass.
 
 The sharding architecture, the verifier fan-out, the suppressions file, the mitigating-controls map,
 the severity taxonomy and the six framework checklists come from the `code-review:code-review` skill in

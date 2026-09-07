@@ -1,72 +1,29 @@
-# Site Craft, GSAP & Three.js Architecture
+# Site craft and interactive behavior
 
-This guide defines the standards for crafting high-fidelity, interactive marketing sites with GSAP animations, Three.js 3D hero telemetry, interactive mock UI slices, and 5-platform support badges.
+Load `design-craft:design-craft` and `ux-craft:ux-craft`, then implement the selected direction in the existing project stack. The approved product and audience determine the palette, typography, section structure and demonstrations.
 
----
+## Choose interactions by purpose
 
-## 1. Design & Typography Foundation
+List each requested interaction, its inputs, output and accessible alternative before coding. A pricing toggle must update approved terms; a feature demonstration must show the claimed behavior. Simulated values are labeled as a demonstration. Do not add telemetry, platform tabs or a calculator merely because a reference page contains them.
 
-In accordance with `/design-craft` and `/ux-craft`:
-- **Dark-First Telemetry Ground**: Ground background `#0a0b0e` / `#111318`, elevated card surface `#181b22`, subtle 1px border `#262a36`.
-- **Accent Hierarchy**:
-  - Primary Warm Accent: `#ff5722` (Ember) / `#e64a19` (Vermilion) for live telemetry alerts, ping spikes, and active CTA buttons.
-  - Secondary Signal Colors: `#00e676` (Green / Low Latency), `#00b0ff` (Cyan / Network Packets), `#ffd600` (Amber / Warning).
-- **Typography Stack**:
-  - Display / Headings: `Geist`, `Space Grotesk`, or `Syne`.
-  - Body: `Inter` or `Geist Sans`.
-  - Telemetry / Code / Stats: `JetBrains Mono` or `Fira Code`.
+## GSAP and scroll motion
 
----
+Use the project's installed GSAP version or verify the supported package version before adding it. If loading from a CDN, pin the selected version and respect the project's content-security policy. Content is visible with JavaScript disabled and after dependency failure.
 
-## 2. Interactive Three.js Hero Canvas
+A reduced-motion CSS media query alone does not disable JavaScript animation. Use GSAP's supported media-query lifecycle or an explicit `matchMedia` branch to skip nonessential tweens, restore readable static states and clean up when the preference changes. Test that branch in a browser that supports media emulation, or record it as unverified.
 
-Embed a lightweight, self-contained Three.js particle node mesh in the hero section:
-- Dynamic 3D network topology node constellation that rotates smoothly and responds to mouse coordinates.
-- Interactive pulsing packets traversing edges between server nodes and client devices.
-- Handles `resize` events with clean aspect ratio calculation and caps `devicePixelRatio` at `min(window.devicePixelRatio, 2)`.
-- Cleanup on unmount / visibilitychange to ensure 0% CPU consumption when out of view.
+## Three.js or WebGL
 
----
+Include 3D when requested or when spatial change communicates the product. Handle resize, cap device pixel ratio to a deliberate budget, dispose resources on unmount and pause the render loop when hidden or offscreen. Provide a static fallback for unavailable WebGL and reduced motion. Do not promise zero CPU use or a frame rate without a relevant measurement on a named device.
 
-## 3. GSAP Motion Choreography
+## Rendered acceptance
 
-Load GSAP and ScrollTrigger via CDN:
-```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-```
+For the page's actual target viewports and supported themes:
 
-Key Timelines:
-1. **Hero Entry Timeline**: Three.js canvas fade-in, headline stagger-up, live latency counter animation (e.g. counting down from `42ms` to `0.8ms`).
-2. **Feature Slices Reveal**: ScrollTrigger pins each slice and cross-fades the interactive controls.
-3. **Reduced Motion**: Full fallback via `@media (prefers-reduced-motion: reduce)` disabling transform tweens.
+- Open the rendered page and inspect text, imagery, hierarchy, overflow and overlap.
+- Exercise the named controls with pointer and keyboard, including focus and error/empty states where relevant.
+- Check text contrast against the rendered background using the applicable WCAG criterion: ordinarily 4.5:1 for normal text and 3:1 for large text, with control boundaries assessed separately.
+- Confirm dependency loading, the no-script or failure fallback, reduced motion and any offscreen pause behavior.
+- Confirm every platform badge and price matches the approved claims ledger.
 
----
-
-## 4. Interactive Mock UI Slices
-
-Include at least 3 live, functional interactive mock widgets in the site:
-
-1. **Live Network Telemetry & Packet Filter Slice**:
-   - Interactive protocol filter buttons (TCP / UDP / DNS / QUIC).
-   - Live stream of synthetic packet rows updating with realistic latency and byte counts.
-   - Interactive slider adjusting simulated bufferbloat.
-
-2. **Dual-Model Pricing & ROI Calculator**:
-   - Interactive toggle: `Self-Hosted / BYOK ($9.99)` vs `Managed Cloud ($4.99/mo)`.
-   - Dynamic feature comparison matrix highlighting storage, relay tunnels, AI key integration, and backup retention.
-
-3. **5-Platform Native Client Explorer**:
-   - Tab switcher for **Windows**, **macOS**, **iPadOS**, **iOS**, and **Linux**.
-   - Displays native OS mock frame with platform-specific shortcuts, system tray telemetry, and install commands (`winget`, `brew`, App Store, `apt/flatpak`).
-
----
-
-## 5. 5-Platform Badges
-
-Every launch site must display explicit, accessible platform badges:
-- **Windows**: Windows 10/11 (x64, ARM64)
-- **macOS**: Universal Binary (Apple Silicon & Intel), macOS 13+
-- **iPadOS**: iPadOS 16+, Apple Pencil & Split View support
-- **iOS**: iOS 16+, Lock Screen telemetry widgets
-- **Linux**: AppImage, Flatpak, `.deb`, `.rpm`, AUR
+Source substring checks do not establish any of these rendered results. Use one evidence set for overlapping design gates and recheck affected behavior after a repair. If a browser capability is unavailable, state exactly which criterion remains unverified.

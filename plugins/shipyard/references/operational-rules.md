@@ -50,21 +50,14 @@ they protect. Do not soften them when editing — each one was paid for once alr
 
 ## External CLIs (the shared traps; per-lane detail in `executor-lanes.md` / `codex-cli.md`)
 
-- **Wire-verify, never trust flags**: grep the captured header/transcript for model and effort; a
-  dropped flag silently inherits the user's config default (a shipped gate ran at `high` this
-  way). Never hardcode a dated model id in the check — a pinned id fires `WRONG-MODEL` on every
-  correctly-routed newer model and stops a fleet before it starts; check the tier.
-- **An empty output file is a lane failure, not a pass.** Bound every call with
-  `perl -e 'alarm shift @ARGV; exec @ARGV' <secs>` (macOS has no `timeout(1)`; exit 142 =
-  deadline). `< /dev/null` on codex or it waits on stdin forever. `agy --print` buffers to the
-  end — wait for exit, never poll its stdout.
+- **Separate requested, resolved and actual serving identity.** Record the requested selector and the current catalogue's resolution. Compare them with authoritative serving metadata when the runtime exposes model and effort. Headers that echo flags and model self-descriptions are not delivery proof. If serving metadata is unavailable, label execution identity unverified; do not pass a routing-dependent gate by checking a broad family/tier string. The older dropped-flag incident motivates this check but does not certify a current CLI header.
+- **An empty output file is a lane failure, not a pass.** Bound calls using the actual harness's timeout/wait mechanism. Where Perl is installed, `perl -e 'alarm shift @ARGV; exec @ARGV' <secs>` is one option. Earlier Codex versions waited for stdin unless closed, and earlier agy print-mode buffered until exit: check current `--help` and observed behavior rather than treating either as a universal default. Preserve partial output and checkpoint before retrying or selecting an authorized fallback.
 - **Absolute paths under `-C`** — a relative `docs/...` resolves inside the worktree, finds
   nothing, and the run builds from the task description alone, looking successful and grounded in
   nothing. Have the run report one distinctive fact from the plan to confirm the read landed.
 - **The hook wire field is `hookEventName`** (camelCase) — `hook_event_name` fails the payload
   silently, and a silently-failed hook looks exactly like a working one; self-test it.
-- **Over-scoped `max` reviews emit nothing** — the failure is the default outcome, not rare.
-  Narrow the packet before widening the deadline.
+- **A scoped packet is easier to complete.** Earlier oversized high-effort reviews sometimes exhausted their turn budget without a verdict. On that observed failure, narrow the unresolved questions before increasing the deadline; do not assume every current model or max-effort run fails this way.
 
 ## Ledgers and state
 
@@ -86,8 +79,7 @@ they protect. Do not soften them when editing — each one was paid for once alr
 - **A prior self-review commit does not certify the code.** The pattern that most often survives
   a self-review is a governance/authorization bypass, because the author trusts their own
   attribution.
-- **One quiet audit pass is a shallow fixpoint, not a dry one** — remediation loops exit on two
-  consecutive dry audits with different lenses.
+- **Remediation closes named requirement rows with current evidence.** Rerun checks affected by each fix; another whole audit requires a new failure, newly affected surface or unresolved risk. Apply any explicit ratchet or repeat-run requirement only to the gate that defines it, not as a global two-dry-audit rule.
 - **Never strip the pipeline's safeguards to make a runner cheaper.** The hand-rolled "SOLO
   runner" brief that stripped fan-out and review phases is how a fix ships "verified by code
   reading" — the audit corpus's most common failure. Cost is cut by model/effort routing and
@@ -98,8 +90,6 @@ they protect. Do not soften them when editing — each one was paid for once alr
 
 ## Cache and effort
 
-- Effort defaults to `high` when unset; backgrounded agents on some launch paths default to
-  `xhigh` with no knob. Set effort explicitly at spawn; hold it constant per agent (changing it
-  forfeits the prompt-cache prefix). `xhigh`/`max` pair with `max_tokens` ≥ 64k.
+- Resolve supported model/effort options and actual defaults from the current harness. Prefer a stable per-agent setting for cache reuse; do not infer all providers' defaults from historical Claude launch paths. Set a sufficient output budget only through supported API options.
 - The prompt cache keys on the exact byte prefix and its TTL is a harness choice — never build a
   pause strategy that only works at one TTL.

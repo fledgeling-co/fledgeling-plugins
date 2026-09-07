@@ -116,7 +116,7 @@ the axis that survives a change of typeface.
 
 ### Deriving them, and what the derivation may claim
 
-`design-md-from-website` measures both proportion inputs and writes them down — a container width in
+`design-md-from-website:design-md-from-website` measures both proportion inputs and writes them down — a container width in
 the layout tokens, a display size in the type table. Read the company's own figure and record the
 bucket. The record carries the bucket, never the number: a measured length piped into a custom
 property is the `measuredGrid` defect, which stays forbidden.

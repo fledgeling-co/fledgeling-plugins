@@ -7,7 +7,7 @@ the sequence is fixed and the reading is not optional.
 
 1. **`research_budget`** — check headroom before committing anything.
 2. **`research_plan`** (free) — pass the sharpened question from Phase 0
-   with the `/trawl` angles as its numbered subtopics. Set
+   with the `/trawl:trawl` angles as its numbered subtopics. Set
    `decisionContext` to what the page is *for* and who reads it; it is
    the field that most changes what comes back. Relay the worst-case
    band to the user before spending.
@@ -26,7 +26,7 @@ the sequence is fixed and the reading is not optional.
 ## Question shape
 
 Ask for evidence-backed findings **and** documented failure modes.
-Enumerate the subtopics from `/trawl` rather than asking one broad
+Enumerate the subtopics from `/trawl:trawl` rather than asking one broad
 question. Bound the time horizon. Exclude the adjacent fields you don't
 need — SEO content, vendor comparisons, tutorials — because excluding
 them is what stops the panel spending its search budget on introductory

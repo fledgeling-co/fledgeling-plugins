@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: qualified multi-skill referrals link to the owning plugin page
+ok 1 - qualified multi-skill referrals link to the owning plugin page
+  ---
+  duration_ms: 1.541458
+  type: 'test'
+  ...
+# Subtest: ordinary prose is not advertised as an external dependency
+ok 2 - ordinary prose is not advertised as an external dependency
+  ---
+  duration_ms: 0.114208
+  type: 'test'
+  ...
+# Subtest: preserves known single-word plugins and external hyphenated referrals
+ok 3 - preserves known single-word plugins and external hyphenated referrals
+  ---
+  duration_ms: 0.059417
+  type: 'test'
+  ...
+# Subtest: slash commands inside backticks retain the owning plugin
+ok 4 - slash commands inside backticks retain the owning plugin
+  ---
+  duration_ms: 0.61025
+  type: 'test'
+  ...
+# Subtest: paths, partial namespaces and hyphenated English are not referrals
+ok 5 - paths, partial namespaces and hyphenated English are not referrals
+  ---
+  duration_ms: 0.122792
+  type: 'test'
+  ...
+# Subtest: coordinated alternative skills all contribute their owners
+ok 6 - coordinated alternative skills all contribute their owners
+  ---
+  duration_ms: 0.114917
+  type: 'test'
+  ...
+# Subtest: repeated calls have no regex state leakage and never alter executable text
+ok 7 - repeated calls have no regex state leakage and never alter executable text
+  ---
+  duration_ms: 0.108083
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 53.07675

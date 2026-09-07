@@ -202,7 +202,7 @@ corpus is 48 applications people chose to ship — they are the moves a model
 reaches for when it is decorating rather than deciding, and each one is greppable
 in a diff.
 
-`design-craft` owns the general anti-slop pass and cannot see a cell grid, so the
+`design-craft:design-craft` owns the general anti-slop pass and cannot see a cell grid, so the
 terminal-specific list has to live here.
 
 **1. A truecolour gradient across a header row.** The one effect that degrades to

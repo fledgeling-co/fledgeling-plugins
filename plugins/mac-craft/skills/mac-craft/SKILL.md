@@ -1,7 +1,7 @@
 ---
 name: mac-craft
 description: >-
-  Design and review authentically native macOS application interfaces — full mock windows (self-contained HTML/CSS or a token-precise spec) with a committed aesthetic direction, a state matrix, a token table an implementer can build from, and a deterministic gate that computes contrast rather than asserting it. Use whenever the user asks to design, mock, review or fix a mac app UI, a macOS window, a settings pane, a menu-bar app, or a native-feeling desktop interface — "design me a mac app for X", "mock the main window", "give me 3 directions for a macOS tool", "why doesn't this feel like a Mac app", "make it feel native" — including when they just say "make it beautiful/native". Also answers to the former name mac-design-studio. App icons are NOT designed here: they route to create-mac-icon. For analysing existing screenshots into a corpus use mac-design-digest; for refitting already-built UI use macosify.
+  Design and review authentically native macOS application interfaces — full mock windows (self-contained HTML/CSS or a token-precise spec) with a committed aesthetic direction, a state matrix, a token table an implementer can build from, and a deterministic gate that computes contrast rather than asserting it. Use whenever the user asks to design, mock, review or fix a mac app UI, a macOS window, a settings pane, a menu-bar app, or a native-feeling desktop interface — "design me a mac app for X", "mock the main window", "give me 3 directions for a macOS tool", "why doesn't this feel like a Mac app", "make it feel native" — including when they just say "make it beautiful/native". Also answers to the former name mac-design-studio. App icons are NOT designed here: they route to create-mac-icon:create-mac-icon. For analysing existing screenshots into a corpus use mac-design-digest:mac-design-digest; for refitting already-built UI use macosify:macosify.
 ---
 
 # mac-craft
@@ -20,7 +20,7 @@ including the "make an icon for my app" phrasing this skill's description used t
 § Icons at the end: it is a five-line handoff, not a fallback pipeline, because two drifting
 copies of an icon catalogue are worse than one honest gap.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Picks a lane for the mock before step 5, turns mac-craft's per-control and per-state scopes into a filled quota ledger with reported fractions, and adds a bound ledger for the maxima nothing reads back — one saturated moment per view, the 10pt floor, Liquid Glass on floating chrome only — because mock_check.py's keyboard and states checks fire once per file rather than once per control. Other models skip it.
+**Using Gemini?** Read `gemini.md` for this skill's task-specific calibration and artifact checks. Its older runs do not establish Gemini 3.8 capability limits: preserve the user's selected implementation lane, and apply a model-specific route only when the current model or an observed failure supports it.
 
 ## What a finished commission looks like on disk
 
@@ -39,7 +39,7 @@ and it decides what a second run does — see § Running this twice.
 
 ## Knowledge sources — load before designing
 
-**The corpus, first — it ships with this marketplace.** `mac-design-digest` maintains it and
+**The corpus, first — it ships with this marketplace.** `mac-design-digest:mac-design-digest` maintains it and
 this skill reads it; the two are one pipeline. Resolve it in this order and take the first that
 exists:
 
@@ -71,15 +71,15 @@ a rule the corpus does not carry is one you are inventing.
 - `references/model-calibration.md` — what genuinely differs by model family, and the recorded run that bought most of the rules in this file.
 
 **External, if installed:**
-- **macosify** — `reference/hig/index.md` per component; its "common non-native mistakes" lists are the correction table. `reference/DESIGN.md` for the hard-HIG-numbers table.
+- **macosify:macosify** — `reference/hig/index.md` per component; its "common non-native mistakes" lists are the correction table. `reference/DESIGN.md` for the hard-HIG-numbers table.
 - **design-craft:design-craft** — `wireframe`, `generate-variations`, `hierarchy-rhythm-review`, `interaction-states-pass`, `ai-slop-check`, `polish-pass` (always, before delivery), `unit-critique-gate` (per surface on multi-surface work).
-- **ux-craft:ux-craft** — a **standing dependency, not a conditional one**: one primary action, the trunk test, designed states, recognition over recall, undo over confirm. Load **ux-craft's own** `plugins/ux-craft/skills/ux-craft/references/flows-and-forms.md` before any multi-step surface — the path is given in full because a bare `references/…` reads as this skill's own directory, and the predecessor shipped exactly that mistake: a rule citing `assets/squircle-path.txt`, a file that existed only in a sibling plugin.
+- **ux-craft:ux-craft** — a **standing dependency, not a conditional one**: one primary action, the trunk test, designed states, recognition over recall, undo over confirm. Load **ux-craft:ux-craft's own** `plugins/ux-craft/skills/ux-craft/references/flows-and-forms.md` before any multi-step surface — the path is given in full because a bare `references/…` reads as this skill's own directory, and the predecessor shipped exactly that mistake: a rule citing `assets/squircle-path.txt`, a file that existed only in a sibling plugin.
 
 **Precedence:** Apple kit `(specified)` values and HIG → corpus canon → chosen direction's
 identity tokens → design-craft general craft. Native correctness is never traded for style;
 style is chosen *within* the native envelope.
 
-**The provenance marks are `mac-design-digest`'s, and they are two families that compose —
+**The provenance marks are `mac-design-digest:mac-design-digest`'s, and they are two families that compose —
 do not flatten them.** A corpus value carries one mark from each, and both travel with it
 into the token table:
 
@@ -297,16 +297,15 @@ directories it needs, and no subagents of its own.
 
 ## Known limits (set expectations honestly)
 
-Say these rather than promising past them.
+State limits supported by the current run. The Obscura observations below were recorded on the original machine in August 2026; discover the current permitted browser and reproduce a relevant limitation before applying it.
 
 - **An HTML mock is not an AppKit or SwiftUI render.** Every control metric here is
   *asserted* against published values, never verified against a running app. The mock is an
   implementation brief that happens to be viewable.
-- **Motion and typographic fidelity cannot be verified in this environment.** Obscura — this
-  house's only sanctioned browser — **executes no CSS animation or transition**
+- **The recorded Obscura build could not verify motion or web-font fidelity.** It **executed no CSS animation or transition**
   (`document.getAnimations()` returns 0) and **loads no web font**. So the motion floor and
   any type-fidelity claim are specifications, not measurements. Do not promise either.
-- **The three accessibility media queries cannot be exercised.** `setEmulatedMedia` is
+- **The recorded engine could not exercise three accessibility media queries.** `setEmulatedMedia` is
   accepted and inert, so `prefers-reduced-motion`, `prefers-reduced-transparency` and
   `prefers-contrast` are checked as *source* by the gate and rendered under none of them.
   The gate reads two contrast contexts statically and says which one it skipped and why.
@@ -347,7 +346,7 @@ Say these rather than promising past them.
   result is the exact failure this skill was rebuilt to remove.
 - **No browser** → the render step cannot happen. Say so, and say plainly that the mock has
   not been looked at. Do not substitute reasoning about what it would look like.
-- **macosify / design-craft:design-craft / ux-craft:ux-craft / Mobbin absent** → one line in the delivery naming
+- **macosify:macosify / design-craft:design-craft / ux-craft:ux-craft / Mobbin absent** → one line in the delivery naming
   which, never a silent skip.
 - **A tool that is absent stays absent.** One attempt is the whole budget for a
   `command not found`. Change approach rather than repeating the call, and never re-pitch a

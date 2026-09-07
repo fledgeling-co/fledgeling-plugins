@@ -1,15 +1,21 @@
 # create-skill, calibrated for Gemini
 
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
+
 Read this once before *Phase 0 — Discovery*, then run the seven phases as
 written; each override names the phase or file it lands on. The canon transfers.
 What changes is that three load-bearing instructions are standards rather than
 steps with an output: Phase 2's *"Every structural choice traces to something"*,
 Phase 5's banner *"Composed HTML via design-craft with ux-craft's Read-mode
 lens"*, and Phase 3's eval layer, which the skill deliberately allows not to run.
-On this family a standard gets agreed with; a phase that writes a file gets
-executed. And `references/opus-5-prompting.md` tells every runner this pipeline
-spawns to *"Remove verification scaffolding."* Right for the Opus runners it was
-written for, the defect if a Gemini runner replaces one — Override 2 reverses it.
+Earlier Gemini runs sometimes acknowledged a standard without executing its
+steps. The shared `references/runner-contract.md` now preserves concrete
+acceptance checks across models; these overrides make their receipts explicit.
 
 ## What transferred intact
 
@@ -118,9 +124,9 @@ prompts directly."* Two of the agentic template's nine rules are this — *"Revi
 your output against the user's task"* and *"Verify your claims by quoting the
 exact applicable information"*.
 
-That reverses the house style deliberately: removing scaffolding suits a model
-that over-verifies, and inheriting the removal is the defect here. The reference
-file's own carve-out names the line — *"Instrument runs are not self-checks."*
+This supplements the shared runner contract: required acceptance checks remain
+for every model. Repeat a check after a relevant change or failure, not as a
+generic extra self-review.
 
 - **Every number carries the command and its output**, and a denominator of zero
   is never a pass. Not "the catalogue gate passes" but
@@ -180,8 +186,8 @@ await Bash({ command: "python3 scripts/banner_sheet.py check plugins/<name>/asse
 ```
 
 Two other compositions already have this shape: the icon routes to
-`create-mac-icon` gated by `audit_sheet.py check`, and README and EVALS route to
-`create-luke-content` gated by `check-conformance.mjs`.
+`create-mac-icon:create-mac-icon` gated by `audit_sheet.py check`, and README and EVALS route to
+`create-luke-content:create-luke-content` gated by `check-conformance.mjs`.
 
 ## Override 5 — the gate proves it can fail, and checks what came before it
 
@@ -230,10 +236,10 @@ every static-page task in §2.2 was a prose brief with no reference.
 
 **7 — the fan-out is capped, and never grades its own output.** Phase 3 and
 *Operating rules* already cap structurally: *"Subagents never run git
-operations"*, `--allowedTools` with no git or network, per-run directories,
+operations"*, restricted tool availability and sandbox permissions, per-run directories,
 distinct ports. Add a number — fourteen eval runs is not fourteen concurrent
-agents, so cap concurrency at four — and never delegate a check of your own
-output, which is what the panel's heterogeneous families are for. **[docs]** Forks
+agents, so cap concurrency at four — and keep the required independent grading and blind panel distinct from
+redundant self-checks. **[docs]** Forks
 stay closed sets: *"rephrase the instructions as a multiple choice question and
 ask the model to choose an option"*, which is what AskUserQuestion already is.
 
@@ -252,7 +258,7 @@ note, so ask for those by name.
 knowledge cutoff date is January 2025"*, and for this model *"The knowledge
 cutoff date for Gemini 3.7 Flash is March 2026"* — so the three Anthropic
 prompting documents are fetched, not recalled, and so are `skill-creator`,
-`create-mac-icon`, `create-luke-content` and `clarify` when the pipeline routes to
+`create-mac-icon:create-mac-icon`, `create-luke-content:create-luke-content` and `clarify:clarify` when the pipeline routes to
 them. **[measured-family]** §1.2.4 — asked a question naming three skills, the
 recorded run answered from memory without loading any; told to fix it, it
 inverted the error and launched a skill instead of answering. Load, then answer,
@@ -270,7 +276,7 @@ for anything above: paired across 106 tasks, `high` beat `medium` on 24, lost on
 
 **Modules not written.** `states` did not fire: this pipeline enumerates phases,
 not interface states. `platform-values` did not fire: the marketplace aesthetic is
-house style, and the icon's vendor values live inside `create-mac-icon`.
+house style, and the icon's vendor values live inside `create-mac-icon:create-mac-icon`.
 `injection` did not fire: panel reports are ingested as evidence to read, and
 override 8's grounding is that case's guard. `bounded-constraint` and
 `count-contract` did not fire — one stated bound in 834 lines, and the counts that

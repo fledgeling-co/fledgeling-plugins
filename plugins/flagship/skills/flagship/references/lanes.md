@@ -1,6 +1,6 @@
 # Lanes — probe, then route
 
-`defer` is the routing policy and you should call it. Its report is **plan utilisation, not
+`defer:defer` is the routing policy and you should call it. Its report is **plan utilisation, not
 reachability**, and those are indistinguishable when a lane is absent: "nobody has used it" and
 "it is not installed" produce the same number, so **the tool is most confident exactly where it
 is least grounded.**

@@ -99,7 +99,7 @@ Once the user has answered:
 - Declare a one-line **Design Read** so your interpretation is on the table: "Reading this as: ⟨page kind⟩ for ⟨audience⟩, with a ⟨vibe⟩ visual language, leaning toward ⟨system/aesthetic family⟩."
 - Briefly recap the choices that will most affect the design ("OK — landing page, B2B audience, formal tone, three variations on different visual treatments, single CTA, no novel ideas")
 - Note any answers that surprised you or that you'd push back on (gently — the user is the manager)
-- Then proceed to the appropriate building procedure (`make-a-prototype`, `wireframe`, `make-a-doc`, etc. — slides go to `deck-craft`) and execute autonomously. This round was your chance to ask — don't come back with follow-up questions for minor decisions; make them and list them in your summary.
+- Then proceed to the appropriate building procedure (`make-a-prototype`, `wireframe`, `make-a-doc`, etc. — slides go to `deck-craft:deck-craft`) and execute autonomously. This round was your chance to ask — don't come back with follow-up questions for minor decisions; make them and list them in your summary.
 
 ## Phase 7: Re-question on signal change
 

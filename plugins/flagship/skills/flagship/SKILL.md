@@ -114,12 +114,12 @@ reads as knowing them. Reload before the next dispatch, not after a peer correct
 ## Modes — `tiered`
 
 Flagship takes one optional argument. **With no argument, behave exactly as this file otherwise
-describes**, `defer` and the out-of-family lanes included.
+describes**, `defer:defer` and the out-of-family lanes included.
 
 **`tiered`** — the perch binding decides the model and the conductor keeps the judgement. Full
 protocol in `references/tiered-delegation.md`; the four things that change:
 
-1. **`defer` is off and all judgement stays in-family.** The capability gradient *is* the mechanism,
+1. **`defer:defer` is off and all judgement stays in-family.** The capability gradient *is* the mechanism,
    and running two mechanisms at once means neither is measurable.
 2. **Verification moves up a level.** Fleet conductors in unbound directories stop at
    `ready-to-verify` and report upward; **you** spawn verify.
@@ -163,7 +163,7 @@ whats-left. Say which number you used and whether it was measured. Every dispatc
 
 **Batch decisions.** Run every accumulated question through the R1–R5 router in
 `references/decisions.md` before any of it reaches the operator. On one night that cut twenty
-queued decisions to ten. Then build one page with `whats-left` rather than drip-feeding.
+queued decisions to ten. Then build one page with `whats-left:whats-left` rather than drip-feeding.
 
 **Propagate findings.** You are the only party who can see across sessions, and this is where
 the leverage is. Nine sessions independently found one tool's defect in an evening; three
@@ -254,15 +254,15 @@ schedules against a queue believed empty, so the work simply never happens.
 
 | Shape | What it needs |
 |---|---|
-| Drained — the backlog is genuinely finished | `reckon`, then retirement made legible |
+| Drained — the backlog is genuinely finished | `reckon:reckon`, then retirement made legible |
 
 **"Drained" is a claim about the work that REMAINS, and no gate can attest that — only reckon can.**
 Measured on the night this rule was missed: a session closed "drained with attestation," every gate exit
 code green — and the gates attest the work that *exists*, saying nothing about whether work remains.
 Its own earlier "drained" had been wrong the same day (a step believed to be one command was a scoped
 item), and another session's "the work orders are exhausted" was wrong ten items over. **The operator's
-standing instruction is explicit: when a session thinks it is done, it likely is not — run `reckon`
-(detailed) and `whats-left` (focused on current work) before recording anything as finished.** Invoke
+standing instruction is explicit: when a session thinks it is done, it likely is not — run `reckon:reckon`
+(detailed) and `whats-left:whats-left` (focused on current work) before recording anything as finished.** Invoke
 reckon **by explicit path when two cache versions exist** — the 1.1.0 `unjoined` classifier sits beside
 1.0.0, and name-resolution picks whichever the loader chooses.
 | Never briefed — no dispatch ever arrived | The brief you assumed had been sent |
@@ -339,7 +339,7 @@ and the session's own account of itself is the worst one available, including th
 conductor's own.** Ask the ledger, not the session.
 
 **A drained fleet refills before it retires.** When the operator's standing directive is
-utilisation, the drained tier's action is `reckon` then `shipyard:intake`, grounded in the
+utilisation, the drained tier's action is `reckon:reckon` then `shipyard:intake`, grounded in the
 project's own deferred items, recorded limits and ARMADA opportunities — not retirement.
 Measured 23 Aug 2026: a repo at a complete 54-row ledger ran intake in the evening and
 shipped all three new briefs, verified, the same night. Retirement is what the *operator*
@@ -596,7 +596,7 @@ launch regardless of what it was told.
   was measured), so a gate written on free bytes is unaffected while one written on
   percent-used passes forever. `pressure.py` already reads the data volume, so anything
   going through `governor-run` was never exposed to it.
-- **Disk is harbourmaster's to report and `mac-doctor`'s to reclaim.** When it becomes the
+- **Disk is harbourmaster's to report and `mac-doctor:mac-doctor`'s to reclaim.** When it becomes the
   closing gate, say so and hand over.
 - **A disk *state change* during a build burst needs corroboration before it acts as a gate.**
   Measured 24 Aug 2026: the watch's disk figure ran 87% → 97% → 89% inside ten minutes while
@@ -619,7 +619,7 @@ launch regardless of what it was told.
 ## The lane inventory, before you route any judgement
 
 **Under `tiered`, skip this section entirely — judgement stays in-family and the binding
-selects the model.** Otherwise `defer` is the routing policy and you should call it — but **its report is plan utilisation,
+selects the model.** Otherwise `defer:defer` is the routing policy and you should call it — but **its report is plan utilisation,
 not reachability**, and the two are indistinguishable when a lane is simply absent. It has
 advertised a lane at the highest headroom of any non-Claude family while that binary was not
 installed at all. Probe before routing:
@@ -687,7 +687,7 @@ session, not a per-item runner or a one-shot verifier. Verify stages in particul
 background agents of the conducting session: they stay addressable and resumable across the
 verify → gap-fix → re-verify loop without costing a tab each pass.
 
-The tab route is `recover-claude-code`'s mechanism, and the parts that are load-bearing are
+The tab route is `recover-claude-code:recover-claude-code`'s mechanism, and the parts that are load-bearing are
 load-bearing because they failed silently first: a new tab comes from the **File menu, not a
 keystroke**; the brief is passed as a **command-line argument** so it becomes a real first
 turn; and for a *new* session there is no `--resume` and never `--fork-session`. Dry-run

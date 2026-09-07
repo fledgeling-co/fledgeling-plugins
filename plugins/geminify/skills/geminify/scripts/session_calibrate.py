@@ -91,26 +91,65 @@ def family_of(model: str) -> str:
     return "unknown"
 
 
-def find_skill_dir(name: str) -> Path | None:
-    """Resolve `plugin:skill` or a bare skill name to the directory holding SKILL.md.
+def declared_skill_name(path: Path) -> str | None:
+    """Read the simple name scalar from SKILL.md frontmatter, not its directory."""
+    try:
+        text = path.read_text(errors="replace")
+    except OSError:
+        return None
+    if not text.startswith("---\n"):
+        return None
+    frontmatter = text.split("---", 2)[1]
+    match = re.search(r"^name:\s*([\"']?)([a-z][a-z0-9_-]*)\1\s*$", frontmatter, re.M)
+    return match.group(2) if match else None
 
-    Prefers the highest version directory when a plugin cache holds several.
+
+def owning_plugin(path: Path) -> dict | None:
+    """Find the closest plugin manifest, including this repo's legacy flat layout."""
+    for parent in path.parents:
+        for manifest in (parent / ".claude-plugin/plugin.json", parent / "plugin.json"):
+            if not manifest.is_file():
+                continue
+            try:
+                data = json.loads(manifest.read_text())
+            except (ValueError, OSError):
+                return None
+            return data if isinstance(data, dict) and isinstance(data.get("name"), str) else None
+    return None
+
+
+def find_skill_dir(name: str) -> Path | None:
+    """Resolve exact source identity; live Skill-tool availability still needs a receipt.
+
+    Plugin calls require plugin:skill. A standalone skill uses its declared bare
+    name. Never turn an invented prefix into a success by dropping the prefix.
     """
-    skill = name.split(":")[-1]
-    hits: list[Path] = []
+    parts = name.split(":")
+    if len(parts) not in (1, 2) or any(not re.fullmatch(r"[a-z][a-z0-9_-]*", p) for p in parts):
+        return None
+    requested_plugin = parts[0] if len(parts) == 2 else None
+    requested_skill = parts[-1]
+    hits = []
+    seen = set()
     for root in PLUGIN_ROOTS:
         if not root.exists():
             continue
-        for p in root.rglob(f"skills/{skill}/SKILL.md"):
-            hits.append(p.parent)
-        direct = root / skill / "SKILL.md"
-        if direct.exists():
-            hits.append(direct.parent)
-    if not hits:
-        return None
-    # A cache path carries the version as a path segment; the lexically greatest
-    # is the newest for the semver shapes in use here.
-    return sorted(hits, key=lambda p: str(p))[-1]
+        for path in root.rglob("SKILL.md"):
+            if path in seen:
+                continue
+            seen.add(path)
+            if declared_skill_name(path) != requested_skill:
+                continue
+            plugin = owning_plugin(path)
+            if requested_plugin is None:
+                if plugin is not None:
+                    continue
+            elif plugin is None or plugin["name"] != requested_plugin:
+                continue
+            version = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)(?:-([^+]+))?(?:\+.*)?", str((plugin or {}).get("version", "")))
+            version_key = (*map(int, version.group(1, 2, 3)), version.group(4) is None, version.group(4) or "") if version else (0, 0, 0, False, "")
+            hits.append((version_key, str(path), path.parent))
+    return max(hits)[2] if hits else None
 
 
 def marketplace_names(mp_root: Path) -> set[str]:
@@ -126,7 +165,7 @@ def marketplace_names(mp_root: Path) -> set[str]:
 
 
 def is_registered(skill_dir: Path) -> bool | None:
-    """Whether the Skill tool can resolve this, which is not the same as it being on disk.
+    """Whether the owning marketplace lists this source plugin; not proof of runtime loading.
 
     Measured: `create-test-suite` sits in the plugin cache at 0.3.0 and is absent
     from its marketplace's 53 published entries. Ten Skill calls naming it failed
@@ -187,9 +226,10 @@ def skills_from_transcript(path: str) -> list[str]:
 
 def find_command(name: str) -> Path | None:
     """A user or project command that the Skill tool resolves without a SKILL.md."""
-    stem = name.split(":")[-1]
+    if not re.fullmatch(r"[a-z][a-z0-9_-]*", name):
+        return None
     for root in COMMAND_ROOTS:
-        p = root / f"{stem}.md"
+        p = root / f"{name}.md"
         if p.exists():
             return p
     return None
@@ -224,6 +264,7 @@ def build(skills: list[str], model: str) -> dict:
     fam = family_of(model)
     return {
         "model": model or "(not supplied)",
+        "resolutionEvidence": "source-only; confirm availability with live Skill tool receipts",
         "family": fam,
         "coverage": coverage,
         "withGeminiMd": [c for c in coverage if c["geminiMd"]],
@@ -241,16 +282,17 @@ def render(r: dict) -> None:
     dead = r["unresolved"]
 
     print(f"model: {r['model']}   family: {r['family']}")
+    print("resolution: source inventory only; live Skill receipts establish runtime availability")
     print()
     print(f"── 1. COVERAGE — read {len(have)} of {len(cov)} before starting ──")
     for c in cov:
         if not c["resolved"]:
-            print(f"  [NOT ON DISK ] {c['skill']}  — no SKILL.md found; check the plugin:skill form")
+            print(f"  [UNRESOLVED  ] {c['skill']}  — no matching source identity; check the plugin:skill form")
         elif c.get("kind") == "command":
             print(f"  [command    ] {c['skill']}  — a command file, no gemini.md layer; core overrides apply")
         elif c.get("registered") is False:
-            print(f"  [UNLOADABLE  ] {c['skill']}  — on disk, absent from its marketplace.json")
-            print(f"                 the Skill tool answers `Unknown skill` and the run continues without it")
+            print(f"  [UNREGISTERED] {c['skill']}  — on disk, absent from its marketplace.json")
+            print(f"                 runtime availability is unproven; resolve it from the live skill catalog")
         elif c["geminiMd"]:
             print(f"  [READ ME  ]  {c['skill']}  ({c['lines']} lines)")
             print(f"               {c['geminiMd']}")
@@ -259,9 +301,9 @@ def render(r: dict) -> None:
     print()
     print(f"  read-count to report when you claim calibration: {len(have)} of {len(have)} gemini.md files")
     if dead:
-        print(f"  names not on disk: {len(dead)} — each loads nothing and raises nothing")
+        print(f"  unresolved source names: {len(dead)} — discover the exact runtime identifier")
     if r["unregistered"]:
-        print(f"  unloadable names: {len(r['unregistered'])} — present on disk, unpublished by their marketplace")
+        print(f"  unregistered source names: {len(r['unregistered'])} — present on disk, unpublished by their marketplace")
 
     print()
     print(f"── 2. RECEIPTS — {len(cov)} skills named, {len(cov)} Skill tool calls owed ──")

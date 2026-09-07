@@ -1,11 +1,8 @@
 # Opus 5 authoring — the prompts this plugin writes
 
-Read this before writing or editing any runner prompt in the plugin. The lanes in `warrant:panel` and
-the briefs any skill here hands to a subagent are Opus 5 prompts, and several of its documented
-behaviours change what those prompts should say.
+Read this before writing or editing any runner prompt in the plugin. Apply its Opus-specific guidance when a `warrant:panel` lane or a subagent actually runs Opus 5. Other lanes follow the user-selected, supported model and the recorded lane configuration; do not treat Opus settings as Gemini or GPT API options.
 
-Sources: Anthropic's `prompting-claude-opus-5`, the Opus 5 section of the migration guide, and
-`claude-prompting-best-practices`, all read in full on 19 August 2026. Where a rule below has no
+Sources refreshed 7 September 2026: [Opus 5 prompting](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5), [Opus 5 migration](https://platform.claude.com/docs/en/models/opus-5/migration-guide), and [prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices). Where a rule below has no
 citation it is an inference from this plugin's own subject matter and is marked.
 
 ## The rule that matters most here
@@ -58,7 +55,7 @@ says, and written deliverables run long on Opus 5. A brief that wants a short re
 
 ## Effort and thinking
 
-The default is `high`. Anthropic's guidance is to run a fresh effort sweep on your own evals rather
+Opus 5's API default is `high`; verify the actual harness override and supported settings. Anthropic's guidance is to run a fresh effort sweep on your own evals rather
 than carrying a number over from another model.
 
 Per-stage starting points for this plugin, to be swept rather than trusted (inference from the stage
@@ -89,7 +86,7 @@ a lane brief: a diff, its spec, its captures, then the question.
 **XML tags around each kind of content**, consistently. A lane brief has `<context>`, `<evidence>`,
 `<task>`, and nothing else.
 
-**Structured Outputs, not a prefill.** Prefilled assistant turns are rejected on current models.
+**Structured output contracts rather than a prefill.** Opus 5 rejects assistant prefills; use supported structured-output features or parse and validate the completed text. Do not assume all providers expose the same API.
 `schemas/verdict.schema.json` is the contract, and `lane_run.py` validates against it.
 
 **Calm triggers, and the reason with the rule.** "Use X when…" rather than pressure language, which

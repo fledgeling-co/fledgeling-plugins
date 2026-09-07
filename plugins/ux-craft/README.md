@@ -7,7 +7,7 @@
 # UX Craft
 
 <p align="center">
-  <img alt="Version 2.5.0" src="https://img.shields.io/badge/version-2.5.0-D33C21">
+  <img alt="Version 2.5.3" src="https://img.shields.io/badge/version-2.5.3-D33C21">
   <img alt="SWE skill: UX" src="https://img.shields.io/badge/SWE_skill-UX-434A55">
   <img alt="References: 13" src="https://img.shields.io/badge/references-13-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

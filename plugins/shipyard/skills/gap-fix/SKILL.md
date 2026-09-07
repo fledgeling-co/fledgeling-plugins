@@ -5,8 +5,7 @@ description: >-
   delivered code and fixing the gaps in code — the pipeline's remediation stage and the re-entry
   path from Needs More Work. Re-enters the branch the worker produced, merges the verifier's
   verdict table (and any human/QA gap list) into a fresh full audit, fixes every confirmed gap as
-  production code through the executor lanes, and loops audit→fix until two consecutive fresh
-  audits go dry, then returns the item to Developer Review for re-verification. Use when verify
+  production code through the executor lanes, then reruns the evidence affected by each fix and closes the requirement census, then returns the item to Developer Review for re-verification. Use when verify
   set Needs More Work ("gap-fix DIO-0001"), when a QA pass lists what's missing, or when a built
   feature falls short of its spec. Unlike verify (audit-only), gap-fix fixes; unlike work (full
   builds), it only finishes what's left.
@@ -16,14 +15,14 @@ description: >-
 
 Finish the job the worker started: close whatever the delivered implementation still misses
 versus the **original requirements**, in code, on the same branch — then hand the item back to
-`verify` rather than grading it yourself. This is the failure path existing on purpose: a
+`shipyard:verify` rather than grading it yourself. This is the failure path existing on purpose: a
 `Needs More Work` verdict is a work order, not a dead end.
 
 Shared canon by pointer: `${CLAUDE_PLUGIN_ROOT}/references/` → `tracker-adapter.md`,
 `model-lanes.md`, `executor-lanes.md`, `evidence-rules.md`, `operational-rules.md`, and the
 worker's `../work/references/miss-classes.md`.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It routes Phase B's fixes to defer's lane picker because brownfield and regression-sensitive work is where this family scores 16 against 46, turns this skill's ten prose prohibitions into a bound ledger read back off the diff, splits Phase A's six dimensions into six passes each writing a file the fix phase must open, and makes every number in the Phase C record carry the command that produced it. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It scopes prior-model routing evidence to the models measured, turns this skill's ten prose prohibitions into a bound ledger read back off the diff, splits Phase A's six dimensions into six passes each writing a file the fix phase must open, and makes every number in the Phase C record carry the command that produced it. Other models skip it.
 
 ## Inputs
 
@@ -36,7 +35,7 @@ worker's `../work/references/miss-classes.md`.
 ## Setup
 
 1. Find the branch: reuse `.worktrees/<ID>`; else `git worktree add .worktrees/<ID> ai/<id>`;
-   else there is nothing to fix — say so and recommend `work` (`NEEDS WORK`). Check the base
+   else there is nothing to fix — say so and recommend `shipyard:work` (`NEEDS WORK`). Check the base
    staleness (`merge-base --is-ancestor`) before trusting a reused worktree.
 2. Read the spec/ticket + full thread, the plan, and the verifier's verdict from the main tree
    at absolute paths. Human answers are authoritative; the verdict's `Missed`/`Partial` rows and
@@ -49,8 +48,7 @@ worker's `../work/references/miss-classes.md`.
 
 ## Phase A — Audit the build vs the requirements (always, even with a verdict in hand)
 
-Fan out reviewers over the **whole delivered surface on the branch against the full
-requirements** — grep the diff, never scope to what the latest progress note calls "in scope";
+Reconcile the **whole delivered surface on the branch against the full requirements**. Reuse current typed evidence for unchanged rows and inspect missing or invalidated rows. Delegate sizeable independent dimensions only — grep the diff, never scope to what the latest progress note calls "in scope";
 un-audited shipped code is exactly what breaks on first use. Same dimensions and invariant
 sourcing as work Phase D (requirement completeness, correctness, guardrails from the repo's own
 CLAUDE.md, UI fidelity vs the mock index, security, simplicity/surgical), same typed-evidence
@@ -70,12 +68,9 @@ symbol. Surgical: the fix touches what the gap names; no adjacent cleanup. File-
 parallel; repo gates between waves; mechanical fixes may take the executor lanes
 (`executor-lanes.md` terms — name the fix's shape on the `--shape` call, and note that a gap fix
 against code that already ships is usually `brownfield-integration` or `regression-sensitive`,
-the two shapes where the cheap lanes lose most); judgment fixes, security, and the never-delegate
-list stay with Claude. Commit as you go (never `git add .`).
+with those scores treated as evidence for the named historical models, not a reason to override the selected Gemini 3.8 lane); judgement fixes follow the capable-owner policy in `model-lanes.md`. Commit as you go (never `git add .`).
 
-**Loop A → B until two consecutive fresh audits — different reviewer lenses, plus the critic —
-surface no new confirmed Critical/High/Medium.** One quiet pass is a shallow fixpoint, not a dry
-one. Document any Low intentionally deferred.
+**After each fix, rerun the affected checks and close its requirement rows.** One targeted follow-up covers changed items and critic findings. Expand or repeat the audit only for a new failure, a newly affected surface, or a specific unresolved risk; do not require two generic quiet passes. Document any intentionally deferred finding, its impact and who accepted it.
 
 ## Phase C — Finalize and hand back
 
@@ -83,7 +78,7 @@ Run the full repo gates. Append the gap-fix record (section or comment, per the 
 adapter): audit counts (self + provided + verifier rows; already-met count), closed-in-code list
 (severity → files → the clause now satisfied, with typed evidence per row), deferred Lows,
 branch, gates actually run, executor + critic accounting, reviewing models. Caveats propagate.
-Then status → **`Developer Review`** — `verify` re-runs, fresh context, fresh verdict. Gap-fix
+Then status → **`Developer Review`** — `shipyard:verify` re-runs, fresh context, fresh verdict. Gap-fix
 never sets `Done`; the stranger does.
 
 If a residual gap needs a human decision: post the blocker with its dissolution condition, leave
@@ -92,7 +87,7 @@ the status, stop (`NEEDS TRIAGE`).
 ## Guidelines
 
 - **The requirements are the authority** — human answers over assumptions over inference.
-- **Targeted finisher, not a rebuild.** An essentially empty branch is a `work` job (`NEEDS
+- **Targeted finisher, not a rebuild.** An essentially empty branch is a `shipyard:work` job (`NEEDS
   WORK`).
 - Production code only; no stubs to "close" a gap; never push, never PR — the conductor owns
   merge.

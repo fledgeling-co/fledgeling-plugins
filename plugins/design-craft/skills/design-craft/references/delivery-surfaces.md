@@ -20,7 +20,7 @@ CDN, a font host, `localStorage`, or a download link.
 ## The artifact CSP, stated once
 
 A published Artifact runs inside a sandboxed iframe whose CSP allows network egress only
-to the artifact's own origin. Anthropic's own design skill states the policy directly, and
+to the artifact's own origin. Anthropic's own built-in `design` skill states the policy directly, and
 this is the quotation the rest of this file rests on:
 
 > "**The iframe has no network egress beyond its own origin, Google Fonts aside.** The

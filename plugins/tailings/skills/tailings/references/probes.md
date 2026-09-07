@@ -66,7 +66,7 @@ command never ran.
 | R6 | Isolation claimed, no `ai/*` branch in the reflog or among merged branches | Asserted on the reflog rather than `git worktree list \| wc -l`: a completed fleet legitimately cleans its worktrees up |
 | R9 | Controls that render and do nothing, in files this window touched | A pointer, never a verdict — only a read separates a stub from a deliberate no-op |
 | R10 | A new module referenced only by its own test | A 150-line planner beside an existing 344-line routed one; `git grep` on the shared noun finds it in one command |
-| R11 | A credential falling back to a literal | Handed to `code-review`, ungraded. A secret-scan matching credential *shapes* cannot see a low-entropy literal, and one shipped as a live auth bypass |
+| R11 | A credential falling back to a literal | Handed to `code-review:code-review`, ungraded. A secret-scan matching credential *shapes* cannot see a low-entropy literal, and one shipped as a live auth bypass |
 
 ### The two that were rewritten after firing on correct work
 

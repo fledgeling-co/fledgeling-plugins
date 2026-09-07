@@ -13,7 +13,14 @@ prompt with non-linear logic or conditionals that require the model to piece tog
 different places in the prompt." Ten phases over a product of ten axes is what `thinking_level: HIGH` is for — "multi-step
 planning, verified code generation" — and 3.7 Flash defaults to `MEDIUM`; that is what the level is *for*, not a remedy.
 
-## Route out before phase 5, not after it
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 **[docs]** under **Task outside of model capabilities**: "Avoid using prompts that ask the model to perform a task for which
 it has a known, fundamental limitation." **[measured-family]** the gap is not uniform — over 106 tasks against

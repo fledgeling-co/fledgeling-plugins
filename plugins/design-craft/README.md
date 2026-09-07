@@ -4,7 +4,7 @@
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> design-craft</h1>
 <p align="center">
-  <img alt="Version 1.4.0" src="https://img.shields.io/badge/version-1.4.0-D33C21">
+  <img alt="Version 1.4.1" src="https://img.shields.io/badge/version-1.4.1-D33C21">
   <img alt="SWE skill: making" src="https://img.shields.io/badge/SWE_skill-making-434A55">
   <img alt="Gate assertions: 23 to 9" src="https://img.shields.io/badge/gate_assertions-23_to_9-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

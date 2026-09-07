@@ -69,7 +69,7 @@ XML
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string><string>-lc</string>
-    <string>command -v claude >/dev/null 2>&amp;1 &amp;&amp; exec claude -p "/mac-doctor $tier" || exec "$SKILL_DIR/scripts/reclaim.sh" --tier $tier</string>
+    <string>command -v claude >/dev/null 2>&amp;1 &amp;&amp; exec claude -p "/mac-doctor:mac-doctor $tier" || exec "$SKILL_DIR/scripts/reclaim.sh" --tier $tier</string>
   </array>
 XML
       ;;

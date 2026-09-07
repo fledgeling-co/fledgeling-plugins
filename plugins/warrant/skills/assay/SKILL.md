@@ -69,10 +69,10 @@ reads as coverage and tests nothing.
    ```
 
    It writes the `classes` block and the single `green` flag that `charter_validate.py` and
-   `ratchet` read. A mutation score with no recorded high-water mark is green on its own score; a
+   `warrant:ratchet` read. A mutation score with no recorded high-water mark is green on its own score; a
    score below the mark is not; no measurement at all is not.
 
-5. **Record all three.** `ratchet` reads `suite-health.json` and will not grant tier 2 to a class
+5. **Record all three.** `warrant:ratchet` reads `suite-health.json` and will not grant tier 2 to a class
    whose surface appears in the selection gap.
 
 ## What a bad first number means

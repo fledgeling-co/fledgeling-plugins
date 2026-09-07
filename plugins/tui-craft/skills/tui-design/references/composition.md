@@ -175,7 +175,7 @@ The corpus's good states teach rather than report:
 - Sequential work gets a stepper: a vertical rule with `◇` done, `●` current,
   `◐` in progress.
 
-`ux-craft` owns this properly, including the trunk test and errors that say how to
+`ux-craft:ux-craft` owns this properly, including the trunk test and errors that say how to
 fix. Load it before designing a flow.
 
 ## Density is a decision

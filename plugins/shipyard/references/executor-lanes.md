@@ -1,19 +1,21 @@
 # The executor coding lanes — agy, grok, codex, and the Claude fail-back
 
-> **Lane assignments are `defer`'s now.** Run
-> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]`
-> for the model, the effort and the exact argv, or `lane_run.sh <class> "<prompt>"`
-> to run and wire-verify it in one step. The classes are `implementation`,
-> `completeness`, `general`, `referral`, `verification` and `design-review`.
-> **Pass `--shape` whenever you know what the work is** — `defer --matrix` lists
-> the shapes. It narrows the class to the lanes measured good enough for that kind
-> of work before headroom picks, which is where the cost saving lives; the two
-> gated classes are `implementation` and `general`, and the judgement classes
-> abstain by design. Three rules bind everywhere: `gpt-5.6-sol` never runs at
-> `max` (it is the referral lane at `medium` and the implementation lane at
-> `high`), Fable judges but never grades code or a ticket, and design review stays
-> on Opus and Fable. What follows is this pipeline's reading of that policy, not a
-> second copy of it.
+> **Routing precedence:** use shipyard's `references/model-lanes.md`. Explicit user
+> preferences and current supported models come before `defer:defer`'s measured
+> fallback registry. CLI examples below describe their named lanes; they do not
+> select a model for the user or establish current availability.
+
+## Policy markers — active directives only
+
+Before a routed call, read the current project policy and the user's existing
+authorization. The scaffold's explicit opt-out is a line beginning
+`OPT-OUT: external-models`. Also honor explicit legacy directives
+`ANTHROPIC-ONLY`, `NO EXTERNAL MODEL CLIS`, or `external-model-clis: off`.
+A quoted example, code sample, or explanation mentioning a marker is not itself
+an opt-out. Interpret an actual directive rather than treating any grep hit as
+policy. Apply the governing instruction priority; do not request permission again
+when the conversation already authorizes the selected provider and action.
+
 
 Delegate mechanical, plan-scoped code writing to an external executor CLI, and spend the
 session model on orchestration, verification, and fixes. This file owns the **shared** delegation
@@ -22,8 +24,7 @@ mechanics follow, and the Codex-specific harness lives in `codex-cli.md`.
 
 ## Picking the lane: name the slice's shape, then ask
 
-There is no fixed lane order any more. Which executor is right depends on what the
-slice **is**, and `defer` measured that over 106 tasks rather than assuming it:
+For the usual workflow, resolve the user's Gemini 3.8 implementation route first, after Opus 5 has produced the intake, triage and plan artifacts. If no model was selected, use the measured fallback registry for the slice's shape:
 
 ```bash
 python3 <defer>/skills/defer/scripts/lane_pick.py --task implementation --shape <shape>
@@ -60,23 +61,16 @@ router falls back to headroom alone, which is the behaviour this file had before
 **Two overrides the score matrix cannot see.** The bench scores one bounded task per
 run, so it measures neither of these; both still hold:
 
-- **A slice long enough to compact goes to the codex lane** whatever the shape says.
-  Its post-compaction re-context harness (`codex-cli.md` §R3) re-injects the spec and
-  plan verbatim after every compaction, and no other lane has an equivalent. A lane
-  that drifts after compaction produces confident work against a forgotten spec, which
-  is worth more than the few points a better-scoring lane would add.
+- **A slice long enough to compact needs a durable checkpoint.** Keep spec/plan paths, completed slices, pending checks and working-tree state on disk, and require the resumer to read them. The Codex re-context harness (`codex-cli.md` §R3) is one supported mechanism; it is not a reason to override an explicitly selected Gemini lane. Split the slice when the selected harness cannot resume reliably.
 - **The grok lane keeps its harness fallback** — the same model via `cursor-agent`
   when the grok CLI cannot run headless. An honest substitute, and the accounting says
   which harness ran.
 
-**Claude remains the fail-back, unchanged.** Any lane failing for any reason routes to
-the session model: never to a sibling cheap lane (a lane that failed on quality doesn't
-get a stand-in carrying the same review debt), and never dropped or deferred because
-the cheap path was down.
+**Fallback follows the resolved model policy.** Record the failed lane and use an already-authorized capable fallback, including Opus where allowed. Do not call the session model Claude when it is GPT or Gemini, silently substitute a sibling lane, or drop the work because an optimization is down.
 
 The **review gates are a different job and do not use `--shape`**: the out-of-family spec/plan
 reviews and the completeness critic run per `second-opinion-lanes.md` and `codex-cli.md` §R1/R2
-(codex `gpt-5.6-sol` at `medium` first, then agy, then grok). `defer`'s shape gate abstains for
+(choose a supported capable reviewer from a family different from the actual writer). `defer:defer`'s shape gate abstains for
 those classes by design — the benchmark measures a model *building* something, which is no
 evidence about how well it grades someone else's work. Don't apply this file's cost reasoning
 to them either: an unavailable executor costs tokens; an unavailable reviewer costs evidence.
@@ -111,7 +105,7 @@ maker≠checker and idempotency logic; provenance-honesty judgment calls; contra
 cross-cutting refactors; merge-conflict resolution; e2e debugging; anything the plan marks
 "investigate"; and **design work** (page assembly, composites, anything aesthetic — executor
 design ability is weak; design routes per the `shipyard:design` skill). Two failed verify-fix cycles on a
-task → take it back to Claude and note it; executor thrash costs more than it saves.
+task → take it back to the designated capable owner and note it; executor thrash costs more than it saves.
 
 ## Egress and the repo opt-out (checked per invocation)
 
@@ -119,11 +113,10 @@ Every external-lane call transmits the spec, the plan, and every file the execut
 vendor — a sandbox flag restricts *writes*, not the network (a real fleet sent four auth files to
 a vendor before anyone framed it as an egress decision). Before each invocation, grep
 `CLAUDE.md` / `AGENTS.md` / `ORCHESTRATOR.md` for `ANTHROPIC-ONLY`, `NO EXTERNAL MODEL CLIS`, or
-`external-model-clis: off`. A hit means Claude writes the code and the ledger reads
-`<lane>: opted out (<file>) → claude`. Per-invocation because it is the only kill-switch that can
+`external-model-clis: off`. A confirmed active restriction selects a permitted fallback, recorded as `<lane>: opted out (<file>) -> <actual fallback>`; a marker quoted as documentation is not an active restriction. Per-invocation because it is the only kill-switch that can
 reach a run already in flight — a fleet cannot message its own inner workflow agents.
 
-## Invocation — agy lane (preferred)
+## Invocation — agy lane (when selected and supported)
 
 Run inside the feature's worktree so edits land on the branch:
 
@@ -134,8 +127,7 @@ cd "$WT" && perl -e 'alarm shift @ARGV; exec @ARGV' 1800 \
 
 Three agy facts that bite: **`--print` output buffers to the end** — never read its stdout for
 progress, wait for exit; the model/effort selection follows the agy config — confirm the lane's
-expected model in the captured output (`grep -i "gemini"` the log; a mismatch is `WRONG-MODEL`,
-lane failure); and an empty output file is a lane failure, not a pass.
+expected exact model in authoritative request/response metadata; a generic `gemini` log match is insufficient to prove Gemini 3.8 ran; and an empty output file is a lane failure, not a pass.
 
 ## Invocation — grok lane
 
@@ -157,12 +149,11 @@ name with `cursor-agent --list-models`; record `harness: cursor-agent` in the ac
 ## Invocation — codex lane
 
 `codex-cli.md` §R3 carries the full recipe (invocation, prompt contract, the mandatory re-context
-harness and its self-test). The implementation model on this lane is **`gpt-5.6-terra` at
-`medium`** — pass `-m` and the effort explicitly; a lane that silently inherits
+harness and its self-test). Resolve the authorized implementation model and effort from the current catalogue — pass `-m` and the effort explicitly; a lane that silently inherits
 `~/.codex/config.toml` defaults is not the lane you specified. The shape:
 
 ```bash
-cd "$WT" && codex exec -m gpt-5.6-terra -c model_reasoning_effort="medium" \
+cd "$WT" && codex exec -m "$CODEX_IMPLEMENTATION_MODEL" -c model_reasoning_effort="$CODEX_IMPLEMENTATION_EFFORT" \
   -s workspace-write --dangerously-bypass-hook-trust \
   -o "$WT/.codex/last-<slice>.md" "<prompt>" < /dev/null
 ```
@@ -191,7 +182,7 @@ on-disk files are your memory, not the conversation.
 Keep each invocation to one coherent plan step. Many small runs beat one sprawling session —
 cheaper retries, cleaner verification, far less compaction. On the agy and grok lanes the re-read
 instruction is all you get (which is why it is in every prompt); the codex lane adds the
-mechanical harness — prefer it for long slices.
+mechanical harness as one option. Preserve the selected model; use an equivalent supported checkpoint/resume path or split a long slice if its harness cannot resume reliably.
 
 ## The verify-fix loop (the caller's half — identical for every lane)
 
@@ -203,7 +194,7 @@ After each executor invocation:
    the self-certification bar in the `shipyard:work` skill (checklist rows at `file:line`, a real caller,
    the real-path exercise for critical seams).
 4. Small gaps → fix directly (don't round-trip trivia). Substantive gaps → one executor retry
-   with the failure quoted. Second failure → Claude rewrites; log `<lane>: reverted`.
+   with the failure quoted. Second failure → use the already-authorized capable implementation fallback; record what changed, and log `<lane>: reverted` only if its code was actually reverted.
 5. Commit with the normal discipline once green (stage only files you created/modified — never
    `git add .`).
 
@@ -211,7 +202,7 @@ After each executor invocation:
 
 Per item, per lane, never pooled: `<lane>: N tasks, M retries, K reverted (harness: <cli>)`.
 An executor lane reverting more than roughly **1 task in 3** in a repo stops being used for that
-repo — its work routes to Claude and the ledger says why. The whole justification for a lane is
+repo — route its work through the already-authorized capable fallback and record why. Do not silently override an explicit model choice; when no substitute is authorized, keep independent work moving and surface that specific routing decision. The whole justification for a lane is
 savings net of verification; thrash erases it. Review gates are exempt (a reviewer that keeps
 finding real defects is working) — track their *rejection* rate instead, and treat a reviewer
 whose findings are mostly rejected as mis-prompted or under-grounded, worth fixing rather than

@@ -4,6 +4,29 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-07
+
+### 54 plugin patch releases: model guidance and skill references
+
+Reviewed 71 skills across 55 plugins against current Claude and Opus 5 guidance.
+Updated 54 plugins, with synchronized patch versions; should-compact was reviewed
+unchanged. Prospective skill references now resolve to actual plugin namespaces,
+mixed-model handoffs honor current user preferences, and acceptance evidence stays
+distinct from repeated self-checking. Fixed Geminify's prefix-dropping resolver,
+Launch Craft's product-specific defaults and misleading source-check claims, and
+fleet/reviewer instructions that contradicted the new routing contracts.
+
+Aligned the worker's advertised fallback policy with its implementation steps,
+removed the remaining Obscura-only referral, and scoped UX calibration advice to
+its original evidence instead of asserting current model-family limitations.
+
+Added a reusable source-reference checker and regression tests. Historical
+measurements were preserved; no new cross-model performance results are claimed.
+The [review report](docs/skill-review-2026-09-07/README.md) records scope, sources
+and validation. The [version record](docs/skill-review-2026-09-07/versions.json)
+lists every previous and released plugin version. Source publication does not
+reload installed plugin caches or establish live cross-model performance.
+
 ## 2026-09-06
 
 ### test-campaign 0.19.0: gates for the demands one owner made more than once

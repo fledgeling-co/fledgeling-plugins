@@ -1,5 +1,7 @@
 # generate-investor-portal, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this once, before `## First, three exits`, then run the skill with the overrides below; each names the section it lands on.
 `assets/record-gate.mjs` runs offline and prints text you can paste — what changes is which rules are optional.
 
@@ -44,8 +46,8 @@ skill will not do refuses touching the renderer.
 - **The architectural half.** `[derived]` Its own words at L72–74: the drafting agent should not hold the production write, and `record-gate.mjs` plus
   `seed-portal.mjs` is that separation — model-independent by construction.
 - **The two input skills are already chained on artifacts, which is the fix other skills need.** `[measured-family]` On `COD Dossier` a composition
-  phrased as a lens was skipped, because nothing downstream depended on a file only those skills produce. Here `design-md-from-website` emits a
-  DESIGN.md and `company-overview-from-website` an overview, and §Build 1–2 cannot run without both — so the scan flags **zero** qualitative references.
+  phrased as a lens was skipped, because nothing downstream depended on a file only those skills produce. Here `design-md-from-website:design-md-from-website` emits a
+  DESIGN.md and `company-overview-from-website:company-overview-from-website` an overview, and §Build 1–2 cannot run without both — so the scan flags **zero** qualitative references.
   The one guidance-phrased routing left is §Voice's last line; Override 4 converts it.
 - **Everything this skill expresses as a closed set.** `PlatformProhibitionSchema`'s three refusals, the six `unavailable` reason codes, the ten motion
   presets, and now `SECTION_COMPOSITIONS` plus the two `structure` enums — a value a kind does not offer is refused at record level rather than
@@ -165,7 +167,7 @@ not available." That is `from: 'unavailable'` with a reason code — not an empt
 commitments became eleven documents an unlisted company does not publish while its own overview said it publishes none. `[derived]` Choosing that kind
 asserts three facts the source never stated, and the array validating is not the source stating them.
 
-The same settles §Voice's one guidance-phrased routing. `[derived]` *Route new Diolog copy through `create-diolog-content`* is the shape skipped on
+The same settles §Voice's one guidance-phrased routing. `[derived]` *Route new Diolog copy through `create-diolog-content:create-diolog-content`* is the shape skipped on
 `COD Dossier`, so make it a phase with an output: draft those strings to a file, read it when emitting those sections, and record in `generation`
 which came from it, or that the skill was absent.
 
@@ -196,7 +198,7 @@ Windows 10's accent on a Windows 11 surface. Fill this table first; a cell you c
 
 | Value | Source | Tier |
 |---|---|---|
-| brand hex, font stacks, spacing steps | the supplied DESIGN.md, measured by `design-md-from-website` | read |
+| brand hex, font stacks, spacing steps | the supplied DESIGN.md, measured by `design-md-from-website:design-md-from-website` | read |
 | the compositions each kind offers | `SECTION_COMPOSITIONS` in `portal-contract.ts` — §5 and `record-shape.md` both say to read it there, not off their own tables | read |
 | container width, display size → the `density` / `typeScale` bucket | the DESIGN.md's own layout and type tokens | read, then bucketed |
 | 4.5:1 body · 3:1 large and non-text · readable `Unavailable` text · ASX LR 4.10.3 and 4.7.4 · ASIC RG 198 | WCAG 1.4.3 / 1.4.11 / 1.4.1 and the regulators, via `evidence.md` E5, E3, E2 | read |
@@ -243,7 +245,7 @@ record, no crawl, database or money. Read it for the record's *shape*, then auth
 exemplar for composition or `structure`, which it states neither of.
 
 **One target, one file.** This copy in `fledgeling-plugins` is canonical: it carries the only `gemini.md`, the only `assets/`, and 638 lines of
-SKILL.md against the `diolog-plugins` mirror's 519. The mirror is left alone; reconciling the two is `improve-skill`'s call, not this file's.
+SKILL.md against the `diolog-plugins` mirror's 519. The mirror is left alone; reconciling the two is `improve-skill:improve-skill`'s call, not this file's.
 
 **Not written, and why.** `count-contract` fired and is not a section: the skill already promises counts, so it is Override 1's ledger and Override
 3's report. `emphasis` — nothing shouts here. `states` — the skill enumerates provenance states and reason codes, not UI unhappy paths, and those are

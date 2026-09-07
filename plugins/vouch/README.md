@@ -8,7 +8,7 @@
 A Claude Code skill that turns a period of card charges into a reimbursement claim: the form, the folder of invoices, and two reports somebody can sign.</p>
 
 <p align="center">
-  <img alt="Version 0.3.0" src="https://img.shields.io/badge/version-0.3.0-D33C21">
+  <img alt="Version 0.4.1" src="https://img.shields.io/badge/version-0.4.1-D33C21">
   <img alt="Gates 28" src="https://img.shields.io/badge/gates-28_blocking-434A55">
   <img alt="Built from one real claim" src="https://img.shields.io/badge/built_from-88_charge_claim-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

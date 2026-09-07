@@ -42,7 +42,7 @@ That citation is what makes this class safe to assert. Somebody wrote down what
 should exist, and it is not there: evidence of absence, rather than an absence
 of evidence. Everything weaker than a dangling citation is `unjoined` below.
 
-Where the difference still matters, `spec-validation` settles it; this skill is
+Where the difference still matters, `spec-validation:spec-validation` settles it; this skill is
 not entitled to that verdict from documents alone.
 
 ### `unjoined` — decision work
@@ -149,7 +149,7 @@ an in-tree unit test or mock test can pass 100% and satisfy a narrowed spec, but
 leaves the outer capability unbuilt. Routing this to `undecided` or `unbuilt`
 preserves the unfulfilled intent on the ledger instead of silently retiring it.
 
-`undecided` rows are `whats-left`'s natural input — they are the questions
+`undecided` rows are `whats-left:whats-left`'s natural input — they are the questions
 and scope decisions only the owner can burn down.
 
 ### `retirable` — bookkeeping
@@ -263,7 +263,7 @@ the coverage recovering the credential returns. One scheduled job.
 
 **A brief that looks finished.** Its requirement is `observed`, but the
 strongest case on that surface is `presence`. Not `retirable` — `undecided`,
-with the reason recorded and a route to `spec-validation`. The alternative is
+with the reason recorded and a route to `spec-validation:spec-validation`. The alternative is
 deleting a stated requirement on evidence that the thing appeared on screen.
 
 **A surface nobody asked for.** Forty surfaces, one with no case and no brief.

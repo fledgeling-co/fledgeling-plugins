@@ -3,14 +3,14 @@
 The framework for the two prompts this skill emits. (If the `deep-research-prompt-creator:deep-research-prompt-creator` skill is installed you may invoke it to draft/refine each prompt; this reference keeps the skill self-contained.) Both prompts are the **competitive / market** archetype.
 
 ## Why pseudo-XML
-Gemini's attention uses the tags to separate instruction from context and they survive the plan-compression step better than markdown headings. Use them verbatim.
+The tags separate instructions, evidence, examples and output requirements in a long research brief. Use one consistent delimiter structure; these tag names are a template convention, not a claim that XML always outperforms Markdown.
 
 ## The skeleton (fill every applicable section)
 
 ```
 <role>You are a senior [market-intelligence / positioning] analyst conducting a Deep Research investigation for [stakeholder]. Your output will directly inform [the specific decision/artefact].</role>
 
-<context>[2–4 sentences, <150 words: who needs it, why, what decision it informs, domain constraints — product, audience, geography, stage. Tight; context bloat degrades the run.]</context>
+<context>[2–4 sentences, <150 words: who needs it, why, what decision it informs, domain constraints — product, audience, geography, stage. Include the decision context the runner needs; link longer source material separately.]</context>
 
 <core_directive>[ONE sentence stating the single question the research must answer. The anti-drift anchor — repeated verbatim at the very end.]</core_directive>
 
@@ -18,7 +18,7 @@ Gemini's attention uses the tags to separate instruction from context and they s
 Primary:
 1. [Restates the core_directive as a question.]
 Secondary:
-2.–n. [3–7 total. More than ~8 triggers context rot.]
+2.–n. [3–7 total. Split a broader investigation into bounded subtopics.]
 </research_questions>
 
 <scope_and_boundaries>
@@ -43,7 +43,7 @@ Load-bearing — pain-point / language mining: extract the exact words buyers us
 
 <epistemic_bounding>
 Use inline tags; do not estimate or paper over gaps:
-<MISSING_DATA>…</MISSING_DATA> · <INSUFFICIENT_EVIDENCE>…</INSUFFICIENT_EVIDENCE> · <CONFLICTING_EVIDENCE>…</CONFLICTING_EVIDENCE> · <CONFIDENCE:LOW>…</CONFIDENCE:LOW> · <INFERENCE>…(show the chain)</INFERENCE>
+<MISSING_DATA>…</MISSING_DATA> · <INSUFFICIENT_EVIDENCE>…</INSUFFICIENT_EVIDENCE> · <CONFLICTING_EVIDENCE>…</CONFLICTING_EVIDENCE> · <CONFIDENCE:LOW>…</CONFIDENCE:LOW> · <INFERENCE>…(state the supporting evidence and assumptions)</INFERENCE>
 Do not present extrapolated numbers as empirical findings.
 </epistemic_bounding>
 

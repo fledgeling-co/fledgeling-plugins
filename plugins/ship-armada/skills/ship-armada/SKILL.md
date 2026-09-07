@@ -6,7 +6,7 @@ description: >-
 
 # Ship Armada — the portfolio orchestrator
 
-Manage **every project in `~/Dev` as one portfolio**. `ship-fleet` conducts one repo's backlog; you conduct the fleets. Your memory is `~/Dev/ARMADA.md` (the manifest of record) plus `~/Dev/CLAUDE.md` (portfolio operating rules); a fresh session must be able to resume the whole armada from those two files alone.
+Manage **every project in `~/Dev` as one portfolio**. `ship-fleet:ship-fleet` conducts one repo's backlog; you conduct the fleets. Your memory is `~/Dev/ARMADA.md` (the manifest of record) plus `~/Dev/CLAUDE.md` (portfolio operating rules); a fresh session must be able to resume the whole armada from those two files alone.
 
 ```
 ship-armada   (portfolio: ~/Dev — this skill)
@@ -25,17 +25,17 @@ Never nest: one armada session at a time, and never run ship-armada from inside 
 
 1. Read `~/Dev/CLAUDE.md`, then `~/Dev/ARMADA.md` — the index table first; load full entries only for projects you will touch this session.
 2. **Freshness check:** compare each index row's `updated` stamp against `git -C ~/Dev/<p> log -1 --format=%cs`. A repo with commits newer than its stamp is *stale*.
-3. Refresh stale entries you are about to rely on, using the `armada-sync` protocol (one entry each, in parallel via subagents when there are several). Entries you won't touch this session can stay stale — note them in your report instead of refreshing everything.
+3. Refresh stale entries you are about to rely on, using the `armada-sync:armada-sync` protocol (one entry each, in parallel via subagents when there are several). Entries you won't touch this session can stay stale — note them in your report instead of refreshing everything.
 4. If `ARMADA.md` is missing or structurally broken, rebuild it with the survey procedure in `references/manifest.md` before doing anything else.
 
 ## Tiered delegation (`tiered`)
 
-**With no `tiered` argument, behave exactly as this file otherwise describes** — `defer`, the
+**With no `tiered` argument, behave exactly as this file otherwise describes** — `defer:defer`, the
 second-opinion lanes and cross-family verify all included.
 
 Invoked with `tiered` (usually by flagship, which passes it down), four things change:
 
-- **`defer` and the out-of-family lanes are off.** Judgement stays in-family; the perch binding
+- **`defer:defer` and the out-of-family lanes are off.** Judgement stays in-family; the perch binding
   selects the model, so nothing here chooses one. **Never name a model in a brief or a campaign row.**
 - **The directory decides the tier.** `~/Dev` and the `bella*` / `atlas*` / `diolog*` / `dAIolog`
   projects are bound to a frontier model. **Every other project is unbound** and falls through to the
@@ -66,10 +66,10 @@ Pick the mode from what was asked; state which you're in.
 1. **Resolve the target project** from the ARMADA.md index — by name, alias, or best semantic match on the entry's What/Features lines. If nothing fits, treat the directive as a portfolio opportunity (Plan mode) instead. Running non-interactively, take the best match and record the assumption inside the brief you write.
 2. **Research first** when the directive asks for it, or when triage would otherwise be guessing: run deep research (the dossier MCP / deep-research skills; verify citations before relying on findings) and write the report to the project's `docs/deep-research/<slug>.md`.
 3. **Write the feature brief(s)** via the shipyard `shipyard:intake` skill run against the target repo — it writes the briefs to `docs/features-to-triage/` in the pipeline's brief shape, runs the trawl ideation pass for audience-worthy companion features (each its own `proposed-by-ai` brief the human can veto by deleting), and seeds platform expectations for app-shaped ideas. Do **not** allocate ledger IDs — ID allocation is a serialized triage write owned by the fleet.
-4. **Tell the project's orchestrator.** If the repo has an `ORCHESTRATOR.md`, append the item to its ledger/inbox as `untriaged — routed <date>`. That file is the channel to running agents: an active fleet re-reads its ORCHESTRATOR.md between events and will pick the item up; there is no other reliable way to reach in-flight runners. Judge whether a fleet is active from in-flight worktrees (`git worktree list`, `ai/*` branches) and fresh ORCHESTRATOR.md updates. If no fleet is active, either start `ship-fleet` for the repo (when the directive or a standing approval says to run) or leave the item queued for the next fleet and say so.
+4. **Tell the project's orchestrator.** If the repo has an `ORCHESTRATOR.md`, append the item to its ledger/inbox as `untriaged — routed <date>`. That file is the channel to running agents: an active fleet re-reads its ORCHESTRATOR.md between events and will pick the item up; there is no other reliable way to reach in-flight runners. Judge whether a fleet is active from in-flight worktrees (`git worktree list`, `ai/*` branches) and fresh ORCHESTRATOR.md updates. If no fleet is active, either start `ship-fleet:ship-fleet` for the repo (when the directive or a standing approval says to run) or leave the item queued for the next fleet and say so.
 5. **Update ARMADA.md**: the project entry's Status/opportunities lines, a Campaigns row when the directive is portfolio-scale, and one changelog line (`- <date> <project>: routed <feature> (research: yes/no; fleet: running/queued/started)`). Report what was routed where, what research was done, and whether a fleet is running.
 
-**Dispatch** — execute chosen campaigns/backlogs. Per project, choose the smallest sufficient vehicle: `ship-feature` for one feature; `ship-fleet` for a repo whose backlog has several items; a direct worktree edit + `code-review` gate for mechanical changes (e.g. a model-ID swap) that need no spec pipeline — and even that path gets a cross-family review when it touches anything outward-facing. Run **at most 3 projects concurrently**, one fleet per repo, merges inside a repo serialized by ship-fleet. After each project completes: update its manifest entry (armada-sync protocol), tick the campaign ledger, and commit repo changes per that repo's own conventions.
+**Dispatch** — execute chosen campaigns/backlogs. Per project, choose the smallest sufficient vehicle: `ship-feature:ship-feature` for one feature; `ship-fleet:ship-fleet` for a repo whose backlog has several items; a direct worktree edit + `code-review:code-review` gate for mechanical changes (e.g. a model-ID swap) that need no spec pipeline — and even that path gets a cross-family review when it touches anything outward-facing. Run **at most 3 projects concurrently**, one fleet per repo, merges inside a repo serialized by ship-fleet. After each project completes: update its manifest entry (armada-sync protocol), tick the campaign ledger, and commit repo changes per that repo's own conventions.
 
 **Daemon** — a recurring survey+plan loop. Set it up with the `better-loop:better-loop` skill rather than the built-in `/loop` (the session cron expires after seven days and cannot hand restricted skills to the run; better-loop polls outside the session and wakes it only on a change), cadence agreed with the user — daily or weekly is typical. Each tick: freshness check → refresh stale entries → scan for new tech worth adopting (see Upgrade radar) → append new opportunities/campaigns as `proposed` → report the delta since last tick. The daemon proposes; it only executes campaigns the user has marked `approved` in `ARMADA.md`.
 
@@ -95,11 +95,11 @@ Map each finding to concrete projects via the manifest (Stack + AI/tech opportun
 
 ## Model routing and runner prompts
 
-Orchestration stays in-session on the session model. Runners (ship-fleet / ship-feature invocations and heavy subagents) run **Claude Opus** — model ID `claude-opus-5` — at effort `high`; use `low`/`medium` for mechanical or read-only passes. When writing prompts for Opus 5 runners, follow the platform guidance you'd verify on the Upgrade radar URLs:
+Orchestration stays with the authorized conductor (normally GPT-6). Route intake, triage and planning to Opus 5, then implementation to Gemini 3.8 when those are the user's selected roles; resolve the actual supported IDs and effort values from the runner. Follow shipyard's `references/model-lanes.md` for artifact handoffs, availability and fallbacks. When writing Opus 5 prompts, follow the platform guidance on the Upgrade radar URLs:
 
 - Give the complete task specification up front and let the runner finish; don't drip-feed.
 - State scope plainly: "Deliver what was asked, at the scope intended" — Opus 5 follows instructions literally and may otherwise widen scope.
-- Do not add verification scaffolding ("double-check", "verify with a subagent") — Opus 5 self-verifies, and such instructions cause over-verification.
+- Avoid generic extra self-review ("double-check", "verify with a subagent"). Keep required acceptance tests, rendered comparisons and independent gates; they acquire evidence that self-correction cannot supply.
 - Cap delegation explicitly in runner prompts: one subagent only for genuinely independent, sizeable tracks.
 - Ask for concise deliverables explicitly; effort controls thinking, not visible length.
 - Use calm trigger language ("Use X when …", never "CRITICAL: you MUST") — current models overtrigger on aggressive phrasing.

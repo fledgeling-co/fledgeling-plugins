@@ -1,6 +1,6 @@
 # The Essence — what actually makes a great mac app great
 
-The synthesis the whole corpus was built to answer. 135 curated apps, the UX canon (Krug, Norman, Yablonski, Wathan & Schoger via ux-craft), design-craft's philosophy, and Apple's eight principles converge on a small number of convictions. Read this before designing; use its vocabulary when critiquing. Everything here is evidenced — corpus statistics cited where they exist.
+The synthesis the whole corpus was built to answer. 135 curated apps, the UX canon (Krug, Norman, Yablonski, Wathan & Schoger via ux-craft:ux-craft), design-craft:design-craft's philosophy, and Apple's eight principles converge on a small number of convictions. Read this before designing; use its vocabulary when critiquing. Everything here is evidenced — corpus statistics cited where they exist.
 
 ## The one-sentence answer
 
@@ -18,10 +18,10 @@ The best-scoring corpus apps de-emphasise instead of amplify (85/50/25 ink tiers
 The corpus is glanceability-obsessed — the strongest cluster identities (Menu-bar Instrument, Notch Native) are apps whose entire body answers one question in under a second (a 36pt tabular figure, a coloured status). That's Krug's law at mac scale: every moment spent parsing the interface is a cost. Hick's law showed up in 60 apps as ruthless choice-reduction. *Practice: name the surface's single question; promote its answer to the visual hero; cut or demote everything that competes (design-craft's five-question test per element).*
 
 **4. States are where quality actually lives.**
-The canon's single highest-leverage habit (ux-craft): design the **states**, not the screen — empty, loading, ideal, partial, error, done for every async surface; hover, focus, active, disabled for every control. The corpus's empty-state pattern evidence shows the great apps treat first-run as a designed moment (illustration + one sentence + one action), not an absence. A beautiful ideal-state mock is a third of a design. *Practice: every hi-fi mock ships its state matrix — ideal + empty rendered, the rest specified; unhappy paths get real copy.*
+The canon's single highest-leverage habit (ux-craft:ux-craft): design the **states**, not the screen — empty, loading, ideal, partial, error, done for every async surface; hover, focus, active, disabled for every control. The corpus's empty-state pattern evidence shows the great apps treat first-run as a designed moment (illustration + one sentence + one action), not an absence. A beautiful ideal-state mock is a third of a design. *Practice: every hi-fi mock ships its state matrix — ideal + empty rendered, the rest specified; unhappy paths get real copy.*
 
 **5. Words are load-bearing.**
-macOS has a copy grammar as strict as its spatial one: **verb-first buttons that name the action** ("Save changes", never "Submit"/"OK" on consequential actions); **"…" means opens-a-further-view**, absent means commits now; one name per action kept through the flow; errors say what happened + how to fix, adjacent, never blaming (never emoting); helper text is one quiet secondary sentence under its control. *Practice: write the real words as part of the design (ux-craft ux-writing); placeholder copy hides both layout and comprehension failures.*
+macOS has a copy grammar as strict as its spatial one: **verb-first buttons that name the action** ("Save changes", never "Submit"/"OK" on consequential actions); **"…" means opens-a-further-view**, absent means commits now; one name per action kept through the flow; errors say what happened + how to fix, adjacent, never blaming (never emoting); helper text is one quiet secondary sentence under its control. *Practice: write the real words as part of the design (ux-craft:ux-craft ux-writing); placeholder copy hides both layout and comprehension failures.*
 
 > **Casing — this conviction previously overclaimed, and the correction is sourced.** It
 > asserted sentence case *everywhere*. Apple's HIG specifies **title-style capitalization,

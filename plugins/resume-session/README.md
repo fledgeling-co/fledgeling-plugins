@@ -4,7 +4,7 @@
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> resume-session</h1>
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
+  <img alt="Version 1.1.1" src="https://img.shields.io/badge/version-1.1.1-D33C21">
   <img alt="SWE skill: session recovery" src="https://img.shields.io/badge/SWE_skill-session_recovery-434A55">
   <img alt="CLI platforms: 5" src="https://img.shields.io/badge/CLI_platforms-5-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -16,7 +16,7 @@ When an AI model hits its usage limit (a 503 reserve cap, a 429 rate limit, toke
 
 The problem is that the new model starts completely blind. It spends thousands of tokens re-reading files you already modified, re-asking questions you answered an hour ago, guessing at database configs, and re-writing plans from zero.
 
-`resume-session` moves that rediscovery off the model and onto your own machine. It scans for sessions across the CLIs listed below, parses their transcripts on disk, extracts six things the incoming agent would otherwise have to work out for itself, and hands it a written briefing to start from.
+`resume-session:resume-session` moves that rediscovery off the model and onto your own machine. It scans for sessions across the CLIs listed below, parses their transcripts on disk, extracts six things the incoming agent would otherwise have to work out for itself, and hands it a written briefing to start from.
 
 ---
 
@@ -46,7 +46,7 @@ Every resumed session is distilled into six concrete things:
 
 ## Universal multi-CLI discovery
 
-`resume-session` includes a standalone, pure Python 3 discovery engine (`find_session.py`) that indexes sessions across your entire environment:
+`resume-session:resume-session` includes a standalone, pure Python 3 discovery engine (`find_session.py`) that indexes sessions across your entire environment:
 
 | CLI platform | Transcripts discovered | Supported formats |
 | :--- | :--- | :--- |

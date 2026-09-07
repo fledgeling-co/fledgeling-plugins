@@ -8,7 +8,7 @@ description: >-
   because the card that paid a charge does not decide whose expense it is. Sweeps a personal-accounting MCP
   (PocketSmith or any equivalent), the Apple Mail index through the Sift MCP, card statement PDFs and a downloads
   folder; finds the days on which the bank feed holds nothing at all and backfills them from statements, which is
-  where the charges nobody noticed are hiding. Drives supplier portals through proctor when a login is needed, and
+  where the charges nobody noticed are hiding. Drives supplier portals through proctor:proctor when a login is needed, and
   emits a wanted-invoices page — date, supplier, estimated amount, portal link, account address — whenever a portal
   refuses automation. Produces a claim CSV in the employer's own layout, invoices filed by month and named for the
   invoice number printed inside them, and two unbranded reports for the approver and the accountant. Use when
@@ -34,7 +34,7 @@ Three failures make a claim worse than useless, and each has happened on a real 
 
 Everything below exists to make one of those three impossible.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives every categorical scope in the claim a denominator, adds a bound ledger read back off the artifact, and makes validate.py check that find_blind_days, classify_accounts, cross_check, card_on_document and design-review actually ran. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives every categorical scope in the claim a denominator, adds a bound ledger read back off the artifact, and makes validate.py check that find_blind_days, classify_accounts, cross_check, card_on_document and `design-review:design-review` actually ran. Other models skip it.
 
 ## The one rule the rest follow
 
@@ -111,7 +111,7 @@ Read the mail index rather than searching it blind: find the real billing sender
 amid thousands of `notifications@…`), then query by sender and date window. `references/sources.md` §Mail carries
 the schema, the join column that is *not* called `key`, and the reason attachment bytes are usually absent.
 
-For portals, route to **`proctor`**, which drives the operator's own signed-in browser through the macOS
+For portals, route to **`proctor:proctor`**, which drives the operator's own signed-in browser through the macOS
 accessibility tree rather than a separate automation profile. That distinction is load-bearing: Cloudflare blocks
 headless and profile-copy automation on several supplier portals, and the operator's real browser is the only thing
 that gets through. `references/portals.md` carries the verified URLs, the ones that 404 even when signed in, and
@@ -214,7 +214,7 @@ The filename-versus-content audit is the one that earns its keep. On a real run 
 attachment by its invoice number" safe, after an earlier pass had put fourteen rows on the wrong month by keying
 them to a billing email instead of the invoice.
 
-Then look at the rendered reports. Route to `design-review` for the deterministic gates; it found a contrast
+Then look at the rendered reports. Route to `design-review:design-review` for the deterministic gates; it found a contrast
 failure of 1.96:1 on the single most important number in a document that had passed every other check.
 
 `references/gates.md` carries every check with the defect that motivated it.

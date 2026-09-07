@@ -1,5 +1,7 @@
 # design-review, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this once before Scope, then run the pipeline with these overrides; each names the stage it
 lands on. This skill's defences are already mechanical — a ledger on disk, an exit code, a
 denominator beside every count. What changes is that none are optional here: `worklist.py check` is

@@ -325,7 +325,7 @@ the target after a fix. For React Native the target side is the rendered native 
 `references/react-native.md`.
 
 **When the target is a native macOS app, an Electron app, or a web build whose divergence sits in a class
-this engine returns `""` for, the target side goes through `proctor`** — `references/native-lane.md`.
+this engine returns `""` for, the target side goes through `proctor:proctor`** — `references/native-lane.md`.
 Establish its tier first, because it decides what a finding may claim: `proctor_inspect` returns resolved
 colours, fonts, radii and opacity for an app embedding `ProctorReflector`, and `reflectorUnavailable` for
 one that does not, in which case every style class is inconclusive and the ceiling is the tree plus

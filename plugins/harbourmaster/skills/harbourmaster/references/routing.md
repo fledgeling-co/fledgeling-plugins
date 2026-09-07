@@ -9,14 +9,14 @@ The decision procedure, and the cases where it is not obvious.
    corpus processing and self-contained builds are.
 2. **Is the output a judgement rather than an artifact?**
    A verdict, a review, a completeness critique, a second opinion — that is
-   `defer`. It costs another vendor's plan headroom and none of this machine's
+   `defer:defer`. It costs another vendor's plan headroom and none of this machine's
    cores, which makes it nearly free in the resource that is scarce here.
 3. **Does it drive or observe a native macOS application?**
-   `proctor`. Nothing else reads the accessibility tree or attaches frame
+   `proctor:proctor`. Nothing else reads the accessibility tree or attaches frame
    trustworthiness to a capture, and no container can, since there is no
    window server in one.
 4. **Is it reading and searching rather than executing?**
-   Claude subagents or a workflow. Cap the fan-out; the cost is context and
+   Available in-harness subagents or a workflow. Cap the fan-out; the cost is context and
    rate limit, not CPU.
 5. **Otherwise it runs here** — through `governor-run`, at a weight that
    reflects what it will actually want.
@@ -29,7 +29,7 @@ assumed:
 - `scripts/pressure.py` for this machine.
 - `anvil errand --check` for the node — it changes nothing and answers in one
   call.
-- `defer`'s `lane_pick.py --report` for every model lane's headroom.
+- `defer:defer`'s `lane_pick.py --report` for every model lane's headroom.
 
 A long build with no local dependency, on a pinned Mac with a healthy node, goes
 to the node even though running it here would be simpler. That is the whole
@@ -42,7 +42,7 @@ Common and usually right:
 - **Build on the node, verify here.** The artifact comes back; the native-app
   assertions need this machine's window server.
 - **Execute here, judge elsewhere.** The suite takes berths; the verdict on
-  what it produced goes to `defer`, out-of-family.
+  what it produced goes to `defer:defer`, out-of-family.
 - **Search in subagents, act in one place.** Fan out to find the sites, then
   make the changes in the session that owns the tree.
 

@@ -4,7 +4,7 @@ Reference for digesting app icons (e.g., from macapp.supply/icons). Covers canva
 
 **Without this file, an icon digest classifies nothing and compares nothing** — it reports colours and a shape, and every icon reads as sui generis. The era model in §2 is what makes two icons commensurable: era first, then everything else is read relative to that era's grammar, so a "flat" icon in 2013 and a "flat" icon in 2026 stop being the same observation. §5's field list is what makes a digest joinable to the next one.
 
-Written from Apple HIG app-icon guidance and observed mac indie-icon practice; where a user-supplied Apple UI kit or Icon Composer template contradicts this file, the kit wins. §4's rubric is owned by `create-mac-icon` and cited here rather than restated.
+Written from Apple HIG app-icon guidance and observed mac indie-icon practice; where a user-supplied Apple UI kit or Icon Composer template contradicts this file, the kit wins. §4's rubric is owned by `create-mac-icon:create-mac-icon` and cited here rather than restated.
 
 ## 1. Canvas and grid
 
@@ -19,7 +19,7 @@ Written from Apple HIG app-icon guidance and observed mac indie-icon practice; w
 
 Classify every digested icon into an era before anything else. It anchors the rest of the analysis, because it is what makes two icons commensurable: a "flat" icon in 2013 and a "flat" icon in 2026 are not the same observation until you know which language each is speaking. Eras are visual languages rather than dates; new indie icons often quote an older era deliberately, and that quotation is a signature move rather than a defect.
 
-**This section is now the only home for the era model across this skill and `mac-craft`.** That skill cut its bundled icon corpus outright and cedes all icon work to `create-mac-icon`, so nothing else in the pair carries the era boundary. Keep it current; a stale era table quietly mis-files every icon digested after the next macOS release.
+**This section is now the only home for the era model across this skill and `mac-craft:mac-craft`.** That skill cut its bundled icon corpus outright and cedes all icon work to `create-mac-icon:create-mac-icon`, so nothing else in the pair carries the era boundary. Keep it current; a stale era table quietly mis-files every icon digested after the next macOS release.
 
 | Era | System window | Signature | Tell-tale evidence |
 |---|---|---|---|
@@ -36,7 +36,7 @@ Record it as two digests plus one delta note in `icons/<app>.md`: what survived 
 
 An era pair still counts as **one app** toward the ≥3-independent-apps bar. Two icons of one subject are one root; the pair's value is qualitative, not arithmetic.
 
-Two known gaps in `create-mac-icon`'s corpus, worth knowing when you cite it as a comparison set: its exemplar roster is headed "A-grade" but 14 of its 51 apps are graded B, so the heading overstates the set; and Slack and ChatGPT appear in it with no analysis block at all. Cite specific graded entries rather than the roster's heading.
+Two known gaps in `create-mac-icon:create-mac-icon`'s corpus, worth knowing when you cite it as a comparison set: its exemplar roster is headed "A-grade" but 14 of its 51 apps are graded B, so the heading overstates the set; and Slack and ChatGPT appear in it with no analysis block at all. Cite specific graded entries rather than the roster's heading.
 
 ## 3. Composition conventions (what to look for)
 
@@ -66,18 +66,18 @@ Two known gaps in `create-mac-icon`'s corpus, worth knowing when you cite it as 
 
 ## 4. Icon evaluation rubric — cited, not owned here
 
-**`create-mac-icon` owns the 12-point rubric.** Its canonical text lives in that plugin's `references/icon-directions.md`, which carries the per-check corpus statistics and the generation bar. This file previously held a third copy, and the copy had silently lost the two statistics that make the rubric actionable — which is exactly how a restated rubric fails: it drifts, and nothing notices. **Where this index and that file differ, that file wins**, and a difference worth noticing is worth reporting.
+**`create-mac-icon:create-mac-icon` owns the 12-point rubric.** Its canonical text lives in that plugin's `references/icon-directions.md`, which carries the per-check corpus statistics and the generation bar. This file previously held a third copy, and the copy had silently lost the two statistics that make the rubric actionable — which is exactly how a restated rubric fails: it drifts, and nothing notices. **Where this index and that file differ, that file wins**, and a difference worth noticing is worth reporting.
 
 Digestion needs the enumeration to produce an `n/12` score, so the checks are indexed here by name only:
 
 1 mask discipline · 2 grid adherence · 3 silhouette test · 4 16px squint test · 5 single light model · 6 palette economy · 7 figure-ground contrast ≥3:1 · 8 depth coherence · 9 era coherence · 10 variant robustness under dark/clear/tinted · 11 personality device · 12 no-text check.
 
-Two of those carry corpus statistics, and they are what turn a checklist into a priority order *(both attributed to `create-mac-icon`'s corpus of 532 shipping icons)*:
+Two of those carry corpus statistics, and they are what turn a checklist into a priority order *(both attributed to `create-mac-icon:create-mac-icon`'s corpus of 532 shipping icons)*:
 
 - **#3 silhouette — 26 icons fail here.** Non-negotiable.
 - **#10 variant robustness — 76% fail, the highest-leverage fix.** They ship a flat pre-masked raster, so identity rides on a colour relationship that dies under Dark/Clear/Tinted.
 
-Scoring rules for digestion: pass/fail with one line of evidence each. A borderline check is a **soft pass** — score it as a pass and flag it in prose, because the flag is what reaches synthesis. Checks 1–4 are what the system and the Dock do to an icon regardless of intent, so a failure there is structural rather than stylistic. The *generation* bar (≥10/12, no failures on 1–4) belongs to `create-mac-icon`; this skill scores what exists rather than gating what ships.
+Scoring rules for digestion: pass/fail with one line of evidence each. A borderline check is a **soft pass** — score it as a pass and flag it in prose, because the flag is what reaches synthesis. Checks 1–4 are what the system and the Dock do to an icon regardless of intent, so a failure there is structural rather than stylistic. The *generation* bar (≥10/12, no failures on 1–4) belongs to `create-mac-icon:create-mac-icon`; this skill scores what exists rather than gating what ships.
 
 ## 5. Icon digest fields
 

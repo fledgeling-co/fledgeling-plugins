@@ -147,7 +147,7 @@ to #11.
 
 ## When composing with `/goal`
 
-`/goal /better-goal <intent>` is supported and additive. The built-in's condition
+`/goal /better-goal:better-goal <intent>` is supported and additive. The built-in's condition
 is capped at 4,000 characters and judged on transcript text by a small model with
 no tools, so keep it to one sentence naming the end state and the brief path, and
 let the gates do the work:

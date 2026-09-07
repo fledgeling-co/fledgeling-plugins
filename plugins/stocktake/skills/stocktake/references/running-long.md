@@ -25,7 +25,7 @@ The gate set, each judged on exit code — `scripts/gates.py <gate> <ledger-dir>
 | `inconclusive-reported` | Is every inconclusive row's reason recorded, in 30 characters or more? |
 | `ungraded-reported` | Does every card the method never ran on say which of steps 1-6 were skipped? |
 | `briefs-written` | Does every card with work remaining have a brief that names it and serves at most 3 cards? |
-| `dispatched` | Was work actually handed to `ship-fleet` — at least one card, with per-card attributed deferrals for the rest? |
+| `dispatched` | Was work actually handed to `ship-fleet:ship-fleet` — at least one card, with per-card attributed deferrals for the rest? |
 | `classified` | Does every graded card name the warrant defect class it was graded under? |
 | `banked` | Did every terminal verdict reach `.warrant/ledger.jsonl` with an evidence digest? |
 | `verified-gate` | If any card was promoted past Done, do all eight preconditions hold? |
@@ -36,7 +36,7 @@ was checked against a reverted gate, so a case that passes both ways is not in t
 
 `dispatched` is the gate that separates a finished run from a finished audit, and it is the
 one to reach for when a sweep reports success and the board has not moved. A run that handed
-108 briefs to `ship-fleet` and a run that handed over nothing produce the same ledger without
+108 briefs to `ship-fleet:ship-fleet` and a run that handed over nothing produce the same ledger without
 it. It refuses a run that dispatched nothing, a reason repeated across more than three cards, and
 a deferral naming nobody who decided it. The first version accepted any recorded deferral as
 equal to a dispatch — which let the author of a sweep excuse itself, and one run deferred all

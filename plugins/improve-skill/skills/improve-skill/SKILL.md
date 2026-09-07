@@ -1,7 +1,7 @@
 ---
 name: improve-skill
 description: >-
-  End-to-end skill-improvement pipeline — take an existing skill (a repo, a SKILL.md, references) plus the user's feedback about it, run paid+free deep research on how to improve it (Dossier MCP panel), combine everything into a plan, build the improved skill as a new plugin in this marketplace, prove it with comparative evals and a blind multi-family AI judge panel (CLIs and APIs, keys via 1Password), iterate on the findings, then ship the full brand treatment — Luke-voice README and EVALS with a succinct-then-deep comparison to the original, a name the user chose from options, a mac-design-studio icon with its audit sheet, composed banners, a root-README entry — and commit and push. Use whenever the user wants to improve, upgrade, rebuild, modernise or "make a better version of" an existing skill, asks to research how a skill could be better, or hands over a skill plus complaints about it. Not for building a brand-new skill from scratch with no predecessor (use skill-creator directly).
+  End-to-end skill-improvement pipeline — take an existing skill (a repo, a SKILL.md, references) plus the user's feedback about it, run paid+free deep research on how to improve it (Dossier MCP panel), combine everything into a plan, build the improved skill as a new plugin in this marketplace, prove it with comparative evals and a blind multi-family AI judge panel (CLIs and APIs, keys via 1Password), iterate on the findings, then ship the full brand treatment — Luke-voice README and EVALS with a succinct-then-deep comparison to the original, a name the user chose from options, a create-mac-icon:create-mac-icon icon with its audit sheet, composed banners, a root-README entry — and commit and push. Use whenever the user wants to improve, upgrade, rebuild, modernise or "make a better version of" an existing skill, asks to research how a skill could be better, or hands over a skill plus complaints about it. Not for building a brand-new skill from scratch with no predecessor (use create-skill:create-skill).
 ---
 
 # improve-skill
@@ -91,7 +91,7 @@ Do not proceed to Phase 5 until both are answered.
 
 Full protocol: `references/brand-and-docs.md`. In brief:
 
-- **Icon**: an Opus agent running mac-design-studio's hardened icon
+- **Icon**: an available visual-capable runner invoking `create-mac-icon:create-mac-icon`'s icon
   pipeline — three engines are a floor, `audit.html` from the template
   is a required deliverable, losing takes stay scored on the sheet — and
   briefed with the **marketplace aesthetic** in
@@ -99,17 +99,17 @@ Full protocol: `references/brand-and-docs.md`. In brief:
   shape, porcelain register (dark is trawl's alone), one vermilion/ember
   accent on the focal element, rich volumetric gel material over flat
   vector, a subject-mined glyph with a stated signature move.
-- **Banner**: composed HTML (design-craft + ux-craft), the *real* icon
+- **Banner**: composed HTML (`design-craft:design-craft` + `ux-craft:ux-craft`), the *real* icon
   beside a set wordmark, rendered at 2× retina. Never a generated image
   standing in for typography.
 - **Open both before shipping them.** Serve `audit.html` and read it; `Read`
   the rendered banner and the icon at 256 and 32. A written file is not a
   looked-at file, and a sheet whose `src` paths are wrong renders empty while
-  every step reports success. Where `create-mac-icon` is installed, gate the
+  every step reports success. Where `create-mac-icon:create-mac-icon` is installed, gate the
   sheet mechanically first with its `scripts/audit_sheet.py check <dir>`
   (exit 0 required) and prefer routing the whole icon commission to it — it
   carries the fidelity loop this phase otherwise does without.
-- **README + EVALS.md**: create-luke-content marketing persona, voice
+- **README + EVALS.md**: `create-luke-content:create-luke-content` marketing persona, voice
   lint clean (the em-dash ban covers alt text and repo descriptions),
   written for a non-technical reader, with the comparison to the
   original stated succinctly up top and in depth in EVALS.md. Mermaid
@@ -137,9 +137,9 @@ the banner, the audit sheet and the root-README row, and nothing failed — the
 user had to ask what was missing. Prose describes the finish line; an exit code
 is the only thing that notices you did not cross it.
 
-Note what the gate still will not catch: a missing root-README row is a
-**warning** there, not a failure, and it falls back to `plugin.json` for the card
-copy. Until that is promoted, the row is on you to verify by eye.
+The current catalogue gate also fails on a missing root-README row; its
+legacy row-debt exemption list is empty. The gate does not judge layout, so
+inspect the rendered row and its `<br clear="left" />` separation as well.
 
 ## Phase 6 — Ship
 
@@ -153,21 +153,20 @@ usage is part of the deliverable.
 
 `evals/evals.json` carries foundational **process** evals: they assert the
 pipeline's skills and tools are actually invoked (Dossier panel, full-read
-+ citation verification, blind panel, create-luke-content + lint,
-mac-design-studio + audit.html, root-README update, commit/push) and that
++ citation verification, blind panel, `create-luke-content:create-luke-content` + lint,
+`create-mac-icon:create-mac-icon` + audit.html, root-README update, commit/push) and that
 the two user checkpoints are asked before generation. Output quality is
 proven by the evals this pipeline builds for each improved skill, not here.
 
 ## Prompting the agents this pipeline spawns
 
-Every runner here is Opus, so each brief is an Opus prompt and its shape decides
-what comes back. `references/opus-5-prompting.md` carries the patterns and the
-three Anthropic documents to read in full first: XML-structured briefs with the
-task last, no verification scaffolding (Opus 5 self-verifies, and instructing it
-again causes over-verification), explicit delegation caps and scope statements,
-vision work given crop-and-sample tools rather than told to double-check,
-calibrated deliverable length, calm trigger language, and the environment traps
-that make `claude -p` fail in ways no code review catches.
+Read `references/runner-contract.md` before writing a handoff. It defines exact
+skill resolution, model selection, artifact dependencies, ownership, acceptance
+evidence and stop conditions. The default roles are Opus 5 for intake, triage and
+plan, Gemini 3.8 for implementation, and GPT-6 for orchestration, resolved against
+the models and parameters actually available in the current harness. Explicit
+user choices take priority. Use `references/opus-5-prompting.md` only for the
+Opus-specific additions; keep required gates and remove redundant self-checks.
 
 ## Operating rules (learned the hard way)
 

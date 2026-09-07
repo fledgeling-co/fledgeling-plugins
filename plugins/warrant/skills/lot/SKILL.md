@@ -22,7 +22,7 @@ clinical laboratories: accept the lot under a declared risk limit (`I2`).
    items whose evidence is the test suite, so the plan inherits that suite's fault
    sensitivity — and more than half of over 15,000 generated mutants survived a passing
    unit, integration and system suite (`C18`). `lot_plan.py` exits 3 without
-   `.warrant/suite-health.json`, naming `assay` as the step that produces it.
+   `.warrant/suite-health.json`, naming `warrant:assay` as the step that produces it.
    `--unmeasured-suite` plans anyway and records the omission in the plan and on every
    run, the same way `--rate` records an override, so a plan built over an unmeasured
    suite cannot pass as one built over a measured one.

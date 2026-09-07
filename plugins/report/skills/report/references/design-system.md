@@ -135,7 +135,7 @@ Where the MCP is not installed, say so in one line and substitute
 deliberately — sibling reports, the project's own screens, any design
 system in the repo. Never imply a reference pass happened.
 
-`design-craft`'s `references/mobbin-trawl.md` is the fuller playbook,
+`design-craft:design-craft`'s `references/mobbin-trawl.md` is the fuller playbook,
 including the competitor-diagnosis method for when a named page feels
 better than yours.
 

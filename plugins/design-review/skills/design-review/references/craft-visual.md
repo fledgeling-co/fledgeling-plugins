@@ -193,7 +193,7 @@ Types you did not open go in the report's Coverage block as the unopened remaind
 
 ## Lookalike (when the brief asked for a distinct site, or more than one site exists)
 
-This is the review-time counterpart of design-craft:design-craft:design-craft's `lookalike-gate.md`. It does not replace systematisation (stage 8), which measures specification vs default. It asks whether *this* first viewport is the previous one, the category default, or a named neighbour with the nouns swapped.
+This is the review-time counterpart of design-craft:design-craft's `lookalike-gate.md`. It does not replace systematisation (stage 8), which measures specification vs default. It asks whether *this* first viewport is the previous one, the category default, or a named neighbour with the nouns swapped.
 
 **When it applies.** Greenfield marketing or Experience surfaces; a session or repo that already holds another site from the same generator; a brief that named distinctiveness. **When it does not.** Operate and Read surfaces matching an incumbent system; a user who asked for the category standard played straight. Mark `n/a: <reason>` on the worklist craft cell's notes rather than skipping the rest of craft.
 

@@ -1,0 +1,483 @@
+# Craft skill review, 2026-09-07
+
+## Scope and method
+
+Owned the 20 plugins listed below, including their 21 SKILL.md entrypoints, active references, Gemini adapters, README invocation examples, and relevant templates. Reviewed the instruction inventory with identifier-resolution, model-assumption, scope, evidence-gate and tool-availability checks. Used targeted full reads of the model guidance and affected workflows rather than changing every file mechanically. Historical EVALS, research reports, corpus records, icon fixtures and asset outputs were left unchanged; primitive-icons.md and material-recipes.md were restored byte-for-byte after the broad reference scan flagged factual names.
+
+Sources read: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md, https://platform.claude.com/docs/en/about-claude/models/migration-guide.md, https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5.md, https://platform.claude.com/docs/en/models/opus-5/migration-guide.md. These are the official sources fetched by the root agent. Also read repository CLAUDE.md.
+
+## Findings and repairs
+
+- Qualified active references using real plugin/skill identifiers, including external installed plugin skills. Kept standalone built-ins, CLI selectors, record categories, schema fields, filenames and historical source names distinct. In particular, `report`, `ledger`, `panel` and the built-in `design` remain bare where they are data or command values rather than skill invocations.
+- Gemini adapters now state that their historical runs do not establish Gemini 3.8 capability limits. User-selected implementation lanes take precedence; routing advice needs the measured model or an observed current limitation. Task-specific artifact gates and historic numerical results remain.
+- Agent-voice separates redundant self-check reminders from acceptance evidence. Its model guide now scopes Opus 5 adjustments explicitly, explains GPT-6 orchestration / Opus planning / Gemini implementation as user workflow roles, and requires runtime model discovery rather than invented aliases. Subagent briefs carry complete scope, output artifacts, evidence, ownership and failure reporting.
+- Icon fidelity and story drafting no longer require every implementer to be Opus. The icon headless runner is accurately identified as Claude-only; another provider requires a supported adapter rather than changing a model string. Existing visual/continuity acceptance is preserved.
+- Report and dossier-report resolve installed dependencies; standalone dataviz is used only when the runtime lists it. They can use the bundled visualisation reference when absent. Reusing loaded guidance does not mean invoking a skill once for every word or figure.
+- Design, UX, native mock, investor portal and print/motion instructions now treat old Obscura limitations as dated measurements, not global bans on current available browsers. The current engine determines what is measurable, and missing evidence stays unverified. The report template no longer manufactures an unverified item when the requested scope was covered.
+- Design reviews reuse acceptance evidence across overlapping passes; repeated clean self-review and rereading before every document section are removed. Visualization uses supplied style decisions without another confirmation, makes routine form/size choices autonomously, and distinguishes template variants from requested deliverable count.
+- Launch-craft was carrying a particular networking product into every project: hardcoded gamer/admin audiences, two dollar prices, unsupported platform entitlements, and mandatory telemetry widgets. Rebuilt its active workflow and references around the current product evidence, approved claims, accepted handoff and actual requested interactions. The model roles support the user's preferred division.
+- Launch-craft's `run_synthesis.py` never called a model or wrote documents, despite the prompt promising synthesis. It is now explicitly an inventory helper, includes spec paths and prints its limits. `validate_site.py` previously checked source substrings but claimed WCAG/layout/asset acceptance while requiring invented pricing/platform text. It now checks configurable approved source text and an optional voice rule, and reports exactly what it does not check. Browser acceptance stays a separate required workflow result.
+- Retained vendor quotation checks found a stale paraphrase quoted as Anthropic and an Opus 4.7 instruction-following line mislabeled as Opus 5. Replaced those claims with current, correctly scoped guidance; historical evidence files remain intact.
+
+## Validation run
+
+- Agent-voice retained attributed quotes: 37 verified verbatim, 0 unverified against five local source documents (four current Anthropic files plus the existing Google guidance source).
+- Agent-voice worked examples: 14 passed, 0 failed using the actual register-specific lint.
+- Launch source checker: six positive/negative checks passed (valid source, missing required text, empty requirement, voice-rule violation, missing file, empty source).
+- Launch inventory: all four conventional input categories found and spec paths returned; confirmed it creates no OVERVIEW.md/PRD.md. CLI smoke check explicitly reports inventory-only behavior.
+- Entry-point frontmatter/fence and Gemini adapter existence checks passed.
+- Scoped git diff --check passed.
+- Root reference scanner reported zero craft failures before final external-reference refinements; final catalogue/reference gates belong to root.
+
+No live Opus 5, Gemini 3.8 or GPT-6 skill execution or comparative model evaluation was claimed. New browser portability instructions were reviewed, not a live browser campaign. No git mutation or release/version edit was performed by this agent.
+
+## External and remaining boundaries
+
+- Tool availability is runtime-specific: Mobbin/media services and standalone dataviz cannot be guaranteed from this repo. Instructions now discover them or state the fallback.
+- Existing `create-mac-icon` loop runner remains Claude-specific, documented as such. No cross-provider adapter was invented.
+- Older benchmark figures remain historical; no current-model performance rates were inferred.
+- All plugin/marketplace version and description updates, shared root instructions, global reference validator, full catalogue build and final review are owned by root.
+
+## Plugins
+
+- design-review
+- create-mac-icon
+- tui-craft
+- agent-voice
+- design-craft
+- ux-craft
+- deck-craft
+- mac-craft
+- mac-design-digest
+- generate-investor-portal
+- email-digest
+- launch-craft
+- eli5
+- positioning
+- create-luke-content
+- visualization
+- create-story
+- dossier-report
+- report
+- status-update
+
+## Active instruction inventory (309 files)
+
+- plugins/design-review/README.md
+- plugins/design-review/skills/design-review/SKILL.md
+- plugins/design-review/skills/design-review/gemini.md
+- plugins/design-review/skills/design-review/references/flows-forms-copy.md
+- plugins/design-review/skills/design-review/references/parity-oracle.md
+- plugins/design-review/skills/design-review/references/gates-performance-motion.md
+- plugins/design-review/skills/design-review/references/craft-visual.md
+- plugins/design-review/skills/design-review/references/systematisation.md
+- plugins/design-review/skills/design-review/references/browser-drivers.md
+- plugins/design-review/skills/design-review/references/states-and-resilience.md
+- plugins/design-review/skills/design-review/references/gates-accessibility.md
+- plugins/design-review/skills/design-review/references/layout-integrity.md
+- plugins/design-review/skills/design-review/references/severity-and-report.md
+- plugins/design-review/skills/design-review/references/intent-conformance.md
+- plugins/design-review/skills/design-review/references/capture-protocol.md
+- plugins/design-review/skills/design-review/references/reliability-envelope.md
+- plugins/design-review/skills/design-review/assets/report-template.md
+- plugins/create-mac-icon/README.md
+- plugins/create-mac-icon/skills/create-mac-icon/SKILL.md
+- plugins/create-mac-icon/skills/create-mac-icon/gemini.md
+- plugins/create-mac-icon/skills/create-mac-icon/references/fidelity-loop.md
+- plugins/create-mac-icon/skills/create-mac-icon/references/material-recipes.md
+- plugins/create-mac-icon/skills/create-mac-icon/references/icon-directions.md
+- plugins/tui-craft/README.md
+- plugins/tui-craft/skills/tui-craft/SKILL.md
+- plugins/tui-craft/skills/tui-craft/gemini.md
+- plugins/tui-craft/skills/tui-design/SKILL.md
+- plugins/tui-craft/skills/tui-design/gemini.md
+- plugins/tui-craft/skills/tui-design/references/composition.md
+- plugins/tui-craft/skills/tui-design/references/spec-format.md
+- plugins/tui-craft/skills/tui-craft/references/frameworks.md
+- plugins/tui-craft/skills/tui-craft/references/patterns.md
+- plugins/tui-craft/skills/tui-craft/references/anti-patterns.md
+- plugins/tui-craft/skills/tui-craft/references/terminal-truths.md
+- plugins/agent-voice/README.md
+- plugins/agent-voice/skills/agent-voice/SKILL.md
+- plugins/agent-voice/skills/agent-voice/gemini.md
+- plugins/agent-voice/skills/agent-voice/references/dialects.md
+- plugins/agent-voice/skills/agent-voice/references/agent-voice.md
+- plugins/agent-voice/skills/agent-voice/references/ai-writing-signs.md
+- plugins/agent-voice/skills/agent-voice/references/registers/subagent-brief.md
+- plugins/agent-voice/skills/agent-voice/references/registers/written-doc.md
+- plugins/agent-voice/skills/agent-voice/references/registers/terminal-reply.md
+- plugins/agent-voice/skills/agent-voice/references/registers/skill-and-instruction.md
+- plugins/agent-voice/skills/agent-voice/references/registers/work-report.md
+- plugins/agent-voice/skills/agent-voice/references/registers/review-comment.md
+- plugins/agent-voice/skills/agent-voice/references/registers/commit-and-pr.md
+- plugins/design-craft/README.md
+- plugins/design-craft/skills/design-craft/SKILL.md
+- plugins/design-craft/skills/design-craft/gemini.md
+- plugins/design-craft/skills/design-craft/references/visitor-modes.md
+- plugins/design-craft/skills/design-craft/references/lookalike-gate.md
+- plugins/design-craft/skills/design-craft/references/accessibility-audit.md
+- plugins/design-craft/skills/design-craft/references/interaction-states-pass.md
+- plugins/design-craft/skills/design-craft/references/current-moves.md
+- plugins/design-craft/skills/design-craft/references/depth-and-3d.md
+- plugins/design-craft/skills/design-craft/references/discovery-questions.md
+- plugins/design-craft/skills/design-craft/references/delivery-surfaces.md
+- plugins/design-craft/skills/design-craft/references/design-system-author.md
+- plugins/design-craft/skills/design-craft/references/redesign.md
+- plugins/design-craft/skills/design-craft/references/generate-images.md
+- plugins/design-craft/skills/design-craft/references/frontend-aesthetic-direction.md
+- plugins/design-craft/skills/design-craft/references/hierarchy-rhythm-review.md
+- plugins/design-craft/skills/design-craft/references/ai-slop-check.md
+- plugins/design-craft/skills/design-craft/references/make-an-animation.md
+- plugins/design-craft/skills/design-craft/references/mobbin-trawl.md
+- plugins/design-craft/skills/design-craft/references/make-a-deck.md
+- plugins/design-craft/skills/design-craft/references/make-a-doc.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-ideation.md
+- plugins/design-craft/skills/design-craft/references/typesetting.md
+- plugins/design-craft/skills/design-craft/references/unit-critique-gate.md
+- plugins/design-craft/skills/design-craft/references/wireframe.md
+- plugins/design-craft/skills/design-craft/references/data-driven-surfaces.md
+- plugins/design-craft/skills/design-craft/references/polish-pass.md
+- plugins/design-craft/skills/design-craft/references/data-viz.md
+- plugins/design-craft/skills/design-craft/references/motion-design.md
+- plugins/design-craft/skills/design-craft/references/design-system-extract.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-worlds.md
+- plugins/design-craft/skills/design-craft/references/mobile-design.md
+- plugins/design-craft/skills/design-craft/references/laws-of-composition.md
+- plugins/design-craft/skills/design-craft/references/gsap-motion.md
+- plugins/design-craft/skills/design-craft/references/visual-verification.md
+- plugins/design-craft/skills/design-craft/references/make-tweakable.md
+- plugins/design-craft/skills/design-craft/references/diversity-ledger.md
+- plugins/design-craft/skills/design-craft/references/generate-variations.md
+- plugins/design-craft/skills/design-craft/references/make-a-prototype.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-worlds/swiss-international.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-worlds/command-surface.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-worlds/apothecary-object.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-worlds/data-ink.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-worlds/generative-identity.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-worlds/tactile-editorial.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-worlds/raw-content.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-worlds/mid-century.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-worlds/builder-tool.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-worlds/y2k-retrofuturist.md
+- plugins/ux-craft/README.md
+- plugins/ux-craft/skills/ux-craft/SKILL.md
+- plugins/ux-craft/skills/ux-craft/gemini.md
+- plugins/ux-craft/skills/ux-craft/references/ux-writing.md
+- plugins/ux-craft/skills/ux-craft/references/flows-and-forms.md
+- plugins/ux-craft/skills/ux-craft/references/checklists.md
+- plugins/ux-craft/skills/ux-craft/references/data-provenance.md
+- plugins/ux-craft/skills/ux-craft/references/ai-product-ux.md
+- plugins/ux-craft/skills/ux-craft/references/model-calibration.md
+- plugins/ux-craft/skills/ux-craft/references/persuade-conversion.md
+- plugins/ux-craft/skills/ux-craft/references/email-ux.md
+- plugins/ux-craft/skills/ux-craft/references/mobile-ux.md
+- plugins/ux-craft/skills/ux-craft/references/psychology-laws.md
+- plugins/ux-craft/skills/ux-craft/references/review-playbook.md
+- plugins/ux-craft/skills/ux-craft/references/flow-shape-variety.md
+- plugins/deck-craft/README.md
+- plugins/deck-craft/skills/deck-craft/SKILL.md
+- plugins/deck-craft/skills/deck-craft/gemini.md
+- plugins/deck-craft/skills/deck-craft/references/recipes.md
+- plugins/deck-craft/skills/deck-craft/references/deck-charts.md
+- plugins/deck-craft/skills/deck-craft/references/slot-contract.md
+- plugins/deck-craft/skills/deck-craft/references/direction-index.md
+- plugins/deck-craft/skills/deck-craft/references/visual-craft.md
+- plugins/deck-craft/skills/deck-craft/references/deck-review.md
+- plugins/deck-craft/skills/deck-craft/references/template-additions.md
+- plugins/deck-craft/skills/deck-craft/references/diolog-templates.md
+- plugins/deck-craft/skills/deck-craft/references/layout-specs.md
+- plugins/deck-craft/skills/deck-craft/references/investor-relations.md
+- plugins/deck-craft/skills/deck-craft/references/html-deck.md
+- plugins/deck-craft/skills/deck-craft/references/lecturn-json.md
+- plugins/deck-craft/skills/deck-craft/references/template-catalogue.md
+- plugins/mac-craft/README.md
+- plugins/mac-craft/skills/mac-craft/SKILL.md
+- plugins/mac-craft/skills/mac-craft/gemini.md
+- plugins/mac-craft/skills/mac-craft/references/content-area-ideation.md
+- plugins/mac-craft/skills/mac-craft/references/corpus-evidence.md
+- plugins/mac-craft/skills/mac-craft/references/model-calibration.md
+- plugins/mac-craft/skills/mac-craft/references/mac-essence.md
+- plugins/mac-craft/skills/mac-craft/references/kit-macos-27.md
+- plugins/mac-craft/skills/mac-craft/references/motion-and-feel.md
+- plugins/mac-craft/skills/mac-craft/references/native-foundation.md
+- plugins/mac-craft/skills/mac-craft/references/design-directions.md
+- plugins/mac-craft/skills/mac-craft/references/patterns/settings.md
+- plugins/mac-craft/skills/mac-craft/references/patterns/toolbar.md
+- plugins/mac-craft/skills/mac-craft/references/patterns/card-grid.md
+- plugins/mac-craft/skills/mac-craft/references/patterns/list-table.md
+- plugins/mac-craft/skills/mac-craft/references/patterns/sidebar.md
+- plugins/mac-craft/skills/mac-craft/references/patterns/floating-panel.md
+- plugins/mac-craft/skills/mac-craft/references/patterns/menu-bar-extra.md
+- plugins/mac-craft/skills/mac-craft/references/patterns/onboarding.md
+- plugins/mac-craft/skills/mac-craft/references/patterns/empty-state.md
+- plugins/mac-design-digest/README.md
+- plugins/mac-design-digest/skills/mac-design-digest/SKILL.md
+- plugins/mac-design-digest/skills/mac-design-digest/gemini.md
+- plugins/mac-design-digest/skills/mac-design-digest/references/macos-native-analysis.md
+- plugins/mac-design-digest/skills/mac-design-digest/references/corpus-templates.md
+- plugins/mac-design-digest/skills/mac-design-digest/references/icon-anatomy.md
+- plugins/mac-design-digest/skills/mac-design-digest/references/persona.md
+- plugins/mac-design-digest/skills/mac-design-digest/references/knowledge-base.md
+- plugins/generate-investor-portal/README.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/SKILL.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/gemini.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/references/validate-and-prove.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/references/binding-decisions.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/references/imagery.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/references/tokens-and-motion.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/references/refused-ideas.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/references/record-shape.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/references/what-shipped-wrong.md
+- plugins/email-digest/README.md
+- plugins/email-digest/skills/email-digest/SKILL.md
+- plugins/email-digest/skills/email-digest/gemini.md
+- plugins/email-digest/skills/email-digest/references/payload.md
+- plugins/launch-craft/README.md
+- plugins/launch-craft/skills/launch-craft/SKILL.md
+- plugins/launch-craft/skills/launch-craft/gemini.md
+- plugins/launch-craft/skills/launch-craft/references/site-craft-and-gsap.md
+- plugins/launch-craft/skills/launch-craft/references/positioning-and-pricing.md
+- plugins/launch-craft/skills/launch-craft/references/synthesis-protocol.md
+- plugins/eli5/README.md
+- plugins/eli5/skills/eli5/SKILL.md
+- plugins/eli5/skills/eli5/gemini.md
+- plugins/eli5/skills/eli5/references/pedagogy.md
+- plugins/eli5/skills/eli5/references/forms.md
+- plugins/eli5/skills/eli5/references/motion-and-media.md
+- plugins/eli5/skills/eli5/references/artifact-engineering.md
+- plugins/positioning/README.md
+- plugins/positioning/skills/positioning/SKILL.md
+- plugins/positioning/skills/positioning/gemini.md
+- plugins/positioning/skills/positioning/references/product-research-persona.md
+- plugins/positioning/skills/positioning/references/gemini-prompt-architecture.md
+- plugins/positioning/skills/positioning/references/product-truth.md
+- plugins/positioning/skills/positioning/references/research-panels.md
+- plugins/positioning/skills/positioning/references/report-design.md
+- plugins/positioning/skills/positioning/references/candidate-generation.md
+- plugins/positioning/skills/positioning/references/report-suite.md
+- plugins/positioning/skills/positioning/references/gemini-lane.md
+- plugins/positioning/skills/positioning/references/decision-aid.md
+- plugins/positioning/skills/positioning/references/positioning-frameworks.md
+- plugins/positioning/skills/positioning/assets/templates/customer.template.md
+- plugins/positioning/skills/positioning/assets/templates/evidence-register.template.md
+- plugins/positioning/skills/positioning/assets/templates/research-decision.template.md
+- plugins/positioning/skills/positioning/assets/templates/category.template.md
+- plugins/positioning/skills/positioning/assets/templates/candidates-cut.template.md
+- plugins/positioning/skills/positioning/assets/templates/pre-commitment.template.md
+- plugins/positioning/skills/positioning/assets/templates/product-truth.template.md
+- plugins/positioning/skills/positioning/assets/templates/territory.template.md
+- plugins/positioning/skills/positioning/assets/templates/decision.template.md
+- plugins/create-luke-content/README.md
+- plugins/create-luke-content/skills/create-luke-content/SKILL.md
+- plugins/create-luke-content/skills/create-luke-content/gemini.md
+- plugins/create-luke-content/skills/create-luke-content/references/linkedin-engagement.md
+- plugins/create-luke-content/skills/create-luke-content/references/voice-replication-research.md
+- plugins/create-luke-content/skills/create-luke-content/references/ai-writing-signs.md
+- plugins/create-luke-content/skills/create-luke-content/references/graphic-concepting.md
+- plugins/create-luke-content/skills/create-luke-content/references/luke-voice.md
+- plugins/create-luke-content/skills/create-luke-content/references/personas/slack-informal.md
+- plugins/create-luke-content/skills/create-luke-content/references/personas/marketing-content.md
+- plugins/create-luke-content/skills/create-luke-content/references/personas/short-form.md
+- plugins/create-luke-content/skills/create-luke-content/references/personas/code-review.md
+- plugins/create-luke-content/skills/create-luke-content/references/personas/adhd-book.md
+- plugins/visualization/README.md
+- plugins/visualization/skills/visualization/SKILL.md
+- plugins/visualization/skills/visualization/gemini.md
+- plugins/visualization/skills/visualization/references/type-quadrant.md
+- plugins/visualization/skills/visualization/references/semantic-patterns.md
+- plugins/visualization/skills/visualization/references/primitive-icons.md
+- plugins/visualization/skills/visualization/references/series-palette.md
+- plugins/visualization/skills/visualization/references/import-mermaid.md
+- plugins/visualization/skills/visualization/references/type-swimlane.md
+- plugins/visualization/skills/visualization/references/type-tree.md
+- plugins/visualization/skills/visualization/references/animation.md
+- plugins/visualization/skills/visualization/references/output-spec.md
+- plugins/visualization/skills/visualization/references/type-sequence.md
+- plugins/visualization/skills/visualization/references/type-state.md
+- plugins/visualization/skills/visualization/references/choosing-a-form.md
+- plugins/visualization/skills/visualization/references/type-er.md
+- plugins/visualization/skills/visualization/references/type-treemap.md
+- plugins/visualization/skills/visualization/references/type-dp-integration.md
+- plugins/visualization/skills/visualization/references/profiles.md
+- plugins/visualization/skills/visualization/references/type-pyramid.md
+- plugins/visualization/skills/visualization/references/doctor.md
+- plugins/visualization/skills/visualization/references/type-architecture.md
+- plugins/visualization/skills/visualization/references/import-drawio.md
+- plugins/visualization/skills/visualization/references/chart-honesty.md
+- plugins/visualization/skills/visualization/references/type-venn.md
+- plugins/visualization/skills/visualization/references/type-timeline.md
+- plugins/visualization/skills/visualization/references/type-fishbone.md
+- plugins/visualization/skills/visualization/references/type-deployment.md
+- plugins/visualization/skills/visualization/references/type-line.md
+- plugins/visualization/skills/visualization/references/type-wardley.md
+- plugins/visualization/skills/visualization/references/type-org-chart.md
+- plugins/visualization/skills/visualization/references/type-loop.md
+- plugins/visualization/skills/visualization/references/primitive-sketchy.md
+- plugins/visualization/skills/visualization/references/type-gantt.md
+- plugins/visualization/skills/visualization/references/type-radar.md
+- plugins/visualization/skills/visualization/references/type-story-map.md
+- plugins/visualization/skills/visualization/references/marks-and-anatomy.md
+- plugins/visualization/skills/visualization/references/type-data-flow.md
+- plugins/visualization/skills/visualization/references/type-uml-class.md
+- plugins/visualization/skills/visualization/references/type-dp-security-matrix.md
+- plugins/visualization/skills/visualization/references/type-nested.md
+- plugins/visualization/skills/visualization/references/type-polar.md
+- plugins/visualization/skills/visualization/references/type-process.md
+- plugins/visualization/skills/visualization/references/type-sankey.md
+- plugins/visualization/skills/visualization/references/type-bar.md
+- plugins/visualization/skills/visualization/references/type-journey.md
+- plugins/visualization/skills/visualization/references/type-scatter.md
+- plugins/visualization/skills/visualization/references/export.md
+- plugins/visualization/skills/visualization/references/taste-gate.md
+- plugins/visualization/skills/visualization/references/type-flowchart.md
+- plugins/visualization/skills/visualization/references/type-it-state.md
+- plugins/visualization/skills/visualization/references/type-high-level.md
+- plugins/visualization/skills/visualization/references/style-guide.md
+- plugins/visualization/skills/visualization/references/onboarding.md
+- plugins/visualization/skills/visualization/references/primitive-terminal.md
+- plugins/visualization/skills/visualization/references/type-layers.md
+- plugins/visualization/skills/visualization/references/type-kanban.md
+- plugins/visualization/skills/visualization/references/type-dependency.md
+- plugins/visualization/skills/visualization/references/primitive-annotation.md
+- plugins/visualization/skills/visualization/references/type-medallion.md
+- plugins/visualization/skills/visualization/references/type-db-schema.md
+- plugins/create-story/README.md
+- plugins/create-story/skills/create-story/SKILL.md
+- plugins/create-story/skills/create-story/references/narration.md
+- plugins/create-story/skills/create-story/references/passes.md
+- plugins/create-story/skills/create-story/references/influences.md
+- plugins/create-story/skills/create-story/references/state-schema.md
+- plugins/dossier-report/README.md
+- plugins/dossier-report/skills/dossier-report/SKILL.md
+- plugins/dossier-report/skills/dossier-report/gemini.md
+- plugins/dossier-report/skills/dossier-report/references/product-verdicts.md
+- plugins/dossier-report/skills/dossier-report/references/page-craft.md
+- plugins/dossier-report/skills/dossier-report/references/readings.md
+- plugins/dossier-report/skills/dossier-report/references/aesthetic-direction.md
+- plugins/dossier-report/skills/dossier-report/references/source-imagery.md
+- plugins/dossier-report/skills/dossier-report/references/research.md
+- plugins/dossier-report/skills/dossier-report/references/visualisation.md
+- plugins/dossier-report/skills/dossier-report/references/opus-5-prompting.md
+- plugins/report/README.md
+- plugins/report/skills/report/SKILL.md
+- plugins/report/skills/report/gemini.md
+- plugins/report/skills/report/references/product-verdicts.md
+- plugins/report/skills/report/references/readings.md
+- plugins/report/skills/report/references/source-imagery.md
+- plugins/report/skills/report/references/report-craft.md
+- plugins/report/skills/report/references/design-system.md
+- plugins/report/skills/report/references/visualisation.md
+- plugins/report/skills/report/references/evidence-harvest.md
+- plugins/status-update/README.md
+- plugins/status-update/skills/status-update/SKILL.md
+- plugins/status-update/skills/status-update/references/data-contract.md
+- plugins/status-update/skills/status-update/references/plain-words.md
+
+## Changed files at handoff (102 files)
+
+- plugins/agent-voice/README.md
+- plugins/agent-voice/skills/agent-voice/SKILL.md
+- plugins/agent-voice/skills/agent-voice/gemini.md
+- plugins/agent-voice/skills/agent-voice/references/agent-voice.md
+- plugins/agent-voice/skills/agent-voice/references/dialects.md
+- plugins/agent-voice/skills/agent-voice/references/registers/skill-and-instruction.md
+- plugins/agent-voice/skills/agent-voice/references/registers/subagent-brief.md
+- plugins/create-luke-content/README.md
+- plugins/create-luke-content/skills/create-luke-content/SKILL.md
+- plugins/create-luke-content/skills/create-luke-content/gemini.md
+- plugins/create-luke-content/skills/create-luke-content/references/personas/marketing-content.md
+- plugins/create-mac-icon/skills/create-mac-icon/SKILL.md
+- plugins/create-mac-icon/skills/create-mac-icon/gemini.md
+- plugins/create-mac-icon/skills/create-mac-icon/references/fidelity-loop.md
+- plugins/create-story/skills/create-story/SKILL.md
+- plugins/deck-craft/skills/deck-craft/SKILL.md
+- plugins/deck-craft/skills/deck-craft/gemini.md
+- plugins/design-craft/skills/design-craft/SKILL.md
+- plugins/design-craft/skills/design-craft/gemini.md
+- plugins/design-craft/skills/design-craft/references/aesthetic-ideation.md
+- plugins/design-craft/skills/design-craft/references/data-driven-surfaces.md
+- plugins/design-craft/skills/design-craft/references/delivery-surfaces.md
+- plugins/design-craft/skills/design-craft/references/depth-and-3d.md
+- plugins/design-craft/skills/design-craft/references/discovery-questions.md
+- plugins/design-craft/skills/design-craft/references/diversity-ledger.md
+- plugins/design-craft/skills/design-craft/references/make-a-deck.md
+- plugins/design-craft/skills/design-craft/references/make-a-doc.md
+- plugins/design-craft/skills/design-craft/references/make-an-animation.md
+- plugins/design-craft/skills/design-craft/references/unit-critique-gate.md
+- plugins/design-craft/skills/design-craft/references/visual-verification.md
+- plugins/design-review/skills/design-review/SKILL.md
+- plugins/design-review/skills/design-review/assets/report-template.md
+- plugins/design-review/skills/design-review/gemini.md
+- plugins/design-review/skills/design-review/references/craft-visual.md
+- plugins/design-review/skills/design-review/references/intent-conformance.md
+- plugins/dossier-report/skills/dossier-report/SKILL.md
+- plugins/dossier-report/skills/dossier-report/gemini.md
+- plugins/dossier-report/skills/dossier-report/references/aesthetic-direction.md
+- plugins/dossier-report/skills/dossier-report/references/opus-5-prompting.md
+- plugins/dossier-report/skills/dossier-report/references/page-craft.md
+- plugins/dossier-report/skills/dossier-report/references/readings.md
+- plugins/dossier-report/skills/dossier-report/references/research.md
+- plugins/eli5/README.md
+- plugins/eli5/skills/eli5/SKILL.md
+- plugins/eli5/skills/eli5/gemini.md
+- plugins/eli5/skills/eli5/references/pedagogy.md
+- plugins/email-digest/skills/email-digest/SKILL.md
+- plugins/email-digest/skills/email-digest/gemini.md
+- plugins/generate-investor-portal/README.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/SKILL.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/gemini.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/references/binding-decisions.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/references/record-shape.md
+- plugins/generate-investor-portal/skills/generate-investor-portal/references/validate-and-prove.md
+- plugins/launch-craft/README.md
+- plugins/launch-craft/skills/launch-craft/SKILL.md
+- plugins/launch-craft/skills/launch-craft/gemini.md
+- plugins/launch-craft/skills/launch-craft/references/positioning-and-pricing.md
+- plugins/launch-craft/skills/launch-craft/references/site-craft-and-gsap.md
+- plugins/launch-craft/skills/launch-craft/references/synthesis-protocol.md
+- plugins/launch-craft/skills/launch-craft/scripts/run_synthesis.py
+- plugins/launch-craft/skills/launch-craft/scripts/validate_site.py
+- plugins/mac-craft/README.md
+- plugins/mac-craft/skills/mac-craft/SKILL.md
+- plugins/mac-craft/skills/mac-craft/gemini.md
+- plugins/mac-craft/skills/mac-craft/references/mac-essence.md
+- plugins/mac-craft/skills/mac-craft/references/model-calibration.md
+- plugins/mac-design-digest/README.md
+- plugins/mac-design-digest/skills/mac-design-digest/SKILL.md
+- plugins/mac-design-digest/skills/mac-design-digest/gemini.md
+- plugins/mac-design-digest/skills/mac-design-digest/references/corpus-templates.md
+- plugins/mac-design-digest/skills/mac-design-digest/references/icon-anatomy.md
+- plugins/mac-design-digest/skills/mac-design-digest/references/macos-native-analysis.md
+- plugins/mac-design-digest/skills/mac-design-digest/references/persona.md
+- plugins/positioning/README.md
+- plugins/positioning/skills/positioning/SKILL.md
+- plugins/positioning/skills/positioning/gemini.md
+- plugins/positioning/skills/positioning/references/gemini-prompt-architecture.md
+- plugins/positioning/skills/positioning/references/report-design.md
+- plugins/report/README.md
+- plugins/report/skills/report/SKILL.md
+- plugins/report/skills/report/gemini.md
+- plugins/report/skills/report/references/design-system.md
+- plugins/report/skills/report/references/readings.md
+- plugins/report/skills/report/references/report-craft.md
+- plugins/report/skills/report/scripts/audit_report.py
+- plugins/status-update/README.md
+- plugins/tui-craft/README.md
+- plugins/tui-craft/skills/tui-craft/SKILL.md
+- plugins/tui-craft/skills/tui-craft/gemini.md
+- plugins/tui-craft/skills/tui-craft/references/anti-patterns.md
+- plugins/tui-craft/skills/tui-design/SKILL.md
+- plugins/tui-craft/skills/tui-design/gemini.md
+- plugins/tui-craft/skills/tui-design/references/composition.md
+- plugins/ux-craft/skills/ux-craft/SKILL.md
+- plugins/ux-craft/skills/ux-craft/gemini.md
+- plugins/ux-craft/skills/ux-craft/references/email-ux.md
+- plugins/ux-craft/skills/ux-craft/references/model-calibration.md
+- plugins/ux-craft/skills/ux-craft/references/review-playbook.md
+- plugins/ux-craft/skills/ux-craft/references/ux-writing.md
+- plugins/visualization/skills/visualization/SKILL.md
+- plugins/visualization/skills/visualization/gemini.md
+
+## Final visualization utility routing repair
+
+Reviewed and repaired SKILL.md, gemini.md, references/doctor.md, export.md, onboarding.md, profiles.md, import-drawio.md, import-mermaid.md, scripts/self_check.py and scripts/verify-polar.py. Utilities now route through visualization:visualization; doctor checks actual installed files and optional plugin metadata, not absent predecessor commands/prompts/CI scripts. Existing .diagram-design profile paths and metadata remain unchanged. Export uses resolved Python, static motion/font settlement, fractional scale, actual rendered dimensions and explicit browser-dependency evidence. Import routing resolves the current loaded skill. Fixed polar default example asset paths. Validation: three importer/self-check --help commands exit 0, six utility load cues resolve, Python examples parse, polar default run passes three bundled examples, scoped diff-check clean. No live PNG capture claimed.

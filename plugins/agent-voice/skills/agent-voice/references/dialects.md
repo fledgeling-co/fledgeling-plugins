@@ -15,15 +15,15 @@ like.
 | --- | --- | --- |
 | Default visible length | *"Default user-facing responses run longer than prior Opus models'"* `[Anthropic]` | *"By default, Gemini 3 models provide direct and efficient answers. If you need a more conversational or detailed response, you must explicitly request it"* `[Google]` |
 | What to write | An explicit ceiling, in countable units | An explicit floor where detail is genuinely needed |
-| Self-verification | Verifies without being told; *"remove them… instructions like these cause over-verification"* `[Anthropic]` | *"Include specific verification steps in either the system instructions or your prompts directly"* `[Google]` |
-| Categorical scope | Follows literally; *"does not silently generalize an instruction from one item to another"* `[Anthropic]` | One recorded run satisfied every categorical requirement with one instance: "all states" → 1, "all menus" → 0 `[measured]` |
+| Generic self-check prompts | Verifies without being told; *"remove them… instructions like these cause over-verification"* `[Anthropic]` | *"Include specific verification steps in either the system instructions or your prompts directly"* `[Google]` |
+| Categorical scope | Constrain scope explicitly; *"Deliver what was asked, at the scope intended"* `[Anthropic]` | One recorded run satisfied every categorical requirement with one instance: "all states" → 1, "all menus" → 0 `[measured]` |
 | Delegation | *"Delegates to subagents more readily than prior models"*; cap it `[Anthropic]` | Not documented as a failure mode; state it only if observed |
 
-So a single instruction cannot serve both. "Keep it brief" shortens a Claude answer and
-strips a Gemini answer of content it needed. "Verify your work" is the correct instruction
-for Gemini and a measured token-waster on Opus 5. Write the rule once; write the dial twice.
+Use a shared task contract: requested artifacts, complete scope, named acceptance evidence and a concise return shape. Adjust prompting for a measured model when needed. Generic "verify your work" reminders add little; a required browser capture, test command or source citation defines evidence and stays for every model.
 
-## Claude (Opus 5, Sonnet 5, Fable 5)
+## Claude Opus 5
+
+These are Opus 5 adjustments. For another Claude model, read its specific guide before carrying them over.
 
 **State the ceiling; remove the scaffolding.**
 
@@ -40,10 +40,7 @@ for Gemini and a measured token-waster on Opus 5. Write the rule once; write the
   cadence this package uses in `registers/terminal-reply.md`: one sentence before the first
   tool call, updates only on a finding or a change of direction, outcome first at the end
   `[Anthropic]`.
-- **Delete verification instructions.** "Double-check your answer", "re-verify before
-  responding", "add a final verification step", "use a subagent to verify" all cost tokens and
-  buy nothing here `[Anthropic]`. This is the single most common thing carried over from
-  older prompts.
+- **Remove redundant self-check reminders.** Anthropic recommends removing prompts such as "double-check your answer" that duplicate Opus 5's behavior. Keep the task's acceptance tests, visual comparisons, source checks and any independently required reviewer. Run those once for the finished artifact; repeat only for a change, failure or unresolved finding.
 - **Cap delegation explicitly** and say which scenarios warrant it `[Anthropic]`.
 - **Constrain scope in a sentence**, because the model widens tasks on its own:
   *"Deliver what was asked, at the scope intended… rather than quietly narrowing, widening, or
@@ -58,7 +55,9 @@ for Gemini and a measured token-waster on Opus 5. Write the rule once; write the
   markdown in the output."* `[Anthropic]` A voice file written in the voice it asks for is
   doing double duty. This package's own prose is written that way deliberately.
 
-## Gemini (3.x family, including via Antigravity)
+## Gemini calibration
+
+The measured baseline here is Gemini 3.7 Flash, not Gemini 3.8. Keep its recorded observations as evidence about that run; do not infer current capability limits or override an explicitly selected Gemini implementation lane. Confirm the actual runtime model and supported controls before setting them.
 
 **State the floor; put the verification back in.**
 
@@ -109,17 +108,11 @@ rather than a dial:
 4. **One name per thing.** Synonym cycling is a style tell for a human reader `[ai-signs]`
    and an ambiguity for a model reader.
 
-## OpenAI and xAI families
+## GPT-6 orchestration and other runtime models
 
-There is no vendor guidance quoted here for `gpt-5.x` or `grok-4.x`, so this section states
-only what follows from the two above, marked as such.
+The user may choose GPT-6 to orchestrate, Opus 5 for intake, triage and planning, and Gemini 3.8 for implementation. Preserve that division in the brief; it is a workflow preference, not a vendor benchmark result. Resolve the model identifier and effort controls from the running harness instead of inventing aliases or assuming support from a display name.
 
-`[Inference]` Treat them as unknown-baseline: state both the ceiling *and* the verification
-step, because getting length wrong costs some padding while getting verification wrong costs a
-false claim that a check ran. When a piece must run across every family, the safe composite is
-Gemini's dialect plus Claude's length ceiling — explicit counts, named verification, stated
-maximum — accepting that Opus 5 will do a little over-verifying it did not need. Do not carry
-that composite into a Claude-only file, where the same lines are pure cost `[Anthropic]`.
+For a handoff, include the accepted plan and source paths, the files the implementer owns, the required behavior and states, the acceptance commands or visual criteria, and a return shape containing changed artifacts, results and unresolved limits. The orchestrator reconciles returned evidence with the requested scope. This contract also works for another model without claiming a measured family-specific behavior.
 
 ## Re-baseline when a model changes
 

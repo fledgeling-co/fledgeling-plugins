@@ -39,7 +39,7 @@ That scoping was measured, not assumed: on the live 134-app corpus, 79 of 88 mar
 
 **Precision is pinned.** `design-corpus/.precision-lock.json` records each evidence row's precision mark; the gate writes it on first run and refuses a later strengthening. Nothing stateless could catch that mutation — both states are well-formed and the change between them is invisible — so the baseline is written down. Commit the lock with the corpus. When a better source genuinely arrives, name it in the ledger and re-run with `--accept-precision-change`.
 
-**This vocabulary is a published interface, not an internal convention.** `mac-craft` reads corpora written by this skill, re-emits both families unchanged, and carries `(specified)` on every kit value in its own references; it names the first axis *Precision* where this file calls it measurement quality, over the same four values. Adding, renaming or removing a mark is a breaking change to both skills and to every corpus already on disk; make it in both places at once or not at all.
+**This vocabulary is a published interface, not an internal convention.** `mac-craft:mac-craft` reads corpora written by this skill, re-emits both families unchanged, and carries `(specified)` on every kit value in its own references; it names the first axis *Precision* where this file calls it measurement quality, over the same four values. Adding, renaming or removing a mark is a breaking change to both skills and to every corpus already on disk; make it in both places at once or not at all.
 
 `(specified)` values override conflicting `(measured)`/`(estimated)` values — but log the conflict: a shipping app deviating from the kit is itself a finding.
 

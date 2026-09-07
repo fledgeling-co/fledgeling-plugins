@@ -1,19 +1,9 @@
 # Patterns — the seven cases that recur
 
-> **Lane assignments are `defer`'s now.** Run
-> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]`
-> for the model, the effort and the exact argv, or `lane_run.sh <class> "<prompt>"`
-> to run and wire-verify it in one step. The classes are `implementation`,
-> `completeness`, `general`, `referral`, `verification` and `design-review`.
-> **Pass `--shape` whenever you know what the work is** — `defer --matrix` lists
-> the shapes. It narrows the class to the lanes measured good enough for that kind
-> of work before headroom picks, which is where the cost saving lives; the two
-> gated classes are `implementation` and `general`, and the judgement classes
-> abstain by design. Three rules bind everywhere: `gpt-5.6-sol` never runs at
-> `max` (it is the referral lane at `medium` and the implementation lane at
-> `high`), Fable judges but never grades code or a ticket, and design review stays
-> on Opus and Fable. What follows is this pipeline's reading of that policy, not a
-> second copy of it.
+> Follow SKILL.md's current routing: a bounded second opinion for material,
+> unresolved technical ambiguity, with supported models and existing user
+> preferences. These worked examples illustrate decisions; dated CLI commands
+> and outputs are not today's model-selection policy.
 
 Before-and-after pairs for the situations where the rules in SKILL.md need a
 worked example. Each one is a real failure shape, not a hypothetical.
@@ -316,6 +306,4 @@ the exact identifier has to appear rather than be translated.
 
 This applies to deleting data or branches, force-pushing, mutating production,
 sending anything to a person or an external service, spending money, and
-publishing something that cannot be pulled back — regardless of how clearly the
-instruction implied it. A reversible publish or a draft is not this; it is an
-ordinary user-axis question and it gets no mark.
+publishing something that cannot be pulled back when it exceeds the user's existing authorization. Do not ask again for an action already authorized; prepare the concrete result before asking about an unresolved consequential step.

@@ -130,7 +130,7 @@ if [ "$TIER" = "12h" ] || [ "$TIER" = "1d" ] || [ "$TIER" = "7d" ]; then
     echo "# mac-doctor $TIER proposal — $RUN_ID"
     echo
     echo "Generated headless, so nothing here has been applied. Run"
-    echo "\`/mac-doctor $TIER\` in a session to review and act on it."
+    echo "\`/mac-doctor:mac-doctor $TIER\` in a session to review and act on it."
     echo
     df -h /System/Volumes/Data | tail -1 | awk '{print "Free: "$4" ("$5" used)"}'
     echo

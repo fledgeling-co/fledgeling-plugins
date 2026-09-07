@@ -1,7 +1,7 @@
 ---
 name: ux-craft
 description: >-
-  Book-grounded UX engine for implementing, mocking, and reviewing web and mobile UIs, layouts, and user flows, plus marketing and transactional emails — grounded in the UX canon (Norman, Nielsen, Krug, Yablonski, Refactoring UI) and the psychology behind it, with a deterministic gate that refuses what prose only asks. Use whenever the user is building or mocking a screen, page, flow, form, onboarding, checkout, navigation, dashboard, mobile screen, or email and wants it to work for real users — or asks for a UX review, usability audit, "why do users drop off", "is this intuitive", cognitive-load check, accessibility floor check, or conversion friction pass. Trigger on — "review the UX", "audit this flow", "make this easier to use", "will users understand this", "improve this form", or any request to apply UX principles or psychology to an interface or email, even without the word UX. NOT for visual artifact production (use design-craft), pixel-matching an implementation (use mockup-fidelity), Figma email graphics (use email-mockups), or research strategy (use intent-layer or discovery-sentinel).
+  Book-grounded UX engine for implementing, mocking, and reviewing web and mobile UIs, layouts, and user flows, plus marketing and transactional emails — grounded in the UX canon (Norman, Nielsen, Krug, Yablonski, Refactoring UI) and the psychology behind it, with a deterministic gate that refuses what prose only asks. Use whenever the user is building or mocking a screen, page, flow, form, onboarding, checkout, navigation, dashboard, mobile screen, or email and wants it to work for real users — or asks for a UX review, usability audit, "why do users drop off", "is this intuitive", cognitive-load check, accessibility floor check, or conversion friction pass. Trigger on — "review the UX", "audit this flow", "make this easier to use", "will users understand this", "improve this form", or any request to apply UX principles or psychology to an interface or email, even without the word UX. NOT for visual artifact production (use design-craft:design-craft), pixel-matching an implementation (use mockup-fidelity:mockup-fidelity), Figma email graphics (use email-mockups), or research strategy (use intent-layer or discovery-sentinel).
 ---
 
 # UX Craft
@@ -19,7 +19,7 @@ This skill is the **UX brain**. `design-craft:design-craft` is the visual hands 
 
 ---
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Binds ux-craft's still-categorical scopes to a filled quota ledger, converts NN1's one-primary-action and the targeted-fix rule into a bound ledger read back off the artifact, routes Build mode's static-page and brownfield work out before it starts, and puts the command and its output back beside every claim in the closing block. Other models skip it.
+**Using Gemini?** Read `gemini.md` for this skill's task-specific calibration and artifact checks. Its older runs do not establish Gemini 3.8 capability limits: preserve the user's selected implementation lane, and apply a model-specific route only when the current model or an observed failure supports it.
 
 ## Mode detection
 
@@ -189,7 +189,7 @@ For the visual layer of an artifact (aesthetic direction, spacing systems, motio
 Follow `references/review-playbook.md` for the full protocol. The contract in brief:
 
 - **Scope first.** Review what the user pointed at, or recent changes — never the whole codebase uninvited.
-- **Look at the thing, and know what your engine can and cannot see.** Where a live URL or runnable app exists, render it before reviewing source. **Obscura is the only sanctioned browser here**; Playwright, Puppeteer, chrome-devtools-mcp and browser-use are not to be used or recommended. Its measured blind spots are not optional reading — a native radio input renders as *nothing* through it, which looks exactly like a missing affordance, and form UX is this skill's core territory. The full trap list, and the rule that a check which cannot measure must say so rather than reporting zero, are at the top of the playbook.
+- **Look at the thing, and know what your engine can and cannot see.** Where a live URL or runnable app exists, render it before reviewing source. Discover the current permitted browser and its capabilities. The playbook's Obscura limitations are dated observations, not global tool restrictions; apply them when reproduced. Its recorded blind spots deserve attention — a native radio input renders as *nothing* through it, which looks exactly like a missing affordance, and form UX is this skill's core territory. The full trap list, and the rule that a check which cannot measure must say so rather than reporting zero, are at the top of the playbook.
 - **Multi-reading pass** (scanning, interaction, heuristics, structure, mobile, accessibility, psychology, ethics), collapsed into one prioritized report — findings that several readings catch rank higher.
 - **Evidence discipline.** Every finding: location (file:line / screen / element) → what's wrong → what it should be → why it matters (mechanism, cited honestly). Fixes are pasteable — real values, real copy — not "consider improving".
 - **Severity honesty.** Blocker / High / Medium / Low, calibrated to user impact. Don't inflate, don't cluster everything at Medium, don't invent findings to fill a section — a clean surface gets a clean verdict. Calibrate at ranking time, never while you're still looking.
@@ -250,12 +250,12 @@ It supplements the manual pass and does not replace it: it catches a class, not 
 | Persuade landing or campaign conversion architecture | `references/persuade-conversion.md` (this skill; visual craft still belongs to `design-craft:design-craft`) |
 | Reference evidence — how shipped products build this flow, screen or section | Mobbin MCP (`search_flows` / `search_screens` / `search_sections`) |
 | Verify an implementation matches a mock pixel-for-pixel | `mockup-fidelity:mockup-fidelity` |
-| Email *graphics* for a campaign (Figma artboards) | `email-mockups` (this skill owns the email's UX: structure, copy, CTA, client constraints) |
-| Extract a DESIGN.md from screenshots or a live site | `design-md-from-screenshots` / `design-md-from-website` |
+| Email *graphics* for a campaign (Figma artboards) | `email-mockups:email-mockups` (this skill owns the email's UX: structure, copy, CTA, client constraints) |
+| Extract a DESIGN.md from screenshots or a live site | `design-md-from-screenshots:design-md-from-screenshots` / `design-md-from-website:design-md-from-website` |
 | Rendered-UI review with deterministic gates, as the last pass before a human looks | `design-review:design-review` |
 | Research strategy, interviews, discovery synthesis | the research-strategy and discovery skills |
-| Code-quality/security/perf review of the same files | `code-review` (UX findings here, code findings there) |
-| Render or measure a page | Obscura only — see the playbook's engine limits |
+| Code-quality/security/perf review of the same files | `code-review:code-review` (UX findings here, code findings there) |
+| Render or measure a page | Discover the permitted browser and verify its measurement capabilities; see the playbook's recorded engine limits |
 
 ## References
 

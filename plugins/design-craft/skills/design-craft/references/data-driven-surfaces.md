@@ -193,7 +193,7 @@ page is one band.
 
 The measurement that catches it is **ink fill per band** — the union bbox of what a band actually
 paints, over the band's own box height. A box-based check reports every one of those bands as
-healthy, because their boxes are the right size; it is the content that is missing. `design-review`
+healthy, because their boxes are the right size; it is the content that is missing. `design-review:design-review`
 carries the probe (`probeColumnVoids`).
 
 ## The chrome is part of the vocabulary

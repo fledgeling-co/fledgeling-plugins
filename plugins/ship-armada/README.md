@@ -8,7 +8,7 @@
 A portfolio-orchestration SWE skill for Claude Code, sitting one layer above <code>ship-fleet</code>.</p>
 
 <p align="center">
-  <img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-D63A20">
+  <img alt="Version 2.2.3" src="https://img.shields.io/badge/version-2.2.3-D63A20">
   <img alt="SWE skill: portfolio orchestration" src="https://img.shields.io/badge/SWE_skill-portfolio_orchestration-5A6570">
   <img alt="Five modes" src="https://img.shields.io/badge/modes-5-8E1922">
   <img alt="Concurrency: 3 repos" src="https://img.shields.io/badge/concurrency-3_repos-7A6244">
@@ -19,7 +19,7 @@ A portfolio-orchestration SWE skill for Claude Code, sitting one layer above <co
 
 ## Why this exists
 
-`ship-fleet` conducts one repo's backlog. `ship-feature` takes one feature from idea to merged. Neither of them knows the other repos exist, and that's fine right up until the work stops being about one repo.
+`ship-fleet:ship-fleet` conducts one repo's backlog. `ship-feature:ship-feature` takes one feature from idea to merged. Neither of them knows the other repos exist, and that's fine right up until the work stops being about one repo.
 
 A model migration touches a dozen projects at once. A directive like *"research X and get that project to adopt it"* has to land in the right pipeline, not whichever one you happen to have open. And the state that answers "what's actually running right now" has to survive the session ending, because the session always ends.
 
@@ -63,7 +63,7 @@ flowchart TD
 
 That last step is the load-bearing one. `ORCHESTRATOR.md` is the channel to agents that are already running: an active fleet re-reads it between events and picks the item up, and there's no other reliable way to reach a runner mid-flight.
 
-**Dispatch** executes, choosing the smallest vehicle that covers the job. One feature goes to `ship-feature`; a repo with several items goes to `ship-fleet`; a mechanical change like a model-ID swap goes to a worktree edit behind a `code-review` gate, with no spec pipeline at all.
+**Dispatch** executes, choosing the smallest vehicle that covers the job. One feature goes to `ship-feature:ship-feature`; a repo with several items goes to `ship-fleet:ship-fleet`; a mechanical change like a model-ID swap goes to a worktree edit behind a `code-review:code-review` gate, with no spec pipeline at all.
 
 Three things changed in 2.0, each closing a gap the rebuild's audit named. Ticking a project off now runs `scripts/check_completion.sh`, which cross-checks the ledger against git reality (open rows, unmerged branches, leftover worktrees) instead of trusting prose; the completion rule was the armada's most safety-critical check and it was previously enforced by memory. The repo-ownership allow-list moved out of the skill text into your portfolio's own `CLAUDE.md`, so it's configuration rather than someone else's hardcoded org names. And open technical calls inside a campaign now go to a second model family before they reach you; what lands on your desk is taste, cost, scope and risk.
 
@@ -101,14 +101,14 @@ Two things, and both are worth knowing before you install.
 
 **The manifest.** ship-armada plans from `~/Dev/ARMADA.md` and can't do much without it. If it's missing or structurally broken it rebuilds it first, with a full survey: one reviewer per repo, fanned out, then synthesised into groups and a cross-project opportunities register. Entries are kept short on purpose (20 lines each) because the manifest is planning context, not documentation.
 
-**Everything ships from this marketplace now.** Dispatch hands real work to [ship-fleet](../ship-fleet/README.md) and [ship-feature](../ship-feature/README.md), which as of 2.0 live here in `fledgeling-plugins` beside the [shipyard](../shipyard/README.md) stage skills; `armada-sync` maintains a single manifest entry after you've worked in a repo directly. Without those installed you still get Survey, Plan and Route; Dispatch is the mode that needs them.
+**Everything ships from this marketplace now.** Dispatch hands real work to [ship-fleet](../ship-fleet/README.md) and [ship-feature](../ship-feature/README.md), which as of 2.0 live here in `fledgeling-plugins` beside the [shipyard](../shipyard/README.md) stage skills; `armada-sync:armada-sync` maintains a single manifest entry after you've worked in a repo directly. Without those installed you still get Survey, Plan and Route; Dispatch is the mode that needs them.
 
 ## The rails
 
 > [!NOTE]
 > These hold whoever's driving, including a daemon with nobody watching.
 
-- **One repo, one fleet.** Never two concurrent writers in the same repo. At most **three projects** dispatched at once, and merges inside a repo stay serialised by `ship-fleet`.
+- **One repo, one fleet.** Never two concurrent writers in the same repo. At most **three projects** dispatched at once, and merges inside a repo stay serialised by `ship-fleet:ship-fleet`.
 - **Third-party repos are out of scope.** The manifest tracks a directory only when it's yours: no git repo, no remote, or an origin owner on the allowed list. Anything with a third-party origin isn't listed and isn't modified.
 - Routing, research, briefs and manifest updates are always safe to do on their own. Starting fleets, merging and deploying sit behind an **execution gate**: those need the directive to say so, or a standing `approved` mark.
 - Anything touching deploys or published packages gets a **per-project confirmation** first, presented as a table of project, change and risk.

@@ -59,13 +59,13 @@ is useful without being a surprise.
 ## Modes at a glance
 
 ```
-/mac-doctor            # longest overdue tier
-/mac-doctor 15m|1h|12h|1d|7d
-/mac-doctor report     # measure and explain, change nothing
-/mac-doctor processes  # runaway/orphan lane only
-/mac-doctor --setup    # install the launchd agents
-/mac-doctor status     # what is scheduled, when each last ran, what it reclaimed
-/mac-doctor worktrees  # audit only
+/mac-doctor:mac-doctor            # longest overdue tier
+/mac-doctor:mac-doctor 15m|1h|12h|1d|7d
+/mac-doctor:mac-doctor report     # measure and explain, change nothing
+/mac-doctor:mac-doctor processes  # runaway/orphan lane only
+/mac-doctor:mac-doctor --setup    # install the launchd agents
+/mac-doctor:mac-doctor status     # what is scheduled, when each last ran, what it reclaimed
+/mac-doctor:mac-doctor worktrees  # audit only
 ```
 
 Run `scripts/survey.sh --tier <tier>` first in every mode. It measures disk, the

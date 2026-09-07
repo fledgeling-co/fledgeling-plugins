@@ -139,7 +139,7 @@ Emit as output section 0, one line:
 
 `Trawl <tier> — <frames spawned>/<returned> frames, <ideas generated> →
 <after merge> after merge, <floored> floored, <apoptosed frames + reason
-if any>. ★ <BEATS|TIES|LOSES> baseline. [Upgrade: /trawl --<next tier>]`
+if any>. ★ <BEATS|TIES|LOSES> baseline. [Upgrade: /trawl:trawl --<next tier>]`
 
 The receipt is the observability surface: it makes a light run read as
 deliberate, a degraded run (dead branch, apoptosed frame) read as

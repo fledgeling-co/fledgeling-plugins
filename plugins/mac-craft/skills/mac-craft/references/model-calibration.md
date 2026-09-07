@@ -9,7 +9,7 @@ gate with an exit code. So the mechanisms were hoisted into `SKILL.md` and
 ## Provenance
 
 **`[measured]`** items come from one recorded run (`Egress Gemini`, **2026-08-17**) which
-invoked `design-craft`, `ux-craft` and this skill's predecessor on a two-platform brief —
+invoked `design-craft:design-craft`, `ux-craft:ux-craft` and this skill's predecessor on a two-platform brief —
 macOS Tahoe plus a Windows 11 counterpart — and produced
 `~/Dev/egress/design/mocks/html/index.html`. A Claude run on a near-identical brief produced
 `interaction-mock.html` beside it. Both were measured with the same probes. **n=1.**
@@ -52,8 +52,8 @@ needs a second published source, or it is a reskin.**
 ### Gemini
 
 - **`[docs]` Stale recall is the mechanism behind the accent, not carelessness.** The
-  Gemini 3 family's knowledge cutoff is **January 2025** (March 2026 for 3.7 Flash, with
-  Google noting some domains remain at January 2025). `#0078D4` was Windows' accent for
+  older Gemini models covered by this calibration had a **January 2025** cutoff (March 2026 for 3.7 Flash, with
+  Google noting some domains remained at January 2025). These dates are not a claim about Gemini 3.8. `#0078D4` was Windows' accent for
   years before `#005FB8`; recalling it is an old fact returned confidently. Google's own
   remedy is to state the cutoff and to *ground* time-sensitive work rather than answer from
   memory. Practical form: **a platform value is read, never remembered.**
@@ -91,7 +91,7 @@ needs a second published source, or it is a reskin.**
 
 - **Two attempts per tool, then a different approach.** A `command not found` is permanent —
   one attempt is the whole budget. Read the repo's constraints first; this house names its
-  single permitted browser and lists the banned ones by name. Four identical invocations of
+  allowed browsers and any workspace-specific restrictions; discover them in the current environment. Four identical invocations of
   an absent tool is what the measured run did, and no amount of native-fidelity guidance
   would have prevented it.
 - **A refusal is not re-pitched.** If a capability is denied or absent, say so once and take

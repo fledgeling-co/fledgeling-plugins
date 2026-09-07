@@ -1,22 +1,17 @@
 ---
 name: clarify
 description: >
-  Decide whether to interrupt the user with a question, then ask it so it takes one click to
-  answer. Use this whenever you are about to ask the user something mid-task, when you hit a
-  fork with several defensible answers, when a request is ambiguous enough that two readings
-  would produce different work, before anything destructive or irreversible, and whenever
-  someone types /clarify or says "ask me what you need", "what do you need from me", "check
-  with me first", or "stop guessing". Sweeps for the answer in the conversation, the repo and
-  earlier agent output, kills questions whose answer would not change the work, then refers
-  every technical fork to another model before the user ever sees it — fable-5 at high for
-  speed, then gpt-5.6-sol, gemini-3.7-flash-high and grok-4.6 at xhigh for a different family,
-  a three-family panel for genuinely open forks, and Dossier deep research for questions about
-  the world. A fork you can make a reasoned recommendation on is one you decide and report in
-  a clause, not one you ask. What reaches the user is taste, cost, scope, risk tolerance,
-  their own systems, and anything irreversible — as one batched AskUserQuestion with two
-  options, plain wording, described by what changes if chosen. Treats any note the user
-  attaches to an answer as binding. Not for routine judgment calls you should make yourself,
-  and not a substitute for investigating first.
+  Decide whether a material question needs the user's input, then ask it clearly.
+  Use when two readings would lead to materially different work, a user-owned
+  trade-off is unresolved, an action exceeds existing authorization, or the user
+  invokes /clarify:clarify. First read the conversation, repo and existing decisions;
+  make routine reversible judgement calls without interruption. Use one bounded
+  second opinion only for a material technical ambiguity that evidence has not
+  resolved; use a panel for a high-impact disagreement and research for external
+  facts. Resolve any model from the current supported catalogue and honor the
+  user's selected roles. Ask only the remaining user-axis decision, with the
+  available question tool or one concise question, and preserve notes attached
+  to the answer. Existing authorization carries forward.
 license: MIT
 ---
 
@@ -80,8 +75,7 @@ one option is standard and nothing in the project contradicts it.
 *their* system or preference that is not written down anywhere you can reach.
 
 If you are unsure which side a fork falls on, ask which way the mistake is cheaper to undo.
-Cheap to undo is yours. Being unsure is a reason to run gate 4, never a reason to skip to the
-user — uncertainty is what the referral is for.
+Cheap to undo is usually yours. If the missing information is the user's preference, ask them directly; another model cannot supply it. A material technical uncertainty may benefit from gate 4 after investigation.
 
 ### 4. Refer it to another model
 
@@ -93,12 +87,12 @@ user is not the only thing in the world that can answer it, and they are the mos
 thing that can. A question about *their* taste, budget, priorities or systems is a different
 kind, and no model stands in for them.
 
-**Refer every technical fork that reaches this gate.** The referral is not a courtesy check — it
-is the step that converts an open fork into a call you can make, and gate 5 depends on having run
-it. Note what "reaches this gate" excludes: three gates have already killed the forks that were
-answered on disk, the ones that change nothing, and the ones that were plainly yours. What is
-left is a small set, so referring all of it is cheap. Referring every branching implementation
-detail is not this rule; it is a failure to run gates 1 to 3.
+**Use one bounded second opinion when it can resolve a material technical
+ambiguity that survives the evidence sweep.** State the remaining question and
+which decision the answer would change. Routine implementation choices stay with
+you. User-owned choices go to the user; a model's confidence cannot replace their
+preference. Record `referral: not needed` when the evidence already settles it,
+rather than inventing a model call to complete the five-step shape.
 
 How far to climb, by leverage:
 
@@ -114,33 +108,23 @@ than an answer.
 
 #### The lanes
 
-Pin the model **and** the effort on every lane. A lane that silently inherits its config
-default is not the lane you chose, and you will report a verdict from a model you did not pick.
+Honor the user's chosen roles first: normally GPT-6 orchestrates, Opus 5 handles
+intake/triage/plan and Gemini 3.8 implements. Resolve a second-opinion model and
+effort from the actual available catalogue; neither those display names nor an
+old benchmark supplies an executable model ID. Use `defer:defer` for fallback
+routing when no lane was selected, not to override the selected model silently.
 
-```bash
-# In-family, fastest — reach for it when speed is what you need
-claude --model claude-fable-5 --effort high -p "<the question, plus the evidence>"
-
-# OpenAI family — the default when independence is the point
-perl -e 'alarm shift @ARGV; exec @ARGV' 900 \
-  codex exec -m gpt-5.6-sol -c model_reasoning_effort="high" \
-  -s read-only -o /tmp/so-<slug>.md "<prompt>" < /dev/null \
-  > /tmp/so-<slug>.log 2>&1
-grep -qx "model: gpt-5.6-sol"     /tmp/so-<slug>.log || echo "WRONG-MODEL — lane failed"
-grep -qx "reasoning effort: high" /tmp/so-<slug>.log || echo "WRONG-EFFORT — lane failed"
-
-# Google family — the effort is baked into the model id; --print buffers to exit, so never poll stdout
-perl -e 'alarm shift @ARGV; exec @ARGV' 900 \
-  agy --model gemini-3.7-flash-high -p "<prompt>" > /tmp/so-<slug>-agy.md 2>/tmp/so-<slug>-agy.log
-
-# xAI family — harness fallback: cursor-agent -p --force --model grok-4.6 with the same prompt
-perl -e 'alarm shift @ARGV; exec @ARGV' 900 \
-  grok -m grok-4.6 --effort xhigh -p "<prompt>" > /tmp/so-<slug>-grok.md 2>/tmp/so-<slug>-grok.log
-```
+Use the current tool schema or CLI `--help`, with a bounded request and an output
+artifact. The packet contains the unresolved question, options, relevant code or
+source evidence, constraints, and one requested answer format. Choose a capable
+family different from the decision/artifact author when independence is the aim.
+Use one lane by default; a higher-impact unresolved disagreement can justify a
+small panel. A failed request is recorded and routed through an authorized
+fallback, not counted as a completed opinion.
 
 Three CLI facts, measured on this machine on 16 Aug 2026, that decide whether a lane ran as
 routed — re-confirm them against `--help` before first use in a session, because a CLI's argv
-is not stable across versions:
+is not stable across versions. These are dated observations, not current lane defaults:
 
 - `grok --effort` accepts exactly `xhigh, high, medium, low` and rejects anything else by name;
   `grok models` lists `grok-4.6` (default) and `grok-4.5`.
@@ -156,12 +140,8 @@ Four rules make a referral worth doing rather than theatre:
 - **Send the evidence, not the question.** A model asked "should we use Clerk or WorkOS?" gives
   you the blog-post answer. One given the auth requirements, the existing session handling, and
   the constraint that nobody can reach App Store Connect gives you a verdict on *this* codebase.
-- **Pick the lane by what you need.** Independence → out of family, because a different family
-  does not share the blind spot, which is its whole value as an oracle. Speed → fable. The
-  fallback order stays out of family (codex, then agy, then grok) before it falls back to a
-  second Claude.
-- **Verify the lane ran.** The captured header lines are the evidence, not the command you
-  typed; launch parameters have been observed not to stick. An absent or empty output file is a
+- **Pick the lane by what you need.** Independence requires a family different from the actual writer; speed favors a supported capable lane with a small packet. There is no fixed fallback order across changing models and harnesses.
+- **Verify the lane ran.** Capture successful response/runtime metadata. A CLI header can echo requested flags; it is configuration evidence, not proof of the actual serving model. An absent or empty output file is a
   lane failure, not a quiet pass. A lane that is down — binary missing, not signed in, usage
   limit, deadline fired — is reported once and substituted with the next family, never retried
   into the ground. Name the substitute, and name the harness when the same model arrives through
@@ -172,14 +152,12 @@ Four rules make a referral worth doing rather than theatre:
   as asking, with extra latency.
 
 Every out-of-family call is egress: the packet and every file the lane opens go to that vendor.
-Check the repo's `ANTHROPIC-ONLY` and `NO EXTERNAL MODEL CLIS` markers per invocation, and run
-in-family when one is set — that is a correct run, not a degraded one.
+Read current policy before invocation: honor active `OPT-OUT: external-models` and explicit legacy provider restrictions, not quoted examples of them. Existing user authorization remains effective under the governing instruction priority. A permitted in-family fallback can be correct policy compliance while still losing independent evidence; label both accurately.
 
 #### The panel
 
 When the call is genuinely open and high-leverage — an architecture everything downstream
-amplifies, a verdict two lanes already split on — put it to three families at once (codex, agy,
-grok; add fable as a fourth voice). Same packet to each, candidate options in swapped order
+amplifies, a verdict two lanes already split on — use up to three available capable families; keep within the harness's concurrency limit and report any missing lane. Same packet to each, candidate options in swapped order
 between members, verdict-line answers (`VERDICT:` + one reason), members that return nothing
 counted and reported rather than dropped.
 
@@ -200,7 +178,7 @@ When the fork turns on external facts — what competing products do, a vendor's
 prior art, market norms — it is a research question rather than an opinion question. A lane
 answers from what it already knows; Dossier goes and looks.
 
-Free first, and paid on purpose:
+Discover the actual research tools and their current schema first; if Dossier is unavailable, use the available web research tools. Historical cost estimates below are not spending authorization. Free first, and paid only within the user's authorization:
 
 1. `research_plan` is free and shows the panel it would assemble and what it would cost. Run it
    before anything that spends.
@@ -215,8 +193,7 @@ finding — a resolving URL is not a supporting one.
 
 ### 5. Whose axis is it? If it is yours, take the call
 
-You have a reading from another model and a view of your own. The question is no longer *are you
-sure* — it is *whose decision is this*.
+You have the evidence and, when useful, a second opinion. Decide whose choice remains rather than treating confidence as permission.
 
 **When the axis is yours, take it.** Craft, convention, anything the repo already decided once,
 anything reversible, anything where the alternative loses on every axis that matters here. Do the
@@ -242,26 +219,22 @@ but messier, smaller diff but a worse boundary, cheaper now but dearer later —
 a trade-off across two axes, and which axis wins is theirs to say. Ask, and mark nothing.
 
 **Not knowing yet is not the same as it being their call.** If you cannot say which option you
-would pick and why, gate 4 is unfinished — go back and refer it. An unresearched fork sent to the
+would pick and why, investigation is unfinished — return to the evidence and use a bounded opinion only if it would help. An unresearched fork sent to the
 user is a research gap in a question's clothes, and it is the failure this skill exists to
 prevent.
 
-### The override: unrecoverable beats routine
+### Authorization and consequential actions
 
-Ask before anything destructive, irreversible, outward-facing, or costly — **even when the axis is
-plainly yours, even with a clear recommendation, and even when the user's instruction implies it.**
-Dropping a production table is a craft decision with a conventional default and a defensible
-recommendation. Gate 5 is about the cost of asking, and it stops applying the moment being wrong
-cannot be undone.
+Check what the user already authorized before asking. Proceed with the local,
+reversible work and actions within that scope. For a destructive or irreversible
+action outside it, prepare the concrete result first, then ask about the specific
+loss, environment and affected data. Do not require reconfirmation merely because
+a skill lists that action as consequential; conversation authorization persists.
 
-Scope it to what genuinely cannot be undone: deleting data or branches, force-pushing, mutating
-production, sending anything to a person or an external service, spending money, publishing
-something that cannot be pulled back. A reversible publish or a draft is not this; it is an
-ordinary user-axis question and it gets no mark.
-
-This is the one shape of question that carries a `(Recommended)` mark. Mark the reversible path,
-list it first, put the reason in its description, and name the specific loss in the question stem
-— the table, the environment, the row count.
+Use the available question tool according to its schema. Where it supports
+options, include a reversible path and explain the practical consequence. If a
+policy or approval review blocks an authorized action, name the exact source and
+reason; do not present that tool restriction as an unexplained user question.
 
 ### The trap in the other direction
 
@@ -278,7 +251,7 @@ tests rather than an encouragement.
 
 ## The craft
 
-One `AskUserQuestion` call. **One question by default; three at the very most.** Serialising —
+Use the current question tool if available, according to its schema; otherwise ask one concise direct question. **One question by default; three at the very most when supported.** Serialising —
 asking one, waiting, asking the next — is the expensive failure: each round is a fresh context
 switch, and later questions often become answerable once the earlier ones land.
 
@@ -288,7 +261,7 @@ in under a minute**, and only 7% resume without navigating around first to rebui
 That is the real bill for a question, and it is why one batched call beats three good ones.
 
 Before the call, in one or two sentences: what you already worked out, what you decided yourself,
-and what the referral said. Name the lane or panel and whether you followed it, and name any
+and any second opinion that affected it. Name the lane or panel only if one ran, and name any
 shape it ruled out. This frames the questions as narrowing rather than starting over, it shows
 the sweep happened, and it is the only place a reader can see the option that did not get a slot.
 

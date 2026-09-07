@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that reads what your project claims to do, tests it across the states and viewports and roles nobody gets to, and leaves one browsable page where the gaps are as visible as the passes.</p>
 
 <p align="center">
-  <img alt="Version 0.19.0" src="https://img.shields.io/badge/version-0.19.0-D33C21">
+  <img alt="Version 0.19.1" src="https://img.shields.io/badge/version-0.19.1-D33C21">
   <img alt="SWE skill: testing" src="https://img.shields.io/badge/SWE_skill-testing-434A55">
   <img alt="Lanes: web, RN, iOS, macOS, Windows, Linux" src="https://img.shields.io/badge/lanes-web_·_RN_·_iOS_·_macOS_·_Windows_·_Linux-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -83,11 +83,11 @@ A campaign published 20 surface captures and cleared every gate this skill had: 
 
 Nothing was broken. Captures were bound to surfaces on a slug of the **filename**, the page rendered each one with alt text taken from the label, and the artifact checks ran over case evidence rather than over the pictures the page actually shows. The gated part of the campaign was sound; the ungated part was the part people look at.
 
-The fix is borrowed wholesale from `warrant`'s oracle plane, which had already solved it one domain over for numbers: a figure without a source reference is the defect that plane exists to find. Substitute *picture* for *figure* and it transfers intact. The capture step now records what each shot depicts and (the load-bearing part) **where the channel was actually pointed**, at capture time, because a manifest written afterwards records what somebody believed. Four passes then run, all exact, none needing a model: a capture with no recorded target, a target that doesn't resolve to its subject's route, two subjects sharing one image, and a capture published without a `be-my-witness` verdict.
+The fix is borrowed wholesale from `warrant:warrant`'s oracle plane, which had already solved it one domain over for numbers: a figure without a source reference is the defect that plane exists to find. Substitute *picture* for *figure* and it transfers intact. The capture step now records what each shot depicts and (the load-bearing part) **where the channel was actually pointed**, at capture time, because a manifest written afterwards records what somebody believed. Four passes then run, all exact, none needing a model: a capture with no recorded target, a target that doesn't resolve to its subject's route, two subjects sharing one image, and a capture published without a `be-my-witness:be-my-witness` verdict.
 
 That last one ratchets rather than blocks. The other three fail the gate, and the whole ladder is itself watched to fail: `--seed-swap` swaps two subjects and asserts the gate goes red, because a tie check that can't be seen failing is indistinguishable from one that reads nothing.
 
-Worth saying why none of the four asks a model. Run `be-my-witness`'s prescan against the worst capture in that campaign and it returns *is evidence: true, settled: true*, exit 0, a real, contentful, settled image of entirely the wrong document. Image statistics can't answer the subject question and frontier vision tops out near 40% recall on fine-grained UI diffs. Provenance answers it. Nothing else does.
+Worth saying why none of the four asks a model. Run `be-my-witness:be-my-witness`'s prescan against the worst capture in that campaign and it returns *is evidence: true, settled: true*, exit 0, a real, contentful, settled image of entirely the wrong document. Image statistics can't answer the subject question and frontier vision tops out near 40% recall on fine-grained UI diffs. Provenance answers it. Nothing else does.
 
 ## And it asks whether the product does the thing at all
 
@@ -184,4 +184,4 @@ The desktop lanes came out of a fourth research pass in August 2026. Half of it 
 /plugin install test-campaign@fledgeling-plugins
 ```
 
-Then `/test-campaign`, or just ask Claude to test something properly.
+Then `/test-campaign:test-campaign`, or just ask Claude to test something properly.

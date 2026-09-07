@@ -128,7 +128,7 @@ refuses.
 The mechanics above are browser-shaped; the rule transfers and the instrument
 does not.
 
-- **macOS** — drive through `proctor` against a live attached window or menu
+- **macOS** — drive through `proctor:proctor` against a live attached window or menu
   extra. A headless `swift test` running `SwiftUI.ImageRenderer` has no window
   server and no event loop, and `Menu` and `NSPopUpButton` fail silently to
   render their real AppKit geometry, so it is not visual proof of anything.
@@ -651,7 +651,7 @@ one. Write the case that describes the behaviour as it is, name the defect with
 its own `DEF-*` id, and let the fix flip the case.
 
 Two rules decide whether the promotion is real, both carried over from
-`acceptance-e2e`'s guard-promotion phase:
+`acceptance-e2e:acceptance-e2e`'s guard-promotion phase:
 
 - **Something has to invoke it.** A spec or checker with no `package.json`
   script, CI job or pre-push hook running it is documentation. Point at the line

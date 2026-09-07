@@ -115,6 +115,11 @@ prompts directly," and "Verify your claims by quoting the exact applicable infor
 (including policies) when referring to them." Zero lanes is not a pass; it is the sentence
 `every lane failed, so I decided alone`, which the skill already permits.
 
+Referral rows are conditional: record `not needed` when evidence settles a routine
+choice, and `user-owned` when only the user's preference can settle it. Do not
+force a lane invocation to fill a ledger. Older model scores and effort defaults
+below describe those measured versions, not Gemini 3.8 capability.
+
 ## C3 and C4 — two attempts per lane, one record between steps
 
 `[measured-family]` Two retry shapes, both recorded. §1.1.2: one banned, absent tool invoked

@@ -1,4 +1,11 @@
-# `recover-claude-code` on Gemini
+# `recover-claude-code:recover-claude-code` on Gemini
+
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
 
 `SKILL.md` transfers whole, and most of it needs no help: six numbered sections passing a
 concrete file between them, scripts read-only until told otherwise, and the one

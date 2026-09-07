@@ -8,7 +8,7 @@
 The end-to-end conductor for Claude Code: rough idea in, merged and independently verified code out, with every stage's gate actually checked on the way.</p>
 
 <p align="center">
-  <img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-D33C21">
+  <img alt="Version 2.4.3" src="https://img.shields.io/badge/version-2.4.3-D33C21">
   <img alt="SWE skill: feature conductor" src="https://img.shields.io/badge/SWE_skill-feature_conductor-434A55">
   <img alt="Stages: 9" src="https://img.shields.io/badge/stages-9-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

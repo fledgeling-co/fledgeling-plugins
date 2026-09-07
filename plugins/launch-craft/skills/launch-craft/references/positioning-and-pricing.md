@@ -1,60 +1,29 @@
-# Positioning, Ideation & Pricing Architecture
+# Positioning, ideation and pricing
 
-This guide details the strategic product positioning for home network admins and gamers, ideation workflows, and dual-model pricing architecture.
+Start from the project's current decision of record and the user's brief. A reusable launch skill does not supply default personas, dollar amounts, subscription terms or platform promises.
 
----
+## Establish the decision of record
 
-## 0. Positioning Document Audit & Discovery Protocol
+Read `docs/positioning/00-decision.md` and relevant territory documents if present. Check their claims against current implementation evidence. Use `positioning:positioning` when resolving missing positioning is in scope; carry the existing research budget and approved constraints into that task. A proposed territory remains proposed until the relevant user decision has been made.
 
-Before drafting marketing copy, establishing category labels, or finalizing pricing hooks:
-1. **Audit `docs/positioning/`**: Check if `docs/positioning/00-decision.md` or `docs/positioning/10-territory-*.md` exists.
-2. **Invoke `/positioning:positioning` if Missing**: If no positioning documents exist in `docs/positioning/`, trigger the `positioning:positioning` skill (`/positioning:positioning`). It runs Dossier deep-research panels (free CLI + paid API), tests candidate territories under trawl frames, enforces shipped-truth bindings in a claim ledger, and produces the complete 9-document report suite and interactive decision aid in `docs/positioning/`.
-3. **Anchor to Decision of Record**: Extract the recommended territory, the single word to own, the named enemy, and the beachhead persona from `docs/positioning/00-decision.md` and use them as the immutable baseline for all copy generation.
+For a small launch-page request with sufficient product context, state the defensible audience and category assumptions and draft within them. Do not automatically commission a new paid research panel solely because a conventional file is absent.
 
----
+## Claims and terms ledger
 
-## 1. Target Personas & Core Messaging Hooks
+Before drafting public copy, create a compact table:
 
-### Persona A: The Sovereign Home Network Admin
-- **Mindset**: Values local sovereignty, hardware telemetry, deterministic routing, zero cloud lock-in, and zero trust.
-- **Pain Points**: Enterprise tools are bloated, subscription-heavy, and push opaque SaaS telemetry; FOSS scripts are brittle and lack polish.
-- **Core Hook**: *"Your network, your hardware, zero opaque cloud intermediaries. Enterprise-grade packet inspection and telemetry with the elegance of a native desktop app."*
+| Claim or term | Exact proposed copy | Source locator | Status |
+| --- | --- | --- | --- |
+| Primary audience | Project-specific audience | Brief or positioning decision | Approved / assumed |
+| Feature or outcome | Observable behavior | Implementation and evidence | Built / planned / unverified |
+| Price and billing | Amount, currency and billing period | Approved commercial decision | Approved / proposed |
+| Entitlement | Included limits and exclusions | Product or commercial specification | Approved / unconfirmed |
+| Platform support | Platform, minimum version, architecture | Release manifest or verified build | Shipped / planned |
 
-### Persona B: The Competitive Gamer & Low-Latency Enthusiast
-- **Mindset**: Obsessed with packet jitter, bufferbloat reduction, tick-rate stability, and cross-device telemetry.
-- **Pain Points**: VPNs increase ping; background bloat causes frame spikes; router UIs are slow and clunky.
-- **Core Hook**: *"Sub-millisecond route optimization, zero bloat, and instantaneous hardware telemetry across your rig, handheld, and phone."*
+Publish only supportable claims. An unmeasured latency, unsupported OS or invented lifetime entitlement changes what buyers expect; omit it or mark it as an explicit proposal in the review artifact.
 
----
+## Research and copy
 
-## 2. Ideation & Inspiration Workflows
+Use `trawl:trawl` for a specific unresolved angle with the product facts and candidate claims attached. Search available design-reference tools, including Mobbin when installed, for the chosen audience and interaction rather than a fixed networking template.
 
-### 1. Divergent Feature & Angle Ideation via `/trawl:trawl`
-Run `/trawl:trawl` to extract sharp technical hooks from prior projects and user discussions:
-- Hardware-accelerated eBPF / DPDK packet paths.
-- Local AI anomaly detection with Bring-Your-Own-Key (BYOK).
-- Custom latency heatmaps and hop-by-hop visual traceroutes.
-
-### 2. UI Inspiration via Mobbin MCP
-Search Mobbin via router MCP:
-- Use `mcp__router__mobbin__search_screens` with queries: `"network monitoring"`, `"analytics dashboard"`, `"gaming hardware companion"`, `"dark mode telemetry"`.
-- Use `mcp__router__mobbin__search_flows` with queries: `"byok onboarding"`, `"self-hosted configuration"`.
-
----
-
-## 3. Dual Pricing Architecture
-
-| Model | Price | Target Audience | What's Included |
-|---|---|---|---|
-| **Self-Hosted / BYOK** | **$9.99** (Perpetual) | Home lab enthusiasts, VPS owners, privacy purists | Unlimited self-hosted node deployment (Docker/bare metal), Bring Your Own AI Key (OpenAI/Anthropic/Ollama), local storage, lifetime client updates. |
-| **Managed Cloud SaaS** | **$4.99 / mo** | Gamers, mobile power users, quick setup | Automated encrypted relay tunnels, managed zero-trust mesh, cloud backup, 100k monthly AI anomaly credits, instant multi-device sync. |
-
----
-
-## 4. Copywriting Guidelines (Luke Voice Rules)
-
-All marketing copy must be generated through `/create-luke-content:create-luke-content`:
-1. **Direct and grounded**: Say what the software does in the first sentence.
-2. **Zero fluff**: No "revolutionary", "game-changing", "next-gen AI superpower", or "seamless experience".
-3. **No em dashes (`—`)**: Use standard punctuation (colons, parentheses, or separate sentences).
-4. **Honest technical specifications**: State exact port protocols, supported OS versions, memory footprint, and local encryption specs.
+Use `create-luke-content:create-luke-content` for Luke's voice; otherwise use the established project voice. Copy should connect an outcome to its mechanism and keep the limitation beside the claim it qualifies. Pricing copy names currency, billing period and material inclusions together.

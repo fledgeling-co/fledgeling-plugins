@@ -1,5 +1,12 @@
 # stocktake, calibrated for Gemini
 
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
+
 Read this in one pass before step 1, then run the sweep as written. Each override names the step it lands on, because
 a side-file is otherwise the shape the checklist warns about — **[docs]** *"Avoid writing a prompt with non-linear
 logic or conditionals that require the model to piece together fragmented instructions from multiple different places
@@ -50,7 +57,7 @@ evidence (Kohli, the mammography study, the 110-ticket corpus, METR) is about au
 limitation."* No shape can honestly be named. All four the corpus measured behind — `static-page`,
 `brownfield-integration`, `visual-design`, `regression-sensitive` — describe *producing* an artifact, while this skill
 authors no page, is `Audit-only on product code while judging.`, judges no rendered surface, and hands implementation
-to `ship-fleet`; `lane_pick.py` returns the policy answer unchanged for its `verification`, `completeness` and
+to `ship-fleet:ship-fleet`; `lane_pick.py` returns the policy answer unchanged for its `verification`, `completeness` and
 `referral` classes.
 
 ## Override 1 — the sweep's own numbers are cells, not sentences
@@ -154,7 +161,7 @@ policy, a warrant tier or a lane order loads `references/column-policy.md`, `war
 the verdict was made under, not the one you want`; and Kohli's numbers and the 17025 reading are quoted from
 `references/evidence.md`, never recalled.
 
-## Override 6 — `spec-validation` and `clarify` become phases whose output is a file
+## Override 6 — `spec-validation:spec-validation` and `clarify:clarify` become phases whose output is a file
 
 Lands on step 3 and step 8. `scan_skill.py` flagged **no** qualitative skill references; reading the skill found two —
 `Invoke that skill where it is installed rather than reimplementing it.` and `Apply clarify's gate` — each naming a

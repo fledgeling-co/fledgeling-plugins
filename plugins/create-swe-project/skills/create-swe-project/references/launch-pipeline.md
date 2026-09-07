@@ -32,7 +32,7 @@ From the idea and interview answers, write the first briefs into `docs/features-
 
 **After Phase R lands**, revisit: revise briefs the research contradicts, add the briefs the research surfaces (competitor table-stakes, gaps worth owning), and cite the exported report on each brief's `research:` line. A brief the research surfaced rather than the owner asking for it carries `proposed-by-ai: true`, so the owner vetoes an idea by deleting the file instead of answering a question. Ledger IDs stay unallocated — triage owns that write.
 
-The generated CLAUDE.md carries the standing rule: **every future feature request lands as a brief here first**, then `ship-feature` (one) or `ship-fleet` (backlog) runs on it.
+The generated CLAUDE.md carries the standing rule: **every future feature request lands as a brief here first**, then `ship-feature:ship-feature` (one) or `ship-fleet:ship-fleet` (backlog) runs on it.
 
 ## Phase O — technical PRD, overview & marketing features
 
@@ -54,11 +54,11 @@ Generate and maintain the core product source-of-truth documents:
 
 Ground rules: mocks are standalone HTML in `design/mocks/html/` (the pipeline's source of truth for build fidelity); every screen gets its **empty, loading, and error states**, not just the happy path; menus, modals, and sheets are mocked as their own frames or interactive states.
 
-- **`design-craft`** authors the visual system and the mock set for each surface (web app screens, admin, marketing components). If the interview captured a `--design-ref`, bootstrap DESIGN.md from it first (design-md-from-website).
-- **Reference trawl before the direction is committed** (`design-craft` → `plugins/design-craft/skills/design-craft/references/mobbin-trawl.md`): two or three aimed Mobbin searches per surface family, images opened, and a took/left ledger recorded in `INDEX.md`. A direction derived only from memory converges on the category's default shape, which is what "bland", "boring" and "the layouts are terrible" name when they arrive as feedback. Mobbin not installed is a one-line note in the phase report.
-- **`ux-craft`** passes every flow: navigation, forms, onboarding, sign-in (the scaffolded /login flow is a real screen — mock it properly), return paths on every pushed view.
-- **`mac-design-studio`** owns the native side: macOS window (or menu-bar) design and iOS/iPad screens. It routes icon work onward (below) rather than doing it itself.
-- **Icons: hand the whole commission to `create-mac-icon`.** Invoke that skill, or brief one agent to read its SKILL.md and follow it, passing the app's subject, its three committed adjectives, and any brand colour constraint. It owns the direction pick from its 532-icon corpus catalogue, the subject-mined glyph, all three engines, the fidelity loop that scores the shipped SVG against the winning raster at five sizes, and the `audit.html` written from its own template.
+- **`design-craft:design-craft`** authors the visual system and the mock set for each surface (web app screens, admin, marketing components). If the interview captured a `--design-ref`, bootstrap DESIGN.md from it first (design-md-from-website).
+- **Reference trawl before the direction is committed** (`design-craft:design-craft` → `plugins/design-craft/skills/design-craft/references/mobbin-trawl.md`): two or three aimed Mobbin searches per surface family, images opened, and a took/left ledger recorded in `INDEX.md`. A direction derived only from memory converges on the category's default shape, which is what "bland", "boring" and "the layouts are terrible" name when they arrive as feedback. Mobbin not installed is a one-line note in the phase report.
+- **`ux-craft:ux-craft`** passes every flow: navigation, forms, onboarding, sign-in (the scaffolded /login flow is a real screen — mock it properly), return paths on every pushed view.
+- **`mac-design-studio:mac-design-studio`** owns the native side: macOS window (or menu-bar) design and iOS/iPad screens. It routes icon work onward (below) rather than doing it itself.
+- **Icons: hand the whole commission to `create-mac-icon:create-mac-icon`.** Invoke that skill, or brief one agent to read its SKILL.md and follow it, passing the app's subject, its three committed adjectives, and any brand colour constraint. It owns the direction pick from its 532-icon corpus catalogue, the subject-mined glyph, all three engines, the fidelity loop that scores the shipped SVG against the winning raster at five sizes, and the `audit.html` written from its own template.
 
   A bare `media-gen-pro` call plus a hand-rolled contact sheet is **not** this step. That shortcut skips the corpus, the 12-point rubric, the loop and the recipe library, and it produces the icons the owner described as "really basic compared to all of the macos icons". `media-gen-pro` with `svg: true` is Engine B *inside* the pipeline, alongside the hand-authored layered master and the corpus-referenced raster — a stage, not the whole of it.
 
@@ -72,7 +72,7 @@ Ground rules: mocks are standalone HTML in `design/mocks/html/` (the pipeline's 
 
   followed by serving `design/icon/audit.html` and reading it. The script proves the sheet exists, is filled in, and that every image resolves; only opening it proves the icons are good. The audit is how a direction gets chosen — never skip to a single icon.
 
-  `create-mac-icon` absent: say so in the phase report, fall back to `mac-design-studio`'s icon section, and note that the master ships unmeasured against any reference.
+  `create-mac-icon:create-mac-icon` absent: say so in the phase report, fall back to `mac-design-studio:mac-design-studio`'s icon section, and note that the master ships unmeasured against any reference.
 - Inventory before authoring: list every screen/flow/state as a checklist in `design/mocks/html/INDEX.md`, then work through it. A mock set without an inventory silently drops states.
 
 ## Phase O½ — pricing decisions (evidence, not vibes)
@@ -92,8 +92,8 @@ Native-app channel decisions (IAP vs external purchase vs direct sale, region fl
 
 A **premium single-page site** at `design/marketing/index.html` (standalone; porting it into `apps/web` becomes a P0 brief). Three skills in concert:
 
-- **`create-luke-content`** (marketing register) writes every word: hero, feature sections from `docs/MARKETING-FEATURES.md`, honest caveats, and the **pricing section** using Phase O's recommendation. Copy is grounded in OVERVIEW.md + the research; no invented claims, no hype adjectives; run its voice lint on the copy.
-- **`design-craft` + `ux-craft`** build it: gsap (ScrollTrigger reveals, staggered load) + three.js where it earns its place (one hero moment beats scattered effects) + micro-interactions throughout (hover states, magnetic buttons, scroll progress); **interactive app-UI mock slices** — lift real frames from Phase D's mocks and make them respond (a working toggle, a typed-in field), because a live slice sells better than a screenshot; sticky header with **Log in / Sign up** linking to the web app's `/login`; pricing cards wired to the same.
+- **`create-luke-content:create-luke-content`** (marketing register) writes every word: hero, feature sections from `docs/MARKETING-FEATURES.md`, honest caveats, and the **pricing section** using Phase O's recommendation. Copy is grounded in OVERVIEW.md + the research; no invented claims, no hype adjectives; run its voice lint on the copy.
+- **`design-craft:design-craft` + `ux-craft:ux-craft`** build it: gsap (ScrollTrigger reveals, staggered load) + three.js where it earns its place (one hero moment beats scattered effects) + micro-interactions throughout (hover states, magnetic buttons, scroll progress); **interactive app-UI mock slices** — lift real frames from Phase D's mocks and make them respond (a working toggle, a typed-in field), because a live slice sells better than a screenshot; sticky header with **Log in / Sign up** linking to the web app's `/login`; pricing cards wired to the same.
 - **media-gen-pro** supplies the imagery: hero/section images (and video stills where motion helps) generated to `design/marketing/assets/` and referenced relatively. Charts/UI/anything with exact text stays hand-built — image models garble text.
 
 **The quality bar (from the research — treat as gates, not aspirations):**
@@ -105,7 +105,7 @@ A **premium single-page site** at `design/marketing/index.html` (standalone; por
 - **Motion argues the product, selectively.** One authored hero moment and one pinned product narrative showing 2-3 real state changes beat effects everywhere ("mastering delight is mastering selective emphasis"). Animation-for-decoration reads as cheap; the interactive mock slice is the differentiator (only ~4% of SaaS sites embed one).
 - **Structure:** hero proof-moment → proof strip (nothing invented) → pinned product narrative → interactive slice → fewer, richer feature modules → pricing (Phase O½ rules) → dependable footer. One conversion action per viewport.
 
-Quality gate: run `design-review` over the finished page before calling Phase M done.
+Quality gate: run `design-review:design-review` over the finished page before calling Phase M done.
 
 ## Phase L — launch operations pack
 

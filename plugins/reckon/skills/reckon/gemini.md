@@ -1,7 +1,14 @@
-# gemini.md — `reckon`
+# gemini.md — `reckon:reckon`
+
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
 
 Read this once, then read `SKILL.md` and follow it with the overrides below; each names the section it lands on.
-`reckon` suits this model in one respect: almost all of its arithmetic belongs to `scripts/reckon.py`, and
+`reckon:reckon` suits this model in one respect: almost all of its arithmetic belongs to `scripts/reckon.py`, and
 **[measured-family]** the one work bucket where this family matches opus is the one whose brief already states a
 number — optimality, 74.7 against 75.0 (§2.1). It suits it badly in two: what the script hands back is a document that
 *looks* like a verification record, which is what one measured run filled in without running anything, and that
@@ -148,7 +155,7 @@ constraints, options, and preferences are exhaustively incorporated into your pl
 **[measured-family]** §1.2.2: an auditor validated tags, citations and contrast floors thoroughly, had no check that
 its prerequisite artifacts existed, and returned exit 0 over two skipped skill invocations. **[derived]** geminify's
 own quote gate went green across every file after a change took its checked count to zero, caught only by re-running
-the negative control (§5). `reckon` ships that control — `python3 scripts/selftest.py`, which demonstrates each gate
+the negative control (§5). `reckon:reckon` ships that control — `python3 scripts/selftest.py`, which demonstrates each gate
 failing on a bad fixture. Run it whenever the ledger looks clean, then read the receipt, because `check` gates
 internal integrity and cannot say which campaign built it: `campaign_present`, `campaign_dir`, `denominators.scope`,
 and `join.weak`, a degraded answer printed as a warning at exit 0. An empty `unmeasured` column means the opposite in
@@ -203,12 +210,12 @@ step a prompt and chain the prompts together in a sequence."*
 ```
 
 `delegation` fired on four hits and needs one line, because the schedule prints a number that reads like permission:
-`max_concurrency` is how many agents `ship-fleet` may run over this ledger *later*, not how many subagents this run
+`max_concurrency` is how many agents `ship-fleet:ship-fleet` may run over this ledger *later*, not how many subagents this run
 may spawn. This run stays in the main context.
 
 ## Override 7 — unavailable is a value, and it is this skill's thesis (`## The partition`)
 
-`authorship` fired, and Google's grounded instruction closes on the sentence `reckon` was built around. **[docs]**
+`authorship` fired, and Google's grounded instruction closes on the sentence `reckon:reckon` was built around. **[docs]**
 *"Treat the provided context as the absolute limit of truth; any facts or details that are not directly mentioned in
 the context must be considered completely untruthful and completely unsupported. If the exact answer is not explicitly
 written in the context, you must state that the information is not available."* Adopt it verbatim for the read you
@@ -225,7 +232,7 @@ memory when three skills were named, then launching a skill when an answer was w
 ## Override 8 — `thinking_level`, and what it is not for
 
 **[docs]** `HIGH` is described as suitable for *"multi-step planning, verified code generation, or advanced function
-calling scenarios"*; 3.7 Flash defaults to `MEDIUM`. Most of `reckon` is not that — the planning belongs to
+calling scenarios"*; 3.7 Flash defaults to `MEDIUM`. Most of `reckon:reckon` is not that — the planning belongs to
 `reckon.py`, waves included — so run the default and spend the budget on ledger queries. **[measured-family]** Do not
 raise it as a remedy for anything above: paired across 106 tasks, `high` beat `medium` on 24, lost on 24 and tied on
 58, mean −1.7 points (§2.3), while the bound-shaped share of failures *rose* from 58% to 86% (§2.2).

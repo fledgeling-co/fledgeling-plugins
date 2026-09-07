@@ -1,7 +1,7 @@
 ---
 name: report
 description: >-
-  Turn what a Claude session already worked out into a designed, cited report — one self-contained HTML page that reads as a rich scrolling document on screen and paginates to a clean A4 PDF, plus a stripped-back one-page TLDR. Ships three readings of the same argument over one claim ledger — Primer, Brief and Technical — that the reader toggles between, each one fully cited from the same shared registry, and every report opens with a named TLDR section carrying the finding, its supporting claims, the one thing that would change it and the ask. Compiles the session's own evidence trail (files read, commands run, research already in the repo, URLs fetched, renders captured) into a claim ledger first, so every number and attribution carries a locator and anything reasoned is labelled as inference. Comparison and evaluation work additionally ships a verdict layer: three ranked picks in each of the categories readers actually differ on, plus one overall winner with its cost, its weaknesses and a named decision — and independent lab verdicts from Which?, RTINGS, Choice or Consumer Reports count as high-value evidence even where the raw measurements sit behind a paywall. Leads with the conclusion, cites claim-locally with source popups, ships light and dark with the PDF always light, animates throughout with GSAP including the micro-interaction feedback on every control, builds figures through dataviz in native CSS/DOM, hand-authored SVG, or TanStack Charts compiled to static SVG at build time, uses imagery from the evidence trail with full provenance, and routes every visual and flow decision through design-craft and ux-craft with a Mobbin trawl behind the layout. Use this whenever someone wants what just happened written up — "write this up as a report", "give me a summary with a TLDR at the top", "/report", "/report tldr", "turn this session into something I can send", "make me a page about what we found", "I need a one-pager on this for the team", "document this investigation properly", "which of these should we use" — and also when they ask for charts, visualisations or a PDF of work the session already did. Prefer this over a plain markdown summary whenever the write-up needs to look designed, needs citations, or needs to leave the terminal. Not for research that has not happened yet (use dossier-report), Diolog-branded A4 guides (use create-diolog-guides), or slide decks (use deck-craft).
+  Turn what the working session already established into a designed, cited report — one self-contained HTML page that reads as a rich scrolling document on screen and paginates to a clean A4 PDF, plus a stripped-back one-page TLDR. Ships three readings of the same argument over one claim ledger — Primer, Brief and Technical — that the reader toggles between, each one fully cited from the same shared registry, and every report opens with a named TLDR section carrying the finding, its supporting claims, the one thing that would change it and the ask. Compiles the session's own evidence trail (files read, commands run, research already in the repo, URLs fetched, renders captured) into a claim ledger first, so every number and attribution carries a locator and anything reasoned is labelled as inference. Comparison and evaluation work additionally ships a verdict layer: three ranked picks in each of the categories readers actually differ on, plus one overall winner with its cost, its weaknesses and a named decision — and independent lab verdicts from Which?, RTINGS, Choice or Consumer Reports count as high-value evidence even where the raw measurements sit behind a paywall. Leads with the conclusion, cites claim-locally with source popups, ships light and dark with the PDF always light, animates throughout with GSAP including the micro-interaction feedback on every control, builds figures through dataviz in native CSS/DOM, hand-authored SVG, or TanStack Charts compiled to static SVG at build time, uses imagery from the evidence trail with full provenance, and routes every visual and flow decision through design-craft:design-craft and ux-craft:ux-craft with a Mobbin trawl behind the layout. Use this whenever someone wants what just happened written up — "write this up as a report", "give me a summary with a TLDR at the top", "/report:report", "/report:report tldr", "turn this session into something I can send", "make me a page about what we found", "I need a one-pager on this for the team", "document this investigation properly", "which of these should we use" — and also when they ask for charts, visualisations or a PDF of work the session already did. Prefer this over a plain markdown summary whenever the write-up needs to look designed, needs citations, or needs to leave the terminal. Not for research that has not happened yet (use dossier-report:dossier-report), Diolog-branded A4 guides (use create-diolog-guides:create-diolog-guides), or slide decks (use deck-craft:deck-craft).
 ---
 
 # Writing the session up
@@ -13,7 +13,7 @@ the same evidence reaches a specialist, a decision-maker and someone
 meeting the subject for the first time.
 
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns report's categorical scopes into a filled quota table — 27 claim wordings, 6 static frames, 42 state cells, 6 captures — adds a bound ledger that reads each stated maximum back off the built page, converts `design-craft` and `ux-craft` from a lens into phases that emit `DESIGN.md` and `UX.md`, and puts the auditor's and exporter's exit codes into the delivery note. Other models skip it.
+**Using Gemini?** Read `gemini.md` for this skill's task-specific calibration and artifact checks. Its older runs do not establish Gemini 3.8 capability limits: preserve the user's selected implementation lane, and apply a model-specific route only when the current model or an observed failure supports it.
 
 ## The failure this exists to prevent
 
@@ -40,45 +40,47 @@ prose, which is the only way the two stay honest with each other.
 `references/evidence.md` carries the research behind every rule below.
 Read it when you need to justify or tune a rule, not on every run.
 
+**Resolve dependencies in the current runtime.** Use the exact installed identifiers for the named plugin skills. `dataviz` is a standalone skill identifier only when the runtime lists it; if unavailable, use this skill's `references/visualisation.md` and an available charting or diagram tool, and name the substitution. Discover media and Mobbin tool names from the tool catalog. Reuse a loaded skill's guidance and the same acceptance evidence across phases; routing every decision through its criteria does not require invoking the skill again for each word or figure.
+
 ## The shape of a run
 
 | # | Phase | Routes to |
 |---|---|---|
 | 0 | Scope the report | — |
 | 1 | Harvest the evidence trail into a claim ledger | — |
-| 2 | Write the three readings of every claim | `create-luke-content` |
-| 3 | Resolve the design system, light and dark | project `DESIGN.md`, or Mobbin MCP + `/trawl` + `design-craft` |
-| 4 | Compose the argument as page-safe blocks | `ux-craft` |
-| 5 | Build the page | `design-craft`, `ux-craft`, `dataviz`, `media-gen-pro`, `create-luke-content` |
+| 2 | Write the three readings of every claim | `create-luke-content:create-luke-content` |
+| 3 | Resolve the design system, light and dark | project `DESIGN.md`, or Mobbin MCP + `/trawl:trawl` + `design-craft:design-craft` |
+| 4 | Compose the argument as page-safe blocks | `ux-craft:ux-craft` |
+| 5 | Build the page | `design-craft:design-craft`, `ux-craft:ux-craft`, `dataviz`, `media-gen-pro`, `create-luke-content:create-luke-content` |
 | 6 | Derive the TLDR one-pager | — |
-| 7 | Export, audit, fix | `scripts/`, `design-review` |
+| 7 | Export, audit, fix | `scripts/`, `design-review:design-review` |
 
 Output lands in `<project>/docs/reports/<slug>/`. The run ends when the
 files are written. Publishing and deploying are somebody's deliberate
 next act, not this skill's.
 
-**`/report tldr` asks for the one-pager, so the one-pager is the
+**`/report:report tldr` asks for the one-pager, so the one-pager is the
 deliverable.** Phases 0 to 3 still run in full, because the ledger, the
 three readings and the design system are what the one-pager is built from.
 Phases 4 and 5 shrink to whatever the single page needs. Build the long
 report as well only if the argument turned out to need more room than one
 sheet gives it, and say so rather than shipping it silently.
 
-**Design work goes through `design-craft` with `ux-craft`'s lens**, not
+**Design work goes through `design-craft:design-craft` with `ux-craft:ux-craft`'s lens**, not
 straight into markup — layout, the reading control, theme, motion and
-every visual decision. `design-craft` owns the visual craft and the
-anti-slop discipline; `ux-craft` owns flow, states, and the copy that
-labels a control. Neither is a gesture at a skill name: load `design-craft`
+every visual decision. `design-craft:design-craft` owns the visual craft and the
+anti-slop discipline; `ux-craft:ux-craft` owns flow, states, and the copy that
+labels a control. Neither is a gesture at a skill name: load `design-craft:design-craft`
 and read its `references/mobbin-trawl.md` before settling the skeleton, its
 `references/gsap-motion.md` before writing a timeline, its
 `references/data-viz.md` before the first figure, and
 `references/visitor-modes.md` for the Read-surface rules that govern a
-document whose reader is here to understand something. From `ux-craft`, the
+document whose reader is here to understand something. From `ux-craft:ux-craft`, the
 non-negotiables and its state grid bind the controls. Where either is not
 installed, say which substitution you made in the methods note.
 
 **Five things carry hard requirements on every run**, each with a gate
-behind it rather than a request: `design-craft` and `ux-craft` on every
+behind it rather than a request: `design-craft:design-craft` and `ux-craft:ux-craft` on every
 visual and flow decision, `dataviz` on every figure, the Mobbin trawl
 behind the skeleton, GSAP as the motion layer on screen, and the TLDR
 section at the top. A run that skipped one says so in the methods note; a
@@ -206,7 +208,7 @@ form there — declared with `omit` and an `omitReason`. The finding and the
 ask may never be omitted from any reading: a register without the
 conclusion is a different document, not a simpler one.
 
-Route every word through `create-luke-content`, once per reading. The
+Route every word through `create-luke-content:create-luke-content`, once per reading. The
 voice does not change across registers — Luke writing for an
 eleven-year-old is still Luke, not a children's-textbook persona.
 
@@ -266,7 +268,7 @@ state coverage transfer; identity never does** — the palette still comes
 from the subject. Where the MCP is not installed, say so in one line and
 substitute deliberately rather than implying a reference pass happened.
 
-**Then diverge with `/trawl` where the skeleton is genuinely open**, giving
+**Then diverge with `/trawl:trawl` where the skeleton is genuinely open**, giving
 it the subject matter as frame material. Reference tells you what shipped
 pages do; divergence is what stops this report looking like the last one.
 Skip it for a report whose project `DESIGN.md` already binds the layout —
@@ -386,12 +388,12 @@ row group, or a caption away from its chart.
   around prose that was already readable, and an orchestrated entrance on a
   document someone may open to check one fact.
   `references/report-craft.md` §7 carries the typography, and
-  `design-craft`'s `references/visitor-modes.md` the mode it belongs to.
+  `design-craft:design-craft`'s `references/visitor-modes.md` the mode it belongs to.
 
 ## Phase 5 — Build the page
 
-Route the layout to `design-craft` and the flow and states to
-`ux-craft`. Route **every word of prose** to `create-luke-content` —
+Route the layout to `design-craft:design-craft` and the flow and states to
+`ux-craft:ux-craft`. Route **every word of prose** to `create-luke-content:create-luke-content` —
 headline, standfirst, block copy, chart captions, the closing note, once
 per reading. **Route every figure's form and colour through `dataviz`** —
 it owns the form heuristic and the palette formula, and a report that
@@ -429,7 +431,7 @@ text's ink to the line rather than from the element box, because the
 padding is usually declared on a different element from the border and
 the two numbers disagree — a cell with `padding-left: 24px` and a rule on
 its own left border passes an element-box check by construction while
-reading as a squeezed table. `design-review` measures the ink; the
+reading as a squeezed table. `design-review:design-review` measures the ink; the
 auditor here catches the cheap form. A run of this skill against an
 already-published page returned twenty violations.
 
@@ -581,7 +583,7 @@ autoplays), and **figures** (every meaningful figure carries a text
 alternative stating its conclusion). Errors block; warnings are for the
 reader.
 
-Then `design-review` against the real render — **six captures, not one**:
+Then `design-review:design-review` against the real render — **six captures, not one**:
 three readings × light and dark. The register is set in the served source
 rather than by clicking, because setting `.checked` from script does not
 re-evaluate the `:has()` selector on Obscura, so a scripted toggle

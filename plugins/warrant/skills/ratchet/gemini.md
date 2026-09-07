@@ -132,7 +132,7 @@ mistake:
 | 0 | nothing changed, or a promotion was proposed | read the proposal; it is unsigned and stays that way |
 | 1 | the script could not run — bad usage, unreadable input | fix the invocation; this is the only retryable one |
 | 2 | a check ran and failed (`westgard.py` names the rule) | read the rule that tripped, not the threshold |
-| 3 | a precondition is absent: no warrant, no ledger, no corpus | run `charter` or the missing plane; re-running changes nothing |
+| 3 | a precondition is absent: no warrant, no ledger, no corpus | run `warrant:charter` or the missing plane; re-running changes nothing |
 | 4 | **a revocation fired and has already been applied** | report it; do not re-run, and do not undo it |
 
 Exit 4 is not an error to clear. `Apply a revocation before reporting it` is deliberate ordering, and

@@ -1,7 +1,7 @@
 ---
 name: create-skill
 description: >-
-  End-to-end pipeline for building a brand-new skill from scratch, when there is no predecessor to improve. Starts with a broad clarifying interview so the desired outcome is actually pinned down (recommendations offered, notes allowed per answer, multi-choice where it fits, and nothing asked that is already answered elsewhere), runs paid+free deep research on the domain (Dossier panel, read in full, citations verified), builds the skill through skill-creator with every structural choice traced to evidence, proves it with structural evals against a no-skill baseline and a blind multi-family judge panel, iterates on the findings, then ships the full brand treatment — user-chosen name and icon concept, mac-design-studio icon with its audit sheet, composed banner, Luke-voice README and EVALS, a root-README entry — and commits and pushes. Use whenever the user wants a new skill built, says "create a skill for X", "turn this workflow into a skill", "I want a skill that does Y", or hands over a process they keep repeating by hand. Not for improving a skill that already exists (use improve-skill).
+  End-to-end pipeline for building a brand-new skill from scratch, when there is no predecessor to improve. Starts with a broad clarifying interview so the desired outcome is actually pinned down (recommendations offered, notes allowed per answer, multi-choice where it fits, and nothing asked that is already answered elsewhere), runs paid+free deep research on the domain (Dossier panel, read in full, citations verified), builds the skill through skill-creator with every structural choice traced to evidence, proves it with structural evals against a no-skill baseline and a blind multi-family judge panel, iterates on the findings, then ships the full brand treatment — user-chosen name and icon concept, create-mac-icon:create-mac-icon icon with its audit sheet, composed banner, Luke-voice README and EVALS, a root-README entry — and commits and pushes. Use whenever the user wants a new skill built, says "create a skill for X", "turn this workflow into a skill", "I want a skill that does Y", or hands over a process they keep repeating by hand. Not for improving a skill that already exists (use improve-skill:improve-skill).
 ---
 
 # create-skill
@@ -11,13 +11,13 @@ actually wants before writing anything, ground the design in evidence
 rather than instinct, prove it works against the honest baseline of not
 having it, and ship it like a product.
 
-The sibling of `improve-skill`. That one starts from an artifact and its
+The sibling of `improve-skill:improve-skill`. That one starts from an artifact and its
 failures; this one starts from an intention, which is harder, because an
 unstated intention is the most common reason a new skill misses. So this
 pipeline front-loads the interview and treats a vague answer as a defect
 to fix rather than a constraint to work around.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns Phase 2's traceability rule and Phase 5's banner-through-design-craft into a filled ledger and file-gated phases, restores the verification scaffolding the Opus brief file strips, and names the four deliverables to hand to another model. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns Phase 2's traceability rule and Phase 5's banner-through-design-craft into a filled ledger and file-gated phases, makes required acceptance evidence explicit, and names the four deliverables to hand to another model. Other models skip it.
 
 ## Phase 0 — Discovery (the phase that decides everything)
 
@@ -54,7 +54,7 @@ nothing recorded that they had been skipped. The substitution:
 - Take every decision you can from the material, which is where most of
   the interview's answers were going to come from anyway.
 - Put each genuinely open fork to the referral lanes instead of to the
-  user — the four CLI lanes in `clarify`, out-of-family where it matters,
+  user — the four CLI lanes in `clarify:clarify`, out-of-family where it matters,
   with the candidate options in swapped order to control for
   first-position bias. Give them the actual evidence, not the question
   alone.
@@ -92,7 +92,8 @@ the gap rather than the whole subject.
 ## Phase 2 — Build it through skill-creator
 
 When the research lands (all reports read in full, citations verified),
-invoke **skill-creator** and follow its process: capture intent, write
+resolve the installed `skill-creator` entry (a standalone skill in some runtimes),
+invoke its exact advertised identifier, and follow its process: capture intent, write
 SKILL.md, keep it under ~300 lines with depth pushed to references,
 bundle scripts for anything deterministic and repeated, and write test
 cases before claiming it works.
@@ -176,7 +177,7 @@ aesthetic, the hardened three-engine icon pipeline with `audit.html`, the
 composed banner, the Luke-voice README and EVALS written for a
 non-technical reader, and the root-README row.
 
-**Route the icon to `create-mac-icon` when it is installed** — that skill owns
+**Route the icon to `create-mac-icon:create-mac-icon` when it is installed** — that skill owns
 the corpus catalogue, the three engines, the fidelity loop and the audit sheet,
 and it grew out of the pipeline `brand-and-docs.md` describes. Gate the result
 with its `scripts/audit_sheet.py check <assets-dir>` (exit 0 required), which
@@ -204,7 +205,8 @@ node site/scripts/build-catalogue.mjs   # must exit 0
 ```
 
 It fails on a missing SKILL.md, a missing icon, a version that disagrees
-between `plugin.json` and the marketplace manifest, and a missing banner. Read
+between `plugin.json` and the marketplace manifest, a missing banner, and a
+missing root-README row. Read
 the exit code, not the output: piping it through `grep` reports grep's status
 and has already turned a failure into a pass once.
 
@@ -224,14 +226,13 @@ are asked before generation.
 
 ## Prompting the agents this pipeline spawns
 
-Every runner here is Opus, so each brief is an Opus prompt.
-`references/opus-5-prompting.md` carries the patterns and the three Anthropic
-documents to read in full first: XML-structured briefs with the task last, no
-verification scaffolding (Opus 5 self-verifies, and instructing it again causes
-over-verification), explicit delegation caps and scope statements, vision work
-given crop-and-sample tools, calibrated deliverable length, calm trigger
-language, and the environment traps that make `claude -p` fail in ways no code
-review catches.
+Read `references/runner-contract.md` before writing a handoff. It defines exact
+skill resolution, model selection, artifact dependencies, ownership, acceptance
+evidence and stop conditions. The default roles are Opus 5 for intake, triage and
+plan, Gemini 3.8 for implementation, and GPT-6 for orchestration, resolved against
+the models and parameters actually available in the current harness. Explicit
+user choices take priority. Use `references/opus-5-prompting.md` only for the
+Opus-specific additions; keep required gates and remove redundant self-checks.
 
 ## Operating rules
 

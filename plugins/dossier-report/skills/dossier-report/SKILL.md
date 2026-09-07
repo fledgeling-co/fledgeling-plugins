@@ -1,7 +1,7 @@
 ---
 name: dossier-report
 description: >-
-  Turn a research question into one published, uniquely-themed HTML report page — a Dossier paid+free deep-research panel read in full, compiled into a claim graph, then designed from scratch around its own subject and written out to ~/Dev/dossier/<slug>/index.html for <slug>.fledgeling.app. Ships three readings of the same argument over one claim graph — Primer, Brief and Technical — that the reader toggles between, each fully cited from the same shared registry, and every page opens with a TLDR band carrying the finding, its supporting claims and the one thing that would change it. Product and buying research additionally ships a verdict layer: three ranked picks in each of the categories buyers actually differ on, plus one overall winner with its cost, its weaknesses and the reasons written out — and independent lab verdicts from Which?, RTINGS, Choice or Consumer Reports count as high-value evidence even where the raw measurements sit behind a paywall. Every page gets its own visual language, light and dark, GSAP motion and micro-interactions throughout, conditional three.js, animated and interactive visualisations pitched at each reading — built through dataviz in native CSS/DOM, hand-authored SVG, or TanStack Charts compiled to static SVG at build time — imagery taken from the research sources themselves with full provenance, generated stills and clips where a picture carries what prose cannot, claim-local citations with source popups, a verified source registry, and the Dossier/Margin marketing chrome. Design direction comes from a trawl of real shipped UI via the Mobbin MCP plus divergent ideation, and every visual and flow decision routes through design-craft and ux-craft. Use whenever someone wants a topic researched and published as a page, an infographic, a field report, an evidence page, a buying guide or a write-up — "research X and make a page for it", "build me a page about Y", "turn this research into a report page", "publish a dossier page on Z", "make an infographic about W", "which X should I buy", "compare the best X", "what's the best X for Y" — and also when they hand over an existing research corpus and want it turned into a page. Prefer this over a plain design pass whenever the page's substance has to come from research and every claim needs a source behind it.
+  Turn a research question into one published, uniquely-themed HTML report page — a Dossier paid+free deep-research panel read in full, compiled into a claim graph, then designed from scratch around its own subject and written out to ~/Dev/dossier/<slug>/index.html for <slug>.fledgeling.app. Ships three readings of the same argument over one claim graph — Primer, Brief and Technical — that the reader toggles between, each fully cited from the same shared registry, and every page opens with a TLDR band carrying the finding, its supporting claims and the one thing that would change it. Product and buying research additionally ships a verdict layer: three ranked picks in each of the categories buyers actually differ on, plus one overall winner with its cost, its weaknesses and the reasons written out — and independent lab verdicts from Which?, RTINGS, Choice or Consumer Reports count as high-value evidence even where the raw measurements sit behind a paywall. Every page gets its own visual language, light and dark, GSAP motion and micro-interactions throughout, conditional three.js, animated and interactive visualisations pitched at each reading — built through dataviz in native CSS/DOM, hand-authored SVG, or TanStack Charts compiled to static SVG at build time — imagery taken from the research sources themselves with full provenance, generated stills and clips where a picture carries what prose cannot, claim-local citations with source popups, a verified source registry, and the Dossier/Margin marketing chrome. Design direction comes from a trawl of real shipped UI via the Mobbin MCP plus divergent ideation, and every visual and flow decision routes through design-craft:design-craft and ux-craft. Use whenever someone wants a topic researched and published as a page, an infographic, a field report, an evidence page, a buying guide or a write-up — "research X and make a page for it", "build me a page about Y", "turn this research into a report page", "publish a dossier page on Z", "make an infographic about W", "which X should I buy", "compare the best X", "what's the best X for Y" — and also when they hand over an existing research corpus and want it turned into a page. Prefer this over a plain design pass whenever the page's substance has to come from research and every claim needs a source behind it.
 ---
 
 # Publishing a research page
@@ -26,43 +26,45 @@ it, then let the reading decide the page.** Everything else follows.
 225 sources across five backends — and every rule below traces to a row
 in it. Read it when you need to justify or tune a rule, not on every run.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Converts the `design-craft`/`ux-craft` lens into `DESIGN.md` and `UX.md` that Phase 7 must read — on the one recorded Gemini run of this skill neither was invoked — binds the four scopes stated as a class rather than a count to a scope ledger reported as fractions, adds a bound ledger and the prerequisite receipt `audit_page.py` has no check for, makes twelve opened renders the receipt instead of a claim, and names which of this skill's own work to hand to another model. Other models skip it.
+**Using Gemini?** Read `gemini.md` for this skill's task-specific calibration and artifact checks. Its older runs do not establish Gemini 3.8 capability limits: preserve the user's selected implementation lane, and apply a model-specific route only when the current model or an observed failure supports it.
+
+**Resolve dependencies in the current runtime.** Use the exact installed identifiers for the named plugin skills. `dataviz` is a standalone skill identifier only when the runtime lists it; if unavailable, use this skill's `references/visualisation.md` and an available charting or diagram tool, and name the substitution. Discover media and Mobbin tool names from the tool catalog. Reuse a loaded skill's guidance and the same acceptance evidence across phases; routing every decision through its criteria does not require invoking the skill again for each word or figure.
 
 ## The shape of a run
 
-Ten phases. Phases 1 and 5 both use `/trawl` for divergence; phases 0,
+Ten phases. Phases 1 and 5 both use `/trawl:trawl` for divergence; phases 0,
 4 and 9 are the human checkpoints.
 
 | # | Phase | Routes to |
 |---|---|---|
-| 0 | Sharpen the brief | `/clarify` |
-| 1 | Diverge on research angles | `/trawl` |
+| 0 | Sharpen the brief | `/clarify:clarify` |
+| 1 | Diverge on research angles | `/trawl:trawl` |
 | 2 | Run the panel, read all of it | Dossier MCP |
 | 2.5 | Settle what the panel disputes | the artifact itself |
 | 3 | Compile the claim graph, and the verdict where there is one | — |
-| 4 | Name, aesthetic and icon concept | `/clarify` |
-| 5 | Diverge on visual direction | Mobbin MCP, `/trawl` |
-| 6 | Write the three readings | `create-luke-content` |
-| 7 | Build the page | `design-craft`, `ux-craft`, `dataviz`, `media-gen-pro`, `create-luke-content` |
-| 8 | Build the page icon | `create-mac-icon` |
-| 9 | Audit, index, ask before deploy | `design-review` |
+| 4 | Name, aesthetic and icon concept | `/clarify:clarify` |
+| 5 | Diverge on visual direction | Mobbin MCP, `/trawl:trawl` |
+| 6 | Write the three readings | `create-luke-content:create-luke-content` |
+| 7 | Build the page | `design-craft:design-craft`, `ux-craft:ux-craft`, `dataviz`, `media-gen-pro`, `create-luke-content:create-luke-content` |
+| 8 | Build the page icon | `create-mac-icon:create-mac-icon` |
+| 9 | Audit, index, ask before deploy | `design-review:design-review` |
 
-**Every design decision goes through `design-craft` with `ux-craft`'s
+**Every design decision goes through `design-craft:design-craft` with `ux-craft:ux-craft`'s
 lens** — the aesthetic direction, the reading control, the theme, layout,
-motion, states and the copy that labels a control. `design-craft` owns the
-visual craft and the anti-slop discipline; `ux-craft` owns flow, states
+motion, states and the copy that labels a control. `design-craft:design-craft` owns the
+visual craft and the anti-slop discipline; `ux-craft:ux-craft` owns flow, states
 and interface words. Neither is a gesture at a skill name: load
-`design-craft` and read its `references/mobbin-trawl.md` before committing
+`design-craft:design-craft` and read its `references/mobbin-trawl.md` before committing
 a direction, its `references/gsap-motion.md` before writing a timeline,
 its `references/data-viz.md` before the first figure, and
 `references/visitor-modes.md` for the Read-surface rules that govern a page
-whose visitor is here to understand something. From `ux-craft`, the
+whose visitor is here to understand something. From `ux-craft:ux-craft`, the
 non-negotiables and its state grid bind the controls. Where either is
 unavailable, say which substitution you made in the methods note.
 
 **Six skills carry hard requirements on every run**, and each has a gate
-behind it rather than a request: `design-craft` and `ux-craft` on every
-visual and flow decision, `dataviz` on every figure, `/trawl` on both the
+behind it rather than a request: `design-craft:design-craft` and `ux-craft:ux-craft` on every
+visual and flow decision, `dataviz` on every figure, `/trawl:trawl` on both the
 research angles and the aesthetic, the Mobbin MCP on the layout reference,
 and GSAP as the motion layer. A run that skipped one says so in the
 methods note; a run that skipped one silently is the failure this list
@@ -71,7 +73,7 @@ exists to prevent.
 
 ## Phase 0 — Sharpen the brief before spending
 
-Run `/clarify` on the topic. A vague question buys a survey; a
+Run `/clarify:clarify` on the topic. A vague question buys a survey; a
 decision-shaped question buys a page with an argument. This costs nothing
 and it is the highest-leverage minute in the run, because the research
 prompt is fixed once the panel starts and $5–20 rides on it.
@@ -93,7 +95,7 @@ recommendations, allowing notes on each answer:
 
 ## Phase 1 — Diverge on research angles
 
-Run `/trawl` on the sharpened question before writing the Dossier brief.
+Run `/trawl:trawl` on the sharpened question before writing the Dossier brief.
 The first three angles any model produces on a topic are the same three
 every time; the enumerated subtopics in a research brief are exactly
 where that sameness becomes expensive, because the panel then spends real
@@ -230,7 +232,7 @@ the reader meets before anything is designed.
 
 ## Phase 4 — Name, aesthetic and icon concept
 
-Run `/clarify` again, now that the research is read and you can describe
+Run `/clarify:clarify` again, now that the research is read and you can describe
 what the page is actually about.
 
 - **The slug.** One word where possible; it becomes the directory
@@ -290,7 +292,7 @@ identity never does.** Where the MCP is not installed, say so in one line
 in the methods note and substitute deliberately — never imply a reference
 pass happened.
 
-**Then run `/trawl` on the aesthetic**, and give it the subject matter as
+**Then run `/trawl:trawl` on the aesthetic**, and give it the subject matter as
 the frame material. This is what makes each page different from the last,
 and skipping it is how a producer of many pages converges on one look.
 
@@ -356,7 +358,7 @@ also appears further down; a TLDR written separately from the graph is how
 a page ends up disagreeing with itself about its own finding.
 `references/page-craft.md` §1 carries the band's contract.
 
-Route every word through `create-luke-content`, once per reading, from
+Route every word through `create-luke-content:create-luke-content`, once per reading, from
 the claim graph rather than by rewriting another register. The voice does
 not change across registers: Luke writing for an eleven-year-old is still
 Luke, not a children's-textbook persona.
@@ -365,8 +367,8 @@ Luke, not a children's-textbook persona.
 
 Full craft rules, with the evidence behind each: `references/page-craft.md`.
 
-Route the design to `design-craft` with `ux-craft`'s lens on flow and
-states. Route **every word of prose** to `create-luke-content` —
+Route the design to `design-craft:design-craft` with `ux-craft:ux-craft`'s lens on flow and
+states. Route **every word of prose** to `create-luke-content:create-luke-content` —
 headline, standfirst, section copy, chart captions, the closing band.
 The page is published under Luke's name and reads as his.
 
@@ -408,7 +410,7 @@ The rules that matter most, in short:
   register and section position legible at all times. A reader landing
   mid-page from a shared link has to be able to tell where they are.
   `references/page-craft.md` §11 carries the reading surface,
-  `design-craft`'s `references/visitor-modes.md` the mode it belongs to.
+  `design-craft:design-craft`'s `references/visitor-modes.md` the mode it belongs to.
 - **Martini glass by default** — authored stem, then open to sources,
   data and drill-down.
 - **One claim per scroll state**, with one visual delta that supports it.
@@ -451,7 +453,7 @@ The rules that matter most, in short:
   from the element box — the padding is usually declared on a different
   element from the border, so a cell with `padding-left: 24px` and its own
   `border-left` passes an element-box check by construction while reading
-  as a squeezed table. `design-review` measures the ink; the auditor here
+  as a squeezed table. `design-review:design-review` measures the ink; the auditor here
   catches the cheap form. Run against a page already published from this
   skill, the ink measurement returned **twenty below-floor violations**.
 - **Light and dark both ship, and both are measured.** Light is defined
@@ -541,7 +543,7 @@ garble and re-prompting garbles differently:
 
 ## Phase 8 — The page icon
 
-Route to `create-mac-icon` with the chosen concept and the page's own
+Route to `create-mac-icon:create-mac-icon` with the chosen concept and the page's own
 palette. It returns the layered master, the rasters and `audit.html`
 with every take scored. Wire the result in as the favicon, the
 `apple-touch-icon`, and the basis of the `og:image` — two of the three
@@ -573,7 +575,7 @@ existing pages ship with no `og:image` at all and share as bare links.
    caption, a provenance line and a registry row, and generated assets say
    so), and **figures** (every chart carries a text alternative stating the
    conclusion). Errors block; warnings are for the reviewer.
-2. `design-review` against the real render at multiple viewports —
+2. `design-review:design-review` against the real render at multiple viewports —
    **six passes, not one**: three readings × light and dark.
    **Open the renders yourself first** — serve the page, capture each at 1440 and
    390, and read the captures asking *"what is wrong with this?"*. The auditor

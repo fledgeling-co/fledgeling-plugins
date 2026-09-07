@@ -8,7 +8,7 @@
 A watcher that wakes the session only when something changed, and the sibling of <a href="../better-goal">better-goal</a>.</p>
 
 <p align="center">
-  <img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-D33C21">
+  <img alt="Version 2.2.2" src="https://img.shields.io/badge/version-2.2.2-D33C21">
   <img alt="SWE skill: session control" src="https://img.shields.io/badge/SWE_skill-session_control-434A55">
   <img alt="Wakes: on change only" src="https://img.shields.io/badge/wakes-on_change_only-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -106,7 +106,7 @@ The rest covers interval sanity, skills that would arrive as plain text, loops a
 **On its own:**
 
 ```text
-/better-loop monitor the benchmark runs, resolve any harness or config errors,
+/better-loop:better-loop monitor the benchmark runs, resolve any harness or config errors,
 and restart the benchmarks as needed
 ```
 
@@ -115,7 +115,7 @@ and restart the benchmarks as needed
 **Composed with the built-in**, where a wall-clock cadence is genuinely what you want:
 
 ```text
-/loop /better-loop keep checking the deploy and fix what breaks
+/loop /better-loop:better-loop keep checking the deploy and fix what breaks
 ```
 
 `scripts/status.sh` answers "how's it going" without waking the loop or costing it a turn, and warns when the wake-to-poll ratio says the probe is too wide to be worth gating on. `scripts/disarm.sh` clears the state; `TaskStop` stops the monitor.

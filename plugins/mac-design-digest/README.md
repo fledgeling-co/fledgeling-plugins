@@ -2,7 +2,7 @@
 <p align="center"><img src="assets/banner.png" alt="mac-design-digest: a graphite certificate plate carrying three pale measurement bars, with a vermilion wax seal seated in a countersink at its lower-right corner and hanging out over the plate edge, beside the wordmark and the provenance marks (measured)(canon), with the same plate repeated at reading size on the right, fading in from the left and showing its sealed corner" width="100%"></p>
 
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
+  <img alt="Version 1.3.2" src="https://img.shields.io/badge/version-1.3.2-D33C21">
   <img alt="SWE skill: design corpus" src="https://img.shields.io/badge/SWE_skill-design_corpus-434A55">
   <img alt="Structural assertions: 43 of 44" src="https://img.shields.io/badge/structural_assertions-43_of_44-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -10,7 +10,7 @@
 
 Build macOS design taste the way a human expert does: one closely-studied app at a time, accumulated into a corpus that outlives the session.
 
-> **Phase 5 note:** this README is functional, not final. The `create-luke-content` voice pass and the icon that the root README row points at are still to come.
+> **Phase 5 note:** this README is functional, not final. The `create-luke-content:create-luke-content` voice pass and the icon that the root README row points at are still to come.
 
 Feed it screenshots, app icons, and official Apple UI kits. It writes a persistent `design-corpus/`:
 
@@ -31,7 +31,7 @@ Feed it screenshots, app icons, and official Apple UI kits. It writes a persiste
 
 **Kit values come from the archive, not from transcription.** `sketch_extract.py` reads `.sketch` JSON in memory, derives the control ladder from symbol frames per size tier, and classifies capsule corners by geometry, because the format documents no sentinel value for a fully-rounded corner, whatever three different sources claim it is. A capsule is `(inferred)`; the raw value stays beside it.
 
-**Generation is somebody else's job.** Mocks route to `mac-craft`, icons to `create-mac-icon`. Both carry passes this skill does not: AI-default calibration, a slop check, a state matrix, a motion floor, a fidelity loop. When neither is installed, the fallback runs and names what it skipped.
+**Generation is somebody else's job.** Mocks route to `mac-craft:mac-craft`, icons to `create-mac-icon:create-mac-icon`. Both carry passes this skill does not: AI-default calibration, a slop check, a state matrix, a motion floor, a fidelity loop. When neither is installed, the fallback runs and names what it skipped.
 
 ## Install
 

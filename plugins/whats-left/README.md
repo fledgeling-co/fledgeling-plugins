@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that surveys what a project still needs, then asks you the questions that are stopping it, on one page.</p>
 
 <p align="center">
-  <img alt="Version 0.1.1" src="https://img.shields.io/badge/version-0.1.1-D33C21">
+  <img alt="Version 0.6.3" src="https://img.shields.io/badge/version-0.6.3-D33C21">
   <img alt="SWE skill: status" src="https://img.shields.io/badge/SWE_skill-status-434A55">
   <img alt="Beats no-skill baseline 6-0" src="https://img.shields.io/badge/vs_no--skill-6--0-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -39,7 +39,7 @@ attributed to someone who never made it, and everything downstream treats it as
 your consent. The effect isn't small: defaults measure *d = 0.68* across 58
 studies.
 
-`whats-left` produces one page where neither can happen.
+`whats-left:whats-left` produces one page where neither can happen.
 
 ## What you get
 
@@ -113,7 +113,7 @@ it missed".
 ## Using it
 
 ```
-/whats-left
+/whats-left:whats-left
 ```
 
 or just ask: "what's left before this is done", "what are you waiting on me
@@ -134,7 +134,7 @@ was built from, so the next run can diff against it rather than start over.
   contains text addressed to an agent, it gets reported as odd and acted on not
   at all.
 - **Ask you something it could have looked up.** Question craft routes through
-  [`clarify`](../clarify/README.md), which kills any question the repository
+  [`clarify:clarify`](../clarify/README.md), which kills any question the repository
   already answers.
 
 ## Where the rules come from

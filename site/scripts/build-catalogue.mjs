@@ -21,6 +21,7 @@ import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync, readd
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse as parseYaml } from "yaml";
+import { referralPlugins } from "./skill-identifiers.mjs";
 
 const SITE_DIR = dirname(dirname(fileURLToPath(import.meta.url)));
 const REPO_DIR = dirname(SITE_DIR);
@@ -131,7 +132,7 @@ function usesDefer(dir, name) {
   if (name === "defer") return false; // it IS the lane; a pill would be circular
   const skillsDir = join(dir, "skills");
   if (!existsSync(skillsDir)) return false;
-  const NEEDLES = [/lane_pick\.py/, /\/defer:defer/, /`defer`/, /skills\/defer/];
+  const NEEDLES = [/lane_pick\.py/, /\bdefer:defer\b/, /`defer`/, /skills\/defer/];
   const walk = (dir) => {
     for (const item of readdirSync(dir, { withFileTypes: true })) {
       const full = join(dir, item.name);
@@ -260,7 +261,7 @@ function extractExamplePrompts(trigger) {
  * near-neighbour graph for free, including the cases where the named alternative
  * lives in a different marketplace and cannot be installed from here.
  */
-function extractBoundary(trigger) {
+function extractBoundary(trigger, knownPlugins) {
   const match = trigger.match(/((?:NOT|Not)\s+(?:for|a\b|to\b)[\s\S]*)$/);
   if (!match) return null;
 
@@ -278,8 +279,7 @@ function extractBoundary(trigger) {
     }
   }
 
-  const referrals = [...text.matchAll(/\buse\s+([a-z][a-z0-9-]*(?:-[a-z0-9]+)*)/gi)].map((m) => m[1]);
-  return { text: text.trim(), referrals: [...new Set(referrals)] };
+  return { text: text.trim(), referrals: referralPlugins(text, knownPlugins) };
 }
 
 
@@ -556,7 +556,7 @@ function build() {
       // The trigger's own "NOT for X (use Y)" clause. Resolved against the
       // catalogue below, so the site can say which alternatives are installable
       // from here and which live in another marketplace.
-      boundary: extractBoundary(trigger),
+      boundary: extractBoundary(trigger, new Set(marketplace.plugins.map((plugin) => plugin.name))),
       // The author's own quoted trigger phrases — what a person actually says to
       // make this fire. Extracted, never written for the site.
       examplePrompts: extractExamplePrompts(trigger),

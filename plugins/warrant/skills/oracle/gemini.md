@@ -32,7 +32,14 @@ one step and nothing else.
   together fragmented instructions from multiple different places in the prompt."* One pass, then
   work from `SKILL.md`.
 
-## Route out of step 1, and only step 1
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 Step 1 is not pipeline work: `Mark up the surface once. Four attributes, and they are a change to the
 product rather than to the pipeline`. That is an edit to existing multi-file templates, under several

@@ -4,7 +4,7 @@ This replaces a tracker (e.g. Diolog Tasks) issue + comment thread with three ma
 
 - `docs/feature-specs/LEDGER.md` — the id registry (project code + counter + table).
 - `docs/specs/spec-<ID>.md` — one spec per feature (e.g. `docs/specs/spec-DIO-0001.md`).
-- `docs/plans/plan-<ID>.md` — written later by `/plan`.
+- `docs/plans/plan-<ID>.md` — written later by `/shipyard:plan`.
 
 `<ID>` is the uppercase id, e.g. `DIO-0001`. File names use that exact casing.
 
@@ -18,12 +18,12 @@ These are the markdown-lane surface forms of the pipeline's canonical status enu
 
 - `Triage` — spec created, triage in progress.
 - `Needs More Info` — triage found an essential gap; waiting on a human answer.
-- `Ready for Plan` — triage passed; `/plan` can run.
-- `Ready for Work` — `/plan` wrote the plan; `/work` can run. (set by `/plan`)
-- `In Progress` — `/work` is implementing. (set by `/work`)
-- `In Review` — the worker finished; the branch awaits verification. (set by `work`)
-- `Done` — the cross-family verifier graded it complete. (set by `verify` — nothing else may set it)
-- `Needs More Work` — verification failed; the verdict table is gap-fix's work order. (set by `verify` — the one permitted downgrade)
+- `Ready for Plan` — triage passed; `/shipyard:plan` can run.
+- `Ready for Work` — `/shipyard:plan` wrote the plan; `/shipyard:work` can run. (set by `/shipyard:plan`)
+- `In Progress` — `/shipyard:work` is implementing. (set by `/shipyard:work`)
+- `In Review` — the worker finished; the branch awaits verification. (set by `shipyard:work`)
+- `Done` — the cross-family verifier graded it complete. (set by `shipyard:verify` — nothing else may set it)
+- `Needs More Work` — verification failed; the verdict table is gap-fix's work order. (set by `shipyard:verify` — the one permitted downgrade)
 
 Never downgrade a status (e.g. don't move `Ready for Work` back to `Ready for Plan`).
 
@@ -46,7 +46,7 @@ Derive `<short title>` (≤6 words) from the feature description. Use today's da
 ```markdown
 # Feature Spec Ledger
 
-<!-- Managed by the /triage skill. "Project code" and "Last allocated" are load-bearing — every spec id is derived from them. Edit by hand only if you know what you're doing. -->
+<!-- Managed by the /shipyard:triage skill. "Project code" and "Last allocated" are load-bearing — every spec id is derived from them. Edit by hand only if you know what you're doing. -->
 
 **Project code:** DIO
 **Last allocated:** 0
@@ -112,7 +112,7 @@ Take the path from the file you read. Brief numbering and id numbering drift apa
 retired, so the number is a different feature often enough to be no source at all: on one repository
 brief 15 belongs to id 0014, and brief 35 to id 0034.
 
-After triage, append a triage section (shapes below) and update `Status` + `Last updated` in the header (and the ledger row's Status). `/plan` later appends a `## Plan` pointer; `/work` appends a `## Progress` section.
+After triage, append a triage section (shapes below) and update `Status` + `Last updated` in the header (and the ledger row's Status). `/shipyard:plan` later appends a `## Plan` pointer; `/shipyard:work` appends a `## Progress` section.
 
 ## Non-technical language — a hard rule (triage review sections)
 
@@ -146,7 +146,7 @@ Keep each line short and scannable — still a fast read, just per-surface. Desc
 ## Assumptions block
 
 - One line per assumption, lens-tagged, with a one-line rationale in parentheses. Declarative, not a question.
-- End with: *"If any of these are wrong, edit the answer inline (or correct an assumption) in this file and re-run `/triage <ID>` before the planner picks this up."*
+- End with: *"If any of these are wrong, edit the answer inline (or correct an assumption) in this file and re-run `/shipyard:triage <ID>` before the planner picks this up."*
 - **Compress hard:** ≤15 words per assumption, ≤10 per rationale; noun-phrase shorthand ("*matches existing empty-state pattern*", "*safer default*"). One line each — split, don't pile on sub-points.
 - **Do not cap the number of assumptions.** List every load-bearing default; never drop a material one to shorten. Merge two that share a rationale.
 
@@ -162,7 +162,7 @@ Keep each line short and scannable — still a fast read, just per-surface. Desc
 ## Essential Questions block (only when an essential gap exists)
 
 - Smallest number of questions possible. Narrow to multi-choice with a `(recommended)` answer where you can; leave genuinely open-ended (copy, subjective thresholds) as prose.
-- Tag each with its user-facing lens label. Close with an "Easy reply" block pre-filled with recommended letters / `<your answer>` placeholders, plus the instruction to **edit answers inline and re-run `/triage <ID>`**.
+- Tag each with its user-facing lens label. Close with an "Easy reply" block pre-filled with recommended letters / `<your answer>` placeholders, plus the instruction to **edit answers inline and re-run `/shipyard:triage <ID>`**.
 - If empty, omit the header.
 
 ---
@@ -188,7 +188,7 @@ Append one of these under the spec (after the `---` separator), dated.
 **Assumptions** *(include only if you made any non-essential defaults; otherwise omit)*
 - `[Lens]` Declarative statement. *(rationale: codebase pattern / analogue / safer option)*
 
-*If any of these are wrong, edit it inline (or correct an assumption) in this file and re-run `/triage <ID>` before the planner picks this up.*
+*If any of these are wrong, edit it inline (or correct an assumption) in this file and re-run `/shipyard:triage <ID>` before the planner picks this up.*
 
 **Regulatory escalation** *(include only for S3)*
 - This spec touches MNPI / investor-facing disclosure. A human Legal/Compliance Officer should sign off on [item] before the planner runs.
@@ -212,7 +212,7 @@ Append one of these under the spec (after the `---` separator), dated.
    a) [Option A] (recommended)
    b) [Option B]
 
-*Easy reply — edit your answers under each question (or correct any assumption), then re-run `/triage <ID>`:*
+*Easy reply — edit your answers under each question (or correct any assumption), then re-run `/shipyard:triage <ID>`:*
 > `1. a`
 
 *Once the essential question(s) are answered I'll mark this Ready for Implementation Plan.*
@@ -236,7 +236,7 @@ Append one of these under the spec (after the `---` separator), dated.
 > - `[Layout]` Inspiration cards in the content library, not the dashboard widget. *(active surface; widget unchanged for 6 months.)*
 > - `[Experience]` Web only; mobile out of scope. *(description only references web.)*
 >
-> *If any of these are wrong, edit it inline in this file and re-run `/triage DIO-0001`.*
+> *If any of these are wrong, edit it inline in this file and re-run `/shipyard:triage DIO-0001`.*
 
 **GOOD (multi-surface feature — per-surface UI so a designer can mock each screen):**
 > **UI & logic preview** *(rough sanity check — is this the surface area you expected?)*
@@ -259,7 +259,7 @@ Append one of these under the spec (after the `---` separator), dated.
 > **Essential Questions:**
 > 1. *[Compliance]* What text should the MNPI acknowledgement prompt display? *(Legal-owned copy; no safe default.)*
 >
-> *Easy reply — edit your answer below and re-run `/triage DIO-0007`:*
+> *Easy reply — edit your answer below and re-run `/shipyard:triage DIO-0007`:*
 > > `1. <acknowledgement copy>`
 
 **BAD (too technical):** "Which `InspirationCard` component — `apps/web/.../content/InspirationCard.tsx` or `.../dashboard/InspirationCard.tsx`?" → describe the UI location, and if the investigation points to one, make it an assumption.

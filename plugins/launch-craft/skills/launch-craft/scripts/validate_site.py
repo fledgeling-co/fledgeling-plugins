@@ -1,59 +1,59 @@
 #!/usr/bin/env python3
-"""
-validate_site.py - Deterministic validation gate for launch-craft marketing sites.
-Checks:
-- Zero em dashes (—)
-- 5-platform coverage (Windows, Mac, iPad, iPhone, Linux)
-- Pricing references ($9.99, $4.99)
-- Interactive features (GSAP / Three.js)
+"""Check explicit source-text requirements in a standalone launch HTML file.
+
+This does not render the page or establish accessibility, support claims,
+dependency loading, or interaction behavior.
 """
 
+import argparse
+from pathlib import Path
 import sys
-import os
-import re
 
-def validate_html(file_path):
-    if not os.path.exists(file_path):
-        print(f"Error: File not found: {file_path}", file=sys.stderr)
+
+def validate_html(file_path, required_text=(), forbid_em_dash=False):
+    path = Path(file_path)
+    try:
+        content = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as error:
+        print(f"Source check FAILED: {error}", file=sys.stderr)
         return 1
-
-    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-        content = f.read()
 
     errors = []
-
-    # 1. Em dash check
-    if "—" in content:
-        lines_with_emdash = [i+1 for i, l in enumerate(content.splitlines()) if "—" in l]
-        errors.append(f"Em dash (—) found on lines: {lines_with_emdash[:5]}")
-
-    # 2. Platform checks
-    platforms = ["windows", "mac", "ipad", "iphone", "linux"]
-    missing_platforms = [p for p in platforms if p not in content.lower()]
-    if missing_platforms:
-        errors.append(f"Missing required platform coverage: {', '.join(missing_platforms)}")
-
-    # 3. Pricing checks
-    if "9.99" not in content or "4.99" not in content:
-        errors.append("Pricing mismatch: Expected dual pricing references ($9.99 and $4.99) in markup.")
-
-    # 4. GSAP & Three.js presence
-    if "gsap" not in content.lower():
-        errors.append("GSAP animation library not referenced in markup.")
-    if "three" not in content.lower() and "<canvas" not in content.lower():
-        errors.append("Three.js or WebGL canvas element not referenced in markup.")
+    if not content.strip():
+        errors.append("The HTML source is empty.")
+    if forbid_em_dash and "—" in content:
+        lines = [i + 1 for i, line in enumerate(content.splitlines()) if "—" in line]
+        errors.append(f"Em dash found on lines: {lines[:5]}")
+    for value in required_text:
+        if not value.strip():
+            errors.append("A required-text value is empty; provide approved copy.")
+        elif value not in content:
+            errors.append(f"Required source text absent: {value!r}")
 
     if errors:
-        print(f"Validation FAILED for {file_path}:", file=sys.stderr)
-        for err in errors:
-            print(f"  [ERROR] {err}", file=sys.stderr)
+        print(f"Source check FAILED for {path}:", file=sys.stderr)
+        for error in errors:
+            print(f"  [ERROR] {error}", file=sys.stderr)
         return 1
 
-    print(f"Validation PASSED for {file_path}: All quality gates met (exit 0).")
+    print(f"Source check PASSED for {path}: readable nonempty source, "
+          f"{len(required_text)} required text values, em-dash rule "
+          f"{'enabled' if forbid_em_dash else 'not requested'}.")
+    print("Not checked: rendered content, WCAG, layout, dependencies, interactions, "
+          "or the truth of product, pricing and platform claims.")
     return 0
 
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("html", help="Standalone HTML source to inspect")
+    parser.add_argument("--require-text", action="append", default=[],
+                        help="Approved source text that must be present; repeat as needed")
+    parser.add_argument("--forbid-em-dash", action="store_true",
+                        help="Apply when the selected copy voice forbids em dashes")
+    args = parser.parse_args()
+    return validate_html(args.html, args.require_text, args.forbid_em_dash)
+
+
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: validate_site.py <path-to-html-file>", file=sys.stderr)
-        sys.exit(1)
-    sys.exit(validate_html(sys.argv[1]))
+    sys.exit(main())

@@ -8,7 +8,7 @@ ships' masters — every vessel is sailed by its own captain, and the flag deck'
 authority is over the plan, not over the crew.
 
 This skill does that for a Mac running a dozen Claude Code sessions at once. It is
-the layer above `ship-armada`: use that one when the work is waiting in a repo's
+the layer above `ship-armada:ship-armada`: use that one when the work is waiting in a repo's
 backlog, and this one when the work is **already spread across live sessions** and
 nothing is holding the map.
 
@@ -37,7 +37,7 @@ reconciled by working directory and pid, never by name: two sessions were proved
 belong to a conductor that did not recognise the names they appeared under.
 
 **Hands out a capped heavy-work token**, taken from `harbourmaster`'s measured
-berths intersected with `ship-armada`'s three-concurrent-projects policy — the
+berths intersected with `ship-armada:ship-armada`'s three-concurrent-projects policy — the
 smaller of a fact about the machine and a policy about attention. Never an invented
 number.
 
@@ -97,8 +97,8 @@ Two rules cover all of it:
 /plugin install flagship@fledgeling-plugins
 ```
 
-Pairs with `harbourmaster` (the machine), `ship-armada` (the portfolio),
-`ship-fleet` (one repo's backlog), `defer` (which model), `clarify` (whether to ask),
-`whats-left` (the decision page) and `recover-claude-code` (when the terminal dies).
+Pairs with `harbourmaster:harbourmaster` (the machine), `ship-armada:ship-armada` (the portfolio),
+`ship-fleet:ship-fleet` (one repo's backlog), `defer:defer` (which model), `clarify:clarify` (whether to ask),
+`whats-left:whats-left` (the decision page) and `recover-claude-code:recover-claude-code` (when the terminal dies).
 
 MIT.

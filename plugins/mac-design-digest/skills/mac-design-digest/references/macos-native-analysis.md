@@ -1,6 +1,6 @@
 # macOS Native Analysis — lineage, Liquid Glass, and the native-feel grammar
 
-Distilled from the `macosify` plugin's analysis framework, HIG library, and its learnings corpus (patterns evidenced across 60+ real macOS screenshots). Use during Workflow A on every macOS screenshot: it supplies the **lineage classification**, the **Liquid Glass evidence rules**, and the **native-tells audit** that the cross-platform rubric in knowledge-base.md doesn't cover. If the macosify plugin is installed, its deeper resources are available (see §6).
+Distilled from the `macosify:macosify` plugin's analysis framework, HIG library, and its learnings corpus (patterns evidenced across 60+ real macOS screenshots). Use during Workflow A on every macOS screenshot: it supplies the **lineage classification**, the **Liquid Glass evidence rules**, and the **native-tells audit** that the cross-platform rubric in knowledge-base.md doesn't cover. If the macosify plugin is installed, its deeper resources are available (see §6).
 
 ## 1. Framework lineage classification — run before taking taste evidence
 

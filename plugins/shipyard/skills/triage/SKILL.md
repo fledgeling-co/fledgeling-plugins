@@ -20,7 +20,7 @@ status change — never an implementation spec.
 
 Substrate, statuses, and read/write rules: `${CLAUDE_PLUGIN_ROOT}/references/tracker-adapter.md`.
 Lane assignments and effort: `${CLAUDE_PLUGIN_ROOT}/references/model-lanes.md` — the verdict and
-every gate here run on a frontier Claude at `high`; grounding readers run at `low`.
+synthesis follow the user-selected role (normally Opus 5); independent gates use a capable family different from the writer. Use supported effort values and delegate sizeable independent grounding only.
 
 **Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns this skill's prohibitions — the non-technical ban list, the word budgets, the one-line-per-surface rule — into a bound ledger read back off the written section, and gives the grounding pass and the lens scan denominators. Other models skip it.
 
@@ -71,9 +71,7 @@ every gate here run on a frontier Claude at `high`; grounding readers run at `lo
    own evals.
 
 6. **Out-of-family spec review (mandatory where available).** Before the status flips to
-   `To Do`, the written verdict + assumptions go to a reviewer outside Claude's family — the
-   ordered lanes in `second-opinion-lanes.md` (codex `gpt-5.6-sol` at `medium` first; `agy`, then
-   `grok` when codex is down), read-only, grounded in the codebase, per the R1 contract in
+   `To Do`, the written verdict + assumptions go to a capable supported reviewer outside the actual writer's family — resolve the lane under `model-lanes.md` and `second-opinion-lanes.md`, read-only and grounded in the codebase, per the R1 contract in
    `${CLAUDE_PLUGIN_ROOT}/references/codex-cli.md`. Egress and the repo opt-out are checked per
    invocation; a fully in-family fallback is recorded as a downgrade in the triage section. Then
    **act**: accept (edit), reject (stated reason), or escalate (a Critical/High exposing a real

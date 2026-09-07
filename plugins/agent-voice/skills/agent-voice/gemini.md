@@ -1,5 +1,7 @@
 # agent-voice, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this once before Step 1, then run the skill as written with the overrides below; each names
 the step it lands on. This target is the unusual case: its own `references/dialects.md` already
 carries a Gemini section built from Google's published guidance, and that section is right —
@@ -27,7 +29,7 @@ named rather than assumed — **[docs]** "If thinking_level is not specified, Ge
 to high", then, from the 3.5 Flash release notes, "The default thinking effort is now medium,
 changed from high in Gemini 3 Flash Preview."
 
-**Unmeasured on this skill.** No Gemini run of `agent-voice` has been recorded, so nothing below
+**Unmeasured on this skill.** No Gemini run of `agent-voice:agent-voice` has been recorded, so nothing below
 is measured on this target: not whether the base layer and the register file get loaded before
 drafting, not whether `--format` matches the routed register, not whether the delivery note's
 four items get filled, not whether a length warning gets read, and not whether a `gemini.md`

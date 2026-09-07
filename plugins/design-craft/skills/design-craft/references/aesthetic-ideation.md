@@ -45,7 +45,7 @@ CONSTRAINTS:
   referent, one signature move, and where the analogy breaks.
 ```
 
-Then invoke `trawl:trawl` with the chosen flag (`--any` or `--standard`) and that packet. If the user already typed `/trawl` or invoked `trawl:trawl`, do not invoke it a second time — take that run's shortlist.
+Then invoke `trawl:trawl` with the chosen flag (`--any` or `--standard`) and that packet. If the user already typed `/trawl:trawl` or invoked `trawl:trawl`, do not invoke it a second time — take that run's shortlist.
 
 ## Design-specific frame seats
 

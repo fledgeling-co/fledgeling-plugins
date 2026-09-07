@@ -110,7 +110,7 @@ There is no seven-day expiry, because there is no scheduled task.
 
 ## When composing with the built-in `/loop`
 
-`/loop /better-loop <intent>` works and is additive. The built-in's own limits
+`/loop /better-loop:better-loop <intent>` works and is additive. The built-in's own limits
 then apply, and they are the reason it is not the default here:
 
 | Limit | Value | Source |
@@ -136,9 +136,9 @@ goes idle, not once per missed interval.
 *"As of v2.1.196, a scheduled fire only runs skills that Claude is allowed to
 invoke on its own."* Built-in commands, skills marked
 `disable-model-invocation: true` — **including the bundled `/verify` and
-`/code-review`** — skills withheld by `skillOverrides` or a `Skill` deny rule, and
+the bundled `/code-review` command** — skills withheld by `skillOverrides` or a `Skill` deny rule, and
 MCP prompts all arrive as plain text instead. There is no error: the run reads
-the text as a note and continues. A loop whose whole job was "run /code-review
+the text as a note and continues. A loop whose whole job was "run the bundled /code-review command
 every hour" ticks correctly forever and reviews nothing.
 
 The same constraint applies to a wake from `watch.sh`, because a wake is text the
@@ -172,7 +172,7 @@ Two mechanisms close it, and neither is inside the loop:
   `hookSpecificOutput.additionalContext`. Unlike a `Stop` hook it does not need
   to load in the session that registered it — it needs to be on disk before the
   *next* session starts, which it is — so the settings-watcher caveat that
-  affects `better-goal` does not apply here.
+  affects `better-goal:better-goal` does not apply here.
 
 `disarm.sh` removes the hook once no loop in the repo is armed. `--no-sentinel`
 at arm time skips it entirely and leaves settings untouched, which costs exactly

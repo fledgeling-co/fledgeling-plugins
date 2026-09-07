@@ -960,7 +960,7 @@ def main() -> int:
 
     # A tldr-only run is a legitimate shape, so the required set is what any run owes:
     # the ledger it argued from, the system it was designed against, and at least one
-    # document with its PDF. Requiring all six would fail `/report tldr` against its own
+    # document with its PDF. Requiring all six would fail `/report:report tldr` against its own
     # gate, which is how a gate starts getting ignored.
     always = ["DESIGN.md", "claims.json"]
     missing = [n for n in always if not (d / n).exists()]

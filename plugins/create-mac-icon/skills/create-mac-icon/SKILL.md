@@ -24,7 +24,7 @@ confirm. But **do not design an icon named "score"**: if what follows describes
 something an icon could be *for* — a cashflow tracker, an export tool, a
 pottery-studio booking app — it is a brief, so design it.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It converts the rubric's stated maxima — one soft light, two hue families, no baked corners — into a bound ledger read back off the emitted SVG, and refuses an audit.html score cell whose render nobody opened. Other models skip it.
+**Using Gemini?** Read `gemini.md` for this skill's task-specific calibration and artifact checks. Its older runs do not establish Gemini 3.8 capability limits: preserve the user's selected implementation lane, and apply a model-specific route only when the current model or an observed failure supports it.
 
 ## Where a commission lands
 
@@ -263,7 +263,7 @@ The findings that changed this skill's own rules are restated in
    structure and small-size legibility only.
 
    **Promote on the panel, stop on promotion-armed patience, ship the best-ever
-   promoted take** — never the latest. On the improve-skill trace that ships r11
+   promoted take** — never the latest. On the improve-skill:improve-skill trace that ships r11
    over r19: the composite says r19 is 4% better and the judges say r11 is the
    artifact. Patience is two consecutive non-wins **armed only after the first
    promotion**; the naive form fires at r04, before all three of that run's

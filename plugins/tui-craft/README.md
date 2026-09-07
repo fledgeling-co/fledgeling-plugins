@@ -4,7 +4,7 @@
 
 <h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> tui-craft</h1>
 <p align="center">
-  <img alt="Version 0.3.0" src="https://img.shields.io/badge/version-0.3.0-D33C21">
+  <img alt="Version 0.5.2" src="https://img.shields.io/badge/version-0.5.2-D33C21">
   <img alt="SWE skill: terminal UI" src="https://img.shields.io/badge/SWE_skill-terminal_UI-434A55">
   <img alt="Corpus: 48 shipped applications" src="https://img.shields.io/badge/corpus-48_applications-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -25,8 +25,8 @@ So both skills here start from a cell grid instead.
 
 | Skill | When | What it works on |
 |---|---|---|
-| **`tui-design`** | Before the app exists. Designing, laying out, mocking, comparing two layouts, proving a screen fits at 80x24. | A spec you write, compiled into a real frame. |
-| **`tui-craft`** | Once it runs. Building, reviewing, polishing, deciding whether it ships. | A frame captured from the running program. |
+| **`tui-craft:tui-design`** | Before the app exists. Designing, laying out, mocking, comparing two layouts, proving a screen fits at 80x24. | A spec you write, compiled into a real frame. |
+| **`tui-craft:tui-craft`** | Once it runs. Building, reviewing, polishing, deciding whether it ships. | A frame captured from the running program. |
 
 They share one width function, which is the reason they sit in one plugin. A mock
 measured by different arithmetic from the capture it will later be compared
@@ -144,7 +144,7 @@ path deliberately (they cost install weight and zero context) and they are there
 so a claim can be checked against its source, not so anyone reads them front to
 back.
 
-## Designing a screen: `tui-design`
+## Designing a screen: `tui-craft:tui-design`
 
 You cannot capture a screen that does not exist. The usual substitute is a
 terminal layout drawn by hand, and it is almost always wrong for a mechanical
@@ -169,7 +169,7 @@ python3 scripts/tui_design_gates.py pipelines-ideal-80x24.json --strict
 python3 ../tui-craft/scripts/tui_gates.py pipelines-ideal-80x24.json --strict
 ```
 
-That second path resolves only from the `tui-design` directory, which is why
+That second path resolves only from the `tui-craft:tui-design` directory, which is why
 `--gate` derives both script locations from its own file instead.
 
 What did not fit comes back as a fit report with a non-zero exit: a column
@@ -205,9 +205,9 @@ can fail before trusting one that passes.
 
 ## What it doesn't do
 
-It doesn't own design judgement. Hierarchy and restraint route to `design-craft`;
-flow, the six states and the trunk test route to `ux-craft`; comparing two
-rendered images routes to `be-my-witness`. This skill owns the medium, the
+It doesn't own design judgement. Hierarchy and restraint route to `design-craft:design-craft`;
+flow, the six states and the trunk test route to `ux-craft:ux-craft`; comparing two
+rendered images routes to `be-my-witness:be-my-witness`. This skill owns the medium, the
 instrument, and the corpus.
 
 It's also not for web or desktop GUI work.

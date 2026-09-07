@@ -6,7 +6,14 @@ so almost everything below is about `## 5 — The launch pipeline` and `referenc
 phases of authored HTML, prose and judged aesthetics sit in the two shapes the corpus measures this family collapsing
 on. Updated against the 2026-08-30 revision, which added Phase P and a traceability-matrix PRD (Overrides 1 and 4).
 
-## Route out before Phase D starts
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 **[docs]** The prompt health checklist says it outright, under **Task outside of model capabilities**: *"Avoid using
 prompts that ask the model to perform a task for which it has a known, fundamental limitation."* Four deliverables

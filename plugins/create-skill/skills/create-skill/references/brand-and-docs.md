@@ -16,7 +16,7 @@
 ### The marketplace aesthetic (bake this into every icon brief)
 
 The set has a committed family look, learned from what the user actually
-chose across six icons. Brief the mac-design-studio agent with all of it:
+chose across six icons. Give the icon runner all of it:
 
 - **Outside shape is non-negotiable**: full-bleed 1024 on the set's exact
   superellipse (the path every sibling ships; a rounded-rect
@@ -41,7 +41,7 @@ chose across six icons. Brief the mac-design-studio agent with all of it:
 
 ### The pipeline
 
-**Route icon work to `create-mac-icon`.** Do not restate its procedure here and
+**Route icon work to `create-mac-icon:create-mac-icon`.** Do not restate its procedure here and
 do not brief an agent to reinvent it: it carries the direction catalogue, the
 ground-truth corpus the master is measured against, the three-engine floor, the
 `audit.html` template, the material-recipes library that grows with every
@@ -49,8 +49,8 @@ commission, and the measured fidelity loop with its scoring harness, review
 sheet and blind judge panel. A hand-rolled icon pass gets none of that and
 starts every lesson over.
 
-Spawn an **Opus agent** briefed to read `create-mac-icon`'s SKILL.md and follow
-it, plus:
+Choose an available runner with the required visual tools, briefed to invoke `create-mac-icon:create-mac-icon` and follow its loaded
+SKILL.md, plus:
 
 - the chosen concept from the user checkpoint,
 - the **marketplace aesthetic** above, since that is this repo's house style
@@ -58,9 +58,10 @@ it, plus:
 - the sibling icons' glyph devices, so none is duplicated,
 - and NO git operations.
 
-Write the brief following `references/opus-5-prompting.md`: state first, task
-last, no verification scaffolding, an explicit no-subagents cap, and the
-artifacts named as things to sample values out of rather than reason about.
+Write the brief following `runner-contract.md`, adding `opus-5-prompting.md`
+when the runner is Opus: state first, task
+last, explicit acceptance evidence, and bounded delegation with separate file
+ownership. Name the artifacts and the observable comparisons needed to accept them.
 
 Expect back: the layered SVG master with its build script, the Arrow and raster
 takes, `audit.html` with every take scored including losers, the fidelity run
@@ -68,8 +69,9 @@ directory, and any new construction appended to the skill's recipe library.
 
 ## Banner
 
-Composed HTML via design-craft with ux-craft's Read-mode lens — never a
-generated image standing in for typography:
+Invoke `design-craft:design-craft` for the HTML banner design and
+`ux-craft:ux-craft` in Read mode for its reading hierarchy. Have each return its
+decisions in the banner brief before rendering. Use composed typography:
 
 - The **real icon asset** beside a **set wordmark** (a deliberate,
   defensible font choice; never the model's default reach), one-line
@@ -119,7 +121,7 @@ wrong through that gap while passing every check made of them:
 
 - `resume-session` at 1600x520, the layout size at deviceScaleFactor 1, so half
   resolution and soft on every retina display.
-- `test-campaign` and `whats-left` at 3200x840 from a 1600x420 layout.
+- `test-campaign:test-campaign` and `whats-left:whats-left` at 3200x840 from a 1600x420 layout.
 - `test-campaign` and `whats-left` again, for a defect no size check could
   ever find: their wordmarks are set in `Iowan Old Style` and `Avenir Next`,
   local macOS faces with nothing linked, so re-rendering either on another
@@ -186,10 +188,10 @@ never raster.
 
 ## README and EVALS.md
 
-Both through **create-luke-content** (marketing persona over the base
+Both through **`create-luke-content:create-luke-content`** (marketing persona over the base
 voice), then its voice lint until hard-checks clean.
 
-**The lint belongs to `create-luke-content`, not to this skill, and the path
+**The lint belongs to `create-luke-content:create-luke-content`, not to this skill, and the path
 matters.** This line used to read `voice_lint.py --format marketing` with no
 owner named, which reads as this skill's own `scripts/` directory, where no such
 file has ever been. An audit concluded from that the gate had never been

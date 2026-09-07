@@ -1,19 +1,21 @@
 # Second opinions and panels — settle it with a model before the human
 
-> **Lane assignments are `defer`'s now.** Run
-> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]`
-> for the model, the effort and the exact argv, or `lane_run.sh <class> "<prompt>"`
-> to run and wire-verify it in one step. The classes are `implementation`,
-> `completeness`, `general`, `referral`, `verification` and `design-review`.
-> **Pass `--shape` whenever you know what the work is** — `defer --matrix` lists
-> the shapes. It narrows the class to the lanes measured good enough for that kind
-> of work before headroom picks, which is where the cost saving lives; the two
-> gated classes are `implementation` and `general`, and the judgement classes
-> abstain by design. Three rules bind everywhere: `gpt-5.6-sol` never runs at
-> `max` (it is the referral lane at `medium` and the implementation lane at
-> `high`), Fable judges but never grades code or a ticket, and design review stays
-> on Opus and Fable. What follows is this pipeline's reading of that policy, not a
-> second copy of it.
+> **Routing precedence:** use shipyard's `references/model-lanes.md`. Explicit user
+> preferences and current supported models come before `defer:defer`'s measured
+> fallback registry. CLI examples below describe their named lanes; they do not
+> select a model for the user or establish current availability.
+
+## Policy markers — active directives only
+
+Before a routed call, read the current project policy and the user's existing
+authorization. The scaffold's explicit opt-out is a line beginning
+`OPT-OUT: external-models`. Also honor explicit legacy directives
+`ANTHROPIC-ONLY`, `NO EXTERNAL MODEL CLIS`, or `external-model-clis: off`.
+A quoted example, code sample, or explanation mentioning a marker is not itself
+an opt-out. Interpret an actual directive rather than treating any grep hit as
+policy. Apply the governing instruction priority; do not request permission again
+when the conversation already authorizes the selected provider and action.
+
 
 **Canonical for the whole pipeline.** Triage, plan, design, and both conductors route open
 decisions through this file. It carries the `clarify:clarify` skill's referral gate into the pipeline as
@@ -41,11 +43,7 @@ stalling on a human — and so the deferral is evidence-shaped rather than vibes
    panel for the genuinely open forks. Note the scope: only forks that survived steps 1-3 reach
    here, so this is not every branching implementation detail.
 5. **What survives reaches the human**: taste, cost, scope, risk tolerance, and their systems —
-   plus the standing override: anything destructive, irreversible, outward-facing, or costly gets
-   asked regardless, however certain you are and even when a conventional default exists. In an
-   attended session, ask via `AskUserQuestion` in clarify's shape (batched, ≤3 questions, two
-   options, consequence-not-mechanism wording, and **no `(Recommended)` mark unless the action is
-   unrecoverable**, where it goes on the reversible path). In an unattended run, never block: park
+   plus actions outside the user's existing authorization whose impact requires their decision. Do not ask again for an action already authorized in the conversation. In an attended session, use the available question tool according to its schema, or one concise direct question; keep the wording about consequences rather than mechanisms. In an unattended run, never block: park
    the item (`Needs More Info` with an "Easy reply" block, or a `proposed` row the human can mark
    approved) and continue with everything the question does not block.
 
@@ -95,7 +93,7 @@ Lane rules (each one is a paid-for incident):
 - **Verify the wire, not the flags.** The captured header lines are the evidence a lane ran as
   routed; launch parameters have been observed not to stick (a shipped gate once ran at `high`
   because one invocation dropped the flag). An **absent or empty output file is a lane failure,
-  not a quiet pass.** A failed lane means you decide alone, and say so. Note that **codex
+  not a quiet pass.** A failed lane means use an authorized fallback and record it; for an independent gate, do not substitute the author's opinion as a pass. Note that **codex
   validates neither `-m` nor `model_reasoning_effort`** — `-m bogus` prints `model: bogus` in the
   header and fails later at the API — so on that lane a clean header is necessary and not
   sufficient, and the empty output file is the signal that matters.
@@ -106,14 +104,8 @@ Lane rules (each one is a paid-for incident):
   before you widen the deadline.
 - **`agy` buffers `--print` output to the end** — never read its stdout for progress; wait for
   exit.
-- **Every out-of-family call is egress.** `-s read-only` restricts writes, not the network:
-  everything in the packet and every file the lane opens is transmitted to that vendor. Check the
-  repo opt-out markers (`ANTHROPIC-ONLY`, `NO EXTERNAL MODEL CLIS`, `external-model-clis: off` in
-  CLAUDE.md / AGENTS.md / ORCHESTRATOR.md) **per invocation** — it is the only kill-switch that
-  reaches a run already in flight. An opted-out repo runs in-family and logs it: a correct run,
-  not a degraded one needing escalation.
-- Pick the lane by what you need: **independence** → B/C/D (a different family does not share the
-  blind spot — that is its whole value as an oracle); **speed** → A.
+- **Read current provider policy before a routed call.** A read-only sandbox limits writes; it does not establish a provider privacy boundary. Interpret active `OPT-OUT: external-models` or explicit legacy directives in the project policy, under the existing conversation authorization. Quoted marker examples are not opt-outs. A permitted fallback can comply with policy while losing independent evidence; record both rather than calling it fully independent.
+- **Choose independence relative to the actual author.** Any capable supported family different from the writer can supply it; A/B/C/D are CLI examples, not a fixed lane ranking. For speed, choose a suitable available lane and a bounded packet.
 
 ## Panels — for forks worth more than one opinion
 

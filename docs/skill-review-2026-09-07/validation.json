@@ -1,0 +1,159 @@
+{
+  "date": "2026-09-07",
+  "scope": "Local source checks; no live model, provider or browser campaign",
+  "checks": [
+    {
+      "check": "reference-regressions",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_skill_references.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "output": "docs/skill-review-2026-09-07/checks/reference-regressions.log",
+      "stderr": ""
+    },
+    {
+      "check": "geminify-regressions",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "plugins/geminify/skills/geminify/scripts",
+        "-p",
+        "test_session_calibrate.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "output": "docs/skill-review-2026-09-07/checks/geminify-regressions.log",
+      "stderr": ""
+    },
+    {
+      "check": "catalogue-referral-regressions",
+      "command": [
+        "node",
+        "--test",
+        "site/scripts/skill-identifiers.test.mjs"
+      ],
+      "exit_code": 0,
+      "output": "docs/skill-review-2026-09-07/checks/catalogue-referral-regressions.log",
+      "stderr": ""
+    },
+    {
+      "check": "source-audit",
+      "command": [
+        "python3",
+        "scripts/check_skill_references.py",
+        "--external-marketplace",
+        "/Users/lukerhodes/Dev/diolog-plugins",
+        "--json"
+      ],
+      "exit_code": 0,
+      "output": "docs/skill-review-2026-09-07/source-audit.json",
+      "stderr": ""
+    },
+    {
+      "check": "catalogue-build",
+      "command": [
+        "node",
+        "site/scripts/build-catalogue.mjs"
+      ],
+      "exit_code": 0,
+      "output": "docs/skill-review-2026-09-07/checks/catalogue-build.log",
+      "stderr": ""
+    },
+    {
+      "check": "diff-format",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output": "docs/skill-review-2026-09-07/checks/diff-format.log",
+      "stderr": ""
+    },
+    {
+      "check": "modified-script-syntax",
+      "exit_code": 0,
+      "python_files": [
+        "plugins/geminify/skills/geminify/scripts/session_calibrate.py",
+        "plugins/harbourmaster/skills/harbourmaster/scripts/ledger.py",
+        "plugins/launch-craft/skills/launch-craft/scripts/run_synthesis.py",
+        "plugins/launch-craft/skills/launch-craft/scripts/validate_site.py",
+        "plugins/report/skills/report/scripts/audit_report.py",
+        "plugins/visualization/skills/visualization/scripts/self_check.py",
+        "plugins/visualization/skills/visualization/scripts/verify-polar.py"
+      ],
+      "shell_files": [
+        "plugins/defer/skills/defer/scripts/lane_run.sh",
+        "plugins/mac-doctor/skills/mac-doctor/scripts/install-agents.sh",
+        "plugins/mac-doctor/skills/mac-doctor/scripts/reclaim.sh"
+      ]
+    }
+  ],
+  "peer_checks": {
+    "craft": "37 vendor quotes, 14 voice examples, six launch-checker cases, four-category inventory, visualization utility help/Python snippets and three shipped polar examples passed; see craft.md",
+    "workflow": "Independent path, routing, fallback and scheduling findings repaired; see workflow.md",
+    "authoring": "Exact source resolver and independent reference-checker/parser review; see authoring.md"
+  },
+  "release_recheck": {
+    "checked_at": "2026-09-07T09:13:15.711227+00:00",
+    "checks": [
+      {
+        "command": "python3 -m unittest discover -s scripts -p test_skill_references.py",
+        "exit_code": 0,
+        "tests": 21
+      },
+      {
+        "command": "python3 -m unittest discover -s plugins/geminify/skills/geminify/scripts -p test_session_calibrate.py",
+        "exit_code": 0,
+        "tests": 6
+      },
+      {
+        "command": "node --test site/scripts/skill-identifiers.test.mjs",
+        "exit_code": 0,
+        "tests": 7
+      },
+      {
+        "command": "python3 scripts/check_skill_references.py --external-marketplace /Users/lukerhodes/Dev/diolog-plugins",
+        "exit_code": 0,
+        "skills": 71,
+        "active_files": 1017,
+        "errors": 0
+      },
+      {
+        "command": "node site/scripts/build-catalogue.mjs",
+        "exit_code": 0,
+        "plugins": 55,
+        "groups": 9,
+        "icons": 55
+      },
+      {
+        "command": "git diff --check",
+        "exit_code": 0
+      }
+    ],
+    "version_audit": {
+      "changed_plugins": 54,
+      "exact_patch_increments": 54,
+      "manifest_mismatches": 0,
+      "existing_readme_badges": 43,
+      "badge_mismatches": 0
+    },
+    "followup_fixes": [
+      "Worker frontmatter follows the selected implementation lane and authorized fallbacks.",
+      "UX browser referral matches runtime-discovery guidance.",
+      "UX model calibration distinguishes historical results from unmeasured current-model claims."
+    ],
+    "scope": "Source and regression checks only; no live cross-model performance or plugin-loading evaluation."
+  }
+}

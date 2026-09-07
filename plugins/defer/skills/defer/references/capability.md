@@ -1,5 +1,9 @@
 # Capability — which lanes can actually do which work
 
+This matrix describes the exact recorded model/harness configurations. It does
+not measure Gemini 3.8 or GPT-6. Follow `runtime-preferences.md` for the current
+role preference, and report newer configurations as unmeasured until evaluated.
+
 `lanes.md` says which lanes are *allowed* to do a piece of work. This file says
 which of them are *good enough* for the particular piece in front of you, and it
 is measured rather than asserted: every number below comes from 106 real tasks in

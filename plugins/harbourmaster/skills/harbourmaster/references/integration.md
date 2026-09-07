@@ -37,7 +37,7 @@ not report the item blocked and do not loop on the call.
 
 ## code-review and shipyard:verify
 
-Route to `defer` before considering this skill. Grading is judgment, and judgment
+Route to `defer:defer` before considering this skill. Grading is judgment, and judgment
 spends another vendor's plan headroom rather than this machine's cores — which is
 the cheaper resource here nearly always, and out-of-family besides.
 
@@ -51,9 +51,9 @@ Split by lane, because its lanes spend different resources:
 | Lane | Plane | Weight |
 |---|---|---|
 | Web / unit / integration suites | local | 4 |
-| Native macOS execution and assertions | `proctor` | none — takes a foreground turn |
+| Native macOS execution and assertions | `proctor:proctor` | none — takes a foreground turn |
 | iOS Simulator | local | 4, and the simulator is heavy |
-| Visual capture, accessibility audit | `proctor`, read-only | none |
+| Visual capture, accessibility audit | `proctor:proctor`, read-only | none |
 
 Its own execution-plane axis and this skill's plane table are the same axis named
 twice; keep them consistent when either changes.
@@ -68,7 +68,7 @@ machine, and the smaller of the two wins.
 
 | Code | Meaning | Response |
 |---|---|---|
-| 75 with `hard_gate` | disk or swap; not a queue | Stop scheduling. Hand disk to `mac-doctor`. |
+| 75 with `hard_gate` | disk or swap; not a queue | Stop scheduling. Hand disk to `mac-doctor:mac-doctor`. |
 | 75 without | No berth now | Wait `retry_after_sec`, do other work, retry. |
 | 64 | Impossible at any pressure | Fix the invocation — usually an over-large weight. |
 

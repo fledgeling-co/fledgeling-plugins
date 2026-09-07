@@ -33,7 +33,7 @@ It is also where the pipeline's single surviving human act lives. Read
 
    It enumerates surfaces and spec files, proposes defect classes, and writes every class at tier
    0. A class starts at tier 0 whatever the operator believes about it, because tiers are earned
-   by `ratchet` from evidence.
+   by `warrant:ratchet` from evidence.
 
 2. **Fill the four fields the script cannot infer.** Each is a judgement rather than a fact about
    the repository, so the draft leaves them blank and `charter_validate.py` rejects the file until
@@ -81,7 +81,7 @@ one line per failure naming the key and the fix, and exits 0, 2 or 3.
 
 ## Constraints
 
-Treat a proposed tier promotion as a document to read rather than a change to accept. `ratchet`
+Treat a proposed tier promotion as a document to read rather than a change to accept. `warrant:ratchet`
 writes promotions as proposals precisely so a person decides them; applying one without reading
 the evidence that earned it defeats the ladder.
 

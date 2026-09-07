@@ -1,11 +1,18 @@
-# gemini.md — running `trawl` on Gemini
+# gemini.md — running `trawl:trawl` on Gemini
 
-`trawl` is unusually well-numbered for a skill written against Claude: the scan
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
+
+`trawl:trawl` is unusually well-numbered for a skill written against Claude: the scan
 found 2 loose quota rows against 43 distributives that are ordinary prose. Where
 a requirement is already a number this family holds up — **[measured-family]**
 `geminify/references/evidence.md` §2.1, on tasks stating a complexity bound
 `gemini-3.7-flash` scored 74.7 against `claude-opus-5`'s 75.0. So the overrides
-are not about the counts: they are about the three places `trawl` keeps state in
+are not about the counts: they are about the three places `trawl:trawl` keeps state in
 conversation rather than a file, the bounds it states as prohibitions, and the
 receipt — a line of arithmetic nothing recomputes.
 
@@ -21,7 +28,7 @@ different places in the prompt", and a conditional side-file is that shape.
 `geminify/references/gemini-corpus.md`; `[measured-family]` is Gemini runs of
 *other* skills (two sessions, n=1 each, plus a 106-task benchmark); `[derived]`
 is reasoning from those. `[measured-here]` appears nowhere — **no Gemini run of
-`trawl` exists**, so every rate below was measured on something else.
+`trawl:trawl` exists**, so every rate below was measured on something else.
 
 **The tier these numbers are about.** Every measured claim here is flash-tier:
 `gemini-3.7-flash` at both effort levels, plus one `gemini-3.7-flash-high`
@@ -37,7 +44,7 @@ is open.
 - Whether any of this helps. No run has been measured with a `gemini.md` in place
   against the same work without one, on any skill.
 - **Gemini judging rather than generating.** Both measured sources watch a model
-  *build* an artifact. `trawl`'s Phases 2 and 3 are almost entirely judging —
+  *build* an artifact. `trawl:trawl`'s Phases 2 and 3 are almost entirely judging —
   floors, clustering, pairwise comparison, the boss gate — and neither speaks to
   that, so those overrides are `[docs]`-grounded, not backed by a rate.
 - Override 1's file conversion rests on one session's diagnosed mechanism plus
@@ -107,7 +114,7 @@ the next prompt." The branch files also make override 4 possible at all.
 
 **[docs]** "By default, Gemini 3 models provide direct and efficient answers. If
 you need a more conversational or detailed response, you must explicitly request
-it in your instructions." That agrees with `trawl`'s anti-ceremony rule — `Chips
+it in your instructions." That agrees with `trawl:trawl`'s anti-ceremony rule — `Chips
 and receipts are one line each; everything else earns its length or gets cut`
 needs no defending here. The risk runs the other way: a terse default drops the
 tail sections, and **[measured-family]** §1.1.1 is that failure in general form,
@@ -212,13 +219,13 @@ ceiling with only minor tweaks before the strategy changed.
 ### 7. Cap the spawn, and never let the generator grade itself
 
 The scan did not fire `delegation` — its triggers are `subagent`, `fan-out`,
-`orchestrate`, and `trawl` says `Agent` and `branch`. The skill spawns 8–14
+`orchestrate`, and `trawl:trawl` says `Agent` and `branch`. The skill spawns 8–14
 Agents at standard tier, so the module is earned by subject matter and written
 here deliberately. **The cap already exists**: the tier table gives frames and
 Agent calls per tier, and `100% is reachable only by explicit ask`. Phase 3's
 optional hybrid is the run's only discretionary spawn — cap it at one.
 
-**The self-grading exposure has no fix inside a markdown skill, and `trawl` says
+**The self-grading exposure has no fix inside a markdown skill, and `trawl:trawl` says
 so.** `references/convergence.md`: `route pairwise judging to a different family
 than the generator — self-enhancement bias is measured and material. Inside the
 markdown skill, order-swap + blinding is the practical subset.` Under Gemini that
@@ -226,7 +233,7 @@ subset is the whole defence, and its limit is worth stating: the boss gate is on
 model judging its own branches, blinded but not independent. Where an
 out-of-family lane exists, route the gate to it and say so in the receipt.
 
-**[docs]** the closed-set remedy covers the verdict format, and `trawl` already
+**[docs]** the closed-set remedy covers the verdict format, and `trawl:trawl` already
 uses it — BEATS / TIES / LOSES is the multiple-choice reframing Google prescribes
 for a model that answered correctly but "didn't stay within the bounds of the
 options", so a verdict never arrives as a sentence. On ordering: "Inhibit your
@@ -235,7 +242,7 @@ gate runs *after* shortlist selection, never merged into it.
 
 ### 8. `thinking_level`
 
-`trawl` is multi-step planning with a judged output, which is what **[docs]**
+`trawl:trawl` is multi-step planning with a judged output, which is what **[docs]**
 Google describes `HIGH` as being for: it "Allows the model to use more tokens for
 thinking and is suitable for complex prompts requiring deep reasoning, such as
 multi-step planning, verified code generation, or advanced function calling
@@ -246,5 +253,5 @@ across 106 tasks, `high` beat `medium` on 24, lost on 24 and tied on 58 — mean
 −1.7 points; and the bound-shaped failure rate in override 3 got *worse* at
 `high` (86% against 58%). **[docs]** the level also couples to this skill's cost
 model: "Higher thinking levels encourage the model to use more tools to explore
-and verify, so lowering the level can reduce tool calls." `trawl`'s spend is
+and verify, so lowering the level can reduce tool calls." `trawl:trawl`'s spend is
 Agent calls, so a raised level is a cost decision for the receipt, not a remedy.

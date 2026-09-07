@@ -1,7 +1,7 @@
 ---
 name: whats-left
 description: >-
-  Survey everything a project still needs before its feature set is genuinely complete, and hand it back as one self-contained HTML page — a plain-English status line per item, then an embedded questionnaire that clears every decision waiting on the reader, with pre-selected recommendations, free-text notes and a JSON export. The two halves are one graph: each blocked item deep-links to the decision that releases it, each decision names what it actually releases and how much. Separates built from deployed rather than counting both as done, records an untouched default as unconfirmed rather than as an answer, and treats a note attached to an answer as a condition on it. Reads the export back on request and applies each answer, reporting what changed, what could not, and what was deliberately left alone. Use for "what's left before this is done", "what are you waiting on me for", "remaining work report", "send me the decisions", "/whats-left", or when a session has piled up questions that stopped the work. Not for research not yet done (dossier-report), not for writing up a session that finished (report), and not for a single question you could ask right now (clarify).
+  Survey everything a project still needs before its feature set is genuinely complete, and hand it back as one self-contained HTML page — a plain-English status line per item, then an embedded questionnaire that clears every decision waiting on the reader, with pre-selected recommendations, free-text notes and a JSON export. The two halves are one graph: each blocked item deep-links to the decision that releases it, each decision names what it actually releases and how much. Separates built from deployed rather than counting both as done, records an untouched default as unconfirmed rather than as an answer, and treats a note attached to an answer as a condition on it. Reads the export back on request and applies each answer, reporting what changed, what could not, and what was deliberately left alone. Use for "what's left before this is done", "what are you waiting on me for", "remaining work report", "send me the decisions", "/whats-left:whats-left", or when a session has piled up questions that stopped the work. Not for research not yet done (dossier-report), not for writing up a session that finished (report), and not for a single question you could ask right now (clarify).
 ---
 
 # What’s left
@@ -40,15 +40,15 @@ distinguishes *confirmed* from *the page proposed this and nobody looked*.
 ## When it runs
 
 **Produce mode** — the default. "What's left before this is done", "what are you
-waiting on me for", "remaining work report", "/whats-left".
+waiting on me for", "remaining work report", "/whats-left:whats-left".
 
 **Ingest mode** — the reader sends back the exported JSON, or points at it:
-"here are my answers", "/whats-left answers.json". Read it, act on it, report
+"here are my answers", "/whats-left:whats-left answers.json". Read it, act on it, report
 what moved.
 
-Route elsewhere when: the research has not happened yet (`dossier-report`), the
-session has finished and wants writing up (`report`), or there is exactly one
-question and the reader is right here (`clarify` — do not build a page to ask
+Route elsewhere when: the research has not happened yet (`dossier-report:dossier-report`), the
+session has finished and wants writing up (`report:report`), or there is exactly one
+question and the reader is right here (`clarify:clarify` — do not build a page to ask
 one thing).
 
 ## Produce mode
@@ -101,7 +101,7 @@ Ten fields, all required, each answering a different question. The model and the
 full field-by-field discipline are in `references/the-item-model.md`.
 
 Every field a human reads is prose written in Luke's voice, so **route the
-writing through `/create-luke-content` (format `marketing`) before the page is
+writing through `/create-luke-content:create-luke-content` (format `marketing`) before the page is
 built, not after it renders.** That covers `plain`, `state`, `live`, `from_you`
 and `remaining` on every item, and every question's `title`, `why` and option
 copy. The voice skill carries a deterministic lint the page's own validator does
@@ -126,7 +126,7 @@ Every question is something you genuinely cannot settle: taste, cost, risk
 appetite, a fact only the reader can see. Anything you could answer by reading
 the repository is not a question, it is work you have not done yet.
 
-Question craft is `clarify`'s subject and this skill follows it — earned
+Question craft is `clarify:clarify`'s subject and this skill follows it — earned
 recommendations, options described by what changes if chosen, notes treated as
 binding. Four rules are specific to this page and live in
 `references/the-question-model.md`:

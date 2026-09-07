@@ -153,7 +153,7 @@ none defined, and nothing about them looks like jargon. Percentages with no stat
 they are a percentage of. And conclusions stated as aphorisms: *"Verified is a different
 axis"*, *"approval is a one-way door"*. Each of those is true and each shows no mechanism.
 
-`agent-voice`'s `ai-writing-signs.md` §1.7 calls the second one *"the epigram used in place
+`agent-voice:agent-voice`'s `ai-writing-signs.md` §1.7 calls the second one *"the epigram used in place
 of a plain statement"* and budgets it at roughly one landing line per page or major section,
 counting captions and panel text as part of the page. That budget is what `plain-statements`
 enforces, and it reads diagram labels too — text inside `<svg>` is free against the word

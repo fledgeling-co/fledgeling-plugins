@@ -1,5 +1,12 @@
 # gemini.md — harbourmaster
 
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
+
 Read this once, top to bottom, then read `SKILL.md` in full. Nothing here changes which plane work
 belongs on or how a berth is taken — it changes what counts as *deciding*, and what counts as
 *checking*.
@@ -99,7 +106,7 @@ tool banned by the repo and absent from the machine, failing every time.
 
 | result | attempts | what to do instead |
 |---|---|---|
-| 75 with `hard_gate` | 0 | stop scheduling; hand disk to `mac-doctor` |
+| 75 with `hard_gate` | 0 | stop scheduling; hand disk to `mac-doctor:mac-doctor` |
 | 75 without | 1, after `retry_after_sec` | do other work between — never a tight loop |
 | 64 | 0 | fix the weight; impossible at any pressure |
 | any other code | 0 | it is the workload's — read the workload's output |
@@ -140,7 +147,7 @@ and `unknown` is not `healthy` — it "carries the same multiplier as `critical`
 together in a sequence." **[measured-family]** Where composition was phrased as a standard rather
 than a step whose output a later step consumes, both invocations were skipped, and the run's own
 diagnosis named the mechanism: nothing downstream depended on a file only those steps produce. The
-scan found **no** qualitative skill references here — `mac-doctor`, `defer` and `proctor` are scope
+scan found **no** qualitative skill references here — `mac-doctor:mac-doctor`, `defer:defer` and `proctor:proctor` are scope
 fences — so the conversion applies to this skill's own stages instead:
 
 1. Probe → the O1 ledger, written out before any decision sentence.
