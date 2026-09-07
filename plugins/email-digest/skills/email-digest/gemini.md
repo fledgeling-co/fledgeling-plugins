@@ -1,5 +1,7 @@
 # email-digest on Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this once, then read `SKILL.md` normally. The canon transfers — three tiers,
 the anti-rules, the evidence classes. What does not transfer is the assumption
 that a bound stated in prose gets read back off the rendered HTML. Each override
@@ -23,7 +25,7 @@ describes `HIGH` as being for — "multi-step planning, verified code generation
 and 3.7 Flash defaults to `MEDIUM`. Not a remedy: **[measured-family]** paired
 across 106 tasks, `high` beat `medium` on 24, lost on 24, tied on 58.
 
-**Unmeasured on this skill** — n=0 Gemini runs of `email-digest`:
+**Unmeasured on this skill** — n=0 Gemini runs of `email-digest:email-digest`:
 
 - Whether any override changes an outcome; nothing has been measured with a
   `gemini.md` in place against the same work without one.
@@ -46,7 +48,7 @@ permission to give up, but a note on which output to distrust where no lane is f
 | shape | where it lands here | measured (gem-flash vs opus) |
 |---|---|---|
 | `static-page` | Step 4's *"or write your own template against the same rules"* branch | 22 against 67, hard zero on 71% of decided rows |
-| `visual-design` | Step 4's palette, type scale and tier weighting, wherever `design-craft` is not installed | 35 against 63 |
+| `visual-design` | Step 4's palette, type scale and tier weighting, wherever `design-craft:design-craft` is not installed | 35 against 63 |
 
 ```bash
 python3 <defer>/skills/defer/scripts/lane_pick.py --task implementation --shape static-page
@@ -173,9 +175,9 @@ implying the pass happened"* — and a missing receipt writes it by command.
 
 ## Override 4 — three skills become three files (Steps 2, 3, 4)
 
-`SKILL.md:59`, `SKILL.md:145` and `SKILL.md:206` route work through `ux-craft`,
-the project's voice skill and `design-craft`, all three phrased as a standard
-rather than a step — *"with `ux-craft`'s lens still on it"*.
+`SKILL.md:59`, `SKILL.md:145` and `SKILL.md:206` route work through `ux-craft:ux-craft`,
+the project's voice skill and `design-craft:design-craft`, all three phrased as a standard
+rather than a step — *"with `ux-craft:ux-craft`'s lens still on it"*.
 
 **[measured-family]** On the one measured run carrying that phrasing, **both**
 skill invocations were skipped, and the model's own diagnosis named the mechanism:
@@ -186,9 +188,9 @@ chain the prompts together in a sequence."
 
 | phase | skill | writes | consumed by |
 |---|---|---|---|
-| A | `ux-craft` | `TIERS.md` — reading order, per-item tier, the ranking basis | the `tier` field on every item |
+| A | `ux-craft:ux-craft` | `TIERS.md` — reading order, per-item tier, the ranking basis | the `tier` field on every item |
 | B | the byline's voice skill | `copy.json` — all 39 strings above | every text field in `payload.json` |
-| C | `design-craft` | `DESIGN.md` — palette and font stacks as literals | `brand.palette`, `brand.fonts` |
+| C | `design-craft:design-craft` | `DESIGN.md` — palette and font stacks as literals | `brand.palette`, `brand.fonts` |
 | D | — | `payload.json` → `mail.html`, `mail.txt` | `lint_email.py`, `ux-lint.py` |
 
 Phase D cannot start until A, B and C have written their files; the receipt loop

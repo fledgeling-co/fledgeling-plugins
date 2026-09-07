@@ -1,7 +1,14 @@
-# gemini.md — `defer`
+# gemini.md — `defer:defer`
+
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
 
 Read this once, now, then read `SKILL.md` and follow it with the overrides below; each names the
-section it lands on. `defer` is unusual: nearly all of its answer comes from a script, so the
+section it lands on. `defer:defer` is unusual: nearly all of its answer comes from a script, so the
 risk is not a worse routing decision. It is a route written from the tables in `SKILL.md` instead
 of from `lane_pick.py`, a lane reported as run when only its flags were set, and a lane call
 killed at two minutes and read as an answer of nothing.
@@ -11,7 +18,7 @@ killed at two minutes and read as an answer of nothing.
 - **Tiers used:** `[docs]`, `[measured-family]`, `[derived]`. No `[measured-here]`: no Gemini run
   of `defer` has been observed. Sources: two n=1 sessions and a 106-task benchmark corpus at two
   effort levels (`geminify/references/evidence.md`), plus one dispatch-set observation recorded
-  in `defer`'s own `references/lanes.md` and named at its use.
+  in `defer:defer`'s own `references/lanes.md` and named at its use.
 - **The tier the evidence is about.** Every measured rate below was observed on
   `gemini-3.7-flash` (one session on `-high`) — flash-tier claims, not to be projected onto Pro,
   where they hold as `[docs]`-grounded discipline and every number is open. **[docs]** Defaults
@@ -36,8 +43,8 @@ decision closest to `referral` — sits outside it, and it produces none of the 
 either. **[docs]** *"Avoid using prompts that ask the model to perform a task for which it has
 a known, fundamental limitation."* The honest application: this work is not one of them.
 
-Two self-referential things to hold. `defer` is where every other `gemini.md` gets its route-out
-numbers, and the `gemini` row in that matrix grades the model now reading it — do not adjust it
+Two self-referential things to hold. `defer:defer` is where every other `gemini.md` gets its route-out
+numbers, and the `gemini` row grades the recorded Gemini 3.7 Flash configuration — do not adjust it
 from self-knowledge. Half its `proxy` clamp is **[docs]** *"Although you can modify these
 parameters, we strongly recommend keeping them at their default values for Gemini 3.x models."*:
 the bench pinned `temperature: 0`, `agy` does not, so the row is a floor, not a reading.
@@ -48,7 +55,7 @@ builder it `failed 8 of 12 dispatches` and one completion report was fabricated 
 claiming four schedulers created, against a ground truth of nothing created`.
 **[measured-family]** Same shape as `evidence.md` §1.1.2, where a run's own review asserted a
 browser engine that failed all four invocation attempts and a contrast rate from a probe never
-executed. The penalty is not a verdict on the reader — `lanes.md` gives the lifting condition,
+executed. The penalty is not a verdict on Gemini 3.8 or another unmeasured reader — `lanes.md` gives the lifting condition,
 `a dispatch set of 12 or more` completing `with no fabricated report and a failure rate under
 20%`, and Override 4 is how a run earns it.
 
@@ -77,8 +84,10 @@ instructed skill invocations were skipped, and its own diagnosis named the mecha
 guidance was in context, and nothing downstream depended on a file only those skills produce
 (§1.2.1). Here the policy is in context; the meters are not.
 
-**The rule:** the route is whatever `lane_pick.py` printed, in this session, on this machine —
-two ordered steps, neither substituting for the other.
+**The rule:** a current-role route is backed by the runtime discovery and receipt
+record in `references/runtime-preferences.md`. A compatibility route is whatever
+`lane_pick.py` printed in this session on this machine. Read the relevant route
+record before dispatch; neither a remembered table nor a requested flag is a receipt.
 
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/defer/scripts/lane_pick.py \
@@ -122,7 +131,7 @@ incorporated into your plan."*
 not a rule restated more firmly. The `observed` column is real output from running these
 commands on 2026-09-01.
 
-| bound, in `defer`'s words | countable property | readback | observed | within? |
+| bound, in `defer:defer`'s words | countable property | readback | observed | within? |
 |---|---|---|---|---|
 | `gpt-5.6-sol never runs at max` | routes pairing `gpt-5.6-sol` with effort `max` | `.model` + `.effort` of every `--json` route | 0 of 17 routes emitted | yes |
 | `Fable judges; it does not verify` | `claude-fable-5` in a `--task verification` route | `--task verification --json` → `.model` | `claude-opus-5` @ `xhigh` | yes |
@@ -140,7 +149,7 @@ eleven. Take a count from the artifact, never from the sentence introducing it.
 
 ## Override 3 — 900 seconds is part of the invocation, and a killed call is not a refusal (`## Give the lane 900 seconds, or background it`)
 
-This section is new, and the one place `defer` asks the reader to bound its own tool call rather
+This section is new, and the one place `defer:defer` asks the reader to bound its own tool call rather
 than read a bound off a script. `SKILL.md`: the harness default is `120 000 ms`, the median lane
 call is `150 seconds`, and `23 of grok's 24 failures` were that default firing on calls that
 were going to succeed.

@@ -1,97 +1,79 @@
 # Writing prompts for Opus 5 runners
 
-Every agent this pipeline spawns is Opus, so the briefs it writes are Opus
-prompts and their quality decides what comes back. Read these three in full
-before writing one — not the summaries, the documents:
+Read [runner-contract.md](runner-contract.md) for the model-neutral handoff and
+completion contract. This file adds guidance for a runner actually using Opus 5;
+it does not imply that all agents in this pipeline use Claude.
 
-- <https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5.md>
-- <https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md>
-- <https://platform.claude.com/docs/en/about-claude/models/migration-guide.md>
+Sources reviewed 2026-09-07:
 
-They change between model releases, and a pattern that was right for a prior
-Opus can be actively wrong now. The patterns below are what those documents say,
-plus the failures this marketplace has actually measured against them.
+- [Prompting Claude Opus 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5.md)
+- [Claude prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md)
+- [Migration guide index](https://platform.claude.com/docs/en/about-claude/models/migration-guide.md)
+- [Migrating to Claude Opus 5](https://platform.claude.com/docs/en/models/opus-5/migration-guide.md)
 
-## The patterns that change what comes back
+Refresh the relevant source when changing model-specific behavior or API settings;
+a normal run can use this reviewed guidance without re-fetching every document.
 
-**Structure the brief with XML tags: longform state first, the task last.**
-Context, fixture, current numbers and prior learnings up top; the ask at the
-end. Queries placed after long context measurably outperform the reverse, by up
-to 30% on complex multi-document inputs.
+## Prompt shape
 
-**Remove verification scaffolding.** Opus 5 verifies its own work. "Double
-check", "re-verify before reporting", "use a subagent to confirm" compound with
-that behaviour and cause over-verification, spending tokens for no gain. The
-migration guide is explicit that these should be *removed* rather than
-rewritten. Measured here: an agent given a four-round cap ran seven, and the
-extra rounds were self-correction the model would have done anyway.
+Give the complete specification, relevant state and explicit scope. Use descriptive
+XML tags or headings to separate instructions, source context and examples; place
+the ask after a long source bundle. Explain the reason behind consequential rules.
+Use calm, direct wording and concrete output constraints rather than repeated
+urgency, emotional pressure or open-ended requests to be more thorough.
 
-Instrument runs are not self-checks. A scorer, a gate, a polarity measurement
-is what the round is *made of*; keep those.
+Opus 5's built-in self-correction makes generic reminders to double-check or spawn
+a verifier costly. Remove that redundant scaffolding. **Keep task acceptance
+criteria and the evidence-producing steps that define the deliverable**: instrument
+runs, required tests, visual comparison, independent eval grading and mandated
+workflow gates. Run the appropriate checks once; repeat them after a relevant fix,
+new failure or changed evidence. Do not treat self-verification as evidence that
+an unrun gate passed.
 
-**Cap delegation explicitly.** Opus 5 delegates more readily than prior models.
-If a task is a single track, say so: "do not delegate to subagents; spawn none."
-Otherwise name which scenarios warrant it.
+Delegate sizeable independent work; keep single-track work local. State ownership,
+concurrency and iteration limits in the brief. A cap remains a cap during
+self-correction. If the requested scope seems mistaken, explain the consequence
+briefly and preserve the user's intent instead of silently changing the work.
 
-**Constrain scope in the brief's own words.** State what is in and out of scope,
-then: deliver what was asked at the scope intended, make routine judgment calls
-yourself, and if the brief looks mistaken say so in a sentence and carry on
-rather than quietly narrowing, widening or transforming it.
+Give vision work the actual images and tools to inspect, crop or re-render them.
+Ask for observable comparisons and sampled values when useful. Control response and
+file length explicitly; effort controls reasoning, not reliable output brevity.
+Keep progress updates brief and about material findings or changes of direction.
 
-**Give vision work its tools.** Vision performance is strongest when the model
-can crop, zoom and re-render rather than reason about what an image probably
-looks like, and tool use is a more cost-effective lever than thinking alone.
-Point the brief at the artifacts and ask for values sampled out of them. This is
-not "check your work"; it is where the evidence comes from.
+## Effort and API migration
 
-**Calibrate deliverable length explicitly.** Both visible responses and files
-written to disk run longer on Opus 5 than on prior models, and lowering effort
-reduces thinking without reliably shortening output. Ask for the substance
-without padding, and give the final report a rough word budget.
+Choose supported effort settings from the runtime. Opus 5's documented default is
+`high`; evaluate `low` or `medium` for bounded work and `xhigh` for demanding
+coding or agentic work. Do not declare one effort mandatory across all reviewers
+without workload evidence. Recalibrate on representative evals after migration.
 
-**Calm trigger language.** "Use X when…" outperforms "CRITICAL: you MUST…",
-which overtriggers on current models. If a rule matters, explain why it matters;
-the model generalises from the reason.
+The Messages API enables adaptive thinking by default on Opus 5. Disabling it is
+supported only at effort `high` or below. Prefer lower effort with thinking on
+when cost is the concern. Size `max_tokens` for reasoning plus the useful answer;
+do not copy a fixed output budget from an unrelated task. Read response content
+by block type, and return assistant thinking blocks unchanged in tool-use loops.
+If migrating from older than Opus 4.8, check the matching migration section for
+sampling, manual-thinking and assistant-prefill changes. These are API concerns;
+do not inject API fields into another provider's CLI or tool schema.
 
-**Name the gaming risk when a proxy is involved.** Any loop with a score invites
-tuning constants against the score. Say plainly that the artifact should be made
-right and the number allowed to follow, and that the score is a proxy for a
-human judgment.
+## CLI environment lessons, bounded to what was observed
 
-**Correction narration.** Opus 5 narrates corrections to its earlier statements
-more than prior models. If that is noise in your context, say: correct an
-earlier statement only when the error changes the reader's decisions; otherwise
-fix it and move on.
+One marketplace environment rejected a roughly 7 KB `-p` argument with "Prompt is
+too long", yet accepted nearly identical text. That is a local incident, not an
+Opus context limit or a universal CLI threshold. Inspect the actual error,
+loaded context and harness. For large briefs, use supported stdin/file input or
+an absolute file reference that the child can read; then confirm it read the file.
 
-## Effort and thinking
+Only load the MCP servers and context needed for the child. Preserve required
+tools and permissions when reducing inherited state; measured timing in one
+environment is not a general speed guarantee.
 
-Effort defaults to `high`. `low` and `medium` are the primary cost and latency
-controls and hold quality on mechanical or read-only passes; `xhigh` suits
-long-running agentic and coding work; `max` is for the most demanding tasks and
-can overthink simpler ones. Run a fresh sweep on your own evals rather than
-carrying a setting over from an earlier model — the levels were recalibrated.
+`--allowedTools` grants permission without prompting; it is **not** an exclusive
+tool whitelist or a git/network sandbox. Use `--tools` to restrict available
+built-in tools and appropriate permission/sandbox controls for real isolation.
+A shell can run git or network commands regardless of the tool's friendly name.
+See the [Claude Code CLI reference](https://code.claude.com/docs/en/cli-reference).
 
-At `xhigh` or `max`, set `max_tokens` to at least 64k so the model has room to
-think and act.
-
-Thinking is on by default and can only be disabled at effort `high` or below;
-`disabled` plus `xhigh`/`max` returns a 400. Prefer lower effort with thinking
-on over disabling it: with thinking off, the model occasionally emits tool calls
-as plain text or leaks internal XML tags into visible output.
-
-## Environment traps when spawning via `claude -p`
-
-Measured in this marketplace, and each one cost a debugging cycle:
-
-- **Pass the brief's path, not its text.** ~7KB as the `-p` argument fails in 13
-  seconds with "Prompt is too long", deterministically, while the same bytes
-  plus a one-line suffix succeed. Write it to disk and say to read it.
-- **Give the child a clean context.** Configured MCP servers load their tool
-  definitions into every child; on a machine with 13 of them the agent starts
-  near its limit. Use `--strict-mcp-config` and strip session-scoped
-  environment variables. Measured: 88s inherited versus 14s clean on one task.
-- **Whitelist tools rather than asking for restraint.** `--allowedTools` with no
-  git and no network enforces "subagents never run git" structurally.
-- **Killing the parent does not kill the child.** A superseded agent kept
-  editing files and collided with its replacement. Run it in its own process
-  group and kill the group.
+Track each child through the harness's process/session lifecycle. Stop a
+superseded child's owned session or process group and observe termination before
+starting a replacement writer; killing only its launcher may leave it editing.

@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that goes through a tracker board card by card, checks each claim against the codebase, and moves every card to the column its evidence supports.</p>
 
 <p align="center">
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
+  <img alt="Version 0.8.3" src="https://img.shields.io/badge/version-0.8.3-D33C21">
   <img alt="SWE skill: triage" src="https://img.shields.io/badge/SWE_skill-triage-434A55">
   <img alt="Gates red-armed 5 of 5" src="https://img.shields.io/badge/gates_red--armed-5--of--5-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -60,7 +60,7 @@ Card by card, in this order, because the order is the point:
 6. **Moves the card**, and only ever with something you can point at: a commit, a
    file and line number, a named judge and its verdict, or a written question.
 
-Cards that still need work get a brief written for `ship-fleet`, which runs them
+Cards that still need work get a brief written for `ship-fleet:ship-fleet`, which runs them
 through the pipeline and hands them back to these same checks. Cards with an open
 question get it referred to another model or decided with a recommendation and a
 reason, not left sitting on you.
@@ -117,7 +117,7 @@ Ask in plain language ("go through the review column", "what's actually left on 
 tickets", "triage the board"), or invoke it directly:
 
 ```
-/stocktake
+/stocktake:stocktake
 ```
 
 It works with any task tracker exposed over MCP. Map your column names onto its six

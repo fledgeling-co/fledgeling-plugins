@@ -1,6 +1,6 @@
 # Evals and judging — proving a skill that has no predecessor
 
-`improve-skill` compares a rebuild against the thing it replaced. There is
+`improve-skill:improve-skill` compares a rebuild against the thing it replaced. There is
 no such thing here, so the baseline is **the same prompts run with no
 skill at all**. That is the honest question for anything new: does this
 earn the context window it costs?

@@ -4,17 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Operating rules — load before writing code
 
-Two operating specs govern all code in this repo. Read them before generating code and apply them **as you write** — they are the rules the `code-review` skill blocks on:
+Two operating specs govern all code in this repo. Read them before generating code and apply them **as you write** — they are the rules the `code-review:code-review` skill blocks on:
 
-- **`docs/CODING_PRACTICES.md`** (cited as **CP §n**) — TypeScript boundary safety, NestJS, Next.js App Router + React 19, OWASP-aligned security, cross-cutting logic-bug patterns. Before reporting any change done, run the **CP §7 agent self-review** over your diff and state which files you covered.
+- **`docs/CODING_PRACTICES.md`** (cited as **CP §n**) — TypeScript boundary safety, NestJS, Next.js App Router + React 19, OWASP-aligned security, cross-cutting logic-bug patterns. Apply **CP §7** to the changed scope, run the required checks and report the evidence; add another review only for a named unresolved risk.
 - **`docs/NEW_PROJECT_BEST_PRACTICES.md`** (cited as **BP §n**) — stack defaults and day-one decisions. When a task is underspecified, take the BP default instead of inventing one; when you deliberately diverge, say so and why.
 
 **Behaviour under ambiguity** (bias toward caution over speed; for trivial tasks, use judgment):
 
-- **Think before acting.** State assumptions explicitly; if multiple interpretations exist, present them — don't pick silently.
+- **Resolve ambiguity at the right level.** Read the source and existing decisions, make routine reversible calls, and state material assumptions. Ask only when different readings lead to materially different work the user must choose; do not ask again for existing authorization.
 - **Simplicity first.** Minimum change that solves the problem. No speculative features or abstractions.
 - **Surgical changes.** Don't "improve" adjacent code; match existing style; mention unrelated problems instead of fixing them. Every changed line traces to the request.
-- **Goal-driven execution.** Turn the task into verifiable success criteria before starting and loop until verified.
+- **Finish against concrete criteria.** Define the required artifact and acceptance checks, complete the requested scope, and stop when those criteria are met. Repeat checks when changes, failures or unresolved concerns require it.
 
 ## Project overview
 
@@ -32,7 +32,9 @@ The quality gate is the **husky pre-push hook** (`.husky/pre-push`) running `pnp
 
 ## Feature pipeline
 
-**Every new feature request lands in `docs/features-to-triage/` FIRST** — write a brief (copy `docs/features-to-triage/BRIEF-TEMPLATE.md`, add an index row to its README), then run `ship-feature` (one brief) or `ship-fleet` (the backlog) on it. Never build a feature straight from chat: the brief is what makes work reviewable, resumable, and visible to the orchestrators. Triaged specs land in `docs/specs/spec-<ID>.md`, plans in `docs/plans/plan-<ID>.md`, refined HTML mocks in `design/mocks/html/` (ledger: `docs/features-to-triage/LEDGER.md` — IDs are allocated at triage, never self-allocated). Deep research lives in `docs/deep-research/` and is the grounding for briefs, `OVERVIEW.md`, and marketing claims — cite it rather than asserting.
+Resolve skills from the installed catalogue and pass exact identifiers to the Skill tool with arguments separately. Normally GPT-6 coordinates, Opus 5 handles intake/triage/plan, and Gemini 3.8 implements after those artifacts land; use the user's actual choices and currently supported model IDs. Each stage handoff names source revisions, writable scope, output paths and acceptance evidence.
+
+**Every new feature request lands in `docs/features-to-triage/` FIRST** — write a brief (copy `docs/features-to-triage/BRIEF-TEMPLATE.md`, add an index row to its README), then run `ship-feature:ship-feature` (one brief) or `ship-fleet:ship-fleet` (the backlog) on it. Never build a feature straight from chat: the brief is what makes work reviewable, resumable, and visible to the orchestrators. Triaged specs land in `docs/specs/spec-<ID>.md`, plans in `docs/plans/plan-<ID>.md`, refined HTML mocks in `design/mocks/html/` (ledger: `docs/features-to-triage/LEDGER.md` — IDs are allocated at triage, never self-allocated). Deep research lives in `docs/deep-research/` and is the grounding for briefs, `OVERVIEW.md`, and marketing claims — cite it rather than asserting.
 
 ## Documentation map
 

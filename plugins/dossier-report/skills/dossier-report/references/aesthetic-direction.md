@@ -70,11 +70,11 @@ The density observation is the one that repays the trawl most often:
 generated layouts are reliably sparser than shipped ones, and sparseness
 reads as unfinished rather than calm.
 
-`design-craft`'s `references/mobbin-trawl.md` is the fuller playbook —
+`design-craft:design-craft`'s `references/mobbin-trawl.md` is the fuller playbook —
 query-writing, what to look for, and the competitor-diagnosis method for
 when a named page feels better than yours.
 
-## Running `/trawl` on the aesthetic
+## Running `/trawl:trawl` on the aesthetic
 
 Give trawl the *subject matter* as frame material, not "design a page".
 The frames should be occupational and constraint-shaped — someone who
@@ -93,7 +93,7 @@ What comes back should be **directions**, each stating:
 - the **motion signature** — what moves, and what perceptual job it does
 - what it would look like if it went **wrong**
 
-Then run the shortlist past the user via `/clarify` in words, before
+Then run the shortlist past the user via `/clarify:clarify` in words, before
 building anything.
 
 ## The theme-proof test

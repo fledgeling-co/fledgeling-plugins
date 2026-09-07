@@ -9,11 +9,13 @@ Three things in this pipeline were calibrated against an older model generation 
 Every routed agent has **two** independent settings, and the lane tables historically named only the first:
 
 - **Model** — the capability class (haiku → sonnet → opus, or sideways to an out-of-family reviewer).
-- **Effort** (`low` / `medium` / `high` / `xhigh` / `max`) — how much work the model does *inside* that class. It is a behavioural signal rather than a token cap, and it governs **all** the tokens in a turn: the thinking, the prose, and the tool calls. Lower effort means visibly fewer tool calls, no plan-before-acting preamble, and terse confirmations; higher effort means more exploration and fuller explanations.
+- **Effort** (`low` / `medium` / `high` / `xhigh` / `max`) — how much work the model does *inside* that class. It is a model-specific reasoning control rather than a token cap. Supported values and effects depend on the model and harness. For Opus 5, lowering effort reduces thinking but does not reliably shorten visible responses; specify response length separately.
 
-`high` is the API default and identical to omitting the parameter, so an agent spawned without an explicit `effort` is running at `high` — which is the right default for judgement work and over-spends on a file reader. (Backgrounded agents on some launch paths default to **xhigh** with no knob; that is the expensive silent failure ship-fleet's verified workflow lane exists to prevent.)
+Opus 5's API default is `high`; a CLI, proxy or agent harness can choose a different default. Read the selected harness's supported settings and observe the run before assigning an effort value. Do not extrapolate this default to Gemini or GPT.
 
-## 2. Effort per lane
+## 2. Opus 5 effort starting points
+
+These are task-shaped starting points to evaluate, not universal settings for Gemini, GPT or every harness. Use only supported values and explicit user preferences; lower effort retaining quality on one review does not establish it for another.
 
 | Lane | Effort | Why |
 |---|---|---|
@@ -25,11 +27,11 @@ Every routed agent has **two** independent settings, and the lane tables histori
 
 **Effort is the primary cost dial; model is the second.** Step effort down before you step capability down — a strong model at `low` costs less than it looks and stays in its capability class.
 
-## 3. REVIEWER ≥ WRITER is about capability, so spend it on effort
+## 3. Reviewer capability is task-specific
 
-The invariant that makes every downgrade in this pipeline safe — *for every artifact the strongest reviewer is at least as strong as the strongest model that wrote it* — is a statement about **capability class**, not token spend. Two consequences worth acting on:
+`REVIEWER ≥ WRITER` is shorthand for choosing a reviewer capable of evaluating the artifact at its actual complexity. It is not a total ordering across model families or a guarantee from a newer name. Establish task suitability and the required family independence separately. Two consequences:
 
-- **Lowering a reviewer's effort keeps the invariant; lowering its model breaks it.** So where a review lane is currently routed down a model tier purely to save tokens, prefer keeping the stronger model and dropping its effort instead. That buys the same saving without weakening the oracle.
+- **Measure review quality at the proposed effort and model.** Lower effort may retain quality for a bounded review, but it is not a proof. Choose a capable reviewer with the required family independence and re-evaluate when the model or task changes.
 - **A fast pass and a thorough pass are both available.** Review accuracy holds at lower effort, which licenses a cheap early sweep (a `low`-effort lens over each slice as it lands) and one `high`-effort pass at the end — rather than one expensive pass that arrives too late to be cheap to fix.
 
 ## 4. Operating rules for effort
@@ -41,7 +43,7 @@ The invariant that makes every downgrade in this pipeline safe — *for every ar
 
 ## 5. Never hardcode a dated model id
 
-The wire-verification self-check is load-bearing and must not rot. Write it against the **lane's expected capability tier**, not a dated string: a check that hardcodes last generation's id fires `WRONG-MODEL` on every correctly-routed agent and stops the fleet before it starts. The durable form names the family and tier and treats an *newer* model in the same tier as a pass, an unexpected *tier* as the failure. When you do need a concrete id (a log grep, an accounting line), read it off the transcript rather than asserting it from the launch parameters.
+Resolve the requested display name to an exact supported model selector, then compare requested, resolved and actual serving identities where authoritative execution metadata exposes them. Do not hardcode an obsolete selector or replace exact routing evidence with a broad tier-name self-check. A newer model can be a valid authorized substitute, but requires recording the substitution rather than silently passing a family-name check. A model's self-description and a CLI header echoing flags are not wire evidence.
 
 ## 6. What still needs verifying — oracle checks vs re-reading your own work
 

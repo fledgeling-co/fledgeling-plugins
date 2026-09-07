@@ -16,9 +16,9 @@ description: >-
   pointer drags, leaked animation frames, motion with no reduced-motion path, buried
   analogy limits, absent prediction beats, thin visuals, single-mode interaction, prose
   over budget, condescending register and copied template headings. Use whenever someone
-  wants a hard thing explained visually — "/eli5 <topic>", "explain how X works", "make me
+  wants a hard thing explained visually — "/eli5:eli5 <topic>", "explain how X works", "make me
   an explainer for Y", "I still don't get Z", "build an interactive diagram of this". Not
-  for API reference or narrative slide decks (use deck-craft), and not for a general-purpose
+  for API reference or narrative slide decks (use deck-craft:deck-craft), and not for a general-purpose
   UI (use design-craft).
 ---
 
@@ -92,13 +92,13 @@ on the project. `plain-statements` reads all visible text, diagram labels includ
 
 ### Where these rules come from
 
-The slogan rules are lifted from `agent-voice`'s `references/ai-writing-signs.md` §1.7, which
+The slogan rules are lifted from `agent-voice:agent-voice`'s `references/ai-writing-signs.md` §1.7, which
 names this failure as *"the epigram used in place of a plain statement"* and sets the budget
 at roughly one landing line per page, and §2.3 on negative parallelism. Read that file when
 prose here needs to sound less machine-made; it is the better source on the subject than
 anything restated here.
 
-Running an eli5 artifact through `agent-voice` itself does not help, and that is measured
+Running an eli5 artifact through `agent-voice:agent-voice` itself does not help, and that is measured
 rather than assumed: its seven registers are all agent-to-developer text, and its gate passed
 the unreadable artifact above cleanly, flagging only em dashes on both it and a readable one
 (`evidence.md` §4.8). The rules that apply are in the field guide, not in that gate.

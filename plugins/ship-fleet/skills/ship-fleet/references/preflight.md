@@ -1,19 +1,21 @@
 # Preflight — check and repair the project's pipeline conventions
 
-> **Lane assignments are `defer`'s now.** Run
-> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]`
-> for the model, the effort and the exact argv, or `lane_run.sh <class> "<prompt>"`
-> to run and wire-verify it in one step. The classes are `implementation`,
-> `completeness`, `general`, `referral`, `verification` and `design-review`.
-> **Pass `--shape` whenever you know what the work is** — `defer --matrix` lists
-> the shapes. It narrows the class to the lanes measured good enough for that kind
-> of work before headroom picks, which is where the cost saving lives; the two
-> gated classes are `implementation` and `general`, and the judgement classes
-> abstain by design. Three rules bind everywhere: `gpt-5.6-sol` never runs at
-> `max` (it is the referral lane at `medium` and the implementation lane at
-> `high`), Fable judges but never grades code or a ticket, and design review stays
-> on Opus and Fable. What follows is this pipeline's reading of that policy, not a
-> second copy of it.
+> **Routing precedence:** use shipyard's `references/model-lanes.md`. Explicit user
+> preferences and current supported models come before `defer:defer`'s measured
+> fallback registry. CLI examples below describe their named lanes; they do not
+> select a model for the user or establish current availability.
+
+## Policy markers — active directives only
+
+Before a routed call, read the current project policy and the user's existing
+authorization. The scaffold's explicit opt-out is a line beginning
+`OPT-OUT: external-models`. Also honor explicit legacy directives
+`ANTHROPIC-ONLY`, `NO EXTERNAL MODEL CLIS`, or `external-model-clis: off`.
+A quoted example, code sample, or explanation mentioning a marker is not itself
+an opt-out. Interpret an actual directive rather than treating any grep hit as
+policy. Apply the governing instruction priority; do not request permission again
+when the conversation already authorizes the selected provider and action.
+
 
 Run this before the survey, interactively. The point is that ship-fleet (and the skills it conducts) rely on a conventional layout; a repo that half-has it produces a half-blind survey. Check everything, report plainly, **offer** repairs — never restructure silently.
 
@@ -62,32 +64,30 @@ Read the **project-layout section of the repo's own copy** of `docs/NEW_PROJECT_
 
 Report deviations (missing `lib/` server-only boundary, route handlers outside `app/api/`, apps outside `apps/`, phantom top-level dirs) as a short list with severity. **Only restructure if the user asks** — the fleet can run on a non-conforming repo; the check exists so new code from the fleet doesn't inherit a broken shape, and so the user can choose to fix structure first as its own work item (queue it in the ledger if they do).
 
-## 5. Codex lane availability (check once, here)
+## 5. Routed lane availability (check once, then refresh when state changes)
 
-Three review gates in this pipeline route **out of Claude's model family** on purpose — the triage spec review, the plan review gate, and work Phase D's completeness critic, each on `gpt-5.6-sol` at `medium` effort — plus a `medium`-effort implementation executor. Check the lane once at fleet start so every runner inherits the same picture instead of each discovering it mid-run.
+Resolve the role policy in shipyard's `references/model-lanes.md`: normally
+GPT-6 coordinates, Opus 5 produces intake/triage/plan, and Gemini 3.8 implements.
+Review gates select capable supported families different from the actual artifact
+writer. No gate depends on Codex specifically, and a model name alone proves no
+family independence or review quality.
 
-**Check the repo opt-out FIRST — it outranks availability.** Every Codex call is data egress: `-s read-only` restricts writes, not the network, so the reviewer transmits the artifact and every source file it opens to OpenAI. The lane is **on by default and opted out per repo**:
+Read the active project policy and existing user authorization before a routed
+call. The scaffold uses `OPT-OUT: external-models`; explicit legacy restrictions
+also apply. Search hits in quoted examples are not active directives. If a route
+is restricted, record the permitted fallback and whether independence is lost;
+correct policy compliance does not turn in-family evidence into independent proof.
 
-```bash
-grep -rlE 'ANTHROPIC[- ]ONLY|NO EXTERNAL MODEL CLIS?|external-model-clis:\s*off' \
-  CLAUDE.md AGENTS.md ORCHESTRATOR.md docs/CODING_PRACTICES.md 2>/dev/null
-```
+For each selected route, confirm the tool or binary, supported model and effort,
+then run a bounded inert probe. Do not install a missing CLI unprompted. Record
+`<role>: <actual lane> available | unavailable (<reason>) -> <authorized fallback>`
+with the check time. Give runners this resolved state and the actual reference
+paths; they re-read policy before calls and refresh a failed availability probe
+when there is evidence the state may have changed.
 
-A hit ⇒ record `codex: opted out (<file>)` in ORCHESTRATOR.md, tell every runner to run fully in-family, and stop here — an opted-out fleet is a correct fleet, not a degraded one. **Runners re-check this marker before every single Codex call**, not once: a fleet cannot message its own in-flight workflow agents, so this file is the only kill-switch an owner has if they ban external CLIs mid-run. Say so explicitly in the runner prompt. If the owner has not expressed a preference and the repo holds auth, secrets, tenancy or payment code, surface the egress tradeoff in the preflight report and let them decide before the first gate runs.
-
-If there is no opt-out, probe availability:
-
-```bash
-command -v codex && codex --version                       # expect codex-cli 0.145.0+
-codex exec -m gpt-5.6-sol -c model_reasoning_effort="medium" \
-  -s read-only --skip-git-repo-check "Reply with exactly: OK" < /dev/null
-```
-
-Record the outcome in ORCHESTRATOR.md's header contract as `codex: available` or `codex: unavailable (<reason>) → in-family fallback`:
-
-- **Available** → the three gates run on Codex; the executor lane is open.
-- **Unavailable** — no binary, not logged in (`codex login`), a usage/rate-limit response, or the probe erroring — → every gate falls back to its Claude reviewer and every executor slice falls back to Opus. The pipeline still runs; the review evidence is just weaker, and **that has to be visible in the ledger** rather than discovered later. Don't install unprompted; offer `npm i -g @openai/codex` (or the Codex desktop app) and `codex login`.
-
-Usage limits are a *transient* unavailability — a lane that fails at fleet start may work an hour later. Note the time, and let a runner re-probe rather than treating the fleet-start result as permanent. The **opt-out is not transient in the same way**: it is a standing owner decision, so a runner re-reads it to see if it has appeared, never to see whether it has expired.
-
-Two operational rules the runner prompt must carry, both learned from a real fleet: **bound every Codex call** (`perl -e 'alarm shift @ARGV; exec @ARGV' 600 codex exec …` — there is no timeout flag and macOS has no `timeout(1)`) so a slot is never held by an unbounded polling loop, and **verify the effort on the wire** (`grep -qx "reasoning effort: medium"` on the captured log) because a dropped flag silently inherits the user's own config default. Full mechanics live in shipyard's `references/codex-cli.md`.
+CLI mechanics belong in shipyard's `references/executor-lanes.md` and
+`references/codex-cli.md`. Requested flags and echo headers are configuration
+checks; authoritative response/runtime metadata is execution evidence. An empty
+output, absent required verdict or timed-out call is incomplete, not a quiet pass.
+Record unavailable execution identity rather than inventing a wire-verification
+claim. Use bounded waits and preserve the runner's checkpoint on lane failure.

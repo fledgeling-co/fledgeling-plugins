@@ -257,7 +257,7 @@ trustworthy rather than three different arguments:
 
 ## Writing the three
 
-Route every word through `create-luke-content`, once per reading, and give it
+Route every word through `create-luke-content:create-luke-content`, once per reading, and give it
 the ledger rows rather than the finished prose of another register. Three passes
 from the ledger produce three registers of the same argument; one pass plus two
 rewrites produces one register and two translations of it, which read as
@@ -268,7 +268,7 @@ is still Luke — shorter sentences, concrete nouns, an analogy carrying the
 weight — not a different author. A Primer reading that sounds like a children's
 textbook has substituted a persona for a register.
 
-Where `create-luke-content` is not installed, say which substitution you made in
+Where `create-luke-content:create-luke-content` is not installed, say which substitution you made in
 the methods note. A run that silently wrote its own prose and a run that had no
 voice skill available look identical afterwards, and only one of them is fine.
 

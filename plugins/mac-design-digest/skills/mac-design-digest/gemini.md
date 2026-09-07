@@ -1,10 +1,12 @@
 # mac-design-digest, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this once before Step 0, then run the skill as written with these overrides. This target is unusually well
 shaped for the family: L11 — `A wrong number in the corpus outlives the conversation that created it` — is already
 an argument for mechanism over care, and the mechanism is here in two mark families, a precision lock on disk and
 `corpus_check.py`. Where the skill still trusts prose to carry a count is where a digest comes back thin. **One
-file, one target:** `mac-design-digest` is registered here and in `diolog-plugins`, this copy is canonical, and the
+file, one target:** `mac-design-digest:mac-design-digest` is registered here and in `diolog-plugins`, this copy is canonical, and the
 diolog mirror is deliberately left without a `gemini.md` — two copies drift, and nothing checks them.
 
 ## Epistemic status
@@ -13,7 +15,7 @@ diolog mirror is deliberately left without a `gemini.md` — two copies drift, a
 |---|---|---|
 | `[docs]` | throughout | Google's published Gemini 3 prompting guidance, quoted verbatim |
 | `[measured-family]` | seven claims | two recorded runs (`Egress Gemini` 2026-08-17, `COD Dossier` 2026-08-23) and the 106-task bench corpus — **none of them this skill** |
-| `[measured-here]` | none | no Gemini run of `mac-design-digest` has been recorded |
+| `[measured-here]` | none | no Gemini run of `mac-design-digest:mac-design-digest` has been recorded |
 | `[derived]` | the overrides | reasoning from the two above, plus this skill's `references/evidence.md` |
 
 **The tier the evidence is about.** Every measured claim below was observed on a flash-tier model —
@@ -29,8 +31,8 @@ someone else's surface rather than producing one — `references/evidence.md` §
 judging, and `lane_pick.py --task design-review` returns `fixed by policy`. So no row for `static-page`,
 `brownfield-integration`, `visual-design` or `regression-sensitive`; the last two nearly land and do not, because
 this skill judges a rendered surface rather than rendering one and its regression surface is a markdown corpus
-rather than a code contract. Where the run does produce a surface it has already handed it to `mac-craft` or
-`create-mac-icon` (L141), and routing belongs there.
+rather than a code contract. Where the run does produce a surface it has already handed it to `mac-craft:mac-craft` or
+`create-mac-icon:create-mac-icon` (L141), and routing belongs there.
 
 **Unmeasured on this skill** — nothing observed on a Gemini digest run: whether the 14-point rubric plus the
 10-point native-tells audit survive as 24 scored cells; whether `corpus_check.py`'s NOTE lines get read or its exit
@@ -54,7 +56,7 @@ anything below: paired across 106 bench tasks, `high` beat `medium` on 24, lost 
   constraints (for example, 'write a summary of 3 sentences or less' instead of 'write a brief summary')". So is
   the precision lock at L64, and L119's `The bar of 3 is a governance choice, not an empirical law`, and L123's
   `Regenerate synthesis from the profiles, never from the previous synthesis`.
-- **The handover to `mac-craft` is already artifact-shaped** — L141 names TASTE.md, the cluster and the 1–2 nearest
+- **The handover to `mac-craft:mac-craft` is already artifact-shaped** — L141 names TASTE.md, the cluster and the 1–2 nearest
   profiles. **[measured-family]** `references/evidence.md` §1.2.1 — a sibling skill phrased composition as a lens
   rather than a file, and both invocations were skipped. This skill names files, so the scan flagged no qualitative
   skill reference and none needed converting.
@@ -175,7 +177,7 @@ producing all three. And L135 binds hardest here: `Never background the measurem
 ## Override 6 — the rubric is 24 cells, and the first digest is the exemplar · §Workflow A step 4
 
 **[measured-family]** In `Egress Gemini` a document shaped like a review carried five rows where its own procedure
-implied forty. Enumeration in prose is what collapses: the sibling `ux-craft` names six states *and* a completeness
+implied forty. Enumeration in prose is what collapses: the sibling `ux-craft:ux-craft` names six states *and* a completeness
 condition, and the run delivered one. So write the 14 rubric checks and the 10 native tells as a numbered table
 **before** scoring any of them, each row carrying pass/fail plus its line of evidence. L83 becomes a 24-row table,
 and a run that scored 9 says `9 of 24`. Icons: 12 rows, a borderline check a soft pass **flagged in prose** per
@@ -208,7 +210,7 @@ mechanism as a block commented "[Insert User Input Here - The model knows this i
 **[docs]** Where output must not exceed its sources, Google supplies a system instruction to adopt verbatim; its
 operative clauses here are "rely **only** on the facts that are directly mentioned in that context" and "If the
 exact answer is not explicitly written in the context, you must state that the information is not available."
-TASTE.md and ICONS.md are read back as fact by later sessions and by `mac-craft`, so treat `apps/` and `patterns/`
+TASTE.md and ICONS.md are read back as fact by later sessions and by `mac-craft:mac-craft`, so treat `apps/` and `patterns/`
 as that context and nothing else. A canon rule that cannot be traced to a member profile is not canon (L123), and a
 value the profiles do not carry belongs in Knowledge Gaps — stated as unavailable, not filled. L133's `Deltas only
 is a length rule as much as a content one` needs no help, since "By default, Gemini 3 models provide direct and

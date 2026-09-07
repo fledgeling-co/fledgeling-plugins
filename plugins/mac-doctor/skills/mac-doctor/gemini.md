@@ -1,4 +1,11 @@
-# gemini.md — running `mac-doctor` on Gemini
+# gemini.md — running `mac-doctor:mac-doctor` on Gemini
+
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
 
 `SKILL.md` and the five files under `references/` still govern; the canon
 transfers. What changes is how six of their rules get *executed*, because each is

@@ -39,7 +39,7 @@ ledger gives it a surface between wakes.
 ## 3. The loop ticks and does nothing
 
 **Cause:** the prompt names a skill Claude may not invoke on its own, so the fire
-delivers it as plain text. `/verify` and `/code-review` bite most often, and
+delivers it as plain text. `/verify` and `/code-review:code-review` bite most often, and
 there is no error. A wake carries text the model reads, so this applies to the
 watcher too.
 

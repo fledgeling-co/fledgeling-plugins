@@ -1,8 +1,15 @@
 # Client profiles
 
-Named profiles let one Diagram Design install serve several clients without repeatedly editing the installed `style-guide.md`. A profile is a complete style guide stored outside the install, so managed plugin updates cannot erase it.
+Named profiles let one Visualization install serve several clients without repeatedly editing the installed `style-guide.md`. A profile is a complete style guide stored outside the install, so managed plugin updates cannot erase it.
 
 This file is the source of truth for profile resolution and for the `save`, `load`/`switch`, `list`, `show`, `update`, `reset`, and `delete` verbs.
+
+Invoke `visualization:visualization` with arguments such as `profile list`,
+`profile load acme`, or `profile save acme`. The agent performs the procedures
+below using available file tools; no separate profile command or backend script
+is bundled. The `.diagram-design` paths and `diagram-design-profile` header are
+retained for compatibility with existing profiles. Resolve the working copy
+relative to this loaded skill, not the caller's current directory.
 
 ## Paths and terms
 

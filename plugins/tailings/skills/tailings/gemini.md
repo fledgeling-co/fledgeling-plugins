@@ -1,9 +1,16 @@
-# gemini.md — running `tailings` on a Gemini model
+# gemini.md — running `tailings:tailings` on a Gemini model
 
-`tailings` transfers well. Its canon is already the shape this file usually has to argue for: a total
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
+
+`tailings:tailings` transfers well. Its canon is already the shape this file usually has to argue for: a total
 partition, an exit code, a site fraction, a rule that every row names its evidence. What does not
 transfer is the assumption that those numbers get read back off the pass's own output rather than
-asserted about it — and one thing unique here: a Gemini running `tailings` over a Gemini session is
+asserted about it — and one thing unique here: a Gemini running `tailings:tailings` over a Gemini session is
 the in-family shape the skill's own probe `T7` fires on.
 
 Read it once, before Phase 1. **[docs]** the health checklist warns against prompts that "require the
@@ -33,7 +40,7 @@ On Pro the overrides hold as documented discipline and the numbers are open ques
 - the rebuild threshold, and whether this pass's own report survives its own probe `T17`
 
 **No route-out block.** `geminify/references/evidence.md` §2.5 records that the bench corpus measures
-a model *building* something and `says nothing about Gemini judging, reviewing or deciding`. `tailings`
+a model *building* something and `says nothing about Gemini judging, reviewing or deciding`. `tailings:tailings`
 verifies end to end, so the measured shapes name no deliverable it produces, and routing it out on
 that evidence would cite a measurement of a different question.
 
@@ -101,7 +108,7 @@ $ grep -c '^| R' references/probes.md
 ```
 
 Seven, against the frontmatter's `eight repo probes`. Do not fix `SKILL.md` — that is
-`improve-skill`'s job; report `7 of 7 R-probes ran` and put the gap in **Not checked**. Work the
+`improve-skill:improve-skill`'s job; report `7 of 7 R-probes ran` and put the gap in **Not checked**. Work the
 first row you classify the same way — class, verbatim span with its transcript line, remedy — and
 measure the rest against it. **[docs]** "We recommend to always include few-shot examples in your
 prompts." Every filled block here is that rule applied to itself.
@@ -244,7 +251,7 @@ true of it, and paste that line as the row's evidence.
 - No Gemini run of `tailings` exists to read; every override is `[docs]` or `[measured-family]`.
 - Whether a Gemini reader over-calls `contradicted` where a human reader reached `unbacked` is
   unmeasured, and it is the failure that would do this skill the most reputational damage.
-- No audited session exercised `warrant`, `stocktake`, `code-review`, `spec-validation` or `defer` —
+- No audited session exercised `warrant`, `stocktake:stocktake`, `code-review:code-review`, `spec-validation:spec-validation` or `defer:defer` —
   five of the six owners in *What it composes with*, so the routing is untested in both directions.
 - All thirteen audited repositories were greenfield carrying `ORCHESTRATOR`/`LEDGER` conventions;
   `R1`, `R2` and `R6` assume such files exist.

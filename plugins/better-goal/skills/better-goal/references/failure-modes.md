@@ -217,7 +217,7 @@ needs no teardown at all.
 
 **Cause:** built-in commands (`/model`, `/clear`), skills marked
 `disable-model-invocation: true` — including the bundled `/verify` and
-`/code-review` — skills withheld by `skillOverrides` or a `Skill` deny rule, and
+the bundled `/code-review` command — skills withheld by `skillOverrides` or a `Skill` deny rule, and
 MCP prompts cannot be invoked by the model. Told to run one, the run reads the
 instruction and carries on as though it had.
 

@@ -6,7 +6,14 @@ is not a worse plan. It is a freshness check run on 3 of 78 index rows, a projec
 return, and a state change that happened in the session but never in `ARMADA.md` — *a directive that was
 routed but never recorded in the manifest and changelog did not happen*.
 
-## Route out before you build — one branch of Dispatch, and nothing else
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 Four of the five modes are work the benchmark abstains on — Survey reports, Plan proposes, Route hands over,
 Daemon re-surveys, all `referral`, `completeness` and `verification` shapes, where `lane_pick.py` returns the

@@ -1,5 +1,7 @@
 # visualization on Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this before `SKILL.md`, once, then follow `SKILL.md` with the overrides below. Each override names the section it lands on, so nothing here has to be held in mind while you draw.
 
 The canon transfers. Fifty-three forms, six connector rules, the honesty rules and twelve runnable checkers are all correct for this family. What does not transfer is the assumption that a number stated in prose gets read back off the file that was drawn — and this skill is unusually dense in stated numbers: `9 nodes, 12 arrows, 2 accents`, `≤24px` bars, `Max radius 6–10px`, `5 chart series`, `Exactly one per view` for the hero figure, `At most two` items entering per motion step.
@@ -96,7 +98,7 @@ gates applicable 5 · run 5 · exit 0: 5 · type reference read: references/type
 
 **[measured-family]** Where one phase can be completed without the literal output of the previous one, both collapse into one pass. §0's style-guide gate, §3's route and §4's palette gate are that shape — each is satisfiable by having read the rule. Make each depend on a file or a command output:
 
-1. §0 → resolve `.visualization`, or read `references/style-guide.md`. Name the resolved profile in the notes; `profile: default` is a written answer, not a skip.
+1. §0 → resolve `.diagram-design`, or read `references/style-guide.md`. Name the resolved profile in the notes; `profile: default` is a written answer, not a skip.
 2. §3 → read the chosen `type-*.md` and quote its budget line into the notes.
 3. §4 → run `validate_palette.py` and paste both exit codes before any hex reaches the file.
 4. Draw. 5. Run §8's checkers. 6. Walk `taste-gate.md` as cells (C1).

@@ -3,7 +3,8 @@ name: defer
 description: >-
   Decide which model a piece of work goes to, and produce the exact command that
   sends it there. One routing policy for every skill that hands work outside the
-  session: six task classes mapped to ten lanes across five model families, each
+  session. Resolves user-preferred current model roles from the runtime first;
+  a compatibility registry maps six task classes to calibrated lanes, each
   pinned to a model and an effort, with the CLI arguments, the environment GLM
   needs, and the check that proves the lane ran as routed. Narrows those lanes by
   what the work actually is, against a capability matrix measured over 106
@@ -26,15 +27,26 @@ inline get them subtly wrong: which model, at what effort, and how you know it
 really ran. This skill holds all three in one place so that every skill routes
 the same way, and so that changing the policy is one edit rather than fourteen.
 
-The routing rule is not "use the best model". It is: **the work class decides the
-family, the work shape decides which lanes are good enough, and measured headroom
-decides which of those runs it.**
+Resolve an explicit model choice or the current role preference first. For
+compatibility lanes, the work class determines eligibility, recorded shape
+evidence narrows the candidates, and live headroom breaks comparable choices.
+Scores for older models are not measurements of their successors.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It makes running lane_pick.py the only source of a route, turns the three rules above the class table into a bound ledger read back off the emitted argv, and requires the lane's receipt rather than its flags. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It requires a runtime preference record or live compatibility-picker output, turns the three rules above the class table into a bound ledger read back off the emitted argv, and requires the lane's receipt rather than its flags. Other models skip it.
 
 ## Route
 
-Run this. It reads the policy and the meters and prints a command:
+First read current authorization and active project opt-out directives using
+`references/runtime-preferences.md`; quoted examples are not directives. Then
+resolve the preferred role: Opus 5 for intake, triage and
+planning, Gemini 3.8 for implementation after those artifacts exist, and GPT-6
+for orchestration, unless the task chooses otherwise. Discover exact runtime
+selectors and dispatch through the native supported tool or CLI; preserve the
+requested-to-serving model receipt. This path is actionable even when the legacy
+registry has no row for the preferred model.
+
+For a calibrated compatibility lane, run the picker. It reads that registry and
+its meters and prints a command:
 
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]
@@ -55,16 +67,16 @@ The classes, and what each one is for:
 ready to spawn. `--report` prints every lane's meter without choosing, and
 `--matrix` prints the measured capability table without choosing either.
 
-Three rules hold above the table, and they are the ones most likely to be
-violated by habit:
+The following rules describe the compatibility registry, not a restriction on
+the current preferred-model path. Figures refer to the named recorded models:
 
-- **`gpt-5.6-luna` at `max` is the value lane for implementation.** On DeepSWE 1.1
+- **`gpt-5.6-luna` at `max` is a recorded compatibility value lane.** On DeepSWE 1.1
   (113 tasks) it scores 67% ±4 for **$0.61 a task** — the same score as
   `grok-4.6` at `xhigh` to within both error bars, at 11% of its cost, and two
-  points ahead of `gemini-3.7-flash` at under a third. Prefer it wherever gemini
-  used to be the implementation pick. It is 6 points behind `sol@max`, so reach
+  points ahead of `gemini-3.7-flash` at under a third. That comparison does not override the
+  current Gemini 3.8 implementation preference. It is 6 points behind `sol@max`, so reach
   past it when the work is genuinely hard rather than merely long.
-- **gemini is now ranked behind glm, grok and sol on every class it appears in**,
+- **The compatibility `gemini` lane (Gemini 3.7 Flash) is ranked behind glm, grok and sol**,
   and carries a 12-point delivery penalty on top of its bench score. That penalty
   is not a capability judgement: it failed 8 of 12 autonomous-builder dispatches
   and produced one fabricated completion report. `references/lanes.md` has the
@@ -129,15 +141,16 @@ back to opus instead.
 
 ## Opus does not need `xhigh` for everything
 
-`claude-opus-5` is pinned to `xhigh` for `verification` and `design-review`, and
-that is correct: those are the two places where being wrong is expensive and a
-cheaper read is a false economy. Everywhere else, **effort is a dial and the
-default is too high.**
+The compatibility registry pins `claude-opus-5` to `xhigh` for `verification`
+and `design-review`. That is a local setting, not a universal minimum. For a
+current runtime route, start from supported defaults and calibrate effort on
+representative work; use lower settings where quality holds. Anthropic recommends
+removing redundant self-review, while task-specific acceptance gates still run.
 
 Effort buys *thinking tokens*, not output quality per se. Measured on the codex
 lanes, terra at `max` and terra at `medium` bill at the same per-Mtok rate and
 differ by **4.8× on the bill**, because the expensive one spends far more tokens
-before it writes anything. The same shape holds on Claude.
+before it writes anything. Do not transfer that numerical multiplier to Claude without a measurement.
 
 | Run opus at | When |
 |---|---|
@@ -187,9 +200,10 @@ In Claude Code specifically, a foreground `Bash` call defaults to 120 000 ms. **
 `timeout: 900000` explicitly, or set `run_in_background: true`.** A lane call that
 inherits the default will be killed at two minutes roughly half the time.
 
-**Read the output file, never the exit status, to decide whether a lane answered.**
-Codex prints a correct-looking header on a run that produced nothing at all, so a clean
-header proves the process started and nothing more. A non-empty output file is the pass.
+**Inspect completion status and the actual output file.** A clean exit or requested
+model header can accompany empty output. Non-empty output establishes only that
+bytes arrived; check that the requested artifact/verdict is complete and capture
+the serving-model receipt before treating the lane as successful.
 
 ## Then verify the lane actually ran
 
@@ -281,15 +295,17 @@ each, along with what is measured, what is assumed, and what no vendor publishes
 
 ## Using this from another skill
 
-Call `lane_pick.py`, take the argv it prints, run it, verify it. Do not hard-code
-a model id or an effort in a skill — a pinned lane in fourteen files is a policy
-nobody can change. When a skill needs a lane the classes above do not cover, add
-the class here rather than routing around this file.
+Follow `references/runtime-preferences.md` for explicit/current model roles.
+Otherwise call `lane_pick.py`, use the returned compatibility argv, and capture
+the execution receipt. Do not hard-code a new model ID or effort in sibling
+skills. A direct `lane_run.sh` call still uses the compatibility registry; it
+does not implement the current-role resolution automatically.
 
-Two things to pass along when you spawn a lane. Give it the evidence **inline**
-rather than pointing it at the repo: both `claude -p` and the grok CLI load the
+For a blind judgment, give the lane the bounded evidence **inline**
+rather than unrestricted access to the source skill: both `claude -p` and the grok CLI load the
 repo's instruction files, so a lane told to "read the repo" is neither blind nor
-cheap. And record which lane answered, so a report can say who verified what.
+cheap. An implementation runner instead receives the real task artifacts and
+its owned source paths. Record which lane answered in either case.
 
 ## Scope
 

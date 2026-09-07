@@ -72,13 +72,15 @@ lost. `FAIL`, `NOTE` and `?` lines go to stderr; check `$?` and never a pipe's.
 
 Interpreting the numbers: small-size composites converge early (composition
 is the easy half); the 1024 composite is the material gap. On the calibration
-fixture (improve-skill A vs its C1 raster) a well-composed but materially
+fixture (improve-skill:improve-skill A vs its C1 raster) a well-composed but materially
 flat master scored 0.83 at 16px and only 0.45 at 1024 — the loop's job is to
 raise the 1024 number without letting the small sizes slip.
 
-## Briefing the implement agent (Opus 5)
+## Briefing the implementation agent
 
-Each round is one background Opus agent. How the brief is written changes
+Each round is one bounded implementation task on the user's selected lane. Opus 5 planning can hand the accepted edit class, source generator, residual images, contrast budget and required score artifacts to Gemini 3.8, while GPT-6 coordinates the rounds. Resolve actual model IDs from the harness. The shipped headless runner uses Claude; changing that runner to another provider requires a supported adapter, not a renamed model argument.
+
+The guidance below was calibrated on Opus 5. How the brief is written changes
 what comes back, and two failure modes have already cost rounds here: an
 agent that ran 7 iterations against a 4-round cap, and briefs that spent
 tokens re-checking work the model had already checked. Anthropic's
@@ -92,7 +94,7 @@ name both mechanisms; these patterns follow them.
   last.** Context, fixture, baseline numbers and prior learnings up top;
   the ask at the end. Queries placed after long context measurably beat
   the reverse.
-- **No verification scaffolding.** Opus 5 verifies its own work; "double
+- **No redundant self-check reminders for Opus 5.** Opus 5 verifies its own work; "double
   check", "re-verify before reporting" and "use a subagent to confirm"
   compound with that and burn tokens for nothing. Instrument runs
   (`structure`, `score`, `gate`, and any per-fixture measurement script the
@@ -221,7 +223,7 @@ decide, and the divergence itself is worth recording.
 
 ## What a 20-round replay showed, and the promotion rule it bought
 
-The improve-skill fixture ran to r19 with a panel on most rounds, so the whole
+The improve-skill:improve-skill fixture ran to r19 with a panel on most rounds, so the whole
 trace could be replayed against a different promotion policy. This is the
 measured version of everything above, and it is the strongest evidence in this
 reference because it comes from our own fixture rather than the literature.
@@ -330,7 +332,7 @@ Rules that make it converge (each one earned by a documented failure mode):
   and bound the next edit to regions the rubric doesn't police (see the
   bounded-frost-fade recipe).
 - **Similarity is not legibility, and the panel sees the difference first.**
-  On improve-skill r01 the composite rose at 32 and 16px while two
+  On improve-skill:improve-skill r01 the composite rose at 32 and 16px while two
   independent blind judges (Claude and gpt-5.6-sol, in separate harnesses)
   both said the block collapsed toward mid-grey and the accent weakened.
   The mechanism: small-size scoring rewards matching the reference's edges,
@@ -349,7 +351,7 @@ Rules that make it converge (each one earned by a documented failure mode):
   object-level flattening the blind panel remains the authority, which is why
   an accepted round whose panel disagrees ships as PROVISIONAL into the
   review queue rather than being settled by the machine.
-- **A gate rejection is not proof the edit was bad.** On improve-skill r02 the
+- **A gate rejection is not proof the edit was bad.** On improve-skill:improve-skill r02 the
   gate rejected a fibre-texture round and the human then preferred that exact
   candidate overall. The composite is a similarity measure, and surface texture
   absent from the reference at the same spatial frequency lowers SSIM by
@@ -361,7 +363,7 @@ Rules that make it converge (each one earned by a documented failure mode):
   transcript-replay recovery.
 - **Check what the small-size edge score is actually looking at.** A full-bleed
   SVG clipped to the squircle renders a hard boundary there; a raster reference
-  usually does not. Measured on improve-skill at 32px: 75 of the candidate's 341
+  usually does not. Measured on improve-skill:improve-skill at 32px: 75 of the candidate's 341
   edges sat on that rim against 2 of the reference's 190, so a quarter of the
   candidate's edge budget was spent being punished for the delivery format. The
   rim is excluded from `edge_f1` as of metric v2. Note honestly that this did
@@ -386,7 +388,7 @@ Rules that make it converge (each one earned by a documented failure mode):
 - **A human-notes deferral must expire.** The rule that keeps a fixture open
   while a reviewer's defects are unresolved is right, and it saved a fixture the
   panel would have closed on the round that finally fixed the named defect. But
-  left unbounded it became a blindfold: on improve-skill the panel preferred the
+  left unbounded it became a blindfold: on improve-skill:improve-skill the panel preferred the
   baseline in seven of eight consecutive rounds while the composite climbed 15%,
   and the loop kept going because notes were open. The ground crazed and the curl
   flattened, and every gate said ACCEPT throughout. `PANEL_VETO` (default 3

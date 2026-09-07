@@ -1,6 +1,6 @@
 # Luke persona: Marketing Content
 
-Layer this over `../luke-voice.md` (the base voice always applies). Use for: product announcements, launch blog posts, landing and website copy, release notes / changelogs, and product campaign emails. For Diolog company-branded marketing (where Luke is not the bylined author), prefer `diolog-brand-voice`. This persona is Luke-authored marketing: the founder-builder explaining what was shipped, why it matters, and how it works.
+Layer this over `../luke-voice.md` (the base voice always applies). Use for: product announcements, launch blog posts, landing and website copy, release notes / changelogs, and product campaign emails. For Diolog company-branded marketing (where Luke is not the bylined author), prefer `diolog-brand-voice:create-diolog-marketing-copy` when installed. This persona is Luke-authored marketing: the founder-builder explaining what was shipped, why it matters, and how it works.
 
 ---
 

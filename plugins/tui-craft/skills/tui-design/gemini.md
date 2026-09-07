@@ -1,5 +1,7 @@
 # tui-design, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this in one pass before `## The loop`, then run the skill as written. Every override
 names the section of `SKILL.md` it lands on, because **[docs]** a conditional side-file is
 the shape Google's checklist warns about under **Conflicting internal references**:
@@ -51,7 +53,7 @@ through three enforced gates is what Google describes `HIGH` as being for — "m
 planning, verified code generation" — and 3.7 Flash defaults to `MEDIUM`. Raise it for that
 reason only: paired across 106 tasks, `high` beat `medium` on 24, lost on 24, tied on 58.
 
-**Unmeasured on this skill** — none of this has been seen on a Gemini run of `tui-design`:
+**Unmeasured on this skill** — none of this has been seen on a Gemini run of `tui-craft:tui-design`:
 
 - **No Gemini run of this skill exists.** n=0; the family sessions touched no spec, no
   compiler and no cell grid, so **whether the categorical collapse reaches specs** and
@@ -219,9 +221,9 @@ before a role ladder is authored. Same for any file the reader names in the prom
 
 ## Override 7 — a composed skill is a phase with an output file (§Deciding the design)
 
-`SKILL.md:240` calls `ux-craft` and `design-craft` `standing dependencies rather than
+`SKILL.md:240` calls `ux-craft:ux-craft` and `design-craft:design-craft` `standing dependencies rather than
 optional extras`. **[measured-family]** that is the phrasing one run skipped outright: told
-every design decision goes through `design-craft` with `ux-craft`'s lens, it invoked neither,
+every design decision goes through `design-craft:design-craft` with `ux-craft:ux-craft`'s lens, it invoked neither,
 and its own diagnosis named the mechanism — the rules were in context already and nothing
 downstream depended on a file only those skills produce. **[docs]** The remedy is chaining:
 "Chain prompts: For complex tasks that involve multiple sequential steps, make each step a

@@ -47,18 +47,19 @@ the report, so the reader knows what ran.
 | Angles (`references/angles.md`) | A, B, H, N | + C, D, F, R | + G, S, E, T |
 | Shard trigger | never — no subagents | fileCount ≥ 30 OR locDelta ≥ 2000 | fileCount ≥ 15 OR locDelta ≥ 1000 |
 | Checklists loaded | the 2 best-matching rows | all matching rows | all matching rows + all quality lenses |
-| Verify | inline, orchestrator applies Gates 1–6 | Sonnet verifiers batched by file, ≤4 candidates each | solo verifier per CRITICAL and HIGH, batched for the rest |
+| Verify | inline, orchestrator applies Gates 1–6 | Runtime-resolved verifiers batched by file, ≤4 candidates each | solo verifier per CRITICAL and HIGH, batched for the rest |
 | Gap sweep (Phase 5) | no | inline, ≤4 new candidates | one fresh finder, ≤8 new candidates |
 | JSONL artifacts | none — candidates stay in context | yes | yes |
 | Stage-2 gates (Phase 5.5) | no | fileCount ≥ 30 OR locDelta ≥ 2000 | always |
 | Report file | inline only; offer to write one | written | written |
 | Recall posture | precision — a finding a maintainer would act on | balanced | recall — a missed bug ships |
 
-**Finding floor, every depth: target at least `min(fileCount, 4)` findings.** Under that count,
-take one more pass over the largest changed file and over every block the diff removed before
-stopping. Report what you have when fewer genuine findings exist — an invented finding to reach
-the floor costs more than a short report. **When the cap forces a cut**, correctness outranks
-cleanup, altitude and conventions, and the stats line says how many the cap dropped.
+**Coverage determines when to stop; there is no minimum finding count.** Complete
+the selected angles and gates, then report the findings the evidence supports,
+including zero. Inspect an uncovered high-risk area when the coverage ledger shows
+a gap; do not repeat the same pass merely because the finding count is low.
+**When the cap forces a cut**, correctness outranks cleanup, altitude and
+conventions, and the stats line says how many the cap dropped.
 
 Asked for `quick` on a diff above the standard shard threshold: review the highest-risk subset
 (auth-touching and state-mutating first), list the skipped files under "Not checked", and say
@@ -89,7 +90,7 @@ six quality lenses (`perf`, `tests`, `dead-code`, `debt`, `deps`, `dx`) live in
 dead-code" is the dead-code lens over frontend files, and per that file an explicit area-plus-lens
 request sweeps the area's files rather than only the diff. Say which scope you used.
 
-Older invocations naming a project-specific variant (`atlas-code-review`, or a `/code-review` from
+Older invocations naming a project-specific variant (`atlas-code-review`, or a `/code-review:code-review` from
 another marketplace) route here unchanged; the project knowledge those carried now comes from the
 repo profile.
 
@@ -162,7 +163,7 @@ review should wait for green CI — say so, and continue only if the user asks.
 Then, in this order. `references/process.md` expands each step and is skippable at `quick`.
 
 1. Apply the Phase 0 area filter. Capture **`fileCount`** and **`locDelta`** from the filtered
-   range — they drive sharding, the shard count and the finding floor.
+   range — they drive sharding and the shard count.
 2. Build the repo profile per `references/repo-discovery.md`, starting from
    `scripts/repo-facts.sh`. Read the instruction files it names, and each touched `package.json`
    (or `Cargo.toml`, `pyproject.toml`, `go.mod`) at its real installed versions.
@@ -273,9 +274,11 @@ an entry in `.code-review/suppressions.jsonl`, count them for the stats line, th
 sharing a line and mechanism, keeping the most concrete failure scenario. Verify only what could
 reach the report: HIGH and CRITICAL at confidence ≥ 60, MEDIUM ≥ 80, LOW ≥ 85. Dispatch per the
 depth table, run verifiers in waves of 5–8 concurrent `Agent` calls, and append each wave to
-`verifications.jsonl` before launching the next. Pass `model: "sonnet"` on every verifier — the work
-is bounded (read one file, grep two symbols, return JSON) and the failure mode is a missing grep,
-not shallow reasoning.
+`verifications.jsonl` before launching the next. Resolve the verifier model against the runtime and task preference;
+`sonnet` is a Claude-harness compatibility alias, not a cross-provider selector.
+Give the verifier the bounded file, candidate and controls map. Preserve this
+independent adjudication where the selected depth requires it; add no duplicate
+self-review after the evidence and verdict are complete.
 
 Each verifier applies Gates 1–6 in order — API existence, version compatibility, mitigation
 elsewhere, proportionality, reachability, observable — and returns one of three verdicts:
@@ -395,10 +398,10 @@ from) · checklists: `security` · `logic-bugs` · `nextjs` · `nestjs` · `type
 
 Grading is judgement, and judgement costs another vendor's plan headroom rather
 than this machine's cores — which on this Mac is nearly always the cheaper
-resource, and is out-of-family besides. Route the verdict through `defer` before
+resource, and is out-of-family besides. Route the verdict through `defer:defer` before
 considering a local berth.
 
-Take a berth from `harbourmaster` only for the parts that actually execute:
+Take a berth from `harbourmaster:harbourmaster` only for the parts that actually execute:
 running the suite you are grading, reproducing a defect. Reading a diff needs
 none.
 

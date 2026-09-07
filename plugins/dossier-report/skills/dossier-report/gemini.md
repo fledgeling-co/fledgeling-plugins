@@ -1,5 +1,7 @@
 # dossier-report, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Written against a Claude model's failure modes. Gemini's differ, and this house's deliberate *removals* — verification scaffolding especially — leave
 a vacuum that fills with something plausible. Read this once, before `## The shape of a run`, then follow the skill with the overrides below; each
 names the line it lands on. What needs work: four scopes stated as a class rather than a count, two skill invocations phrased as a lens, and a
@@ -83,7 +85,7 @@ SCOPE LEDGER — superbullet
 
 ## C4 — the two skill invocations are the ones that get skipped
 
-`[measured-here]` SKILL.md:50 reads **"Every design decision goes through `design-craft` with `ux-craft`'s lens"** and :368 repeats it. On the
+`[measured-here]` SKILL.md:50 reads **"Every design decision goes through `design-craft:design-craft` with `ux-craft:ux-craft`'s lens"** and :368 repeats it. On the
 recorded run **neither was invoked during the build.** Asked why, the run diagnosed its own mechanism: the design constraints were already in context
 and `index.html` depended on no file only those skills produce, so the instruction read as a standard satisfied by writing compliant code rather than
 a call to make. `[docs]` The remedy is chaining — "make each step a prompt and chain the prompts together in a sequence", where "the output of one
@@ -101,7 +103,7 @@ await Bash({ command: "python3 scripts/audit_page.py index.html" })
 `DESIGN.md` carries the direction, SKILL.md:277's `MOBBIN TRAWL` ledger, the motion budget and the figure forms; `UX.md` carries §11's state grid and
 the interface words. `[measured-here]` the run's directory contains neither, nor any direction record — their absence is the check. **Phase 7 is then
 five passes over one graph:** structure (section list from the graph alone, checked against the brief's enumeration per SKILL.md:375–388) → prose
-(three `create-luke-content` passes) → figures → motion → imagery.
+(three `create-luke-content:create-luke-content` passes) → figures → motion → imagery.
 
 ## C2 — verification is asked for, and one line here is not addressed to you
 
@@ -113,7 +115,7 @@ executed, measured afterwards at 3.65:1.
 `[derived]` **The line to be careful with is `references/opus-5-prompting.md`:22 — "Remove verification scaffolding. Opus 5 verifies its own work."**
 It governs the briefs this pipeline writes for its Opus children; it is right about them and wrong about you, so keep the removal there and do not
 inherit it. Its own next paragraph draws the line — an instrument run is not a self-check — and the instruments here are `audit_page.py`,
-`research_verify_citations` and `design-review`. So **every number in the methods note carries the command that produced it and that command's
+`research_verify_citations` and `design-review:design-review`. So **every number in the methods note carries the command that produced it and that command's
 output**, or reads `not measured`. And **never let the page assert its own verification**: SKILL.md:565 already fails a colophon advertising more
 sources than the registry holds, and an unrun check in a methods note is that defect one level up.
 
@@ -144,7 +146,7 @@ that passed 37 of its 39 other assertions: the rule was read and agreed with, an
 is C1's opposite direction and it reaches a passing-looking page, so it gets its own ledger, filled from the artifact rather than the skill. Of the
 scan's 13 bound rows, seven are statistics inside cited studies and one — `exactly three` at `product-verdicts.md:26` — is the *anti-pattern* that
 file warns against. What remains are prohibitions attached to a countable property, and `[measured-here]` this skill has been on the wrong side of
-one: `design-review`'s ink measurement against a page published from it returned **twenty below-floor divider violations** (SKILL.md:455).
+one: `design-review:design-review`'s ink measurement against a page published from it returned **twenty below-floor divider violations** (SKILL.md:455).
 
 | instance | property | stated bound | readback | within? |
 |---|---|---|---|---|

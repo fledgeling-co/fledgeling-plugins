@@ -1,13 +1,13 @@
 # Binding decisions
 
-> **This copy is the one that binds.** The same file exists in `create-investor-portal-free`, which
+> **This copy is the one that binds.** The same file exists in `create-investor-portal-free:create-investor-portal-free`, which
 > is where these decisions were first written and which remains the **visual** reference for the
 > hand-built page. Two copies of one truth drift, and the drifting one is always the one nobody
 > cites — so this plugin's SKILL.md points here, and only here, for the content decisions. If the
 > two ever disagree, treat the one the running skill loads as authoritative and reconcile
 > deliberately rather than by whichever was edited last.
 >
-> `create-investor-portal-free`'s `what-the-research-says.md` and `page-structure.md` are **not**
+> `create-investor-portal-free:create-investor-portal-free`'s `what-the-research-says.md` and `page-structure.md` are **not**
 > duplicated here and still bind on page structure. Read them there.
 
 These are review outcomes from a real build. Where one of them meets an inference from

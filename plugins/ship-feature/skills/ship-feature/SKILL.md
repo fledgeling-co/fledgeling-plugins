@@ -3,7 +3,7 @@ name: ship-feature
 description: >-
   End-to-end feature delivery conductor — takes ONE feature (a rough idea, inline text, a brief
   file, or a tracked ticket) from bare idea to a merged, verified, production-ready feature by
-  conducting the shipyard stage skills in a single in-session flow: intake (briefs +
+  conducting the shipyard stage skills through one conductor with explicit artifact handoffs: intake (briefs +
   ideation, when handed a rough idea) → triage → plan ∥ design (all-platform mocks gated by
   design-review and be-my-witness) → work (worktree build through the executor lanes) →
   deferred-work loop → gap-fix → acceptance-e2e → cross-family verify (the only path to Done) →
@@ -26,7 +26,7 @@ rough idea ──→ intake      briefs in docs/features-to-triage/ (+ proposed-
 brief/ticket ─→ triage     readiness verdict + assumptions            → To Do
                plan  ──┐   committed docs/plans/<id>.md + test strategy → Ready for AI
                design ─┘   all-platform mocks + state matrix, review-gated   (parallel)
-               work        build in .worktrees/<ID> on ai/<id>; evidence tables; D′ validation
+               work        build in .worktrees/<ID> on ai/<id>; evidence tables; targeted D′ follow-up if needed
                            → Developer Review
                4b loop     deferred / child specs — SAME branch
                gap-fix     close remaining gaps in code
@@ -44,20 +44,15 @@ skill's own references: `references/orchestration-model.md` (read first),
 
 ## Inputs
 
-- **A feature**: a rough idea (route through `intake` first), inline text or a brief file
-  (start at `triage`), or an already-tracked id (enter at the stage its status implies). Read it
+- **A feature**: a rough idea (route through `shipyard:intake` first), inline text or a brief file
+  (start at `shipyard:triage`), or an already-tracked id (enter at the stage its status implies). Read it
   in full at the start; it stays authoritative for the whole run.
 - The **target repo**, run from its root — its CLAUDE.md, design system, docs tree/ledger or
   tasks board, e2e harness, and integration branch (`INT`, detected, never hardcoded).
 
 ## The orchestration model (the three load-bearing decisions)
 
-1. **Stay in-session and sequential across stages** — invoke each stage skill in *this* session
-   so the thread survives; parallelism lives inside stages (their own Workflow fan-outs) and in
-   the one sanctioned overlap: **plan ∥ design** once triage lands, since plan's non-UI slices
-   and design's mocks share no artifact until the worker consumes both. The other exception:
-   **verify runs as a fresh subagent by design** — its value is exactly that it does not share
-   your context; spawn it, don't run it inline.
+1. **Keep one conductor and sequence the stage handoffs.** Run a stage locally or dispatch it to its assigned model with the artifact contract in `references/orchestration-model.md`: normally GPT-6 coordinates, Opus 5 handles intake/triage/plan, and Gemini 3.8 implements. Resolve supported model IDs from the actual runner. **Plan ∥ design** may overlap after triage when their files and decisions are independent. **Verify uses fresh context and a capable family different from the implementation writer.**
 2. **The pipeline's memory is on disk** — every stage persists its artifact; re-read at each
    boundary rather than trusting transcript memory. That is what makes the run resumable:
    re-enter at the first stage whose artifact is missing or not green.
@@ -88,6 +83,8 @@ skill's own references: `references/orchestration-model.md` (read first),
 
 ## The phases
 
+Resolve each skill in the installed catalogue. For the Skill tool, pass the identifier alone (for example `shipyard:plan`) and put `<ID>` in its separate arguments field. Slash-command examples are human entry points, not a combined Skill identifier.
+
 **0 — Intake & grounding.** A rough idea → invoke `shipyard:intake` (briefs, trawl ideation,
 proposed-by-ai siblings, research); pick the brief(s) to ship this run — siblings queue for the
 fleet, they don't widen this feature. Then ground: success criteria, the repo's moving parts
@@ -100,38 +97,36 @@ Questions (attended) or park (unattended) and resume on answers. Confirm the out
 review ran and was dispositioned — a missing verdict is a skipped gate, send it back; a logged
 `unavailable → in-family` downgrade carries into the pre-merge evidence.
 
-**2 ∥ 3 — Plan and Design, in parallel.** Invoke `shipyard:plan <ID>`; for user-facing work invoke
-`shipyard:design <ID>` alongside (its mocks + state matrix are the worker's UI truth and the test
+**2 ∥ 3 — Plan and Design, in parallel.** Invoke `shipyard:plan` with `<ID>`; for user-facing work invoke
+`shipyard:design` with `<ID>` alongside (its mocks + state matrix are the worker's UI truth and the test
 strategy's coverage bar; its design-review + be-my-witness findings must be actioned before
 handoff). Verify both artifacts landed: the committed plan sha + gate note with findings
 dispositioned; the mock index with no unwaived empty matrix cells. `Ready for AI` flips only
 when both exist (or design was skipped with its recorded reason).
 
-**4 — Work.** Invoke `shipyard:work <ID>`. When it finishes, read the completion record: the Reachability
+**4 — Work.** Invoke `shipyard:work` with `<ID>`. When it finishes, read the completion record: the Reachability
 + Clause tables (every row ✅), the executor + critic accounting (a missing critic line means the
-last reviewer was skipped or lost to an unlogged fallback — chase it), the D′ same-family
-validation outcome, the Reviewing-models line. Status `Developer Review`.
+last reviewer was skipped or lost to an unlogged fallback — chase it), any D′ targeted follow-up or `not needed`, and the Reviewing-models line. Status `Developer Review`.
 
 **4b — Deferred loop.** Read the record's deferred items + the plan
-(`references/deferred-work-loop.md`): nothing → 5; small remainder → re-run `work <ID>`;
+(`references/deferred-work-loop.md`): nothing → 5; small remainder → re-run `shipyard:work` with `<ID>`;
 substantial new scope → child triage → plan → work **on the parent's branch**. Keep every child
 id — e2e and verify must cover them.
 
-**5 — Gap-fix.** Invoke `shipyard:gap-fix <ID>` — the belt-and-braces finisher before tests; run it even
-when work looked complete (a prior self-review commit certifies nothing).
+**5 — Gap-fix.** Invoke `shipyard:gap-fix` with `<ID>` to reconcile remaining requirement gaps before tests. Reuse current evidence for unchanged rows; fixes and missing evidence get targeted checks, without another generic whole-diff review.
 
-**6 — Acceptance e2e.** Invoke `test-campaign:test-campaign` where it is installed, otherwise `acceptance-e2e`,
+**6 — Acceptance e2e.** Invoke `test-campaign:test-campaign` where it is installed, otherwise `acceptance-e2e:acceptance-e2e`,
 with **all** requirement sources (description, spec + children, plans, the mock index/state
 matrix — a menu the mock shows but the AC list omits is still a flow to cover). Run against the
 branch's app locally, specs authored on the branch, green **twice**, tractable bugs fixed.
 `references/e2e-and-finalize.md` §Phase 6.
 
-Under `test-campaign`, a case it cannot settle resolves to `unoracled` rather than passing
+Under `test-campaign:test-campaign`, a case it cannot settle resolves to `unoracled` rather than passing
 quietly, and phase 6a builds the missing oracle. Carry those to verify rather than around it:
 a requirement with no oracle is the one shape verify cannot grade, and the cheapest place to
 find that out is here, while the branch is still open.
 
-**7 — Verify.** Spawn the `verify` stage as a **fresh agent** (no build context — that is the
+**7 — Verify.** Spawn the `shipyard:verify` stage as a **fresh agent** (no build context — that is the
 point). It gathers typed evidence against the running app, routes the verdict out of family, and
 sets `Done` or `Needs More Work`. Its per-requirement table now carries the oracle rung each
 piece of evidence stands on, and a requirement proved only by a weak rung reads `Unverified`
@@ -146,7 +141,7 @@ green is spent — over half of more than 15,000 generated mutants survived a pa
 integration and system suite. And **a bundle-only completeness critic** reads the artifacts and
 the requirement table with the app, the diff and the ticket closed, rejecting any row that
 reduces to "looks right" or a code read; prose instructions do not survive effort pressure, and
-a precondition does. On `Needs More Work`: loop → `gap-fix` (its verdict table is the work
+a precondition does. On `Needs More Work`: loop → `shipyard:gap-fix` (its verdict table is the work
 order) → re-verify; three failed rounds parks the item with the blocker named.
 
 A requirement marked `Unverified — no oracle` routes back to phase 6, not to gap-fix. Gap-fix
@@ -245,5 +240,5 @@ weight larger than the machine's whole capacity. Any other code is the command's
 Planning, reading and review stay unwrapped — they cost context and rate limit
 rather than cores. Before wrapping, ask whether the work belongs on this Mac at
 all: a long self-contained build can go to an `anvil errand` container, and a
-verdict belongs in `defer`. `harbourmaster`'s `references/routing.md` has the
+verdict belongs in `defer:defer`. `harbourmaster:harbourmaster`'s `references/routing.md` has the
 decision procedure.

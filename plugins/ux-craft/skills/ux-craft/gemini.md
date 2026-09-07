@@ -1,5 +1,7 @@
 # ux-craft, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this in one pass **before Mode detection**, with `references/model-calibration.md` (SKILL.md:45 routes you there), then run the skill
 as written; each override names the section it lands on. The canon transfers whole — what does not is the assumption that a rule stated in
 prose gets executed. This copy (`fledgeling-plugins`) is canonical; the `diolog-plugins` mirror is deliberately left without one, because
@@ -10,7 +12,7 @@ a duplicate drifts unchecked.
 | Tier | Used here for | Strength |
 |---|---|---|
 | `[docs]` | Google's published guidance, quoted verbatim, gated by `verify_quotes.py` | **strongest** |
-| `[measured-here]` | `Egress Gemini`, 17 Aug 2026 — a Gemini model invoking **this skill** plus `design-craft` on a two-platform CI-runner brief. **n=1**, from `geminify/references/evidence.md` §1.1 and this skill's own `references/evidence.md` | one data point |
+| `[measured-here]` | `Egress Gemini`, 17 Aug 2026 — a Gemini model invoking **this skill** plus `design-craft:design-craft` on a two-platform CI-runner brief. **n=1**, from `geminify/references/evidence.md` §1.1 and this skill's own `references/evidence.md` | one data point |
 | `[measured-family]` | 106 benchmark tasks scoring `gemini-3.7-flash` against `claude-opus-5`, plus the `COD Dossier` run (n=1) | a rate, and one run |
 | `[derived]` | my reasoning from those, marked in place | weakest |
 
@@ -47,7 +49,7 @@ hard zeros — so three of Build mode's deliverables are worth routing before yo
 
 **Omitted, and why.** `visual-design`, because SKILL.md:16 hands the rendered artifact to `design-craft:design-craft`. **Review and Advise
 mode get no row:** the corpus measures a model *building* something, not one grading another's work, and `lane_pick.py` returns the policy
-answer unchanged for `verification` and `design-review`. The level buckets stay, because naming them would route away work this family
+answer unchanged for `verification` and `design-review:design-review`. The level buckets stay, because naming them would route away work this family
 does as well as opus — `accessibility` 64 vs 69, `react-ui` 63 vs 69, `algorithmic` and `greenfield-module` 75 vs 75. Where work stays
 anyway, this block names what to distrust first.
 

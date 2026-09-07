@@ -6,7 +6,7 @@ Convert a generated diagram HTML file into a portable `.svg` and/or `.png` next 
 
 Load this file when:
 
-- The user invokes `/diagram-design:export-diagram <html-file>` (the plugin's slash command — defined in `commands/export-diagram.md` at the repo root).
+- The user invokes `visualization:visualization` with arguments `export <html-file> png`, `export <html-file> svg`, or both formats.
 - The user asks in natural language to export, save, rasterize, convert, or download a diagram in `.svg` or `.png` form. Typical phrasings:
   - "export this as PNG"
   - "save as SVG"
@@ -14,7 +14,7 @@ Load this file when:
   - "rasterize it"
   - "convert to png and svg"
 
-The slash command is a thin wrapper that delegates here — both paths run the same procedure below.
+This is a procedure run by the single skill entrypoint. No separate export command or bundled export executable exists; use the file tools and rendering recipe below.
 
 ## Scope
 
@@ -52,40 +52,47 @@ Render **the original HTML** (not the extracted SVG) and screenshot only the `<s
 
 ### Detection
 
-Before running anything, verify Playwright is installed:
+Resolve an available Python 3.10+ interpreter (`python3` first, then `python`)
+and use that same absolute interpreter path for the import check and render:
 
+```sh
+"<python-path>" -c "from playwright.sync_api import sync_playwright"
 ```
-python -c "import playwright" 2>NUL || python -c "import playwright"
-```
 
-If the import fails, surface this exact instruction to the user and stop:
-
-> Playwright isn't installed. To enable PNG export, run:
-> ```
-> pip install playwright
-> playwright install chromium
-> ```
-> Then ask me to export again.
-
-Don't auto-install. The user asked for one feature, not a system change.
+If unavailable, use an already supported browser tool only if it can render the
+local HTML and capture the selected SVG element with the required background.
+Otherwise report the missing PNG route, complete any requested SVG export, and
+provide setup instructions for the user's environment:
+`"<python-path>" -m pip install playwright` and
+`"<python-path>" -m playwright install chromium`. Do not install dependencies
+without authorization or claim that an import check proves Chromium can launch.
 
 ### Rasterize
 
-Write the snippet below to a temp file and run it with `python <tmp.py> <src.html> <out.png>`:
+Write the snippet below to a temp file and run it with `"<python-path>" "<tmp.py>" "<src.html>" "<out.png>" [scale]`:
 
 ```python
 from playwright.sync_api import sync_playwright
 import sys, pathlib
 
 src, out = sys.argv[1], sys.argv[2]
-scale = int(sys.argv[3]) if len(sys.argv) > 3 else 2
+scale = float(sys.argv[3]) if len(sys.argv) > 3 else 2
+if not 1 <= scale <= 4:
+    raise SystemExit("scale must be between 1 and 4")
 
 with sync_playwright() as p:
     browser = p.chromium.launch()
     page = browser.new_page(device_scale_factor=scale)
-    page.goto(f"file://{pathlib.Path(src).resolve()}")
-    page.wait_for_load_state("networkidle")
-    page.locator("svg").first.screenshot(path=out, omit_background=True)
+    page.goto(pathlib.Path(src).resolve().as_uri() + "?motion=static")
+    page.evaluate("document.fonts.ready")
+    roots = page.locator("[data-motion-root]")
+    for i in range(roots.count()):
+        if roots.nth(i).get_attribute("data-frame") != "static":
+            raise RuntimeError("motion root did not settle to the static frame")
+    svgs = page.locator("svg")
+    if svgs.count() != 1:
+        raise RuntimeError("select one diagram source before export")
+    svgs.first.screenshot(path=out, omit_background=True)
     browser.close()
 ```
 
@@ -97,9 +104,9 @@ Default `device_scale_factor=2` for crisp output. Accept `1` for compact assets 
 
 ## Sizing the export
 
-The PNG's pixel dimensions are the SVG's `viewBox` × `device_scale_factor`. So the size decision was already made when the diagram was drawn — see [`output-spec.md` §2](output-spec.md) for the presets. Export only picks the multiplier.
+The PNG's pixel dimensions are the SVG's rendered CSS bounding box × `device_scale_factor`, which can differ from its `viewBox` in responsive HTML. Measure that box before capture and verify the written image dimensions. The size decision begins when the diagram is drawn — see [`output-spec.md` §2](output-spec.md) for the presets. Export only picks the multiplier.
 
-| Destination | Scale | Result from a 1280×720 `viewBox` |
+| Destination | Scale | Result from a 1280×720 CSS-pixel SVG |
 |---|---|---|
 | Docs, README, wiki | 2 | 2560×1440 |
 | Slide deck (projected) | 2 | 2560×1440 |
@@ -111,10 +118,10 @@ The PNG's pixel dimensions are the SVG's `viewBox` × `device_scale_factor`. So 
 When the user needs specific dimensions (an OG card at exactly 1200×630, a slide image at 1920×1080), compute the scale factor instead of guessing — Playwright accepts fractional values:
 
 ```
-scale = target_width / viewBox_width
+scale = target_width / rendered_svg_width
 ```
 
-A 960-wide `viewBox` at a 1200px target is `scale=1.25`. Two rules:
+A rendered SVG that is 960 CSS pixels wide at a 1200px target is `scale=1.25`. Two rules:
 
 - **Never scale below 1** to hit a small target — that soft-focuses the type. Redraw at a smaller preset instead.
 - **Never scale past 4** — beyond that you're upscaling a layout that was designed for a smaller canvas; redraw at `slide-16x9` or a print preset.
@@ -128,7 +135,7 @@ If the target aspect ratio doesn't match the `viewBox` aspect ratio, say so and 
 - **Surrounding HTML matters to the user**: they want cards/header in the image. Tell them this skill exports diagrams only, and recommend a browser-based full-page screenshot (or a separate PDF print).
 - **Source is missing fonts at runtime**: Playwright will substitute, the screenshot will look off. Check that the source HTML has the `<link href="...fonts.googleapis.com...">` tag in `<head>`. If absent, the file isn't from a current template — fix the source rather than working around it in export.
 
-## What this command never does
+## Export boundaries
 
 - Modifies the source HTML.
 - Adds export buttons or `<script>` tags. Static diagrams remain script-free; an already motion-enabled source may retain the scoped controller from [`animation.md`](animation.md), but export never injects another controller.

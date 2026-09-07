@@ -6,7 +6,7 @@
 **Stop an agent buying cheap tokens with worse work.** A ~220-token block for the start of a session, plus the measured reason every line of it says what it says.
 
 <p align="center">
-  <img alt="Version 4.1.0" src="https://img.shields.io/badge/version-4.1.0-1c7889">
+  <img alt="Version 4.3.1" src="https://img.shields.io/badge/version-4.3.1-1c7889">
   <img alt="Block size: 220 tokens" src="https://img.shields.io/badge/block_size-220_tokens-ee7027">
   <img alt="Benchmark: 106 paired tasks" src="https://img.shields.io/badge/benchmark-106_paired_tasks-5cc7d6">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8fb3bd">

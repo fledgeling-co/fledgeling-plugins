@@ -24,7 +24,7 @@ somebody reasons from first principles instead of reading the evidence.
 Full provenance for every rule: `references/evidence.md`. Read it when you need
 to justify or change a rule, not on every run.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It gives every tier count, word bound and accent rule a readback command, converts the ux-craft / voice / design-craft routes into files the render depends on, and says why the gate reporting ok on zero tiers is not a pass. Other models skip it.
+**Using Gemini?** Read `gemini.md` for this skill's task-specific calibration and artifact checks. Its older runs do not establish Gemini 3.8 capability limits: preserve the user's selected implementation lane, and apply a model-specific route only when the current model or an observed failure supports it.
 
 ## What this produces
 
@@ -56,8 +56,8 @@ before referencing them, and check the URL rather than assuming; a banner that
 
 ## Step 2 — Assign the tiers
 
-**Route the tier decisions through `ux-craft` where it is installed.** An email
-is a reading surface and `ux-craft` is the skill that owns those, emails
+**Route the tier decisions through `ux-craft:ux-craft` where it is installed.** An email
+is a reading surface and `ux-craft:ux-craft` is the skill that owns those, emails
 included by its own description. What it decides here that this skill does not:
 the reading order, whether the summary block earns its position, and whether a
 given item genuinely belongs in the featured tier or is only recent. Bring it
@@ -150,8 +150,8 @@ properly and whose eighteen tail lines were not reads as two different people,
 and the tail is where most of the words are.
 
 Pick the skill by who the mail is from. A named person or brand signs it, so
-`create-luke-content` for Luke, `create-diolog-content` for Diolog, or whatever
-persona owns that byline; `agent-voice` only where nobody's name is on it. This
+`create-luke-content:create-luke-content` for Luke, `create-diolog-content:create-diolog-content` for Diolog, or whatever
+persona owns that byline; `agent-voice:agent-voice` only where nobody's name is on it. This
 skill owns structure, not voice.
 
 Two things that go wrong when the routing is skipped:
@@ -162,7 +162,7 @@ Two things that go wrong when the routing is skipped:
   release needs the App Store or not" describe the same skill, and only one of
   them survives contact with a reader who has not used it.
 - **The lines start rhyming.** Twenty-three tags written in one pass converge on
-  one sentence shape. `create-luke-content`'s `voice_lint.py` flags a repeated
+  one sentence shape. `create-luke-content:create-luke-content`'s `voice_lint.py` flags a repeated
   rhetorical phrase for exactly this reason; run it over the whole set at once
   rather than per item, which is the only way it can see the repetition.
 
@@ -202,15 +202,15 @@ never fails on it.
 
 ## Step 4 — Render
 
-**Route the visual treatment through `design-craft` where it is installed**, with
-`ux-craft`'s lens still on it: they are a pair rather than alternatives.
-`design-craft` decides the palette (taken from the project's own tokens and
+**Route the visual treatment through `design-craft:design-craft` where it is installed**, with
+`ux-craft:ux-craft`'s lens still on it: they are a pair rather than alternatives.
+`design-craft:design-craft` decides the palette (taken from the project's own tokens and
 flattened to literals, since Gmail supports `var()` but not the declaration),
 the type scale, and how much visual weight actually separates the three tiers.
 The renderer below ships a default palette so it runs standalone; that default is
 a starting point, not a design.
 
-Two things `design-craft` will decide differently from the default, and both
+Two things `design-craft:design-craft` will decide differently from the default, and both
 are worth stating because they are easy to get backwards:
 
 - **Take the fonts from the project, and let each stack end web-safe.** A linked
@@ -285,7 +285,7 @@ Nineteen checks. The ones that catch real defects most often:
 ### What this gate does not cover, and who does
 
 `lint_email.py` is the email-specific half. The general reading-surface half is
-`ux-craft`'s `ux-lint.py`, and running both is the intended shape:
+`ux-craft:ux-craft`'s `ux-lint.py`, and running both is the intended shape:
 
 ```bash
 python3 <ux-craft>/scripts/ux-lint.py --static mail.html
@@ -339,10 +339,10 @@ Then hand off to whatever sends.
 
 | Skill | For |
 |---|---|
-| `ux-craft` | Tier decisions, reading order, and the general reading-surface gate |
-| `design-craft` | Palette from the project's tokens, type scale, tier weighting |
-| `create-luke-content` / `create-diolog-content` / a named persona | Every word of prose, where a person or brand signs the mail |
-| `agent-voice` | Every word of prose, where nobody's name is on it |
+| `ux-craft:ux-craft` | Tier decisions, reading order, and the general reading-surface gate |
+| `design-craft:design-craft` | Palette from the project's tokens, type scale, tier weighting |
+| `create-luke-content:create-luke-content` / `create-diolog-content:create-diolog-content` / a named persona | Every word of prose, where a person or brand signs the mail |
+| `agent-voice:agent-voice` | Every word of prose, where nobody's name is on it |
 
 Where one is not installed, say which substitution you made rather than
 implying the pass happened.

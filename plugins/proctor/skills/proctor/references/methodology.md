@@ -252,7 +252,7 @@ common defect that neither pass finds alone.
 
 ## The fidelity ledger
 
-Adapted from `mockup-fidelity`, and what is taken is its central discipline:
+Adapted from `mockup-fidelity:mockup-fidelity`, and what is taken is its central discipline:
 **breadth before depth, with the burden of proof inverted** — every element of
 the reference gets a row marked present, divergent or absent before any property
 is measured, and a difference stays a defect until an external citation proves
@@ -317,8 +317,8 @@ covers "ui/ux design tests" for an app that was never given a design of record,
 and it is where a build that renders cleanly and passes every accessibility
 assertion can still be quietly wrong for macOS.
 
-The rubric is `mac-design-studio`'s `references/native-foundation.md`, and the
-numbers behind it are the macOS 27 UI kit and the HIG in `macosify`'s
+The rubric is `mac-design-studio:mac-design-studio`'s `references/native-foundation.md`, and the
+numbers behind it are the macOS 27 UI kit and the HIG in `macosify:macosify`'s
 `reference/`. Do not restate them here; read them there and measure against
 them. What Proctor contributes is the measurement: the rendered accessibility
 tree carries roles, frames and font attributes, and the captures carry pixels,
@@ -340,12 +340,12 @@ capture:
   surface that is not floating chrome at all.
 - **Non-native tells.** Tracked-uppercase section labels, a full-width busy
   gradient, a card grid with iOS-sized corner radii — the tropes
-  `mac-design-studio`'s ten-point audit and `design-craft`'s `ai-slop-check`
+  `mac-design-studio:mac-design-studio`'s ten-point audit and `design-craft:design-craft`'s `ai-slop-check`
   enumerate. Each is a finding phrased in the platform's own vocabulary, which
   is what makes it actionable.
 
 The judged half of the question — whether the result is *good*, not merely
-conformant — is `design-review`'s, with the captures attached. Conformance is
+conformant — is `design-review:design-review`'s, with the captures attached. Conformance is
 measured here; craft is judged there; and an app can pass one while failing the
 other, which is exactly why they are two passes and not one.
 

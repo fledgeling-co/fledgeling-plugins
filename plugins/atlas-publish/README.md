@@ -8,7 +8,7 @@
 Drives the open PRs of the Atlas/Bella monorepo all the way to a staged release, on whichever lane the code actually needs.</p>
 
 <p align="center">
-  <img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-D33C21">
+  <img alt="Version 2.1.3" src="https://img.shields.io/badge/version-2.1.3-D33C21">
   <img alt="SWE skill: release" src="https://img.shields.io/badge/SWE_skill-release-434A55">
   <img alt="Project: Atlas" src="https://img.shields.io/badge/project-Atlas-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -66,7 +66,7 @@ For reviewing the diff before the merge pass, install [code-review](../code-revi
 Ask in plain language ("ship an Atlas release", "push a JS-only update", "can I push this?"), or invoke it directly:
 
 ```
-/atlas-publish
+/atlas-publish:atlas-publish
 ```
 
 ## What it will not do

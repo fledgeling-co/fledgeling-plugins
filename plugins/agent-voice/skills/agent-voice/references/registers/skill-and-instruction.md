@@ -36,11 +36,7 @@ prompt templates. Lint format key: `skill`.
   overtriggers on current models `[Anthropic]`, and Google measures pressure language as
   actively harmful: emotional appeals, flattery and artificial pressure *"will no longer
   improve and in many cases will get worse"* performance `[Google]`.
-- **No verification scaffolding for a Claude reader.** "Double-check", "verify with a
-  subagent", "add a final verification step" cause over-verification on Opus 5 and removing
-  them costs nothing in quality `[Anthropic]`. **The rule inverts for a Gemini reader**, where
-  the verification step has to be named explicitly `[Google]`. This is the sharpest
-  family split in the package; `dialects.md` carries both sides.
+- **Separate acceptance evidence from repeated self-check reminders.** For Opus 5, remove generic "double-check" prompts that duplicate its behavior `[Anthropic]`. Keep named tests, source checks, visual comparisons and required independent reviews. Gemini guidance also favors explicit verification steps `[Google]`; neither model gets to claim a check that did not run. See `dialects.md`.
 - **Cap delegation explicitly** and name which scenarios warrant it `[Anthropic]`.
 - **State the scope**, because the model widens tasks on its own: *"Deliver what was asked, at
   the scope intended… rather than quietly narrowing, widening, or transforming it."*

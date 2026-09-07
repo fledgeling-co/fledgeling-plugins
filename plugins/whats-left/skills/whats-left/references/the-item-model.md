@@ -1,7 +1,7 @@
 # The item model
 
 Every field below that a human reads is Luke-voice prose: `plain`, `state`,
-`live`, `from_you` and `remaining`. Write them through `/create-luke-content`
+`live`, `from_you` and `remaining`. Write them through `/create-luke-content:create-luke-content`
 (format `marketing`) before building the page. Its lint hard-fails on an em dash
 and on generated-sounding phrasing, and neither is something `validate_model.py`
 checks for.

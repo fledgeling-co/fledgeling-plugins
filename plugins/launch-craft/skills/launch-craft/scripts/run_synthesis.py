@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
-run_synthesis.py - Scans repository intelligence and invokes Gemini 3.7 Flash High via agy.
+run_synthesis.py - Inventories conventional project source paths; does not run synthesis.
 """
 
 import os
 import sys
 import glob
-import subprocess
 import argparse
 
 def scan_project(root_dir):
@@ -22,15 +21,16 @@ def scan_project(root_dir):
         "mocks": len(mocks),
         "brief_files": briefs,
         "plan_files": plans,
+        "spec_files": specs,
         "mock_files": mocks
     }
     return summary
 
 def main():
-    parser = argparse.ArgumentParser(description="Synthesize OVERVIEW.md and PRD.md using Gemini via agy.")
+    parser = argparse.ArgumentParser(description="Inventory conventional source paths for a later synthesis task; no model is invoked.")
     parser.add_argument("--root", default=".", help="Root directory of the project")
-    parser.add_argument("--output-dir", default=".", help="Output directory for generated docs")
-    parser.add_argument("--dry-run", action="store_true", help="Print prompt and scan summary without calling agy")
+    parser.add_argument("--output-dir", default=".", help="Reserved compatibility option; this inventory helper writes no documents")
+    parser.add_argument("--dry-run", action="store_true", help="Print the inventory; this helper never calls a model")
     args = parser.parse_args()
 
     project_info = scan_project(args.root)
@@ -40,11 +40,11 @@ def main():
     print(f"  - Specs: {project_info['specs']}")
     print(f"  - Mocks: {project_info['mocks']}")
 
-    if args.dry_run:
-        print("\nDry-run complete. Requirements collected cleanly.")
-        sys.exit(0)
-
-    print("\nSynthesis ready for agy execution with --new-project from /tmp.")
+    for category in ("brief_files", "plan_files", "spec_files", "mock_files"):
+        for source_path in sorted(project_info[category]):
+            print(f"  {category}: {source_path}")
+    print("\nInventory only: no file contents read, model invoked or documents generated. "
+          "Read these paths and discover any additional project-specific sources before synthesis.")
 
 if __name__ == "__main__":
     main()

@@ -40,7 +40,7 @@ The file is JSON so a later run can read it without parsing prose. It retains fi
 
 ## Commands
 
-Run from the `design-craft` skill directory, or use the absolute script path:
+Run from the `design-craft:design-craft` skill directory, or use the absolute script path:
 
 ```bash
 python3 scripts/diversity_ledger.py init <project>/.design-craft/diversity-ledger.json

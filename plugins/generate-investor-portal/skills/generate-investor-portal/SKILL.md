@@ -15,7 +15,7 @@ description: >-
   crawled photograph exists, and finishes by proving the result renders. Not for hand-building a
   one-off HTML page (create-investor-portal-free is the visual reference), running a
   disclosure-consistency analysis, or extracting a DESIGN.md from a site
-  (design-md-from-website).
+  (design-md-from-website:design-md-from-website).
 ---
 
 # Generate an investor portal
@@ -27,7 +27,7 @@ that record.
 Getting this wrong in the first five minutes is the expensive failure. If you find yourself
 writing HTML or CSS, stop — you have misread the task.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. On Gemini, route the theme derivations and any regeneration to another lane, fill a quota ledger and a bound ledger before emitting, and paste record-gate.mjs's own output rather than a claim about it, because the fabricated figure this skill refuses is exactly what fills a specified shape with no procedure behind it. Other models skip it.
+**Using Gemini?** Read `gemini.md` for this skill's task-specific calibration and artifact checks. Its older runs do not establish Gemini 3.8 capability limits: preserve the user's selected implementation lane, and apply a model-specific route only when the current model or an observed failure supports it.
 
 ## First, three exits — before anything is crawled or generated
 
@@ -89,8 +89,8 @@ from-website    from-website          ← both are skills; run them first
       the generic renderer, resolved by hostname
 ```
 
-**The two inputs are themselves skills.** Given only a company URL, run `design-md-from-website` for
-the measured tokens and `company-overview-from-website` for the crawled facts, then generate from
+**The two inputs are themselves skills.** Given only a company URL, run `design-md-from-website:design-md-from-website` for
+the measured tokens and `company-overview-from-website:company-overview-from-website` for the crawled facts, then generate from
 both. Neither is optional and neither should be hand-written: a DESIGN.md guessed from a screenshot
 fabricates the brand colour, and an overview written rather than crawled fabricates the company.
 
@@ -110,7 +110,7 @@ Both are copying tasks, not writing tasks.
   judgement, and the four-tier severity ladder with what each tier costs.
 - `references/binding-decisions.md` — the content decisions: what belongs on the page, what must
   never appear, and the two bans scoped to seven surfaces each. **This copy is the one that binds.**
-  `create-investor-portal-free` is still the *visual* reference for the hand-built page, and its
+  `create-investor-portal-free:create-investor-portal-free` is still the *visual* reference for the hand-built page, and its
   `what-the-research-says.md` and `page-structure.md` still bind on page structure.
 - `references/refused-ideas.md` — six ideas that look good and are not, each with the mechanism that
   defeats it, plus one a review proposed and argued for and did not get.
@@ -125,9 +125,9 @@ Both are copying tasks, not writing tasks.
 Ask for whichever is missing rather than guessing:
 
 1. **A DESIGN.md** with the company's tokens. If none exists and a live site does, run
-   **`design-md-from-website`** — it measures computed styles rather than guessing hexes. Two
+   **`design-md-from-website:design-md-from-website`** — it measures computed styles rather than guessing hexes. Two
    dialects are supported downstream, so either output form works.
-2. **A company-overview markdown.** If none exists, run **`company-overview-from-website`**. That
+2. **A company-overview markdown.** If none exists, run **`company-overview-from-website:company-overview-from-website`**. That
    skill's own `references/output-contract.md` is the shape this generator parses.
 3. **The category**: `free`, `paid` or `report`.
 4. **The company id** in the Diolog database.
@@ -288,7 +288,7 @@ silent revert renders identically to never having asked.
 (`classic` · `tight` · `dramatic`). Both are bounded enums, never lengths — the record still may
 not state a number, and `measuredGrid` is still forbidden.
 
-They are the axes a DESIGN.md answers directly, because `design-md-from-website` measures both and
+They are the axes a DESIGN.md answers directly, because `design-md-from-website:design-md-from-website` measures both and
 writes them down: a container width in the layout tokens, a display size in the type table. Read
 the company's own figure and record the bucket it fell in. `typeScale` is the one that survives a
 change of typeface — two portals in different families on the same ramp still read as one
@@ -622,7 +622,7 @@ whose subject is the CMS is a category error. Where the record genuinely cannot 
 question, the section is disabled.
 
 Diolog sections use Diolog's: no em or en dashes, Australian English, sentence case, plain copulas,
-measured confidence. If `create-diolog-content` is installed, route new Diolog copy through it.
+measured confidence. If `create-diolog-content:create-diolog-content` is installed, route new Diolog copy through it.
 
 ### Do not narrate this skill's incident history to the person asking
 

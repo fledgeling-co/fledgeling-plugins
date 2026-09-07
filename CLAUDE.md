@@ -2,6 +2,43 @@
 
 Guidance for Claude Code when working in this repository.
 
+## Writing skill instructions and runner briefs
+
+Write plugin skill referrals as exact `plugin:skill` identifiers in instructions,
+prose and generated prompts: `ship-feature:ship-feature`, `shipyard:triage`,
+`test-campaign:test-campaign`. Resolve them against the marketplace and skill
+directories, then check the receiving runtime exposes them. A reference existing
+in this repository does not prove it is installed or loaded in a runner. Inspect
+the actual tool result; an unknown skill is a failed dependency, not a completed
+phase. Discover a supported replacement or report the missing dependency.
+
+Keep plugin install names, filesystem paths and frontmatter `name` values in
+their own formats. Built-in, project and personal skills may legitimately have
+bare runtime names; use the name the runtime advertises. Do not invent a
+marketplace prefix. Historical changelogs, research and eval outputs preserve
+the names that were used at the time.
+
+The owner's preferred workflow is Opus 5 for intake, triage and planning,
+Gemini 3.8 for implementation after the plan, and GPT-6 for orchestration.
+Respect an explicit task-specific model choice first. These are role preferences,
+not API selectors or universal capability rankings: discover supported runtime
+selectors and verify the actual route, especially through Relay. An older model's
+benchmark or Gemini adapter does not establish a newer model's limitations.
+
+Each handoff names its task, input artifact paths, scope, writable paths,
+available tools/skills, required outputs, acceptance evidence and stopping
+condition. Parallelize independent work with distinct ownership; serialize
+dependent phases and shared writes. Follow concrete project acceptance gates
+once, and repeat only after a relevant change, failure or unresolved finding.
+Remove generic repeated self-check instructions from Opus briefs without removing
+tests, visual judgments, independent acceptance or evidence the user requested.
+
+Use the current [Claude migration index](https://platform.claude.com/docs/en/about-claude/models/migration-guide),
+[prompting guidance](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
+and [Opus 5 guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5)
+when changing model-specific instructions. Keep reusable detail bundled inside
+the plugin so installed skills do not depend on this repository's root files.
+
 ## Adding or renaming a plugin — four places, one commit
 
 A plugin is not "added" when its directory exists. It is added when it is
@@ -61,7 +98,7 @@ A `pre-push` hook in `.githooks/` watches `.claude-plugin/marketplace.json`. Whe
 a push changes it, the hook runs `site/scripts/digest-draft.mjs`, which finds any
 skill the catalogue has and the database does not, and writes its announcement
 copy with `claude --model claude-sonnet-5 --effort high` through
-`/create-luke-content`. That copy goes out to subscribers at 10am Sydney time,
+`/create-luke-content:create-luke-content`. That copy goes out to subscribers at 10am Sydney time,
 daily or weekly, from `site/app/api/cron/digest`.
 
 Consequences worth knowing before you push:
@@ -100,6 +137,7 @@ breaking when a new plugin arrives:
 ### After every new or updated skill, run the gate
 
 ```bash
+python3 scripts/check_skill_references.py  # source references, not runtime loading
 node site/scripts/build-catalogue.mjs   # must exit 0
 ```
 
@@ -120,9 +158,11 @@ What the gate cannot see, so check it yourself:
   this file). Missing rows render as an overlapping mess, not as an error.
 - **`GROUP_OF`** in `build-catalogue.mjs`, or the skill sits under
   "Uncategorised" with only a warning.
-- **A stale sibling name** anywhere in the descriptions. Renaming a skill leaves
-  the old name in every `description` that referred to it, in both manifests, and
-  nothing checks that a named skill exists.
+- **Ambiguous prose and external dependencies.** The reference checker catches
+  explicit local referrals and retired identifiers. Review other prose and
+  manifest descriptions too. External source resolution is optional via
+  `--external-marketplace <repo>`; installation and successful loading still
+  require evidence from the receiving runtime.
 
 Icons follow the family: squircle silhouette from
 `plugins/create-mac-icon/assets/squircle-path.txt`, one metaphor, restrained
@@ -170,11 +210,12 @@ deliberately not done here, because that is a different repository and because
 instruction file lying. Decided 2026-08-19: document canonical here, change
 nothing over there.
 
-Skills in this repo reference each other by bare name (`design-craft`,
-`ux-craft`), which resolves to whichever copy is installed. That is fine while the
-fledgeling copies are the newer ones, and it is the thing that breaks first if
-diolog's ever move ahead.
+Use `design-craft:design-craft` and `ux-craft:ux-craft` for skill referrals.
+Qualification distinguishes plugin skills from personal or bundled skills; it
+does not distinguish two installed copies of the same plugin from different
+marketplaces. Select the intended marketplace when installing, and inspect the
+resolved source/version when duplicate plugins are enabled.
 
 ## Portfolio manifest
 
-This project is tracked in `~/Dev/ARMADA.md`, the portfolio manifest the `ship-armada` orchestrator plans from. After completing work here that changes the project's status, features, or the location of its key docs (specs, plans, mocks, ORCHESTRATOR.md), refresh this project's entry with the `armada-sync` skill (fledgeling-plugins). If that skill isn't available, edit the entry directly — keep it under 20 lines, verify every path you write exists, and update its `updated:` stamp.
+This project is tracked in `~/Dev/ARMADA.md`, the portfolio manifest the `ship-armada:ship-armada` orchestrator plans from. After completing work here that changes the project's status, features, or the location of its key docs (specs, plans, mocks, ORCHESTRATOR.md), refresh this project's entry with `armada-sync:armada-sync`. If that skill isn't available, edit the entry directly — keep it under 20 lines, verify every path you write exists, and update its `updated:` stamp.

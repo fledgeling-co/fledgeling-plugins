@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img alt="Version 2.1.0" src="https://img.shields.io/badge/version-2.1.0-D33C21">
+  <img alt="Version 2.3.1" src="https://img.shields.io/badge/version-2.3.1-D33C21">
   <img alt="SWE skill: reporting" src="https://img.shields.io/badge/SWE_skill-reporting-434A55">
   <img alt="Structural checks: 19 of 19" src="https://img.shields.io/badge/structural_checks-19_of_19-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -37,7 +37,7 @@ sent it to, and they've got less reason to trust it than you have.
 
 ## What it does
 
-You type `/report`. Before it designs a single thing, it walks back
+You type `/report:report`. Before it designs a single thing, it walks back
 through what the session actually did (the files it opened, the commands
 it ran, the tests, any research already sitting in the repo) and turns
 that into a **claim ledger**: one row per claim, each carrying a locator
@@ -60,7 +60,7 @@ docs/reports/<slug>/
   claims.json    the ledger everything was built from
 ```
 
-`/report tldr` gives you just the one-pager: brand band, the finding in a
+`/report:report tldr` gives you just the one-pager: brand band, the finding in a
 sentence, one chart that carries the argument, a handful of cited claims,
 sources at the foot. Cover and back matter merged in, because a cover page
 on a one-page document spends half the document on a title.
@@ -174,7 +174,7 @@ run the animation. So none of it costs the PDF anything.
 
 They look like siblings and they solve opposite problems.
 
-`dossier-report` buys a research panel, reads every word of it, and
+`dossier-report:dossier-report` buys a research panel, reads every word of it, and
 publishes one page to its own subdomain. It's for when the substance
 doesn't exist yet and you're willing to spend on it.
 

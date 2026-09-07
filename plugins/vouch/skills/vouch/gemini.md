@@ -1,5 +1,12 @@
 # vouch, calibrated for Gemini
 
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
+
 Written against a Claude model's failure modes, and this house's deliberate *removals* — verification scaffolding above all — leave a vacuum on this family
 that fills with something plausible. Read this once, before `## The one rule the rest follow`, then follow the skill with the overrides below; each names the
 line it lands on. What needs work here: ten scopes stated as a class rather than a count, seven stated maxima that nothing reads back off the artifact, the
@@ -44,7 +51,7 @@ python3 <defer>/skills/defer/scripts/lane_pick.py --task implementation --shape 
 
 `[derived]` Omitted deliberately: `static-page`, because both reports and the hand-off page are rendered by shipped builders out of `claim_rows.json` rather
 than authored from a prose brief — where a run *does* author a new section or a new employer's template from prose, that row applies at 22 against 67; and
-`visual-design`, because the rendered surface is graded by `design-review`'s deterministic gates rather than judged aesthetically. **This routes the code
+`visual-design`, because the rendered surface is graded by `design-review:design-review`'s deterministic gates rather than judged aesthetically. **This routes the code
 edits, not the claim** — reading invoices, deciding rows and running the gates are not what that corpus measured.
 
 ## What transfers intact
@@ -147,13 +154,13 @@ of arithmetic, counting, or calculation."
 
 `[derived]` The scan found **zero** qualitative skill references here, which is unusual and good — but one line is that shape by hand. SKILL.md:215 reads
 *Route to `design-review` for the deterministic gates*, and `gates.md`:99 repeats it. `[measured-family]` On `COD Dossier` that phrasing was satisfied by
-writing compliant-looking code: neither `design-craft` nor `ux-craft` was invoked, and the run's own diagnosis named the mechanism — the constraints were
+writing compliant-looking code: neither `design-craft:design-craft` nor `ux-craft:ux-craft` was invoked, and the run's own diagnosis named the mechanism — the constraints were
 already in context, and nothing downstream depended on a file only those skills produce.
 
 `[docs]` The remedy is chaining: "make each step a prompt and chain the prompts together in a sequence", where "the output of one prompt in the sequence
 becomes the input of the next prompt."
 
-`[derived]` So make the review a phase with a file behind it, and make the gate require the file. `proctor` at SKILL.md:114 needs no such conversion — its
+`[derived]` So make the review a phase with a file behind it, and make the gate require the file. `proctor:proctor` at SKILL.md:114 needs no such conversion — its
 output is a downloaded invoice on disk, already an artifact a later stage consumes.
 
 ```javascript

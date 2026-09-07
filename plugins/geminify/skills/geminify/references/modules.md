@@ -27,7 +27,7 @@ pass cannot satisfy five categorical nouns at once. **[measured-family]** a run
 delivered 12/12 enumerated features and 1 of 6 named states.
 
 **The trap worth naming in the file:** an enumeration stated in prose is not
-enough. `ux-craft` names six states *and* an explicit completeness condition
+enough. `ux-craft:ux-craft` names six states *and* an explicit completeness condition
 (*"The mock is incomplete until all six exist"*) and the run delivered one. The
 count has to become a cell to fill and a number to report, not a sentence to read.
 
@@ -44,9 +44,9 @@ exact applicable information"*. **[measured-family]** the vacuum left by removin
 verification scaffolding filled with a named engine that never ran, a contrast
 pass rate that inverted the truth, and an audited-target count nothing produced.
 
-**Note for the file:** say plainly that this reverses the house style. Removing
-verification scaffolding is correct for a model that over-verifies; inheriting
-that removal here is the defect.
+**Note for the file:** distinguish acceptance evidence from generic self-review.
+Required gates stay explicit for every model; repeat them after relevant changes
+or failures, and omit redundant instructions to double-check everything.
 
 ## C3. The retry ceiling
 
@@ -72,7 +72,7 @@ message names *"repetitive tool calls"* (`references/evidence.md` §7.2).
 **Says:** build in passes, one per axis, each output feeding the next.
 
 **Sequential Artifact Dependencies (Tool Chaining):** When a skill composes other
-skills (e.g. `design-craft`, `ux-craft`), never phrase the requirement as a
+skills (e.g. `design-craft:design-craft`, `ux-craft:ux-craft`), never phrase the requirement as a
 qualitative standard or lens (*"Every design decision goes through design-craft with
 ux-craft's lens"*). On the one measured run carrying that phrasing (`COD Dossier`,
 `references/evidence.md` §1.2.1), both skill invocations were skipped and the model's
@@ -120,9 +120,10 @@ specification**, which asks for the structure to be shown in the examples.
 
 ## C6. `thinking_level`
 
-**Says:** one line stating that this skill's work is what Google describes `HIGH`
-as being for, and that Gemini 3.7 Flash defaults to `MEDIUM`. Only where true —
-a lookup-shaped skill does not need `HIGH`.
+**Says:** resolve thinking settings from current provider documentation and the
+actual harness. State the measured model beside any historical default below;
+do not project Gemini 3.7 Flash settings onto Gemini 3.8 or another tier. Use a
+higher setting only when the task and relevant evidence support it.
 
 **Why:** **[docs]** the `thinking_level` table and the `HIGH` description
 (*"multi-step planning, verified code generation"*).
@@ -176,8 +177,9 @@ section it lands on.
 
 ## C9. The route-out block
 
-**Says:** name the work this skill does that a Gemini run should hand to another
-model rather than attempt, and give the command that picks the lane. Two or three
+**Says:** name work that evidence for the actual serving model supports routing
+elsewhere, and give the runtime-verified handoff. Older-model measurements below
+are candidate evaluation cases, not a prohibition on Gemini 3.8 implementation. Two or three
 sentences and a short table, near the top, before the overrides — because a reader
 who is about to route the work out should not first read four pages about how to do
 it well.
@@ -215,7 +217,12 @@ treats the gap as uniform spends its overrides in the wrong place. And the
 rule as much as to the work: `when this is hard, get help` is a qualifier, and a
 named shape with a number is not.
 
-**Two conditions on writing this section at all.**
+**Conditions on writing this section at all.**
+
+**Match the serving model and user policy first.** A score for Gemini 3.7 Flash
+does not grade Gemini 3.8. Without matching evidence, mark the shape unmeasured
+and preserve the requested implementation role. Follow `defer:defer`'s current
+preference path before using its compatibility lane picker.
 
 **Only for skills whose work the corpus measured.** The bench measures a model
 *building* something, so `implementation` and `general` are the shape-gated

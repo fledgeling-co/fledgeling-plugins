@@ -47,7 +47,7 @@ later is a record with nothing in it.
 | Field | Why an auditor needs it |
 |---|---|
 | item | which decision this was |
-| defect class | which policy covered it. `ratchet` counts closed items per class to decide tier 3, so a row without one cannot be counted and blocks the promotion rather than being skipped |
+| defect class | which policy covered it. `warrant:ratchet` counts closed items per class to decide tier 3, so a row without one cannot be counted and blocks the promotion rather than being skipped |
 | warrant version | which policy authorised it |
 | model id and version | which control made it, so a later change is visible (`C12`) |
 | evidence digest | what was actually judged, so the verdict is reproducible |

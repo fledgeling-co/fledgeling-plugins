@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that writes the companion file an existing skill needs before a Gemini model can run it properly.</p>
 
 <p align="center">
-  <img alt="Version 0.3.0" src="https://img.shields.io/badge/version-0.3.0-D33C21">
+  <img alt="Version 0.6.1" src="https://img.shields.io/badge/version-0.6.1-D33C21">
   <img alt="SWE skill: authoring" src="https://img.shields.io/badge/SWE_skill-authoring-434A55">
   <img alt="Blind panel 4-0" src="https://img.shields.io/badge/blind_panel-4--0-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -42,7 +42,7 @@ So the fix is mechanical, not literary. Find the skill's unbounded scopes, give 
 
 One file, `gemini.md`, sitting beside the target's `SKILL.md`, plus a conditional pointer at the top that other models skip. The skill itself isn't rewritten; its canon transfers. What doesn't transfer is the assumption that a rule stated in prose gets executed.
 
-The difference between that file and what a capable model writes unaided is worth seeing side by side. Same target skill, same Gemini model, one with `geminify` and one without.
+The difference between that file and what a capable model writes unaided is worth seeing side by side. Same target skill, same Gemini model, one with `geminify:geminify` and one without.
 
 **Without it**, a section on Gemini's image handling, asserting that the model tiles images at "typically 258 tokens per tile/crop", that "internal bilinear filtering will still destroy typography below 7 px glyph height", and that it carries a primacy bias. No source on any of it. It then prescribes a `--max-dim` flag the skill's script doesn't accept and a `box_2d` field the skill's schema doesn't have.
 
@@ -90,10 +90,10 @@ Sixty of sixty vendor quotes across those five files now verify. A negative cont
 Point it at a skill.
 
 ```text
-/geminify design-craft
+/geminify:geminify design-craft
 ```
 
-It also fires on "add Gemini support to this skill", "write a gemini.md for X", "make this skill work in Antigravity", and when a skill has produced weak output under a Gemini model and the skill itself isn't at fault. It's the wrong tool for a skill that's broken for every model (that's `improve-skill`) and for writing a new skill (`create-skill`).
+It also fires on "add Gemini support to this skill", "write a gemini.md for X", "make this skill work in Antigravity", and when a skill has produced weak output under a Gemini model and the skill itself isn't at fault. It's the wrong tool for a skill that's broken for every model (that's `improve-skill:improve-skill`) and for writing a new skill (`create-skill:create-skill`).
 
 The three scripts run standalone:
 
@@ -111,7 +111,7 @@ Every prompt ran twice: once with the skill, once with **no skill at all**. And 
 
 **The taste test.** Each pair went to an out-of-family judge, anonymised as Option A and Option B, with no mention that a skill existed, and judged twice in both orders. **The skill won 4 of 4, with no order flip.** More useful than the score: all four verdicts turned on the same property, unprompted, which was whether a maintainer can check the file's claims about Gemini rather than believe them.
 
-**Where it loses.** On `clarify` the skill's own central mechanic barely applies: that skill has one countable quota row in 516 lines, so the ledger has almost nothing to bind to and the generated file never reports a delivery fraction. That eval fails, and it's kept failing in the set rather than dropped. The rule it suggests (derive a count from the skill's own units, or say plainly there isn't one) is unwritten.
+**Where it loses.** On `clarify:clarify` the skill's own central mechanic barely applies: that skill has one countable quota row in 516 lines, so the ledger has almost nothing to bind to and the generated file never reports a delivery fraction. That eval fails, and it's kept failing in the set rather than dropped. The rule it suggests (derive a count from the skill's own units, or say plainly there isn't one) is unwritten.
 
 One more eval measures nothing. The assertion that a non-visual skill should get no capture protocol passed in both arms, because a Gemini model with no skill also declines to write one. It stays as a regression guard, not as evidence.
 
@@ -124,3 +124,8 @@ Full tables, the judges' own words, the costs and the rest of the caveats are in
 ## What it's built on
 
 [`references/gemini-corpus.md`](skills/geminify/references/gemini-corpus.md) carries Google's own passages verbatim, gathered from fifteen of their pages and grouped by the module that uses them, so every `[docs]` claim is checkable from inside the repo. [`references/evidence.md`](skills/geminify/references/evidence.md) holds the measured run in full, what it does and doesn't establish, and the two out-of-family consults behind the skill's own design; both of those rejected the version of this skill that would have required a measured run before writing anything, and both independently proposed the tiered tagging that shipped.
+
+The recorded Flash measurements do not grade Gemini 3.8. Current authoring keeps
+acceptance steps explicit and marks newer-model behavior unmeasured; it respects
+Gemini 3.8 implementation after Opus 5 planning and resolves runtime selectors
+instead of copying older model IDs.

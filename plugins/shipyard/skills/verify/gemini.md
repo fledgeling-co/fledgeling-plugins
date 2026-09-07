@@ -36,11 +36,14 @@ is audit-only on product code; the four shapes the corpus measured behind — `s
 `brownfield-integration`, `visual-design`, `regression-sensitive` — all describe *producing* an
 artifact, and `lane_pick.py` returns the policy answer unchanged for those classes.
 
-**One routing consequence does bind.** `[derived]` The lane order is `agy` (Gemini) → `codex` →
-`grok`, and its invariant is `The grading model differs from the family that implemented the
-majority of the code`. A Gemini agent grading Gemini-built code makes lane 1 same-family twice:
-**skip agy, start at codex**, and if codex is the only reachable lane, say so — `model-lanes.md`
-treats that as `verification: in-family (degraded)` plus an extra adversarial round.
+**One routing consequence binds.** Identify the implementation's actual writer
+and choose a capable supported reviewer from a different family. For Gemini-built
+code, skip Gemini and use an authorized Opus, GPT or other independent lane. A
+single reachable GPT lane is still cross-family relative to Gemini; it is not
+in-family merely because no second lane is reachable. If only the writer's family
+is available, record `verification: in-family (degraded)`. Repetition does not
+restore independence, and an independence-gated status remains unmet unless an
+explicit governing-policy exception applies.
 
 ## What transfers intact
 
@@ -164,7 +167,7 @@ your plan."* Five of this skill's bounds are prohibitions in prose; read back as
 | `Fresh context only` | build artifacts of this item in your transcript | grep the session for the id before step 1 | 0 | yes |
 | an unexercisable path takes `two independent probes` | probes per blocker | count probe outputs in the bundle | 2 · 2 · **1** | **no — req-06 needs a second** |
 | disagreements `re-exercised once`, then reported as the lane graded | re-exercise rounds | count re-run markers | 1 | yes |
-| degraded verdict buys `one extra adversarial review round` | extra rounds | count round markers in the thread | n/a: lane 2 answered | n/a |
+| independent verdict requires a family different from the writer | actual writer/reviewer families | read authoritative execution records | Gemini writer / GPT reviewer | independent |
 | `no two rows sharing one sha256` | duplicate sha256 across rows | `sort bundle/*.sha \| uniq -d` | 1 duplicate | **no — req-06 unevidenced** |
 
 Report `2 of 5 bounds within, 2 breaches, 1 n/a`. Two more bind without being counts. **Never
@@ -186,8 +189,8 @@ because `Inherited lists hide exactly the rows that were quietly narrowed`.
 
 ## Override 6 — the upstream skills are invoked, not imitated (step 2)
 
-The stage names `proctor:proctor`, `spec-validation:spec-validation`, `/test-campaign`,
-`/acceptance-e2e` and `warrant:assay` as the instruments its evidence comes through, and its wording for
+The stage names `proctor:proctor`, `spec-validation:spec-validation`, `/test-campaign:test-campaign`,
+`/acceptance-e2e:acceptance-e2e` and `warrant:assay` as the instruments its evidence comes through, and its wording for
 one — `invoke it where installed rather than re-deriving its rubric` — is composition phrased as a preference.
 
 **[measured-family]** §1.2.1 (n=1): a brief said every design decision goes through two named
@@ -206,7 +209,7 @@ its rules is not a receipt. Two rows have a documented fallback — take it and 
 |---|---|---|---|
 | `the proctor:proctor skill governs computer/browser use` | before the first visual measurement | `Skill` call, turn 6 | `bundle/browser-lane.md` — driver, version, viewports |
 | `the spec-validation:spec-validation skill's REAL/AUTHORED/MOCK bar` | each persistence requirement | `Skill` call, turn 11 | `bundle/req-07.persistence.md` — producer, stored row, class |
-| `run the feature's acceptance suite via /test-campaign where it is installed` | before citing a suite | not installed → `/acceptance-e2e` lane, turn 13 | `bundle/suite-run.log` — 42 passed, 0 flaky |
+| `run the feature's acceptance suite via /test-campaign:test-campaign where it is installed` | before citing a suite | not installed → `/acceptance-e2e:acceptance-e2e` lane, turn 13 | `bundle/suite-run.log` — 42 passed, 0 flaky |
 | `warrant:assay`'s `cannotfail_scan.py`, `where the repo carries .warrant/` | before citing a green suite | no `.warrant/` → eight shapes grepped, turn 14 | `bundle/cannotfail.txt` — 31 scanned, 2 candidates |
 
 Report `4 of 4 discharged — 2 by the named skill, 2 by the documented fallback`. A row with neither

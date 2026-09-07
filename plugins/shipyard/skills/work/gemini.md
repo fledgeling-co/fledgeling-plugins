@@ -28,7 +28,14 @@ stranger grades. So the shape to design against is a filled Clause table in fron
   together fragmented instructions from multiple different places in the prompt."* Read it in one pass,
   before Setup, never mid-phase.
 
-## Route out before Phase B: two shapes, and the skill already ships the command
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 **[measured-family]** Two of eight measured work buckets do not merely score lower — they produce **hard
 zeros** on most decided rows (§2.1): self-contained pages authored from prose, and brownfield edits to an
@@ -90,7 +97,7 @@ feature:
 
 | # | categorical, in the skill's words | denominator | filled | reported |
 |---|---|---|---|---|
-| 1 | `Every phase A–F (+D′) runs to completion` | 7 phases | 7 run, each with its artifact | `7 of 7` |
+| 1 | `Every applicable phase A–F runs to completion` | 6 required phases + conditional D′ | 6 run with artifacts; D′ records a targeted result or `not needed` | `6 of 6; D′ not needed` |
 | 2 | `every Acceptance Criterion, Constraint & Decision, and triage Assumption` (Clause table) | 11 AC + 4 C&D + 6 assumptions = 21 | 21 rows, each typed | `21 of 21 typed` |
 | 3 | `for every new user-facing capability its UI→producer wire` (Reachability table) | 5 capabilities | 5 traced UI → BFF → producer | `5 of 5` |
 | 4 | `every row closes per the typed evidence rule` | 26 rows (21 + 5) | 24 closed, 2 blockers named | `24 of 26 — status stays put` |
@@ -149,8 +156,8 @@ A  build spec + Clause/Reachability tables  →  written to the notes  ; B reads
 B  the diff in $WT + gate output            →  git log + gate paste  ; C rebases what B committed
 C  rebase onto INT + re-run gate            →  new sha, gate paste   ; D measures at that sha
 D  filled (never regenerated) A tables      →  findings list         ; E works the list
-E  fixes + re-run evidence per fixed row    →  new artifacts         ; D′ grades against them
-D′ fresh same-family validation             →  discrepancy list      ; F reconciles or routes to E
+E  fixes + re-run evidence per fixed row    →  new artifacts         ; F consumes them
+D′ targeted unresolved requirement only     →  discrepancy or n/a    ; F reconciles or routes to E
 F  completion record + AC reconciliation    →  the status move
 ```
 
@@ -210,7 +217,7 @@ skill's answer is that a merge instruction `changes the destination, never the b
 gate runs first and `a merge instruction waives nothing`. **[docs]** The agentic template's last rule is the
 same shape — *"only take an action after all the above reasoning is completed. Once you've taken an action,
 you cannot take it back."* Two more bind without being counts: **the never-delegate list holds** (a mechanical
-fix may take an executor lane, a diagnosis-hard one may not), and **D′ runs as a fresh agent** given only the
+fix may take an executor lane, a diagnosis-hard one may not), and **D′ runs only for a named unresolved gap**, with a bounded packet containing the
 ticket text, the plan path, the branch name and the mock index, because a validator holding the build
 transcript grades its own premises. **[docs]** And at a seam: *"Prefer calling the tool with the available
 information over asking the user"*.

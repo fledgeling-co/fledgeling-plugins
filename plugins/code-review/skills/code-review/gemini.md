@@ -1,5 +1,12 @@
 # code-review, calibrated for Gemini
 
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
+
 Read this in one pass before Phase 0, then run the pipeline as written. Each override names
 the phase it lands on, because a conditional side-file is otherwise the shape Google's own
 checklist warns about — **[docs]** *"Avoid writing a prompt with non-linear logic or
@@ -21,7 +28,7 @@ family change here than in most targets.
   — *"you can rephrase the instructions as a multiple choice question and ask the model to
   choose an option."*
 - **`A shard's reply is a claim, not evidence.`** (`process.md` §Reconcile), with `wc -l` and `jq` beside it.
-- **`Where this work runs`** already routes the verdict through `defer` by command rather
+- **`Where this work runs`** already routes the verdict through `defer:defer` by command rather
   than by prose — the decision C9 would otherwise ask for, already made.
 
 ## Epistemic status
@@ -82,7 +89,7 @@ could not see because the skill states them in a table:
 | Shard files that exist and parse | `process.md` §Reconcile | `7 of 7 buckets` |
 | Candidates above the verify threshold | Phase 4 | `34 surfaced, 21 verified, 13 below threshold` |
 | Gate commands run, verbatim from the profile | Phase 5.5 | `3 of 3` |
-| Findings against the cap, and the floor | depth table, SKILL.md:55 | `9 of ≤12, 0 dropped by cap`, floor `min(fileCount, 4)` |
+| Findings against the cap and selected coverage | depth table and coverage ledger | `9 of ≤12, 0 dropped by cap; 8/8 selected angles checked`; zero findings is valid |
 
 **The trap.** `coverage.md` already states the condition in prose — `an angle you did not run
 … and a shard that came back empty are all coverage holes`. **[measured-family]** `ux-craft`

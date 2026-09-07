@@ -1,0 +1,11 @@
+test_command_does_not_swallow_a_plugin_prefix (test_session_calibrate.SourceResolutionTests.test_command_does_not_swallow_a_plugin_prefix) ... ok
+test_exact_plugin_and_declared_name_resolve (test_session_calibrate.SourceResolutionTests.test_exact_plugin_and_declared_name_resolve) ... ok
+test_newer_semver_beats_lexical_order (test_session_calibrate.SourceResolutionTests.test_newer_semver_beats_lexical_order) ... ok
+test_source_receipt_is_labelled_as_source_only (test_session_calibrate.SourceResolutionTests.test_source_receipt_is_labelled_as_source_only) ... ok
+test_standalone_skill_keeps_its_bare_identity (test_session_calibrate.SourceResolutionTests.test_standalone_skill_keeps_its_bare_identity) ... ok
+test_wrong_prefix_and_bare_plugin_skill_do_not_resolve (test_session_calibrate.SourceResolutionTests.test_wrong_prefix_and_bare_plugin_skill_do_not_resolve) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.013s
+
+OK

@@ -102,7 +102,7 @@ defects. Anything needing a product decision rather than an engineering one.>
 
 ## Needs verification
 
-<What this review could not prove. Never empty.
+<What this review could not prove within the requested scope. Say none when that scope was covered; do not invent missing checks.
 
 Standing items unless separately covered — these are human-judgment ceilings:
 - Screen-reader output and flow
@@ -112,8 +112,9 @@ Standing items unless separately covered — these are human-judgment ceilings:
 - Cognitive accessibility
 - Real assistive-technology behaviour on real devices
 
-Standing items unless separately covered — these are engine ceilings on Obscura,
-and they are the same every review rather than something to rediscover:
+The following are historical Obscura limitations from the original August 2026
+review environment. Include only those relevant and reproduced in the current run;
+record the engine and evidence, or use an available permitted browser:
 - Motion and transitions: never execute, so no mid-flight capture, no entrance
   timing, and getAnimations() is 0 whatever the page declares
 - Print media: setEmulatedMedia is accepted and inert, so there is no print pass
@@ -141,5 +142,5 @@ glyph actually sits in the sweep. Say so on the finding.>
 ```
 Gates:       <what a machine asserted — lint, probes, console, CWV>
 Looked at:   <what you assert — only captures you actually opened>
-Not checked: <never empty>
+Not checked: <actual omissions or none within the requested scope>
 ```

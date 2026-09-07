@@ -15,37 +15,36 @@ Template (adapt sparingly; keep every section):
 **Updated:** <ISO date + what changed last>
 
 ## How to resume
-You are the fleet orchestrator (ship-fleet skill). Read this file top to bottom, reconcile
-the ledger below against reality (LEDGER.md, docs/specs/*, `git worktree list`, merged
-branches), correct drifted rows, then continue filling slots. Rules:
-- ≤ 8 concurrent runners; an item starts only when every "Depends on" ID has MERGED.
-- Runners are Opus agents that invoke the ship-feature skill and STOP BEFORE MERGE;
-  the orchestrator serializes all finalization (rebase → gate → merge → push per repo
-  convention → worktree cleanup) one branch at a time.
-- Serial-only shared writes: LEDGER.md (id allocation), this file (orchestrator is sole
-  writer), design-system shared files, integration-branch merges.
-- Context contract per agent: brief + spec + plan + root DESIGN md + docs/CODING_PRACTICES.md
-  + docs/NEW_PROJECT_BEST_PRACTICES.md + the item's deep-research docs READ IN FULL;
-  re-read brief/spec/plan/DESIGN after any compaction (external executors especially).
-- Coding lane: codex gpt-5.6-sol at medium effort (default; install + self-test its
-  post-compaction re-context hooks per codex-cli.md), else Cursor the executor lanes,
-  for mechanical plan-scoped edits only when it saves Opus tokens; Opus verifies and
-  fixes; fall back to Opus freely.
-- Review gates OUT OF FAMILY on codex gpt-5.6-sol at medium effort, read-only: the triage
-  spec review, the plan review gate, and work Phase D's completeness critic. Mandatory
-  where available and not opted out; exempt from the revert-rate kill-switch; an
-  in-family fallback is a LOGGED downgrade in the artifact and the ledger, never a
-  silent pass. Bound every call (perl alarm 600), verify 'reasoning effort: medium' in the
-  captured log, and treat an empty -o file as a lane failure rather than a pass.
-- EXTERNAL-CLI EGRESS + OPT-OUT: every codex call ships the artifact and every file it
-  opens to OpenAI ('-s read-only' restricts writes, NOT egress). This repo's setting:
-  <ON (default) | OPTED OUT via <file>>. Runners re-grep CLAUDE.md / AGENTS.md /
-  ORCHESTRATOR.md for 'ANTHROPIC-ONLY' | 'NO EXTERNAL MODEL CLIS' |
-  'external-model-clis: off' BEFORE EVERY codex call — it is the only kill-switch that
-  reaches an in-flight runner, since workflow-inner agents cannot be messaged. To turn
-  the lane off mid-fleet, add the marker here; the next call honours it.
-- codex lane availability at fleet start: <available | unavailable (reason) → in-family
-  fallback, checked at HH:MM — usage limits are transient, so let a runner re-probe>.
+You are the fleet orchestrator using ship-fleet:ship-fleet. Read this file,
+reconcile the ledger against LEDGER.md, docs/specs/*, worktrees and actual merged
+branches, then continue at the first incomplete item. Rules:
+- Concurrency: <resolved cap>, the minimum of the user's cap, tool limit,
+  five-runner policy and measured host capacity. Missing telemetry uses at most
+  two runners within that cap; measured zero means no launch and a saved wait state.
+- An item starts only when every "Depends on" ID has MERGED. Use
+  ship-feature:ship-feature for one feature; pass the identifier and arguments
+  separately. Runners stop before independent verification and before merge;
+  the orchestrator owns per-item verification and serializes finalization.
+- Serial-only shared writes: LEDGER.md allocation, this file, shared design tokens,
+  and integration-branch merges. Each runner owns one explicit file/worktree scope.
+- Model roles: <user-selected supported roles/IDs/efforts and authorized fallbacks>.
+  Normally GPT-6 coordinates, Opus 5 produces intake/triage/plan, and Gemini 3.8
+  implements after those artifacts land. A skill invocation does not switch models.
+- Routing references: <absolute shipyard model-lanes.md, executor-lanes.md and
+  relevant CLI-reference paths>. Read them rather than reconstructing a model list.
+- Stage handoff: objective, brief/spec/plan revisions, DESIGN/mock index, relevant
+  practices/research sources, allowed files, required outputs, checks and finish line.
+  Read prerequisite artifacts before acting; reread after compaction and reconcile WIP.
+- Independent review: choose a capable supported family different from the actual
+  artifact writer. Record real model/effort metadata where exposed, verdict and
+  findings disposition. Empty/partial results and unavailable identity remain visible.
+  An in-family fallback is degraded evidence, not a substitute for an independent gate.
+- Provider policy: <active directives and authorized providers, with source paths>.
+  Interpret current policy, including the scaffold's anchored opt-out and explicit
+  legacy directives. A marker quoted as an example is not an active restriction.
+- Lane availability: <per selected role: available | unavailable (reason), observed
+  at time, authorized fallback>. Refresh when state changes. Bound calls and waits;
+  preserve checkpoints rather than silently skipping a failed or timed-out item.
 
 ## Wave plan
 Wave 1 (no unmerged internal deps): <ID> <title>, <ID> <title>, …
@@ -55,7 +54,7 @@ Holding pen (external deps / needs input): <ID> — waiting on <what, whom>
 ## Ledger
 | ID | Title | Category | Depends on | Deep research | Mock | Lane | Worktree/branch | Status | Notes / outcome |
 |----|-------|----------|------------|---------------|------|------|-----------------|--------|-----------------|
-| MOT-0042 | … | ready-for-work | MOT-0038 | docs/deep-research/<file>.md | design/mocks/html/<file>.html | opus / composer+opus | .worktrees/MOT-0042 · ai/mot-0042 | queued → running → ready-to-merge → merged \| parked(<reason>) | … |
+| MOT-0042 | … | ready-for-work | MOT-0038 | docs/deep-research/<file>.md | design/mocks/html/<file>.html | <actual writer / reviewer> | .worktrees/MOT-0042 · ai/mot-0042 | queued → running → ready-to-merge → merged \| parked(<reason>) | … |
 
 ## Deferred children discovered mid-fleet
 | Child | Parent | Where it runs | Status |

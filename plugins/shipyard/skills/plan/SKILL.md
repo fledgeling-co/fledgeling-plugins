@@ -20,8 +20,7 @@ The plan is the pipeline's highest-leverage trusted-first-output artifact — ev
 amplifies it — so it carries its own gates.
 
 Substrate and statuses: `${CLAUDE_PLUGIN_ROOT}/references/tracker-adapter.md`. Lanes and effort:
-`${CLAUDE_PLUGIN_ROOT}/references/model-lanes.md` — readers at `low`, Trivial/Small synthesis may
-run mid-tier, Standard/Large synthesis and every gate stay on a frontier Claude at `high`.
+`${CLAUDE_PLUGIN_ROOT}/references/model-lanes.md` — normally Opus 5 synthesizes the plan; honor the user's role choice and use currently supported effort settings. Delegate sizeable independent reads only. Independent gates choose a capable family different from the plan writer.
 
 **Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns 'every user flow, action, and menu' into a counted table because two of those three nouns came back zero on a measured run, reads the tier's line budget back off the written plan with wc -l, makes each gate paste its command and its output, and requires the repo's own audit emit surfaces to be grepped rather than recalled from this file's Diolog examples. Other models skip it.
 
@@ -91,9 +90,7 @@ run mid-tier, Standard/Large synthesis and every gate stay on a frontier Claude 
    - **Mechanical path check**: every backtick-quoted path in the plan exists (`ls` /
      `git ls-files`), exempting only paths marked *to be created*. A missing path means the plan
      was grounded in assumption — re-investigate.
-   - **Out-of-family review**: the ordered lanes in
-     `${CLAUDE_PLUGIN_ROOT}/references/second-opinion-lanes.md` (codex `gpt-5.6-sol` `medium` first,
-     then agy, then grok), read-only, per the R1 contract in
+   - **Out-of-family review**: select a capable supported reviewer outside the actual plan writer's family under `model-lanes.md` and `${CLAUDE_PLUGIN_ROOT}/references/second-opinion-lanes.md`, read-only, per the R1 contract in
      `${CLAUDE_PLUGIN_ROOT}/references/codex-cli.md`: are the ACs testable and complete against
      every clause and assumption? Was anything dropped or silently shrunk? Is every referenced
      analogue real (it opens the files)? Does the ordering close? Does a replacement path carry

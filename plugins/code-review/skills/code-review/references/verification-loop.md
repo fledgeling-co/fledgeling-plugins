@@ -228,11 +228,13 @@ spends agent budget for zero report impact, and the rule is deterministic — tw
 
 ## Verifier model and fan
 
-Pass `model: "sonnet"` on every verifier call. The work is bounded: read one file, grep one or two
-symbols, apply the gates, return JSON. The failure mode at this stage is a missing grep, not
-shallow reasoning. Omitting the parameter silently inherits the orchestrator's model and overspends
-with no error. If you find yourself arguing that a case is subtle enough to need a larger verifier,
-surface it as `PLAUSIBLE` with the confirming step named instead.
+Resolve the verifier against the runtime's advertised model selectors and the task's
+explicit model preference. `sonnet` is a compatibility choice only in a Claude harness
+that advertises that alias. For another harness, use a supported selector or inherit
+its configured model and record that choice. The task is bounded: inspect the named
+candidate, relevant file/call sites and controls map, then return the verdict and
+evidence. Keep `PLAUSIBLE` for a runtime condition the evidence cannot settle; a
+second generic review of unchanged evidence does not resolve it.
 
 Run verifiers in waves of 5 to 8 concurrent `Agent` calls, appending each wave's replies to
 `verifications.jsonl` before launching the next. Keep the fan small on purpose: one measured run

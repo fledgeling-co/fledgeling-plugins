@@ -1,5 +1,7 @@
 # mac-craft, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this in one pass before § Knowledge sources, then run the skill as written. Each override names the section of `SKILL.md` it lands on. **[docs]** Under
 **Conflicting internal references**, Google asks you to avoid a prompt whose logic requires the model to "piece together fragmented instructions from multiple
 different places in the prompt" — which is what a conditional side-file is, so this one is short.
@@ -32,8 +34,8 @@ half — the audit rows, the native-tells score — gets no row, because the cor
 | Tier | Used here | Source |
 |---|---|---|
 | `[docs]` | yes, throughout | Google's published Gemini 3 guidance, quoted verbatim |
-| `[measured-family]` | yes — **n=1** plus a 106-task rate | `Egress Gemini`, 2026-08-17, a Gemini run on a two-platform Mac/Windows mock invoking this skill's **predecessor** (`mac-design-studio`); and `geminify/references/evidence.md` §2 |
-| `[measured-here]` | no | no Gemini run of `mac-craft` as it stands has been recorded |
+| `[measured-family]` | yes — **n=1** plus a 106-task rate | `Egress Gemini`, 2026-08-17, a Gemini run on a two-platform Mac/Windows mock invoking this skill's **predecessor** (`mac-design-studio:mac-design-studio`); and `geminify/references/evidence.md` §2 |
+| `[measured-here]` | no | no Gemini run of `mac-craft:mac-craft` as it stands has been recorded |
 | `[derived]` | yes | reasoning from the two above, plus reading `scripts/mock_check.py` |
 
 Every measured rate here is flash-tier and none may be projected onto Pro, whose defaults differ: **[docs]** "If thinking_level is not specified, Gemini 3 will
@@ -50,7 +52,7 @@ the Space-Grotesk default-gravity rule — never run here; and the direction cat
 
 - **The retry ceiling** — `model-calibration.md:92-98` already says two attempts, one for a `command not found`, never re-pitch a refusal. **[docs]** matching
   "change your strategy or arguments, not repeat the same failed call." `SKILL.md:352-354` and the icons handoff at `SKILL.md:364-366` are that rule as a delivery
-  decision: an absent `create-mac-icon` is a stated stop, not a fallback pipeline. A `Read` refused for a token ceiling on `kit-macos-27.md` pivots to line-ranged
+  decision: an absent `create-mac-icon:create-mac-icon` is a stated stop, not a fallback pipeline. A `Read` refused for a token ceiling on `kit-macos-27.md` pivots to line-ranged
   reads on attempt **1**.
 - **The two quick exits** — `SKILL.md:14-17`: a bare `settings` or `onboarding` `is a brief: design it`. **[docs]** the agentic risk rule agrees: "Prefer calling
   the tool with the available information over asking the user".
@@ -103,10 +105,10 @@ focused and unfocused selection two drawn states, not one dimmed. Report the fra
 opened` — and an `n/a` carries its reason or it is an open cell.
 
 **Run step 5 as passes with a file between them.** **[docs]** Under **Too many tasks**, "Break the requests into separate prompts", the remedy being to "make each
-step a prompt and chain the prompts together in a sequence." The scan flagged no qualitative skill references, but `SKILL.md:76` phrases `ux-craft` as `a standing
+step a prompt and chain the prompts together in a sequence." The scan flagged no qualitative skill references, but `SKILL.md:76` phrases `ux-craft:ux-craft` as `a standing
 dependency, not a conditional one` — the shape that went unexecuted on the one measured run carrying it (`geminify/references/evidence.md` §1.2.1), because
 nothing downstream needed a file only that skill produces. So: direction and content-area ideation → `<app-slug>-spec.md`; structure and metrics → state matrix
-and token table appended to it with `ux-craft`'s trunk-test result; build → the mock written **from that file**; gate and render → counters and captures appended;
+and token table appended to it with `ux-craft:ux-craft`'s trunk-test result; build → the mock written **from that file**; gate and render → counters and captures appended;
 audits → eight rows each citing a counter already in it. A phase that produced no file did not run.
 
 ## Override 2 — the bound ledger, for the limits the gate never reads back
@@ -220,7 +222,7 @@ type fidelity unverifiable here.
 
 **[measured-family]** `geminify/references/evidence.md` §1.2.4 — asked a question naming three skills, a run answered from memory without loading any of them.
 mac-craft names files constantly: `TASTE.md`, one cluster profile, the `patterns/` entries for the surfaces being drawn, `references/content-area-ideation.md` at
-`SKILL.md:121-123`, and `ux-craft`'s own `flows-and-forms.md` at the path `SKILL.md:76` gives. Read, then answer; say which files you opened.
+`SKILL.md:121-123`, and `ux-craft:ux-craft`'s own `flows-and-forms.md` at the path `SKILL.md:76` gives. Read, then answer; say which files you opened.
 
 **[docs]** For the fork itself, Google's iteration guidance is to reframe as multiple choice when a model answers correctly but "didn't stay within the bounds of
 the options", and the agentic template adds why the runner-up survives: "Avoid premature conclusions: There may be multiple relevant options for a given

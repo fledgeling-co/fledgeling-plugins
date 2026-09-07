@@ -78,7 +78,7 @@ Three consequences for the markup:
 - **Nothing in a divided row may clip.** A row that runs out of width wraps or
   stacks; it never cuts a cell's final words.
 
-`design-review`'s `probeDividerProximity` measures the rendered ink and is the
+`design-review:design-review`'s `probeDividerProximity` measures the rendered ink and is the
 real gate; `scripts/audit_report.py` catches the cheap source-level form — a
 rule declared with no gutter on that side at all. Run against an
 already-published page in this portfolio, the ink measurement returned **twenty

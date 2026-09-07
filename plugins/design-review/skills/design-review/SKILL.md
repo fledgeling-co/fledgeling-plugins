@@ -25,7 +25,7 @@ So three things are now mechanical rather than remembered. **Capability is measu
 
 The names for these states are not invented here. W3C's ACT Rules Format defines `passed`, `failed`, `cantTell`, `untested` and `inapplicable`, and `cantTell` is the one a two-state gate destroys; axe-core ships it as `incomplete`. Counting axe's incompletes as violations on a 285-homepage scan moved the reported failure rate to 97.9% — that gap is the size of the population a boolean gate absorbs in silence. See `references/evidence.md`.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then run the pipeline with the overrides it names. Most of this skill's defences are already mechanical — a ledger on disk, an exit code, a denominator beside every count — and on that family none of them are optional: `scripts/worklist.py check` becomes the verdict rather than a scaffold, and every number carries the command that produced it. It also documents the canonical fabricated review, engine and all, as the thing that fills the gap when the report's shape is known and the procedure is not. Other models skip it.
+**Using Gemini?** Read `gemini.md` for this skill's task-specific calibration and artifact checks. Its older runs do not establish Gemini 3.8 capability limits: preserve the user's selected implementation lane, and apply a model-specific route only when the current model or an observed failure supports it.
 
 ## Scope
 

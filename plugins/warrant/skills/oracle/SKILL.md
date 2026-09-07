@@ -46,7 +46,7 @@ the arithmetic.
    ```
 
    The gate exits 2 naming every unsourced figure and writes `.warrant/oracle-coverage.json` with
-   per-surface coverage. That coverage number is what `ratchet` reads to decide tier 1.
+   per-surface coverage. That coverage number is what `warrant:ratchet` reads to decide tier 1.
 
 3. **Tick and tie.**
 
@@ -74,7 +74,7 @@ the arithmetic.
    ```
 
    `lineage_gate.py` measures a surface; authority is held per defect class. This maps one onto the
-   other through the class-to-surface globs in the warrant, and `ratchet` reads the result. A class
+   other through the class-to-surface globs in the warrant, and `warrant:ratchet` reads the result. A class
    no surface matched comes out not-green rather than absent, because no evidence is a different
    answer from a pass.
 

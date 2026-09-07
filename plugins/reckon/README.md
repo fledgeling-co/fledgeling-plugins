@@ -11,7 +11,7 @@
 ```
 
 Then: *"what's left on this project?"*, *"reckon the backlog against the last
-test campaign"*, or `/reckon`.
+test campaign"*, or `/reckon:reckon`.
 
 ---
 
@@ -108,7 +108,7 @@ mechanical pass and stops where judgement starts.
 
 A remaining-work list is not a plan until you know what can happen at the same
 time and roughly how long it takes. So the ledger becomes a wave schedule, using
-the same model as `ship-fleet`: nodes are work items, edges are dependencies, and
+the same model as `ship-fleet:ship-fleet`: nodes are work items, edges are dependencies, and
 a wave is everything whose dependencies all sit in earlier waves.
 
 | Wave | Items | Slots | Range | Serial | Bounded by |
@@ -197,7 +197,7 @@ from a gate that cannot.
 
 It reconciles documents against evidence. It does not read your code to decide
 whether something works, and it says so rather than guessing: where the
-documents and the registry disagree, it routes to `spec-validation`, which
+documents and the registry disagree, it routes to `spec-validation:spec-validation`, which
 traces a claim to the code that produces its data. Identifier greps may only
 ever *demote* a claim or route it, never promote something to done.
 

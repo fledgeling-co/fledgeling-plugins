@@ -28,10 +28,17 @@ is the canonical copy; the `diolog-plugins` mirror is left alone, per geminify's
   writing a prompt with non-linear logic or conditionals that require the model to piece together fragmented instructions
   from multiple different places in the prompt." Read it in one pass, up front, never mid-phase.
 
-## Route out before you start: two shapes, two rows
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 The pipeline's own hands touch code in three places — phase 6's `fix the branch code minimally`, phase 8's rebase conflict
-resolution, and phase 4b re-running `work` on a small remainder. Both shapes below are measured far enough behind to hand
+resolution, and phase 4b re-running `shipyard:work` on a small remainder. Both shapes below are measured far enough behind to hand
 out rather than attempt, and the skill already owns the mechanism: its lane table routes executor slices through `defer
 --task implementation --shape <shape>`; what this adds is that the conductor's *own* edits go the same way.
 **[measured-family]** Only those two — four of eight buckets are level or ahead (§2.1), so routing it all out would be
@@ -145,7 +152,7 @@ the runner's number; never total tests in prose.
 The scan's `0 qualitative skill references` is what makes this necessary, not unnecessary. **[measured-family]** §1.2.1
 (n=1): a skill instructed that every design decision `goes through` two named skills, and the run invoked neither — its
 own diagnosis being that the rules were already in context and nothing downstream depended on a file only those skills
-produce. `ship-feature` creates that condition **by design**: `Its SKILL.md loads into your context, you execute it`. A
+produce. The stage handoff creates that condition unless the next runner reads the required artifacts; a skill invocation alone does not switch models. A
 conductor that has read `shipyard:plan`'s rules can write a plausible plan inline, and the pipeline looks like it ran.
 Corroborated outside this repo (§7.2): Antigravity subagents ignoring instructed skills, and a Gemini 3 **Pro** transcript
 reclassifying a `GEMINI.md` rule as guidance — so it binds on every tier.

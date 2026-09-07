@@ -138,7 +138,7 @@ whose results are on disk.
 `normalisedOpts` covers `schema, model, effort, isolation, agentType, disallowedTools,
 bashCommandClamp` with keys sorted. `label` and `phase` do not affect the key, so agents can
 be relabelled or regrouped freely. (Two more keys than the seven-month-old note in
-`workflow-resume`'s own mechanics doc, which lists five.)
+`workflow-resume:workflow-resume`'s own mechanics doc, which lists five.)
 
 Only non-null results are journaled, so a failed agent is never poisoned into the cache.
 

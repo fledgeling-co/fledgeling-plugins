@@ -96,7 +96,7 @@ You mostly do not. Every project's `CLAUDE.md` points here, so Claude reaches fo
 would otherwise write you a status update. To ask directly:
 
 ```
-/status-update
+/status-update:status-update
 ```
 
 or just say *where are we*, *what's left*, *how did that go*, or *update the dashboard*.
@@ -130,9 +130,9 @@ reconstructs it, naming anything it had to skip.
 ## What it will not do
 
 - **It does not touch `ARMADA.md`.** That manifest is prose for orchestrators to plan from;
-  these pages are numbers for a person to read. `armada-sync` owns the first, this owns the
+  these pages are numbers for a person to read. `armada-sync:armada-sync` owns the first, this owns the
   second, and you generally want both after a substantial piece of work.
-- **It does not plan.** `ship-armada` and `ship-fleet` decide what happens next; this reports
+- **It does not plan.** `ship-armada:ship-armada` and `ship-fleet:ship-fleet` decide what happens next; this reports
   what happened.
 - **It does not run your checks.** It records what they reported. If a check has not run this
   session, the page says *nobody checked this* rather than quietly showing green.

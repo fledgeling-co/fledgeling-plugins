@@ -18,7 +18,7 @@ Two things to hand them that they cannot derive:
 
 - **The brand.** If the project has a `DESIGN.md` (or `design.md`, or a token
   file, or a brand guideline), read it and build to it — that is the whole point
-  of the file existing. Where none exists, author one. `design-craft` carries
+  of the file existing. Where none exists, author one. `design-craft:design-craft` carries
   `design-system-author.md` for exactly this, and the authored system is written
   to `docs/positioning/DESIGN.md` so the next run and the next artifact use the
   same one rather than inventing a second.
@@ -47,14 +47,14 @@ these sections in this order:
 ## Motion, 3D and imagery — each with a reason to exist
 
 **GSAP** for the scroll-driven passages: the shortlist comparison that pins
-while the four axes swap, the value-curve that draws as it enters. Load it per design-craft's own
+while the four axes swap, the value-curve that draws as it enters. Load it per design-craft:design-craft's own
 `gsap-motion` reference — pinned CDN with SRI for a served
 or local page, inlined source for a published Artifact, because an Artifact's
 CSP blocks every external origin silently and the page ships motionless with
 nothing in the console to say so. Entrance motion is `gsap.from`, never
 `gsap.to`. `prefers-reduced-motion` gets a real static layout, not a fast one.
 
-**Three.js** only at rung 6 of `design-craft`'s depth ladder — when the 3D
+**Three.js** only at rung 6 of `design-craft:design-craft`'s depth ladder — when the 3D
 object *is* the content and rungs 1–5 cannot fake it. On a positioning report
 there is exactly one honest candidate: the **strategy canvas as a dimensional
 surface**, where the competing value curves are read against each other and the
@@ -92,7 +92,7 @@ better spent elsewhere. Say which happened.
 
 ## Look at it
 
-Serve the page, open it, read the render. `design-craft`'s rule is the one that
+Serve the page, open it, read the render. `design-craft:design-craft`'s rule is the one that
 matters here: rendering an image is not seeing one — a screenshot enters your
 knowledge only when you open it. Ask each capture "what is wrong with this?"
 rather than "is this done?", because the same pixels answer those two questions

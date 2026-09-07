@@ -6,15 +6,15 @@ description: >-
   review comment, written document, SKILL.md and instruction file, subagent brief — then drafts
   or revises against evidence-anchored rules and a deterministic lint that hard-fails closing
   flourishes, self-congratulation, preamble openers, unmeasurable qualifiers, uncounted
-  categorical scope, pressure language and verification scaffolding. Human-read and agent-read
-  text fail in opposite directions, so the gate differs by register, and the same rule is
-  phrased per model family because Claude runs long while Gemini runs terse. Use whenever
+  categorical scope, pressure language and redundant self-check reminders. Human-read and agent-read
+  text fail in different ways, so the gate differs by register. Model-specific adjustments
+  state the documented model/version and keep historical measurements distinct from current behavior. Use whenever
   someone wants agent output to read better — "why are your answers so long", "make this reply
   shorter", "write the commit message", "tighten this report", "review this SKILL.md", "this
   prompt is too vague", "rewrite this brief for Gemini", "lint this doc" — and before writing
   any instruction file another model will execute. Not for content written in a person's voice
   (use that person's content skill) and not for building a human voice persona from writing
-  samples (use create-voice-persona).
+  samples (use create-voice-persona:create-voice-persona).
 ---
 
 # Agent Voice
@@ -28,13 +28,13 @@ ambiguity: an unmeasurable qualifier, an uncounted scope, a verification instruc
 runner did not need. Both are voice; the gate differs, so route before you draft.
 
 **Length is a rule here, not a disposition.** Effort controls how much a model thinks, not how
-much it says, and sampling parameters are rejected on current models. Prose is the only lever,
+much it says. Sampling controls vary by model and are not a substitute for an output contract,
 so every register states a target in countable units. And the one measured trap: a
 response-compression style on a 106-task agentic benchmark cut cost 33.5% and score 7.61
 points, with **78% of the saving coming from the agent taking fewer steps**. This skill changes
 how much you write, never how much you do.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. Turns this skill's own run into cells: the routing decision and the two file loads written down where a skipped load shows, a quota ledger over the scopes the regex cannot see (rules tested, cuts reported, pieces produced), and a bound ledger read back off the lint's info and warn lines, because every length target here warns rather than failing and the run still exits 0. Other models skip it.
+**Using Gemini?** Read `gemini.md` for this skill's task-specific calibration and artifact checks. Its older runs do not establish Gemini 3.8 capability limits: preserve the user's selected implementation lane, and apply a model-specific route only when the current model or an observed failure supports it.
 
 ## Step 1 — Route to the register
 
@@ -63,7 +63,7 @@ Routing rules:
   rather than the agent, that person's content skill governs and this one does not apply.
 
 Also load `references/dialects.md` when the piece will run on, or be read by, a model that is
-not the one you are running. It carries the per-family dials and the one rule that inverts.
+not the one you are running. It carries model-specific calibration and the shared acceptance-evidence contract.
 
 ## Step 2 — Establish what the piece actually contains
 
@@ -90,9 +90,7 @@ on top. Two things worth holding while you write:
 - **Prose by default.** Headings, bullets and bold earn their place on a comparison, an ordered
   procedure, or real tabular data. Three bullets that are three sentences are three sentences.
 
-For a long document, re-read the register's rules before each major section rather than once at
-the start; adherence decays over long generations, and the drift shows up as evenly-sized
-sentences and `-tion`/`-ment` abstractions.
+For a long document, keep the selected register and output contract in view. Reopen its guidance when the task changes or a concrete style drift appears; routine rereading before every section is unnecessary.
 
 ## Step 4 — Revising rather than drafting
 

@@ -8,9 +8,9 @@ that moves when you change something, a question that makes you commit a guess b
 shows you the answer, and a plain statement of where its own comparison stops being true.
 
 ```
-/eli5 how Raft consensus works
-/eli5 what happens when I type a URL and press enter
-/eli5 why Diffie-Hellman lets two people agree on a secret in public
+/eli5:eli5 how Raft consensus works
+/eli5:eli5 what happens when I type a URL and press enter
+/eli5:eli5 why Diffie-Hellman lets two people agree on a secret in public
 ```
 
 It writes a single self-contained HTML file. Nothing loads from the internet, so it works
@@ -99,7 +99,7 @@ this version lost and why, is in [EVALS.md](EVALS.md).
 /plugin install eli5@fledgeling-plugins
 ```
 
-Then `/eli5 <anything>`.
+Then `/eli5:eli5 <anything>`.
 
 Libraries fetch themselves on first use into `~/.cache/eli5-vendor`, pinned and checksummed,
 and get inlined into the page — so the finished file still works offline and nothing loads

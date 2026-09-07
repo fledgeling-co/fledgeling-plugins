@@ -118,7 +118,7 @@ Do not delegate; spawn no subagents.
 
 Give the drafter no instruction to plan, reason, outline or explain (evidence entry E7). The
 pack's task already carries the word band, the person and tense, the open threads, the
-last image, and the paragraph rule. Use the `opus` model for the drafter.
+last image, and the paragraph rule. Use the user's selected drafting model or the harness's configured default; resolve any explicit model name from the available runtime catalog. Keep the drafter's isolated context and the critic's fresh reading regardless of model family.
 
 ### 4. Gate, critique, close
 

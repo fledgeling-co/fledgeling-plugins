@@ -19,7 +19,7 @@ promise in your headline that your product can't keep today.
 /plugin install positioning@fledgeling-plugins
 ```
 
-Then: `/positioning` with a product to position.
+Then: `/positioning:positioning` with a product to position.
 
 ## What's different from the skill it replaces
 
@@ -101,7 +101,7 @@ first, the live site second, the plans third, the founder's ambition fourth.
 Every capability lands as `shipped`, `designed` or `aspirational`, with the file
 or URL that proves it.
 
-**Phase 1 generates candidates before the research runs**, using `/trawl` with
+**Phase 1 generates candidates before the research runs**, using `/trawl:trawl` with
 five positioning-shaped personas: the founder who repeats the pitch forty times
 a week, the buyer with no budget line for your category, your strongest
 competitor's head of product briefed to take your position first, a mechanism
@@ -112,12 +112,12 @@ your repo, would the answer change the decision, is the free lane enough, and
 only then is a paid panel worth it. If it commissions one, it tells you the
 worst-case cost before spending it.
 
-**Phase 5 builds the decision page** through `/design-craft` and `/ux-craft`,
+**Phase 5 builds the decision page** through `/design-craft:design-craft` and `/ux-craft:ux-craft`,
 using your project's `DESIGN.md` if you have one and writing you one if you
 don't. GSAP where scrolling actually carries the argument. Three.js only where a
 strategy canvas genuinely needs a real volume, and it says so when it didn't.
 Diagrams are mermaid, never generated images, because an image of a chart is a
-chart nobody can fix. Then `/design-review` runs on the rendered page before it
+chart nobody can fix. Then `/design-review:design-review` runs on the rendered page before it
 reaches you.
 
 ## The two commands that make the honesty real
@@ -177,7 +177,7 @@ didn't win.
 
 ## Credit
 
-`positioning-pipeline` by **DiologIR** is the predecessor. Its distillation of
+`positioning-pipeline:positioning-pipeline` by **DiologIR** is the predecessor. Its distillation of
 Ries & Trout, April Dunford, Blue Ocean and David C. Baker, its territory
 template, and its product-research persona are carried forward here largely
 intact. The research behind this rebuild is committed in

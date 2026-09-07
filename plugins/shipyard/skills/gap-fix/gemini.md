@@ -11,7 +11,14 @@ not a skill with nothing to bound. It is a skill whose every bound is written as
 just the symbol`, `no stubs`, `never push` — and a prohibition is the exact form **[measured-family]** Gemini reads as taste.
 Override 2 moves them into a ledger by hand.
 
-## Route out before Phase B: this stage's work is the corpus's worst-measured shape
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 **[measured-family]** Across 106 benchmark tasks (`geminify/references/evidence.md` §2.1), `gemini-3.7-flash` scores **16.1**
 against `claude-opus-5`'s 46.4 on brownfield edits to an existing multi-file repo, with a hard zero on **79%** of decided rows,
@@ -42,14 +49,11 @@ round is what catches it.
 
 Naming these matters: effort spent re-hardening a working rule is effort not spent on the audit.
 
-- **The loop's exit is already a number** — `two consecutive fresh audits … surface no new confirmed Critical/High/Medium`, and
-  `One quiet pass is a shallow fixpoint, not a dry one` (SKILL.md:74–75). **[docs]** the **Ambiguity** entry prescribes
-  *"objective constraints"* over *"subjective or relative qualifiers that lack a concrete, measurable definition"*; two-dry is
-  one, and audit-until-quiet would not be.
+- **The loop closes requirement rows with evidence.** Rerun the affected checks after each fix; another full audit needs a new failure, newly affected surface or named unresolved risk. Do not restore the former two-quiet-pass rule from this sidecar.
 - **The round cap is crash-safe by construction** — `Post the round marker before working` and derive the count by reading the
   markers back (SKILL.md:42). A counter that survives a dead session is worth more here than anywhere, because Override 4 makes
   the run longer.
-- **`Two failed verify-fix cycles on a task → take it back to Claude`** (`executor-lanes.md`) is C3's retry ceiling already
+- **`Two failed verify-fix cycles on a task → use the authorized capable fallback`** (`executor-lanes.md`) is C3's retry ceiling already
   written down. **[docs]** *"On *other* errors, you must change your strategy or arguments, not repeat the same failed call."*
 - **The status contract** — `Gap-fix never sets Done; the stranger does` (SKILL.md:85), and `Developer Review` requires the
   evidence-typed record. A stage that cannot grade itself is the strongest available guard against Override 3's failure.
@@ -178,22 +182,22 @@ decision goes through `design-craft` with `ux-craft`'s lens* and **neither** ski
 naming the mechanism — nothing downstream depended on a file only those skills produce.
 
 `scan_skill.py` flagged **0** qualitative skill references here, and the phrasing is imperative rather than lens-shaped.
-**[derived]** The exposure is the same anyway, because no Phase A output is a file Phase B has to open:
+**[derived]** Persist the Phase A result that Phase B must read. A single audit file with six dimension sections suffices; reuse current evidence for unchanged rows rather than generating six new passes:
 
 ```
-A1 completeness  → audit/<id>-r<N>-completeness.md   (requirement → file:line → status)
-A2 correctness   → audit/<id>-r<N>-correctness.md    (miss classes 1-11, each exercised or n/a)
-A3 guardrails    → audit/<id>-r<N>-guardrails.md     (read the repo's own CLAUDE.md first)
-A4 ui-fidelity   → audit/<id>-r<N>-ui.md             (against the mock index, measured not read)
-A5 security      → audit/<id>-r<N>-security.md       (strongest model, never delegated)
-A6 surgical      → audit/<id>-r<N>-surgical.md       (diff scope vs the gap list)
+A1 completeness  → audit/<id>-r<N>.md#completeness   (requirement → file:line → status)
+A2 correctness   → audit/<id>-r<N>.md#correctness    (miss classes 1-11, each exercised or n/a)
+A3 guardrails    → audit/<id>-r<N>.md#guardrails     (read the repo's own CLAUDE.md first)
+A4 ui-fidelity   → audit/<id>-r<N>.md#ui             (against the mock index, measured not read)
+A5 security      → audit/<id>-r<N>.md#security       (strongest model, never delegated)
+A6 surgical      → audit/<id>-r<N>.md#surgical       (diff scope vs the gap list)
 A7 critic        → reads A1-A6, writes audit/<id>-r<N>-critic.md
-B                → reads the six + the critic; a missing or empty file blocks the phase
+B                → reads the relevant rows + critic; required missing evidence stays open
 ```
 
 **[docs]** Their existence is also what makes the loop's exit checkable: *"When model outputs must be machine-readable or
 follow a specific format, use a widely recognized standard like JSON, XML, Markdown or YAML that can be parsed by common
-libraries"* — so `two consecutive dry audits` is a diff of two rounds' files, not a recollection.
+libraries"* — record closed and unresolved requirement rows from the current evidence; a new audit needs a named reason.
 
 ## Override 5 — read the inputs, then answer, and read them at absolute paths
 
@@ -225,7 +229,7 @@ it, rather than describing the format:
 
 ## `thinking_level`
 
-**[docs]** A six-dimension audit, a merge of three gap sources, a fix pass and a two-dry loop is what Google describes `HIGH` as
+**[docs]** A six-dimension audit, a merge of three gap sources, a fix pass and evidence follow-up is what Google describes `HIGH` as
 being for — *"multi-step planning, verified code generation"* — and Gemini 3.7 Flash defaults to `MEDIUM`. Leave sampling
 parameters alone: *"we strongly recommend keeping them at their default values for Gemini 3.x models."*
 

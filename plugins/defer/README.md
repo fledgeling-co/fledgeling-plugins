@@ -5,11 +5,18 @@
 <h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> defer</h1>
 Handing work to another model is three decisions, and skills that make them
 inline get them subtly wrong: **which model**, **at what effort**, and **how you
-know it really ran**. `defer` holds all three in one place, so every skill routes
+know it really ran**. `defer:defer` holds all three in one place, so every skill routes
 the same way and changing the policy is one edit rather than fourteen.
 
-The routing rule is not "use the best model". It is: the work class decides the
-family, and measured plan headroom decides which lane inside it.
+Current role preferences resolve first. Within the compatibility registry, work
+class controls eligibility and measured plan headroom chooses among comparable lanes.
+
+Current roles resolve before the compatibility registry: Opus 5 for intake,
+triage and plan; Gemini 3.8 for implementation after those artifacts; GPT-6 for
+orchestration. [Runtime preference resolution](skills/defer/references/runtime-preferences.md)
+discovers the exact supported selector and captures the execution receipt. The
+bundled lane scripts retain their older calibrated IDs; invoking those scripts
+directly does not automatically migrate a model.
 
 ## Install
 
@@ -35,9 +42,10 @@ verify   relay-ledger (see references/wire-verify.md)
 `--json` returns the same answer with argv and env ready to spawn. `--report`
 prints every lane's meter without choosing, and `--matrix` prints the measured
 capability table without choosing either. `lane_run.sh <task> "<prompt>"` does
-the whole thing: picks, runs, checks the receipt, falls through to the next lane
-in the class if the first produces nothing, and appends what it cost to
-`~/.claude/defer-usage.jsonl`.
+the compatibility dispatch: picks, runs, falls through if output is empty, and
+records available usage in `~/.claude/defer-usage.jsonl`. It does not validate the
+serving-model receipt; apply `references/wire-verify.md` before claiming the
+model or independence of the result.
 
 ## The matrix
 
@@ -167,6 +175,8 @@ system is a plausible answer from the wrong model.
 | `fable` | claude-fable-5 | anthropic | 60.00 | Relay ledger |
 
 ```bash
+
+
 # gemini — --output-format json is the only place a token count for this lane
 # exists anywhere; agy records no model id, no tokens and no cost on disk.
 agy --model gemini-3.7-flash-high --output-format json -p "<prompt>"
@@ -238,7 +248,7 @@ zero it did not earn.
 | `skills/defer/references/wire-verify.md` | how to prove each lane ran as routed |
 | `skills/defer/scripts/lane_registry.py` | the machine-readable policy — models, efforts, argv, prices |
 | `skills/defer/scripts/lane_pick.py` | the meters, the ranking, `--report` and `--calibrate` |
-| `skills/defer/scripts/lane_run.sh` | pick, run, verify, record — what a skill should call |
+| `skills/defer/scripts/lane_run.sh` | compatibility pick, run and usage record; serving-model verification is separate |
 | `skills/defer/scripts/lane_probe.sh` | cheap liveness probe per lane |
 | `skills/defer/scripts/selftest.sh` | 13 policy invariants, runs no model, costs nothing |
 

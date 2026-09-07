@@ -1,7 +1,7 @@
 ---
 name: tailings
 description: >-
-  Verify and clean up after a finished agent session — a Gemini or other cheaper-model run — without re-doing its work. Reads the session's own transcript against the repository it changed, and lands every claim the session made in exactly one of eight classes with an exit code that blocks a report which lost an item. Built from a forensic audit of 18 Gemini-driven sessions across 13 repositories, 148 adversarially-refuted findings, against a 37-session Claude control: the work those sessions produced was usually real and the account of it was what failed, with a named gate not run, a cheaper measurement substituted, a verification claimed with no tool result behind it, and a directive silently dropped making up 106 of the 148. So the pass aims at the account. Sixteen transcript probes and seven repository probes run first and cost nothing — a gate that went red and turned green through an edit to its own input, an "out-of-family" reviewer that resolved to the running model's own family, a figure in a durable artifact that no tool ever printed, a captured screenshot filed under a name it is not a picture of, a fan-out skill that spawned nothing — and their output is a ranked worklist that tells an expensive reader where to point. Use whenever a Gemini or delegated session has just finished and someone asks whether to trust it: "check what Gemini did", "verify this session's work", "did it actually run the gates", "audit this transcript", "clean up after that run", "/tailings". Also use before merging work a cheaper model produced, and when a session reports everything complete and something feels wrong. NOT for grading code quality or architecture (code-review), NOT for reconciling a project's remaining work (reckon), NOT for counting a tracker board against a codebase (stocktake), and NOT for building the verification a project never had (test-campaign).
+  Verify and clean up after a finished agent session — a Gemini or other cheaper-model run — without re-doing its work. Reads the session's own transcript against the repository it changed, and lands every claim the session made in exactly one of eight classes with an exit code that blocks a report which lost an item. Built from a forensic audit of 18 Gemini-driven sessions across 13 repositories, 148 adversarially-refuted findings, against a 37-session Claude control: the work those sessions produced was usually real and the account of it was what failed, with a named gate not run, a cheaper measurement substituted, a verification claimed with no tool result behind it, and a directive silently dropped making up 106 of the 148. So the pass aims at the account. Sixteen transcript probes and seven repository probes run first and cost nothing — a gate that went red and turned green through an edit to its own input, an "out-of-family" reviewer that resolved to the running model's own family, a figure in a durable artifact that no tool ever printed, a captured screenshot filed under a name it is not a picture of, a fan-out skill that spawned nothing — and their output is a ranked worklist that tells an expensive reader where to point. Use whenever a Gemini or delegated session has just finished and someone asks whether to trust it: "check what Gemini did", "verify this session's work", "did it actually run the gates", "audit this transcript", "clean up after that run", "/tailings:tailings". Also use before merging work a cheaper model produced, and when a session reports everything complete and something feels wrong. NOT for grading code quality or architecture (code-review:code-review), NOT for reconciling a project's remaining work (reckon:reckon), NOT for counting a tracker board against a codebase (stocktake:stocktake), and NOT for building the verification a project never had (test-campaign:test-campaign).
 ---
 
 # tailings
@@ -29,14 +29,14 @@ file before Phase 2 rather than after.
 
 ## What this is not
 
-- **Not `code-review`.** Style, architecture and code quality are its subject.
+- **Not `code-review:code-review`.** Style, architecture and code quality are its subject.
   Mixing them produces a report whose reader cannot tell a fabricated verification
   from a naming preference, and the fabrication is what gets skimmed past.
-- **Not `reckon`.** That reconciles what a project promised against what anybody
+- **Not `reckon:reckon`.** That reconciles what a project promised against what anybody
   proved. This reconciles what one session *said* against what it *did*.
-- **Not `stocktake`.** That counts a tracker board against a codebase and never
+- **Not `stocktake:stocktake`.** That counts a tracker board against a codebase and never
   opens a session log. Where the work is a board sweep, hand the cards to it.
-- **Not `test-campaign`.** Building the verification a project never had is a
+- **Not `test-campaign:test-campaign`.** Building the verification a project never had is a
   different and larger job.
 
 ## Phase 1 — Run the deterministic layer
@@ -130,7 +130,7 @@ python3 $S/slice.py <session.jsonl> --from 4400 --to 4470 --result-chars 4000
 
 Every assertion lands in exactly one class. The classes cover the universe, so
 "nothing to report" and "I did not look" stay distinguishable — the discipline is
-`reckon`'s and the exit codes are modelled on it.
+`reckon:reckon`'s and the exit codes are modelled on it.
 
 | Class | Means | Remedy |
 |---|---|---|
@@ -183,7 +183,7 @@ Correcting `0 unmeasured` to `271 unmeasured` in a delivery note transcribes a
 number the deterministic layer read out of the session's own gate output. Wiring an
 inert button writes code whose correctness nothing here has measured — and having
 written it, the pass would have to verify its own edit, which doubles the budget
-and destroys the independence of the verdict. `stocktake` states the principle for
+and destroys the independence of the verdict. `stocktake:stocktake` states the principle for
 a different subject: *"the evidence is authored by the party being judged."* A
 verification pass that starts building becomes that party.
 
@@ -203,8 +203,8 @@ independent review.
 `XCTAssertNotNil(view.body)` that cannot fail is a one-line fix and still out of
 scope — the pass has not established what the assertion *should* be, and a
 strengthened assertion that then fails is a build problem it cannot finish.
-Security defects go to `code-review` with file and line, ungraded. Re-capturing
-evidence is `test-campaign`'s job.
+Security defects go to `code-review:code-review` with file and line, ungraded. Re-capturing
+evidence is `test-campaign:test-campaign`'s job.
 
 Cap edits at roughly the read budget. Past it, list the remaining corrections with
 their exact replacement text so a person or a build stage applies them in one go.
@@ -223,11 +223,11 @@ drifts from it silently:
 | Concern | Owner |
 |---|---|
 | Assertions that cannot fail | `warrant` — `scripts/cannotfail_scan.py` |
-| Merged / unmerged-branch / unpushed / absent | `stocktake` — `scripts/locate_work.sh` |
-| Board rows and their column verdicts | `stocktake` — `scripts/board_ledger.py` |
-| REAL / AUTHORED / MOCK producer trace, deciding `inert` | `spec-validation` |
-| Re-routing a `degraded` lane | `defer` — `scripts/lane_pick.py --task verification` |
-| Security defects in shipped code | `code-review` |
+| Merged / unmerged-branch / unpushed / absent | `stocktake:stocktake` — `scripts/locate_work.sh` |
+| Board rows and their column verdicts | `stocktake:stocktake` — `scripts/board_ledger.py` |
+| REAL / AUTHORED / MOCK producer trace, deciding `inert` | `spec-validation:spec-validation` |
+| Re-routing a `degraded` lane | `defer:defer` — `scripts/lane_pick.py --task verification` |
+| Security defects in shipped code | `code-review:code-review` |
 
 ## The gates on this skill
 

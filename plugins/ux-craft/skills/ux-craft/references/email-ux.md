@@ -1,6 +1,6 @@
 # Email UX — Marketing & Transactional
 
-Email is a hostile rendering environment read in a two-second triage pass. Everything web UX says about scanning, hierarchy, and one-primary-action applies *harder* here — plus constraints no web page has. This file owns email structure, copy, rendering constraints, and compliance. (Figma campaign graphics → `email-mockups`; the sending infrastructure → engineering.)
+Email is a hostile rendering environment read in a two-second triage pass. Everything web UX says about scanning, hierarchy, and one-primary-action applies *harder* here — plus constraints no web page has. This file owns email structure, copy, rendering constraints, and compliance. (Figma campaign graphics → `email-mockups:email-mockups`; the sending infrastructure → engineering.)
 
 ## The two-second contract
 

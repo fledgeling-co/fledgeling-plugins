@@ -299,9 +299,9 @@ without making a red build out of an advisory finding.
 ## What this is not
 
 - **Not a live-page review.** If the thing under test is a running page and you can
-  drive a browser, `design-review` sees more: real states, real focus, real DOM.
+  drive a browser, `design-review:design-review` sees more: real states, real focus, real DOM.
 - **Not DOM parity.** If both sides are reachable in a browser, measure computed
-  styles instead of looking at pixels — `mockup-fidelity` and design-review's
+  styles instead of looking at pixels — `mockup-fidelity:mockup-fidelity` and design-review's
   parity oracle do that, and measurement beats judgement whenever it is available.
 - **Not a pixel-diff replacement** for surfaces that genuinely should be
   byte-identical. If nothing varies, assert the bytes and skip all of this.

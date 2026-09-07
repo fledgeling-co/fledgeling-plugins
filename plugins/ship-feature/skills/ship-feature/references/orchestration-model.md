@@ -1,90 +1,85 @@
-# Orchestration model — context, worktrees, and when to use agents
+# Orchestration model — stage handoffs, memory and worktrees
 
-> **Lane assignments are `defer`'s now.** Run
-> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]`
-> for the model, the effort and the exact argv, or `lane_run.sh <class> "<prompt>"`
-> to run and wire-verify it in one step. The classes are `implementation`,
-> `completeness`, `general`, `referral`, `verification` and `design-review`.
-> **Pass `--shape` whenever you know what the work is** — `defer --matrix` lists
-> the shapes. It narrows the class to the lanes measured good enough for that kind
-> of work before headroom picks, which is where the cost saving lives; the two
-> gated classes are `implementation` and `general`, and the judgement classes
-> abstain by design. Three rules bind everywhere: `gpt-5.6-sol` never runs at
-> `max` (it is the referral lane at `medium` and the implementation lane at
-> `high`), Fable judges but never grades code or a ticket, and design review stays
-> on Opus and Fable. What follows is this pipeline's reading of that policy, not a
-> second copy of it.
+The conductor owns one feature from intake to integration. It retains the user's
+intent, sequences the stages, reads their artifacts and resolves the decisions
+between them. It can run a stage locally or hand it to the model assigned to that
+role; a skill invocation alone never changes the session's model.
 
-This is the reasoning behind how `ship-feature` runs. Read it before you start; it prevents the two failure modes that ruin a long conductor flow — **losing the thread** (context evaporates mid-pipeline) and **fragmenting the feature** (work scattered across branches that can't be merged as one).
+## 1. One conductor, explicit stage boundaries
 
-## 1. Stay in-session and sequential across stages
+Read shipyard's `references/model-lanes.md` before routing. The usual preference
+is GPT-6 for orchestration, Opus 5 for intake/triage/plan, then Gemini 3.8 for
+implementation. Resolve actual supported model IDs and effort values from the
+current runner; the measured fallback registry does not override this preference.
 
-The pipeline is a chain where each stage needs the *accumulated* understanding of the ones before it: the feature's intent, the UI decisions the design stage made, the nuances triage recorded, the plan's shape, what `/work` actually built, and what it deferred. If you delegate a whole stage to a subagent, that subagent starts cold — it sees only what you pass it, not the running understanding — and it returns a summary that *you* then have to re-absorb. Over eight stages that lossy round-trip compounds into drift.
+Keep prerequisite-dependent stages sequential. Plan and design may overlap only
+where their files and decisions are independent, and both must land before their
+implementation begins. Final `shipyard:verify` runs in fresh context on a capable
+family different from the implementation writer's.
 
-So: **you invoke each stage-skill in this same session** (via the Skill tool). Its SKILL.md loads into your context, you execute it, and the understanding stays in one head — yours. You are the conductor holding the score from first note to last, not a dispatcher forwarding tickets.
+Do not add an agent that merely dispatches another agent. A whole-stage handoff
+is useful when it realizes the selected model role or isolates substantial work;
+a few local tool calls do not need a separate runner. For parallel work, assign
+disjoint writable files and a concurrency cap within the observed host limits.
 
-This is also why you do **not** wrap the whole pipeline in a single `Workflow` script. A deterministic script can fan out beautifully, but it cannot make the judgment calls that live *between* these stages:
-- Are triage's Essential Questions real blockers only the human can answer, or did triage just default them?
-- Did `/work` leave genuinely-deferred scope, or is the feature complete?
-- Is an e2e red a real product bug to fix, or an environment flake to reframe?
-- Are the gates green *enough*, and the findings resolved *enough*, to justify an irreversible merge?
+## 2. Every handoff carries the context needed to finish
 
-Those are conductor decisions. Keep them in-session.
+The runner packet names the exact resolved skill, its arguments, the objective,
+absolute repo/worktree path, allowed files, current source artifact revisions,
+user decisions, required outputs, acceptance evidence and stopping boundary.
+Use the contract in shipyard's `references/model-lanes.md`; pass reference paths
+instead of copying a large routing table into every nested prompt.
 
-## 2. Parallelism belongs *inside* each stage, not on top of it
+For example, an implementation handoff contains the committed Opus plan, spec and
+mock index; assigned acceptance rows; non-goals and architectural constraints;
+the branch/worktree; checks to run; and the completion-record path. The Gemini
+runner reports changed files, checks actually executed, artifacts and remaining
+blockers. The conductor opens those artifacts before advancing the status.
 
-Not delegating *stages* to subagents does **not** mean the run is single-threaded. Every stage-skill already fans out to subagents via the Workflow tool where it pays off:
-- **triage** — parallel readers for codebase-grounding + the Sentinel lens scan.
-- **plan** — one reader per subsystem the spec touches.
-- **work** — file-disjoint implementation slices, plus review + adversarial-verify fan-out in the acceptance phase.
-- **gap-fix** — one auditor per dimension, plus verify.
-- **acceptance-e2e** — an Explore/general-purpose breadth-read of the feature's code.
+An independent reviewer gets the original requirements and evidence, without the
+author's verdict or build transcript. An empty result or missing artifact is an
+unfinished stage, never an implicit pass. A fallback reports the actual model and
+whether family independence was lost.
 
-That parallelism is safe and desirable, and it does **not** cost you context, for one reason: **those leaf agents re-read the persisted artifacts from disk** — the spec (which carries the verbatim feature description + every triage answer), the plan, the design-system mock UI — so each re-acquires the exact grounding it needs and returns a synthesized result. The wide, token-heavy reads happen in the leaves; the high-level thread stays with you. Let the stages fan out as they're written to; don't add your own agent layer on top of them.
+## 3. Durable artifacts are the pipeline's memory
 
-Cost note — route the lanes, not everything strong. Heavy fan-out on the strongest model burns the interactive allowance fast, and the pipeline's back-loaded verification (Phase D/E, adversarial verify, completeness critic, e2e green-twice, the fail-closed merge) makes mid-pipeline downgrades safe. Single-feature runs use the same lane table as the fleet (ship-fleet's `references/scheduling-and-concurrency.md` carries the propagation mechanics):
-
-| Lane | Model |
+| Stage | Durable artifact |
 |---|---|
-| Leaf readers (triage grounding, plan investigation, work Phase A) + gate-runner subagents | haiku |
-| Evidence lenses (UI fidelity, clause table, reachability) · adversarial finding-verifiers · e2e Phases 0–4 · design leaf verifiers + page assembly from existing composites · Sentinel verdict + Assumptions (with the triage gate) · plan synthesis Trivial/Small | sonnet |
-| Mechanical work Phase B/E slices meeting the delegation criteria | **no fixed order** — `defer --task implementation --shape <shape>` picks per slice, Claude fail-back (shipyard `references/executor-lanes.md` + `codex-cli.md` §R3). A fixed order cost 16 points on average against the best lane per shape |
-| **The three out-of-family gates: the triage spec review · the plan review gate · work Phase D's completeness critic** | **codex `gpt-5.6-sol` at `medium`, read-only** — sideways, not down |
-| Plan synthesis, Standard tier | opus (or glm-5.2-high + the plan skill's mandatory review gate) |
-| Plan synthesis Large · work Phase A synthesis · Phase C rebase conflicts · security/guardrails/client-asserted-identity lenses · gap-fix audit over cheap-lane code · e2e Phase 5 judgment + Phase 6 fixes · design aesthetic direction + new composites · merge/finalize/conflict resolution · the Phase 4b deferred-loop classification (small-remainder vs child-spec) | opus — never downgrade |
+| `shipyard:intake` | Brief under `docs/features-to-triage/` |
+| `shipyard:triage` | Spec, decisions/assumptions and ledger entry |
+| `shipyard:plan` | Committed plan and acceptance/test strategy |
+| `shipyard:design` | Mock index, surface/state matrix and design evidence |
+| `shipyard:work` | Feature branch plus Clause/Reachability tables and completion record |
+| `shipyard:gap-fix` | Disposition of remaining gaps and the specific evidence rerun |
+| `test-campaign:test-campaign` or installed acceptance skill | Acceptance results tied to requirement and subject |
+| `shipyard:verify` | Independent per-requirement verdict and remaining blockers |
 
-**Effort is the column this table doesn't have.** Model sets the capability class; `effort` sets how much work happens inside it, and an agent spawned without one runs at `high`. Per-lane levels — `low` for leaf readers and gate-runners, `low`–`medium` for evidence lenses, `high` for synthesis and judgement, `xhigh` with `max_tokens` ≥64k for a long-horizon runner — plus the rule that a review lane should drop *effort* rather than *model* when you need it cheaper, are canonical in shipyard's `references/model-and-effort.md` and `references/model-lanes.md`.
+At each boundary open the artifact the next stage depends on and confirm its
+revision. After compaction or interruption, reconcile the recorded state against
+the worktree, commits and check outputs, then resume the first incomplete stage.
+Do not restart a green stage merely to refresh context. Re-run evidence only when
+a change, failure or unresolved concern invalidates the prior result.
 
-Two invariants bind every lane: **REVIEWER ≥ WRITER** — for every artifact the strongest reviewer is at least as strong as the strongest model that wrote it — and **wire-level model verification** (a first-action self-check for the lane's model + a transcript grep; launch parameters have been observed not to stick), plus the per-lane revert-rate kill-switch from shipyard's `references/executor-lanes.md`. The executor lanes are optimizations with an **Opus fallback**: any lane failure (binary/key missing, wrong model on the wire, repeated errors, kill-switch tripped) routes the work back to Claude — never to another cheap lane, never silently skipped.
+## 4. One feature, one branch, one worktree
 
-The **Codex `max` gate row is a different kind of routing** and shouldn't be read as a cost lane. It is there for *independence*, not savings: every other reviewer in this pipeline is Claude auditing Claude's own output, and a reviewer from the same family shares the blind spot that let the defect through. So those three checks move **sideways** out of family rather than down a cost tier, and they satisfy REVIEWER ≥ WRITER on their own terms. They are mandatory where Codex is available; where it isn't, the in-family fallback runs and the downgrade is **recorded in the artifact** — an in-family review of in-family work is weaker evidence, and whoever reads the pre-merge gate deserves to know which one they got. The kill-switch does not apply to them: a reviewer that keeps finding real defects is working, not thrashing.
+`shipyard:work` uses `.worktrees/<ID>` on `ai/<id>` unless the repo or user specifies
+another convention. The conductor passes the absolute existing worktree to later
+stages; deferred and child implementation stay on that branch. Never open a second
+worktree just because the next runner has a fresh context.
 
-## 3. The pipeline's memory is on disk, not just in the transcript
+Follow the ownership recorded by the conductor: feature code and design edits in
+the assigned worktree; shared ledger and orchestration files under the designated
+single writer. Fleet mode establishes the worktree before any runner edit. A
+single-feature stage does not unilaterally relocate untracked source documents.
 
-This is the fact that makes everything above work. Each stage writes durable artifacts:
+Run acceptance against the app served from that worktree. Serialized finalization
+requires the configured merge gate, then the authorized merge/push and cleanup.
+Keep `ready-to-merge`, `merged`, `pushed` and `deployed` as separate evidence states.
 
-| Stage | Durable artifact(s) |
-|---|---|
-| design | the mock index + state matrix (`design/mocks/<id>/INDEX.md`), review-gated |
-| triage | `docs/specs/spec-<ID>.md` (verbatim feature description + triage answers/assumptions), `LEDGER.md` |
-| plan | `docs/plans/<id>.md` (committed, referenced by sha) |
-| work | the implementation on `ai/<id>`, `## Progress` note on the spec (reachability + clause tables, deferred list) |
-| gap-fix | `## Gap-fix` note on the spec |
-| acceptance-e2e | `apps/web/e2e` specs + the AC-traceability matrix |
+## 5. Evidence earns a review step
 
-Two consequences you should exploit:
-- **Re-read at each phase boundary.** Don't trust the transcript for what the spec or plan says at the moment you hand off — open the file. It's authoritative and it may have been edited (by a human, or by a re-triage).
-- **The run is resumable.** If the session is compacted or interrupted, you don't restart — you re-enter at the first phase whose artifact is missing or not-yet-green (the SKILL.md "Resuming" section maps this out). Disk is the checkpoint.
-
-## 4. One feature = one branch = one worktree
-
-Worktrees are already central to this pipeline — `/work` creates `.worktrees/<ID>` on branch `ai/<id>`, and `/gap-fix` re-enters it. Your job is to **not disturb that**, and specifically:
-
-- **The conductor lives in the main working tree.** That's where the docs are (`docs/specs`, `docs/plans`, `LEDGER.md` — every sub-skill reads them from the main tree because they're untracked on the feature branch) and where the design stage iterates on the mock UI. You never `cd` into the worktree yourself; `/work` and `/gap-fix` do their code edits there via absolute paths.
-- **Never open a second worktree.** The naive reading of "child spec → child `/work`" would have `/work` create `.worktrees/DIO-child` on a *new* branch — fragmenting the feature so it can't "be merged" as one unit. Keep all implementation — parent, deferred, child — on `ai/<id>` in the one worktree (see `deferred-work-loop.md` for the mechanics).
-- **The worktree is the local sandbox for e2e too.** The feature isn't on production yet, so the acceptance suite runs against the app served from the feature branch's worktree, not the deployed/production URL (see `e2e-and-finalize.md`).
-- **The final phase collapses the worktree.** After the merge + push, `git worktree remove .worktrees/<ID>` and delete the merged local branch — the worktree existed only to isolate the in-progress feature from the main tree; once merged it has no reason to linger.
-
-## TL;DR
-
-You are an in-session conductor. Run stages **sequentially in your own context** to keep the thread; let each stage **fan out internally** to do wide work; treat **disk as the shared memory and the resume checkpoint**; keep the whole feature on **one branch in one worktree** that `/work` owns and the final phase removes. Delegation and worktrees are tools the *stages* wield — your job is to sequence them and judge the seams.
+Run the required tests, real-path exercises, visual measurements and independent
+acceptance gates. Avoid generic extra same-author rereads and one agent per small
+check. Findings need a location, affected requirement and evidence; after a fix,
+repeat the checks it invalidated. Preserve unmet criteria and explicit waivers in
+the handback rather than reducing the feature's scope to make it pass.

@@ -7,7 +7,14 @@ places in the prompt."* This target is the corpus's closest match to a measured 
 (`geminify/references/evidence.md` §1.1) was a rich brief for a **macOS + Windows 11 interaction mock**, told to use
 `design-craft`, `ux-craft` and a mac design skill — this stage's job. Line numbers are against the current 98-line SKILL.md.
 
-## Route out before you start: two of this stage's shapes are measured far behind
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 **[measured-family]** The 106-task benchmark (`evidence.md` §2.1) puts `gemini-3.7-flash` at **22.2** against
 `claude-opus-5`'s 66.9 on self-contained pages authored from a prose brief, with a hard zero on **71%** of decided rows, and at
@@ -160,10 +167,11 @@ a prose brief with **no** reference input, so this is a documented path, not a d
 Lands on step 2's authoring pair (SKILL.md:49), step 4's `mac-design-studio` routing (SKILL.md:60) and step 5's gates
 (SKILL.md:73–74). Two things must hold before either skill runs: the call must resolve, and something downstream must need it.
 
-**[derived] The name is an identifier, not a description.** The Skill tool resolves `plugin:skill` and nothing else, so a bare
-name returns `Unknown skill`, the run carries on without the skill it was told to use, and no error reaches anyone — the output
-still looks like the skill was applied. SKILL.md:60 already writes the qualified form; the four names at SKILL.md:49 and
-73–74 are still bare in the prose, so expand them at the call site rather than pasting what the line says.
+**[derived] The name is an identifier, not a description.** Resolve the exact
+installed identifier before invoking a skill. These plugin skills use names such
+as `design-craft:design-craft`; a standalone or bundled skill may expose a different
+identifier. The current SKILL.md now supplies qualified plugin names. A failed
+invocation leaves its artifact requirement open; do not continue as though it ran.
 
 **[measured-family]** And a call that resolves still gets skipped when nothing needs its output. On `COD Dossier`, a skill said
 *every design decision goes through `design-craft` with `ux-craft`'s lens*; **neither** was invoked. The model's own diagnosis

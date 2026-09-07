@@ -1,5 +1,12 @@
 # atlas-publish, calibrated for Gemini
 
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
+
 Read this once before Step 0, then run the skill as written with these overrides.
 
 The skill's opening ends on the sentence the run turns on: `The one thing you do not do is make any of

@@ -8,7 +8,7 @@
 Seven pipeline skills for Claude Code that take a feature from rough idea to independently verified code, and a status machine where "done" has to be earned by a stranger.</p>
 
 <p align="center">
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
+  <img alt="Version 0.5.4" src="https://img.shields.io/badge/version-0.5.4-D33C21">
   <img alt="SWE skill: delivery pipeline" src="https://img.shields.io/badge/SWE_skill-delivery_pipeline-434A55">
   <img alt="Report card 37-37 vs 22-37" src="https://img.shields.io/badge/report_card-37%2F37_vs_22%2F37-756E60">
   <img alt="Blind panel 17-4" src="https://img.shields.io/badge/blind_panel-17--4-756E60">
@@ -41,7 +41,7 @@ shipyard is the rebuild. The stages are the same shape a human team would use (i
 
 ## The stages
 
-`intake` turns a rough idea into briefs, and proposes the companion features your audience would expect as separate, deletable files. `triage` grounds every claim in the actual codebase and converts ambiguity into recorded assumptions rather than questions; access-control defaults are the named exception, because those are genuinely yours to make. `plan` writes and commits the build plan plus the test strategy. `design` mocks every surface and state for iPhone, iPad, Mac and Web, and doesn't hand off until its review gates pass. `work` builds in an isolated worktree and fills evidence tables as it goes. `verify` is the stranger: fresh context, re-derives the requirements from the ticket alone, measures the running app, and routes the verdict to a model outside the builder's family. `gap-fix` is the road back when verification fails.
+`shipyard:intake` turns a rough idea into briefs, and proposes the companion features your audience would expect as separate, deletable files. `shipyard:triage` grounds every claim in the actual codebase and converts ambiguity into recorded assumptions rather than questions; access-control defaults are the named exception, because those are genuinely yours to make. `shipyard:plan` writes and commits the build plan plus the test strategy. `shipyard:design` mocks every surface and state for iPhone, iPad, Mac and Web, and doesn't hand off until its review gates pass. `shipyard:work` builds in an isolated worktree and fills evidence tables as it goes. `shipyard:verify` is the stranger: fresh context, re-derives the requirements from the ticket alone, measures the running app, and routes the verdict to a model outside the builder's family. `shipyard:gap-fix` is the road back when verification fails.
 
 Note: verify is the only stage that can set `Done`. That's the point of it.
 
@@ -72,3 +72,5 @@ The research behind the design decisions is committed too: four deep-research re
 
 shipyard stands on its predecessors in [diolog-plugins](https://github.com/Diolog26/diolog-plugins) (feature-spec-pipeline and diolog-tasks-pipeline; their incident-hardened operating rules survive here verbatim). Several concepts are borrowed with thanks from [Matt Pocock's skills library](https://github.com/mattpocock/skills) (MIT): the fog-of-war test for what can be deferred, the facts-vs-decisions split, seam-agreed testing, and tracer-bullet slices. The acceptance-criteria contract and the physically isolated reviewer come from [Vercel Labs' eve-software-factory-template](https://github.com/vercel-labs/eve-software-factory-template) (MIT). The decision gate is the [clarify](../clarify/README.md) skill's, applied pipeline-wide.
 </p>
+
+Model roles follow the user's choices and the runner's supported catalogue: the usual flow is GPT-6 coordinating, Opus 5 producing intake/triage/plan, then Gemini 3.8 implementing. Each handoff carries source revisions, writable scope, output paths and acceptance checks. Independent verification uses a capable family different from the actual writer.

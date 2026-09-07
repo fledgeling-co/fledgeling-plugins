@@ -8,7 +8,7 @@
 A founder-voice ghostwriting skill that pairs outcomes with concrete mechanisms, discloses limitations in place, and enforces Australian spelling, stylometrics, and zero em dashes with a deterministic lint.</p>
 
 <p align="center">
-  <img alt="Version 3.0.0" src="https://img.shields.io/badge/version-3.0.0-C4622D">
+  <img alt="Version 3.1.2" src="https://img.shields.io/badge/version-3.1.2-C4622D">
   <img alt="Evals 98.2%" src="https://img.shields.io/badge/evals-98.2%25_pass-1a1918">
   <img alt="Blind Panel 20-7" src="https://img.shields.io/badge/blind_panel-20--7_candidate_win-1a1918">
   <img alt="Voice Lint" src="https://img.shields.io/badge/voice_lint-zero_em_dashes-027aff">
@@ -19,7 +19,7 @@ A founder-voice ghostwriting skill that pairs outcomes with concrete mechanisms,
 
 ## What changed in v3.0.0
 
-The predecessor (`create-luke-content` 2.4.3 by DiologIR) wrote in Luke's voice well, but its marketing copy read wrong. The reason was structural: the LinkedIn route carried a bundled engagement research layer, while the marketing route carried no craft research at all. Its only worked evidence was a single consumer parenting-app release post.
+The predecessor (`create-luke-content:create-luke-content` 2.4.3 by DiologIR) wrote in Luke's voice well, but its marketing copy read wrong. The reason was structural: the LinkedIn route carried a bundled engagement research layer, while the marketing route carried no craft research at all. Its only worked evidence was a single consumer parenting-app release post.
 
 This version bundles an empirical B2B copywriting evidence base from a five-backend Dossier deep-research panel (208 sources, 232k characters across OpenAI, Perplexity, Gemini, and Claude Code), rebuilds the marketing persona against it, and activates the deterministic lint configuration it previously shipped without.
 
@@ -79,4 +79,4 @@ The skill routes a request to exactly one of six content personas, loads the bas
 
 ## Provenance and credits
 
-Successor to `create-luke-content` (v2.4.3) originally authored by **DiologIR**, whose evidence-anchored base voice extraction and core lexicon it retains. The copywriting research layer is exported in full under `docs/deep-research/`.
+Successor to `create-luke-content:create-luke-content` (v2.4.3) originally authored by **DiologIR**, whose evidence-anchored base voice extraction and core lexicon it retains. The copywriting research layer is exported in full under `docs/deep-research/`.

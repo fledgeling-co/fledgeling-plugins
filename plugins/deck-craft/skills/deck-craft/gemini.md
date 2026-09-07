@@ -1,10 +1,12 @@
 # deck-craft, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this in one pass before §1 Route to a target, then follow the skill with these overrides;
 each names the section it lands on. Two of this skill's rules are already right for this family —
 §6's slide count as a contract, and §7's runner that exits non-zero rather than passing on an empty
 result — and everything below extends those into the parts still written as prose. **This is the
-canonical copy:** `deck-craft` is registered in two marketplaces, this file belongs to the
+canonical copy:** `deck-craft:deck-craft` is registered in two marketplaces, this file belongs to the
 `fledgeling-plugins` copy, and the `diolog-plugins` mirror is deliberately left without one.
 
 ## Epistemic status
@@ -20,7 +22,7 @@ will default to high"*, while the corpus table puts 3.7 Flash at `MEDIUM`. `HIGH
 describes as being for *"multi-step planning, verified code generation"*, which is this work — but
 no remedy for anything below: paired across 106 tasks, `high` beat `medium` on 24, lost on 24.
 
-**Unmeasured on this skill.** No recorded Gemini run of `deck-craft` exists, so nothing here was
+**Unmeasured on this skill.** No recorded Gemini run of `deck-craft:deck-craft` exists, so nothing here was
 observed on a deck this skill built. The reference-input lever (§3) is `[docs]` only, §5's
 fabrication passage was not exercised either way, and the `.pptx` / `lecturn.deck/1` and Diolog
 template-assembly lanes have no comparable shape in the corpus. **No evidence this file helps**: no

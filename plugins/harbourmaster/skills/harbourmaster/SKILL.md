@@ -3,7 +3,7 @@ name: harbourmaster
 description: >-
   Decide where a piece of work should run, and whether this Mac can carry it yet. Routes across five
   execution planes — this machine directly, a container on another machine through anvil errand, a
-  native-app instrument session through proctor, another model or CLI through defer, and in-session
+  native-app instrument session through proctor:proctor, another model or CLI through defer:defer, and in-session
   Claude subagents or workflows — by asking which resource each one actually spends, then spending
   the one that is least scarce right now. Governs the local plane with berth admission: heavy work
   runs through a wrapper that holds its slot on a POSIX file lock the kernel releases when the
@@ -15,7 +15,7 @@ description: >-
   signal is silent — raising macOS to High Power while it holds and standing back down after. Use it
   when choosing how many runners or agents to start, before launching builds, test suites or fleets,
   when a machine is pinned or hot or out of disk, when deciding whether work belongs on this Mac at
-  all, and whenever ship-fleet, ship-feature, code-review or test-campaign needs a concurrency
+  all, and whenever ship-fleet:ship-fleet, ship-feature:ship-feature, code-review:code-review or test-campaign:test-campaign needs a concurrency
   number it did not invent.
 ---
 
@@ -35,7 +35,7 @@ This skill answers two questions, and the second only matters because of the fir
 
 The measured problem it exists for: on 2026-08-22 this Mac carried a load average
 of **830 across 16 cores** — 76 `claude` processes, 73 `node`, 19 `rustc` — while
-`ship-fleet` was starting runners from a hard-coded count of 8 with no reading of
+`ship-fleet:ship-fleet` was starting runners from a hard-coded count of 8 with no reading of
 the machine at all. Nothing was wrong with any single decision. Nothing was
 counting them together.
 
@@ -49,13 +49,13 @@ not the one that is nearest to hand.
 | Plane | Spends | Reach for it when |
 |---|---|---|
 | **This Mac** via `governor-run` | CPU, RAM, disk — the thing that is scarce | Building, testing, running anything that must touch this working tree |
-| **`anvil-errand`** container on the node | Another machine entirely; nothing here | Long, self-contained, CPU-heavy work that needs no local state — benchmark runs, big builds, batch jobs |
-| **`proctor`** instrument session | A machine-wide foreground turn, and little CPU | Driving or verifying a native macOS app — the accessibility tree, capture trustworthiness, geometry assertions |
-| **`defer`** to another model or CLI | Another vendor's plan headroom | Judgment, verdicts, second opinions, out-of-family review, completeness critique — **unless the caller is running `tiered`, which turns this plane off** |
-| **Claude subagents / workflows** | This session's rate limit and context | Wide reading, search and investigation across many files |
+| **`anvil-errand:anvil-errand`** container on the node | Another machine entirely; nothing here | Long, self-contained, CPU-heavy work that needs no local state — benchmark runs, big builds, batch jobs |
+| **`proctor:proctor`** instrument session | A machine-wide foreground turn, and little CPU | Driving or verifying a native macOS app — the accessibility tree, capture trustworthiness, geometry assertions |
+| **`defer:defer`** to another model or CLI | Another vendor's plan headroom | Judgment, verdicts, second opinions, out-of-family review, completeness critique — **unless the caller is running `tiered`, which turns this plane off** |
+| **Current-harness subagents / workflows** | This session's rate limit and context | Wide reading, search and investigation across many files |
 
 **A sixth resource has no plane and no meter: the conductor's attention.** When a caller runs
-`tiered` — a frontier conductor delegating to cheaper sessions bound by directory — the `defer` plane
+`tiered` — a frontier conductor delegating to cheaper sessions bound by directory — the `defer:defer` plane
 is off and the delegation happens through perch bindings instead. That changes what is scarce. A
 cheaper tier needs more rounds per item, more explicit briefs, and its gate exit codes read rather
 than its prose, so **each worker consumes conductor turns at a rate berths do not bound.** Berths cap
@@ -65,7 +65,7 @@ machine's cores, and it will not appear in any reading this skill produces.
 
 Two of those carry constraints worth holding in mind before you plan around them.
 
-**`proctor` serialises on the foreground and already arbitrates it.** Synthetic
+**`proctor:proctor` serialises on the foreground and already arbitrates it.** Synthetic
 events enter one system-wide stream, so two campaigns actuating at once interleave
 and the second one's click lands in whatever window the first raised. Proctor runs
 its own machine-wide turn queue for exactly this. Do not build a second queue in
@@ -75,9 +75,9 @@ berth. Apple silicon also caps concurrent macOS guests at two, so a VM fleet is 
 an escape.
 
 **The errand plane refuses rather than degrading.** `anvil errand --check` reports
-a stable refusal kind before anything starts. On this machine today the node is
-configured (`node-LUKESFF`) and `errand.toml` is absent, so the lane answers
-`errand_ticket_unavailable`. Check before planning work onto it; treat a refusal
+a stable refusal kind before anything starts. An earlier local run had a
+configured node (`node-LUKESFF`) but no `errand.toml`, producing
+`errand_ticket_unavailable`. Probe current state before planning work onto it; treat a refusal
 kind as the fact and its sentence as commentary.
 
 `references/routing.md` carries the full decision procedure, including what to do
@@ -195,7 +195,7 @@ saying so on the page is why the demoter exists.
 
 Ask for a number instead of inventing one, then wrap what you start.
 
-**`ship-fleet`** replaces its fixed 8 slots with the available berths, re-read on
+**`ship-fleet:ship-fleet`** replaces its fixed 8 slots with the available berths, re-read on
 every refill rather than once at the top:
 
 ```js
@@ -203,15 +203,15 @@ const free = JSON.parse(sh(`${HM}/berths.py`)).available
 for (const item of ready().slice(0, Math.max(1, free))) { /* start runner */ }
 ```
 
-**`ship-feature`** and **`shipyard:work`** wrap builds and suites at weight 4–8,
+**`ship-feature:ship-feature`** and **`shipyard:work`** wrap builds and suites at weight 4–8,
 and treat exit 75 as "wait and retry", not as a failing gate.
 
-**`code-review`** and **`shipyard:verify`** route to `defer` before they route
+**`code-review:code-review`** and **`shipyard:verify`** route to `defer:defer` before they route
 here — grading is judgment, and judgment costs another vendor's headroom rather
 than this machine's cores.
 
-**`test-campaign`** splits by lane: web and unit suites take berths; native macOS
-execution goes to `proctor` and takes a foreground turn instead. Its execution-plane
+**`test-campaign:test-campaign`** splits by lane: web and unit suites take berths; native macOS
+execution goes to `proctor:proctor` and takes a foreground turn instead. Its execution-plane
 axis and this skill's plane table are the same axis, named twice.
 
 `references/integration.md` has the call shapes per skill, including what each
@@ -220,8 +220,8 @@ should do on refusal.
 ## Scope
 
 This decides placement and admission. It does not do the work, judge the result,
-or clean the machine — `mac-doctor` owns reclamation, `defer` owns model routing,
-`proctor` owns native-app instrumentation. When disk is the closing gate, say so
+or clean the machine — `mac-doctor:mac-doctor` owns reclamation, `defer:defer` owns model routing,
+`proctor:proctor` owns native-app instrumentation. When disk is the closing gate, say so
 and hand over; do not delete anything from here.
 
 Keep replies to the state and the next step. A berth report is two lines, not a

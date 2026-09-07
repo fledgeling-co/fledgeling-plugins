@@ -1,88 +1,101 @@
-# Model lanes — who does what, on which CLI, and what happens when a lane is down
+# Model lanes — role, availability, and evidence
 
-> **Lane assignments are `defer`'s now.** Run
-> `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]`
-> for the model, the effort and the exact argv, or `lane_run.sh <class> "<prompt>"`
-> to run and wire-verify it in one step. The classes are `implementation`,
-> `completeness`, `general`, `referral`, `verification` and `design-review`.
-> **Pass `--shape` whenever you know what the work is** — `defer --matrix` lists
-> the shapes. It narrows the class to the lanes measured good enough for that kind
-> of work before headroom picks, which is where the cost saving lives; the two
-> gated classes are `implementation` and `general`, and the judgement classes
-> abstain by design. Three rules bind everywhere: `gpt-5.6-sol` never runs at
-> `max` (it is the referral lane at `medium` and the implementation lane at
-> `high`), Fable judges but never grades code or a ticket, and design review stays
-> on Opus and Fable. What follows is this pipeline's reading of that policy, not a
-> second copy of it.
+Canonical routing for the shipyard stages and their conductors. Read
+`model-and-effort.md` for effort, `executor-lanes.md` for implementation packets,
+and `second-opinion-lanes.md` for review packets. A model preference is not a
+promise that this harness exposes that model or can switch it in the current session.
 
-**Canonical for the whole pipeline.** Every stage skill and both conductors point here for lane
-assignments. Effort discipline (the second dial) is canonical in `model-and-effort.md`; per-lane
-CLI mechanics are in `executor-lanes.md` and `codex-cli.md`. Change lane assignments here, once.
+## Resolve the role before selecting a runner
 
-## The lane table
+1. Follow the user's explicit model and provider constraints first. The usual
+   workflow for this project is **GPT-6 for orchestration, Claude Opus 5 for
+   intake, triage and planning, and Gemini 3.8 for implementation after those
+   artifacts land**. These are role preferences, not a universal capability ranking.
+2. Read the actual session model, available model catalogue, tool schemas and
+   project restrictions. Resolve the requested display name to an exact supported
+   model identifier and a supported effort value. Do not invent an identifier,
+   infer identity from the model's prose, or pass one harness's options to another.
+3. Keep an existing conductor in-session unless the user requested a transfer.
+   Loading a skill does not switch the model. When a stage belongs on another
+   model, dispatch that bounded stage with the artifact contract below and keep
+   the conductor responsible for sequencing and integration.
+4. When the user has not selected a lane, use `defer:defer` and its available
+   routing interface. `lane_pick.py --task implementation --shape <shape>` is a
+   fallback recommendation over its registered, measured models. A registry that
+   lacks Gemini 3.8 or GPT-6 cannot decide that an older model supersedes the
+   user's preference; discover a supported route or report the missing route.
+5. If the preferred route is unavailable, record the failure and follow any
+   already-authorized fallback. Otherwise keep useful independent work moving
+   and surface the model choice once. Never silently relabel an older model.
 
-| Lane | Model | Harness | Effort | Notes |
-|---|---|---|---|---|
-| Conductor / orchestration | session model (Opus 5 / Fable 5) | in-session | high | Holds the map; never delegated |
-| Triage verdict, plan synthesis, design direction | Opus 5 (`claude-opus-5`) or the session model when it is Opus/Fable-class | in-session or `claude` | high | Always a frontier Claude — these artifacts are amplified by everything downstream |
-| Leaf readers, gate-runners, index scanners | cheapest session tier (haiku-class) | Workflow subagents | low | Read, report, stop |
-| Evidence lenses, finding-verifiers | mid tier (sonnet-class) | Workflow subagents | low–medium | Structured work against an explicit oracle |
-| **Implementation** | picked by measured capability for the slice's shape, then headroom | `codex` · `agy` · `grok` · `claude`+Perch | pinned per lane | `defer --task implementation --shape <shape>` picks. Name the shape (`executor-lanes.md`) — the lane that wins varies by 16 points across shapes, so a class-only call leaves that on the table |
-| Implementation — Claude fail-back | claude-opus-5 | in-session | xhigh | Any executor lane failing routes work here — never to a sibling cheap lane, never dropped |
-| **General** — neither referred nor a verdict | gpt-5.6-terra | `codex` | **high** | Mechanics in `codex-cli.md` §R3. Not `sol` at `medium`: that is the referral lane |
-| Same-family validation (vs plan + tests) | claude-opus-5 | same CLI, fresh context | high | The writer's family checks the work against the plan before a stranger does; see `work` Phase D′ |
-| **Task and same-family verification** | claude-opus-5 | `claude` | **xhigh** | The acceptance authority; see the `shipyard:verify` skill. Fable does not do this |
-| Verification fail-back | Opus 5 agents | `claude` | high | Recorded as a degraded (in-family) verification — see "What a degraded lane buys back" |
-| **Referral** — spec/plan review gates, a fork put to another model | `gpt-5.6-sol` → `claude-fable-5` | `codex` · `claude` | **medium** · **high** | REVIEWER ≥ WRITER holds at every hop; sol never runs at `max` |
-| **Completeness critic** | grok-4.6 · glm-5.3 · gemini-3.7-flash-high | `grok` · `claude`+Perch · `agy` | **xhigh** · high · high | out of Claude's family by construction |
-| **Design review** | claude-opus-5 · claude-fable-5 | `claude` | xhigh · high | never leaves Anthropic's family |
-| A single frontier judgement call | claude-opus-5 | in-session | max | Reserve it |
+| Work | Preferred role | Boundary |
+|---|---|---|
+| Portfolio/fleet/feature coordination | GPT-6 or the current authorized conductor | Holds dependency map, resolves findings, serializes merges |
+| Intake, triage verdict, plan synthesis | Claude Opus 5 | Produces the full brief/spec/plan and acceptance criteria before implementation |
+| Implementation and scoped fixes | Gemini 3.8 | Receives the committed plan, constraints, allowed files and required checks |
+| Readers and mechanical gates | Current runner or a supported economical lane | Delegate only when the work is sizeable and independent |
+| Acceptance review and final verification | A capable reviewer from a family different from the artifact's writer | Receives requirements and evidence, with no author verdict or build transcript |
+| Design direction and visual judgement | User-selected or currently validated design lane | Inspect the rendered subject and reference; a model name proves no visual result |
 
-Two invariants govern every substitution:
+A reviewer must have demonstrated capability for the task. There is no total
+ordering of model families, and a newer name or lower effort is not evidence of
+review quality. Record the actual writer and reviewer so independence is testable:
+Gemini-built code can be reviewed by Opus; Opus-authored plans need a non-Claude
+reviewer when an independent gate is required; GPT-authored artifacts need a
+non-GPT reviewer. Skip the writer's family when choosing an independent lane.
 
-- **REVIEWER ≥ WRITER.** For every artifact, the strongest reviewer is at least as strong as the
-  strongest model that wrote it. Lowering a reviewer's *effort* keeps the invariant; lowering its
-  *model* breaks it (`model-and-effort.md` §3).
-- **VERIFIER ∉ WRITER's family.** The final acceptance verdict comes from a different model family
-  than the implementation. This is an independence control, not a quality ranking: same-family
-  judges measurably favour their own family's outputs (Anthropic's Petri observed GPT-5 judges
-  rating GPT-5-family targets more leniently; a pre-registered 2026 cross-family re-grade found a
-  17.6-point inflation from same-family self-grading — held loosely, but the direction is
-  consistent across every source the research panel read). When every out-of-family lane is down,
-  verification still runs — in-family — and is **recorded as degraded**, never silently promoted.
+## Stage handoff contract
 
-## Availability and fallback — a procedure, not a vibe
+Every dispatched stage gets one compact packet:
 
-A lane is "available" when a cheap probe says so, not when you remember it working:
+- Exact skill identifier, resolved from the installed catalogue (for example
+  `shipyard:plan`), with its arguments in the tool's argument field. If no Skill
+  tool exists, give the verified SKILL.md path and its required reference paths.
+- Objective and intended scope; source brief/spec/plan paths and their current
+  revisions; user decisions and constraints that affect the stage.
+- Absolute repo/worktree path and branch; exclusive writable files or surfaces;
+  shared state the conductor owns and the runner must not edit.
+- Prior-stage artifact paths, required output paths, acceptance criteria, checks
+  to execute, and the evidence format that closes each criterion.
+- Completion boundary, next consumer, unresolved blockers, and return shape:
+  changed files, artifact paths, checks actually run with results, remaining work.
 
-1. **Probe before first use in a session**: the binary resolves, `--version` answers, and — for a
-   lane about to carry a gate — a parse-check invocation with an inert prompt exits clean.
-2. **Wire-verify every run that matters.** The evidence a lane ran as routed is its own captured
-   header/transcript, never the flags you passed — launch parameters have been observed not to
-   stick. Grep the log for the model and effort lines; check the output file is **non-empty**. An
-   absent or empty output file is a **lane failure, not a quiet pass** (a real gate once reported
-   "no output — abandoned" after 10 minutes of exactly this).
-3. **On failure** (binary missing, not signed in, usage/rate limit, empty artifact, deadline
-   fired, repeated errors): record one ledger line — `<lane>: unavailable (<reason>) → <next>` —
-   and take the next lane in the table. Availability failures are logged and routed around, never
-   retried into the ground: one retry with the failure quoted, then move on.
-4. **Never silently degrade below a family constraint.** Implementation lanes may fail all the way
-   back to Claude. Verification lanes may not: an all-in-family verification is a *degraded* run
-   (see below), and the completion artifact says so.
+The next stage reads those artifacts before acting. A successful tool return or
+an eloquent handback does not establish that the required artifact exists. Keep
+prerequisite-dependent stages sequential; parallelize only disjoint work. Never
+turn a stage handoff into an extra coordinator that merely forwards another prompt.
 
-## What a degraded lane buys back
+## Availability and execution evidence
 
-An `ANTHROPIC-ONLY` repo (the opt-out markers in `executor-lanes.md` §opt-out) or a day when every
-out-of-family CLI is rate-limited leaves the pipeline all-Claude. That run is *correct* — the
-opt-out is a policy, not a failure — but it loses the independence layer, so it buys back one
-compensating control: the verification stage adds **one extra adversarial round with fresh
-reviewers at `high` effort**, and the verdict comment carries `verification: in-family (degraded)`
-so the reader knows which evidence class they got. Same-family review is weaker evidence, not no
-evidence, and the artifact must say which it is.
+Probe a lane before first use: verify the binary/API exists, supported options,
+a successful inert request, and usable output. For a gate, capture the actual
+request/response metadata or authoritative runtime trace with model and effort.
+A CLI header that merely echoes requested flags is configuration evidence; a
+model saying what powers it is not execution evidence. If actual identity cannot
+be observed, record `model execution: unverified`; do not invent a pass.
 
-## Recording
+On a failure, write `<lane>: unavailable (<observed reason>) -> <fallback>`.
+Retry once only for a plausibly transient failure, then take an authorized
+fallback. Empty output, missing required artifacts, or a timed-out request is a
+lane failure. Keep failed and unrun checks visible in the completion record.
 
-Every completion artifact (progress note or ticket comment) carries a **Reviewing models** line —
-the wire-verified model per gate — so both invariants are checkable from the artifact, not from
-memory. Never hardcode a dated model id in a self-check; write checks against the lane's expected
-capability tier (`model-and-effort.md` §5).
+If no independent reviewer is available, run the best authorized review and
+label it `verification: in-family (degraded)`. Same-family review does not become
+independent by repetition. Add a targeted adversarial exercise only for a
+specific unresolved risk; preserve all required test, measurement and real-path
+evidence, and do not grant an independence-gated status until that gate is met.
+
+## Prompting calibration
+
+Give Opus 5 the complete task and concrete finish line, use supported effort as
+the cost dial, and keep written artifacts proportional to the work. Remove generic
+"double-check yourself" passes and extra coordinator layers; retain explicit
+acceptance, external measurement and independent-review requirements because those
+acquire evidence beyond the author's reasoning. Source: [Opus 5 prompting](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5)
+and [prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices).
+
+When editing an API harness, follow the [Opus 5 migration guide](https://platform.claude.com/docs/en/models/opus-5/migration-guide):
+adaptive thinking is on by default; preserve assistant/thinking blocks unchanged
+through tool loops; consume response blocks by type; and verify supported request
+parameters. These API settings are not skill instructions that a runner can enact
+by writing them in prose, and they do not apply automatically to Gemini or GPT.

@@ -1,5 +1,12 @@
 # improve-skill, calibrated for Gemini
 
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
+
 Read this once before *Phase 0 — Intake*, then run the six phases as written; each override
 names the phase or file it lands on. The canon transfers. What changes is that three
 load-bearing instructions here are standards rather than steps with an output — Phase 1's
@@ -116,9 +123,8 @@ prompt if your examples are clear enough in showing the task at hand."*
 prompts directly."* Two of the agentic template's nine rules say the same: *"Review your output
 against the user's task"* and *"Verify your claims by quoting the exact applicable information."*
 
-That reverses the house style deliberately — removing scaffolding is right for a model that
-over-verifies, and inheriting the removal is the defect here; `opus-5-prompting.md:31` carves out
-the exception in its own words, that instrument runs are not self-checks. **[derived]** Read the
+The shared runner contract retains required acceptance checks for every model and removes
+redundant generic self-review. **[derived]** Read the
 pipeline for exit codes and it owns exactly one, `node site/scripts/build-catalogue.mjs` at
 SKILL.md:122; two more are borrowed (`audit_sheet.py check`, and `voice_lint.py` via
 `check-conformance.mjs`). Phases 1, 2 and 3 — where every number in EVALS.md comes from — have
@@ -172,8 +178,8 @@ await Write({ file_path: "plugins/<name>/assets/banner-src.html", content: … }
 await Bash({ command: "test -s plugins/<name>/assets/banner-DESIGN.md || exit 1" })
 ```
 
-Two siblings already have this shape: the icon routes to `create-mac-icon` gated by
-`audit_sheet.py check`, and README and EVALS.md route to `create-luke-content` gated by
+Two siblings already have this shape: the icon routes to `create-mac-icon:create-mac-icon` gated by
+`audit_sheet.py check`, and README and EVALS.md route to `create-luke-content:create-luke-content` gated by
 `check-conformance.mjs`. Phase 1's meta-pass is the third candidate — give it an output file the
 plan reads, or it stays a suggestion.
 
@@ -245,7 +251,7 @@ especially the constraints and response format, at the end of the prompt."*
 **8 — cap the fan-out, and keep your own family off the panel.** Phase 3 already caps
 structurally: no git in subagents, non-overlapping directories, distinct ports, judges seeing only
 the bundle. Add a number — 14 eval runs is not 14 concurrent agents, so cap concurrency at four —
-and never delegate a check of your own output. **[derived]** If the conductor is Gemini, a Gemini
+and preserve the required independent grading without adding duplicate self-checks. **[derived]** If the conductor is Gemini, a Gemini
 CLI on the panel is same-family self-grading: drop that lane or record it beside the un-blinding
 map (direction only, `evidence.md` §7.1). **[docs]** Forks stay closed sets: *"rephrase the
 instructions as a multiple choice question and ask the model to choose an option"*, which is what
@@ -264,7 +270,7 @@ the caveats, the deadlocks and the evals the original won, which drop first.
 **10 — a document named in the prompt is read, then answered.** **[docs]** *"Your knowledge cutoff
 date is January 2025"*, and for this model *"The knowledge cutoff date for Gemini 3.7 Flash is
 March 2026"* — so the three Anthropic prompting documents in `opus-5-prompting.md` are fetched
-rather than recalled, and so are `create-mac-icon`, `create-luke-content` and `clarify` when the
+rather than recalled, and so are `create-mac-icon:create-mac-icon`, `create-luke-content:create-luke-content` and `clarify:clarify` when the
 pipeline routes to them. **[measured-family]** `evidence.md` §1.2.4 — asked a question naming
 three skills, the recorded run answered from memory without loading any; told to fix it, it
 inverted the error and launched a skill instead of answering. Load, then answer, as two ordered
@@ -280,7 +286,7 @@ generation"* — and 3.7 Flash defaults to `MEDIUM`. Raise it for that reason on
 
 **Modules not written.** `states` did not fire: this pipeline enumerates phases, not interface
 states. `platform-values` did not fire: the marketplace aesthetic is house style rather than a
-vendor spec, and the published values live inside `create-mac-icon`. `injection` did not fire and
+vendor spec, and the published values live inside `create-mac-icon:create-mac-icon`. `injection` did not fire and
 would restate the judging bundle's own guard. `count-contract` did not fire: the counts here are
 already contracts. `emphasis` did not fire on two shouted tokens, both inside a sentence telling
 the reader not to shout. `bounded-constraint` did not fire either; Override 7 is written anyway,

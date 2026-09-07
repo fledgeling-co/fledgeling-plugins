@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that gives agent-authored text a register, split by who reads it, with a deterministic lint behind every rule.</p>
 
 <p align="center">
-  <img alt="Version 0.1.1" src="https://img.shields.io/badge/version-0.1.1-D33C21">
+  <img alt="Version 0.2.2" src="https://img.shields.io/badge/version-0.2.2-D33C21">
   <img alt="SWE skill: authoring" src="https://img.shields.io/badge/SWE_skill-authoring-434A55">
   <img alt="7 registers" src="https://img.shields.io/badge/registers-7-756E60">
   <img alt="82 quotes verified verbatim" src="https://img.shields.io/badge/vendor_quotes-82_verbatim-756E60">
@@ -57,9 +57,9 @@ Seven registers, split by who reads the text, because the reader decides the fai
 
 **Text a model reads** fails as ambiguity. SKILL.md and instruction files, subagent briefs. The lint hard-fails unmeasurable qualifiers, uncounted categorical scope, pressure language and misplaced verification scaffolding.
 
-On top sits a **dialects layer**, because the same rule needs different phrasing per family. Claude Opus 5 runs long and verifies its own work without being told, so you state a ceiling and delete the verification instructions. Gemini 3 runs terse and satisfies a categorical requirement with one instance, so you state a floor and put the verification step back with its command attached. One of those rules is the exact inverse of the other, and it's both vendors' own published guidance saying so.
+On top sits a **dialects layer**, because the same rule needs different phrasing per family. For Opus 5, keep a concise output contract and remove repeated self-check reminders. The older Gemini calibration favors explicit scope and named evidence. Acceptance tests and visual comparisons remain required across models; the Gemini 3.7 observations do not establish Gemini 3.8 limits. Handoffs can preserve GPT-6 orchestration, Opus planning and Gemini implementation without inventing runtime identifiers.
 
-Every rule carries a marker naming its evidence: a quoted line of Anthropic guidance, a quoted line of Google's, a recorded measurement, or the bundled AI-writing field guide. **82 of those quotes verify verbatim against the source documents**, checked by a script rather than by eye, because a sibling skill in this repo once shipped three of its own sentences inside quotation marks attributed to Google.
+Every rule carries a marker naming its evidence: a quoted line of Anthropic guidance, a quoted line of Google's, a recorded measurement, or the bundled AI-writing field guide. The package includes a script to verify vendor quotes against their source documents, because a sibling skill in this repo once shipped three of its own sentences inside quotation marks attributed to Google.
 
 ## Install
 
@@ -128,8 +128,8 @@ A missing emoji on the next reply means the file did not load. The file-only exc
 ## What it refuses to do
 
 - **It won't shorten the work.** The counterweight is a section of the base voice, not a footnote: uncertainty, risk, security implications, destructive-action confirmations and verification that actually happened are content, and they stay whatever the length target says.
-- **It won't write in a person's voice.** If the target author is a named human, that person's own content skill governs. To build one from writing samples, `create-voice-persona` is the factory.
-- **It won't retrofit a whole skill for another model.** That's `geminify`, which writes a companion `gemini.md`. This one writes prose.
+- **It won't write in a person's voice.** If the target author is a named human, that person's own content skill governs. To build one from writing samples, `create-voice-persona:create-voice-persona` is the factory.
+- **It won't retrofit a whole skill for another model.** That's `geminify:geminify`, which writes a companion `gemini.md`. This one writes prose.
 - **It won't ship a rule nobody can source.** Inferences are marked as inferences, and `references/evidence.md` is where every marker points.
 
 ## Evals

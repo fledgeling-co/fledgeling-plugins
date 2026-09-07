@@ -8,7 +8,7 @@
 A maintenance SWE skill for Claude Code, and the quiet counterpart to <a href="../ship-armada">ship-armada</a>.</p>
 
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
+  <img alt="Version 1.1.1" src="https://img.shields.io/badge/version-1.1.1-D33C21">
   <img alt="SWE skill: maintenance" src="https://img.shields.io/badge/SWE_skill-maintenance-434A55">
   <img alt="Scope: one entry" src="https://img.shields.io/badge/scope-one_entry-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -18,7 +18,7 @@ A maintenance SWE skill for Claude Code, and the quiet counterpart to <a href=".
 
 ## Why it exists
 
-`~/Dev/ARMADA.md` is the manifest of record for every active project in `~/Dev`. `ship-armada` plans portfolio-wide work from it, so the file isn't documentation sitting off to one side; it's an input. A stale entry doesn't just look untidy, it produces bad plans.
+`~/Dev/ARMADA.md` is the manifest of record for every active project in `~/Dev`. `ship-armada:ship-armada` plans portfolio-wide work from it, so the file isn't documentation sitting off to one side; it's an input. A stale entry doesn't just look untidy, it produces bad plans.
 
 The catch is that work mostly happens where the orchestrator can't see it. You ship a feature in one repo on a Tuesday and nothing tells the manifest. So every project's `CLAUDE.md` carries a short "Portfolio manifest" section pointing here, and whoever was doing the work, orchestrator or not, the file gets brought back to true before the session ends.
 
@@ -46,7 +46,7 @@ Then it tells you what it changed in a sentence or two, and stops.
 
 ## Using it
 
-Most of the time you won't call it. It runs off the `CLAUDE.md` pointer after meaningful work in a project: a feature shipped, a status change, a new spec, plan or mock, a rename, a new sub-app, a new deploy. `ship-armada` also invokes it directly when its survey turns up a stale entry.
+Most of the time you won't call it. It runs off the `CLAUDE.md` pointer after meaningful work in a project: a feature shipped, a status change, a new spec, plan or mock, a rename, a new sub-app, a new deploy. `ship-armada:ship-armada` also invokes it directly when its survey turns up a stale entry.
 
 When you do want it by name, it answers to "update the armada manifest", "sync the master file", "refresh ARMADA.md", and "make sure the portfolio file knows about this".
 
@@ -73,4 +73,4 @@ plugins/armada-sync/
 └── assets/                       icon, banner, and the icon audit
 ```
 
-It's the smallest thing in this marketplace and it should be. One job, done surgically, so the file `ship-armada` reads is true when it reads it.
+It's the smallest thing in this marketplace and it should be. One job, done surgically, so the file `ship-armada:ship-armada` reads is true when it reads it.

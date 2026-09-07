@@ -48,7 +48,14 @@ routing figure are borrowed. Nothing about MCP returns, the iOS or guest lanes,
 prompt with non-linear logic or conditionals that require the model to piece
 together fragmented instructions from multiple different places in the prompt."*
 
-## Route out before the campaign starts
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 The campaign does not route out: **[measured-family]** the benchmark watches a
 model build things, not drive an app or grade a flow. One lane differs —

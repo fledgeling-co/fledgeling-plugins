@@ -32,7 +32,7 @@ the default. If the dispatch offers a heavy-work token, state the no-answer defa
 same breath: no answer means no token, proceed serially. A session given work without a
 named report will finish and wait, because from inside, finished-and-waiting looks like
 compliance.
-4. **The standing constraints.** The resolved `harbourmaster` scripts path (hand it down —
+4. **The standing constraints.** The resolved `harbourmaster:harbourmaster` scripts path (hand it down —
    a spawned agent does not reliably inherit `CLAUDE_PLUGIN_ROOT`, and a runner that re-derives
    it reports the governor missing on a machine that has it), exit 75 meaning wait and do other
    work rather than loop, judgement going out of family, and what must not happen: no push, no

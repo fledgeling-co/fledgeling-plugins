@@ -1,19 +1,17 @@
 # Verification lanes
 
-> **Lane assignments are `defer`'s now.** Run
+> **Lane assignments belong to `defer:defer`.** Resolve the current model role
+> and explicit user choice using its bundled `references/runtime-preferences.md`.
+> For a compatibility lane, run
 > `python3 <defer>/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]`
-> for the model, the effort and the exact argv, or `lane_run.sh <class> "<prompt>"`
-> to run and wire-verify it in one step. The classes are `implementation`,
-> `completeness`, `general`, `referral`, `verification` and `design-review`.
-> **Pass `--shape` whenever you know what the work is** — `defer --matrix` lists
-> the shapes. It narrows the class to the lanes measured good enough for that kind
-> of work before headroom picks, which is where the cost saving lives; the two
-> gated classes are `implementation` and `general`, and the judgement classes
-> abstain by design. Three rules bind everywhere: `gpt-5.6-sol` never runs at
-> `max` (it is the referral lane at `medium` and the implementation lane at
-> `high`), Fable judges but never grades code or a ticket, and design review stays
-> on Opus and Fable. What follows is this pipeline's reading of that policy, not a
-> second copy of it.
+> for live meters and exact argv, or `lane_run.sh` to execute that compatibility
+> route; verify its serving-model receipt separately. `<defer>` is the resolved
+> installed plugin root. The script's older
+> Gemini/GPT rows do not migrate themselves to the preferred current models.
+> Pass `--shape` for a measured implementation/general configuration; use
+> `lane_pick.py --matrix` to inspect shapes. Judgment classes use explicit review
+> policy rather than treating implementation scores as reviewer evidence.
+> Preserve the independent verdict and serving-family receipt below.
 
 ## One judge, not a panel
 
@@ -32,7 +30,7 @@ lane, the strongest available out of family, and spend the saved budget on givin
 better evidence.
 
 **A panel is still right for one thing**: a genuinely open design fork where the split
-itself is the answer. That is `clarify`'s job and it is a different question from
+itself is the answer. That is `clarify:clarify`'s job and it is a different question from
 grading a verdict.
 
 ## Out of family, and why it is not optional
@@ -41,13 +39,15 @@ The judge must not come from the family that wrote the majority of the code. A
 same-family judge shares the blind spot that produced the defect — that is the whole
 mechanism, and it is why the ordering below starts elsewhere.
 
-Suggested order, adjusted to what is installed and signed in:
+Identify the actual writer family first, then select a capable, authorized reviewer
+from a different family using current runtime availability. A Google reviewer is
+not independent of Gemini implementation; an OpenAI reviewer is not independent
+of GPT implementation. There is no fixed provider order that guarantees this.
 
-1. A Google-family lane
-2. An OpenAI-family lane
-3. An xAI-family lane
-4. Same-family, **recorded as `in-family (degraded)`** and given one extra adversarial
-   round. A card does not reach a terminal column on a degraded verdict alone.
+If only same-family review is available, record `in-family (degraded)`. Additional
+passes cannot restore family independence. A card does not reach a terminal
+column on a degraded verdict alone; retain the missing independent gate in the
+handoff. Use another check only to resolve a named finding or evidence gap.
 
 Probe each lane before the first use of a session and report which answered. A lane
 that is rate-limited, signed out, or returns an empty output file with a clean exit is
@@ -77,7 +77,7 @@ to leave one alive and kill the others silently, with empty logs and no error. T
 the lane as serial: `scripts/verify_queue.sh` waits for any in-flight run before
 starting the next, and reports a verdict or a no-verdict per card.
 
-**Packets stop working somewhere around 50KB.** An 86KB whole-diff packet ran thirty
+**One local run failed on an oversized packet.** An 86KB whole-diff packet ran thirty
 minutes without reaching a verdict; the same card re-sent as its four changed files
 (~29KB) returned in minutes. Send the requirement list plus the changed files, not the
 whole diff.

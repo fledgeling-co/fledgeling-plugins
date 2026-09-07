@@ -4,7 +4,7 @@
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> anvil-errand</h1>
 <p align="center">
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
+  <img alt="Version 0.2.1" src="https://img.shields.io/badge/version-0.2.1-D33C21">
   <img alt="SWE skill: orchestration" src="https://img.shields.io/badge/SWE_skill-orchestration-434A55">
   <img alt="Evals: 8 defined, not yet run" src="https://img.shields.io/badge/evals-8_defined,_not_run-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -26,7 +26,7 @@ skill is the human-facing side of it.
 
 ```bash
 anvil errand --check                    # can this work? changes nothing
-anvil errand -p "review /work and list the three worst bugs"
+anvil errand -p "review /work/ and list the three worst bugs"
 ```
 
 ## The part that earns its keep
@@ -72,10 +72,10 @@ machine to the runbook.
 
 ## Status
 
-Version 0.1.0. Shipped alongside the `anvil errand` verb (ANV-0365).
+Version 0.2.1. Shipped alongside the `anvil errand` verb (ANV-0365).
 
 This plugin carries no icon, banner or eval suite yet. The pieces of the
-standard `create-skill` brand treatment that need a human-chosen concept, or
+standard `create-skill:create-skill` brand treatment that need a human-chosen concept, or
 that spend money, were left for a later pass rather than guessed at. The
 substance (the SKILL.md, checked line by line against the verb's actual
 behaviour) is complete.

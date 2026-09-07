@@ -1,6 +1,6 @@
 ---
 name: tui-craft
-description: Build, review, and polish terminal user interfaces (TUIs) against a captured cell grid rather than against source code. Use whenever someone builds, redesigns, reviews, or polishes anything that draws to a terminal — a dashboard, log viewer, file browser, installer, wizard, admin panel, data browser, or an interactive CLI being turned into a full-screen app — and whenever they name a TUI framework (Bubble Tea, Textual, Ratatui, Ink, Blessed, prompt_toolkit, crossterm, tview, urwid). Also use when a terminal UI "looks broken", has torn or missing borders, misaligned columns, text running off the edge, tofu boxes, colours that vanish when piped, or breaks on resize — and when someone asks whether a TUI is ready to ship. Captures the running app through a pty into a typed cell grid, proves the capture is a UI and not a shell error, runs mechanical gates on it (border integrity, cell-width arithmetic, overflow, truncation markers, glyph risk), then applies a pattern catalogue drawn from 48 shipped TUIs. When there is no program to run yet, or the layout itself is the question, hand to the sibling skill tui-design, which compiles a spec into a real frame. Not for web or desktop GUI work.
+description: Build, review, and polish terminal user interfaces (TUIs) against a captured cell grid rather than against source code. Use whenever someone builds, redesigns, reviews, or polishes anything that draws to a terminal — a dashboard, log viewer, file browser, installer, wizard, admin panel, data browser, or an interactive CLI being turned into a full-screen app — and whenever they name a TUI framework (Bubble Tea, Textual, Ratatui, Ink, Blessed, prompt_toolkit, crossterm, tview, urwid). Also use when a terminal UI "looks broken", has torn or missing borders, misaligned columns, text running off the edge, tofu boxes, colours that vanish when piped, or breaks on resize — and when someone asks whether a TUI is ready to ship. Captures the running app through a pty into a typed cell grid, proves the capture is a UI and not a shell error, runs mechanical gates on it (border integrity, cell-width arithmetic, overflow, truncation markers, glyph risk), then applies a pattern catalogue drawn from 48 shipped TUIs. When there is no program to run yet, or the layout itself is the question, hand to the sibling skill tui-craft:tui-design, which compiles a spec into a real frame. Not for web or desktop GUI work.
 ---
 
 # tui-craft
@@ -14,7 +14,7 @@ This skill closes that gap with an instrument. You capture the running app into
 a typed cell grid, and every claim you make about how it looks refers to that
 grid. Build and review are the same loop; they differ only in who wrote the app.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. On Gemini, tui-craft's prose rules become counted artifacts: a state × size capture ledger written before the first capture, a bound ledger read back off the frame, gate output and capture refusals pasted verbatim rather than summarised, every finding pinned to a file, a row and a column, and a route-out for the fixing work the benchmark measures furthest behind. Other models skip it.
+**Using Gemini?** Read `gemini.md` for this skill's task-specific calibration and artifact checks. Its older runs do not establish Gemini 3.8 capability limits: preserve the user's selected implementation lane, and apply a model-specific route only when the current model or an observed failure supports it.
 
 ## The rule that makes the rest work
 
@@ -42,7 +42,7 @@ Two frame kinds, and only one of them is evidence:
 ## No program yet? That is the sibling skill
 
 If there is nothing to run — the app does not exist, or the layout itself is the
-question — **`tui-design` is the skill**, and going there is not a workaround.
+question — **`tui-craft:tui-design` is the skill**, and going there is not a workaround.
 It compiles a declarative spec into a real frame in this schema, so the cell
 arithmetic is done by the same width function this skill measures captures with.
 A difference between the two is then a difference in the build rather than in
@@ -53,14 +53,14 @@ skills produce the same frame type; what differs is what a frame licenses you to
 claim. A composed frame supports claims about a *design*. It supports no claim
 about a running program, which is what the rule above is protecting.
 
-So: a request to *design* a TUI is a `tui-design` brief even when it arrives
-here, and a request to review a *running* one is a `tui-craft` brief even when it
+So: a request to *design* a TUI is a `tui-craft:tui-design` brief even when it arrives
+here, and a request to review a *running* one is a `tui-craft:tui-craft` brief even when it
 arrives there. What is never the answer is drawing a layout by hand in a fenced
 code block because the app does not exist yet — that is the failure both skills
 were built to prevent, and it is the path of least resistance whenever the
 compiler goes unmentioned.
 
-**Load `tui-design` rather than reaching for its scripts from here.** Its loop has
+**Load `tui-craft:tui-design` rather than reaching for its scripts from here.** Its loop has
 steps this file does not carry — the spec format, and the fact that
 `example-failing.json` is a spec that must be compiled before the design gates
 will read it. Measured: an arm holding only this file invoked those gates on the
@@ -212,15 +212,15 @@ a pass.** Say render proof was unavailable, or re-capture.
 Everything above arithmetic routes out, and these are standing dependencies
 rather than optional extras:
 
-- **`ux-craft`** owns the flow, the six states, the trunk test ("where am I,
+- **`ux-craft:ux-craft`** owns the flow, the six states, the trunk test ("where am I,
   what can I do, what happens next"), errors that say how to fix, recognition
   over recall, and destructive-action friction. Load it before designing a flow
   or reviewing one.
-- **`design-craft`** owns hierarchy, restraint, and the anti-slop pass. Its
+- **`design-craft:design-craft`** owns hierarchy, restraint, and the anti-slop pass. Its
   visual rules mostly transfer; its typographic ones do not, because a terminal
   has one size and one family. Weight, colour, spacing and position are the
   whole toolkit.
-- **`be-my-witness`** owns comparing two rendered images when you genuinely have
+- **`be-my-witness:be-my-witness`** owns comparing two rendered images when you genuinely have
   a raster pair and a reference.
 
 ## Reviewing: find wide, then filter
@@ -278,7 +278,7 @@ observed in a real shipped application rather than imagined.
 
 ## What a generated TUI looks like
 
-`design-craft` owns the general anti-slop pass and cannot see a cell grid, so the
+`design-craft:design-craft` owns the general anti-slop pass and cannot see a cell grid, so the
 terminal-specific tells live in **`references/anti-patterns.md` §Generated tells**
 — seven of them, each greppable in a diff. The two worth carrying without a load:
 a truecolour gradient header, because it is the one effect that degrades to

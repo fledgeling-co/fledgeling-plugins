@@ -5,10 +5,9 @@ description: >-
   workflows — the pipeline's build stage. Reads the committed plan (docs/plans/<id>.md), the
   spec/ticket thread, and the design mock index, marks the item In Progress, then runs understand
   & specify (acceptance checklist built before code), implement (file-disjoint fan-out through
-  the executor lanes, picked per slice shape by defer, with Claude as fail-back, typecheck gates and the
+  the user-selected implementation lane, with runtime-discovered authorized fallbacks, typecheck gates and the
   wire-through + affected-test sweeps), rebase onto the detected integration branch, acceptance
-  review with evidence tables and an out-of-family completeness critic, resolve findings, then a
-  same-family validation in fresh context before setting Developer Review. Commits locally; no
+  review with evidence tables and an out-of-family completeness critic, resolve findings, then targeted conformance follow-up when an identified gap remains before setting Developer Review. Commits locally; no
   push, no PR. Use when the user says "work DIO-0001", "implement DIO-0001", or a planned feature
   is ready to build. Cross-family verification afterwards is the verify skill's job.
 ---
@@ -84,12 +83,10 @@ session's progress note.
 
 Build in dependency order (the repo's own layering — schema/contract producers before consumers;
 run the repo's codegen after contract changes). Parallelize only file-disjoint slices — never two
-agents in one file. After each wave a gate subagent runs the scoped repo gates; the next wave
+agents in one file. After each wave run the scoped repo gates; use a gate subagent only if it frees useful parallel work; the next wave
 waits for green. Production code only.
 
-**Executors — `executor-lanes.md` in full.** There is no default lane order: name what the
-slice **is** and let `defer` pick, because the right executor varies by 16 points across
-shapes and the old fixed order was expensive on five of eleven.
+**Executors — `executor-lanes.md` in full.** Honor the user-selected implementation lane first (normally Gemini 3.8 after Opus intake/triage/plan); resolve its exact supported route under `model-lanes.md`. With no selected lane, name the slice's shape and use `defer:defer`'s measured fallback:
 
 ```bash
 python3 <defer>/skills/defer/scripts/lane_pick.py --task implementation --shape <shape>
@@ -102,11 +99,10 @@ an existing suite or public API passing is `regression-sensitive`; a component a
 interaction states is `react-ui`. Where a slice spans two, name the stricter one. If you cannot
 classify it, omit `--shape` and the router falls back to headroom alone.
 
-Two overrides stand above the shape: a slice long enough to **compact** goes to the codex lane
-regardless, for its re-context harness, and Claude is always the fail-back. The never-delegate
+A slice long enough to **compact** needs persisted context and a verified resume path; it does not force a model change. Fallback follows the authorized routing policy. The never-delegate
 list, the prompt contract (absolute paths, a distinctive-fact readback), the egress/opt-out grep
 per invocation, the verify-fix loop, and the 1-in-3 revert kill-switch all bind. Any lane failure
-routes back to Claude, logged — **record the shape you named alongside the lane**, so a slice
+uses the already-authorized capable fallback, logged — **record the shape you named alongside the lane**, so a slice
 that went badly can be checked against the routing rather than only against the code.
 
 **Each slice self-certifies** — "I edited these files" is not done: its checklist rows at
@@ -156,30 +152,25 @@ exercise.
 **Completeness critic — out of family, last.** Its only job is attacking the audit itself: which
 checklist rows never got a satisfying `file:line`, which hop was never traced, which seam was
 read but never exercised, which dimension went quiet on a large surface. Route per the ordered
-review lanes (`second-opinion-lanes.md`): codex `gpt-5.6-sol` at `medium` (the R2 contract in
-`codex-cli.md`) → agy → grok; all down or opted out → a Claude strong-model critic, recorded as
-in-family. Give it the audit's own artifacts at absolute paths. Its output seeds the next round —
+review lanes (`second-opinion-lanes.md` and the R2 contract in `codex-cli.md`): select a supported capable family different from the audit writer. All independent lanes down or opted out → the authorized capable fallback, with the loss of independence recorded. Give it the audit's own artifacts at absolute paths. Its output seeds the next round —
 never straight into "resolved".
 
 ### Phase E — Resolve findings
 
 Fix every confirmed finding at all severities — test-first for bugs, surgically, file-disjoint
 fixes in parallel. Mechanical fixes may take the executor lanes on Phase B terms; diagnosis-hard
-fixes and the never-delegate list stay with Claude. Re-gate, re-run the specific evidence checks
+fixes and the never-delegate list stay with the designated capable owner. Re-gate, re-run the specific evidence checks
 for each fixed row, then **one** targeted re-audit over fixed items + critic seeds — not a loop
 until quiet.
 
-### Phase D′ — Same-family validation (fresh context)
+### Phase D′ — Targeted conformance follow-up (only when needed)
 
-Before the status moves, the implementation's **own family** checks the work against the plan and
-the tests, in a context that shares none of the build's premises: a fresh agent on the same lane
-family that wrote the majority of the code (agy-built → a fresh agy/gemini agent; Claude-built →
-a fresh Claude subagent), physically scoped to the pushed branch — it receives only the
-ticket/spec text, the plan path, the branch name, and the mock index; never the build transcript
-or the filled tables. It re-derives its own requirement list, checks it against the diff and the
-test results, and returns discrepancies. Its findings route back through Phase E once. This is
-the writer's family catching its own idiom-level slips cheaply before the cross-family verifier
-spends real evidence-gathering on them; it does not replace `verify` and cannot set `Done`.
+The acceptance review and completeness critic already check the plan. Do not add a
+fresh same-family re-review by default. Use this step only when a confirmed fix,
+conflict resolution or missing evidence leaves a named requirement unresolved.
+Give one bounded reviewer the requirement, changed files and evidence to acquire;
+route findings through Phase E once. Record `not needed` when D/E closed the rows.
+This step cannot replace `shipyard:verify` or set `Done`.
 
 ### Phase F — Finalize
 
@@ -192,7 +183,7 @@ Acceptance review counts · **Implementation assumptions** (every call you made 
 determine — "assuming X (rather than Y)") · **Dropped or changed vs spec/plan** (an undisclosed
 drop discovered later is a finding against this run) · Gates (actually run) · Executor + critic
 accounting per lane · **Reviewing models** (wire-verified, so REVIEWER ≥ WRITER is checkable
-from the artifact) · D′ validation outcome. Reconcile the plan's AC checkboxes — every unticked
+from the artifact) · D′ follow-up result or `not needed`. Reconcile the plan's AC checkboxes — every unticked
 box appears in the note as a blocker, deferral, or Dropped row. **Caveats propagate** verbatim
 into any later record.
 
@@ -234,11 +225,11 @@ created/modified — never `git add .`; never pass `-c user.email`/`-c user.name
   spec seems mistaken, say so in a sentence and continue as asked rather than quietly narrowing,
   widening, or transforming. Out-of-slice reach (a shared component, a global utility) is its own
   disclosed line item.
-- Every phase A–F (+D′) runs to completion; a green gate is necessary, never sufficient
+- Every applicable phase A–F runs to completion; D′ requires a named unresolved gap; a green gate is necessary, never sufficient
   (`evidence-rules.md`).
 - Routing summary: readers/gate-runners `low` (cheapest tier) · evidence lenses `low–medium`
   (mid tier) · synthesis, conflict resolution, security/guardrails/identity lenses — strongest
-  model, never downgraded · executors per `executor-lanes.md` · critic out-of-family at `max`.
+  model, never downgraded · executors per `executor-lanes.md` · critic on a capable independent lane at a supported, task-appropriate effort.
   Step effort down before model down; hold effort constant per agent.
 
 ## Machine admission — run heavy steps through harbourmaster
@@ -291,5 +282,5 @@ weight larger than the machine's whole capacity. Any other code is the command's
 Planning, reading and review stay unwrapped — they cost context and rate limit
 rather than cores. Before wrapping, ask whether the work belongs on this Mac at
 all: a long self-contained build can go to an `anvil errand` container, and a
-verdict belongs in `defer`. `harbourmaster`'s `references/routing.md` has the
+verdict belongs in `defer:defer`. `harbourmaster:harbourmaster`'s `references/routing.md` has the
 decision procedure.

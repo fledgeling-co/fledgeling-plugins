@@ -1,0 +1,26 @@
+test_all_three_failure_shapes (test_skill_references.SkillReferenceTests.test_all_three_failure_shapes) ... ok
+test_bare_prose_slash_and_json_calls (test_skill_references.SkillReferenceTests.test_bare_prose_slash_and_json_calls) ... ok
+test_builtin_description_does_not_hide_a_later_plugin_call (test_skill_references.SkillReferenceTests.test_builtin_description_does_not_hide_a_later_plugin_call) ... ok
+test_cli_exit_status_distinguishes_findings_from_source_only_unknowns (test_skill_references.SkillReferenceTests.test_cli_exit_status_distinguishes_findings_from_source_only_unknowns) ... ok
+test_external_source_is_not_claimed_installed (test_skill_references.SkillReferenceTests.test_external_source_is_not_claimed_installed) ... ok
+test_generated_instruction_templates_are_scanned (test_skill_references.SkillReferenceTests.test_generated_instruction_templates_are_scanned) ... ok
+test_historical_excerpt_does_not_hide_active_call_on_same_line (test_skill_references.SkillReferenceTests.test_historical_excerpt_does_not_hide_active_call_on_same_line) ... ok
+test_historical_records_stay_outside_gate (test_skill_references.SkillReferenceTests.test_historical_records_stay_outside_gate) ... ok
+test_literal_tool_arguments_preserve_exact_syntax (test_skill_references.SkillReferenceTests.test_literal_tool_arguments_preserve_exact_syntax) ... ok
+test_mismatched_declared_name_is_rejected (test_skill_references.SkillReferenceTests.test_mismatched_declared_name_is_rejected) ... ok
+test_missing_relative_reference_fails_but_runtime_paths_do_not (test_skill_references.SkillReferenceTests.test_missing_relative_reference_fails_but_runtime_paths_do_not) ... ok
+test_missing_skill_in_known_external_plugin_fails (test_skill_references.SkillReferenceTests.test_missing_skill_in_known_external_plugin_fails) ... ok
+test_name_in_body_is_not_frontmatter_and_yaml_comments_are_accepted (test_skill_references.SkillReferenceTests.test_name_in_body_is_not_frontmatter_and_yaml_comments_are_accepted) ... ok
+test_no_repeated_finding_for_same_call (test_skill_references.SkillReferenceTests.test_no_repeated_finding_for_same_call) ... ok
+test_paths_frontmatter_css_markers_and_standalone_are_not_calls (test_skill_references.SkillReferenceTests.test_paths_frontmatter_css_markers_and_standalone_are_not_calls) ... ok
+test_quoted_runner_prompt_and_failure_clause_are_checked (test_skill_references.SkillReferenceTests.test_quoted_runner_prompt_and_failure_clause_are_checked) ... ok
+test_resolves_every_subskill_not_only_plugin_main (test_skill_references.SkillReferenceTests.test_resolves_every_subskill_not_only_plugin_main) ... ok
+test_reviewed_historical_excerpt_only_exempts_its_exact_line (test_skill_references.SkillReferenceTests.test_reviewed_historical_excerpt_only_exempts_its_exact_line) ... ok
+test_unknown_explicit_skill_calls_fail_but_dynamic_values_are_not_guessed (test_skill_references.SkillReferenceTests.test_unknown_explicit_skill_calls_fail_but_dynamic_values_are_not_guessed) ... ok
+test_unknown_qualified_slash_calls_have_external_locations (test_skill_references.SkillReferenceTests.test_unknown_qualified_slash_calls_have_external_locations) ... ok
+test_xml_tags_and_tscon_destination_are_not_skill_referrals (test_skill_references.SkillReferenceTests.test_xml_tags_and_tscon_destination_are_not_skill_referrals) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.275s
+
+OK

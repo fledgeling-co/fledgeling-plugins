@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Run a task class on the lane defer chose, verify it, and record what it cost.
+# Run a compatibility task lane and record available usage; identity needs a separate receipt.
 #
 #   lane_run.sh completeness "$(cat prompt.txt)"
 #   lane_run.sh referral "Which of A or B, and what is the loser better at?"
 #
-# This is what a skill should call. Routing, invocation, wire-verification and
-# metering are one step here because separating them is how a lane silently runs
-# on the wrong model: the flags get passed, the answer comes back plausible, and
-# nothing ever reads the receipt.
+# This wrapper uses the calibrated compatibility registry, not runtime model
+# preferences. It checks for non-empty output, but does not wire-verify the serving
+# model. Callers must apply current authorization before dispatch and the receipt
+# checks in references/wire-verify.md before claiming model identity or independence.
 #
 # On a lane failure the work moves to the next lane the task class allows, in
 # policy order. Nothing routes outside the class, so the family invariants hold

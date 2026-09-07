@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that takes an existing skill all the way from "this could be better" to a named, iconed, evidence-backed plugin.</p>
 
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-F2542D">
+  <img alt="Version 1.3.1" src="https://img.shields.io/badge/version-1.3.1-F2542D">
   <img alt="6 phases" src="https://img.shields.io/badge/phases-6-2A241E">
   <img alt="2 user checkpoints" src="https://img.shields.io/badge/user_checkpoints-2-B8300F">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8C7C63">
@@ -133,3 +133,9 @@ Found a run that misbehaved? Open an issue with the phase it was in and what it 
 ## Licence
 
 MIT.
+
+Runner briefs use a [local contract](skills/improve-skill/references/runner-contract.md):
+Opus 5 for intake, triage and planning, Gemini 3.8 for implementation after the
+plan, and GPT-6 for orchestration. The runtime supplies exact model selectors;
+user choices override defaults. Required checks stay explicit, with no repeated
+generic self-review.

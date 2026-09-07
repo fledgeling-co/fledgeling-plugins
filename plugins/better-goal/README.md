@@ -8,7 +8,7 @@
 A run held to a finish line by gates it can actually fail, and the sibling of <a href="../better-loop">better-loop</a>.</p>
 
 <p align="center">
-  <img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-D33C21">
+  <img alt="Version 2.2.2" src="https://img.shields.io/badge/version-2.2.2-D33C21">
   <img alt="SWE skill: session control" src="https://img.shields.io/badge/SWE_skill-session_control-434A55">
   <img alt="Arms: its own Stop guard" src="https://img.shields.io/badge/arms-its_own_Stop_guard-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -65,7 +65,7 @@ It stops at arming. It does not start the work; the armed run does that.
 | A settings file already in `.claude/` | Claude Code watches only directories that held one at session start; without it the hook is written correctly and never fires |
 | Permission mode | A goal changes no permissions, so default mode stalls the run |
 | `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` | Default 8, then override. `arm.sh` raises it and records the prior value so `disarm.sh` can put it back |
-| Every skill named in a gate reason | The model cannot invoke a `disable-model-invocation` skill from a guard reason. `/verify` and `/code-review` are both in that set |
+| Every skill named in a gate reason | The model cannot invoke a `disable-model-invocation` skill from a guard reason. the harness's bundled `/verify` and `/code-review` commands are in that set; `code-review:code-review` is a separate plugin skill |
 | Ports, processes, simulators | Two runs fighting over one simulator is a documented stall |
 | Armed runs already in this repo | Two runs sharing one state file was a real collision; state is per-slug now, and the preflight shows what is live |
 
@@ -98,7 +98,7 @@ The state file records the **session id**, so the hook stays inert in every othe
 **On its own**, when you want a hardened run set up from scratch:
 
 ```text
-/better-goal divide the remaining work into md files in docs/features-to-triage
+/better-goal:better-goal divide the remaining work into md files in docs/features-to-triage
 then use /ship-fleet:ship-fleet until all items are complete
 ```
 
@@ -107,7 +107,7 @@ then use /ship-fleet:ship-fleet until all items are complete
 **Composed with the built-in**, if you want the evaluator's judgment as well as the gates:
 
 ```text
-/goal /better-goal continue until every remaining item is shipped
+/goal /better-goal:better-goal continue until every remaining item is shipped
 ```
 
 It notices when the live condition is a slash-command name, says so in a line, and replaces it with one that can be settled. The guard is the mechanism either way; `/goal` is additive.
@@ -163,7 +163,7 @@ each response alone with no arm label.
 Across both harness skills, **32 of 33 structural assertions against the
 baseline's 12**, and the grader preferred the skill arm in **8 cases out of 8**.
 
-Two results worth reading before you trust that number. On the `/code-review`
+Two results worth reading before you trust that number. On the `/code-review:code-review`
 case the baseline scored the same 3/3: a capable model with the docs finds that
 trap on its own, and the skill's headline claim is not what separates them
 there. And the arming case is confounded, because the fixture is deliberately

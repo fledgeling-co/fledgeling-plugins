@@ -97,7 +97,7 @@ All under `--root`, all created on demand:
 
 ### The producing and consuming planes key their state differently
 
-`oracle` measures a surface, `assay` measures a test target, and authority is held
+`warrant:oracle` measures a surface, `warrant:assay` measures a test target, and authority is held
 per defect class. Something has to map one onto the other, and leaving it implicit
 is what produced the one integration defect in this build: two consumers read
 `{"classes": {...}}` while the producer wrote `{"surfaces": [...]}`, so every class
@@ -118,8 +118,8 @@ suite-health.json     {"mutation": {"score","high_water",...},
 ```
 
 A class no surface matched is `green: false` rather than absent, because no
-evidence is not the same answer as a pass. Run `rollup_classes.py` after `oracle`
-and `assay` and before `ratchet`.
+evidence is not the same answer as a pass. Run `rollup_classes.py` after `warrant:oracle`
+and `warrant:assay` and before `warrant:ratchet`.
 
 ## Schemas
 

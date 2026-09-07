@@ -3,9 +3,9 @@
 Where the invoice is not in the mail and not on disk, it is behind a login. This is the stage that most often
 stalls, and the two ways it stalls are different problems.
 
-## Route to `proctor`, not to a headless browser
+## Route to `proctor:proctor`, not to a headless browser
 
-`proctor` drives the operator's **own running, signed-in browser** through the macOS accessibility tree. Every
+`proctor:proctor` drives the operator's **own running, signed-in browser** through the macOS accessibility tree. Every
 other option drives a separate browser with its own cookie jar, which means its own signed-out session.
 
 Measured on a real run: `agent-browser` with `--profile "Profile 1"` — the operator's actual Chrome profile — still

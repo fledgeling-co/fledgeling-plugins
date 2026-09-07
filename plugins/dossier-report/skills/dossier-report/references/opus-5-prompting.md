@@ -1,8 +1,8 @@
 # Writing prompts for Opus 5 runners
 
-Every agent this pipeline spawns is Opus, so the briefs it writes are Opus
-prompts and their quality decides what comes back. Read these three in full
-before writing one — not the summaries, the documents:
+Use this guide for an Opus 5 runner. The pipeline does not require every stage to use Opus: preserve the user's selected orchestration, planning and implementation lanes. An Opus planning stage may hand a complete brief to Gemini 3.8, coordinated by GPT-6; resolve their actual IDs and controls from the current harness.
+
+For an Opus 5 prompt revision, consult these sources once per review, or reuse a current copy already read in this session:
 
 - <https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5.md>
 - <https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md>
@@ -67,15 +67,13 @@ fix it and move on.
 
 Effort defaults to `high`. `low` and `medium` are the primary cost and latency
 controls and hold quality on mechanical or read-only passes; `xhigh` suits
-long-running agentic and coding work; `max` is for the most demanding tasks and
-can overthink simpler ones. Run a fresh sweep on your own evals rather than
+demanding agentic and coding work. Use only effort values the selected runtime model supports; do not carry a previous model's `max` setting over by name. Run a fresh sweep on your own evals rather than
 carrying a setting over from an earlier model — the levels were recalibrated.
 
-At `xhigh` or `max`, set `max_tokens` to at least 64k so the model has room to
-think and act.
+When using the Messages API, choose an output-token budget that fits the task and the selected model's documented limits. A CLI may not expose `max_tokens`; do not invent a flag or force a fixed 64k budget for every runner.
 
 Thinking is on by default and can only be disabled at effort `high` or below;
-`disabled` plus `xhigh`/`max` returns a 400. Prefer lower effort with thinking
+`disabled` plus an unsupported higher-effort setting is invalid. Prefer lower effort with thinking
 on over disabling it: with thinking off, the model occasionally emits tool calls
 as plain text or leaks internal XML tags into visible output.
 

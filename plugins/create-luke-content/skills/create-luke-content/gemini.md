@@ -1,5 +1,7 @@
 # create-luke-content, calibrated for Gemini
 
+**Applicability:** The named older runs calibrate this adapter; they do not establish Gemini 3.8 limits. Preserve an explicitly selected implementation lane. Apply route-out advice only to the measured model or a current observed limitation. Derive artifact counts from the current brief; worked examples and historical line locators describe their original fixtures.
+
 Read this once before Step 1, then run the skill as written with the overrides below; each names the step it lands on. The
 target's two commitments are `voice fidelity` and `grounding`, and neither is what this family loses first. What it loses
 is the procedure around them: two file loads stated once in prose, a per-section re-anchor stated once in prose, a lint
@@ -19,7 +21,7 @@ Every rate here is flash-tier (`gemini-3.7-flash`, plus one `gemini-3.7-flash-hi
 name the level. **[docs]** "If thinking_level is not specified, Gemini 3 will default to high", then, from the 3.5 Flash
 release notes, "The default thinking effort is now medium, changed from high in Gemini 3 Flash Preview."
 
-**Unmeasured on this skill.** No Gemini run of `create-luke-content` has been recorded, so nothing below is measured on
+**Unmeasured on this skill.** No Gemini run of `create-luke-content:create-luke-content` has been recorded, so nothing below is measured on
 this target: not whether `luke-voice.md` and the routed persona get loaded before drafting, not whether `--config` is
 passed, not whether the per-section re-anchor at SKILL.md:68 happens more than once, not whether the five invention
 traps at `luke-voice.md:94-99` survive a draft, not whether the graphic concept's three outputs all ship, and not

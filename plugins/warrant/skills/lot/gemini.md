@@ -135,7 +135,7 @@ detector whose halt message names *"repetitive tool calls"* (§7.2).
 
 Here the pivot that matters is the one *away* from the obvious workaround. `lot_plan.py exits 3
 without .warrant/suite-health.json, naming assay as the step that produces it.` The correct next
-action is to run `assay`, not to add `--unmeasured-suite`. That flag `plans anyway and records the
+action is to run `warrant:assay`, not to add `--unmeasured-suite`. That flag `plans anyway and records the
 omission in the plan and on every run`, which is a confession travelling with the artifact rather than
 a way past the gate — `so a plan built over an unmeasured suite cannot pass as one built over a
 measured one`. If it is used, the delivery note leads with it.

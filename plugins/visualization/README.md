@@ -8,7 +8,7 @@
 A skill for Claude Code that picks the right form for your data, proves its colours work for colourblind readers, and runs twelve gates over its own output before handing it to you.</p>
 
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
+  <img alt="Version 1.1.2" src="https://img.shields.io/badge/version-1.1.2-D33C21">
   <img alt="53 forms" src="https://img.shields.io/badge/forms-53-434A55">
   <img alt="12 shipped gates" src="https://img.shields.io/badge/gates-12_shipped-756E60">
   <img alt="Blind panel 5-2" src="https://img.shields.io/badge/blind_panel-5--2-756E60">

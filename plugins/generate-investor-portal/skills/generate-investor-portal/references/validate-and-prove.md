@@ -352,9 +352,9 @@ working header.
 
 ### And name the lane, or the matrix runs five times at one width
 
-**Obscura is the only sanctioned browser here** (no Playwright, no Puppeteer, no
-chrome-headless-shell, no chrome-devtools-mcp, no browser-use). The trap is specific and it fails
-silently: `obscura fetch` renders at a **fixed 1280×720 with no viewport flag**, so a sweep driven
+**Discover the current permitted browser and record its actual viewport.** The following
+Obscura observations are from the original August 2026 environment; reproduce a limitation
+before applying its workaround. The historical trap failed silently: `obscura fetch` renders at a **fixed 1280×720 with no viewport flag**, so a sweep driven
 through it does five passes at one width and reports five clean results.
 
 The lane that works is `obscura serve` plus CDP `Emulation.setDeviceMetricsOverride`, which was

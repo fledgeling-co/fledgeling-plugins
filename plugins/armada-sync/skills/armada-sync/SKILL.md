@@ -6,16 +6,16 @@ description: >-
 
 # Armada Sync — keep the portfolio manifest honest
 
-`~/Dev/ARMADA.md` is the manifest of record for every active project in `~/Dev`. The `ship-armada` orchestrator plans portfolio-wide work from it, so a stale entry causes bad plans. Your job here is one surgical update: make the entry for the project you just worked in match reality, and stop.
+`~/Dev/ARMADA.md` is the manifest of record for every active project in `~/Dev`. The `ship-armada:ship-armada` orchestrator plans portfolio-wide work from it, so a stale entry causes bad plans. Your job here is one surgical update: make the entry for the project you just worked in match reality, and stop.
 
-Deliver exactly that scope. Do not refresh other entries, reorganize the manifest, or expand this into a portfolio survey — those belong to `ship-armada`.
+Deliver exactly that scope. Do not refresh other entries, reorganize the manifest, or expand this into a portfolio survey — those belong to `ship-armada:ship-armada`.
 
 **Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It replaces step 4's six-edits-in-one-rewrite with four passes over a manifest too large to Read whole, and turns the entry's caps — 20 lines, 8 features, 3 opportunities, one changelog line, one entry — into a snapshot diff that reads each one back. Other models skip it.
 
 ## Protocol
 
 1. **Identify the project.** It is the `~/Dev/<project>` directory you are working in (walk up from cwd to the child of `~/Dev`). If you are in `~/Dev` itself, ask which project to sync rather than guessing.
-2. **Read the current entry.** Open `~/Dev/ARMADA.md`, find the `### <project>` section and its row in the index table. If the manifest does not exist, say so and suggest running `ship-armada` (survey mode) to create it; do not scaffold a one-project manifest.
+2. **Read the current entry.** Open `~/Dev/ARMADA.md`, find the `### <project>` section and its row in the index table. If the manifest does not exist, say so and suggest running `ship-armada:ship-armada` (survey mode) to create it; do not scaffold a one-project manifest.
 3. **Gather the delta cheaply.** `git -C ~/Dev/<project> log --oneline --since=<entry's updated stamp>` plus what you already know from the session. Only open docs (README, CLAUDE.md, specs/plans dirs, mocks) whose references you have reason to believe changed.
 4. **Rewrite the entry in place**, keeping the template shape below and the entry under ~20 lines. Update: the `updated:` stamp (today, YYYY-MM-DD), **Status** (1–2 sentences of current truth), **Features** (add/adjust; keep the list ≤8, most important first), **Read more** paths (specs/plans counts, new ORCHESTRATOR.md, newest mocks — verify each path you write exists), and **AI/tech opportunities** if the work closed or created one.
 5. **Update the index row** (same status phrase, same date) and **append one line** to the `## Changelog` section: `- 2026-08-07 <project>: <what changed in one clause>`.

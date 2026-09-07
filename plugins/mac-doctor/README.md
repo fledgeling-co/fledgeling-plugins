@@ -4,7 +4,7 @@
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> mac-doctor</h1>
 <p align="center">
-  <img alt="Version 1.0.3" src="https://img.shields.io/badge/version-1.0.3-D33C21">
+  <img alt="Version 1.1.1" src="https://img.shields.io/badge/version-1.1.1-D33C21">
   <img alt="SWE skill: maintenance" src="https://img.shields.io/badge/SWE_skill-maintenance-434A55">
   <img alt="Cadences: 5" src="https://img.shields.io/badge/cadences-5-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -63,11 +63,11 @@ So the interesting part isn't the deleting. It's the part that won't.
 Then:
 
 ```text
-/mac-doctor --setup     # install the five scheduled jobs
-/mac-doctor             # run whichever one is due
-/mac-doctor report      # measure everything, change nothing
-/mac-doctor status      # what's scheduled, when it last ran
-/mac-doctor worktrees   # audit worktrees only
+/mac-doctor:mac-doctor --setup     # install the five scheduled jobs
+/mac-doctor:mac-doctor             # run whichever one is due
+/mac-doctor:mac-doctor report      # measure everything, change nothing
+/mac-doctor:mac-doctor status      # what's scheduled, when it last ran
+/mac-doctor:mac-doctor worktrees   # audit worktrees only
 ```
 
 `report` is the safe first move. It measures and explains without touching anything.
@@ -117,7 +117,7 @@ The ledger records what it **kept** as carefully as what it removed. Something s
 ## Uninstalling
 
 ```text
-/mac-doctor uninstall
+/mac-doctor:mac-doctor uninstall
 ```
 
 That removes the scheduled jobs and leaves `~/.claude/mac-doctor/` where it is. The ledger is worth more than the automation.

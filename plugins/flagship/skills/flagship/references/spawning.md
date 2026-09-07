@@ -7,7 +7,7 @@ Three planes. Pick by what the work needs to *own*, not by what is nearest to ha
 A script owns the loop; agents do the work; results come back as data. Right for
 deterministic fan-out — one runner per item, schema-enforced output.
 
-- Slot count comes from `harbourmaster`, re-read on **every refill**, never fixed. Pressure
+- Slot count comes from `harbourmaster:harbourmaster`, re-read on **every refill**, never fixed. Pressure
   moves under a long run.
 - `agent()` returns `null` on a terminal API error with **zero retries**, and the run still
   reports `completed`. A null is a death, not a completion. `.filter(Boolean)` drops the
@@ -30,7 +30,7 @@ Reach for this when the work needs its own context window, its own channel to th
 possibly its own fleet. A tab-launched session is a real peer: it appears in `ListAgents`, it
 can be messaged, it can be corrected mid-flight, and it outlives your terminal.
 
-`recover-claude-code` owns the hardened mechanism. Use `scripts/spawn_session.py` here, which
+`recover-claude-code:recover-claude-code` owns the hardened mechanism. Use `scripts/spawn_session.py` here, which
 lifts it. The parts that are load-bearing are load-bearing because they failed silently first:
 
 - **A new tab comes from the File menu, not a keystroke.** `ghostty +new-window` reports
@@ -55,7 +55,7 @@ Give it the complete spec up front. Opus follows literally and will widen scope 
 State the scope plainly, leave out verification scaffolding, cap its own delegation explicitly,
 and calibrate the deliverable length — effort controls thinking, not visible length.
 
-Include, always: the resolved `harbourmaster` scripts path (a spawned agent does not reliably
+Include, always: the resolved `harbourmaster:harbourmaster` scripts path (a spawned agent does not reliably
 inherit `CLAUDE_PLUGIN_ROOT`, so a runner that re-derives it finds nothing and reports the
 governor missing on a machine that has it); the lane inventory as measured, not as advertised;
 the standing constraints on push, publish and deploy; and **who it reports to, with the
@@ -114,7 +114,7 @@ something only the intended target could have produced tells you where it happen
 **When a runner dies to an infrastructure fault, the recovery plane is transcript
 promotion.** Measured 24 Aug 2026: Relay account switches killed two in-session workflow
 runners mid-turn, and the orchestrator recovered both by promoting each runner's transcript
-to a resumable session per `recover-claude-code` — re-dispatched with state reconciled from
+to a resumable session per `recover-claude-code:recover-claude-code` — re-dispatched with state reconciled from
 git, not from the runner's last message. That reconcile-from-git-first shape ("do not treat
 this as done") is the part worth copying: the dead runner's self-report ends at the kill,
 and the repo is the only witness of what actually landed.

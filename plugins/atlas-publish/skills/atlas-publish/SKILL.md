@@ -1,7 +1,7 @@
 ---
 name: atlas-publish
 description: >-
-  Atlas/Bella release conductor — take the open PRs to a registered draft release, on the OTA lane or the App Store lane. Use when someone wants Atlas work in front of users: "ship an Atlas release", "publish an OTA update", "release the app", "cut a new Atlas build", "push a JS-only update to users", "do a full App Store release", "get the merged work out". Classifies OTA-only vs App Store from the expo-updates native fingerprint (ios.buildNumber is inside it, so a buildNumber bump alone forces a store release), runs the API back-compat and OTA cert-parity gates with not-run reported apart from passed, reviews and merges the open PRs by number with a started-vs-merged reconciliation, reconciles tests, bumps app.json version and ota/bundle.json, asks the founder for the TestFlight What-to-Test notes before any store build, archives via Fastlane, exports via expo export, uploads bundle bytes straight to Vercel Blob, and registers the result as a DRAFT through the atlas-admin MCP. Draft is where automation stops — publish_bundle, publish_app_version, retract and set_min_app_version are founder actions and this skill does not call them. NOT for reviewing a diff on its own (use the code-review skill) and NOT for publishing an already-registered bundle.
+  Atlas/Bella release conductor — take the open PRs to a registered draft release, on the OTA lane or the App Store lane. Use when someone wants Atlas work in front of users: "ship an Atlas release", "publish an OTA update", "release the app", "cut a new Atlas build", "push a JS-only update to users", "do a full App Store release", "get the merged work out". Classifies OTA-only vs App Store from the expo-updates native fingerprint (ios.buildNumber is inside it, so a buildNumber bump alone forces a store release), runs the API back-compat and OTA cert-parity gates with not-run reported apart from passed, reviews and merges the open PRs by number with a started-vs-merged reconciliation, reconciles tests, bumps app.json version and ota/bundle.json, asks the founder for the TestFlight What-to-Test notes before any store build, archives via Fastlane, exports via expo export, uploads bundle bytes straight to Vercel Blob, and registers the result as a DRAFT through the atlas-admin MCP. Draft is where automation stops — publish_bundle, publish_app_version, retract and set_min_app_version are founder actions and this skill does not call them. NOT for reviewing a diff on its own (use code-review:code-review) and NOT for publishing an already-registered bundle.
 allowed-tools: Read, Grep, Glob, Bash, Agent, Write
 ---
 
@@ -195,7 +195,7 @@ the next build — never a retry of the same id.
 
 ## Delegation, narration, and length
 
-Delegate to a subagent for two things only: the per-PR `code-review` pass when there are three
+Delegate to a subagent for two things only: the per-PR `code-review:code-review` pass when there are three
 or more open PRs, and a wide investigation across the four apps when the back-compat gate at Step 2
 flags a change you cannot trace by reading two files. Cap: 3 subagents for one release run. Do the
 merge wave, the version bumps, the export and every MCP call in this session — subagents never run

@@ -40,7 +40,7 @@ Never blame ("you entered an invalid…"); focus on the fix. Place adjacent to t
 
 ## Tone matrix
 
-Voice is constant (Diolog's voice: direct, expert, calm — see `diolog-brand-voice` for prose work); tone flexes by context. Calibrate on four dials: formality, emotion, authority, complexity.
+Voice is constant (Diolog's voice: direct, expert, calm — use the matching installed `diolog-brand-voice:create-diolog-marketing-copy` or `diolog-brand-voice:create-diolog-article` for that prose); tone flexes by context. Calibrate on four dials: formality, emotion, authority, complexity.
 
 | Context | Tone | Example register |
 |---|---|---|

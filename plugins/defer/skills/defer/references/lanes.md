@@ -1,7 +1,8 @@
 # Lanes — who does what, on which CLI, with which arguments
 
-Canonical. Every skill that hands work to another model routes through this file
-and through `scripts/lane_pick.py`, which reads the same policy from
+Compatibility registry. Current user model preferences resolve first through
+`runtime-preferences.md`; this file describes the calibrated fallback lanes.
+For these lanes, `scripts/lane_pick.py` reads the same policy from
 `scripts/lane_registry.py`. Change a lane here **and** in the registry, or the
 selftest fails — which is the point, because a policy in two places drifts and
 the drift is silent.
@@ -21,7 +22,8 @@ measured rather than asserted — is `capability.md`.
 | **Verification** — task and same-family | opus | `claude-opus-5` | **xhigh** | fixed |
 | **Design review** | opus · fable | `claude-opus-5` · `claude-fable-5` | xhigh · high | fixed |
 
-Three rules sit above the table and hold everywhere:
+Three compatibility rules sit above this table; they do not override an explicit
+model choice or the runtime preference path:
 
 - **`gpt-5.6-sol` never runs at `max`.** It is the referral lane at `medium` and
   the implementation lane at `high`. Anything that is not a referred decision
@@ -85,15 +87,17 @@ The shape gate grades a model *building* something. Two things it structurally
 cannot measure are recorded separately, so neither is mistaken for a capability
 score and either can be lifted without touching a number somebody else produced.
 
-**`DELIVERY_PENALTY`** — whether the artefact arrived at all. `gemini` carries
+**`DELIVERY_PENALTY`** — whether the artefact arrived at all. The recorded
+Gemini 3.7 Flash `gemini` lane carries
 12 points, measured 2026-08-26: running as an autonomous builder it failed 8 of
 12 dispatches and one completion report was fabricated — 4,406 bytes claiming
 four schedulers created, against a ground truth of nothing created. A bench
 cannot catch that, because a fabricated report grades as a delivered artefact.
-Lift it when a dispatch set of 12 or more completes with no fabricated report
-and a failure rate under 20%.
+Recalibrate that lane when a dispatch set of 12 or more completes with no
+fabricated report and a failure rate under 20%. Do not assign its penalty to
+Gemini 3.8 or another unmeasured configuration.
 
-**`PREFERENCE_ORDER`** — the owner's tie-break, `glm` → `grok` → `codex-sol` →
+**`PREFERENCE_ORDER`** — the recorded compatibility tie-break, `glm` → `grok` → `codex-sol` →
 `codex-luna-max` → … → `gemini`. It runs *last*, only between lanes already
 agreed equivalent on the measured number, so policy never overrules a lane that
 is genuinely better at the shape in front of it.
@@ -157,7 +161,8 @@ spend ledger recorded `model: glm-5.3, bindingId: glm` for that request.
 
 ## The timeout is part of the invocation
 
-Every command in this file needs a bound of **900 seconds**, or backgrounding. The
+Use a task-appropriate bound and an observable background/session handle for
+long calls; **900 seconds** was the bound used for these recorded lanes. The
 harness default is 120 000 ms and the median lane call is **150 seconds**, so a lane run
 at the default is killed about half the time — 23 of grok's 24 failures in the measured
 window were exactly that, 3,240 seconds of wait on calls that would have succeeded. A
@@ -169,7 +174,7 @@ answered with nothing.
 A lane is available when a probe says so, not when you remember it working.
 `scripts/lane_probe.sh` runs the cheap version of each.
 
-As at 2026-08-21: **codex is out of allowance until 27 Aug 13:30**, and its
+**Historical snapshot, not current availability (2026-08-21):** **codex is out of allowance until 27 Aug 13:30**, and its
 failure is worth recognising because it looks like a success — the header prints
 `model: gpt-5.6-terra` and `reasoning effort: high` exactly as requested, then the
 `-o` file is written empty. **Grok is at 98.8% of an observed plan period.** GLM,

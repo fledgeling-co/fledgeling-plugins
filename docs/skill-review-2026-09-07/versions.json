@@ -1,0 +1,272 @@
+[
+  {
+    "plugin": "flagship",
+    "before": "1.6.7",
+    "after": "1.6.8"
+  },
+  {
+    "plugin": "ship-armada",
+    "before": "2.2.2",
+    "after": "2.2.3"
+  },
+  {
+    "plugin": "armada-sync",
+    "before": "1.1.0",
+    "after": "1.1.1"
+  },
+  {
+    "plugin": "create-swe-project",
+    "before": "1.12.2",
+    "after": "1.12.3"
+  },
+  {
+    "plugin": "design-review",
+    "before": "2.3.1",
+    "after": "2.3.2"
+  },
+  {
+    "plugin": "be-my-witness",
+    "before": "0.3.0",
+    "after": "0.3.1"
+  },
+  {
+    "plugin": "mockup-fidelity",
+    "before": "3.4.1",
+    "after": "3.4.2"
+  },
+  {
+    "plugin": "braindump",
+    "before": "2.4.0",
+    "after": "2.4.1"
+  },
+  {
+    "plugin": "trawl",
+    "before": "2.3.0",
+    "after": "2.3.1"
+  },
+  {
+    "plugin": "create-mac-icon",
+    "before": "1.7.1",
+    "after": "1.7.2"
+  },
+  {
+    "plugin": "improve-skill",
+    "before": "1.3.0",
+    "after": "1.3.1"
+  },
+  {
+    "plugin": "create-skill",
+    "before": "1.4.1",
+    "after": "1.4.2"
+  },
+  {
+    "plugin": "geminify",
+    "before": "0.6.0",
+    "after": "0.6.1"
+  },
+  {
+    "plugin": "dossier-report",
+    "before": "2.4.0",
+    "after": "2.4.1"
+  },
+  {
+    "plugin": "mac-doctor",
+    "before": "1.1.0",
+    "after": "1.1.1"
+  },
+  {
+    "plugin": "discipline",
+    "before": "4.3.0",
+    "after": "4.3.1"
+  },
+  {
+    "plugin": "better-goal",
+    "before": "2.2.1",
+    "after": "2.2.2"
+  },
+  {
+    "plugin": "better-loop",
+    "before": "2.2.1",
+    "after": "2.2.2"
+  },
+  {
+    "plugin": "report",
+    "before": "2.3.0",
+    "after": "2.3.1"
+  },
+  {
+    "plugin": "clarify",
+    "before": "1.5.0",
+    "after": "1.5.1"
+  },
+  {
+    "plugin": "whats-left",
+    "before": "0.6.2",
+    "after": "0.6.3"
+  },
+  {
+    "plugin": "proctor",
+    "before": "0.7.1",
+    "after": "0.7.2"
+  },
+  {
+    "plugin": "test-campaign",
+    "before": "0.19.0",
+    "after": "0.19.1"
+  },
+  {
+    "plugin": "anvil-errand",
+    "before": "0.2.0",
+    "after": "0.2.1"
+  },
+  {
+    "plugin": "shipyard",
+    "before": "0.5.3",
+    "after": "0.5.4"
+  },
+  {
+    "plugin": "warrant",
+    "before": "0.3.2",
+    "after": "0.3.3"
+  },
+  {
+    "plugin": "ship-feature",
+    "before": "2.4.2",
+    "after": "2.4.3"
+  },
+  {
+    "plugin": "ship-fleet",
+    "before": "2.9.3",
+    "after": "2.9.4"
+  },
+  {
+    "plugin": "resume-session",
+    "before": "1.1.0",
+    "after": "1.1.1"
+  },
+  {
+    "plugin": "tui-craft",
+    "before": "0.5.1",
+    "after": "0.5.2"
+  },
+  {
+    "plugin": "agent-voice",
+    "before": "0.2.1",
+    "after": "0.2.2"
+  },
+  {
+    "plugin": "design-craft",
+    "before": "1.4.0",
+    "after": "1.4.1"
+  },
+  {
+    "plugin": "ux-craft",
+    "before": "2.5.2",
+    "after": "2.5.3"
+  },
+  {
+    "plugin": "deck-craft",
+    "before": "1.17.0",
+    "after": "1.17.1"
+  },
+  {
+    "plugin": "mac-craft",
+    "before": "1.5.1",
+    "after": "1.5.2"
+  },
+  {
+    "plugin": "mac-design-digest",
+    "before": "1.3.1",
+    "after": "1.3.2"
+  },
+  {
+    "plugin": "generate-investor-portal",
+    "before": "1.3.1",
+    "after": "1.3.2"
+  },
+  {
+    "plugin": "stocktake",
+    "before": "0.8.2",
+    "after": "0.8.3"
+  },
+  {
+    "plugin": "vouch",
+    "before": "0.4.0",
+    "after": "0.4.1"
+  },
+  {
+    "plugin": "atlas-publish",
+    "before": "2.1.2",
+    "after": "2.1.3"
+  },
+  {
+    "plugin": "code-review",
+    "before": "1.3.1",
+    "after": "1.3.2"
+  },
+  {
+    "plugin": "email-digest",
+    "before": "1.8.0",
+    "after": "1.8.1"
+  },
+  {
+    "plugin": "recover-claude-code",
+    "before": "1.2.2",
+    "after": "1.2.3"
+  },
+  {
+    "plugin": "defer",
+    "before": "1.4.1",
+    "after": "1.4.2"
+  },
+  {
+    "plugin": "reckon",
+    "before": "1.9.4",
+    "after": "1.9.5"
+  },
+  {
+    "plugin": "harbourmaster",
+    "before": "0.6.1",
+    "after": "0.6.2"
+  },
+  {
+    "plugin": "tailings",
+    "before": "0.2.0",
+    "after": "0.2.1"
+  },
+  {
+    "plugin": "launch-craft",
+    "before": "0.3.2",
+    "after": "0.3.3"
+  },
+  {
+    "plugin": "eli5",
+    "before": "0.7.1",
+    "after": "0.7.2"
+  },
+  {
+    "plugin": "positioning",
+    "before": "0.2.0",
+    "after": "0.2.1"
+  },
+  {
+    "plugin": "create-luke-content",
+    "before": "3.1.1",
+    "after": "3.1.2"
+  },
+  {
+    "plugin": "visualization",
+    "before": "1.1.1",
+    "after": "1.1.2"
+  },
+  {
+    "plugin": "status-update",
+    "before": "1.1.0",
+    "after": "1.1.1"
+  },
+  {
+    "plugin": "create-story",
+    "before": "1.1.0",
+    "after": "1.1.1"
+  }
+]

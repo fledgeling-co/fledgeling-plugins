@@ -25,7 +25,7 @@ somewhere else.
 
 ```bash
 anvil errand --check                    # can this work? changes nothing
-anvil errand -p "review /work and list the three worst bugs"
+anvil errand -p "review /work/ and list the three worst bugs"
 ```
 
 `--check` runs the preflight and stops. Everything after the verb is the

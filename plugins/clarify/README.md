@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that decides whether to interrupt you, then writes the question so it takes one click.</p>
 
 <p align="center">
-  <img alt="Version 1.3.0" src="https://img.shields.io/badge/version-1.3.0-D33C21">
+  <img alt="Version 1.5.1" src="https://img.shields.io/badge/version-1.5.1-D33C21">
   <img alt="SWE skill: interaction" src="https://img.shields.io/badge/SWE_skill-interaction-434A55">
   <img alt="Blind panel 15-5" src="https://img.shields.io/badge/blind_panel-15--5-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -22,7 +22,7 @@ An agent that stops to ask you something is spending your attention, and the bil
 
 So the question has to be worth it, and it has to be cheap to answer. Most aren't. The one that prompted this skill was a real one, 57 words long, with the reasoning stuffed inside the question text and three option descriptions running to 46 words each. Answering it meant reading a paragraph and working out the consequences yourself, which was the job you delegated in the first place.
 
-`clarify` does two things: it decides whether there's a question here at all, then it writes the one that's left.
+`clarify:clarify` does two things: it decides whether there's a question here at all, then it writes the one that's left.
 
 ## What it actually changes
 
@@ -52,7 +52,7 @@ Three parts, and they fail differently.
 
 **The gate: is this a question at all?** Five steps, and the first one that resolves ends it. Sweep the conversation, the repo and earlier agent output first, because the answer is usually already somewhere. Then run a divergence test: sketch what you'd build under each reading, and if the sketches match, there's nothing to ask. That test is the one rule here with a measured result behind it; asking only on divergence lifted a code benchmark's pass rate from **70.96% to 80.80%** (p = 3.2e-05).
 
-**Then it goes to another model before it goes to you.** Anything technical that survives the first three steps gets referred: fable-5 at high when speed is the point, then gpt-5.6-sol, gemini-3.7-flash-high and grok-4.6 at xhigh when independence is. Each lane pins its model and its effort, because a lane that inherits its config default isn't the lane you picked, and each is verified on the wire rather than trusted; an empty output file counts as a failed lane, not a quiet pass. A genuinely open, high-leverage fork goes to a three-family panel with the options in swapped order, and every member gets asked whether there's a better approach than the ones listed, because a missing option is a research failure and an out-of-family model is the cheapest thing that finds one. A question about the world (what competitors do, prior art, a vendor's actual behaviour) routes to Dossier instead, free lanes first, citations verified before anything leans on them.
+**Use another model when it resolves a material technical ambiguity.** Routine reversible choices stay with the agent; unresolved user preferences stay with you. A bounded second opinion gets the actual evidence and a concrete question, using a supported model selected for the role. A high-impact disagreement can justify a small independent panel; external facts call for research. Failed or empty lanes stay visible. The usual workflow is GPT-6 coordinating, Opus 5 producing intake/triage/plan and Gemini 3.8 implementing, with actual IDs resolved from the runner. Existing authorization carries forward.
 
 **Then the last step, which is the one that changed in 1.3.0.** Not "are you sure" but "whose decision is this". If the axis is yours (craft, convention, anything reversible, anything where the alternative just loses) you take it and tell me in a clause what you took and why. If the axis is mine (taste, cost, scope, risk tolerance, my own systems) you ask, however certain you are. Certainty isn't a ticket past my axis, and it isn't a ticket past anything irreversible either.
 
@@ -81,7 +81,7 @@ Why bother: defaults move choices hard (pooled *d* = 0.68), and the upside of a 
 
 ## Using it
 
-Mostly you won't call it. It fires when an agent is about to ask you something, when a request has two readings that lead to different work, and before anything destructive. You can also invoke it by name with `/clarify`, or just say "ask me what you need".
+Mostly you won't call it. It fires when an agent is about to ask you something, when a request has two readings that lead to different work, and before anything destructive. You can also invoke it by name with `/clarify:clarify`, or just say "ask me what you need".
 
 It ships a linter you can run on any question payload yourself:
 

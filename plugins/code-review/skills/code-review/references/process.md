@@ -37,7 +37,7 @@ scripts/diff-range.sh --files
 
 The script resolves the base (`@{upstream}`, then the remote's default branch, then `HEAD~1`),
 measures the range, unions in the working tree, and prints `FILE_COUNT`, `LOC_DELTA`, the shard
-verdict for each depth, the fleet size and the finding floor. A bad ref or an empty diff fails here
+verdict for each depth, the fleet size and legacy finding-floor metadata (not a quota). A bad ref or an empty diff fails here
 for the cost of one command rather than inside two parallel shard agents.
 
 Equivalent by hand, when the script is unavailable — on the MCP-served path there are no files:
@@ -67,7 +67,7 @@ Say so; continue only if the user asks.
 
 1. Apply the Phase 0 area filter to the file list. Capture `fileCount` (`git diff --name-only
    <range> | wc -l`, post-filter) and `locDelta` (insertions plus deletions from `--shortstat`).
-   These drive sharding, the shard count, and the finding floor.
+   These drive sharding and the shard count. A computed legacy floor is not a finding quota.
 2. **Build the repo profile** per `references/repo-discovery.md`. `scripts/repo-facts.sh` prints
    the mechanical half — instruction files, workspace layout, package manager, per-package gate
    commands, frameworks present at their installed versions, test layout, CI config, contract docs.
@@ -336,7 +336,9 @@ typically gets.
 
 **Step 3 — Dispatch by depth.** `quick` self-verifies inline. `standard` batches by file, at most 4
 candidates per verifier, never across files or severity tiers. `deep` gives each CRITICAL and HIGH
-its own fresh-context verifier and batches the rest. Every verifier call passes `model: "sonnet"`.
+its own fresh-context verifier and batches the rest. Resolve each verifier
+model from the current runtime and task preference; `sonnet` is only a supported
+Claude-harness compatibility alias.
 Run waves of 5 to 8 concurrent calls, appending each wave to `verifications.jsonl` before the next.
 
 ### Verifier agent prompt template
@@ -452,9 +454,9 @@ This is the only place confidence filtering happens. Earlier filtering silently 
 the run that produced this rule.
 
 Apply the depth cap last — 6 at `quick`, 12 at `standard`, 20 at `deep` — cutting cleanup, altitude
-and conventions before correctness, and state in the stats line how many the cap dropped. Then
-check the floor: at least `min(fileCount, 4)` findings, with one more pass over the largest changed
-file and over the diff's removed blocks if you are under it, and no invented finding to reach it.
+and conventions before correctness, and state in the stats line how many the cap dropped.
+Stop when selected coverage is complete. Zero findings is valid; a missing high-risk
+coverage row can justify a targeted pass, but a low finding count alone cannot.
 
 **Exit:** a survivor list and a coverage ledger, ready for the report.
 

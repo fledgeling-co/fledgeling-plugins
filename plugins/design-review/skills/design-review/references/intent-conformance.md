@@ -6,7 +6,7 @@ The three checks here exist because of three reviews that came back clean and we
 
 > *"The web app looks terrible, was it visually verified? It looks like a mashup of the original and the new chosen design instead of like the new chosen design."*
 
-> *"Every portal header also has a broken layout. … `/design-review` has clearly missed the header issue."*
+> *"Every portal header also has a broken layout. … `/design-review:design-review` has clearly missed the header issue."*
 
 > *"The leadership page looks almost identical for every company paid portal. Find the root cause given that I asked for many sections, components and pages to be created so that each portal could look unique."*
 
@@ -16,7 +16,7 @@ All three are invisible to a review that looks at one surface at a time and judg
 
 Find the intended target before judging the result. It is one of:
 
-- a committed direction block (`:root` tokens plus posture bullets) from `design-craft`'s `frontend-aesthetic-direction`
+- a committed direction block (`:root` tokens plus posture bullets) from `design-craft:design-craft`'s `frontend-aesthetic-direction`
 - a chosen mock — `design/mocks/html/*.html`, a Figma export, a screenshot the user approved
 - a `DESIGN.md` / `tokens.css` / `design.md` the build was supposed to obey
 - a named concept the user picked from a set ("go with concept 5", "the Scale Ladder one")

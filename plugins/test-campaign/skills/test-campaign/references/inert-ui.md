@@ -21,7 +21,7 @@ Armed:      32/32 passing cases have been watched to fail
 Scope:      FULL — every case in the campaign was run
 ```
 
-`reckon` over the same registry: 140 rows, 0 unmeasured, 0 unjoined, 0 broken, 0
+`reckon:reckon` over the same registry: 140 rows, 0 unmeasured, 0 unjoined, 0 broken, 0
 unbuilt, `check` and `ratchet` both exit 0. The repository gate passed 19 of 19
 tasks. 2,925 API tests, 156 Playwright specs, 264 TUI tests, 89 XCTest cases, all
 green.
@@ -56,7 +56,7 @@ can act on:
 | The campaign's native cases | `ProctorReflector`'s socket server, `CALayer` introspection, loopback accept logs | Three cases, all telemetry. None enumerated the sidebar, none clicked between destinations, none read a state a click was supposed to change. |
 | Playwright (156 specs) | The web studio at `localhost:3170`, where the same screen matrix was wired and worked | The browser lane cannot reach a SwiftUI binary. Its green said nothing about the native target and read as if it did. |
 | `mock_check.py`, `design-lint.py` | The HTML design of record: 3,630 contrast checks, 422 typography rules, 33 ARIA roles | The mock was compliant. Linting the reference proves nothing about the build. |
-| `reckon` | The partition over cases, requirements, surfaces and briefs | It reconciles claims against evidence. It cannot tell a shallow assertion from a deep one; that is `strict-check.py`'s axis and it was not read. |
+| `reckon:reckon` | The partition over cases, requirements, surfaces and briefs | It reconciles claims against evidence. It cannot tell a shallow assertion from a deep one; that is `strict-check.py`'s axis and it was not read. |
 | The repository gate | `turbo run lint typecheck build` over the TypeScript packages | The macOS app builds through `xcodebuild`. An empty closure is valid Swift and compiles without a warning. |
 
 The pattern across the row is one thing said six ways: **each instrument
@@ -209,7 +209,7 @@ is worth a reader's attention either way.
   recorded 22–24 August 2026 against a four-target monorepo. The verdict blocks
   and `strict-check` output above are pasted from that run.
 - The `AXPress` finding and the empty-actions-list measurement: the
-  `acceptance-e2e` plugin's own
+  `acceptance-e2e:acceptance-e2e` plugin's own
   `skills/acceptance-e2e/references/macos-ax-acceptance.md` (a different
   marketplace, not a file in this plugin), from a separate application whose 13
   sidebar identifiers all resolved.

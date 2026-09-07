@@ -131,7 +131,7 @@ Templates in `assets/report-accounting.html`.
 
 ## Rendering both
 
-Serve over HTTP and route to `design-review`. Two findings from a real run that no source reading would have caught:
+Serve over HTTP and route to `design-review:design-review`. Two findings from a real run that no source reading would have caught:
 
 - The most important number in the document, the sign-off total, rendered at **1.96:1** against a 3:1 floor,
   because a nested `em` inherited an accent colour the parent override never reached.

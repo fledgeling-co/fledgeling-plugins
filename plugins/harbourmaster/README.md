@@ -28,8 +28,8 @@ now rather than whichever is nearest to hand:
 |---|---|
 | This Mac, via the wrapper | CPU, RAM, disk |
 | An `anvil errand` container | another machine entirely |
-| A `proctor` session | a machine-wide foreground turn |
-| `defer` to another model | another vendor's plan headroom |
+| A `proctor:proctor` session | a machine-wide foreground turn |
+| `defer:defer` to another model | another vendor's plan headroom |
 | Claude subagents | this session's rate limit and context |
 
 **Admits local work through berths.** Heavy work runs through a wrapper:
@@ -73,8 +73,8 @@ sessions, which is the only reason they exist.
 
 ## What it does not do
 
-It does not do the work, judge the result, or clean the machine. `mac-doctor` owns
-reclamation, `defer` owns model routing, `proctor` owns native-app instrumentation.
+It does not do the work, judge the result, or clean the machine. `mac-doctor:mac-doctor` owns
+reclamation, `defer:defer` owns model routing, `proctor:proctor` owns native-app instrumentation.
 When disk is the gate that closed admission, it says so and hands over.
 
 ## Honest limits

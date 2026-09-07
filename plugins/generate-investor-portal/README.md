@@ -4,7 +4,7 @@
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> generate-investor-portal</h1>
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
+  <img alt="Version 1.3.2" src="https://img.shields.io/badge/version-1.3.2-D33C21">
   <img alt="SWE skill: generation" src="https://img.shields.io/badge/SWE_skill-generation-434A55">
   <img alt="Blind panel: 6 of 7 tasks" src="https://img.shields.io/badge/blind_panel-6_of_7_tasks-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
@@ -86,7 +86,7 @@ Nothing here is legal advice.
 
 ## Where it came from
 
-The skill's substance, including every production incident it cites, comes from a working investor-portal pipeline in the Diolog codebase, where the original `generate-investor-portal` lives. That version is the source of the gate ladder, the collision keys, the provenance contract and the measured failures. This one adds the gate as shipped code, the injection fence, the pre-spend refusal, and a research corpus behind the rules.
+The skill's substance, including every production incident it cites, comes from a working investor-portal pipeline in the Diolog codebase, where the original `generate-investor-portal:generate-investor-portal` lives. That version is the source of the gate ladder, the collision keys, the provenance contract and the measured failures. This one adds the gate as shipped code, the injection fence, the pre-spend refusal, and a research corpus behind the rules.
 
 That corpus is in `docs/deep-research/`: four independent deep-research reports read in full and citation-verified, with the citations that failed named rather than dropped, and the disagreements between them left in `references/evidence.md` rather than tidied away.
 

@@ -5,7 +5,7 @@ description: >-
   panel, feedback, lot, ratchet, ledger), the authority ladder they move defect classes up and
   down, and which skill a given situation calls for. Use when someone asks how to stop reviewing
   every item by hand, how much authority a model currently holds, why a class was revoked, or
-  invokes /warrant without naming a skill. It routes and explains; the eight skills do the work.
+  invokes /warrant:warrant without naming a skill. It routes and explains; the eight skills do the work.
 ---
 
 # Warrant — the map
@@ -33,47 +33,47 @@ separates the direct findings from the inferences.
 
 | Skill | What it does | When to run it |
 |---|---|---|
-| `charter` | writes and validates `.warrant/warrant.toml`, the signed authority | first, and at every renewal |
-| `oracle` | lineage, tick-and-tie, taxonomy validation | before the panel plane runs |
-| `assay` | mutation survival, cannot-fail scan, selection gap | before believing any verdict |
-| `panel` | one out-of-family grader, orthogonal lenses, an adjudicator | per item, once the two planes above are green |
-| `feedback` | turns a reported escape into a permanent regression case | whenever the pipeline was wrong |
-| `lot` | risk-limited acceptance of a queue of finished items | on a backlog, or on a cadence |
-| `ratchet` | computes earned tiers, applies revocations | after any of the above, and on a schedule |
-| `ledger` | appends and verifies the hash-chained decision record | continuously; verified before an audit |
+| `warrant:charter` | writes and validates `.warrant/warrant.toml`, the signed authority | first, and at every renewal |
+| `warrant:oracle` | lineage, tick-and-tie, taxonomy validation | before the panel plane runs |
+| `warrant:assay` | mutation survival, cannot-fail scan, selection gap | before believing any verdict |
+| `warrant:panel` | one out-of-family grader, orthogonal lenses, an adjudicator | per item, once the two planes above are green |
+| `warrant:feedback` | turns a reported escape into a permanent regression case | whenever the pipeline was wrong |
+| `warrant:lot` | risk-limited acceptance of a queue of finished items | on a backlog, or on a cadence |
+| `warrant:ratchet` | computes earned tiers, applies revocations | after any of the above, and on a schedule |
+| `warrant:ledger` | appends and verifies the hash-chained decision record | continuously; verified before an audit |
 
 ## The order is forced
 
 Run the planes in this sequence, because each one's output is the next one's input and a verdict
 built on an unmeasured suite means nothing.
 
-0. **`test-campaign`, when the classes have no oracles yet.** Not part of this plugin, and the
-   step most often missing. `oracle` and `assay` *measure* oracles; neither creates one, so a
+0. **`test-campaign:test-campaign`, when the classes have no oracles yet.** Not part of this plugin, and the
+   step most often missing. `warrant:oracle` and `warrant:assay` *measure* oracles; neither creates one, so a
    repository whose surfaces were never given a checkable property cannot climb past tier 0 no
-   matter how often the planes below run. `test-campaign`'s `campaign.py export-warrant` writes
+   matter how often the planes below run. `test-campaign:test-campaign`'s `campaign.py export-warrant` writes
    `suite-health.json` and `oracle-coverage.json` in the shape `rollup_classes.py` reads. Absent
    evidence is an unmet condition here by design, which makes "never measured" and "measured
    badly" identical to `charter_validate.py` — so a permanent tier 0 is usually the first of
    those, and running the planes again will not tell you which.
-1. **`charter`** — nothing else runs without a valid warrant. `charter_validate.py` is the
+1. **`warrant:charter`** — nothing else runs without a valid warrant. `charter_validate.py` is the
    outermost gate and every other skill checks it.
-2. **`oracle`** — the deterministic plane, and it comes before the model plane rather than after
+2. **`warrant:oracle`** — the deterministic plane, and it comes before the model plane rather than after
    it. The highest-consequence failure for a data-dense product is a correctly rendered screen
    stating a figure no source supports, and a vision judge is structurally unable to catch that
    because nothing on the screen looks wrong (`I7`). Arithmetic catches it.
-3. **`assay`** — over half of more than 15,000 generated mutants survived a passing unit,
+3. **`warrant:assay`** — over half of more than 15,000 generated mutants survived a passing unit,
    integration and system suite (`C18`), and nobody has measured that for browser suites at all.
    A green suite is not evidence until its fault sensitivity is a number.
-4. **`panel`** — the only plane that calls a model.
-5. **`lot`** — for a queue rather than an item. `lot_plan.py` refuses without
+4. **`warrant:panel`** — the only plane that calls a model.
+5. **`warrant:lot`** — for a queue rather than an item. `lot_plan.py` refuses without
    `suite-health.json`, because every number a plan produces is a number about items whose
    evidence is the suite; `--unmeasured-suite` proceeds and records the omission in the plan.
 6. **`rollup_classes.py`** — maps per-surface and per-target measurements onto the
    defect classes authority is held against, using the warrant's own globs. Without it
    every class reads as having no evidence.
-7. **`ratchet`** — reads what the others produced and moves authority.
+7. **`warrant:ratchet`** — reads what the others produced and moves authority.
 
-`feedback` and `ledger` run continuously rather than in sequence.
+`warrant:feedback` and `warrant:ledger` run continuously rather than in sequence.
 
 ## The ladder
 
@@ -99,7 +99,7 @@ bounded by what got noticed, so it gains weight from volume and time and never b
 votes, panel accuracy falls 8 to 22 percentage points short of genuinely independent voting, the
 best single judge matches or outperforms the whole panel across every tested condition, and
 established aggregation closes at most 11% of that gap even when given the correct answers
-(`C2`). `panel` therefore runs one grader on the verdict, lenses on orthogonal questions, and an
+(`C2`). `warrant:panel` therefore runs one grader on the verdict, lenses on orthogonal questions, and an
 adjudicator whose output is a routing decision rather than a winner.
 `references/why-not-a-jury.md` carries the test for whether a proposed lane is a lens or a second
 vote.
@@ -125,14 +125,14 @@ sensitivity was significantly lower with the aid, odds ratio 0.53 (`C8`).
 
 ## Who drives this
 
-`stocktake` is the board sweep that calls it. As each card reaches Done it runs
+`stocktake:stocktake` is the board sweep that calls it. As each card reaches Done it runs
 `warrant_column.py`, which reads `.warrant/` and returns the column: Verified where the
 card's defect class holds tier 3 and nothing has been revoked, Needs More Work where a
 gate failed on the card's own evidence, and Done with the reasons named otherwise. That
 script reads this plugin's state files rather than importing its code, because two
 separately installed plugins cannot resolve each other's paths.
 
-Nothing here depends on `stocktake`. Run the skills directly on one item, or on a
+Nothing here depends on `stocktake:stocktake`. Run the skills directly on one item, or on a
 repository, without it.
 
 ## Delegation

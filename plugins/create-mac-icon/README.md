@@ -7,7 +7,7 @@
 <p align="center"><strong>macOS app icons, measured against the reference instead of eyeballed.</strong></p>
 
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-C4622D">
+  <img alt="Version 1.7.2" src="https://img.shields.io/badge/version-1.7.2-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 

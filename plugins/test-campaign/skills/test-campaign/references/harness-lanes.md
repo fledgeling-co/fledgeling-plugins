@@ -1,7 +1,7 @@
 # Harness lanes — what each one can actually observe
 
 A campaign plans to its **lane's ceiling**, not to the web lane's. The expensive
-mistake is assuming parity: `proctor` states it plainly for its own iOS lane —
+mistake is assuming parity: `proctor:proctor` states it plainly for its own iOS lane —
 *"a campaign that assumes parity with the macOS lane will spend itself building a
 matrix it cannot run"* — and the same is true in every direction.
 
@@ -161,7 +161,7 @@ cannot use the accessibility API at all, even with the user's grant.
 ## What performs the step, and what the step proves
 
 Two facts ride on every driven step and conflating them is how a campaign
-overclaims. `proctor` separates them and the vocabulary is worth borrowing whole:
+overclaims. `proctor:proctor` separates them and the vocabulary is worth borrowing whole:
 
 **The plane is what the result proves.** A process-directed step (an accessibility
 action, an Apple Event, the app's own declared contract) reaches a window that is

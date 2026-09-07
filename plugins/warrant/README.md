@@ -8,7 +8,7 @@
 Eight skills for Claude Code that take the human out of per-item verification, by writing down exactly what a machine may decide and taking that permission away the moment the evidence stops supporting it.</p>
 
 <p align="center">
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-186A73">
+  <img alt="Version 0.3.3" src="https://img.shields.io/badge/version-0.3.3-186A73">
   <img alt="SWE skill: verification governance" src="https://img.shields.io/badge/SWE_skill-verification_governance-434A55">
   <img alt="Research: 22 sources, 4 backends" src="https://img.shields.io/badge/research-22_sources_%C2%B7_4_backends-756E60">
   <img alt="Scripts: stdlib only" src="https://img.shields.io/badge/scripts-stdlib_only-756E60">
@@ -36,7 +36,7 @@ behind an API that quietly gets a new version fails that every time.
 
 Neither rule stops you delegating the decision. Both stop you delegating the signature.
 
-`warrant` is the shape that survives both. One signature, once, on a policy file that says what the
+`warrant:warrant` is the shape that survives both. One signature, once, on a policy file that says what the
 machine may close and how much rope it has; nobody signs an item ever again.
 
 ## What's different, in one table
@@ -52,17 +52,17 @@ machine may close and how much rope it has; nobody signs an item ever again.
 
 ## The eight skills
 
-`charter` writes and validates the warrant, which is the only thing a human signs. `oracle` is the
+`warrant:charter` writes and validates the warrant, which is the only thing a human signs. `warrant:oracle` is the
 arithmetic: every number on a screen has to trace to the record it came from, and tie to it.
-`assay` measures whether the test suite can actually detect a fault before anything downstream is
-believed. `panel` produces the machine verdict, snapshotting the evidence first so the thing being
-judged can't quietly edit it. `feedback` is the calibration; when the pipeline misses something you
-tell it, and that miss becomes a permanent test it has to keep passing. `lot` handles a backlog as a
-batch under a declared risk limit instead of one signature at a time. `ratchet` decides how much
-authority each defect class has earned and takes it away without asking. `ledger` keeps the
+`warrant:assay` measures whether the test suite can actually detect a fault before anything downstream is
+believed. `warrant:panel` produces the machine verdict, snapshotting the evidence first so the thing being
+judged can't quietly edit it. `warrant:feedback` is the calibration; when the pipeline misses something you
+tell it, and that miss becomes a permanent test it has to keep passing. `warrant:lot` handles a backlog as a
+batch under a declared risk limit instead of one signature at a time. `warrant:ratchet` decides how much
+authority each defect class has earned and takes it away without asking. `warrant:ledger` keeps the
 hash-chained record an auditor reads instead of those 194 signatures.
 
-Note: `ratchet` is a plain script rather than a model call, on purpose. The thing deciding how much
+Note: `warrant:ratchet` is a plain script rather than a model call, on purpose. The thing deciding how much
 authority a model has shouldn't be the model.
 
 ## What it won't do
@@ -92,7 +92,7 @@ up to 9 times in 10.
 /plugin install warrant@fledgeling-plugins
 ```
 
-`stocktake` calls this plugin at Done to decide whether a card may reach Verified; it
+`stocktake:stocktake` calls this plugin at Done to decide whether a card may reach Verified; it
 ships separately at [stocktake](../stocktake/README.md). Nothing here needs it.
 
 ## Getting started
@@ -103,7 +103,7 @@ python3 scripts/charter_init.py --root <your-repo>   # drafts the warrant, every
 python3 scripts/charter_validate.py --root <your-repo>   # exit 0 before anything else runs
 ```
 
-Then run the planes in order: `oracle`, `assay`, `panel`. `ratchet` after any of them.
+Then run the planes in order: `warrant:oracle`, `warrant:assay`, `warrant:panel`. `warrant:ratchet` after any of them.
 
 ## Where the depth is
 

@@ -44,7 +44,7 @@ while reading as complete. This stage exists to be the stranger.
    it is treated exactly like a requirement missing from the list, however convincing the
    exercise felt. This is a precondition rather than an exhortation because prose does not hold:
    agents under effort pressure rationalise the shortcut, and models trained against
-   reward-hacking learn to conceal it rather than stop (`mockup-fidelity`'s
+   reward-hacking learn to conceal it rather than stop (`mockup-fidelity:mockup-fidelity`'s
    measurement-enforcement reference carries the measurement). `evidence-rules.md`
    §artifact-forcing.
 
@@ -75,15 +75,15 @@ while reading as complete. This stage exists to be the stranger.
      three unrelated documents and passed every gate it had, because a filename was the only
      thing binding a picture to a surface. A screenshot whose subject nothing corroborates is
      the same status as no screenshot, not a weaker pass. Where the repo carries a campaign,
-     `test-campaign`'s `capture-lineage.py <dir> --gate` does both over the whole set.
+     `test-campaign:test-campaign`'s `capture-lineage.py <dir> --gate` does both over the whole set.
    - **Behavioural** → exercise: click the path; replay the exact request; record verbatim
      status + body fragment; confirm persistence by re-reading, then restore.
    - **Persistence** → the producer at `file:line` plus a stored row / fired job / received
      message from a real run — the `spec-validation:spec-validation` skill's REAL/AUTHORED/MOCK bar; invoke it
      where installed rather than re-deriving its rubric.
    - **Static** → `file:line`.
-   - **Tests** → run the feature's acceptance suite via `/test-campaign` where it is installed,
-     falling back to the `/acceptance-e2e` harness lane (the
+   - **Tests** → run the feature's acceptance suite via `/test-campaign:test-campaign` where it is installed,
+     falling back to the `/acceptance-e2e:acceptance-e2e` harness lane (the
      suite the plan's test strategy promised — a committed spec with no recorded run is a
      finding); grep the test trees for specs asserting the surfaces this item changed and run
      them; a live spec asserting the *old* behaviour, or a `fixme` encoding the reversed
@@ -93,7 +93,7 @@ while reading as complete. This stage exists to be the stranger.
      the repo carries `.warrant/`. A suite whose green comes from an `expect` with no matcher
      proves nothing about the requirement it is cited for, and citing it is worse than citing
      nothing because it spends the reviewer's attention. Over half of more than 15,000 generated
-     mutants survived a passing unit, integration and system suite (`warrant`'s `C18`), so a
+     mutants survived a passing unit, integration and system suite (`warrant:warrant`'s `C18`), so a
      green suite starts the question rather than answering it.
    - An unexercisable path takes **two independent probes** proving the incapacity and is
      reported `Unverified — blocker` with its dissolution condition — never silently as done.
@@ -101,7 +101,7 @@ while reading as complete. This stage exists to be the stranger.
    lane reads evidence, not your prose summary of it.
 
    **Type each requirement's evidence by the rung it stands on**, using
-   `test-campaign`'s ladder: `touch`, `presence`, `structural`, `structural-visual`
+   `test-campaign:test-campaign`'s ladder: `touch`, `presence`, `structural`, `structural-visual`
    assert that something was reached or shaped; `outcome`, `metamorphic`, `raster-visual`,
    `interactive-glass` assert that a promised effect happened. The rung goes in the
    per-requirement table beside the status, because "the element exists" and "publishing made
@@ -114,13 +114,11 @@ while reading as complete. This stage exists to be the stranger.
 
    Where no rung is reachable because nothing was ever specified that a check could read, the
    requirement is `Unverified — no oracle`, and its dissolution condition is an oracle built
-   per `test-campaign`'s `references/oracle-construction.md`. Distinguish it from
+   per `test-campaign:test-campaign`'s `references/oracle-construction.md`. Distinguish it from
    `Unverified — blocker`, which is an instrument or access problem: the two have opposite
    remedies and only one of them is fixed by trying again with better tooling.
 
-3. **Route the verdict out of family.** In lane order — **agy** (gemini-flash-3.7, `high`) →
-   **codex** (`gpt-5.6-sol`, `high`, read-only) → **grok** (grok-4.6, `xhigh`; harness fallback
-   cursor-agent) — invoke per the mechanics in
+3. **Route the verdict out of the implementation writer's family.** Read `model-lanes.md`, identify the actual writer from execution records, and choose a currently supported, capable independent lane. Gemini implementation can be judged by Opus; skip Gemini when judging Gemini-built code. Invoke per the mechanics in
    `${CLAUDE_PLUGIN_ROOT}/references/second-opinion-lanes.md` (wire-verify, bound, empty output
    = lane failure → next lane; egress/opt-out per invocation). The packet: the original
    description + thread (verbatim), your typed requirement list, the evidence bundle paths, the
@@ -128,9 +126,7 @@ while reading as complete. This stage exists to be the stranger.
    per-requirement `Done / Partial / Missed / Unverified` with the evidence item it rests on,
    plus discrepancies where the evidence contradicts the requirement list. Disagreements between
    the lane's grading and your evidence get re-exercised once, then reported as the lane graded.
-   All lanes down or repo opted out → an Opus 5 agent grades it, and the verdict carries
-   `verification: in-family (degraded)` plus one extra adversarial review round
-   (`model-lanes.md` §degraded).
+   All independent lanes down or repo opted out → the best authorized capable reviewer grades it, and the verdict carries `verification: in-family (degraded)`. Repetition does not restore independence; retain any status gate that explicitly requires it (`model-lanes.md`).
 
 3a. **Run the completeness critic before posting.** One pass — a subagent, or a disciplined
    self-pass — reading **only** the evidence bundle and your requirement table, with the app,

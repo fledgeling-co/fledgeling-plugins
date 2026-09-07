@@ -34,7 +34,7 @@ Both of those are now tests.
 ## Usage
 
 ```
-/recover-claude-code
+/recover-claude-code:recover-claude-code
 ```
 
 Or just say what happened — "my terminal crashed, get my sessions back", "the machine
@@ -86,7 +86,7 @@ works anywhere; on another terminal, run the generated bootstrap scripts yoursel
 
 ## Sibling skill
 
-`workflow-resume` handles the opposite failure: a run that reported `completed` while losing
+`workflow-resume:workflow-resume` handles the opposite failure: a run that reported `completed` while losing
 agents to API errors, where the process itself never died. Different shape, opposite
 handling. This one is for when the process died.
 

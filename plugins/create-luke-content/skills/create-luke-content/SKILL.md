@@ -1,7 +1,7 @@
 ---
 name: create-luke-content
 description: >-
-  Write any content in Luke Rhodes' authentic voice (Diolog CTO and co-founder), routed through the right persona variant: LinkedIn posts and long-form blog articles (with graphic concept), marketing content (announcements, release notes, landing copy, campaign emails), code reviews, Slack/chat messages, short-form content (tweets/X, comments, bios), and ADHD-targetted or book-audience writing. Always sounds like Luke; grounded in supplied context, never invention; deterministic voice-lint gate. Use whenever the user wants to draft, write, ghostwrite, or generate ANY content in Luke's voice (or 'my voice' / 'as me' when the user is Luke): 'write me a LinkedIn post about X', 'draft release notes for this feature', 'review this PR as me', 'reply to this Slack thread', 'tweet this', 'turn this into a book chapter', 'make this ADHD-friendly'. Prefer this over a generic writing pass whenever the target author is Luke, whatever the format. Do NOT use for Diolog company-voice content (use diolog-brand-voice).
+  Write any content in Luke Rhodes' authentic voice (Diolog CTO and co-founder), routed through the right persona variant: LinkedIn posts and long-form blog articles (with graphic concept), marketing content (announcements, release notes, landing copy, campaign emails), code reviews, Slack/chat messages, short-form content (tweets/X, comments, bios), and ADHD-targetted or book-audience writing. Always sounds like Luke; grounded in supplied context, never invention; deterministic voice-lint gate. Use whenever the user wants to draft, write, ghostwrite, or generate ANY content in Luke's voice (or 'my voice' / 'as me' when the user is Luke): 'write me a LinkedIn post about X', 'draft release notes for this feature', 'review this PR as me', 'reply to this Slack thread', 'tweet this', 'turn this into a book chapter', 'make this ADHD-friendly'. Prefer this over a generic writing pass whenever the target author is Luke, whatever the format. Do NOT use for Diolog company-voice content (use the matching installed diolog-brand-voice plugin skill).
 ---
 
 # Create Luke Content: Any Format, One Voice
@@ -28,7 +28,7 @@ Classify the request into exactly one content type and load **`references/luke-v
 Routing rules:
 - Ambiguous between two types? Pick by **destination**, not length (a 60-word product announcement is still marketing, not short-form). If genuinely unclear, ask once, briefly.
 - A request spanning types (e.g., "a blog post AND the tweet announcing it") is two pieces; route each separately, draft both.
-- Diolog-brand (not Luke-personal) marketing/business-case content belongs to `diolog-brand-voice`; if the user clearly wants the company voice rather than Luke's, say so and offer that skill instead.
+- Diolog-brand (not Luke-personal) marketing/business-case content uses `diolog-brand-voice:create-diolog-marketing-copy` or `diolog-brand-voice:create-diolog-business-case` as appropriate; confirm that exact skill is installed and follow the requested company voice.
 
 ---
 

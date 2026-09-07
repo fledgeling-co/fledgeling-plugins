@@ -29,7 +29,14 @@ clauses land near where the model already sits, and the two whose job is to *pre
   a prompt with non-linear logic or conditionals that require the model to piece together fragmented instructions
   from multiple different places in the prompt."* One pass, before the skill; do not come back mid-edit.
 
-## Route out, or don't — and it splits by lane
+## Routing evidence — scope it to the measured model
+
+**Routing scope:** the quoted Gemini 3.7 Flash scores do not establish Gemini 3.8
+capability. Honor the user's selected, supported model after prerequisite artifacts
+land; use `defer:defer`'s historical matrix only for an unselected or authorized
+fallback. Retain the acceptance evidence; change approach for an observed failure,
+not an older model's score alone.
+
 
 **The editing lane** — changing the block literal, its pins, the registry — is code work in an existing multi-file
 tree under compound acceptance, the bucket the bench is worst on. **[measured-family]** §2.1: brownfield scored 16.1

@@ -96,7 +96,7 @@ These are denominators. They move as the data moves, and none of them is a queue
 
 ## Rendered-output gates
 
-Route to `design-review` against a served copy, not `file://`. Then lint the prose extracted from the built HTML.
+Route to `design-review:design-review` against a served copy, not `file://`. Then lint the prose extracted from the built HTML.
 
 The three findings from a real run, all invisible in source:
 

@@ -8,7 +8,7 @@
 An SWE skill for Claude Code that renders the surface, runs the checks that are deterministic, judges the ones that aren't, and tells you plainly which is which.</p>
 
 <p align="center">
-  <img alt="Version 2.3.0" src="https://img.shields.io/badge/version-2.3.0-E33B21">
+  <img alt="Version 2.3.2" src="https://img.shields.io/badge/version-2.3.2-E33B21">
   <img alt="SWE skill" src="https://img.shields.io/badge/type-SWE_skill-2C4C74">
   <img alt="Pipeline: 12 stages" src="https://img.shields.io/badge/pipeline-12_stages-51657C">
   <img alt="Engine: Obscura" src="https://img.shields.io/badge/engine-Obscura-6E8296">

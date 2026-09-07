@@ -40,7 +40,7 @@ to do:
 **The gated part of the campaign was sound and the ungated part was the part
 people look at.** That asymmetry is the failure this file removes.
 
-Run `prescan.py` from `be-my-witness` against the worst of those captures and it
+Run `prescan.py` from `be-my-witness:be-my-witness` against the worst of those captures and it
 returns `isEvidence: true, settled: true`, exit 0 — a real, contentful, settled
 image of the wrong document. Deterministic image statistics cannot answer the
 subject question. Only provenance can, and provenance has to be recorded at
@@ -70,7 +70,7 @@ whose count is above zero.
 
 ## The borrowed shape
 
-`warrant`'s `oracle` plane solved the identical problem one domain over. Its
+`warrant:warrant`'s `oracle` plane solved the identical problem one domain over. Its
 premise: the worst thing a data-dense product can do is render a figure no source
 supports, and a vision judge structurally cannot catch it because nothing on the
 screen looks wrong (`I7` in that plugin's claim set). Its remedy is not a better
@@ -184,7 +184,7 @@ covering nothing. Publish it, delete it, or record `unpublishedReason` on its
 `captures.json` entry, so the escape is in the file rather than in somebody's
 memory.
 
-**5 · Unjudged.** A capture rendered on the evidence page with no `be-my-witness`
+**5 · Unjudged.** A capture rendered on the evidence page with no `be-my-witness:be-my-witness`
 verdict against its reference. This one does not block on first run — it
 ratchets, for the reason `strict-check.py` ratchets: a gate that opens 97% red is
 switched off within a week. It prints the judged fraction with its denominator
@@ -234,9 +234,9 @@ reason, and nothing here changes that.
 
 **It does not ask a model whether the picture looks right.** Frontier multimodal
 models reach roughly 40% recall on fine-grained UI diffs and under 23% on hard
-cases (`mockup-fidelity`'s measurement-enforcement reference), so a vision pass
+cases (`mockup-fidelity:mockup-fidelity`'s measurement-enforcement reference), so a vision pass
 is an explanation layer and never the gate. The gate is provenance; the looking
-says what changed and where. That is `be-my-witness`'s own governing sentence and
+says what changed and where. That is `be-my-witness:be-my-witness`'s own governing sentence and
 it is adopted here unchanged.
 
 **It does not trust a manifest written after the fact.** An entry whose
@@ -247,7 +247,7 @@ somebody wrote down what they believed.
 
 ## The seeded check
 
-Borrowed from `mockup-fidelity`'s seeded-defect eval, and it is what stops this
+Borrowed from `mockup-fidelity:mockup-fidelity`'s seeded-defect eval, and it is what stops this
 file becoming ceremony. The gate must be watched to fail, using the campaign's
 own rule that an assertion nobody has seen go red is indistinguishable from one
 that cannot go red.
@@ -261,7 +261,7 @@ asserts it exits 2. A run where the swap passes means the tie pass is not readin
 what it claims to read — and that is the exact state the campaign was in before
 this file existed, so it is the one result that is never a curiosity.
 
-The answer key is three-valued, as in `mockup-fidelity`: **caught**, **declared
+The answer key is three-valued, as in `mockup-fidelity:mockup-fidelity`: **caught**, **declared
 inconclusive with its reason**, or **false pass**. Only the third fails. A lane
 whose channel cannot record a target — a hand-delivered screenshot, a photograph
 of a device — is inconclusive by capability rather than caught, and it says so in

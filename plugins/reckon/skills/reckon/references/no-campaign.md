@@ -58,7 +58,7 @@ campaign to read, not because everything has been measured.
 
 A campaign-less reckoning is a signal, not a deliverable. Two useful moves:
 
-**Run a campaign first.** `test-campaign` produces exactly the registry this
+**Run a campaign first.** `test-campaign:test-campaign` produces exactly the registry this
 skill reads, and the pair is the intended workflow: campaign establishes what
 is true, reckon works out what that leaves. Say so in the report and offer it.
 

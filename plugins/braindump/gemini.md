@@ -1,4 +1,11 @@
-# `braindump` on Gemini
+# `braindump:braindump` on Gemini
+
+**Model scope.** The measurements below describe the named earlier models and
+harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
+concrete inputs, bounds and required evidence, but use the current model's supported
+settings. Apply a route-out recommendation only with evidence for the serving
+model or an explicit user policy. The owner's Gemini 3.8 implementation preference
+after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
 
 `SKILL.md` is the canon and it stands. This is the layer a Gemini runner reads first; every
 override names the `SKILL.md` section it lands on, so nothing has to be reassembled from two
@@ -6,7 +13,7 @@ places — **[docs]** the health checklist warns against that shape under **Conf
 references**: *"Avoid writing a prompt with non-linear logic or conditionals that require the
 model to piece together fragmented instructions from multiple different places in the prompt."*
 
-`braindump` exists because a compaction summary loses things; the measured Gemini failure is
+`braindump:braindump` exists because a compaction summary loses things; the measured Gemini failure is
 losing whatever a requirement named categorically. This skill's four sweeps are categorical.
 
 ## Epistemic status
@@ -94,7 +101,7 @@ carried as a count: ceiling ~20, every ledger row placed.
 ## Override 2 — every bound is read back off the written summary
 
 **Lands on:** `§ Preserve exactly, never paraphrase`, `§ Length`. **Module:** `bounded-constraint`.
-The highest-value section, because `braindump` has measured this failure on itself: `SKILL.md`
+The highest-value section, because `braindump:braindump` has measured this failure on itself: `SKILL.md`
 line 145 records an eval where both arms pasted a nine-line header comment and a schema fragment,
 both blew the length cap, and the skill arm put the comment **inside its pinned block** — against
 a rule stated three lines earlier. **[measured-family]** that shape dominates Gemini's benchmark
@@ -246,7 +253,7 @@ into Override 3, because a module whose content is the core applied to the targe
 
 **No route-out block.** The corpus measures a model *building* code artifacts and its four named
 shapes are `static-page`, `brownfield-integration`, `visual-design` and `regression-sensitive`.
-`braindump` produces none of them: it compresses a conversation into markdown and scores it with
+`braindump:braindump` produces none of them: it compresses a conversation into markdown and scores it with
 Python. **[docs]** the entry a route-out block applies — *"Avoid using prompts that ask the model
 to perform a task for which it has a known, fundamental limitation."* — needs a known limitation,
 and nothing in the corpus measures Gemini summarising a transcript.

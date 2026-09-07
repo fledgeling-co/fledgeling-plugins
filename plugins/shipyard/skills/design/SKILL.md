@@ -20,7 +20,7 @@ the enumeration of surfaces × states that later becomes the worker's checklist 
 suite's coverage bar. A feature whose UI is only half-represented here is a feature that ships
 half-built later; the mock set is the contract, not an illustration.
 
-Runs after triage (`To Do`), in parallel with `plan` when triage already named the surfaces.
+Runs after triage (`To Do`), in parallel with `shipyard:plan` when triage already named the surfaces.
 Skip only when the feature has no user-facing surface, and write "design: not applicable
 (<reason>)" into the spec/ticket so the skip is a decision, not an omission.
 
@@ -46,7 +46,7 @@ Skip only when the feature has no user-facing surface, and write "design: not ap
 
 2. **Ideate with references.** Consult the **Mobbin MCP** (`search_screens` / `search_flows`,
    platform-appropriate) for how shipped products handle each surface and flow — cite the
-   screens that informed a direction. Run `design-craft` and `ux-craft` as the authoring pair.
+   screens that informed a direction. Run `design-craft:design-craft` and `ux-craft:ux-craft` as the authoring pair.
 
 3. **Settle the direction.** Where the direction is genuinely open (two structurally different
    layouts, a navigation model fork), build 2–3 **structurally different** candidates of the key
@@ -70,8 +70,8 @@ Skip only when the feature has no user-facing surface, and write "design: not ap
      blank has represented nothing. Verify by opening the rendered surfaces (Obscura), not by
      reading the source.
 
-5. **Gate the mocks — and act on the findings.** Run `design-review` (deterministic gates +
-   craft passes) and `be-my-witness` on the rendered set. Action every Critical/High finding and
+5. **Gate the mocks — and act on the findings.** Run `design-review:design-review` (deterministic gates +
+   craft passes) and `be-my-witness:be-my-witness` on the rendered set. Action every Critical/High finding and
    the Mediums that are cheap, then **one** re-review of the changed surfaces — a bounded loop,
    not review-until-quiet. be-my-witness is calibrated before trusting: it over-flags without
    tuning, so scope it to the surfaces and states in the matrix rather than every pixel it can

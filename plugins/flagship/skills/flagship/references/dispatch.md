@@ -110,4 +110,4 @@ immediately, not noted for later. Measured 23 Aug 2026: three entries materially
 one evening (a campaign eight waves behind, a "queued" fleet that was seven-ninths merged
 and pushed, tool and upstream counts from before a migration). Stale entries compound:
 every conductor and orchestrator that reads the manifest inherits the error, and the
-`armada-sync` update is minutes of work for the session that already holds the truth.
+`armada-sync:armada-sync` update is minutes of work for the session that already holds the truth.

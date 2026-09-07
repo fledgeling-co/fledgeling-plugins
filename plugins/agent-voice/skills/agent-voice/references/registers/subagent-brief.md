@@ -16,8 +16,7 @@ key: `brief`.
 
 ## 2. Register rules
 
-- **The runner has no conversation.** It cannot see the transcript, the earlier tool output, or
-  what the user meant. Anything you refer to has to be in the brief or at a path the brief
+- **Do not rely on inherited conversation.** Even if the harness forks context, the brief must carry the accepted decisions and source paths. Anything you refer to has to be in the brief or at a path the brief
   names. A brief that says "fix the issue we discussed" has briefed nothing.
 - **Give the complete task specification up front and let it finish.** Anthropic is explicit
   that this model *"performs best when given the complete task specification up front and left
@@ -34,11 +33,8 @@ key: `brief`.
 - **Name what it may not do.** Writes, pushes, deletes, network calls, spend, files outside a
   directory. A runner that was not told it is read-only is not read-only.
 - **Give it a working directory and a port range where parallel runners could collide.**
-- **No verification scaffolding for a Claude runner** `[Anthropic]`; **name the verification
-  step for a Gemini runner** `[Google]`. See `dialects.md`.
-- **Pin the model and the effort**, and verify from the output that the lane ran as routed. A
-  lane that inherits a config default is not the lane you chose, and at least one CLI accepts
-  an invalid model name without complaint and fails later at the API `[measured]`.
+- **Name the acceptance evidence for every runner.** Give the required tests, source locators or visual criteria and what to return when they cannot run. Omit redundant "double-check" reminders for Opus 5; see `dialects.md`.
+- **Honor the requested model lane.** Use only identifiers and effort settings exposed by the current harness; otherwise inherit its configured default. When a model was explicitly selected, record the reported runtime identity and flag a mismatch. A model display name alone is not a valid CLI identifier.
 - **Tell it how long the answer should be**, in its own units. The runner's default is longer
   than what a caller wants to parse, and effort does not change that `[Anthropic]`.
 - **One task per brief.** *"If the prompt asks the model to perform several distinct cognitive
@@ -79,7 +75,7 @@ key: `brief`.
 ## 5. Constraints
 
 - Lint format key `brief`. Hard fails: unmeasurable qualifiers, uncounted categorical scope,
-  pressure language, verification scaffolding (Claude runners), placeholders. Advisory: no
+  pressure language, redundant self-check reminders (Opus 5 runners), placeholders. Advisory: no
   stated return contract, no stated scope boundary.
 - **Fence the register:** the human-read brevity rules do not apply, and neither does the
   reader-considerateness. A runner is not inconvenienced by a long brief; it is broken by a

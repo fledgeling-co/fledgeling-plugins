@@ -17,6 +17,15 @@ reader traces relationships. **Charts** show quantities, and the reader compares
 values — which makes every chart encoding a claim about numbers, so charts carry
 honesty rules and a colour gate that diagrams do not.
 
+For utility requests, load only the matching reference and perform that workflow:
+[diagnostics](references/doctor.md), [PNG/SVG export](references/export.md),
+[brand onboarding](references/onboarding.md), [saved profiles](references/profiles.md),
+[draw.io import](references/import-drawio.md), or [Mermaid import](references/import-mermaid.md).
+All use the single `visualization:visualization` entrypoint; pass the operation and
+source path as skill arguments. Diagnostics, exports and profile operations do
+not run the first-visual style gate. Resolve bundled `scripts/` paths relative to
+this SKILL.md, not the caller's working directory.
+
 ---
 
 ## 0. First run — the style guide gate
@@ -24,12 +33,11 @@ honesty rules and a colour gate that diagrams do not.
 Before the first visual in a new project, check whether the skin has been
 customised. Don't silently ship default-skinned output into a branded project.
 
-Check the project root for a `.visualization` marker (or a legacy
-`.diagram-design` marker) and resolve it per [`references/profiles.md`](references/profiles.md).
+Check the project root for a `.diagram-design` marker and resolve it per [`references/profiles.md`](references/profiles.md).
 A valid marker whose profile exists selects that file and skips this gate;
 `profile: default` also skips it.
 
-Otherwise open [`references/style-guide.md`](references/style-guide.md). If the
+If the user already supplied a style, profile or tokens, apply that decision without asking again. In an autonomous handoff, use the provided project style or state the default assumption and proceed. Otherwise open [`references/style-guide.md`](references/style-guide.md). If the
 tokens are still the shipped defaults (paper `#f5f5f5`, ink `#2d3142`, accent
 `#eb6c36`), pause and ask:
 
@@ -159,13 +167,9 @@ grammar.
 [`animation.md`](references/animation.md) only when motion is requested or
 materially clarifies ordered change; static is the default.
 
-### Confirm before drawing
+### State the drawing plan
 
-State the plan in one short message: the form (and pattern, if routed), the size
-preset, and anything the budget will force out. Let the user redirect before you
-draw; if they're not reachable, proceed and note the assumptions beside the
-deliverable. Skip the pause only when the request already pins form, size and
-content exactly.
+State the chosen form, size and any necessary content split in one short message, then proceed when the brief supports them. Ask only when an unresolved choice would materially change the requested meaning or scope; a routine layout choice does not need a confirmation turn. Preserve the full information through grouping or a companion view rather than silently omitting it.
 
 ---
 
@@ -342,8 +346,9 @@ Decorative SVG takes `aria-hidden="true"` instead.
 
 For a chart, the **table view** is part of this contract, not an extra.
 
-Three variants ship for every type — minimal light, minimal dark, full editorial —
-plus optional sketchy and terminal skins. Templates are in `assets/`.
+The template library supplies minimal light, minimal dark and full editorial variants,
+plus optional sketchy and terminal skins. Deliver the variant or variants requested; the
+existence of three templates does not require three outputs. Templates are in `assets/`.
 
 **Imports:** `.drawio*` → [`import-drawio.md`](references/import-drawio.md);
 `.mmd` / fenced mermaid → [`import-mermaid.md`](references/import-mermaid.md).

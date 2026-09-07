@@ -6,7 +6,7 @@ description: Design and mock terminal user interfaces before the app exists, as 
 # tui-design
 
 You cannot capture a screen that does not exist yet, and that is the whole
-problem this skill has that `tui-craft` does not. Its instrument reads a running
+problem this skill has that `tui-craft:tui-craft` does not. Its instrument reads a running
 program. Before there is one, the only artifact is a proposal, and the usual way
 of writing that proposal is a terminal layout drawn by hand in a fenced code
 block.
@@ -23,7 +23,7 @@ So the mock stops being a drawing. You declare what the screen contains and how
 it divides, a compiler does every piece of cell arithmetic, and what comes out is
 a real frame in tui-craft's schema that its gates read directly.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. On Gemini, tui-design's prose rules become counted artifacts: a state × size spec ledger written before the first compile, a bound ledger read back off the compiled frame, fit reports and gate output pasted rather than summarised, and step 0's theme search treated as the reference input Google documents. Other models skip it.
+**Using Gemini?** Read `gemini.md` for this skill's task-specific calibration and artifact checks. Its older runs do not establish Gemini 3.8 capability limits: preserve the user's selected implementation lane, and apply a model-specific route only when the current model or an observed failure supports it.
 
 ## The line between this skill and tui-craft
 
@@ -239,16 +239,16 @@ are the parts that most change a screen:
   reader's unhelpful palette. A background fill is colour wearing different
   clothes.
 
-`ux-craft` and `design-craft` are standing dependencies rather than optional
-extras. **`ux-craft`** owns the flow, the six states, the trunk test, errors that
+`ux-craft:ux-craft` and `design-craft:design-craft` are standing dependencies rather than optional
+extras. **`ux-craft:ux-craft`** owns the flow, the six states, the trunk test, errors that
 say how to fix, and destructive-action friction; load it before designing a flow.
-**`design-craft`** owns hierarchy, restraint and the anti-slop pass; its visual
+**`design-craft:design-craft`** owns hierarchy, restraint and the anti-slop pass; its visual
 rules transfer and its typographic ones do not. Where either is unavailable, say
 which substitution you made.
 
 ## Two limits worth knowing before they waste your time
 
-Both were found by running this skill's output through tui-craft, and neither is
+Both were found by running this skill's output through tui-craft:tui-craft, and neither is
 a defect in the design being reviewed:
 
 - **`border-integrity` reports a false positive on stacked panels.** Two panels
@@ -263,7 +263,7 @@ a defect in the design being reviewed:
 
 The capture-side limit that used to sit here — `tui_capture.py` labelling a
 missing binary `captured` — is fixed, and the rule that replaced it now lives in
-`tui-craft`'s own loop where the reader taking a capture will meet it. A note
+`tui-craft:tui-craft`'s own loop where the reader taking a capture will meet it. A note
 about the other skill's bug, written only in this one, reached nobody who needed
 it.
 

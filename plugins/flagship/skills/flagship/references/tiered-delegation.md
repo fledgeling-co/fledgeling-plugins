@@ -29,10 +29,10 @@ both read identically until the day they disagree.
 
 ## What `tiered` changes
 
-**1. `defer` is off.** All judgement stays in-family. `defer`, the out-of-family lanes, and
+**1. `defer:defer` is off.** All judgement stays in-family. `defer:defer`, the out-of-family lanes, and
 cross-family verify are not called — not because they are unreliable, but because the capability
 gradient this mode creates is the mechanism, and mixing two mechanisms means neither is measurable.
-Outside `tiered`, `defer` behaves exactly as it always has.
+Outside `tiered`, `defer:defer` behaves exactly as it always has.
 
 **2. Verification moves up one level.** ship-fleet already stops its runners before verify and spawns
 the verify stage itself. Under `tiered` **the fleet conductor is a worker too**, so it stops at

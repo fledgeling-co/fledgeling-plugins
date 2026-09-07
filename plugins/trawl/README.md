@@ -8,7 +8,7 @@
 A brainstorming engine for Claude Code, and the evidence-grounded successor to <a href="https://github.com/uditakhourii/adhd">uditakhourii/adhd</a>.</p>
 
 <p align="center">
-  <img alt="Version 2.2.0" src="https://img.shields.io/badge/version-2.2.0-1c7889">
+  <img alt="Version 2.3.1" src="https://img.shields.io/badge/version-2.3.1-1c7889">
   <img alt="Structural evals: 96.4%" src="https://img.shields.io/badge/structural_evals-96.4%25-ee7027">
   <img alt="Blind panel: 4 judge families" src="https://img.shields.io/badge/blind_panel-4_judge_families-5cc7d6">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8fb3bd">
@@ -43,7 +43,7 @@ flowchart LR
 The five thinkers work in isolation on purpose. Letting them see each other's ideas sounds collaborative; in controlled tests it makes every idea more samey. And the final gate is blind: the judge comparing the creative pick against the obvious answer doesn't know which is which.
 
 > [!NOTE]
-> The skill answers to `/trawl`. The old `/adhd` and "ADHD mode" still work as legacy aliases, so nothing breaks if your fingers remember the old name.
+> The skill answers to `/trawl:trawl`. It recognizes the old "ADHD mode" wording as a trigger; automated callers use the qualified skill ID, because trigger text is not a registered command alias.
 
 ## Installing
 
@@ -54,7 +54,7 @@ The five thinkers work in isolation on purpose. Letting them see each other's id
 
 ## Using it
 
-Run `/trawl <your problem>` on anything with more than one defensible answer: architecture decisions, naming, product positioning, API design, or a mystery bug nobody can reproduce. If you phrase a question as "quick" or "standard", trawl stays out of the way and you get a direct answer.
+Run `/trawl:trawl <your problem>` on anything with more than one defensible answer: architecture decisions, naming, product positioning, API design, or a mystery bug nobody can reproduce. If you phrase a question as "quick" or "standard", trawl stays out of the way and you get a direct answer.
 
 > [!TIP]
 > Three sizes: `--any` for a cheap quick sweep, the default for real decisions, `--100` for exhaustive. Every run ends with a one-line receipt saying exactly what ran, what got merged or dropped, and whether the recommendation beat the obvious answer.
