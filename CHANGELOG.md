@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-09-08
 
+### agent-voice 0.3.1: the rule as a Claude Desktop block
+
+`assets/claude-desktop-writing-instructions.md` carries the same rule in a form a person pastes into Claude Desktop's personal-preferences box, with two shorter variants and the reasoning behind each line.
+
 ### agent-voice 0.3.0 and create-luke-content 3.2.0: a fault line names its actor
 
 Both voices gained the same prohibition, from the same measurement. A status page written by an agent carried fifteen consecutive fault lines with no actor and no figure between them — "A merge that had never happened", "The command meant to check the evidence overwrote it", "Markers with nothing holding them" — and its reader described the page as a noir case file rather than a status page.
