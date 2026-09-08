@@ -1341,6 +1341,19 @@ function empty(sentence) {
    0 · Masthead — the project's own name and when this was written
    ========================================================================== */
 
+
+/* Every chart legend ends with the report's date, and until 8 Sep 2026 all six
+   of them carried the literal "4 SEP 2026" — the day the template was written.
+   A page whose own charts date themselves to a fixed day in the past is the
+   plainest form of the thing this skill exists to stop, and it was invisible
+   precisely because it looked like a rendered value. Read it off the data. */
+function stampDate(data) {
+  var m = String((data && data.updated) || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!m) return "DATE NOT RECORDED";
+  return (+m[3]) + " " + ["JAN","FEB","MAR","APR","MAY","JUN",
+    "JUL","AUG","SEP","OCT","NOV","DEC"][+m[2] - 1] + " " + m[1];
+}
+
 function zoneMeta(data) {
   // Read the stamp's own fields rather than converting it: the reader wants the
   // time the agent wrote, not that time moved into another zone.
@@ -1505,7 +1518,7 @@ function zoneFlow(data) {
         return '<rect class="sk-flow" fill-opacity=".16" x="' + px(x) + '" y="488" width="16" height="8"/>'; } },
     { label: c3[2] + " carried-over tasks that were never started", mark: function (x) {
         return '<rect class="sk-flow sk-flow-focal" fill-opacity=".34" x="' + px(x) + '" y="488" width="16" height="8"/>'; } }
-  ], "WIDTH = " + Math.round(k) + "PX PER TASK · " + total + " TASKS · 4 SEP 2026");
+  ], "WIDTH = " + Math.round(k) + "PX PER TASK · " + total + " TASKS · " + stampDate(data));
 
   var rows = tasks.map(function (t) {
     var origin = FROM.filter(function (f) { return f.key === t.origin; })[0];
@@ -1734,7 +1747,7 @@ function zoneChecks(data) {
         return '<rect class="bar s-fail" x="' + px(x) + '" y="488" width="16" height="8"/>'; } },
     { label: "measured nothing, so it proves nothing", mark: function (x) {
         return '<line class="blank-rule" x1="' + px(x) + '" y1="493" x2="' + px(x + 16) + '" y2="493"/>'; } }
-  ], "BAR = SHARE OF THAT CHECK'S OWN LIMIT · ROWS IN THE ORDER THEY RAN · 4 SEP 2026");
+  ], "BAR = SHARE OF THAT CHECK'S OWN LIMIT · ROWS IN THE ORDER THEY RAN · " + stampDate(data));
 
   var rows = read.map(function (c) {
     return [esc(c.gate.name), '<code class="mono">' + dash(c.gate.command) + "</code>",
@@ -1828,7 +1841,7 @@ function zoneAlarms(data) {
     { label: "an alarm that noticed nothing", mark: function (x) {
         return '<circle class="db-halo" cx="' + px(x + 6) + '" cy="493" r="9"/>' +
           '<circle class="db-focal is-flat" cx="' + px(x + 6) + '" cy="493" r="5"/>'; } }
-  ], "ROWS BY HOW MANY NOTICED, FEWEST FIRST · 0-" + ceil + " TESTS · 4 SEP 2026");
+  ], "ROWS BY HOW MANY NOTICED, FEWEST FIRST · 0-" + ceil + " TESTS · " + stampDate(data));
 
   var rows = armed.map(function (a) {
     return [esc(a.check), esc(a.mutation), esc(a.case_reddened), String(+a.red || 0),
@@ -1924,7 +1937,7 @@ function zoneProblems(data) {
     { label: "up and down is packing only, and means nothing", mark: function (x) {
         return '<line class="leader" stroke-opacity=".40" x1="' + px(x + 6) + '" y1="486" x2="' + px(x + 6) + '" y2="500"/>'; } }
   ], "SERIOUSNESS = THE AGENT'S OWN 0-100 RATING · " + found.length + " PROBLEMS, " + serious +
-     " SERIOUS · 4 SEP 2026");
+     " SERIOUS · " + stampDate(data));
 
   var rows = found.map(function (f) {
     return ['<span class="mono">' + dash(f.id) + "</span>", String(+f.score || 0),
@@ -1940,6 +1953,49 @@ function zoneProblems(data) {
 /* ==========================================================================
    6 · What we got wrong — slopegraph
    ========================================================================== */
+
+
+/* Labels sit at their datum's y, so two rows with the same value land on top of
+   each other. Measured 8 Sep 2026: a project with three corrections all claimed
+   at 100% rendered three left-hand labels as one unreadable smear, and a 2-point
+   gap on the right was enough to overlap two more. Dots and lines keep the true
+   y; only the text moves, which is the ordinary slopegraph fix.
+
+   Forward pass pushes each label down to clear the one above, then an overflow
+   shift plus a backward pass pulls the run back inside the frame, so a crowded
+   set spreads around its own centre instead of piling up against the bottom. */
+function spreadLabels(values, gap, lo, hi) {
+  var order = values.map(function (y, i) { return { i: i, y: y }; })
+                    .sort(function (a, b) { return a.y - b.y; });
+  var k;
+  for (k = 1; k < order.length; k++) {
+    if (order[k].y - order[k - 1].y < gap) order[k].y = order[k - 1].y + gap;
+  }
+  var over = order.length ? order[order.length - 1].y - hi : 0;
+  if (over > 0) {
+    for (k = 0; k < order.length; k++) order[k].y -= over;
+    for (k = order.length - 2; k >= 0; k--) {
+      if (order[k + 1].y - order[k].y < gap) order[k].y = order[k + 1].y - gap;
+    }
+    if (order.length && order[0].y < lo) {
+      var under = lo - order[0].y;
+      for (k = 0; k < order.length; k++) order[k].y += under;
+    }
+  }
+  var out = values.slice();
+  order.forEach(function (o) { out[o.i] = o.y; });
+  return out;
+}
+
+
+/* A hairline from the axis dot to a label that had to move, so a shifted row is
+   still traceable to its own point. Nothing is drawn when the label did not move. */
+function leader(xd, yd, xl, yl, side) {
+  if (Math.abs(yl - yd) < 1) return "";
+  var mid = side === "end" ? xl - 6 : xl + 6;
+  return '<path class="axis" stroke-opacity=".28" fill="none" d="M' + r1(xd) + ' ' + r1(yd) +
+    'L' + r1(mid) + ' ' + r1(yd) + 'L' + r1(xl) + ' ' + r1(yl) + '"/>';
+}
 
 function zoneCorrections(data) {
   var corr = data.corrections || [];
@@ -1964,9 +2020,14 @@ function zoneCorrections(data) {
     '<text class="c-eyebrow" data-axis="to" data-state="WHAT WAS ACTUALLY TRUE" x="' + XB +
     '" y="440" text-anchor="middle">WHAT WAS ACTUALLY TRUE</text>';
 
+  var LGAP = 20;
+  var fromY = spreadLabels(rows.map(function (c) { return v2y(+c.said_pct || 0); }), LGAP, 24, 452);
+  var toY = spreadLabels(rows.map(function (c) { return v2y(+c.true_pct || 0); }), LGAP, 24, 452);
+
   rows.forEach(function (c, i) {
     var f = +c.said_pct || 0, t = +c.true_pct || 0;
     var y0 = v2y(f), y1 = v2y(t), focal = c === worst;
+    var l0 = fromY[i], l1 = toY[i];
     var tone = ' stroke-opacity="' + (focal ? 1 : r1(0.80 - i * 0.04)) + '"';
     svg += '<line class="sl-line' + (focal ? " is-focal" : "") + '" data-series="' + esc(c.earlier_claim) +
       '" data-from="' + f + '" data-to="' + t + '" x1="' + XA + '" y1="' + r1(y0) + '" x2="' + XB +
@@ -1976,14 +2037,16 @@ function zoneCorrections(data) {
       '" r="' + (focal ? 4 : 3) + '"/>' +
       '<circle class="sl-dot' + (focal ? " is-focal" : "") + '" cx="' + XB + '" cy="' + r1(y1) +
       '" r="' + (focal ? 4 : 3) + '"/>' +
+      leader(304, y0, 312, l0, "end") +
+      leader(696, y1, 688, l1, "start") +
       '<text class="c-name" data-series="' + esc(c.earlier_claim) + '" data-end="from" data-role="name" ' +
-      'x="272" y="' + r1(y0 + 4) + '" text-anchor="end">' + esc(c.earlier_claim) + "</text>" +
+      'x="272" y="' + r1(l0 + 4) + '" text-anchor="end">' + esc(c.earlier_claim) + "</text>" +
       '<text class="c-value" data-series="' + esc(c.earlier_claim) + '" data-end="from" x="304" y="' +
-      r1(y0 + 4) + '" text-anchor="end">' + f + "%</text>" +
+      r1(l0 + 4) + '" text-anchor="end">' + f + "%</text>" +
       '<text class="c-value" data-series="' + esc(c.earlier_claim) + '" data-end="to" x="696" y="' +
-      r1(y1 + 4) + '">' + t + "%</text>" +
+      r1(l1 + 4) + '">' + t + "%</text>" +
       '<text class="c-name" data-series="' + esc(c.earlier_claim) + '" data-end="to" data-role="name" ' +
-      'x="728" y="' + r1(y1 + 4) + '">' + esc(c.earlier_claim) + "</text>";
+      'x="728" y="' + r1(l1 + 4) + '">' + esc(c.earlier_claim) + "</text>";
   });
 
   svg += legend([
@@ -1993,7 +2056,7 @@ function zoneCorrections(data) {
     { label: worst.earlier_claim + ", the one that produced a false pass", mark: function (x) {
         return '<line class="sl-line is-focal" x1="' + px(x) + '" y1="493" x2="' + px(x + 18) +
           '" y2="493"/><circle class="sl-dot is-focal" cx="' + px(x + 18) + '" cy="493" r="4"/>'; } }
-  ], "BOTH AXES 0-100% · " + rows.length + " CORRECTIONS · 4 SEP 2026");
+  ], "BOTH AXES 0-100% · " + rows.length + " CORRECTIONS · " + stampDate(data));
 
   var tab = rows.map(function (c) {
     return [esc(c.earlier_claim), (+c.said_pct || 0) + "%", (+c.true_pct || 0) + "%",
@@ -2081,7 +2144,7 @@ function zoneUnwatched(data) {
         return '<rect class="tm-cell is-focal" fill-opacity=".18" stroke-opacity="1" x="' + px(x) + '" y="488" width="16" height="8"/>'; } },
     { label: "stronger contrast means more unchecked", mark: function (x) {
         return '<rect class="tm-cell" fill-opacity="0.04" stroke-opacity=".30" x="' + px(x) + '" y="488" width="16" height="8"/>'; } }
-  ], "AREA = THINGS NOBODY CHECKED · " + total + " ACROSS " + cells.length + " AREAS · 4 SEP 2026");
+  ], "AREA = THINGS NOBODY CHECKED · " + total + " ACROSS " + cells.length + " AREAS · " + stampDate(data));
 
   var rows = cells.map(function (c) {
     return [esc(c.name), String(c.un), String(c.of), Math.round(c.un / total * 100) + "%", esc(c.why)];
