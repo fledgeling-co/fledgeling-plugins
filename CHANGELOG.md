@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-09-08
 
+### agent-voice 0.3.3 and create-luke-content 3.2.1: the rule widens past bad news
+
+Both packages had scoped the prohibition to a fault line. The page it was measured on carried the same three shapes on timings and capacities, so both now cover any line about something that happened: a finding, a change made, a measurement, a mistake, the state of a thing. Two timing fragments join each lint as advisories.
+
 ### agent-voice 0.3.2: the Desktop block covers anything that happened
 
 The 0.3.1 wording was scoped to faults, which left the register free on timings, capacities and state. It now covers any description of something that happened, and is 434 words rather than 809.
