@@ -1,0 +1,29 @@
+{
+  "skill": "atlas-review",
+  "version": "1.0.0",
+  "baseline": "no skill loaded",
+  "status": "not-run",
+  "note": "No baseline comparison has been run. See EVALS.md for what was verified mechanically and the three tasks that would settle it.",
+  "planned": [
+    {
+      "id": "E1",
+      "claim": "fixes what the review finds rather than only reporting it",
+      "method": "real PR stack, with and without the skill"
+    },
+    {
+      "id": "E2",
+      "claim": "gates the merged tree, not the branches",
+      "method": "planted semantic conflict, clean textually, green on both branches"
+    },
+    {
+      "id": "E3",
+      "claim": "proves a touched test can fail",
+      "method": "planted unfailable checks, one of each shape in references/void-checks.md"
+    },
+    {
+      "id": "E4",
+      "claim": "acts on the owner's prose notes as work items",
+      "method": "stack accompanied by notes naming three unwired features"
+    }
+  ]
+}
