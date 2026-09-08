@@ -1,7 +1,7 @@
 {
   "name": "agent-voice",
   "description": "Give agent-authored text a real voice: the prose an agent emits inside Claude Code and other harnesses. Routes to one of seven registers — terminal reply, work report, commit and PR, review comment, written document, SKILL.md and instruction file, subagent brief — then drafts or revises against evidence-anchored rules and a deterministic lint that hard-fails closing flourishes, self-congratulation, preamble openers, unmeasurable qualifiers, uncounted categorical scope, pressure language and redundant self-check reminders. Human-read and agent-read text fail in different ways, so the gate differs by register. Model-specific adjustments state the documented model/version and keep historical measurements distinct from current behavior. Use whenever someone wants agent output to read better — \"why are your answers so long\", \"make this reply shorter\", \"write the commit message\", \"tighten this report\", \"review this SKILL.md\", \"this prompt is too vague\", \"rewrite this brief for Gemini\", \"lint this doc\" — and before writing any instruction file another model will execute. Not for content written in a person's voice (use that person's content skill) and not for building a human voice persona from writing samples (use create-voice-persona:create-voice-persona).",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": {
     "name": "Luke Rhodes"
   }

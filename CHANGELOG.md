@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-09-08
 
+### agent-voice 0.3.2: the Desktop block covers anything that happened
+
+The 0.3.1 wording was scoped to faults, which left the register free on timings, capacities and state. It now covers any description of something that happened, and is 434 words rather than 809.
+
 ### agent-voice 0.3.1: the rule as a Claude Desktop block
 
 `assets/claude-desktop-writing-instructions.md` carries the same rule in a form a person pastes into Claude Desktop's personal-preferences box, with two shorter variants and the reasoning behind each line.
