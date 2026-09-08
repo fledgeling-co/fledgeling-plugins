@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1 - 2026-09-08
+
+`assets/claude-desktop-writing-instructions.md`: the same rule as a block a person can paste into Claude Desktop's personal-preferences box, with two shorter variants and a note on why each line is phrased the way it is. Written against the current Anthropic guidance rather than from memory: the block says what to do rather than what to avoid (the docs' own worked example replaces "Do not use markdown" with "Your response should be composed of smoothly flowing prose paragraphs"), carries four before-and-after pairs because positive examples of a communication style beat instructions about what not to do, asks for two checkable things (the actor and the number), and is written in the voice it asks for, since the formatting style of a prompt influences the response's.
+
 ## 0.3.0 - 2026-09-08
 
 Two shapes join the lintable layer, both about a line describing a fault. A fault line names who or what did it and, where the reader needs it, the number: "I recorded a merge that had not happened" rather than "a merge that had never happened", and "the verify command re-hashed 30 digests it was checking" rather than "the command meant to check the evidence overwrote it".
