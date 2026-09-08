@@ -19,7 +19,7 @@
       "id": "backlog",
       "label": "Handing over a pile of work",
       "blurb": "Give Claude a list and let it work through it on its own.",
-      "count": 8
+      "count": 9
     },
     {
       "id": "standing",
@@ -1104,6 +1104,7 @@
       "neighbours": [
         "ship-armada",
         "ship-feature",
+        "atlas-review",
         "status-update"
       ]
     },
@@ -1166,7 +1167,7 @@
     },
     {
       "name": "agent-voice",
-      "version": "0.2.2",
+      "version": "0.3.3",
       "group": "making",
       "groupLabel": "Making something",
       "description": "Give agent-authored text a real voice: the prose an agent emits inside Claude Code and other harnesses. Routes to one of seven registers — terminal reply, work report, commit and PR, review comment, written document, SKILL.md and instruction file, subagent brief — then drafts or revises against evidence-anchored rules and a deterministic lint that hard-fails closing flourishes, self-congratulation, preamble openers, unmeasurable qualifiers, uncounted categorical scope, pressure language and redundant self-check reminders. Human-read and agent-read text fail in different ways, so the gate differs by register. Model-specific adjustments state the documented model/version and keep historical measurements distinct from current behavior. Use whenever someone wants agent output to read better — \"why are your answers so long\", \"make this reply shorter\", \"write the commit message\", \"tighten this report\", \"review this SKILL.md\", \"this prompt is too vague\", \"rewrite this brief for Gemini\", \"lint this doc\" — and before writing any instruction file another model will execute. Not for content written in a person's voice (use that person's content skill) and not for building a human voice persona from writing samples (use create-voice-persona:create-voice-persona).",
@@ -1517,6 +1518,59 @@
         "defer": true
       },
       "neighbours": [
+        "code-review",
+        "atlas-review"
+      ]
+    },
+    {
+      "name": "atlas-review",
+      "version": "1.0.0",
+      "group": "backlog",
+      "groupLabel": "Handing over a pile of work",
+      "description": "Takes the open pull requests of the Atlas/Bella monorepo from arrival to reviewed, fixed, merged, pushed and reported. The review itself is code-review:code-review, which is read-only, so resolving what it finds is this skill's own stage and the reason it exists. Lands by rebase rather than merge commit, pulls so local main is the real main, then runs the three stages a pull-request stack always needs and nobody files: extending the tests to cover what the pull requests added, doing the backend wiring the product owner deliberately left to the developer, and acting on the notes they sent as prose alongside the work. Gates the merged tree rather than the branches, because 20-35% of clean textual merges carry a semantic conflict no branch-isolated check can see, and two such conflicts fired in the session this skill was built from. Treats any test the diff touched as unproven until an injected fault makes it fail: 75% of compiling LLM-written tests are vacuous, and static reading is rated Low at catching the two shapes that dominate, so eighteen unfailable checks were found in one session and none by reading. Verifies a finding out of family before acting on it, since raw LLM review runs 40-70% false positives and cross-model checking halves the error. Every written word goes through create-luke-content, and the run ends in a single-column HTML page a non-technical product owner can finish. The release that follows is atlas-publish's job.",
+      "trigger": "Atlas/Bella review conductor. Takes the open PRs from arrival to reviewed, fixed, merged, pushed and reported. Use when someone wants the Atlas pull requests dealt with: \"review the open PRs\", \"land Elysee's stack\", \"go through the PRs and merge them\", \"the CEO has pushed some work\", \"review and merge what's open\". Runs code-review:code-review on each PR and then FIXES what it finds, because that skill reports and applies nothing; rebases onto main rather than merge-committing; pulls so local main is the real main; then does the three stages a PR stack always needs and nobody asks for (extending the tests to cover what the PRs added, doing the backend wiring the product owner deliberately left, and acting on the notes they sent with it), then iterates on unit and automated UI tests until they actually pass. Gates the MERGED tree rather than the branches, because 20-35% of clean textual merges carry a semantic conflict no branch-isolated check can see. Treats a test touched by the diff as unproven until an injected mutant makes it fail, because 75% of compiling LLM-written tests are vacuous and static reading scores Low on exactly the shapes that matter. Writes every PR comment and the CEO-facing report through create-luke-content:create-luke-content, and publishes a branded single-column HTML page a non-technical reader can finish. NOT for cutting a release (use atlas-publish:atlas-publish), NOT for a repo's whole backlog (use ship-fleet:ship-fleet), and NOT for reviewing one diff in isolation (use code-review:code-review directly).",
+      "blurb": "The other half of the same app. It reviews the open pull requests, fixes what the review finds and lands them, then does the three jobs nobody asks for: covering the new screens with tests, wiring the backend the product owner left alone, and breaking every check on purpose to find out which ones could never have failed.",
+      "readme": "Takes the open pull requests on the Atlas monorepo from arrival to merged, pushed and\nreported.\n\nThe product owner writes the interface and hands it over. The review, the fixes, the\nbackend wiring, the tests for the new screens and the report all sit on the other side of\nthat handover, and this skill does them in the order they get asked for.\n\n## What it does\n\n```\n1 review the open PRs          6 update the tests for what the PRs added\n2 resolve what it found        7 do the backend work, plus the owner's notes\n3 commit and push              8 test and iterate until green, unit and on a device\n4 rebase onto main             9 commit and push\n5 pull\n```\n\nStages 2, 6 and 7 are the ones nobody files a ticket for. The review skill it calls is\nread-only, so fixing is this skill's own job. A stack that adds four screens adds no tests\nfor them. And the owner says plainly that they left the backend alone, so it is waiting.\n\n## The two things it does differently\n\n**It does not trust a test until it has watched it fail.** Three quarters of compiling\nmachine-written tests are vacuous, and reading one is measured as poor at spotting the\nshapes that matter, because a reader treats a mock as a valid fixture. So a test the change\ntouched gets a fault injected into the code it covers, and has to go red. Eighteen checks\nthat could not fail were found this way in a single session, and not one was found by\nrunning the tests.\n\n**It checks the tree after merging, not the branches before.** Between a fifth and a third\nof merges that apply cleanly still carry a conflict of meaning, and no check that runs on a\nbranch alone can see one. Two of them turned up in the session this was built from, and both\nwere records that disagreed with their twin only once they sat in the same tree.\n\n## What comes out\n\nA comment on each pull request, in Luke's voice. A single-column HTML page the product owner\ncan read without knowing what any of it is called, with figures doing the work that long\nsentences would otherwise do. And a status page that joins the portfolio dashboard.\n\n## What it will not do\n\nCut a release; that is `atlas-publish`, which begins where this ends. Work the wider backlog;\nthat is `ship-fleet`. Weaken a check so it passes. Or report a verdict it did not measure:\n\"still passing\" and \"passed once, weeks ago\" are different claims, and the record says which.\n\n## Evidence\n\n`skills/atlas-review/references/evidence.md` separates what the field has measured from what\nwas measured in this one repo. The research panel is in `docs/deep-research/`. `evals/EVALS.md`\nsays plainly that no comparison against not using the skill has been run, and names the three\ntasks that would settle it.",
+      "license": "MIT",
+      "keywords": [],
+      "allowedTools": "Read, Grep, Glob, Bash, Agent, Write, Edit, AskUserQuestion",
+      "boundary": {
+        "text": "NOT for cutting a release (use atlas-publish:atlas-publish), NOT for a repo's whole backlog (use ship-fleet:ship-fleet), and NOT for reviewing one diff in isolation (use code-review:code-review directly).",
+        "referrals": [
+          {
+            "name": "atlas-publish",
+            "here": true
+          },
+          {
+            "name": "ship-fleet",
+            "here": true
+          },
+          {
+            "name": "code-review",
+            "here": true
+          }
+        ]
+      },
+      "examplePrompts": [
+        "review the open PRs",
+        "land Elysee's stack",
+        "go through the PRs and merge them",
+        "the CEO has pushed some work",
+        "review and merge what's open"
+      ],
+      "icon": "/icons/atlas-review.png",
+      "install": "/plugin install atlas-review@fledgeling-plugins",
+      "repoUrl": "https://github.com/fledgeling-co/fledgeling-plugins/tree/main/plugins/atlas-review",
+      "signals": {
+        "evals": true,
+        "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/atlas-review/evals/EVALS.md",
+        "scripts": true,
+        "references": 8,
+        "defer": false
+      },
+      "neighbours": [
+        "atlas-publish",
+        "ship-fleet",
         "code-review"
       ]
     },
@@ -1552,7 +1606,8 @@
         "defer": true
       },
       "neighbours": [
-        "atlas-publish"
+        "atlas-publish",
+        "atlas-review"
       ]
     },
     {
@@ -1843,7 +1898,7 @@
     },
     {
       "name": "create-luke-content",
-      "version": "3.1.2",
+      "version": "3.2.1",
       "group": "making",
       "groupLabel": "Making something",
       "description": "Write anything in Luke Rhodes' voice, with a copywriting craft layer under the marketing route rather than a voice layer on its own. Routes a request to one of six personas (LinkedIn post and long-form article, marketing content, code review, Slack and chat, short-form, ADHD and book audience), draws the base voice from an evidence-anchored profile where every rule traces to a quoted sample, and gates the draft on a deterministic lint. The rebuild's subject is the marketing route: the predecessor gave LinkedIn a bundled engagement-research layer and gave marketing none, so its entire craft basis was a single consumer parenting-app release post, and B2B launch, landing and email copy came out voice-correct and structurally amateur. This version bundles a copywriting evidence base from a five-backend deep-research panel, rebuilds the marketing persona against it with artifact structures for announcements, landing pages, release notes and campaign email, and separates replicated findings from direct-response folklore so no rule is encoded on the strength of a famous name. It also ships the voice-lint.json the predecessor never had: without it the stylometric fingerprint comparison, the Australian-spelling check, the exclamation and emoji rations and the repeated-phrase allowlist were all dead code, and the self-narrating meta-labels the skill claimed to ban passed clean. Successor to create-luke-content:create-luke-content by DiologIR, whose voice extraction it keeps intact.",

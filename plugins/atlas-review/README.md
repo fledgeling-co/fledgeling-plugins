@@ -1,4 +1,8 @@
-# atlas-review
+<p align="center">
+  <img src="assets/banner.png" alt="atlas-review: the porcelain icon of a graphite script letter with one vermilion cut taken square across its stem, beside the wordmark atlas review split by that same cut, the line 'Open PRs in, merged and reported out. Every check broken on purpose first.', and four dark bars crossed by a single vermilion cut that every one of them continues past" width="100%">
+</p>
+
+<h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> atlas-review</h1>
 
 Takes the open pull requests on the Atlas monorepo from arrival to merged, pushed and
 reported.
