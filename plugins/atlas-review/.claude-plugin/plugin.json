@@ -1,0 +1,9 @@
+{
+  "name": "atlas-review",
+  "version": "1.0.0",
+  "description": "Takes the open pull requests of the Atlas/Bella monorepo from arrival to reviewed, fixed, merged, pushed and reported. The review itself is code-review:code-review, which is read-only, so resolving what it finds is this skill's own stage and the reason it exists. Lands by rebase rather than merge commit, pulls so local main is the real main, then runs the three stages a pull-request stack always needs and nobody files: extending the tests to cover what the pull requests added, doing the backend wiring the product owner deliberately left to the developer, and acting on the notes they sent as prose alongside the work. Gates the merged tree rather than the branches, because 20-35% of clean textual merges carry a semantic conflict no branch-isolated check can see, and two such conflicts fired in the session this skill was built from. Treats any test the diff touched as unproven until an injected fault makes it fail: 75% of compiling LLM-written tests are vacuous, and static reading is rated Low at catching the two shapes that dominate, so eighteen unfailable checks were found in one session and none by reading. Verifies a finding out of family before acting on it, since raw LLM review runs 40-70% false positives and cross-model checking halves the error. Every written word goes through create-luke-content, and the run ends in a single-column HTML page a non-technical product owner can finish. The release that follows is atlas-publish's job.",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}
