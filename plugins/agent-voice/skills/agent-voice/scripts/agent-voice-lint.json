@@ -14,12 +14,19 @@
     "rest assured"
   ],
   "advisory_phrases": [
-    "note that",
+    "and it times out",
+    "easily",
+    "just run",
     "keep in mind",
+    "meant to check",
+    "never more than",
+    "note that",
     "of course",
     "simply",
-    "just run",
-    "easily"
+    "that could never have passed",
+    "that had never happened",
+    "that is not there",
+    "with nothing holding"
   ],
   "ai_vocab_extra": [
     "streamline",

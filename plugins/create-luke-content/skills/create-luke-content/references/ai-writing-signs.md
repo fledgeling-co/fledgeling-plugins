@@ -54,6 +54,20 @@ A tell the source guide doesn't name but voice owners reliably flag: the **epigr
 - **Names and headings carry the message, not the wit.** A heading's job is to let a reader skim; a riddle-heading fails at its actual job. Every name for an artifact or section must survive a literal reading (a guide of questions is a question bank, not an "answer bank").
 - **Epigram budget:** roughly one landing line per page or major section, and any given epigram appears **once per document** — captions, panel text, pull quotes and image copy count as part of the document, so a line in the body may not recur as the caption on the same spread. The same contrast construction ("an X, not a Y") also may not become a document's verbal tic across units. Most paragraphs end on information, plainly. [Source: owner review of a shipped 20-page guide, 2026-07, and its follow-up validation; corroborated by §6's "forced aphorisms / quotable closers" research marker.]
 
+### 1.8 The noir case-file register (withheld agency)
+
+A fault described without its actor, its number, or its verb. Three shapes compound into it:
+
+- **An event named by its absence.** "A merge that had never happened." Something did not happen and nobody did it.
+- **A passive or abstract subject where an actor belongs.** "The command meant to check the evidence overwrote it." "One message started a second copy of every running job."
+- **An ironic reversal closing the clause.** "A check that could never have passed." "The pop-up was fixed; the reading wasn't." The trailer's own beat: set an expectation, break it before the full stop.
+
+A verbless noun phrase is the same failure in one line: "Markers with nothing holding them" states a subject and withholds the consequence, so the reader supplies it.
+
+Measured 2026-09-08: a status page carried fifteen consecutive fault lines with no actor and no figure between them, and its reader described it as a noir case file rather than a status page. The register is compelling, which is the problem — it withholds the two things a fault line exists to carry.
+
+Write the actor, the count, and the cost: "I recorded a merge that had not happened"; "the verify command re-hashed 30 digests it was checking"; "47 rows carry a marker no manifest entry accounts for, so the gate cannot verify them." The irony survives in the facts without being staged.
+
 ## 2. Language-level tells
 
 ### 2.1 AI vocabulary

@@ -4,6 +4,14 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-08
+
+### agent-voice 0.3.0 and create-luke-content 3.2.0: a fault line names its actor
+
+Both voices gained the same prohibition, from the same measurement. A status page written by an agent carried fifteen consecutive fault lines with no actor and no figure between them — "A merge that had never happened", "The command meant to check the evidence overwrote it", "Markers with nothing holding them" — and its reader described the page as a noir case file rather than a status page.
+
+Three shapes compound into that register: an event named by its absence, a passive or abstract subject where an actor belongs, and an ironic reversal closing the clause. A verbless noun phrase is the same failure in one line. The register is compelling, which is the problem, because it withholds the two things a fault line exists to carry: who did it and how much. Both packages now say to write the actor, the count and the cost, and both lints carry the commonest phrasings as advisories rather than hard failures, since the shape needs a reader's judgement.
+
 ## 2026-09-07
 
 ### 54 plugin patch releases: model guidance and skill references

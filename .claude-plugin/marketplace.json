@@ -331,7 +331,7 @@
     {
       "name": "agent-voice",
       "description": "Give agent-authored text a real voice: the prose an agent emits inside Claude Code and other harnesses. Routes to one of seven registers — terminal reply, work report, commit and PR, review comment, written document, SKILL.md and instruction file, subagent brief — then drafts or revises against evidence-anchored rules and a deterministic lint that hard-fails closing flourishes, self-congratulation, preamble openers, unmeasurable qualifiers, uncounted categorical scope, pressure language and redundant self-check reminders. Human-read and agent-read text fail in different ways, so the gate differs by register. Model-specific adjustments state the documented model/version and keep historical measurements distinct from current behavior. Use whenever someone wants agent output to read better — \"why are your answers so long\", \"make this reply shorter\", \"write the commit message\", \"tighten this report\", \"review this SKILL.md\", \"this prompt is too vague\", \"rewrite this brief for Gemini\", \"lint this doc\" — and before writing any instruction file another model will execute. Not for content written in a person's voice (use that person's content skill) and not for building a human voice persona from writing samples (use create-voice-persona:create-voice-persona).",
-      "version": "0.2.2",
+      "version": "0.3.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -580,7 +580,7 @@
     {
       "name": "create-luke-content",
       "description": "Write anything in Luke Rhodes' voice, with a copywriting craft layer under the marketing route rather than a voice layer on its own. Routes a request to one of six personas (LinkedIn post and long-form article, marketing content, code review, Slack and chat, short-form, ADHD and book audience), draws the base voice from an evidence-anchored profile where every rule traces to a quoted sample, and gates the draft on a deterministic lint. The rebuild's subject is the marketing route: the predecessor gave LinkedIn a bundled engagement-research layer and gave marketing none, so its entire craft basis was a single consumer parenting-app release post, and B2B launch, landing and email copy came out voice-correct and structurally amateur. This version bundles a copywriting evidence base from a five-backend deep-research panel, rebuilds the marketing persona against it with artifact structures for announcements, landing pages, release notes and campaign email, and separates replicated findings from direct-response folklore so no rule is encoded on the strength of a famous name. It also ships the voice-lint.json the predecessor never had: without it the stylometric fingerprint comparison, the Australian-spelling check, the exclamation and emoji rations and the repeated-phrase allowlist were all dead code, and the self-narrating meta-labels the skill claimed to ban passed clean. Successor to create-luke-content:create-luke-content by DiologIR, whose voice extraction it keeps intact.",
-      "version": "3.1.2",
+      "version": "3.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

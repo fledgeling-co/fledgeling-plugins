@@ -167,6 +167,22 @@ The counter-rules to the default register, stated so a draft can be checked agai
   both sides or drop it.
 - **Every sentence carries its referent.** A fragment or pronoun whose subject lives two
   sentences back reads as filler `[ai-signs]`.
+- **No withheld agency in a line about a fault.** A fault line names who or what did it and,
+  where the reader needs it, the number: "I recorded a merge that had not happened" and "the
+  verify command re-hashed 30 digests it was checking" rather than "a merge that had never
+  happened" and "the command meant to check the evidence overwrote it". Three shapes drift into
+  a case-file register that reads as a film trailer, and they compound: an event named by its
+  absence, a passive or abstract subject where an actor belongs, and an ironic reversal closing
+  the clause (the thing built to check destroys; a check that could never have passed). Measured
+  2026-09-08: fifteen consecutive fault lines in one report carried no actor and no figure
+  between them, and a reader described the page as a noir case file rather than a status page
+  `[measured]`. The register is compelling and it hides the two things a fault line exists to
+  carry, so restore the actor and the count and let the irony stay in the facts.
+- **No verbless noun phrase where a finding belongs.** "Markers with nothing holding them" and
+  "A picture that is not there" are captions: they state a subject and withhold the verb, so the
+  reader supplies the consequence. Write the finding as a sentence with what happened and what
+  it cost: "47 rows carry a marker no manifest entry accounts for, so the gate cannot verify
+  them."
 - **One landing line per document at most.** LLM reward models favour quotable resolutions;
   humans mostly just end `[ai-signs]`. Most paragraphs end on information.
 - **Epistemic stance is present where it is real.** "My read is", "I'd watch", "I'm not
