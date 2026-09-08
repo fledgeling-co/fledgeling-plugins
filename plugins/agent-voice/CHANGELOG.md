@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2 - 2026-09-08
+
+The Claude Desktop block widens from faults to anything that happened, and loses half its words. The 0.3.1 wording opened "when you tell me something went wrong", which left the register free everywhere else — the measured page carried it on timings and capacities too ("the reading lane is the slow part, and it times out"). It now reads "anything that happened: a finding, a change you made, a measurement, a mistake, the state of something", and one of the four before-and-after pairs is a timing rather than a fault. 809 words to 434, with the paste block itself cut to eleven lines.
+
 ## 0.3.1 - 2026-09-08
 
 `assets/claude-desktop-writing-instructions.md`: the same rule as a block a person can paste into Claude Desktop's personal-preferences box, with two shorter variants and a note on why each line is phrased the way it is. Written against the current Anthropic guidance rather than from memory: the block says what to do rather than what to avoid (the docs' own worked example replaces "Do not use markdown" with "Your response should be composed of smoothly flowing prose paragraphs"), carries four before-and-after pairs because positive examples of a communication style beat instructions about what not to do, asks for two checkable things (the actor and the number), and is written in the voice it asks for, since the formatting style of a prompt influences the response's.

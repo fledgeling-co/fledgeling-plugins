@@ -1,90 +1,46 @@
-# Claude Desktop instructions: a fault line names its actor
+# Claude Desktop: name the actor, give the number
 
-Paste the block below into Claude Desktop under **Settings → Profile → personal preferences**
-(the box headed "What personal preferences should Claude consider in responses?"). It is written
-to be pasted whole, and it is about one thing: how Claude describes something that went wrong.
-
-The style it displaces is worth naming so you recognise it when it comes back. Three shapes
-compound into it, and together they read like a film trailer:
-
-An event gets named by its absence, as in "A merge that had never happened". A passive or
-abstract subject stands where an actor belongs, as in "The command meant to check the evidence
-overwrote it". And an ironic reversal closes the clause, as in "A check that could never have
-passed".
-
-A verbless noun phrase does the same job in one line: "Markers with nothing holding them" states
-a subject and withholds the consequence, so you supply it yourself. The register is compelling,
-which is exactly the problem. It withholds the two things a fault line exists to carry: who did
-it, and how much.
-
-## The block to paste
+Paste this into **Settings → Profile → personal preferences** (the box headed "What personal
+preferences should Claude consider in responses?").
 
 ```text
-When you tell me something went wrong, name who or what did it, and give the number.
-"I recorded a merge that had not happened" and "the verify command re-hashed 30 digests it
-was checking" are the shape I want. Write each fault as a full sentence with a subject, a
-verb, and its cost to me.
+When you describe anything that happened — a finding, a change you made, a measurement, a
+mistake, the state of something — name who or what did it and give the number, in a sentence
+with a subject, a verb and its consequence for me. Say "I" for your own actions.
 
-Three habits pull against this, so write around them:
-- Name the event, not its absence: say what happened rather than what never did.
-- Put the actor in the subject: you, a named command, a named file, a named person.
-- Let the irony sit in the facts: state the outcome plainly and let me notice the reversal.
+  "I recorded a merge that had not happened", not "a merge that had never happened".
+  "The verify command re-hashed 30 digests it was checking", not "the command meant to check
+  the evidence overwrote it".
+  "The judge reads 1,460 pairs in eight minutes and times out above 240 seconds a row", not
+  "the reading lane is the slow part, and it times out".
+  "47 rows carry a marker no manifest entry accounts for, so the check cannot verify them",
+  not "markers with nothing holding them".
 
-A finding gets a sentence rather than a caption. Instead of "Markers with nothing holding
-them", write "47 rows carry a marker no manifest entry accounts for, so the check cannot
-verify them".
+Name the event rather than its absence. Put the actor in the subject. State the outcome and
+let me notice the irony rather than staging it in the clause. Give a finding a verb.
 
-This applies to your own mistakes most of all. When you got something wrong, say "I" and
-say what it cost, in the same sentence.
-
-Keep the same voice everywhere: reports, chat replies, commit messages and documents.
+Keep the same voice everywhere: chat replies, reports, commit messages and documents.
 ```
 
-## Two shorter variants
-
-If your instruction box is already full, this carries most of the effect in three sentences:
+Shorter, if the box is nearly full:
 
 ```text
-When something went wrong, name who or what did it and give the number, in a full sentence
-with its cost to me. Say "I" for your own mistakes. A finding is a sentence, not a caption.
+Describe what happened with the actor in the subject and the number in the sentence, and say
+"I" for your own actions. A finding gets a verb, not a caption.
 ```
 
-And if you want it as a reminder near the end of a longer instruction set, where a tail
-reminder holds better than a rule stated once at the top:
+## Why it is worded this way
 
-```text
-<tone_preference>
-Fault lines name their actor and their number.
-</tone_preference>
-```
+The style it displaces reads like a film trailer, and it is not confined to bad news. Three
+shapes make it: an event named by its absence, a passive or abstract subject where an actor
+belongs, and an ironic reversal closing the clause. A verbless noun phrase is the same failure in
+one line, stating a subject and leaving you to supply the consequence. Measured on one status
+page: fifteen consecutive lines with no actor and no figure between them, which read as a case
+file rather than a report.
 
-## Why each line is there
-
-**It is phrased as what to do.** Anthropic's current guidance is explicit: *"Tell Claude what to
-do instead of what not to do"*, with the worked example of replacing "Do not use markdown in your
-response" with "Your response should be composed of smoothly flowing prose paragraphs". A
-prohibition tells the model which door is shut and nothing about the room. So the block leads
-with the sentence shape wanted and gives the three habits as things to write around rather than
-as bans.
-
-**The examples are before-and-after pairs, and they are short.** The same guidance recommends
-three to five relevant, diverse examples, and the Opus 5 page adds that *"positive examples of
-the communication style you want tend to be more effective than instructions about what not to
-do"*. Four pairs is enough to fix the shape; more starts to read as a style guide and gets
-skimmed.
-
-**It names the reason, once.** A rule with its reason attached generalises to the cases you did
-not list, which is why the block says a fault line carries who and how much rather than only
-listing the shapes to avoid.
-
-**It asks for a countable thing.** "Name the actor" and "give the number" are checkable in a
-glance. "Be direct" and "avoid dramatic phrasing" are not, and a model fills an unmeasurable
-qualifier with its own priors.
-
-**It says the register applies to Claude's own mistakes.** That is where withheld agency is most
-tempting and most costly, because "a merge that had never happened" and "I recorded a merge that
-had not happened" describe the same event and only one of them tells you who to ask about it.
-
-**The block itself is written in the voice it asks for.** Anthropic notes that *"the formatting
-style used in your prompt may influence Claude's response style"*, so an instruction asking for
-plain sentences with named actors is written that way itself.
+Every line above is phrased as what to do, because Anthropic's guidance is to tell Claude what to
+do rather than what not to do, and its own example replaces "do not use markdown" with a positive
+sentence. The four before-and-after pairs are there because positive examples of a style land
+better than instructions against one. Both asks are checkable at a glance: the actor, and the
+number. And the block is written in the voice it asks for, since a prompt's style influences the
+reply's.
