@@ -1,0 +1,47 @@
+{
+  "takes": {
+    "engineA2-open-3f19c4": {
+      "source": "icon-engineA2-open-3f19c4.png",
+      "kind": "png",
+      "source_sha256": "fb5cf3899ddd303f00d6bd4ea5d5d0e2b74208df2efb5fe599543ca584d1b1db",
+      "source_mtime": 1788850373.6832223,
+      "rendered_at": 1788850388.822272
+    },
+    "engineC-fracture-417464": {
+      "source": "icon-engineC-fracture-417464.png",
+      "kind": "raster-mask",
+      "source_sha256": "6bdbea249f600546742638f80a01bd02a9a4ed4c889228ab4d15321adafa899b",
+      "source_mtime": 1788850272.1471934,
+      "rendered_at": 1788850389.127664
+    },
+    "engineC-fracture-5c4f6a-2": {
+      "source": "icon-engineC-fracture-5c4f6a-2.png",
+      "kind": "raster-mask",
+      "source_sha256": "bd7cc2946007939ba6388a82f8dee6ff69df14edeaeded31654ef89fa24bab51",
+      "source_mtime": 1788850272.1964657,
+      "rendered_at": 1788850389.440254
+    },
+    "master": {
+      "source": "icon.png",
+      "kind": "png",
+      "source_sha256": "e35b409872240be55af09bdaae5e27e970c8164307d474ff0e8956438033dbf3",
+      "source_mtime": 1788850362.0729132,
+      "rendered_at": 1788850389.5471869
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

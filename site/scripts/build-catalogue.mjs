@@ -78,7 +78,7 @@ const GROUP_OF = {
   // Handing over a pile of work.
   shipyard: "backlog", "ship-feature": "backlog", "ship-fleet": "backlog",
   "ship-armada": "backlog", flagship: "backlog", "armada-sync": "backlog",
-  "anvil-errand": "backlog", "atlas-publish": "backlog",
+  "anvil-errand": "backlog", "atlas-publish": "backlog", "atlas-review": "backlog",
 
   // Knowing where things stand.
   reckon: "standing", "whats-left": "standing", stocktake: "standing", report: "standing",

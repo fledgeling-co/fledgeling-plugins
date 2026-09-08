@@ -269,6 +269,14 @@ The one plugin here built for a single app. It walks a release right up to the m
 
 <br clear="left" />
 
+<a href="plugins/atlas-review/README.md"><img src="plugins/atlas-review/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [atlas-review](plugins/atlas-review/README.md)
+
+The other half of the same app. It reviews the open pull requests, fixes what the review finds and lands them, then does the three jobs nobody asks for: covering the new screens with tests, wiring the backend the product owner left alone, and breaking every check on purpose to find out which ones could never have failed.
+
+<br clear="left" />
+
 <a href="plugins/flagship/README.md"><img src="plugins/flagship/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [flagship](plugins/flagship/README.md) · **Uses multiple models**
