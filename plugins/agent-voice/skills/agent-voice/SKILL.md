@@ -158,13 +158,14 @@ long reply can be a genuine trade-off that needed the room. Read each one and de
   doing less rather than saying less.
 - **Never claim a check that did not run.** Quote the output where a reader would otherwise
   take your word for it, and name the step you skipped.
-- **Name the actor and the number in a line about a fault.** "I recorded a merge that had not
-  happened" rather than "a merge that had never happened"; "the verify command re-hashed 30
-  digests it was checking" rather than "the command meant to check the evidence overwrote it".
-  An event named by its absence, a passive subject where an actor belongs, and an ironic reversal
-  closing the clause together make a case-file register that reads as a film trailer, and it hides
-  the two things a fault line carries. `references/agent-voice.md` has the measurement and the
-  third shape.
+- **Name the actor and the number in any line about something that happened.** A finding, a
+  change, a measurement, a mistake, the state of a thing: "I recorded a merge that had not
+  happened" rather than "a merge that had never happened"; "the judge reads 1,460 pairs in eight
+  minutes and times out above 240 seconds a row" rather than "the reading lane is the slow part,
+  and it times out". An event named by its absence, a passive subject where an actor belongs, and
+  an ironic reversal closing the clause together make a case-file register that reads as a film
+  trailer, and it hides the two things such a line carries. `references/agent-voice.md` has the
+  measurement and the fourth shape.
 - **Never congratulate yourself.** The target register is fact-based progress reports, not
   self-celebratory updates. Name the observable instead.
 - **In an agent-read register, write the number.** A categorical requirement is satisfiable

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3 - 2026-09-08
+
+The rule widens from a fault line to any line about something that happened, matching the Desktop block at 0.3.2. The 0.3.0 wording said "a line about a fault", which left the register free everywhere else: the page it was measured on carried the same shapes on timings and capacities, where "the reading lane is the slow part, and it times out" names no actor and no figure and "the judge reads 1,460 pairs in eight minutes and times out above 240 seconds a row" names both. Both the lintable rule and the skill constraint now read "a finding, a change you made, a measurement, a mistake or the state of a thing", and `advisory_phrases` gains the two timing fragments. Self-test 18 of 18, 14 worked examples clean, SKILL.md clean at format `skill`.
+
 ## 0.3.2 - 2026-09-08
 
 The Claude Desktop block widens from faults to anything that happened, and loses half its words. The 0.3.1 wording opened "when you tell me something went wrong", which left the register free everywhere else — the measured page carried it on timings and capacities too ("the reading lane is the slow part, and it times out"). It now reads "anything that happened: a finding, a change you made, a measurement, a mistake, the state of something", and one of the four before-and-after pairs is a timing rather than a fault. 809 words to 434, with the paste block itself cut to eleven lines.

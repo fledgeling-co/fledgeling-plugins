@@ -56,11 +56,13 @@ A tell the source guide doesn't name but voice owners reliably flag: the **epigr
 
 ### 1.8 The noir case-file register (withheld agency)
 
-A fault described without its actor, its number, or its verb. Three shapes compound into it:
+Anything reported as having happened — a finding, a change, a measurement, a mistake, the state of a thing — described without its actor, its number, or its verb. Three shapes compound into it:
 
 - **An event named by its absence.** "A merge that had never happened." Something did not happen and nobody did it.
 - **A passive or abstract subject where an actor belongs.** "The command meant to check the evidence overwrote it." "One message started a second copy of every running job."
 - **An ironic reversal closing the clause.** "A check that could never have passed." "The pop-up was fixed; the reading wasn't." The trailer's own beat: set an expectation, break it before the full stop.
+
+It is not confined to bad news. The same page carried it on timings and capacities: "The reading lane is the slow part, and it times out" and "Never more than five agents at once, until tonight" name no actor and no figure, where "the judge reads 1,460 pairs in eight minutes and times out above 240 seconds a row" names both.
 
 A verbless noun phrase is the same failure in one line: "Markers with nothing holding them" states a subject and withholds the consequence, so the reader supplies it.
 
