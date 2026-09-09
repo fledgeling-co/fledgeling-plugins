@@ -7,13 +7,13 @@ carries a `verify` method, and this file is what each one means.
 The rule underneath all four: **an absent or empty output file is a lane failure,
 not a quiet pass.** A gate that produced no verdict did not pass; it did not run.
 
-## `codex-header` — codex-sol, codex-terra
+## `codex-header` — codex-astra-low, codex-astra-medium, codex-astra-high, codex-sol-high
 
 Codex prints a header, and it is trustworthy for what it claims:
 
 ```
-model: gpt-5.6-terra
-reasoning effort: high
+model: gpt-6-astra
+reasoning effort: low
 ```
 
 Grep for both lines. Then **check the `-o` file is non-empty**, because the
@@ -25,12 +25,32 @@ file empty, and the real reason only in the log tail:
 ERROR: You've hit your usage limit. ... try again at Aug 27th, 2026 1:30 PM.
 ```
 
-Codex validates neither `-m` nor the effort config, so a clean header proves the
-flags parsed, nothing more.
+Codex validates neither `-m` nor the effort config against the API, so a clean
+header proves the flags parsed, nothing more. The header reads back **what was
+configured, not what was served.**
+
+Three things measured on codex-cli 0.153.4, 2026-09-09, that sharpen this:
+
+- **An unknown model warns before the API refuses it.** `-m gpt-6-bogus-xyz`
+  prints `warning: Model metadata for 'gpt-6-bogus-xyz' not found. Defaulting to
+  fallback metadata` on the way past, then fails with
+  `400 invalid_request_error — The 'gpt-6-bogus-xyz' model is not supported when
+  using Codex with a ChatGPT account` and writes **no output file**. That warning
+  is a genuine pre-flight tell and it is still not the check, because a *known*
+  model produces no warning and can still write nothing.
+- **A bad effort string fails the same way.** `model_reasoning_effort="bogus"`
+  echoes `reasoning effort: bogus` in the header and then errors at the API with
+  no output file. So the effort line is an echo, exactly like the model line.
+- **The negative control is what makes a header worth reading at all.** Because a
+  wrong model and a wrong effort both fail loudly with an empty `-o`, a run that
+  wrote a real answer under a header naming `gpt-6-astra` at `low` is evidence
+  the API accepted that pair — which is the strongest claim this check supports,
+  and it is a claim about acceptance rather than about the weights that answered.
 
 One trap that is not a lane failure: `Not inside a trusted directory and
---skip-git-repo-check was not specified`. Codex refuses to run outside a git
-repo. Run it from the repo, or pass `--skip-git-repo-check`.
+--skip-git-repo-check was not specified`. Codex refuses to run outside a git repo
+and exits 1 before reaching a model. Every codex lane's argv carries
+`--skip-git-repo-check` for this reason.
 
 ## `relay-ledger` — glm, opus, fable
 

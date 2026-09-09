@@ -110,10 +110,12 @@ if it thought less`.
 
 ## Override 2 — the rules above the table are bounds, and bounds are the measured failure (`## Route`, `references/lanes.md`)
 
-`SKILL.md` states its hardest invariants as prohibitions in prose: `gpt-5.6-sol never runs at
-max`, `Fable judges; it does not verify`, `Design review stays on Opus and Fable`, and now
-`gemini is now ranked behind glm, grok and sol on every class it appears in`. `lanes.md` adds
-`REVIEWER ≥ WRITER`, `VERIFIER ∉ WRITER's family` and `A refused lane stays refused`.
+`SKILL.md` states its hardest invariants as prohibitions in prose. As of the 2026-09-09
+directive those are: `Astra at medium and high is frontier, and reserved`, `--hard is refused on
+design, design-review and verification`, `Design work stays on Opus and Fable`, `Fable judges; it
+does not verify`, and `the cost tie-break abstains when a band contains a placeholder price`.
+`lanes.md` adds `REVIEWER ≥ WRITER`, `VERIFIER ∉ WRITER's family` and `A refused lane stays
+refused`.
 
 **[measured-family]** This is the shape the benchmark says gets exceeded rather than forgotten.
 Classifying every failing UI assertion by whether it states a bound or asks for a thing: 58% of
@@ -128,24 +130,37 @@ and asks that *"all requirements, constraints, options, and preferences are exha
 incorporated into your plan."*
 
 **The rule:** each bound becomes a row with the produced value read back off the emitted route,
-not a rule restated more firmly. The `observed` column is real output from running these
-commands on 2026-09-01.
+not a rule restated more firmly.
 
-| bound, in `defer:defer`'s words | countable property | readback | observed | within? |
+Two dated columns, kept apart. `observed 09-01` is real output from the pre-astra roster and is
+left as written; `observed 09-09` is the same readback against the current one. A ledger that
+merges them is a ledger that cannot show a bound moving.
+
+| bound, in `defer:defer`'s words | countable property | readback | observed 09-09 | within? |
 |---|---|---|---|---|
-| `gpt-5.6-sol never runs at max` | routes pairing `gpt-5.6-sol` with effort `max` | `.model` + `.effort` of every `--json` route | 0 of 17 routes emitted | yes |
+| `Astra at medium and high is frontier, and reserved` | classes other than `hard` whose allowed lanes include a frontier lane | `allowed_lanes(k)` ∩ `FRONTIER` for every class | 0 of 8 classes | yes |
+| `--hard is refused on design, design-review and verification` | exit status and message of `--task <k> --hard` | the process exit code | exit 2 with the reason, 3 of 3 | yes |
+| `Design work stays on Opus and Fable` | families in a `design` and a `design-review` route | `--json` → `.family` | `anthropic`, `anthropic` | yes |
 | `Fable judges; it does not verify` | `claude-fable-5` in a `--task verification` route | `--task verification --json` → `.model` | `claude-opus-5` @ `xhigh` | yes |
-| `Design review stays on Opus and Fable` | families in a `design-review` route | same → `.family` | `anthropic` | yes |
-| `gemini … ranked behind glm, grok and sol on every class` | routes whose `.lane` is `gemini` | `.lane` over the same 17 | 0 of 17 | yes |
-| `VERIFIER ∉ WRITER's family` | `.family` of the critic vs of the writer | compare the two route files by hand | writer `xai` (grok), `completeness` `xai` (grok) | no — reroute |
+| `the astra tiers are low, medium and high` | routes pairing any astra lane with effort `max` | `.model` + `.effort` of every `--json` route | 0 emitted; 4 pairings in `FORBIDDEN` | yes |
+| `VERIFIER ∉ WRITER's family` | `.family` of the critic vs of the writer | compare the two route files by hand | writer `xai` (grok), `completeness` `openai` (astra) | yes |
 | `Every command in this file needs a bound of 900 seconds` | the launching Bash call's `timeout`, or `run_in_background` | the tool call's own parameters | n/a: route emitted, no lane launched | n/a |
 
-Report the fraction: `4 of 5 decidable bounds within, 1 breached and rerouted, 1 n/a`. Read the
-fifth row twice — `lane_pick.py` takes no writer-family argument, so that invariant is the
-caller's to check, and today's meters put writer and critic both on `xai`. A ledger filled from
-the brief rather than the route shows six greens. Two of the skill's own counts also fail to
-read back: `Three rules hold above the table` introduces five bullets, and `ten lanes` meters
-eleven. Take a count from the artifact, never from the sentence introducing it.
+The historical row, kept because it is the one that failed: on 2026-09-01, against the pre-astra
+roster, `VERIFIER ∉ WRITER's family` read back **writer `xai` (grok), critic `xai` (grok)** and
+had to be rerouted. `lane_pick.py` still takes no writer-family argument, so that invariant is
+still the caller's to check — it reads clean today because the workhorse tier spans three
+families, not because the tool started enforcing it.
+
+Report the fraction: `6 of 6 decidable bounds within, 1 n/a` — and report the 2026-09-01 run's
+`4 of 5 within, 1 breached and rerouted` beside it rather than instead of it, because a ledger
+that only shows today cannot show a bound being fixed.
+
+A ledger filled from the brief rather than from the route shows greens it did not earn. Counts
+in the skill's own prose are the same trap and have failed before: `Three rules hold above the
+table` once introduced five bullets, and `ten lanes` once metered eleven. **Take a count from the
+artifact, never from the sentence introducing it** — `lane_pick.py --report` lists the lanes,
+`--matrix` lists the shapes, and `sorted(TASKS)` lists the classes.
 
 ## Override 3 — 900 seconds is part of the invocation, and a killed call is not a refusal (`## Give the lane 900 seconds, or background it`)
 
@@ -201,24 +216,30 @@ to always include few-shot examples in your prompts."*
 ```
 task     implementation — Writing code
 shape    greenfield-module — New self-contained module behind one acceptance surface
-lane     grok (grok-4.6, xai family, effort xhigh)
-why      within 20% on headroom (glm/grok), so the cheapest wins at $0.63 a task — 0.1264/day vs glm 0.1429
+lane     grok (grok-4.6, xai family, effort high)
+why      within 20% on headroom (glm/grok), so the cheapest wins at $0.63 a task — 0.1289/day vs glm 0.1429
 measured 62 on this shape against opus's 75 (-12 pts, p=0.74, n=8, tier D, proxy evidence)
 band     guarded
-equal    glm, grok — within 5 points of each other, so headroom chose
-outrank  codex-luna-max, gemini — eligible but measured further behind, so not considered on headroom
-refused  codex-sol, codex-sol-high, codex-terra-max, codex-terra-medium — measured too far behind on this shape
+equal    grok, glm — within 5 points of each other, so headroom chose
+outrank  codex-astra-low — eligible but measured further behind, so not considered on headroom
+refused  codex-sol-high — measured too far behind on this shape
 guard    state the exported signature and the acceptance condition in the prompt
-run      grok -m grok-4.6 --effort xhigh -p {PROMPT}
+run      grok -m grok-4.6 --effort high -p {PROMPT}
 verify   grok-store (see references/wire-verify.md)
 # --- filled only after the lane has run; never pre-filled ---
 launch   Bash(timeout: 900000) | run_in_background: true      <- which one
 receipt  ~/.grok/sessions/<cwd>/<uuid>/summary.json -> current_model_id; output file non-empty
 ```
 
-Note the `outrank` line: `gemini` is set aside on the one shape `capability.md` grades level with
-opus (75 against 75) — delivery penalty and preference order run after the score, per `lanes.md`
-§ *Two facts a bench cannot see*.
+Note the `outrank` line and, more importantly, what is **not** on it. `codex-astra-low` is set
+aside on a borrowed row — it carries `evidence: "peer"`, so the number belongs to `codex-sol-high`
+and the clamp is what stops that row hard-refusing a lane it never measured. And `gemini` does
+not appear at all: it is unmeasured on every shape now, so score cannot keep it in the band, and
+the route reports that under `unmeas` rather than under `outrank`. Those two lines say different
+things — *measured and behind* against *never measured* — and collapsing them is a claim about
+evidence that does not exist. The 2026-09-01 note on this same route said `gemini` was set aside
+on a shape `capability.md` graded level with opus; that reading belonged to the 3.7 lane and its
+delivery penalty, and neither applies to the lane running today.
 
 ## Override 5 — the route note has cells, and the fractions get reported
 

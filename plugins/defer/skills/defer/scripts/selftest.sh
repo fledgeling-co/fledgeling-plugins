@@ -25,19 +25,59 @@ t "every task resolves a lane"  "python3 -c '
 import lane_pick as L
 from lane_registry import TASKS
 for k in TASKS: assert L.choose(k)[0] in L.LANES, k'"
-t "sol is never max"            "python3 -c '
+t "astra has three tiers"       "python3 -c '
 from lane_registry import LANES
-assert LANES[\"codex-sol\"][\"effort\"] == \"medium\"'"
-t "grok is xhigh"               "python3 -c '
+t = {LANES[l][\"effort\"] for l, s in LANES.items() if s[\"model\"] == \"gpt-6-astra\"}
+assert t == {\"low\", \"medium\", \"high\"}, t'"
+t "astra effort is in the argv"  "python3 -c '
 from lane_registry import LANES
-assert LANES[\"grok\"][\"effort\"] == \"xhigh\" and \"xhigh\" in LANES[\"grok\"][\"cmd\"]'"
+for l, s in LANES.items():
+    if s[\"model\"] != \"gpt-6-astra\": continue
+    assert any(s[\"effort\"] in a for a in s[\"cmd\"]), l
+    assert \"gpt-6-astra\" in s[\"cmd\"], l'"
+t "astra medium+high reserved"  "python3 -c '
+from lane_registry import LANES, FRONTIER, allowed_lanes, TASKS
+assert FRONTIER == {\"codex-astra-medium\", \"codex-astra-high\"}, FRONTIER
+for k in TASKS:
+    if k == \"hard\": continue
+    assert not (set(allowed_lanes(k)) & FRONTIER), k'"
+t "hard reaches the frontier"   "python3 -c '
+from lane_registry import allowed_lanes, FRONTIER
+assert set(allowed_lanes(\"hard\")) >= FRONTIER'"
+t "grok is high"                "python3 -c '
+from lane_registry import LANES
+assert LANES[\"grok\"][\"effort\"] == \"high\" and \"high\" in LANES[\"grok\"][\"cmd\"]'"
 t "opus verifies at xhigh"      "python3 -c '
 from lane_registry import LANES, TASKS
 assert TASKS[\"verification\"][\"allow\"] == [\"opus\"]
 assert LANES[\"opus\"][\"effort\"] == \"xhigh\"'"
 t "fable never verifies"        "python3 -c '
+from lane_registry import LANES, TASKS
+bad = [l for l in TASKS[\"verification\"][\"allow\"] if \"fable\" in LANES[l][\"model\"]]
+assert not bad, bad'"
+t "verification stays at xhigh" "python3 -c '
+from lane_registry import LANES, TASKS
+assert all(LANES[l][\"effort\"] == \"xhigh\" for l in TASKS[\"verification\"][\"allow\"])'"
+t "design is anthropic only"    "python3 -c '
+from lane_registry import LANES, TASKS
+assert all(LANES[l][\"family\"] == \"anthropic\" for l in TASKS[\"design\"][\"allow\"])'"
+t "design authors at medium"    "python3 -c '
+from lane_registry import LANES, TASKS
+assert all(LANES[l][\"effort\"] == \"medium\" for l in TASKS[\"design\"][\"allow\"])
+assert TASKS[\"design\"][\"condition\"]'"
+t "design review is not medium" "python3 -c '
+from lane_registry import LANES, TASKS
+assert all(LANES[l][\"effort\"] != \"medium\" for l in TASKS[\"design-review\"][\"allow\"])'"
+t "hard cannot leave the family" "python3 -c '
+from lane_registry import NO_ESCALATION, TASKS, LANES
+for k in NO_ESCALATION:
+    assert all(LANES[l][\"family\"] == \"anthropic\" for l in TASKS[k][\"allow\"]), k
+assert set(NO_ESCALATION) == {k for k, v in TASKS.items()
+                              if all(LANES[l][\"family\"] == \"anthropic\" for l in v[\"allow\"])
+                              and k != \"hard\"}'"
+t "orchestration is trusted 3"  "python3 -c '
 from lane_registry import TASKS
-assert \"fable\" not in TASKS[\"verification\"][\"allow\"]'"
+assert set(TASKS[\"orchestration\"][\"allow\"]) == {\"codex-astra-low\", \"grok\", \"glm\"}'"
 t "design review is claude only" "python3 -c '
 from lane_registry import LANES, TASKS
 assert all(LANES[l][\"family\"] == \"anthropic\" for l in TASKS[\"design-review\"][\"allow\"])'"
@@ -85,13 +125,44 @@ bad = [l for l, s in LANES.items()
 assert not bad, bad'"
 t "evidence is a known value"   "python3 -c '
 from lane_registry import LANES
-bad = [l for l, s in LANES.items() if s.get(\"evidence\") not in (\"exact\", \"proxy\", \"none\")]
+ok = (\"exact\", \"proxy\", \"peer\", \"none\")
+bad = [l for l, s in LANES.items() if s.get(\"evidence\") not in ok]
 assert not bad, bad'"
-t "proxy never reaches drop-in" "python3 -c '
+t "a peer row names its source" "python3 -c '
+from lane_registry import LANES
+for l, s in LANES.items():
+    if s.get(\"evidence\") != \"peer\": continue
+    assert s[\"bench_key\"] and s.get(\"peer_of\") in LANES and s.get(\"peer_source\"), l
+    assert LANES[s[\"peer_of\"]][\"bench_key\"] == s[\"bench_key\"], l'"
+t "a borrowed row is not a cost" "python3 -c '
+import lane_pick as L
+from lane_registry import LANES
+# The directive says two lanes are level at what they PRODUCE. Reading the
+# peer cost row here would let one lane bill decide the other lane route.
+for l, s in LANES.items():
+    if s.get(\"evidence\") != \"peer\": continue
+    assert L.task_cost(l) == s[\"blended_usd_per_mtok\"], l'"
+t "a placeholder price says so" "python3 -c '
+from lane_registry import LANES, PLACEHOLDER_PRICES
+for l, s in LANES.items():
+    guess = s[\"model\"] in PLACEHOLDER_PRICES
+    assert (s.get(\"price_evidence\") == \"placeholder\") == guess, l'"
+t "borrowed never reaches drop-in" "python3 -c '
 from lane_registry import LANES, SHAPES, DROP_IN, shape_grade
-bad = [(l, s) for l in LANES if LANES[l].get(\"evidence\") == \"proxy\" for s in SHAPES
+bad = [(l, s) for l in LANES if LANES[l].get(\"evidence\") in (\"proxy\", \"peer\") for s in SHAPES
        if (shape_grade(l, s) or {}).get(\"gate\") in DROP_IN]
 assert not bad, bad'"
+t "REF is not a refusal"        "python3 -c '
+from lane_registry import LANES, SHAPES, REFERENCE_LANE, shape_grade, GATE_ORDER, DROP_IN, GUARDED
+# A lane borrowing the reference lane row grades REF by inheritance. REF is in
+# neither band, so without a clamp it falls through to *refused* — the most
+# capable lane in its class, refused for scoring identical to the yardstick.
+for l in LANES:
+    if l == REFERENCE_LANE: continue
+    for sh in SHAPES:
+        g = shape_grade(l, sh)
+        if g and g[\"raw_gate\"] == \"REF\":
+            assert g[\"gate\"] in DROP_IN | GUARDED, (l, sh, g[\"gate\"])'"
 t "opus is fail-back not band"  "python3 -c '
 from lane_registry import SHAPES, gate_lanes, REFERENCE_LANE
 for s in SHAPES:
@@ -115,8 +186,13 @@ for s in SHAPES:
     assert lane not in v['refused'], (s, lane)\""
 t "tie-break uses \$/task"       "python3 -c '
 import lane_pick as L
-assert L.task_cost(\"codex-terra-medium\") < L.task_cost(\"codex-terra-max\")
 assert L.task_cost(\"codex-sol-high\") < L.task_cost(\"opus\")'"
+t "unpriced lanes skip the cost stage" "python3 -c \"\$FAKE
+# A placeholder rate must not be ranked against a measured one. When any lane
+# in the band lacks a sourced price the cost stage abstains and preference
+# order decides, and the reason has to SAY that rather than claim a cost win.
+lane, _, why, _ = L.choose('referral')
+assert 'cost could not rank' in why, why\""
 t "score leads inside a band"   "python3 -c \"\$FAKE
 from lane_registry import SHAPES
 # 0.05 is written out rather than imported: a check that reads the constant it
@@ -157,26 +233,48 @@ from lane_registry import LANES
 sol = [l for l, s in LANES.items() if s[\"model\"] == \"gpt-5.6-sol\"]
 assert sol and all(LANES[l][\"effort\"] != \"max\" for l in sol), sol
 assert all(\"max\" not in \" \".join(LANES[l][\"cmd\"]) for l in sol), sol'"
-t "luna cites the bench that freed it" "python3 -c '
-from lane_registry import LANES, DECLINED, EXTERNAL_BENCH, TASKS
-luna = [l for l, s in LANES.items() if \"luna\" in s[\"model\"]]
-assert luna, \"the lane was removed\"
-for l in luna:
-    key = LANES[l].get(\"external_bench\")
-    assert key in EXTERNAL_BENCH, (l, key)
-    assert LANES[l].get(\"usd_per_task_external\"), l
-    assert LANES[l].get(\"probed\"), \"a lane nobody has watched answer\"
-    assert LANES[l][\"bench_key\"] is None, \"a local grade it never earned\"
-assert \"gpt-5.6-luna\" in DECLINED and \"SUPERSEDED\" in DECLINED[\"gpt-5.6-luna\"]
-row = EXTERNAL_BENCH[\"deepswe-1.1\"][\"rows\"]
-assert row[\"gpt-5.6-luna@max\"][\"usd_per_task\"] < row[\"grok-4.6@xhigh\"][\"usd_per_task\"]
-assert any(l in TASKS[\"implementation\"][\"allow\"] for l in luna)'"
-t "a penalty is still applied"  "python3 -c '
-from lane_registry import DELIVERY_PENALTY, delivery_adjusted
+t "every retired lane is recorded" "python3 -c '
+from lane_registry import LANES, DECLINED
+# A lane that leaves has to leave a row. Retiring the GPT-5.6 fleet without one
+# turns a decision into an absence nobody can question later.
+live = {s[\"model\"] for s in LANES.values()}
+for m in (\"gpt-5.6-terra\", \"gpt-5.6-luna\"):
+    assert m not in live, m
+    assert any(k.startswith(m) for k in DECLINED), m
+assert \"RETIRED\" in DECLINED[\"gpt-5.6-luna@max\"]'"
+t "no retired model is invoked" "python3 -c '
+import re
+from lane_registry import LANES
+bad = [l for l, s in LANES.items()
+       if re.search(r\"gpt-5\\.6-(terra|luna)\", \" \".join([s[\"model\"]] + list(s[\"cmd\"])))]
+assert not bad, bad'"
+t "a probed lane names the date" "python3 -c '
+from lane_registry import LANES
+for l, s in LANES.items():
+    if s.get(\"probe_state\"): assert s.get(\"probed\"), l'"
+t "delivery evidence is intact" "python3 -c '
+from lane_registry import DELIVERY_PENALTY
 assert DELIVERY_PENALTY, \"the delivery table was emptied\"
 for lane, e in DELIVERY_PENALTY.items():
-    assert e[\"points\"] > 0 and e[\"measured\"] and e[\"lift_it_when\"], lane
-    assert delivery_adjusted(lane, 50) < 50, lane'"
+    assert e[\"points\"] > 0 and e[\"measured\"] and e[\"lift_it_when\"], lane'"
+t "a penalty names its subject"  "python3 -c '
+from lane_registry import DELIVERY_PENALTY, LANES, delivery_penalty_for, delivery_adjusted
+# The failure this guards: a measurement taken on one model quietly charged to
+# its successor. A penalty applies only while the lane still runs the model it
+# was measured on, and it must snap back if the lane returns to it.
+for lane, e in DELIVERY_PENALTY.items():
+    subj = e.get(\"applies_to_model\")
+    assert subj, lane
+    live = LANES[lane][\"model\"] == subj
+    assert bool(delivery_penalty_for(lane)) == live, lane
+    assert (delivery_adjusted(lane, 50) < 50) == live, lane'"
+t "an inert penalty leaves a guard" "python3 -c '
+from lane_registry import DELIVERY_PENALTY, LANES, delivery_penalty_for
+# Dropping the subtraction must not drop the finding. Where a penalty has gone
+# inert the lane carries the same failure mode as a condition on the brief.
+for lane in DELIVERY_PENALTY:
+    if delivery_penalty_for(lane) is None:
+        assert LANES[lane].get(\"route_guard\"), lane'"
 t "capability doc quotes data"  "python3 -c '
 from lane_registry import CAPABILITY, SHAPES
 doc = open(\"../references/capability.md\").read()

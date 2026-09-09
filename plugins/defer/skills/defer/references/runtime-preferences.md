@@ -1,11 +1,20 @@
 # Resolve the current workflow before using compatibility lanes
 
 The owner's preferred roles are Claude Opus 5 for intake, triage and planning,
-Gemini 3.8 for implementation after those artifacts exist, and GPT-6 for
-orchestration. A task's explicit choice overrides these defaults. Keep an already
-running orchestrator unless the task calls for a handoff. The role names are not
-API selectors: Gemini variants, GPT-6 variants and effort settings depend on the
-serving harness and account.
+Gemini 3.8 for implementation after those artifacts exist, and GPT-6 Astra,
+Grok 4.6 or GLM 5.3 for orchestration. A task's explicit choice overrides these
+defaults. Keep an already running orchestrator unless the task calls for a
+handoff. The role names are not API selectors: Gemini variants, GPT-6 variants
+and effort settings depend on the serving harness and account.
+
+**The thinking level is part of the role, not a dial on top of it** (directive of
+2026-09-09). GPT-6 Astra at **low** is the workhorse level, named as the equal of
+`gpt-5.6-sol` at high, `claude-fable-5` at medium and `grok-4.6` at high. Astra
+at **medium** and **high** is frontier capacity for the most difficult problems,
+and reaching it is a decision somebody makes rather than a default a route drifts
+into. Design work stays on Opus and Fable, at medium effort where a rough plan
+already exists. Resolving a role therefore means resolving a level as well, and a
+role resolved without one is unresolved.
 
 ## Preferred-model path
 
@@ -64,10 +73,20 @@ requested, selected and observed model identities separate in the final result.
 
 ## Compatibility-lane path
 
-`scripts/lane_registry.py`, `lane_pick.py` and `lane_run.sh` retain the previously
-calibrated lanes. Their IDs, prices, shape scores and delivery penalty describe
-the recorded configurations; the `gemini` lane currently names Gemini 3.7 Flash,
-not Gemini 3.8, and the Codex lanes name GPT-5.6 variants, not GPT-6.
+`scripts/lane_registry.py`, `lane_pick.py` and `lane_run.sh` carry the calibrated
+lanes. As of 2026-09-09 they implement the directive above rather than lagging
+it: the `gemini` lane names `gemini-3.8-flash-high`, three `codex-astra-*` lanes
+carry the three thinking levels, and the GPT-5.6 terra and luna lanes are retired
+into `DECLINED`. `codex-sol-high` is the one GPT-5.6 lane still routed, because
+the directive names sol@high as a peer of astra@low.
+
+What has **not** caught up is the evidence, and the registry marks that rather
+than hiding it. Astra has no bench row at any effort and borrows sol@high's under
+`evidence: "peer"`; neither astra nor Gemini 3.8 has a published price, so both
+are `price_evidence: "placeholder"` and the cost tie-break abstains for any band
+containing one; and the Gemini delivery penalty is inert because it was measured
+on 3.7. Read a route involving those lanes as policy plus a declared equivalence,
+not as a measurement.
 
 The bundled compatibility scripts do not inspect project opt-out directives;
 the conductor must apply the authorization step above before calling them.

@@ -3,11 +3,18 @@
 #
 #   lane_run.sh completeness "$(cat prompt.txt)"
 #   lane_run.sh referral "Which of A or B, and what is the loser better at?"
+#   DEFER_HARD=1 lane_run.sh implementation "..."   # reach the frontier astra tiers
+#   DEFER_HAS_PLAN=1 lane_run.sh implementation "..."  # a spec or plan already exists
 #
 # This wrapper uses the calibrated compatibility registry, not runtime model
 # preferences. It checks for non-empty output, but does not wire-verify the serving
 # model. Callers must apply current authorization before dispatch and the receipt
 # checks in references/wire-verify.md before claiming model identity or independence.
+#
+# Every command it runs comes from lane_registry.py, through lane_pick.py's
+# `argv`/`env`. Nothing here names a model or an effort. That is deliberate: the
+# case statement this replaced carried its own copy of five models and drifted
+# from the registry the first time a lane moved, and the drift was silent.
 #
 # On a lane failure the work moves to the next lane the task class allows, in
 # policy order. Nothing routes outside the class, so the family invariants hold
@@ -26,14 +33,22 @@ PROMPT="${2:?missing prompt}"
 TIMEOUT="${DEFER_TIMEOUT:-900}"
 mkdir -p "$(dirname "$LEDGER")"
 
-CHOSEN=$(python3 "$HERE/lane_pick.py" --task "$TASK" --json \
-  | python3 -c 'import json,sys;print(json.load(sys.stdin)["lane"])') || exit 1
-ORDER=$(python3 - "$CHOSEN" "$TASK" <<'PY'
+PICK_FLAGS=()
+[ -n "${DEFER_HARD:-}" ] && PICK_FLAGS+=(--hard)
+[ -n "${DEFER_HAS_PLAN:-}" ] && PICK_FLAGS+=(--has-plan)
+[ -n "${DEFER_SHAPE:-}" ] && PICK_FLAGS+=(--shape "$DEFER_SHAPE")
+
+ROUTE=$(python3 "$HERE/lane_pick.py" --task "$TASK" --json "${PICK_FLAGS[@]}") || exit 1
+CHOSEN=$(printf '%s' "$ROUTE" | python3 -c 'import json,sys; print(json.load(sys.stdin)["lane"])')
+# --hard escalates the class, so the fallback order is the class actually routed.
+TASK_ROUTED=$(printf '%s' "$ROUTE" | python3 -c 'import json,sys; print(json.load(sys.stdin)["task"])')
+ORDER=$(python3 - "$CHOSEN" "$TASK_ROUTED" "${DEFER_HARD:-}" <<'PY'
 import sys, os
 sys.path.insert(0, os.environ["DEFER_SCRIPTS"])
-from lane_registry import TASKS
-chosen, task = sys.argv[1], sys.argv[2]
-print(" ".join([chosen] + [l for l in TASKS[task]["allow"] if l != chosen]))
+from lane_registry import allowed_lanes
+chosen, task, hard = sys.argv[1], sys.argv[2], bool(sys.argv[3])
+allow = allowed_lanes(task, hard=hard)
+print(" ".join([chosen] + [l for l in allow if l != chosen]))
 PY
 ) || exit 1
 
@@ -69,45 +84,53 @@ for LANE in $ORDER; do
   USAGE='{}'
   printf '\033[2m→ %s on %s (%s)\033[0m\n' "$TASK" "$LANE" "$MODEL" >&2
 
-  case "$LANE" in
-    gemini)
-      run agy --model gemini-3.7-flash-high --output-format json -p "$PROMPT" \
-          >"$OUT" 2>"$ERR"
-      USAGE=$(python3 -c 'import json,sys
+  # argv and env come from the registry, with the real prompt and outfile
+  # substituted. NUL-delimited so a prompt containing newlines survives.
+  # Read NUL-delimited with a portable loop rather than `mapfile -d`, which
+  # needs bash 4 and macOS still ships 3.2 at /bin/bash.
+  ARGV=(); while IFS= read -r -d '' a; do ARGV+=("$a"); done < <(python3 - "$LANE" "$PROMPT" "$OUT" <<'PY'
+import sys, os
+sys.path.insert(0, os.environ["DEFER_SCRIPTS"])
+import lane_pick
+lane, prompt, outfile = sys.argv[1], sys.argv[2], sys.argv[3]
+for a in lane_pick.argv_for(lane, prompt, outfile):
+    sys.stdout.write(a + "\0")
+PY
+)
+  ENVV=(); while IFS= read -r -d '' a; do ENVV+=("$a"); done < <(python3 - "$LANE" <<'PY'
+import sys, os
+sys.path.insert(0, os.environ["DEFER_SCRIPTS"])
+from lane_registry import LANES
+for k, v in (LANES[sys.argv[1]].get("env") or {}).items():
+    sys.stdout.write(f"{k}={v}\0")
+PY
+)
+
+  # codex writes its answer to the -o file and its log to stdout; every other
+  # lane answers on stdout. The registry says which by carrying {OUTFILE}.
+  # `env VAR=x run ...` cannot work: `run` is a shell function, not a binary.
+  # Export into a subshell instead, so the variables die with the call — which
+  # matters here, because one of them is a credential-bearing proxy binding.
+  if printf '%s\n' "${ARGV[@]}" | grep -qx -- "$OUT"; then
+    ( for kv in ${ENVV[@]+"${ENVV[@]}"}; do export "$kv"; done
+      run "${ARGV[@]}" </dev/null >"$ERR" 2>&1 )
+  else
+    ( for kv in ${ENVV[@]+"${ENVV[@]}"}; do export "$kv"; done
+      run "${ARGV[@]}" >"$OUT" 2>"$ERR" )
+  fi
+
+  # The one lane-specific step left: agy answers in a JSON envelope, and the
+  # `usage` object inside it is the ONLY token count this lane produces
+  # anywhere. Unwrap the body, keep the count.
+  if [ "$LANE" = gemini ]; then
+    USAGE=$(python3 -c 'import json,sys
 try: print(json.dumps(json.load(open(sys.argv[1])).get("usage") or {}))
 except Exception: print("{}")' "$OUT")
-      python3 -c 'import json,sys
+    python3 -c 'import json,sys
 try: sys.stdout.write(json.load(open(sys.argv[1])).get("response",""))
 except Exception: sys.stdout.write(open(sys.argv[1]).read())' "$OUT" >"$OUT.body" \
-        && mv "$OUT.body" "$OUT"
-      ;;
-    grok)
-      run grok -m grok-4.6 --effort xhigh -p "$PROMPT" >"$OUT" 2>"$ERR"
-      ;;
-    glm)
-      # The header is the whole mechanism. Without it this same command runs
-      # Claude, succeeds, and returns something plausible.
-      ANTHROPIC_BASE_URL=http://127.0.0.1:8858 \
-      ANTHROPIC_API_KEY=local-proxy-supplies-the-real-credential \
-      ANTHROPIC_CUSTOM_HEADERS="X-Perch-Binding: glm" \
-        run claude --effort high -p "$PROMPT" >"$OUT" 2>"$ERR"
-      ;;
-    opus)
-      run claude --model claude-opus-5 --effort xhigh -p "$PROMPT" >"$OUT" 2>"$ERR"
-      ;;
-    fable)
-      run claude --model claude-fable-5 --effort high -p "$PROMPT" >"$OUT" 2>"$ERR"
-      ;;
-    codex-terra|codex-sol)
-      m=gpt-5.6-terra; e=high
-      [ "$LANE" = codex-sol ] && { m=gpt-5.6-sol; e=medium; }
-      run codex exec -m "$m" -c model_reasoning_effort="$e" -s read-only \
-          --skip-git-repo-check -o "$OUT" "$PROMPT" </dev/null >"$ERR" 2>&1
-      ;;
-    *)
-      echo "unknown lane: $LANE" >&2; rm -f "$OUT" "$ERR"; continue
-      ;;
-  esac
+      && mv "$OUT.body" "$OUT"
+  fi
 
   # An absent or empty output file is a lane failure, not a quiet pass. Codex
   # needs this most: its header prints the requested model and effort on a run

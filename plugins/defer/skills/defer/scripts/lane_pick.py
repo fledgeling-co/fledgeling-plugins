@@ -51,8 +51,9 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from lane_registry import (  # noqa: E402
-    CAPABILITY, DROP_IN, EQUIVALENCE_POINTS, FORBIDDEN, LANES, SHAPES, TASKS,
-    DELIVERY_PENALTY, delivery_adjusted, equivalent_set, gate_lanes, preference_rank,
+    CAPABILITY, DROP_IN, EQUIVALENCE_POINTS, FORBIDDEN, FRONTIER, LANES,
+    NO_ESCALATION, SHAPES, TASKS, DELIVERY_PENALTY, allowed_lanes,
+    delivery_adjusted, equivalent_set, gate_lanes, is_frontier, preference_rank,
     shape_grade,
 )
 
@@ -410,15 +411,35 @@ def task_cost(lane):
         # and rank the cheapest lane on the board as one of the dearest.
         return ext
 
-    key = (LANES[lane] or {}).get("bench_key")
-    if key and CAPABILITY:
+    spec = LANES[lane] or {}
+    key = spec.get("bench_key")
+    # A `peer` row is borrowed on a CAPABILITY claim — a directive saying two
+    # lanes are level at what they produce. It says nothing about what they cost
+    # to produce it, and reading the peer's cost here would let one lane's bill
+    # decide the other's route. Cost falls back to the list rate, which for a
+    # placeholder-priced lane is itself a guess; `--report` and the route both
+    # say so rather than presenting it as measured.
+    if key and CAPABILITY and spec.get("evidence") != "peer":
         usd = CAPABILITY["lanes"].get(key, {}).get("usd_per_task")
         if usd:
             return usd
-    return LANES[lane]["blended_usd_per_mtok"]
+    return spec["blended_usd_per_mtok"]
 
 
-def choose(task, now=None, tolerance=0.20, shape=None, require_dropin=False):
+def escalate(task):
+    """Where `--hard` sends a class, or a sentence saying why it does not.
+
+    Returns `(task, None)` on success and `(task, reason)` when the class holds
+    a family invariant that escalating would break. A harder design question is
+    still a design question, and the answer to it is not a different family.
+    """
+    if task in NO_ESCALATION:
+        return task, NO_ESCALATION[task]
+    return "hard", None
+
+
+def choose(task, now=None, tolerance=0.20, shape=None, require_dropin=False,
+           hard=False, has_plan=False):
     """Pick a lane for `task`, narrowed by `shape` where there is evidence.
 
     Returns `(lane, rows, why, verdict)`. `verdict` carries the capability
@@ -427,6 +448,17 @@ def choose(task, now=None, tolerance=0.20, shape=None, require_dropin=False):
     no shape was given or the class is not shape-gated, so a caller that ignores
     it keeps the old behaviour.
 
+    `hard` reaches the frontier lanes. They are filtered out of every ordinary
+    route, so this is the only way to them, and it is meant to be typed by
+    somebody who has decided the problem is one of the hardest rather than
+    reached by a router that ran out of cheaper options.
+
+    `has_plan` says a spec or plan already exists. Some lanes are the right pick
+    only under that condition — gemini is the fast implementation lane when the
+    work is specified and the failure it is known for is what an unspecified
+    brief invites — so their `route_guard` is a promotion condition rather than
+    a footnote. Declaring it is the caller's assertion, and the route says so.
+
     The bands run drop-in, then guarded, then the class's own fail-back. Work is
     never dropped and never routed down to a refused lane to get around a limit:
     when nothing clears, the last resort is the class's first allowed lane, and
@@ -434,9 +466,18 @@ def choose(task, now=None, tolerance=0.20, shape=None, require_dropin=False):
     """
     spec = TASKS[task]
     rows = measure(now)
-    gated = gate_lanes(task, shape) if shape else None
+    gated = gate_lanes(task, shape, hard=hard) if shape else None
     verdict = None
-    allow = list(spec["allow"])
+    allow = allowed_lanes(task, hard=hard)
+
+    # A lane carrying a route_guard is conditional, not preferred-by-default.
+    # With the condition declared it moves to the front of its class; without
+    # it, it moves to the back. Neither is a capability claim — the guard is a
+    # statement about the BRIEF, and this is the only place the brief is known.
+    guarded_lanes = [l for l in allow if LANES.get(l, {}).get("route_guard")]
+    if guarded_lanes:
+        rest = [l for l in allow if l not in guarded_lanes]
+        allow = (guarded_lanes + rest) if has_plan else (rest + guarded_lanes)
 
     if gated is not None and shape in SHAPES:
         # Bands in the order they may be spent. Descend on two conditions, and
@@ -462,14 +503,21 @@ def choose(task, now=None, tolerance=0.20, shape=None, require_dropin=False):
         # exactly where spreading load belongs.
         equivalent = equivalent_set(band, gated["grades"])
         outranked = [l for l in band if l not in equivalent]
+        # Two different things fall out of the equivalence filter and saying so
+        # matters: a lane that was measured and scored behind, and a lane nobody
+        # measured at all. Reporting the second as the first is a claim about
+        # evidence that does not exist.
+        unmeasured = [l for l in outranked
+                      if (gated["grades"].get(l) or {}).get("mean") is None]
         verdict = {
             "shape": shape, "band": chosen_band, "considered": equivalent,
-            "outranked": outranked,
+            "outranked": [l for l in outranked if l not in unmeasured],
+            "unmeasured": unmeasured,
             "refused": gated["refused"], "failback": gated["failback"],
             "skipped_spent": [l for n, ls in ladder if n != chosen_band for l in ls
                               if l in rows and rows[l]["allowance"] <= 0],
             "guard": SHAPES[shape]["guard"] if chosen_band != "drop-in" else None,
-            "grades": {l: gated["grades"].get(l) for l in spec["allow"]},
+            "grades": {l: gated["grades"].get(l) for l in allowed_lanes(task, hard=hard)},
         }
         allow = equivalent
 
@@ -494,12 +542,31 @@ def choose(task, now=None, tolerance=0.20, shape=None, require_dropin=False):
     band = [l for l in usable if rows[l]["allowance"] >= best * (1 - tolerance)]
     # Cheapest wins, and the owner's preference order breaks a cost tie. Both
     # only ever run inside a band already agreed to be equivalent on output.
-    top = min(band, key=lambda l: (round(task_cost(l), 2), preference_rank(l)))
+    #
+    # Unless a lane in the band has no sourced price. Ranking a measured $0.25
+    # against a stand-in $14.00 is not a cost comparison, it is a comparison
+    # with a placeholder, and it would send every route away from the lanes the
+    # directive named on the strength of a number nobody published. Where that
+    # happens the cost stage abstains and preference order decides alone — and
+    # the reason says which stage was skipped, so nobody reads the result as a
+    # cost finding.
+    priced = all(LANES[l].get("price_evidence", "sourced") == "sourced" for l in band)
+    if priced:
+        top = min(band, key=lambda l: (round(task_cost(l), 2), preference_rank(l)))
+    else:
+        top = min(band, key=preference_rank)
     others = ", ".join(f"{l} {rows[l]['allowance']:.4f}"
                        for l in sorted(usable, key=lambda l: -rows[l]["allowance"]) if l != top)
-    if len(band) > 1:
+    if len(band) > 1 and priced:
         why = (f"within {int(tolerance * 100)}% on headroom ({'/'.join(sorted(band))}), so the "
                f"cheapest wins at ${task_cost(top):.2f} a task — {rows[top]['allowance']:.4f}/day"
+               + (f" vs {others}" if others else ""))
+    elif len(band) > 1:
+        unpriced = [l for l in band
+                    if LANES[l].get("price_evidence", "sourced") != "sourced"]
+        why = (f"within {int(tolerance * 100)}% on headroom ({'/'.join(sorted(band))}); no "
+               f"sourced price for {', '.join(sorted(unpriced))}, so cost could not rank "
+               f"them and preference order decided — {rows[top]['allowance']:.4f}/day"
                + (f" vs {others}" if others else ""))
     else:
         why = f"most headroom per remaining day ({rows[top]['allowance']:.4f}/day vs {others})"
@@ -584,9 +651,10 @@ SYMBOL = {"GOLD": "++", "GREEN": "+", "AMBER": "~", "RED": "x", "THIN": "?", "RE
 #: Column headings for --matrix. Truncating lane names collides three codex
 #: lanes into one heading, and a table whose columns cannot be told apart is
 #: worse than no table.
-ABBREV = {"codex-sol": "sol@med", "codex-sol-high": "sol@high", "codex-terra": "terra@high",
-          "codex-terra-max": "terra@max", "codex-terra-medium": "terra@med",
-          "gemini": "gemini", "grok": "grok", "glm": "glm", "fable": "fable", "opus": "OPUS"}
+ABBREV = {"codex-astra-low": "astra@lo", "codex-astra-medium": "astra@md",
+          "codex-astra-high": "astra@hi", "codex-sol-high": "sol@high",
+          "gemini": "gemini", "grok": "grok", "glm": "glm", "fable": "fable",
+          "fable-high": "fable@hi", "opus-design": "opus@med", "opus": "OPUS"}
 
 
 def print_matrix(shape=None):
@@ -641,6 +709,16 @@ def main():
     ap.add_argument("--require-dropin", action="store_true",
                     help="refuse to route to a guarded lane; fall back to the class's "
                          "fail-back instead")
+    ap.add_argument("--hard", action="store_true",
+                    help="this is one of the hardest problems: reach the frontier astra "
+                         "tiers. They are filtered out of every ordinary route, so this "
+                         "flag is the only way to them, and it is meant to be typed rather "
+                         "than fallen into. Refused on the classes that hold a family "
+                         "invariant — a harder design question is still a design question.")
+    ap.add_argument("--has-plan", action="store_true",
+                    help="a spec or plan already exists for this work. Promotes the lanes "
+                         "whose route_guard is exactly that condition — gemini for "
+                         "implementation, the medium-effort lanes for design.")
     ap.add_argument("--report", action="store_true")
     ap.add_argument("--matrix", nargs="?", const="", metavar="SHAPE",
                     help="print the measured capability matrix, all shapes or one")
@@ -679,10 +757,19 @@ def main():
         print("Every codex lane reads one account's rate limit, so their allowances move together.")
         return 0
 
-    lane, rows, why, verdict = choose(args.task, shape=args.shape,
-                                      require_dropin=args.require_dropin)
+    task = args.task
+    if args.hard:
+        task, refusal = escalate(task)
+        if refusal:
+            print(f"--hard refused on {args.task}: {refusal}", file=sys.stderr)
+            return 2
+    lane, rows, why, verdict = choose(task, shape=args.shape,
+                                      require_dropin=args.require_dropin,
+                                      hard=args.hard or task == "hard",
+                                      has_plan=args.has_plan)
     spec = LANES[lane]
-    payload = {"task": args.task, "shape": args.shape, "lane": lane, "model": spec["model"],
+    payload = {"task": task, "requested_task": args.task, "shape": args.shape,
+               "hard": bool(args.hard), "has_plan": bool(args.has_plan), "lane": lane, "model": spec["model"],
                "family": spec["family"], "effort": spec["effort"], "reason": why,
                "capability": verdict,
                "argv": argv_for(lane, args.prompt, args.outfile), "env": spec["env"],
@@ -690,7 +777,8 @@ def main():
     if args.json:
         print(json.dumps(payload, indent=2))
         return 0
-    print(f"task     {args.task} — {TASKS[args.task]['label']}")
+    print(f"task     {task} — {TASKS[task]['label']}"
+          + (f"   (escalated from {args.task} by --hard)" if task != args.task else ""))
     if args.shape:
         print(f"shape    {args.shape} — {SHAPES[args.shape]['label']}")
     print(f"lane     {lane} ({spec['model']}, {spec['family']} family, effort {spec['effort']})")
@@ -711,10 +799,25 @@ def main():
         if verdict["outranked"]:
             print(f"outrank  {', '.join(verdict['outranked'])} — eligible but measured further "
                   f"behind, so not considered on headroom")
+        if verdict.get("unmeasured"):
+            print(f"unmeas   {', '.join(verdict['unmeasured'])} — eligible, but nothing "
+                  f"measures them on this shape, so score could not keep them in the band")
         if verdict["refused"]:
             print(f"refused  {', '.join(verdict['refused'])} — measured too far behind on this shape")
         if verdict["guard"]:
             print(f"guard    {verdict['guard']}")
+    if TASKS[task].get("condition"):
+        print(f"cond     {TASKS[task]['condition']}")
+    if spec.get("route_guard"):
+        print(f"cond     {spec['route_guard']}")
+    if is_frontier(lane):
+        print("frontier this lane is reserved for the hardest work; it was reached because "
+              "somebody asked for it")
+    if spec.get("price_evidence") == "placeholder":
+        print(f"price    ${spec['blended_usd_per_mtok']:.2f}/Mtok is a PLACEHOLDER, not a "
+              f"published rate — any cost tie-break involving this lane is a guess")
+    if spec.get("probe_state"):
+        print(f"probe    {spec['probed']}: {spec['probe_state']}")
     if spec["env"]:
         print("env      " + "  ".join(f"{k}={v!r}" for k, v in spec["env"].items()))
     print("run      " + " ".join(a if " " not in a else repr(a)
