@@ -142,9 +142,11 @@ on headroom break the tie on price rather than on sort order.
 | Model | Input | Cached | Output | Blended |
 |---|---|---|---|---|
 | `gemini-3.7-flash-high` | 0.75 | 0.075 | 3.75 | **4.50** |
+| `gemini-3.8-flash-high` | — | — | — | **4.50 · placeholder** |
 | `glm-5.3` | 1.40 | 0.26 | 4.40 | **5.80** |
 | `grok-4.6` | 2.00 | 0.50 | 6.00 | **8.00** |
 | `gpt-5.6-terra` | 2.00 | 0.20 | 12.00 | **14.00** |
+| `gpt-6-astra` | — | — | — | **14.00 · placeholder** |
 | `gpt-5.6-sol` | 5.00 | 0.50 | 30.00 | **35.00** |
 | `claude-opus-5` | 5.00 | — | 25.00 | **30.00** |
 | `claude-fable-5` | 10.00 | — | 50.00 | **60.00** |
@@ -173,3 +175,22 @@ OpenAI and Anthropic figures cross-checked against
 These are gaps in what vendors publish, not gaps in searching. A deep-research
 run would confirm they are unpublished rather than produce numbers, which is why
 the design leans on measured percentages and calibrated budgets instead.
+
+## Two prices in this table are stand-ins (2026-09-09)
+
+`gpt-6-astra` and `gemini-3.8-flash-high` carry **no rate anybody published into
+this file**. Each stands in at its predecessor's blended figure so the tie-break
+has a number to hold, and both are named in `PLACEHOLDER_PRICES` and marked
+`price_evidence: "placeholder"` on their lanes.
+
+The consequence is deliberate and it is enforced in code rather than trusted to
+a reader: a band containing either lane **skips the cost tie-break entirely** and
+breaks on preference order, and the route's reason says which stage was skipped.
+Ranking a measured $0.25 a task against a stand-in $14.00 per Mtok is not a cost
+comparison — it is a comparison with a guess, and it would have sent every route
+away from the lanes the 2026-09-09 directive named.
+
+`gpt-5.6-terra` and `gpt-5.6-luna` keep their rows although no lane runs them any
+more. Those are sourced figures and the retired lanes are still argued about in
+`DECLINED`, so deleting the prices would remove the evidence and leave the
+argument.

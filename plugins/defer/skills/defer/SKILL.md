@@ -1,22 +1,25 @@
 ---
 name: defer
 description: >-
-  Decide which model a piece of work goes to, and produce the exact command that
-  sends it there. One routing policy for every skill that hands work outside the
-  session. Resolves user-preferred current model roles from the runtime first;
-  a compatibility registry maps six task classes to calibrated lanes, each
-  pinned to a model and an effort, with the CLI arguments, the environment GLM
-  needs, and the check that proves the lane ran as routed. Narrows those lanes by
-  what the work actually is, against a capability matrix measured over 106
-  benchmark tasks, so a piece of work goes to the cheapest lane that scored level
-  with Opus on that shape rather than to Opus by default. Where several lanes
-  remain it picks the one with the most plan headroom per remaining day, measured
-  — Claude and Codex report a real utilization percentage that is already on
-  disk, and Grok, GLM and Gemini are counted locally against a budget you
-  calibrate from a percentage you can see. Use when a skill needs a second
-  opinion, an out-of-family verdict, a completeness critic, an implementation
-  lane, or a design review, and whenever someone asks which model should do
-  something, why a lane was chosen, what a lane costs, whether a cheaper model
+  Decide which model a piece of work goes to, at which thinking level, and
+  produce the exact command that sends it there. One routing policy for every
+  skill that hands work outside the session. Resolves user-preferred current
+  model roles from the runtime first; a registry then maps nine task classes to
+  calibrated lanes, each pinned to a model and an effort, with the CLI arguments,
+  the environment GLM needs, and the check that proves the lane ran as routed.
+  GPT-6 Astra is the OpenAI-family spine at three thinking levels — low is the
+  workhorse tier alongside sol at high, fable at medium and grok at high, while
+  medium and high are frontier capacity reserved for the hardest problems and
+  reachable only by asking. Gemini 3.8 Flash is the fast implementation lane once
+  a spec or plan exists, grok and GLM are trusted to orchestrate, and design work
+  stays on Opus and Fable. Narrows lanes by what the work actually is, against a
+  capability matrix measured over 106 benchmark tasks, and marks borrowed rows,
+  placeholder prices and inert penalties as such rather than presenting them as
+  measurements. Where several lanes remain it picks the one with the most plan
+  headroom per remaining day. Use when a skill needs a second opinion, an
+  out-of-family verdict, a completeness critic, an implementation lane, an
+  orchestrator or a design review, and whenever someone asks which model should
+  do something, why a lane was chosen, what a lane costs, whether a cheaper model
   could do it instead, or whether one is out of allowance.
 ---
 
@@ -38,9 +41,9 @@ Scores for older models are not measurements of their successors.
 
 First read current authorization and active project opt-out directives using
 `references/runtime-preferences.md`; quoted examples are not directives. Then
-resolve the preferred role: Opus 5 for intake, triage and
-planning, Gemini 3.8 for implementation after those artifacts exist, and GPT-6
-for orchestration, unless the task chooses otherwise. Discover exact runtime
+resolve the preferred role: Opus 5 for intake, triage and planning, Gemini 3.8
+for implementation once those artifacts exist, and GPT-6 Astra, Grok 4.6 or
+GLM 5.3 for orchestration, unless the task chooses otherwise. Discover exact runtime
 selectors and dispatch through the native supported tool or CLI; preserve the
 requested-to-serving model receipt. This path is actionable even when the legacy
 registry has no row for the preferred model.
@@ -49,48 +52,86 @@ For a calibrated compatibility lane, run the picker. It reads that registry and
 its meters and prints a command:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/defer/scripts/lane_pick.py --task <class> [--shape <shape>]
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/defer/scripts/lane_pick.py \
+  --task <class> [--shape <shape>] [--hard] [--has-plan]
 ```
 
 The classes, and what each one is for:
 
 | `--task` | For | Lanes | Effort |
 |---|---|---|---|
-| `implementation` | writing code | shape decides, then headroom | pinned per lane |
-| `completeness` | the critic that finds what was promised and not delivered | glm · grok · gemini | high · **xhigh** · high |
-| `general` | anything that is neither a referred decision nor a verdict | `gpt-5.6-terra` | **high** |
-| `referral` | a decision or fork put to another model | `gpt-5.6-sol` · `claude-fable-5` | **medium** · **high** |
+| `implementation` | writing code | gemini · astra-low · sol-high · glm · grok | baked · **low** · high · high · high |
+| `hard` | the problems the workhorse tier could not hold | astra-medium · astra-high · opus | **medium** · **high** · xhigh |
+| `orchestration` | running a multi-step piece of work and deciding what happens next | astra-low · grok · glm | **low** · **high** · **high** |
+| `completeness` | the critic that finds what was promised and not delivered | astra-low · glm · grok · gemini | low · high · high · baked |
+| `general` | anything that is neither a referred decision nor a verdict | astra-low · grok · glm · gemini | **low** · high · high · baked |
+| `referral` | a decision or fork put to another model | astra-low · sol-high · fable · grok | **low** · **high** · **medium** · **high** |
 | `verification` | grading delivered work; same-family validation | `claude-opus-5` | **xhigh** |
-| `design-review` | judging rendered UI | `claude-opus-5` · `claude-fable-5` | xhigh · high |
+| `design` | authoring a design | opus-design · fable | **medium** · **medium** |
+| `design-review` | judging rendered UI | opus · fable-high | xhigh · high |
+
+Two flags change which lanes a class can see, and both are the caller asserting
+something the router cannot observe:
+
+```bash
+lane_pick.py --task implementation --hard        # this is one of the hardest problems
+lane_pick.py --task implementation --has-plan    # a spec or plan already exists
+```
 
 `--json` gives the same answer as a structured object with the argv and env
 ready to spawn. `--report` prints every lane's meter without choosing, and
 `--matrix` prints the measured capability table without choosing either.
 
-The following rules describe the compatibility registry, not a restriction on
-the current preferred-model path. Figures refer to the named recorded models:
+### The three statements the policy comes from
 
-- **`gpt-5.6-luna` at `max` is a recorded compatibility value lane.** On DeepSWE 1.1
-  (113 tasks) it scores 67% ±4 for **$0.61 a task** — the same score as
-  `grok-4.6` at `xhigh` to within both error bars, at 11% of its cost, and two
-  points ahead of `gemini-3.7-flash` at under a third. That comparison does not override the
-  current Gemini 3.8 implementation preference. It is 6 points behind `sol@max`, so reach
-  past it when the work is genuinely hard rather than merely long.
-- **The compatibility `gemini` lane (Gemini 3.7 Flash) is ranked behind glm, grok and sol**,
-  and carries a 12-point delivery penalty on top of its bench score. That penalty
-  is not a capability judgement: it failed 8 of 12 autonomous-builder dispatches
-  and produced one fabricated completion report. `references/lanes.md` has the
-  measurement and the condition for lifting it.
-- **`gpt-5.6-sol` never runs at `max`.** It is the referral lane at `medium` and
-  the implementation lane at `high`. Work that is not a referred decision goes
-  to a terra lane or to `sol@high`.
-- **Fable judges; it does not verify.** Forks, design calls and referred
-  decisions, yes. Grading code or a ticket against its acceptance criteria, no —
-  that is `claude-opus-5` at `xhigh`.
-- **Design review stays on Opus and Fable.** No other family reviews rendered UI.
+Owner directive, 2026-09-09. Everything in the table above is a consequence of
+these, and `references/lanes.md` carries the working.
 
-Full matrix, every command template, and the substitution rules for a lane that
-is down: `references/lanes.md`.
+- **One workhorse tier, four lanes, no ranking inside it.** `gpt-6-astra` at
+  **low** is level with `gpt-5.6-sol` at high, `claude-fable-5` at medium and
+  `grok-4.6` at high. One claim, four members, three families — so referral,
+  general, orchestration and completeness spread across them rather than
+  ordering them, and independence is a lane choice rather than a compromise.
+- **Astra at medium and high is frontier, and reserved for the most difficult
+  problems.** Enforced rather than requested: both lanes carry `frontier: True`,
+  `allowed_lanes()` filters them out of every class, and `--hard` or
+  `--task hard` is the only way to them. A lane a router can reach is a lane a
+  router reaches when it runs out of cheaper options.
+- **Design work stays on Opus and Fable, and authors at medium** — medium being
+  the effort the directive gives design *given a rough plan already exists*, so
+  `--has-plan` is the caller declaring that condition. Judging rendered UI is a
+  different job and keeps the higher efforts. `--hard` is refused on `design`,
+  `design-review` and `verification`: a harder design question is still a design
+  question, and the answer to it is not another family.
+
+Alongside them, **`gemini-3.8-flash-high` is the fast implementation lane once a
+spec or plan exists** — the tokens-per-second pick, and the condition is its
+`route_guard` rather than a footnote. With `--has-plan` it leads the class;
+without it, it goes to the back.
+
+### What is asserted here and what was measured
+
+The gap between those two is where a routing policy turns into a ranking
+somebody made up, so three things are marked rather than smoothed over.
+
+- **Astra has no bench row at any effort**, here or on DeepSWE. `codex-astra-low`
+  borrows `codex/gpt-5.6-sol@high`'s row under `evidence: "peer"` — which is what
+  "level with" means made checkable. A peer row clamps like a proxy row: never
+  drop-in, never a hard block. It is a capability claim only; `task_cost()`
+  refuses to read a peer's cost, so one lane's bill never decides another's route.
+- **Neither astra nor Gemini 3.8 has a published price here.** Both stand in at a
+  predecessor's rate, marked `price_evidence: "placeholder"`. When a band
+  contains one, the cost tie-break **abstains** and preference order decides —
+  and the route says which stage was skipped, because ranking a measured $0.25
+  against a stand-in $14.00 is not a cost comparison.
+- **The Gemini delivery penalty is inert, not transferred and not deleted.** It
+  was measured on 3.7 Flash; the lane runs 3.8. The entry names
+  `applies_to_model` and the code checks it, so the 12 points stop applying and
+  snap back if the lane returns. The finding survives as that lane's
+  `route_guard`.
+
+Full matrix, every command template, the 2026-09-09 probe results and the
+substitution rules for a lane that is down: `references/lanes.md`.
 
 ## Say what the work is, not just what class it is
 
@@ -139,24 +180,31 @@ it in the prompt. `--require-dropin` refuses the guarded band outright and falls
 back to opus instead.
 
 
-## Opus does not need `xhigh` for everything
+## Thinking level is the routing decision, not a dial on top of it
 
-The compatibility registry pins `claude-opus-5` to `xhigh` for `verification`
-and `design-review`. That is a local setting, not a universal minimum. For a
-current runtime route, start from supported defaults and calibrate effort on
-representative work; use lower settings where quality holds. Anthropic recommends
-removing redundant self-review, while task-specific acceptance gates still run.
+Three of this policy's four tiers are one model at different thinking levels, so
+"which lane" and "how hard should it think" stopped being separate questions on
+2026-09-09. `gpt-6-astra` at low, medium and high are three lanes, not one lane
+with a setting, and the frontier reservation is enforced on the lane rather than
+argued for in prose.
 
 Effort buys *thinking tokens*, not output quality per se. Measured on the codex
-lanes, terra at `max` and terra at `medium` bill at the same per-Mtok rate and
-differ by **4.8× on the bill**, because the expensive one spends far more tokens
-before it writes anything. Do not transfer that numerical multiplier to Claude without a measurement.
+lanes, `gpt-5.6-terra` at `max` and at `medium` billed at the same per-Mtok rate
+and differed by **4.8× on the bill**, because the expensive one spent far more
+tokens before it wrote anything. Those two lanes are retired, and the ratio is a
+GPT-5.6 measurement: **do not transfer it to astra's tiers or to Claude** without
+measuring it there. Nobody has.
+
+The Claude side is a local setting rather than a universal minimum. For a current
+runtime route, start from supported defaults and calibrate on representative
+work; use lower settings where quality holds. Anthropic recommends removing
+redundant self-review, while task-specific acceptance gates still run.
 
 | Run opus at | When |
 |---|---|
 | `xhigh` | Grading delivered work. Adversarial passes. Anything where a wrong pass is banked as a fact. Rendered-UI review |
 | `high` | Building a feature under compound acceptance criteria. Anything that has to hold several constraints at once |
-| `medium` | Extraction, arithmetic, JSON assembly, file streaming, censusing, mechanical refactors, applying a decision somebody else made |
+| `medium` | Authoring a design when a rough plan already exists. Extraction, arithmetic, JSON assembly, file streaming, censusing, mechanical refactors, applying a decision somebody else made |
 | `low` | Read-only sweeps whose output is a list |
 
 **The tell that effort is set too high: the agent's answer would not change if it
@@ -166,9 +214,17 @@ in it, and the four retrospective extraction agents behind
 arithmetic and JSON assembly, at a mean agent duration of 496 seconds across 386
 agents. One equivalent pass ran on Sonnet in 88 seconds.
 
+**The tell in the other direction: reaching for a frontier tier because the work
+is long.** Astra at medium and high are for problems that are *hard* — the ones
+the workhorse tier could not hold. Length, file count and tedium are not
+difficulty, and `--hard` on a big mechanical sweep buys thinking tokens for a
+task with no judgement in it.
+
 **Do not drop effort on the judgement classes to save time.** The fresh-context
 verify stage rejected three of three ready-to-verify claims in that window, and a
-cheaper lane there would have banked all three.
+cheaper lane there would have banked all three. This is why `design` authors at
+medium while `design-review` does not, and why `--hard` is refused on both rather
+than being allowed to move a judgement out of the family that holds it.
 
 ## Give the lane 900 seconds, or background it
 
@@ -189,7 +245,7 @@ Two ways to run one, and never the default:
 ```bash
 # 1 — an explicit bound, well past the median. `scripts/limit` where coreutils
 #     `timeout` does not exist (macOS ships none; 40 calls died on that alone).
-scripts/limit 900 codex exec -m gpt-5.6-luna ... -o /tmp/lane.md "<prompt>"
+scripts/limit 900 codex exec -m gpt-6-astra ... -o /tmp/lane.md "<prompt>"
 
 # 2 — better for anything on the critical path: launch it and carry on. The
 #     verdict arrives as a notification rather than as a blocked terminal.
@@ -204,6 +260,15 @@ inherits the default will be killed at two minutes roughly half the time.
 model header can accompany empty output. Non-empty output establishes only that
 bytes arrived; check that the requested artifact/verdict is complete and capture
 the serving-model receipt before treating the lane as successful.
+
+Two codex facts measured 2026-09-09 on codex-cli 0.153.4, both of which decide
+whether a call runs at all. **`--skip-git-repo-check` is required outside a
+trusted directory** — without it `codex exec` exits 1 before reaching a model,
+so every codex lane's argv carries it. And **an unknown model now warns before
+the API refuses it**: `warning: Model metadata for 'X' not found. Defaulting to
+fallback metadata`. That is a useful pre-flight tell and it is still not the
+check, because a *known* model prints a clean header on a run that produced
+nothing.
 
 ## Then verify the lane actually ran
 
@@ -253,11 +318,17 @@ allowance = (1 - used_pct) / days_left
 ```
 
 Largest wins. Where two lanes sit within 20% of each other the meters cannot
-honestly separate them, so the tie breaks on **measured cost per task**:
-`terra@medium` $0.14, `sol@medium` $0.20, `sol@high` $0.25, gemini $0.29, grok
-$0.63, `terra@max` $0.67, glm $0.78, opus $2.16, fable $3.13. List price per Mtok
-cannot break that tie — the five codex lanes all bill at one rate and differ by
-nearly 5x on what a task costs, because effort buys tokens.
+honestly separate them, so the tie breaks on **measured cost per task** — where
+every lane in the band has one. Since 2026-09-09 two lanes do not: astra and
+Gemini 3.8 carry placeholder rates, and a band containing either **skips the cost
+stage entirely** and breaks on preference order instead, saying so in the reason.
+That is not a rounding decision. Ranking a measured $0.25 against a stand-in
+$14.00 would send every route away from the lanes the directive named, on the
+strength of a number nobody published.
+
+Where cost can rank, list price per Mtok still cannot do it: the codex lanes all
+bill at one rate and differ by nearly 5× on what a task costs, because effort
+buys tokens.
 
 The order is deliberate. Ranking headroom before score trades real output quality
 for load-spreading: it once sent greenfield work to a lane 13 points behind
@@ -271,9 +342,13 @@ here, so Claude was bought deep — nine accounts carried a live seven-day meter
 2026-08-21, the emptiest at 41% — while xAI, Z.AI, Google and OpenAI are one
 account each. So the Claude classes name a model outright and do not rank, and
 the fanning-out classes spread across the rest precisely because running the
-nominal best every time empties a single-account lane inside a week. The five
-codex lanes share one account and therefore one meter: adding an effort variant
-buys a cheaper lane, never more headroom.
+nominal best every time empties a single-account lane inside a week.
+
+The four codex lanes — astra at low, medium and high, and sol at high — share one
+account and therefore **one meter**. That is worth holding before reading a
+route: adding a thinking level buys a different lane, never more headroom, so
+reserving astra's frontier tiers protects the same allowance the workhorse tier
+spends. `--hard` costs the class that was not asking for it.
 
 The scarce lanes are still worth spending on `completeness`, which excludes
 Claude entirely: Claude checking Claude is not an independent check, and that is

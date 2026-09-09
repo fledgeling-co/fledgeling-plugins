@@ -20,6 +20,33 @@ the others is written down.
 `scripts/capability_matrix.json` is the machine-readable copy that
 `lane_pick.py` reads. Change one and the selftest fails.
 
+## What this file measured, and which of it still routes (2026-09-09)
+
+Every number below is a record of a bench run and none of it has been rewritten.
+What changed is which lanes exist to receive it, so read the lane-id column with
+this in hand:
+
+- **`codex-terra` at high, max and medium, `codex-luna-max` and `codex-sol` at
+  medium are retired.** They are recorded in `DECLINED`, and their rows here are
+  the reason anyone can still argue about that decision. `codex-terra-max`'s
+  brownfield result and `codex-luna-max`'s cost-per-task are the two worth
+  re-reading first if the astra tiers ever measure short.
+- **`codex-sol-high` is the one GPT-5.6 lane still routed**, and its row is doing
+  double duty: `codex-astra-low` borrows it under `evidence: "peer"`, because the
+  2026-09-09 directive names those two lanes level. A peer row clamps to the
+  guarded band exactly as a proxy row does, and it carries **no cost claim** —
+  the directive said the lanes produce comparable work, not that they bill alike.
+- **`grok` moved from xhigh to high.** The row here measured `grok-4.5@xhigh`
+  under mini, so it was already a proxy on two counts and is now a proxy on
+  three: different version, different harness, different effort. Read it as a
+  floor rather than as this lane.
+- **`gemini` moved from 3.7 Flash to 3.8**, and the row was dropped rather than
+  reused. A predecessor's grade is not a successor's, so that lane's shape gate
+  abstains and it routes on policy plus its plan condition.
+- **`gpt-6-astra` is not in this file at any effort**, and neither is Gemini 3.8.
+  Nothing here measures them. `lanes.md` carries what is asserted about them and
+  who asserted it.
+
 ## The matrix
 
 Mean score on the shape, out of 100. Formatting carries the grade:
