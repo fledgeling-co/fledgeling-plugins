@@ -229,7 +229,8 @@ the skill's own backpressure fork:
 GATE LEDGER   sweep 4 of 4 — conversation (no prior answer) · repo (CLAUDE.md silent) ·
               session work (plan.md §3 names the queue, not the policy) · files
               (ingest/queue.ts read, bounded channel present) · forks referred 1 of 1
-LANE          codex gpt-5.6-sol @ high · /tmp/so-queue.md · header greps OK · 41 lines
+LANE          codex gpt-6-astra @ low · /tmp/so-queue.md · header greps OK · -o non-empty,
+              41 lines
               VERDICT line 3: "drop-oldest is wrong here — billing history is the audited
               artifact; the real fork is latency versus recent loss."
 LINT          1 question, 2 options → lint_questions.py: clean (exit 0)
