@@ -42,7 +42,7 @@ run_one() {
   python3 - "$WORK/$name.jsonl" "$name" <<'PY'
 import json, sys
 path, name = sys.argv[1], sys.argv[2]
-offered, tools, skills = False, [], []
+offered, tools, skills, denied = False, [], [], []
 for line in open(path):
     try:
         d = json.loads(line)
@@ -50,13 +50,33 @@ for line in open(path):
         continue
     if d.get("subtype") == "init":
         offered = "clarify" in (d.get("skills") or [])
-    for c in (d.get("message") or {}).get("content") or []:
+    # `message` is a dict on assistant turns and a bare STRING on control events
+    # such as `permission_denied`. Assuming the dict crashed this whole check
+    # once, on a run whose only real problem was the gateway being briefly down
+    # — so the harness reported nothing at all about a case that had run.
+    msg = d.get("message")
+    if isinstance(msg, str):
+        if d.get("subtype") == "permission_denied":
+            denied.append(msg[:60])
+        continue
+    for c in (msg or {}).get("content") or []:
         if isinstance(c, dict) and c.get("type") == "tool_use":
             tools.append(c.get("name"))
             if c.get("name") == "Skill":
                 skills.append((c.get("input") or {}).get("skill"))
-# A non-firing result only means something if the skill was on offer.
-print(f"{name:<10} offered={offered}  fired={bool(skills)}  tools={tools[:8]}")
+# A non-firing result only means something if the skill was on offer. And
+# `fired` has to name WHICH skill: any Skill call at all would otherwise read as
+# this skill firing, which on the near-miss case is the difference between a
+# pass and a false positive.
+#
+# Match the QUALIFIED name. The Skill tool reports `clarify:clarify`, so a bare
+# `"clarify" in skills` membership test is False on a run that fired correctly —
+# which is the same plugin:skill naming mistake this repo documents elsewhere,
+# made inside the check that was supposed to catch it. The bare form is accepted
+# too, because a skill copied into .claude/skills/ can register unqualified.
+fired = any(str(x) in ("clarify", "clarify:clarify") for x in skills)
+print(f"{name:<10} offered={offered}  fired={fired}  skills={skills}  tools={tools[:8]}"
+      + (f"  DENIED={len(denied)}: {denied[:1]}" if denied else ""))
 PY
 }
 

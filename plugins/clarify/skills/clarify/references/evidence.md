@@ -61,19 +61,33 @@ never put through its own gate.
 
 ## CLI facts behind the lanes
 
-Measured on the authoring machine, 16 Aug 2026. Re-confirm against `--help`
-before first use in a session; a CLI's argv is not stable across versions.
+Re-confirm against `--help` before first use in a session; a CLI's argv is not
+stable across versions. Rows are dated, because a fact that has been re-measured
+and a fact nobody has checked since August are different kinds of claim.
 
-| Fact | How it was established |
-| --- | --- |
-| `grok --effort` accepts exactly `xhigh, high, medium, low` | `grok --effort bogus -p hi` → "unknown effort level 'bogus'; use one of: xhigh, high, medium, low" |
-| `grok models` → `grok-4.6` (default), `grok-4.5` | `grok models` |
-| `agy` exposes `gemini-3.7-flash-high` and a separate `--effort low\|medium\|high` | `agy models`, `agy --help` |
-| `codex` does **not** validate `-m` or `model_reasoning_effort` | `codex exec -m bogus -c model_reasoning_effort="bogus"` printed `model: bogus` / `reasoning effort: bogus` in its header and failed later |
+| Fact | Measured | How it was established |
+| --- | --- | --- |
+| `grok --effort` accepts exactly `xhigh, high, medium, low` | 16 Aug 2026 | `grok --effort bogus -p hi` → "unknown effort level 'bogus'; use one of: xhigh, high, medium, low" |
+| `grok models` → `grok-4.6` (default), `grok-4.5` | 9 Sep 2026 | `grok models` |
+| `agy` exposes `gemini-3.8-flash-high` with medium and low siblings, plus a separate `--effort low\|medium\|high` | 9 Sep 2026 | `agy models`, `agy --help` |
+| `codex exec` refuses to start outside a trusted directory without `--skip-git-repo-check` | 9 Sep 2026 | run from `/tmp`: exit 1, "Not inside a trusted directory and --skip-git-repo-check was not specified", no model reached |
+| `codex` does **not** validate `-m` or `model_reasoning_effort` against the API | 16 Aug 2026, re-confirmed 9 Sep | `-m bogus -c model_reasoning_effort="bogus"` printed `model: bogus` / `reasoning effort: bogus` in its header and failed later |
+| codex-cli 0.153.4 **warns** on an unknown model before the API refuses it | 9 Sep 2026 | `-m gpt-6-bogus-xyz` → `warning: Model metadata for 'gpt-6-bogus-xyz' not found. Defaulting to fallback metadata`, then `400 invalid_request_error`, **no output file** |
+| `gpt-6-astra` serves at `low`, `medium`, `high` and `max` | 9 Sep 2026 | four `codex exec` runs from `/tmp`, each echoing the requested `reasoning effort:` and writing a real answer to `-o` |
 
-The last row is why an empty output file is the load-bearing failure signal on
-the codex lane rather than the header grep: the header echoes what was
-configured, not what the API served.
+Two rows carry most of the weight.
+
+The **no-validation** row is why an empty output file is the load-bearing failure
+signal on the codex lane rather than the header grep: the header echoes what was
+configured, not what the API served. The 0.153.4 warning narrows that without
+replacing it — an unknown model now announces itself, but a *known* model still
+prints a clean header on a run that produced nothing.
+
+The **negative control** is what makes the astra row evidence rather than an echo
+of the flags. Because a wrong model and a wrong effort both fail loudly and write
+no file, four runs that wrote real answers under headers naming `gpt-6-astra` are
+evidence the API accepted those pairs. That is a claim about acceptance, not
+about which weights answered; only a vendor-side receipt could carry the second.
 
 ## The gate
 

@@ -195,9 +195,14 @@ picked the one you had heard of.
 
 ```bash
 perl -e 'alarm shift @ARGV; exec @ARGV' 900 \
-  grok -m grok-4.6 --effort xhigh -p "$(cat /tmp/offline-packet.md)" \
+  grok -m grok-4.6 --effort high -p "$(cat /tmp/offline-packet.md)" \
   > /tmp/so-offline.md 2>/tmp/so-offline.log
 ```
+
+One lane at the workhorse level, not a frontier tier. This is a bounded fork
+about one codebase, which is what that tier is for; reaching for `gpt-6-astra` at
+medium here would buy thinking tokens for a question the evidence already
+narrows. `defer:defer --task referral` picks the lane and prints the argv.
 
 The packet is the requirements, the existing mutation code, the conflict rules
 the product already implies, and both candidate shapes. Not "which is better for
