@@ -4,6 +4,22 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-09
+
+### defer 1.5.0 and clarify 1.6.0: GPT-6 Astra's thinking levels become the routing decision
+
+Owner directive of 2026-09-09. `gpt-6-astra` at **low** is the workhorse tier, level with `gpt-5.6-sol` at high, `claude-fable-5` at medium and `grok-4.6` at high — one claim with four members across three families, so referral, general, orchestration and completeness spread across them rather than ranking them. Astra at **medium** and **high** is frontier capacity for the most difficult problems. `gemini-3.8-flash-high` is the fast implementation lane once a spec or plan exists, grok and GLM are trusted to orchestrate, and design work stays on Opus and Fable, authored at medium where a rough plan already exists.
+
+`defer` gains two task classes (`orchestration`, and `design` split from `design-review`) for nine in total, two caller flags (`--hard`, `--has-plan`), and eleven lanes. The frontier tiers are reserved mechanically rather than in prose: they are filtered out of every class, and `--hard` is the only route to them — and it is refused on `design`, `design-review` and `verification`, because a harder design question is still a design question. Four GPT-5.6 lanes retired into `DECLINED`; `codex-sol-high` survives because the directive names it astra@low's peer.
+
+Three things the evidence does not cover are now marked rather than smoothed over, each enforced in code. Astra has no bench row anywhere, so it borrows sol@high's under a new `peer` evidence class that clamps like a proxy and carries no cost claim. Neither astra nor Gemini 3.8 has a published price, so both are placeholders and a band containing one skips the cost tie-break entirely — ranking a measured $0.25 against a stand-in $14.00 would have routed work away from the lane the directive had just named the spine. And a delivery penalty now names the model it was measured on, so Gemini 3.7's 8-of-12 failure rate stops applying to 3.8 without being deleted; the finding survives as that lane's route condition.
+
+`lane_run.sh` and `lane_probe.sh` stopped carrying their own copy of the policy and now build every command from the registry. The case statement they replaced held five models and drifted the first time a lane moved, silently.
+
+Two latent faults surfaced while checking the change. A lane inheriting the reference lane's score graded `REF`, which is in neither band, so it fell through to *refused* — the best lane in its class rejected for measuring identical to the yardstick. And `clarify`'s trigger check had three defects at once: it crashed on a transcript event whose `message` is a string, read any skill call as this skill firing, and then compared against the bare name `clarify` when the tool reports `clarify:clarify` — the same `plugin:skill` mistake this repo documents elsewhere, made inside the check meant to catch it. Rescored from the same transcripts, it reports what it always expected: positive fires, near-miss does not.
+
+Probed live on 2026-09-09 with a negative control: astra answered at low, medium, high and max, while a bogus model name failed with a 400 and wrote no output file. The GLM lane probed **down** with `409 no-eligible-account` — a Perch routing setting, not a capability fact. 53 policy checks pass.
+
 ## 2026-09-08
 
 ### agent-voice 0.3.3 and create-luke-content 3.2.1: the rule widens past bad news
