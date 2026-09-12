@@ -53,8 +53,17 @@ PRESSURE_MULTIPLIER = {
 HARD_GATES = (
     ("disk", lambda s: s["disk"]["free_gib"] is not None and s["disk"]["free_gib"] < 20,
      "disk below 20 GiB free — new work will fail on write, not merely run slowly"),
-    ("swap", lambda s: s["memory"]["swap_used_pct"] >= 90,
-     "swap above 90% — the machine is paging, and more concurrency deepens it"),
+    # Was `swap_used_pct >= 90`, which refused every admission on a machine
+    # with 54 GiB of 128 GiB free: macOS adds swap files on demand, so that
+    # ratio's denominator is the set that exists now and it sits near 100%
+    # whenever the kernel has not yet grown it (fifteen 1 GiB files, newest
+    # three minutes old, measured 2026-09-12). The kernel's own pressure level
+    # is the claim worth gating on — at `critical` it is about to start killing
+    # processes, and starting more work makes that worse rather than slower.
+    # Swap figures stay in the snapshot as evidence.
+    ("memory", lambda s: s["memory"].get("pressure_level_name") == "critical",
+     "the kernel reports critical memory pressure — processes are about to be "
+     "killed, and more concurrency deepens it"),
 )
 
 
@@ -62,7 +71,9 @@ HARD_GATES = (
 # whole tool call, and a governor that hangs is worse than one that guesses low.
 UNKNOWN = {
     "sampled_at": "unavailable", "cpu": {"ncpu": os.cpu_count() or 8,
-    "load_per_core": None}, "memory": {"swap_used_pct": 0.0},
+    "load_per_core": None},
+    "memory": {"swap_used_pct": 0.0, "pressure_level": None,
+               "pressure_level_name": "unknown"},
     "disk": {"free_gib": None, "free_pct": None},
     "verdict": {"cpu": "unknown", "memory": "unknown", "disk": "unknown",
                 "overall": "unknown"},

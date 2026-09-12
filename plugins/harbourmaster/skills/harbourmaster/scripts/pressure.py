@@ -109,6 +109,21 @@ def memory_block() -> dict:
         if total and available:
             free_pct = round(100 * available * page / total)
 
+    # The kernel's own verdict, at a cost of 0.002s. Encoding follows the
+    # dispatch memorypressure constants: 1 NORMAL, 2 WARN, 4 CRITICAL. This is
+    # the signal `memory_pressure`'s notification lane reports and the one the
+    # kernel acts on itself, so it is the authority on whether the machine is
+    # actually hurting. Only level 1 has been observed on this machine, so the
+    # other two names are documented rather than measured; an unrecognised
+    # value is reported as "unknown" and never escalates a state on its own.
+    LEVELS = {1: "normal", 2: "warn", 4: "critical"}
+    raw_level = _sysctl("kern.memorystatus_vm_pressure_level")
+    try:
+        level = int(raw_level)
+    except ValueError:
+        level = None
+    level_name = LEVELS.get(level, "unknown")
+
     swap_total = swap_used = 0.0
     m = re.search(
         r"total\s*=\s*([\d.]+)M\s+used\s*=\s*([\d.]+)M", _sysctl("vm.swapusage")
@@ -119,8 +134,20 @@ def memory_block() -> dict:
     return {
         "total_bytes": total,
         "free_pct": free_pct,
+        "pressure_level": level,
+        "pressure_level_name": level_name,
         "swap_total_mb": swap_total,
         "swap_used_mb": swap_used,
+        # Occupancy of the swap file set that exists RIGHT NOW, which is not a
+        # fraction of any capacity. macOS adds swap files on demand: measured
+        # 2026-09-12, /System/Volumes/VM held fifteen 1 GiB files stamped
+        # between 1 and 12 September, the newest three minutes old. So `total`
+        # is the current high-water allocation and this ratio sits near 100%
+        # whenever the kernel has not yet grown the set — the normal steady
+        # state on a machine with days of uptime, because paged-out pages
+        # belonging to long-idle processes stay on disk. Read it as "how full
+        # is the current swap file set", never as "how close to exhaustion",
+        # and see `verdict` for why it sets no state.
         "swap_used_pct": round(100 * swap_used / swap_total, 1) if swap_total else 0.0,
     }
 
@@ -215,13 +242,36 @@ def verdict(cpu: dict, mem: dict, disk: dict) -> dict:
         "healthy"
     )
 
+    # Memory is decided by how much the kernel can hand out and by the kernel's
+    # own pressure level. Swap OCCUPANCY sets no state, and used to set two.
+    #
+    # Measured 2026-09-12 on a 128 GiB machine: 42% available (≈54 GiB),
+    # `kern.memorystatus_vm_pressure_level` 1 (normal), load 0.67 per core,
+    # `memory_pressure` reporting 81% free — and swap 14,116 MB of 15,360 MB,
+    # 91.9%. The old rule read that ratio and returned `critical`, which took
+    # the overall verdict to `critical`, the ceiling from 12 berths to 3, and
+    # tripped berths.py's swap hard gate to refuse every admission on a machine
+    # with 54 GiB free. It also armed demote.py, which acts only at `critical`.
+    #
+    # The ratio cannot carry that weight: its denominator is the swap file set
+    # that happens to exist now, and macOS grows that set on demand, so a near-
+    # 100% reading is the ordinary state of a machine with days of uptime
+    # rather than evidence of exhaustion. `memory_block` records the
+    # measurement behind that.
+    #
+    # The numbers below are choices. The level names are the kernel's.
     free_pct = mem["free_pct"]
-    swap_pct = mem["swap_used_pct"]
-    if free_pct is None:
-        mem_state = "unknown"
-    elif free_pct < 10 or swap_pct >= 90:
+    level = mem["pressure_level_name"]
+    if level == "critical":
         mem_state = "critical"
-    elif free_pct < 25 or swap_pct >= 70:
+    elif free_pct is None:
+        # vm_stat gave nothing. A `warn` level is a narrower claim than a
+        # percentage but still a claim, so it is kept; otherwise not knowing
+        # degrades to `unknown`, which costs the same ceiling as `critical`.
+        mem_state = "tight" if level == "warn" else "unknown"
+    elif free_pct < 10:
+        mem_state = "critical"
+    elif level == "warn" or free_pct < 25:
         mem_state = "tight"
     elif free_pct < 40:
         mem_state = "busy"

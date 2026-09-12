@@ -105,7 +105,7 @@ do_install() {
   write_agent "$LABEL_THERM" 300 "$PY" "$SKILL_DIR/thermal.py" --duration 60
   echo
   echo "note: the governor agent only acts at CRITICAL pressure, never kills,"
-  echo "      and restores what it demoted once pressure returns to healthy."
+  echo "      and restores what it demoted once cpu and memory are both healthy."
 }
 
 do_uninstall() {

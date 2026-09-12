@@ -136,7 +136,19 @@ def render(report: dict, thermal: dict | None = None) -> str:
 def main() -> int:
     args = sys.argv[1:]
     if args and args[0] == "record":
-        record(json.loads(args[1]) if len(args) > 1 else {"kind": "ping"})
+        # Malformed JSON exits 2 and says so, for the same reason an unknown
+        # flag does below: a traceback out of the journal lane reads as a crash
+        # in whatever called it, and the event is lost either way.
+        try:
+            event = json.loads(args[1]) if len(args) > 1 else {"kind": "ping"}
+        except ValueError as exc:
+            sys.stderr.write(f"ledger.py: record wants one JSON object — {exc}\n")
+            return 2
+        if not isinstance(event, dict):
+            sys.stderr.write("ledger.py: record wants a JSON object, not "
+                             f"{type(event).__name__}\n")
+            return 2
+        record(event)
         return 0
 
     # Unknown arguments exit 2 and name themselves, matching pressure.py and
@@ -153,13 +165,15 @@ def main() -> int:
     thermal = None
     if "--with-thermal" in args:
         import subprocess
-        out = subprocess.run(
-            [sys.executable, str(Path(__file__).with_name("thermal.py")),
-             "--duration", "10"],
-            capture_output=True, text=True, timeout=180)
+        # A thermal sample that overruns leaves the page without its thermal
+        # section rather than without the page.
         try:
+            out = subprocess.run(
+                [sys.executable, str(Path(__file__).with_name("thermal.py")),
+                 "--duration", "10"],
+                capture_output=True, text=True, timeout=180)
             thermal = json.loads(out.stdout)
-        except ValueError:
+        except (subprocess.TimeoutExpired, OSError, ValueError):
             thermal = None
 
     text = render(report, thermal)

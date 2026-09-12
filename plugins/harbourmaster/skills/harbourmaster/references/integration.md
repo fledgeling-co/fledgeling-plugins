@@ -68,7 +68,7 @@ machine, and the smaller of the two wins.
 
 | Code | Meaning | Response |
 |---|---|---|
-| 75 with `hard_gate` | disk or swap; not a queue | Stop scheduling. Hand disk to `mac-doctor:mac-doctor`. |
+| 75 with `hard_gate` | disk or kernel memory pressure; not a queue | Stop scheduling. Hand disk to `mac-doctor:mac-doctor`. |
 | 75 without | No berth now | Wait `retry_after_sec`, do other work, retry. |
 | 64 | Impossible at any pressure | Fix the invocation — usually an over-large weight. |
 
