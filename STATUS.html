@@ -456,318 +456,219 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
 <script type="application/json" id="report-data">
 {
  "project": "fledgeling-plugins",
- "updated": "2026-09-09T16:20:00+10:00",
+ "updated": "2026-09-12T13:20:00+10:00",
  "verdict": {
   "token": "done",
-  "number": "2 of 2",
-  "unit": "skills moved to the new model roster",
-  "headline": "clarify and defer now route on GPT-6 Astra's three thinking levels; two lanes have no published price, so cost ranking stands aside.",
-  "run_label": "astra roster",
-  "head_sha": "pending"
+  "number": "7 of 8",
+  "unit": "defects fixed in the harbourmaster skill",
+  "headline": "A near-full swap file made a Mac with 54 GB free look out of memory, and the governor refused all work.",
+  "run_label": "harbourmaster 0.7.0",
+  "head_sha": "df4197e"
  },
  "tasks": [
   {
-   "id": "DEF-1",
-   "title": "Three GPT-6 Astra lanes, one per thinking level",
+   "id": "HM-1",
+   "title": "A near-full swap file made the Mac look out of memory",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done",
-   "note": "low is the everyday lane; medium and high are held back"
+   "note": "the kernel's own pressure reading decides it now; swap is kept as evidence"
   },
   {
-   "id": "DEF-2",
-   "title": "Hold the two strongest lanes back until someone asks",
+   "id": "HM-2",
+   "title": "The berth rules doc still described a bug that had been fixed",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done",
-   "note": "the router cannot reach them without --hard"
+   "note": "it promised 6 berths where the code allows 3 when a reading fails"
   },
   {
-   "id": "DEF-3",
-   "title": "Two new kinds of work: running a job, and authoring a design",
+   "id": "HM-3",
+   "title": "An error message told you to run a flag that does not exist",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done",
-   "note": "nine kinds of work in total now"
+   "note": "install.sh --thermal-read was never a flag; it is --grants"
   },
   {
-   "id": "DEF-4",
-   "title": "Let a lane inherit a score another lane earned, and label it",
+   "id": "HM-4",
+   "title": "A slowed-down process would never have been sped back up",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done",
-   "note": "Astra has no score of its own anywhere"
+   "note": "it waited on the disk reading, which this Mac can never satisfy"
   },
   {
-   "id": "DEF-5",
-   "title": "Stop ranking a real price against a made-up one",
+   "id": "HM-5",
+   "title": "Speeding a process back up could hit the wrong process",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done",
-   "note": "the cheapest-wins step now steps aside instead"
+   "note": "macOS reuses process numbers; each one now records its start time too"
   },
   {
-   "id": "DEF-6",
-   "title": "A penalty now names the model it was measured on",
+   "id": "HM-6",
+   "title": "Two lanes crashed instead of reporting, under the very load they watch for",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done",
-   "note": "stops a 3.7 result being charged to 3.8"
+   "note": "the slowdown detector and the thermal lane now return empty rather than raising"
   },
   {
-   "id": "DEF-7",
-   "title": "Say 'nobody measured this' instead of 'measured worse'",
-   "origin": "planned",
-   "stage": "code written",
-   "outcome": "done"
-  },
-  {
-   "id": "DEF-8",
-   "title": "The two run scripts build their commands from the policy file",
+   "id": "HM-7",
+   "title": "A bad event record crashed the journal writer",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done",
-   "note": "they used to keep their own copy of five models"
+   "note": "malformed input now exits with a message"
   },
   {
-   "id": "DEF-9",
-   "title": "Retire five older lanes, with the reasons kept",
+   "id": "HM-8",
+   "title": "Process families are matched against the whole command line",
    "origin": "planned",
-   "stage": "code written",
-   "outcome": "done"
-  },
-  {
-   "id": "DEF-10",
-   "title": "A lane scoring level with the yardstick is no longer refused",
-   "origin": "carried over",
-   "stage": "code written",
-   "outcome": "done",
-   "note": "found while checking the new table prints"
-  },
-  {
-   "id": "CLR-1",
-   "title": "Four equal lanes for a second opinion, across three vendors",
-   "origin": "planned",
-   "stage": "code written",
-   "outcome": "done"
-  },
-  {
-   "id": "CLR-2",
-   "title": "Say plainly that a hard question is not a hard problem",
-   "origin": "planned",
-   "stage": "code written",
-   "outcome": "done"
-  },
-  {
-   "id": "CLR-3",
-   "title": "Re-measure the command-line facts and date each one",
-   "origin": "planned",
-   "stage": "code written",
-   "outcome": "done"
-  },
-  {
-   "id": "CLR-4",
-   "title": "Fix three faults in the does-it-trigger check",
-   "origin": "carried over",
-   "stage": "code written",
-   "outcome": "done",
-   "note": "it was scoring a correct run as a miss"
+   "stage": "being checked",
+   "outcome": "stuck",
+   "note": "measured at 2 wrong matches in 112, both already caught by another guard",
+   "blocked_by": "not worth a change at that size; left with the measurement recorded",
+   "waiting_hours": 0
   }
  ],
  "gates": [
   {
-   "name": "The policy agrees with itself",
-   "command": "defer/skills/defer/scripts/selftest.sh",
+   "name": "The skill's own checks",
+   "command": "bash tests/run.sh",
    "exit_code": 0,
-   "counts": "53/53",
+   "counts": "11/11",
    "state": "done",
    "kind": "tests"
   },
   {
-   "name": "Does the skill fire when it should, and stay quiet when it should not",
-   "command": "clarify/evals/run_trigger_check.sh",
+   "name": "The mechanism still works on this Mac",
+   "command": "scripts/selftest.sh",
    "exit_code": 0,
-   "counts": "2/2",
+   "counts": "10/10",
    "state": "done",
    "kind": "tests"
   },
   {
-   "name": "Every script still parses",
-   "command": "python3 -m py_compile; bash -n",
+   "name": "Every memory reading lands in the right band",
+   "command": "table probe over the ten memory cases",
    "exit_code": 0,
-   "counts": "6/6",
+   "counts": "10/10",
    "state": "done",
-   "kind": "build"
+   "kind": "tests"
   },
   {
-   "name": "A real job runs end to end on the new lane",
-   "command": "lane_run.sh referral \"...\"",
+   "name": "The wording of the five changed documents",
+   "command": "agent_voice_lint.py --format skill",
    "exit_code": 0,
-   "counts": "1/1",
+   "counts": "5/5",
    "state": "done",
-   "kind": "build"
-  },
-  {
-   "name": "Each lane answers when asked directly",
-   "command": "lane_probe.sh",
-   "exit_code": 0,
-   "counts": "1/2",
-   "state": "needs-work",
-   "kind": "build"
+   "kind": "design"
   }
  ],
  "armed": [
   {
-   "check": "A made-up model name is caught, not quietly accepted",
-   "mutation": "asked codex for a model that does not exist",
-   "case_reddened": "refused with a 400 and wrote no answer file",
+   "check": "The guard against invented command flags",
+   "mutation": "my own comment named a script followed by a word",
+   "case_reddened": "the guard failed the run and named the line",
    "red": 1,
-   "green": 4,
-   "sha": "9bc35cb",
-   "armed": true
-  },
-  {
-   "check": "A made-up thinking level is caught",
-   "mutation": "asked for a thinking level that does not exist",
-   "case_reddened": "refused with a 400 and wrote no answer file",
-   "red": 1,
-   "green": 4,
-   "sha": "9bc35cb",
-   "armed": true
-  },
-  {
-   "check": "The strongest lanes really are out of reach",
-   "mutation": "asked all eight ordinary kinds of work for a lane",
-   "case_reddened": "none of them could reach the held-back lanes",
-   "red": 8,
-   "green": 8,
-   "sha": "9bc35cb",
+   "green": 10,
+   "sha": "df4197e",
    "armed": true
   }
  ],
- "corrections": [
+ "findings": [
   {
-   "earlier_claim": "The trigger check reported the near-miss as a false trigger",
-   "said_pct": 0,
-   "true_pct": 100,
-   "true_state": "Both cases behaved correctly all along; the check was scoring them wrong.",
-   "mechanism": "It counted any skill call as this skill firing, then — once fixed — compared against the short name when the tool reports the long one.",
-   "caught_by": "reading which skill was actually named in the saved transcript"
+   "id": "F-1",
+   "score": 30,
+   "severity": "low",
+   "file_line": "plugins/harbourmaster/skills/harbourmaster/scripts/demote.py:54",
+   "claim": "a process family is matched anywhere in the command line, so an argument can stand in for the program",
+   "state": "waived"
+  },
+  {
+   "id": "F-2",
+   "score": 45,
+   "severity": "medium",
+   "file_line": "plugins/harbourmaster/tests/check_surface.py:52",
+   "claim": "the invented-flag guard does not cover install.sh, which is how the bad flag survived",
+   "state": "waived"
+  }
+ ],
+ "coverage": [
+  {
+   "axis": "Scripts in the skill read line by line",
+   "covered": 8,
+   "denominator": 8
+  },
+  {
+   "axis": "Documents checked against what the code does",
+   "covered": 5,
+   "denominator": 5
   }
  ],
  "not_checked": [
   {
-   "axis": "How good GPT-6 Astra actually is",
-   "why_not": "No benchmark covers it. It inherits a score from the lane the directive calls its equal, and the page says so wherever that score is used."
+   "axis": "The kernel's two higher memory warnings",
+   "why_not": "This Mac only ever reported the normal level, so the other two are taken from Apple's own constants rather than seen."
   },
   {
-   "axis": "What GPT-6 Astra and Gemini 3.8 cost",
-   "why_not": "No published price. Each stands in at its predecessor's, and the cheapest-wins step steps aside rather than trusting it."
-  },
-  {
-   "axis": "Whether Gemini 3.8 delivers reliably",
-   "why_not": "The 8-of-12 failure rate was measured on 3.7. It is not charged to 3.8; the lane carries the condition instead."
+   "axis": "The two crash fixes under real load",
+   "why_not": "Proved by forcing the slowdown by hand; no automatic test watches them."
   }
  ],
  "not_done": [
   {
-   "action": "Check the GLM lane answers",
-   "reason": "Its proxy refuses every account it has.",
-   "what_would_unblock": "Allow the account in Perch settings, or add a second one.",
-   "size": "a few minutes"
-  },
-  {
-   "action": "Measure what Astra costs per job",
-   "reason": "Nothing publishes a rate, so cost cannot break a tie involving it.",
-   "what_would_unblock": "A published price, or a measured run on a known benchmark.",
-   "size": "half a day"
+   "action": "Bring install.sh under the invented-flag guard",
+   "reason": "install.sh is not a unique name, so the guard would flag every other plugin's copy.",
+   "what_would_unblock": "A rule in the guard that matches a path rather than a filename.",
+   "size": "under an hour"
   }
  ],
  "roadmap": [
   {
    "round": "Next",
-   "goal": "Get the GLM lane answering again",
+   "goal": "Commit the eleven changed files",
    "tasks": [
-    "OPS-1"
+    "HM-1",
+    "HM-2",
+    "HM-3",
+    "HM-4",
+    "HM-5",
+    "HM-6",
+    "HM-7"
    ],
    "tier": "S",
    "status": "blocked",
-   "waits_on": "a Perch account allowed to route",
+   "waits_on": "your go-ahead to commit",
    "estimate_min": [
     3,
-    25
+    12
    ],
-   "median_min": 8
-  },
-  {
-   "round": "Next",
-   "goal": "Point the other skills at the new kinds of work",
-   "tasks": [
-    "DEF-11"
-   ],
-   "tier": "M",
-   "status": "next",
-   "waits_on": "nothing",
-   "estimate_min": [
-    7,
-    56
-   ],
-   "median_min": 15
-  },
-  {
-   "round": "Later",
-   "goal": "Measure Astra properly instead of borrowing a score",
-   "tasks": [
-    "DEF-12"
-   ],
-   "tier": "L",
-   "status": "queued",
-   "waits_on": "a benchmark run",
-   "estimate_min": [
-    14,
-    68
-   ],
-   "median_min": 25
+   "median_min": 5
   }
  ],
  "estimate_remaining": {
   "serial_min": [
-   24,
-   149
+   3,
+   12
   ],
   "parallel_min": [
-   15,
-   75
+   3,
+   12
   ],
-  "median_min": 30,
-  "lanes": 2,
+  "median_min": 5,
+  "lanes": 1,
   "basis": "measured rates (reckon 1,842-agent benchmark)",
-  "tasks_remaining": 3
+  "tasks_remaining": 1
  },
- "artifacts": [
-  {
-   "path": "plugins/defer/skills/defer/references/lanes.md",
-   "kind": "md",
-   "contains": "Which lane does what, what was measured and what was only asserted.",
-   "open_first": true
-  },
-  {
-   "path": "plugins/defer/CHANGELOG.md",
-   "kind": "md",
-   "contains": "Every change to the routing policy and the reason for it."
-  },
-  {
-   "path": "plugins/clarify/CHANGELOG.md",
-   "kind": "md",
-   "contains": "The new second-opinion lanes and the three trigger-check fixes."
-  }
- ],
  "needs_you": [
   {
-   "ask": "Allow an account for the GLM lane in Perch",
+   "ask": "Go-ahead to commit the eleven changed files",
    "kind": "decision",
-   "waiting_since": "2026-09-09T15:30:00+10:00",
-   "one_line": "Its proxy refuses every account it has, so the lane cannot answer."
+   "waiting_since": "2026-09-12T03:10:00Z",
+   "one_line": "All checks pass; nothing is committed yet."
   }
  ],
  "git": {
@@ -775,49 +676,7 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
   "commits_ahead": 0,
   "worktree_clean": false,
   "pushed": false
- },
- "findings": [
-  {
-   "id": "F-01",
-   "score": 78,
-   "severity": "high",
-   "file_line": "defer/skills/defer/scripts/lane_registry.py",
-   "claim": "the best lane for design work was being refused for scoring the same as the yardstick",
-   "state": "done"
-  },
-  {
-   "id": "F-02",
-   "score": 71,
-   "severity": "high",
-   "file_line": "clarify/evals/run_trigger_check.sh",
-   "claim": "the trigger check crashed on one case and mis-scored the other two ways",
-   "state": "done"
-  },
-  {
-   "id": "F-03",
-   "score": 64,
-   "severity": "medium",
-   "file_line": "defer/skills/defer/scripts/lane_pick.py",
-   "claim": "a lane nobody had measured was reported as having measured worse",
-   "state": "done"
-  },
-  {
-   "id": "F-04",
-   "score": 58,
-   "severity": "medium",
-   "file_line": "defer/skills/defer/scripts/lane_pick.py",
-   "claim": "a stand-in price was being ranked against a real one and winning",
-   "state": "done"
-  },
-  {
-   "id": "F-05",
-   "score": 41,
-   "severity": "low",
-   "file_line": "clarify/plugin.json",
-   "claim": "a duplicate description still named last month's models",
-   "state": "done"
-  }
- ]
+ }
 }
 </script>
 

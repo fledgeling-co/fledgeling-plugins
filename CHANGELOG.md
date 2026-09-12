@@ -4,6 +4,30 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-12
+
+### harbourmaster 0.7.0: a full swap file is not a machine out of memory
+
+The governor refused every admission on a Mac with 54 GiB of 128 GiB free. Memory state was derived partly from `sysctl vm.swapusage`, where used over total read 14,116 MB of 15,360 MB — 91.9% — and 90% was both an escalation to `critical` and a hard gate. So the ceiling fell from 12 berths to 3, `available` reported 0, and `demote.py`, which acts only at `critical`, was armed to start moving processes to the efficiency cores.
+
+That ratio cannot carry a decision, because its denominator is the swap file set that happens to exist at the moment it is read. macOS adds files to that set on demand: `/System/Volumes/VM` held fifteen 1 GiB files on 2026-09-12, `swapfile0` stamped 1 September and three of them three minutes old. A reading near 100% therefore means the kernel has not grown the set yet, which is the ordinary state of a machine with days of uptime and paged-out pages belonging to processes long since idle.
+
+Memory now reads available pages the way Activity Monitor counts them, plus `kern.memorystatus_vm_pressure_level` — the kernel's own verdict, returned in 0.002 s, and the signal the kernel acts on itself. It reported 1 (normal) throughout, and `memory_pressure` agreed at 81% free. The hard gate is that level at 4 (critical), where processes are about to be killed. Swap total, used and the ratio stay in the snapshot as evidence and set no state. The three lower rungs are unchanged percentages of available memory; `warn` now lifts the state to `tight` on its own. Ten rungs were probed against the table, including two where `vm_stat` returns nothing, which degrade to `unknown` rather than to the middle.
+
+A sweep of the rest of the skill found seven more defects, six of them fixed.
+
+`demote.py` would never have handed priority back. Auto-restore required `verdict.overall` to reach `healthy`, and `overall` folds in disk, which scheduler priority cannot move: 125.3 GiB free is 6.74% of this 1.8 TiB volume, so disk sits at `busy` and `overall` could not reach `healthy` on this machine at all. It now reads the `cpu` and `memory` axes, the two that demotion answers. Restoring also trusted a bare pid from `demoted.json`, so a pid reused after its process exited would have been promoted to normal priority — including one `governor-run` had clamped to background on purpose. Each entry now records the start time of the process it demoted, and a pid whose start time no longer matches is counted as `skipped_not_ours` and left alone.
+
+Two lanes crashed rather than reporting under exactly the load they exist to measure. Forcing `ps` and `powermetrics` to time out raised `TimeoutExpired` out of the demoter's collector and out of `powermetrics_available()`, with nothing on stdout — on the 60-second LaunchAgent cadence, a traceback in a log and no demotion. Both now return an empty reading, as every call in `pressure.py` already did. `ledger.py record` exits 2 on malformed JSON instead of raising, and a thermal sample that overruns costs the page its thermal section rather than the page.
+
+`thermal.py` told anyone without the powermetrics grant to run `scripts/install.sh --thermal-read`, which has never been a flag; it is `--grants`, which prints the sudoers line and runs nothing. `check_surface.py` does not cover `install.sh`, which is how that survived — `install.sh` is not a unique name, so the guard would flag every other plugin's copy, and the fix is left as recorded work. The guard did fire on the first draft of this change, on a comment of its own that named a script followed by a word.
+
+`references/admission.md` documented `unknown` pressure as a 0.50 multiplier and 6 berths. The code has used 0.25 and 3 since the measured bug where a timed-out read raised the ceiling from 3 to 6 and admitted work the governor had just refused; the table documented the bug rather than the fix.
+
+Left as measured: `demote.py` matches process families against the whole `ps` line, the pattern `pressure.py` replaced with argv0 matching in 0.2.0. Counted here across 1,056 processes it disagrees with argv0 matching on 2 of 112, both `codex` processes matched through an argument, and both already excluded by the agent guard. Recorded rather than changed at that size.
+
+Eleven plugin checks and the ten-case mechanism selftest pass.
+
 ## 2026-09-09
 
 ### defer 1.5.0 and clarify 1.6.0: GPT-6 Astra's thinking levels become the routing decision
