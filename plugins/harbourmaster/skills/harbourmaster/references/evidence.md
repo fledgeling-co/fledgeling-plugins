@@ -52,6 +52,23 @@ Every load-bearing claim, with how it was established. Measured on `Mac16,5`
 | High Power measured at +40% fan RPM and +6.7 W over Automatic at identical load | zephyr fleet measurement, 2026-08-08 |
 | Passwordless `pmset` and `powermetrics` already granted | `sudo -n -l`; `/etc/sudoers.d/zephyr-pmset`, `zephyr-powermetrics`, installed 2026-08-08 |
 
+## The memory signal
+
+Measured 2026-09-12 on the same `Mac16,5`, 11 days of uptime, load 0.67 per core.
+
+| Claim | Source | Result |
+|---|---|---|
+| Swap occupancy reads 91.9% while 54 GiB of 128 GiB is available | `sysctl vm.swapusage`; `vm_stat` free+inactive+speculative | used 14,116 MB of 15,360 MB; available 43% |
+| The kernel calls that state normal | `sysctl kern.memorystatus_vm_pressure_level` | 1 (NORMAL), read in 0.002 s |
+| `memory_pressure` agrees | `memory_pressure` | "System-wide memory free percentage: 81%" |
+| macOS adds swap files on demand, so `total` is an allocation rather than a ceiling | `ls -l /System/Volumes/VM` | fifteen 1 GiB files, `swapfile0` stamped 1 Sep and `swapfile13`–`15` three minutes old |
+| Gating on swap occupancy refused every admission | `berths.py` before the fix | memory `critical`, overall `critical`, ceiling 3, `available` 0, `hard_gate` swap |
+
+The level encoding — 1 NORMAL, 2 WARN, 4 CRITICAL — follows the dispatch
+memorypressure constants. Only level 1 has been observed on this machine, so
+`warn` and `critical` are documented rather than measured, and an unrecognised
+value is reported as `unknown` rather than assumed.
+
 ## Plane constraints
 
 | Claim | Source |

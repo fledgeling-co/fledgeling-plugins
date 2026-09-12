@@ -77,12 +77,43 @@ def save(data: dict) -> None:
     tmp.replace(STATE)
 
 
+def _ps(fmt: str, timeout: float = 20.0) -> str:
+    """One bounded `ps`. Empty string rather than an exception on timeout.
+
+    `ps` slows down under exactly the load this file exists for — pressure.py
+    records a two-pass `ps` taking 59.4s here. Measured 2026-09-12 by forcing
+    the timeout, the unguarded call raised `TimeoutExpired` out of
+    `candidates()`, so the 60-second LaunchAgent wrote a traceback and demoted
+    nothing while reporting neither.
+    """
+    try:
+        return subprocess.run(["ps", "-Axo", fmt], capture_output=True,
+                              text=True, timeout=timeout).stdout
+    except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+        return ""
+
+
+def started_at() -> dict[int, str]:
+    """pid → the process's own start time, as `ps` prints it.
+
+    A pid is not an identity. `demoted.json` outlives the processes in it, and
+    macOS reuses pids, so `taskpolicy -B -p <pid>` against a bare pid can
+    promote a process this tool never demoted — including one `governor-run`
+    deliberately clamped to background. The start time distinguishes the
+    process we demoted from a later tenant of its pid.
+    """
+    stamps = {}
+    for line in _ps("pid=,lstart=", timeout=20.0).splitlines():
+        parts = line.split(None, 1)
+        if len(parts) == 2 and parts[0].isdigit():
+            stamps[int(parts[0])] = parts[1].strip()
+    return stamps
+
+
 def candidates(min_cpu: float, include_agents: bool) -> list[dict]:
     me = os.getuid()
     out = []
-    raw = subprocess.run(
-        ["ps", "-Axo", "pid=,uid=,pcpu=,command="],
-        capture_output=True, text=True, timeout=20).stdout
+    raw = _ps("pid=,uid=,pcpu=,command=")
     for line in raw.splitlines():
         parts = line.split(None, 3)
         if len(parts) < 4:
@@ -108,11 +139,41 @@ def apply(pids: list[int], flag: str) -> list[int]:
     """`-b` demotes, `-B` restores. A pid that has exited is not an error."""
     done = []
     for pid in pids:
-        result = subprocess.run(["taskpolicy", flag, "-p", str(pid)],
-                                capture_output=True, text=True, timeout=10)
+        try:
+            result = subprocess.run(["taskpolicy", flag, "-p", str(pid)],
+                                    capture_output=True, text=True, timeout=10)
+        except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+            continue
         if result.returncode == 0:
             done.append(pid)
     return done
+
+
+def restorable(demoted: dict) -> tuple[list[int], list[int]]:
+    """Split the recorded pids into ones still provably ours, and the rest.
+
+    An entry records the start time of the process it demoted. A pid whose
+    current start time differs belongs to a different process now and is
+    dropped rather than promoted. An entry from before this record existed
+    carries no start time; it is restored and counted as unverified, because
+    stranding a genuinely demoted process at background priority forever is
+    the worse of the two errors.
+    """
+    live = started_at()
+    verified: list[int] = []
+    unverified: list[int] = []
+    for key, value in demoted.items():
+        try:
+            pid = int(key)
+        except ValueError:
+            continue
+        if isinstance(value, dict) and value.get("started"):
+            if live.get(pid) == value["started"]:
+                verified.append(pid)
+            # else: the pid has a new tenant — leave it alone.
+        else:
+            unverified.append(pid)
+    return verified, unverified
 
 
 def main() -> int:
@@ -131,13 +192,16 @@ def main() -> int:
     demoted: dict[str, str] = state.get("demoted", {})
 
     if args.restore:
-        pids = [int(p) for p in demoted]
+        verified, unverified = restorable(demoted)
+        pids = verified + unverified
         restored = apply(pids, "-B") if args.apply else []
         if args.apply:
             state["demoted"] = {}
             save(state)
             ledger.record({"kind": "restore", "detail": f"{len(restored)} processes"})
         print(json.dumps({"action": "restore", "candidates": len(pids),
+                          "skipped_not_ours": len(demoted) - len(pids),
+                          "unverified": len(unverified),
                           "restored": len(restored), "applied": args.apply}, indent=2))
         return 0
 
@@ -147,8 +211,18 @@ def main() -> int:
     # Pressure has to be back to healthy before we hand priority back, not
     # merely off critical — otherwise the machine oscillates between demoting
     # and restoring the same processes every cadence.
-    if pressure == "healthy" and demoted:
-        pids = [int(p) for p in demoted]
+    #
+    # "Healthy" here means the axes demotion actually answers: cpu and memory.
+    # It used to mean `overall`, which folds in disk, and disk is a slow axis
+    # that scheduler priority cannot move. Measured 2026-09-12 on this machine:
+    # 125.3 GiB free is 6.74% of a 1.8 TiB volume, so disk sits at `busy` and
+    # `overall` can never reach `healthy` — every demotion would have been
+    # permanent until someone ran `--restore` by hand, which is the opposite of
+    # what install.sh promises.
+    relevant = (snap["verdict"]["cpu"], snap["verdict"]["memory"])
+    if all(axis == "healthy" for axis in relevant) and demoted:
+        verified, unverified = restorable(demoted)
+        pids = verified + unverified
         restored = apply(pids, "-B") if args.apply else []
         if args.apply:
             state["demoted"] = {}
@@ -156,6 +230,11 @@ def main() -> int:
             ledger.record({"kind": "restore", "detail":
                            f"{len(restored)} processes; pressure healthy"})
         print(json.dumps({"action": "auto-restore", "pressure": pressure,
+                          "cpu": snap["verdict"]["cpu"],
+                          "memory": snap["verdict"]["memory"],
+                          "candidates": len(pids),
+                          "skipped_not_ours": len(demoted) - len(pids),
+                          "unverified": len(unverified),
                           "restored": len(restored), "applied": args.apply}, indent=2))
         return 0
 
@@ -171,8 +250,9 @@ def main() -> int:
 
     if args.apply and applied:
         now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        stamps = started_at()
         for pid in applied:
-            demoted[str(pid)] = now
+            demoted[str(pid)] = {"at": now, "started": stamps.get(pid, "")}
         state["demoted"] = demoted
         save(state)
         ledger.record({"kind": "demote", "detail":

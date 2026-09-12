@@ -140,8 +140,16 @@ takes ten seconds to answer is one nobody calls.
 
 The ceiling scales with the verdict — `healthy` 1.00, `busy` 0.85, `tight` 0.50,
 `critical` 0.25 — and two hard gates close admission entirely regardless of berths:
-disk below 20 GiB free, and swap above 90%. Those two are states where starting
-more work makes the machine worse rather than merely slower.
+disk below 20 GiB free, and `kern.memorystatus_vm_pressure_level` at 4, the
+kernel's own `critical`. Those two are states where starting more work makes the
+machine worse rather than merely slower.
+
+Memory is read from available pages and that kernel level, never from swap
+occupancy. `sysctl vm.swapusage` reports used against the swap file set that
+exists right now, and macOS adds files to that set on demand, so the ratio sits
+near 100% on any machine with days of uptime. Gating on it refused every
+admission at 91.9% swap with 54 GiB of 128 GiB free — `references/evidence.md`
+carries the measurement. Swap stays in the snapshot as evidence and sets no state.
 
 Both disk axes are checked and the stricter wins. This machine has 72 GiB free,
 which sounds comfortable and is 3.9% of the volume; APFS copy-on-write degrades

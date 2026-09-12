@@ -13,7 +13,7 @@ belongs on or how a berth is taken — it changes what counts as *deciding*, and
 
 harbourmaster is unusual among geminify's targets: most of its requirements are already numbers —
 five planes, four verdicts, 80% of core count, multipliers of 1.00/0.85/0.50/0.25, 20 GiB,
-90% swap, a 60 s dwell, a 180 s clear. **[docs]** That is what the health checklist asks for
+kernel pressure level 4, a 60 s dwell, a 180 s clear. **[docs]** That is what the health checklist asks for
 under **Ambiguity**: "Avoid using subjective or relative qualifiers that lack a concrete, measurable
 definition. Instead, provide objective constraints". So the usual work — converting categorical
 scopes into counts — is mostly done here. What is *not* done is the part where a number gets read
@@ -233,8 +233,8 @@ direction here; do not lower the level to save on probes.
 ## What transfers intact
 
 - **The plane table** — five named rows, each with the resource it spends.
-- **Every threshold is already a number** — 80% of cores, the four multipliers, 20 GiB, 90% swap,
-  60 s dwell, 180 s clear. **[measured-family]** That is the one bucket where the benchmark gap
+- **Every threshold is already a number** — 80% of cores, the four multipliers, 20 GiB, kernel
+  pressure level 4, 60 s dwell, 180 s clear. **[measured-family]** That is the one bucket where the benchmark gap
   closes: where the brief states a bound, 74.7 against opus's 75.0.
 - **The exit-code contract** (75 with and without `hard_gate`, 64, other) — a closed set with a
   response per code, already O6's multiple-choice shape.

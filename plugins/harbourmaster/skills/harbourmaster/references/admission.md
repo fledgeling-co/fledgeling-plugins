@@ -12,16 +12,27 @@ ceiling is capacity scaled by measured pressure:
 | busy | 0.85 | 10 |
 | tight | 0.50 | 6 |
 | critical | 0.25 | 3 |
-| unknown | 0.50 | 6 |
+| unknown | 0.25 | 3 |
 
 `critical` does not reach zero on purpose. A governor that admits nothing is
 indistinguishable from a broken one, and the machine cannot drain unless work is
 allowed to finish.
 
+`unknown` takes the same multiplier as `critical` rather than the middle one. A
+pressure read that timed out under load once raised the ceiling from 3 to 6 and
+admitted work the governor had just refused; not knowing is a reason to be careful
+rather than a reason to average.
+
 Two hard gates close admission whatever the berth count says:
 
 - **disk below 20 GiB free** — new work fails on write rather than running slowly.
-- **swap above 90%** — the machine is paging, and concurrency deepens it.
+- **the kernel's memory pressure level at `critical`** (`kern.memorystatus_vm_pressure_level`
+  returning 4) — processes are about to be killed, and concurrency deepens it.
+
+Swap occupancy is not a gate and not a state. `sysctl vm.swapusage` divides used
+by the swap file set that exists now, and macOS grows that set on demand, so the
+ratio approaches 100% as a matter of course. Gating on 90% of it refused every
+admission on a machine with 54 GiB of 128 GiB free.
 
 Both return exit 75 with `retry_after_sec: 300` and advice that says plainly this
 is not a queue you can wait out.
@@ -93,8 +104,21 @@ anything, and only ever calls `taskpolicy`.
 It will not touch processes owned by another user, agent runtimes (`claude`,
 `codex`, `agy`, `grok`) unless `--include-agents` is passed, anything matching the
 never-list (`WindowServer`, `Finder`, `Dock`, terminals, its own scripts), or
-anything it has already demoted. It restores everything once pressure returns to
-`healthy` — `healthy`, not merely off `critical`, so the machine cannot oscillate.
+anything it has already demoted. It restores everything once the `cpu` and
+`memory` axes are both `healthy` — `healthy`, not merely off `critical`, so the
+machine cannot oscillate.
+
+Those two axes rather than `overall`, because `overall` folds in disk and
+scheduler priority cannot move disk. On this machine 125.3 GiB free is 6.74% of a
+1.8 TiB volume, which reads as `busy`, so gating on `overall` made every demotion
+permanent until someone ran `--restore` by hand.
+
+A restore checks identity before it acts. Each recorded pid is stored with the
+start time of the process that was demoted, and a pid whose start time no longer
+matches is left alone: macOS reuses pids, and `taskpolicy -B` against a new
+tenant would promote a process the demoter never touched — including one
+`governor-run` had clamped to background on purpose. The output counts those as
+`skipped_not_ours`.
 
 **The hazard, stated:** demotion can invert priorities, since a demoted process
 holding a lock a normal-priority process waits on now holds it longer. macOS

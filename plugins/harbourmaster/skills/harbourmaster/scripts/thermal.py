@@ -63,20 +63,38 @@ NEAR_TOP_FLOOR = 0.02       # a busy cluster spending under 2% of its active
 MIN_SAMPLES = 6
 
 
+def _run(argv: list[str], timeout: float) -> subprocess.CompletedProcess | None:
+    """Bounded, and `None` rather than an exception when it does not finish.
+
+    Every call in this file reaches a tool that slows down under exactly the
+    load the file exists to measure. An uncaught `TimeoutExpired` reaches the
+    caller as a traceback where every lane here contracts to emit JSON —
+    measured 2026-09-12 by making `ps` and `powermetrics` time out: the
+    `candidates()` collector in the demoter and `powermetrics_available()` here
+    both raised, with nothing on stdout. On the 60-second LaunchAgent cadence
+    that is a log line and no demotion rather than a refusal anyone can read.
+    """
+    try:
+        return subprocess.run(argv, capture_output=True, text=True, timeout=timeout)
+    except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+        return None
+
+
 def powermetrics_available() -> tuple[bool, str]:
     """Can we read frequency at all? Never prompts for a password."""
-    probe = subprocess.run(
-        ["sudo", "-n", "powermetrics", "-n", "1", "-i", "200",
-         "--samplers", "cpu_power"],
-        capture_output=True, text=True, timeout=25,
-    )
+    probe = _run(["sudo", "-n", "powermetrics", "-n", "1", "-i", "200",
+                  "--samplers", "cpu_power"], timeout=25)
+    if probe is None:
+        return False, ("the powermetrics probe did not return within 25s — "
+                       "unreadable right now, not a claim about the machine")
     if probe.returncode == 0 and probe.stdout.strip():
         return True, "readable"
     err = (probe.stderr or "").strip().splitlines()
     reason = err[-1] if err else "no output"
     if "password" in reason.lower() or "sudo:" in reason:
         reason = ("powermetrics needs root and no passwordless rule is installed "
-                  "— run scripts/install.sh --thermal-read")
+                  "— run scripts/install.sh --grants, which prints the sudoers "
+                  "line to add and runs nothing itself")
     return False, reason
 
 
@@ -127,12 +145,10 @@ def parse_clusters(text: str) -> list[dict]:
 def sample(duration: float, interval_ms: int = 1000) -> list[list[dict]]:
     """Collect per-cluster residency over `duration` seconds."""
     count = max(MIN_SAMPLES, int(duration * 1000 / interval_ms))
-    proc = subprocess.run(
-        ["sudo", "-n", "powermetrics", "-n", str(count), "-i", str(interval_ms),
-         "--samplers", "cpu_power"],
-        capture_output=True, text=True, timeout=duration + 90,
-    )
-    if proc.returncode != 0:
+    proc = _run(["sudo", "-n", "powermetrics", "-n", str(count), "-i",
+                 str(interval_ms), "--samplers", "cpu_power"],
+                timeout=duration + 90)
+    if proc is None or proc.returncode != 0:
         return []
     frames, current = [], []
     for line in proc.stdout.splitlines():
@@ -208,8 +224,8 @@ def save_state(state: dict) -> None:
 
 def current_power_mode() -> dict:
     """`pmset -g custom` reports per power source; the wrong branch lies."""
-    out = subprocess.run(["pmset", "-g", "custom"], capture_output=True,
-                         text=True, timeout=10).stdout
+    proc = _run(["pmset", "-g", "custom"], timeout=10)
+    out = proc.stdout if proc else ""
     modes, section = {}, None
     for line in out.splitlines():
         if line.startswith("Battery Power"):
@@ -233,8 +249,9 @@ def set_power_mode(value: int, source: str = "ac") -> tuple[bool, str]:
         return False, f"refusing unknown powermode {value}"
     if source != "ac":
         return False, "only the AC branch is ever written"
-    proc = subprocess.run(["sudo", "-n", "pmset", "-c", "powermode", str(value)],
-                          capture_output=True, text=True, timeout=15)
+    proc = _run(["sudo", "-n", "pmset", "-c", "powermode", str(value)], timeout=15)
+    if proc is None:
+        return False, "pmset did not return within 15s; power mode unchanged"
     if proc.returncode != 0:
         return False, (proc.stderr or "pmset refused").strip().splitlines()[-1]
     return True, f"powermode set to {value} on AC"
