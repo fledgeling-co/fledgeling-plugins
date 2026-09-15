@@ -36,6 +36,7 @@ const SITE_DIR = dirname(dirname(fileURLToPath(import.meta.url)));
 const REPO_DIR = dirname(SITE_DIR);
 const PLUGINS_DIR = join(REPO_DIR, "plugins");
 const MARKETPLACE = join(REPO_DIR, ".claude-plugin", "marketplace.json");
+const CURSOR_MARKETPLACE = join(REPO_DIR, ".cursor-plugin", "marketplace.json");
 const ROOT_README = join(REPO_DIR, "README.md");
 
 const AUDIT_SHEET = join(
@@ -233,6 +234,10 @@ function findFirst(dir, matcher, depth = 4) {
 const marketplace = JSON.parse(readFileSync(MARKETPLACE, "utf8"));
 const registered = new Map(marketplace.plugins.map((p) => [p.name, p]));
 const rootReadme = readFileSync(ROOT_README, "utf8");
+const cursorMarketplace = existsSync(CURSOR_MARKETPLACE)
+  ? JSON.parse(readFileSync(CURSOR_MARKETPLACE, "utf8"))
+  : null;
+const cursorRegistered = new Map((cursorMarketplace?.plugins ?? []).map((p) => [p.name, p]));
 
 /**
  * The row index of the first entry under "## The skills". That one entry does
@@ -279,6 +284,27 @@ for (const name of dirs) {
     fail(name, "registration", `not in .claude-plugin/marketplace.json, so it cannot be installed. Add { "name": "${name}", "source": "./plugins/${name}", "version": "${manifest.version}", "category": ... }.`);
   } else if (entry.version !== manifest.version) {
     fail(name, "registration", `plugin.json says ${manifest.version}, marketplace.json says ${entry.version}.`);
+  }
+
+  const cursorManifestPath = join(dir, ".cursor-plugin", "plugin.json");
+  const cursorEntry = cursorRegistered.get(name);
+  if (!cursorMarketplace) {
+    fail(name, "registration", `no .cursor-plugin/marketplace.json. Run node site/scripts/build-catalogue.mjs so Cursor can index this marketplace.`);
+  } else if (!cursorEntry) {
+    fail(name, "registration", `not in .cursor-plugin/marketplace.json. Run node site/scripts/build-catalogue.mjs — Cursor's catalog is generated from the Claude one.`);
+  } else if (cursorEntry.source.replace(/^\.\//, "") !== `plugins/${name}`) {
+    fail(name, "registration", `.cursor-plugin/marketplace.json source is "${cursorEntry.source}", expected plugins/${name}.`);
+  }
+  if (!existsSync(cursorManifestPath)) {
+    fail(name, "registration", `plugins/${name}/ has no .cursor-plugin/plugin.json. Run node site/scripts/build-catalogue.mjs.`);
+  } else {
+    const cursorManifest = JSON.parse(readFileSync(cursorManifestPath, "utf8"));
+    if (cursorManifest.name !== name) {
+      fail(name, "registration", `.cursor-plugin/plugin.json name "${cursorManifest.name}" does not match its directory.`);
+    }
+    if (cursorManifest.version !== manifest.version) {
+      fail(name, "registration", `.cursor-plugin/plugin.json says ${cursorManifest.version}, Claude plugin.json says ${manifest.version}.`);
+    }
   }
 
   // --- root README row ----------------------------------------------------
@@ -479,6 +505,18 @@ for (const name of registered.keys()) {
   if (!dirs.includes(name)) {
     failures.push({ plugin: name, dimension: "registration", message: `registered in marketplace.json with no plugins/${name}/ directory.` });
   }
+}
+
+if (!cursorMarketplace) {
+  failures.push({
+    plugin: "(root)", dimension: "registration",
+    message: `no .cursor-plugin/marketplace.json. Run node site/scripts/build-catalogue.mjs so Cursor can index this marketplace.`,
+  });
+} else if (cursorRegistered.size !== registered.size) {
+  failures.push({
+    plugin: "(root)", dimension: "registration",
+    message: `.cursor-plugin/marketplace.json has ${cursorRegistered.size} plugins and the Claude catalog has ${registered.size}. Run node site/scripts/build-catalogue.mjs.`,
+  });
 }
 
 // --- report -----------------------------------------------------------------

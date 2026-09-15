@@ -10,6 +10,11 @@
  *   lib/catalogue.json     the typed catalogue every page and the search route reads
  *   public/icons/<n>.png   the 256px icons, copied because Next can't serve files
  *                          from above the app root
+ *   ../../.cursor-plugin/marketplace.json
+ *   ../../plugins/<n>/.cursor-plugin/plugin.json
+ *                          Cursor's native catalog, projected from the Claude
+ *                          manifests so Import from Repo and `agent plugin
+ *                          marketplace add` see the same roster
  *
  * It throws on a missing SKILL.md, a missing icon, or a missing banner (except
  * for the named BANNER_DEBT list). All of those fail silently
@@ -26,10 +31,12 @@ import { referralPlugins } from "./skill-identifiers.mjs";
 const SITE_DIR = dirname(dirname(fileURLToPath(import.meta.url)));
 const REPO_DIR = dirname(SITE_DIR);
 const MARKETPLACE = join(REPO_DIR, ".claude-plugin", "marketplace.json");
+const CURSOR_MARKETPLACE = join(REPO_DIR, ".cursor-plugin", "marketplace.json");
 const ROOT_README = join(REPO_DIR, "README.md");
 const OUT_CATALOGUE = join(SITE_DIR, "lib", "catalogue.json");
 const OUT_ICONS = join(SITE_DIR, "public", "icons");
 const OUT_BANNERS = join(SITE_DIR, "public", "banners");
+const DEFAULT_AUTHOR = { name: "Fledgeling", email: "lukerhodes27@gmail.com" };
 
 const MARKETPLACE_NAME = "fledgeling-plugins";
 
@@ -390,6 +397,66 @@ function absolutiseLinks(markdown, pluginName) {
     });
 }
 
+/**
+ * Cursor's native indexer reads `.cursor-plugin/marketplace.json` and each
+ * plugin's `.cursor-plugin/plugin.json`. Claude's manifests stay the source of
+ * truth; this writes the Cursor copies so a new skill is installable from
+ * Cursor without a fifth hand-edit.
+ *
+ * The Cursor marketplace schema rejects extra fields (`version`, `category`,
+ * `$schema`), so the generated files are a projection, not a copy.
+ */
+function writeCursorMarketplace(marketplace) {
+  const cursorMarketplace = {
+    name: MARKETPLACE_NAME,
+    owner: {
+      name: marketplace.owner?.name || DEFAULT_AUTHOR.name,
+      ...(marketplace.owner?.email || DEFAULT_AUTHOR.email
+        ? { email: marketplace.owner?.email || DEFAULT_AUTHOR.email }
+        : {}),
+    },
+    metadata: {
+      description: marketplace.description || "Fledgeling SWE skills",
+    },
+    plugins: marketplace.plugins.map((entry) => ({
+      name: entry.name,
+      source: entry.source.replace(/^\.\//, ""),
+      description: entry.description || "",
+    })),
+  };
+
+  mkdirSync(dirname(CURSOR_MARKETPLACE), { recursive: true });
+  writeFileSync(CURSOR_MARKETPLACE, `${JSON.stringify(cursorMarketplace, null, 2)}\n`);
+
+  for (const entry of marketplace.plugins) {
+    const dir = join(REPO_DIR, entry.source.replace(/^\.\//, ""));
+    const manifest = JSON.parse(readFileSync(join(dir, ".claude-plugin", "plugin.json"), "utf8"));
+    const author = manifest.author?.name
+      ? {
+          name: manifest.author.name,
+          ...(manifest.author.email ? { email: manifest.author.email } : {}),
+        }
+      : DEFAULT_AUTHOR;
+    const cursorPlugin = {
+      name: entry.name,
+      description: entry.description || manifest.description || "",
+      version: entry.version,
+      author,
+    };
+    if (existsSync(join(dir, "assets", "icon-256.png"))) {
+      cursorPlugin.logo = "assets/icon-256.png";
+    }
+    if (existsSync(join(dir, "skills"))) {
+      cursorPlugin.skills = "skills";
+    } else if (existsSync(join(dir, "SKILL.md"))) {
+      cursorPlugin.skills = "SKILL.md";
+    }
+    const outDir = join(dir, ".cursor-plugin");
+    mkdirSync(outDir, { recursive: true });
+    writeFileSync(join(outDir, "plugin.json"), `${JSON.stringify(cursorPlugin, null, 2)}\n`);
+  }
+}
+
 // --------------------------------------------------------------------- build --
 
 function build() {
@@ -618,6 +685,7 @@ function build() {
   };
 
   writeFileSync(OUT_CATALOGUE, `${JSON.stringify(catalogue, null, 2)}\n`);
+  writeCursorMarketplace(marketplace);
 
   for (const warning of warnings) console.warn(`  build-catalogue: ${warning}`);
   if (looseParses.length > 0) {
@@ -627,6 +695,9 @@ function build() {
   }
   console.log(
     `  build-catalogue: ${skills.length} skills, ${groups.length} groups, ${skills.length} icons -> public/icons/`,
+  );
+  console.log(
+    `  build-catalogue: wrote .cursor-plugin/marketplace.json and ${skills.length} Cursor plugin manifests`,
   );
   console.log(
     `  build-catalogue: ${withBoundary} carry a "NOT for" boundary; ${elsewhere.size} referrals point outside this marketplace (${[...elsewhere].join(", ")})`,

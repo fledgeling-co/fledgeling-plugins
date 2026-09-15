@@ -1,0 +1,11 @@
+{
+  "name": "launch-craft",
+  "description": "Turn repository briefs, plans, code and mocks into traceable OVERVIEW.md and PRD.md documents, then an interactive launch site grounded in the actual product. Runs four phases: product synthesis, positioning and copy, implementation through design-craft:design-craft and ux-craft:ux-craft, and rendered acceptance. Uses the project's confirmed audience, pricing and supported platforms. Use for \"build a launch site for this repo\", \"update the PRD and marketing website\", or \"turn these product briefs into a launch page\".",
+  "version": "0.3.3",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  },
+  "logo": "assets/icon-256.png",
+  "skills": "skills"
+}

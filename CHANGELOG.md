@@ -4,6 +4,14 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-15
+
+### Cursor marketplace catalog
+
+Cursor's native indexer looks for `.cursor-plugin/marketplace.json` at the repository root, not the Claude Code catalog. Without it, `agent plugin marketplace add` and Dashboard → Import from Repo index zero plugins even though the same repo already works in Claude Code.
+
+`build-catalogue.mjs` now writes that file and a `.cursor-plugin/plugin.json` for every skill, projected from the Claude manifests (Cursor's schema rejects the extra fields Claude uses). `check-conformance.mjs` fails if the two catalogs disagree.
+
 ## 2026-09-12
 
 ### harbourmaster 0.7.0: a full swap file is not a machine out of memory
