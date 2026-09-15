@@ -57,6 +57,8 @@ it, and absent from `marketplace.json` it cannot be installed at all.
    refuses to do. This is the page the root README links to.
 4. **The root `README.md` row**, in the `## The skills` section.
 
+Cursor's catalog is generated, not a fifth hand-edit. `site/scripts/build-catalogue.mjs` writes `.cursor-plugin/marketplace.json` and each plugin's `.cursor-plugin/plugin.json` from the Claude manifests. Run the gate after adding a plugin and commit those files, or Cursor's indexer sees an empty marketplace.
+
 ### The root README row has a shape, and it breaks quietly
 
 Copy an existing block exactly. Each entry is four parts in this order, and the

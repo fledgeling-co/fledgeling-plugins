@@ -22,6 +22,12 @@ Fledgeling makes AI-native software for founders and developers; these are the S
 /plugin marketplace add fledgeling-co/fledgeling-plugins
 ```
 
+Cursor from a shell:
+
+```text
+agent plugin marketplace add https://github.com/fledgeling-co/fledgeling-plugins
+```
+
 Then install what you want:
 
 ```text
