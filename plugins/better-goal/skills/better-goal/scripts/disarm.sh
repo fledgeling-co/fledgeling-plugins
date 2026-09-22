@@ -3,25 +3,30 @@
 #
 #   disarm.sh <slug>      disarm that run
 #   disarm.sh --all       disarm every run in this repo
-#   disarm.sh <slug> --keep-hook   leave the Stop hook and block cap in place
+#   disarm.sh --uninstall  also remove the user-scope registration install.sh wrote
 #
-# When no armed run is left, the Stop hook and the block-cap override are
-# removed by default and the cap is restored to whatever it was before arming.
-# Leaving them behind is why "delete the stop hooks" used to be a manual job.
+# Disarming is a state write. The guard stays registered at user scope (it is
+# inert unless a run is armed by the ending session), because removing and
+# re-adding a hook is what forces a restart every time — hook configuration is
+# snapshotted at process start. A per-project registration left by better-goal
+# 2.2.x is still cleaned out of .claude/settings.local.json here, so a later
+# session does not run every gate twice.
 #
 # The watcher is a Monitor in the session, not a file: stop it with TaskStop.
 set -uo pipefail
-ALL=0; KEEP=0; SLUG=""
+ALL=0; KEEP=0; SLUG=""; UNINSTALL=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --all) ALL=1; shift ;;
     --keep-hook) KEEP=1; shift ;;
+    --uninstall) UNINSTALL=1; shift ;;
     --remove) shift ;;   # accepted for compatibility; removal is now the default
     -*) shift ;;
     *) SLUG="$1"; shift ;;
   esac
 done
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SETTINGS="$ROOT/.claude/settings.local.json"
 command -v jq >/dev/null 2>&1 || { echo "jq required"; exit 2; }
 
@@ -39,7 +44,7 @@ STATES=( "$ROOT"/.claude/goals/*.json )
 [ -f "$ROOT/.claude/goal-state.json" ] && STATES+=( "$ROOT/.claude/goal-state.json" )
 [ "${#STATES[@]}" -gt 0 ] || { echo "no runs armed in $ROOT"; exit 0; }
 
-PRIOR_CAP=""; TOUCHED=0
+TOUCHED=0
 for f in "${STATES[@]}"; do
   s="$(jq -r '.slug // ""' "$f" 2>/dev/null || true)"
   [ -n "$s" ] || continue
@@ -49,7 +54,6 @@ for f in "${STATES[@]}"; do
     printf '  %s\n' "$(jq -r '.slug' "${STATES[@]}" 2>/dev/null)"
     exit 2
   fi
-  [ -z "$PRIOR_CAP" ] && PRIOR_CAP="$(jq -r '.prior_block_cap // ""' "$f" 2>/dev/null || true)"
   tmp="$(mktemp)"
   jq --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
      '.armed=false | .ended_at=$t | .end_reason=(.end_reason // "disarmed")' "$f" >"$tmp" && mv "$tmp" "$f"
@@ -64,32 +68,26 @@ for f in "${STATES[@]}"; do
 done
 
 if [ "$REMAINING" -gt 0 ]; then
-  echo "$REMAINING run(s) still armed — leaving the Stop hook registered."
-elif [ "$KEEP" -eq 1 ]; then
-  echo "no runs left armed; --keep-hook given, so the Stop hook stays registered (inert)."
-elif [ -f "$SETTINGS" ]; then
+  echo "$REMAINING run(s) still armed."
+elif [ "$KEEP" -eq 0 ] && [ -f "$SETTINGS" ] && jq -e . "$SETTINGS" >/dev/null 2>&1 \
+     && jq -e '[.. | .command? // "" | strings] | map(test("(better-goal|goal-harness).*(guard|goal-guard|sentinel)\\.sh")) | any' "$SETTINGS" >/dev/null 2>&1; then
+  # Legacy: arm.sh ≤2.2.x registered here per project. Remove ours; leave the
+  # env cap, which is harmless and may be the user's own.
   backup "$SETTINGS"
-  # arm.sh recorded whatever cap was there before it overwrote it. Restore that
-  # rather than deleting the key, so a user who set their own does not lose it.
-  # Passed as a jq --arg: interpolating it into the filter would not expand
-  # inside single quotes, and would be injectable if it did.
   tmp="$(mktemp)"
-  jq --arg pc "$PRIOR_CAP" '
+  jq '
       def ours: test("(better-goal|goal-harness).*(guard|goal-guard|sentinel)\\.sh");
       def strip(ev): if .hooks[ev] then .hooks[ev] = (.hooks[ev] | map(select(
           ((.hooks // []) | map(.command? // "") | map(ours) | any) | not))) else . end
         | if (.hooks[ev] // []) == [] then del(.hooks[ev]) else . end;
       strip("Stop") | strip("StopFailure") | strip("SessionEnd") | strip("SessionStart")
-    | if $pc == "" then del(.env.CLAUDE_CODE_STOP_HOOK_BLOCK_CAP)
-      else .env.CLAUDE_CODE_STOP_HOOK_BLOCK_CAP = $pc end
-    | if (.env // {}) == {} then del(.env) else . end
     | if (.hooks // {}) == {} then del(.hooks) else . end' "$SETTINGS" >"$tmp" && mv "$tmp" "$SETTINGS" \
     || { echo "disarm.sh: settings rewrite failed; $SETTINGS left as it was" >&2; rm -f "$tmp"; exit 2; }
-  if [ -n "$PRIOR_CAP" ]; then
-    echo "removed the Stop, StopFailure, SessionEnd and SessionStart hooks; block cap restored to $PRIOR_CAP in $SETTINGS"
-  else
-    echo "removed the Stop, StopFailure, SessionEnd and SessionStart hooks and the block-cap override from $SETTINGS"
-  fi
+  echo "removed a per-project registration left by an earlier better-goal from $SETTINGS (the user-scope guard is the one that fires)."
+fi
+
+if [ "$UNINSTALL" -eq 1 ]; then
+  "$HERE/install.sh" --remove
 fi
 
 echo "the watcher is a Monitor in the session — stop it with TaskStop, or let it exit on its own (it ends when the run disarms)."

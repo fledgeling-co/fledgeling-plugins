@@ -7,22 +7,31 @@ Ground truth for every claim in `SKILL.md`. Sources: the Claude Code binary
 
 ## The mechanism in one paragraph
 
-`arm.sh` writes `.claude/goals/<slug>.json` and registers `guard.sh` as a
-**command** hook on `Stop`, `StopFailure` and `SessionEnd`, plus `sentinel.sh` on
-`SessionStart`, in `.claude/settings.local.json`. At the end of every turn Claude
-Code runs `guard.sh`, which reads the state file, runs each gate's shell command,
-and either allows the stop or answers `{"decision":"block","reason":…}` — feeding
-the reason back as the run's next instruction. In parallel, `watch.sh` runs under
-`Monitor` and emits a line only when the run's liveness changes. The guard sees
-the end of every turn, the watcher sees the turns that never end, and the
-sentinel sees the runs whose session is already gone.
+`install.sh` registers `guard.sh` once, at user scope in `~/.claude/settings.json`,
+as a **command** hook on `Stop`, `StopFailure` and `SessionEnd`, plus `sentinel.sh`
+on `SessionStart`. `arm.sh` writes `.claude/goals/<slug>.json` and nothing else.
+At the end of every turn Claude Code runs `guard.sh`, which reads the state file,
+runs each gate's shell command, and either allows the stop or answers
+`{"decision":"block","reason":…}` — feeding the reason back as the run's next
+instruction. In parallel, `watch.sh` runs under `Monitor` and emits a line only
+when the run's liveness changes. The guard sees the end of every turn, the
+watcher sees the turns that never end, and the sentinel sees the runs whose
+session is already gone.
 
-## The hook may be written correctly and never load
+## Hook configuration is snapshotted at process start
 
-Claude Code snapshots hook configuration and then watches for changes, but the
-watcher **only watches directories that already held a settings file when the
-session started**. The wording is Anthropic's own, from the `update-config` skill
-bundled in the 2.1.247 binary:
+A hook registration written into any settings file while a session is running is
+stored correctly and is not loaded by that session. It loads when the user opens
+`/hooks` or restarts. This holds whether or not the file already existed.
+
+Measured on 2.1.260, session `bf0a6e61`, 2026-09-22: every `stop_hook_summary`
+record from 12 Sep 06:11Z to 22 Sep 02:56Z — 948 consecutive turns — lists the
+same three Stop hooks, and `guard.sh` is not among them, while
+`.claude/settings.local.json` was rewritten by `arm.sh` and `disarm.sh` four times
+in that window (20 Sep 10:10Z, 21 Sep 13:40Z twice, 21 Sep 13:40Z) and carried the
+guard in three of the four. `settings_preexisted` was `true` throughout. The
+earlier reading — that only a `.claude/` with no settings file at session start
+fails to load — came from the `update-config` skill bundled in the 2.1.247 binary:
 
 > the settings watcher isn't watching `.claude/` — it only watches directories
 > that had a settings file when this session started. The hook is written
@@ -30,20 +39,32 @@ bundled in the 2.1.247 binary:
 > you can't do this yourself; `/hooks` is a user UI menu and opening it ends this
 > turn.
 
-So arming into a repo whose `.claude/` was empty at session start produces a run
-that looks armed and verifies nothing. Observed on 2026-08-26: a run proved it
-in-session by piping a payload to `guard.sh` by hand and getting the block
-decision the harness had never produced on its own, then spent the rest of its
-life running the gates manually.
+That describes a narrower case than the one measured, and `arm.sh` ≤2.2.x printed
+"should load live" from it. The run then built its own verifier
+(`goal-verify-loop.sh`, one ledger row every ten minutes) and sat idle for twelve
+hours behind seventy-seven identical rows.
 
-The same skill notes that `Stop` fires outside the turn, so the in-turn proof it
-prescribes for `PreToolUse`/`PostToolUse` hooks does not exist here. The proof is
-the first ledger row instead: `arm.sh` writes `hook_live: "unproven"`, the guard
-stamps `proven` on its first real firing, and `status.sh`, `watch.sh` and
-`sentinel.sh` each report the unproven state rather than assuming it works.
+Two consequences shape the harness now:
 
-`arm.sh` records `settings_preexisted` before it writes, because afterwards both
-cases look identical.
+- **Register once, at user scope, and arm by writing state.** The guard exits in
+  milliseconds in any session that has nothing armed, so it is safe everywhere,
+  and a registration that was in the snapshot at startup is loaded for every
+  later session. `arm.sh` runs `install.sh` when no registration exists.
+- **Read load state from a heartbeat, never from the settings files.** `guard.sh`
+  writes `~/.claude/better-goal/live/<session_id>.json` on every event it
+  receives, before it looks for a goals directory, and `sentinel.sh` writes the
+  same file at `SessionStart` with the list of settings files that carried the
+  guard at that moment. `arm.sh`, `preflight.sh` and `install.sh` read the file
+  for the current `CLAUDE_CODE_SESSION_ID`. A `Stop` heartbeat proves the guard
+  fired; a `SessionStart` heartbeat with a non-empty list proves the guard was in
+  the same snapshot as the sentinel. No heartbeat means not loaded, whatever the
+  files say. The state records `hook_live` and `hook_evidence` (`guard`,
+  `sentinel` or `none`).
+
+`Stop` fires outside the turn, so the in-turn proof the `update-config` skill
+prescribes for `PreToolUse`/`PostToolUse` hooks does not exist here; the
+`SessionStart` heartbeat is what makes the answer available inside the arming
+turn at all.
 
 ## The events a Stop hook does not cover
 
@@ -65,12 +86,20 @@ rather than in a block reason.
 `SIGKILL` reaches none of these, so the sentinel re-checks state at every session
 start rather than trusting the events alone.
 
-## Liveness comes from the transcript
+## Liveness comes from the guard's stamp and the transcript
 
-A session's transcript at `$CLAUDE_CONFIG_DIR/projects/*/<session_id>.jsonl` is
+Two signals, and the ledger's mtime is deliberately not one of them. `guard.sh`
+writes `last_guard_at` into the state file on every `Stop` it handles for an
+armed slug, so "when did the guard last run" is answered by the guard. A
+session's transcript at `$CLAUDE_CONFIG_DIR/projects/*/<session_id>.jsonl` is
 appended to as the turn runs; measured on a live session, its mtime was 6 seconds
-old mid-turn. That is the only liveness signal readable from outside the session,
-and it separates a long turn from a dead run — which the ledger alone cannot do.
+old mid-turn. Together they separate a long turn from a dead run.
+
+The ledger's mtime was the earlier signal, and it is what a substitute verifier
+defeats: a loop appending a row every ten minutes keeps the ledger permanently
+fresh, so the 2.2.x watcher read `QUIET` under its threshold for twelve idle hours
+and never emitted `STALL`. `watch.sh` now emits `FOREIGN` once when the ledger
+moves while the guard has never run.
 
 The cost of not having it: across 14 real runs, 56 `STALL` notifications were
 delivered, 34 of them within ten minutes of an assistant message and 22 in the
@@ -207,10 +236,14 @@ the commands the brief names.
 
 Hooks merge across levels rather than replacing each other. Identical handlers
 defined in more than one settings file run once; a plugin's or skill's copy stays
-separate. `arm.sh` writes to `.claude/settings.local.json` — project scope,
-gitignored — so an armed run never leaks into a teammate's checkout. `disarm.sh`
-removes the hook and restores whatever block cap was there before arming, once
-no run in the repo is still armed.
+separate. `install.sh` writes to `~/.claude/settings.json` — user scope — so the
+guard is in every session's startup snapshot and arming never has to touch hook
+configuration again. The state file that makes it act is per-repo, per-slug and
+gitignored, so an armed run never leaks into a teammate's checkout. `disarm.sh`
+leaves the registration in place (inert without armed state) and strips any
+per-project copy that 2.2.x left in `.claude/settings.local.json`, so the next
+session does not run every gate twice; `disarm.sh --uninstall` or
+`install.sh --remove` takes the user-scope registration out.
 
 ## Resume behaviour
 
@@ -218,7 +251,8 @@ The state file and ledger survive `/clear`, `--resume` and a lost session; the
 guard picks up where the ledger left off. What does not survive is the session
 id: after a resume the hook payload carries a new one and the guard goes inert.
 Re-arm with `arm.sh` from the resumed session, which rewrites `session_id` and
-keeps the iteration count and ledger intact.
+keeps the ledger intact. The resumed session's `SessionStart` wrote a fresh
+heartbeat, so `arm.sh` can say in the same turn whether the guard is loaded.
 
 ## Non-interactive
 
