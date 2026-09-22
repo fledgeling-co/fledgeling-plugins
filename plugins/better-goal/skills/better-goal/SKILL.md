@@ -14,10 +14,11 @@ skill builds all three out of command hooks, a monitor, and a file.
 Two of those live inside the session, so a third has to live outside it. A Stop
 hook cannot fire for a turn that ended on an API error, and a `Monitor` dies with
 the session that armed it — which is how one run sat at `armed: true` on turn 17
-for fourteen days with nobody told. `arm.sh` therefore registers four events, not
-one: `Stop` runs the gates, `StopFailure` and `SessionEnd` record the deaths the
-guard never sees, and `SessionStart` reports what is still armed to the next
-session that opens the repo.
+for fourteen days with nobody told. `install.sh` therefore registers four events,
+not one, once, at user scope: `Stop` runs the gates, `StopFailure` and
+`SessionEnd` record the deaths the guard never sees, and `SessionStart` reports
+what is still armed to the next session that opens the repo. Arming is then a
+state write, because a hook written mid-session loads only in the next session.
 
 It does not use `/goal`. That command registers a prompt Stop hook whose verdict
 comes from a small model reading the transcript — so it is judged on what the
@@ -89,41 +90,54 @@ repo root, every turn.
 | Check | Why it matters |
 |---|---|
 | Hooks enabled; `disableAllHooks` / `allowManagedHooksOnly` unset | The guard is a hook. Without hooks there is no harness |
-| A settings file already in `.claude/` | Claude Code watches only directories that held one when the session started, so a hook armed into an empty `.claude/` is written correctly and never fires |
+| The guard is loaded in this session | Hook configuration is snapshotted at process start, so a registration written mid-session loads only after `/hooks` or a restart. The check reads the heartbeat the sentinel or guard wrote under this session id, never the settings files |
 | Permission mode | Nothing here changes permissions; in default mode an unallowed tool call stalls the run until someone answers |
-| `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` | Default 8 consecutive blocks, then Claude Code overrides the hook and ends the turn as `completed` |
+| `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` | Default 8 consecutive blocks, then Claude Code overrides the hook and ends the turn as `completed`. Env is snapshotted at start too, so the value in force is the one the heartbeat recorded |
 | Every skill named in the brief | A skill Claude may not invoke on its own arrives at a scheduled fire as plain text |
 | Resource contention | Simulators, metro instances, ports, remote hosts — an evidenced stall cause |
 | Context headroom and worktree state | A run armed at 90% context spends its turns compacting |
 
 Report what failed and what you propose. Do not proceed past a failure silently.
 
-### 5. Apply config, showing the diff first
+### 5. Show the diff first
 
-`scripts/arm.sh --dry-run` prints the exact before/after for every file it would
-touch and writes nothing. Run it and inspect the exact scope. If the user already authorized arming this goal and the diff is limited to its project-local hook/state, apply it and report the result. Ask only for settings outside that authorization or changes affecting other sessions; show that concrete diff first.
+`scripts/arm.sh --state <file> --dry-run` prints the state file it would write,
+names any per-project registration left by an earlier version that it would
+remove, and says whether `install.sh` would also have to register the guard at
+user scope. It writes nothing. If the user already authorized arming this goal,
+apply it and report the result; ask first only for a change outside that
+authorization, and show that concrete diff.
 
 ### 6. Arm the guard
 
 `scripts/arm.sh --state <file>` writes `.claude/goals/<slug>.json` (armed flag,
-session id, iteration counter, deadline, gates, ledger path, stuck bound) and
-registers `scripts/guard.sh` on `Stop`, `StopFailure` and `SessionEnd`, plus
-`scripts/sentinel.sh` on `SessionStart`. It replaces any registration from an
-earlier version rather than adding beside it: matching on the exact path let one
-repo accumulate two guards and run every gate twice a turn.
+session id, iteration counter, deadline, gates, ledger path, stuck bound). It
+does not write hooks. The guard is registered once, at user scope, by
+`scripts/install.sh` — `arm.sh` runs it when no registration exists — on `Stop`,
+`StopFailure` and `SessionEnd`, with `scripts/sentinel.sh` on `SessionStart`.
+`install.sh` replaces a registration from an earlier version rather than adding
+beside it: matching on the exact path let one repo accumulate two guards and
+run every gate twice a turn.
 
-**Read the hook-load line it prints.** Claude Code watches only directories that
-already held a settings file when the session started, so arming into an empty
-`.claude/` writes the hook correctly and never loads it. `arm.sh` records which
-case this is and says so. When it reports the hook as not loaded, tell the user
-to open `/hooks` once or restart, say plainly that nothing is armed until they
-do, and run the gates by hand meanwhile. `/hooks` is a UI menu, so you cannot do
-it yourself and opening it ends the turn.
+**Read the hook-load line it prints, and act on which of the three it is.**
+Claude Code snapshots hook configuration when the process starts. A hook written
+into any settings file mid-session, whether or not that file already existed, is
+stored correctly and loads in the next session, not this one: on 2.1.260 the same
+three Stop hooks ran for 948 consecutive turns across four rewrites of
+`settings.local.json`, with the guard in none of them. So `arm.sh` decides from a
+heartbeat file, not from the settings on disk:
 
-The state carries `hook_live: "unproven"` until the guard's first real firing
-stamps it `proven`. A Stop hook fires after the turn, so there is no in-turn
-proof: the first ledger row is the proof. `status.sh`, the watcher and the
-sentinel all report an unproven guard rather than assuming it works.
+| line | evidence | what to do |
+|---|---|---|
+| `LIVE — the guard already fired in this session` | `guard.sh` wrote `~/.claude/better-goal/live/<session_id>.json` on a `Stop` | Nothing. `hook_live: "proven"`; the gates run at the end of this turn |
+| `LIVE — the sentinel fired at this session's start with the guard registered beside it` | `sentinel.sh` wrote the heartbeat at `SessionStart` and recorded which settings files carried the guard | Nothing. Same snapshot, same load; the first ledger row lands at the end of this turn |
+| `HOOK NOT LOADED IN THIS SESSION` | no heartbeat under this session id | Tell the user to restart Claude Code (or open `/hooks` once), then re-run `arm.sh` from that session. Say plainly that nothing is armed until then. `/hooks` is a UI menu, so you cannot do it yourself and opening it ends the turn |
+
+When the third line prints, the one thing to refuse is a substitute. A loop that
+runs the gates and appends ledger rows cannot block a turn ending, so it verifies
+nothing — and because it keeps the ledger fresh, it blinds the watcher that would
+have reported the stall. One run built exactly that, and sat idle for twelve hours
+behind seventy-seven identical rows written every ten minutes.
 
 Two properties make this safe to leave running:
 
@@ -153,17 +167,20 @@ or a workflow whose agents all failed, because no event fires for those at all.
 
 `scripts/watch.sh <slug>` is built for that: run it under `Monitor` with
 `persistent: true` and it emits a line only on a transition — the guard never
-firing (`NOTLIVE`), the run going cold (`STALL`), the ledger moving again
-(`RESUMED`), or the state disarming (`DONE`, `ENDED`, `GONE`).
+firing (`NOTLIVE`, repeated on a doubling backoff while it stays true), something
+other than the guard writing the ledger (`FOREIGN`, once), the run going cold
+(`STALL`), the guard running again (`RESUMED`), or the state disarming (`DONE`,
+`ENDED`, `GONE`).
 
-Liveness comes from the session's own transcript, not from the ledger alone. A
-turn that runs longer than the stale threshold is normal here: of 56 `STALL`
-notifications measured across 14 real runs, 34 arrived within ten minutes of an
-assistant message, so the watcher was waking a working session to ask whether it
-had died, at the price of the whole session prefix each time. The watcher now
-reads the transcript's mtime, stays silent while the session is writing, and
-derives its own threshold from the run's median turn length (`--stale N` pins
-it, `--alive 0` turns the transcript check off).
+Liveness is the guard's own `last_guard_at` stamp plus the session's transcript,
+never the ledger's mtime, which any process can refresh. A turn that runs longer
+than the stale threshold is normal here: of 56 `STALL` notifications measured
+across 14 real runs, 34 arrived within ten minutes of an assistant message, so
+the watcher was waking a working session to ask whether it had died, at the price
+of the whole session prefix each time. The watcher reads the transcript's mtime,
+stays silent while the session is writing, and derives its threshold from the
+run's median turn length (`--stale N` pins it, `--alive 0` turns the transcript
+check off).
 
 ```
 Monitor({ command: "<plugin>/scripts/watch.sh ship-remaining-work",
@@ -184,8 +201,8 @@ Close with one block, not a narrative: the slug and its finish line, the gates
 the guard runs each turn, whether the hook is loaded in this session, the bounds
 (iterations, deadline, stuck limit), the watcher and what wakes it, where the
 ledger is, how to read status (`scripts/status.sh`), and how to stop early
-(`scripts/disarm.sh <slug>`, which removes all four hook registrations and the
-raised block cap together).
+(`scripts/disarm.sh <slug>`; the user-scope registration stays, inert, so the
+next arming needs no restart — `disarm.sh --uninstall` removes it too).
 
 Where the hook is not loaded, that line goes first and says the run is not armed
 yet. A report that opens on the gates and mentions it in the last line has
@@ -207,10 +224,11 @@ Each now writes a ledger row and a distinct `end_reason`.
   leaving it armed is what made a dead run look like a quiet one. Re-arming from
   a resumed session rewrites `session_id` and sets it armed again, keeping the
   iteration count and the ledger.
-- **`SessionStart`** runs `sentinel.sh`, which reports armed runs whose guard has
-  never fired, armed runs that have gone cold while their session is silent, and
-  endings nobody has been told about yet. It says each ending once, and says
-  nothing when every run is healthy.
+- **`SessionStart`** runs `sentinel.sh`, which writes the heartbeat `arm.sh`
+  reads, then reports armed runs whose guard has never fired, armed runs whose
+  guard has not run for an hour while their session is silent, and endings
+  nobody has been told about yet. It says each ending once, and says nothing
+  when every run is healthy.
 
 A `SIGKILL` reaches none of these, which is why the sentinel checks state on
 every session start rather than trusting the events alone.
@@ -261,8 +279,10 @@ id plus the `Monitor` call. Say plainly that nothing is armed yet.
 
 - **A finish line nothing can settle is a defect.** Rewrite it before arming
   rather than arming a gate that passes whenever the run says it should.
-- **A hook you cannot prove fired is not armed.** Report `hook_live` rather than
-  the state file's `armed` flag, because the two disagree exactly when it matters.
+- **A hook you cannot prove loaded is not armed.** Report `hook_live` and its
+  `hook_evidence` rather than the state file's `armed` flag, because the two
+  disagree exactly when it matters. A ledger row written by anything other than
+  `guard.sh` is not evidence either.
 - **Never arm past a failed preflight.** A run that stalls on a permission prompt
   at 3am looks exactly like a run that finished.
 - **Bound every run.** Iterations, a deadline and a stuck limit, all in the state

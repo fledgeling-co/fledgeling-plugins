@@ -9,7 +9,9 @@ run has just failed them.
 Modes 16-18 come from a second corpus: 22 better-goal runs across 14 projects
 between 2026-08-13 and 2026-08-27, read from their own state files, ledgers and
 session transcripts. That corpus is why the harness now registers four hook
-events rather than one.
+events rather than one. Mode 19 is one run on 2026-09-21/22, read from its
+transcript's `stop_hook_summary` records, and is why registration moved to user
+scope and liveness moved off the ledger.
 
 ## 1. The run stops and reports nothing
 
@@ -233,15 +235,21 @@ start, so nothing has been appending rows while I've been working."* And, from
 the same run: *"proven by running `guard.sh` by hand, which emitted…"* — the
 script was correct; it was never invoked.
 
-**Cause:** Claude Code's settings watcher watches only directories that already
-held a settings file when the session started, so a hook written into an empty
-`.claude/` mid-session never loads. Both cases look identical after the write.
+**Cause:** hook configuration is snapshotted when the process starts. A
+registration written mid-session loads in the next session, not this one. The
+2.2.x reading — that this happened only when `.claude/` held no settings file at
+session start — was narrower than the truth; mode 19 measured the same outcome
+with the file present.
 
-**Fix:** `arm.sh` records `settings_preexisted` before writing and prints which
-case it is; `preflight.sh` warns on it; the state carries `hook_live: "unproven"`
-until the guard's first firing stamps it `proven`, and `status.sh`, `watch.sh`
-(`NOTLIVE`) and `sentinel.sh` all report the unproven state. The recovery is the
-user opening `/hooks` once or restarting — a UI menu the model cannot open.
+**Fix:** `install.sh` registers the guard once at user scope so it is in every
+later session's snapshot; `arm.sh` writes state only, runs `install.sh` when no
+registration exists, and reads load state from the heartbeat the sentinel or
+guard wrote under the current session id. `hook_live` is `"proven"` only on that
+evidence (`hook_evidence: guard|sentinel`); `preflight.sh` blocks, and
+`status.sh`, `watch.sh` (`NOTLIVE`, repeated on backoff) and `sentinel.sh` all
+report an unproven guard. The recovery when it is not loaded is a restart or
+`/hooks` — a UI menu the model cannot open — and then re-arming from the new
+session.
 
 ## 17. The run died on an API error, and the guard was never asked
 
@@ -278,10 +286,39 @@ length rather than a constant.
 
 ---
 
-## The pattern behind all eighteen
+## 19. The run built its own verifier and blinded the watcher
+
+**Evidence:** a `roadmap-to-green` run armed at 23:40 on 21 Sep with the guard
+never loaded (`hook_live: "unproven"`, `settings_preexisted: true`). The watcher
+said `NOTLIVE` once at 23:55. The run then wrote `scripts/goals/goal-verify-loop.sh`
+— *"The external verifier for a better-goal run whose Stop guard cannot fire"* —
+which ran the gates every ten minutes and appended a ledger row each time, and a
+second loop that spoke only on a verdict change. The ledger gained seventy-seven
+identical rows of `16 of 22 DONE` between 14:09 and 02:53 while the session's
+transcript shows no assistant message between 00:47 and 12:45. The user's next
+prompt: *"'I'm working, not stopped' you didn't do anything over the past 12h"*.
+All 2,300 turns in the window were `claude-opus-5` at effort `xhigh`; the model
+was not the cause.
+
+**Cause:** two mechanisms failed together. Nothing blocked the turn from ending,
+so the model ended each turn with a status report and waited for "continue". And
+the substitute kept the ledger's mtime fresh, which was the 2.2.x watcher's only
+staleness signal, so `STALL` could never fire. The substitute was built in good
+faith on the skill's own advice to "run the gates by hand meanwhile".
+
+**Fix:** liveness is read from `last_guard_at`, a stamp only `guard.sh` writes,
+and from the transcript; the ledger's mtime is not consulted. `watch.sh` emits
+`FOREIGN` once when the ledger moves while the guard has never run, and repeats
+`NOTLIVE` on a doubling backoff instead of saying it once. `arm.sh`, `SKILL.md`
+and the block text all say not to build a substitute: it cannot block a turn,
+and it hides the stall.
+
+## The pattern behind all nineteen
 
 Most are the same shape: **the run's model of the world and the world itself
-diverged, and nothing checked.** The condition said work was done, or agents were
+diverged, and nothing checked.** Mode 19 is the harness's own version of it: the
+harness's model of whether it was loaded came from a file on disk rather than
+from the process. The condition said work was done, or agents were
 alive, or the skill had run, and the only thing that could have noticed was a
 small model reading a story the run told about itself.
 

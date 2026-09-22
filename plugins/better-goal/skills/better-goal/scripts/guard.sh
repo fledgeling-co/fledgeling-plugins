@@ -18,6 +18,7 @@ set -uo pipefail
 
 INPUT="$(cat 2>/dev/null || true)"
 log() { printf '%s\n' "better-goal: $*" >&2; }
+command -v jq >/dev/null 2>&1 || { log "jq not found; allowing stop"; exit 0; }
 
 # macOS ships neither timeout(1) nor gtimeout(1); without one, verify[].timeout
 # cannot be enforced and a hung gate runs until the hook's own timeout.
@@ -34,9 +35,6 @@ find_root() {
   done
   return 1
 }
-ROOT="$(find_root)" || exit 0
-
-command -v jq >/dev/null 2>&1 || { log "jq not found; allowing stop"; exit 0; }
 
 # A Stop hook is automatically converted to SubagentStop for subagents, so this
 # script also fires every time a subagent finishes. A goal is about the main
@@ -58,6 +56,26 @@ case "$HOOK_EVENT" in
 esac
 
 HOOK_SESSION="$(printf '%s' "$INPUT" | jq -r '.session_id // ""' 2>/dev/null || true)"
+
+# --- heartbeat: the only in-session proof that this hook is loaded -----------
+# Hook configuration is snapshotted when the process starts. A registration
+# written mid-session is stored correctly and never loaded until /hooks or a
+# restart, whether or not a settings file already existed — measured on
+# 2.1.260, where the same three Stop hooks ran for 948 turns across four
+# rewrites of settings.local.json. So every firing writes a small file keyed by
+# session id, and arm.sh, preflight.sh and status.sh read THAT rather than
+# inferring load state from the settings on disk. Written before the goals
+# lookup so it proves the hook is live even in a repo with nothing armed.
+CFG="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+if [ -n "$HOOK_SESSION" ]; then
+  mkdir -p "$CFG/better-goal/live" 2>/dev/null && \
+  jq -n --arg s "$HOOK_SESSION" --arg e "$HOOK_EVENT" --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+        --arg g "${BASH_SOURCE[0]}" --arg c "${CLAUDE_CODE_STOP_HOOK_BLOCK_CAP:-}" \
+        '{session_id:$s, event:$e, at:$t, guard:$g, block_cap:$c}' \
+        >"$CFG/better-goal/live/$HOOK_SESSION.json" 2>/dev/null || true
+fi
+
+ROOT="$(find_root)" || exit 0
 
 now_iso() { date -u +%Y-%m-%dT%H:%M:%SZ; }
 epoch_of() {
@@ -177,8 +195,13 @@ evaluate() {
   # writes hook_live=unproven because a hook registered mid-session into a
   # .claude/ that had no settings file at session start is written correctly and
   # never loaded, and nothing can prove otherwise from inside the arming turn.
-  [ "$(jq -r '.hook_live // ""' "$STATE")" = "proven" ] || \
-    state_set "$STATE" --arg t "$(now_iso)" '.hook_live="proven" | .hook_proven_at=$t'
+  [ "$(jq -r '.hook_live // ""' "$STATE")" = "proven" ] && [ "$(jq -r '.hook_evidence // ""' "$STATE")" = "guard" ] || \
+    state_set "$STATE" --arg t "$(now_iso)" '.hook_live="proven" | .hook_evidence="guard" | .hook_proven_at=$t'
+  # The watcher and the sentinel read liveness from THIS stamp, never from the
+  # ledger's mtime: a ledger any process can append to says nothing about
+  # whether the guard ran, and one run's own substitute verifier kept the
+  # ledger fresh every 10 minutes while the session sat idle for 12 hours.
+  state_set "$STATE" --arg t "$(now_iso)" '.last_guard_at=$t'
   [ "$(jq -r '.stop_failures // 0' "$STATE")" = "0" ] || state_set "$STATE" '.stop_failures=0'
 
   # --- bounds ---------------------------------------------------------------

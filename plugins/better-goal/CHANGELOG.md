@@ -1,5 +1,53 @@
 # Changelog
 
+## 2.3.0 - 2026-09-22
+
+Read against one run, `roadmap-to-green` in `dAIolog`, from its transcript's
+`stop_hook_summary` records: 948 consecutive turns from 12 Sep to 22 Sep ran the
+same three Stop hooks, and the guard was in none of them, while
+`.claude/settings.local.json` was rewritten by `arm.sh` and `disarm.sh` four times
+with `settings_preexisted: true`. The run then built its own verifier and sat idle
+for twelve hours behind seventy-seven identical ledger rows.
+
+### Hook configuration is snapshotted at process start, so register once
+
+The 2.2.0 reading — a hook fails to load only when `.claude/` held no settings
+file at session start — was narrower than the truth. A registration written
+mid-session loads in the next session whatever the file's history, so `arm.sh`'s
+"should load live" line was wrong exactly when it mattered.
+
+`install.sh` (new) registers the guard once, at user scope in
+`~/.claude/settings.json`, on all four events, and sets the block cap there. The
+guard is inert in any session with nothing armed, so it is safe everywhere, and
+every later session starts with it loaded. `arm.sh` writes state only, runs
+`install.sh` when no registration exists, and strips the per-project copy 2.2.x
+left in `settings.local.json` so a later session does not run every gate twice.
+`disarm.sh` keeps the registration (`--uninstall` removes it) and no longer
+carries a prior-cap restore.
+
+### Load state comes from a heartbeat, never from the settings files
+
+`guard.sh` writes `~/.claude/better-goal/live/<session_id>.json` on every event it
+receives, before it looks for a goals directory; `sentinel.sh` writes the same file
+at `SessionStart` with the list of settings files that carried the guard at that
+moment. `arm.sh`, `preflight.sh` and `install.sh` read the file for the current
+session and print one of three lines: LIVE because the guard fired, LIVE because
+the sentinel fired with the guard registered beside it, or NOT LOADED. The state
+records `hook_live` with `hook_evidence` (`guard`, `sentinel`, `none`);
+`settings_preexisted` and `prior_block_cap` are gone.
+
+### Liveness comes from the guard's stamp, never from the ledger's mtime
+
+The substitute verifier kept the ledger fresh every ten minutes, which was the
+watcher's only staleness signal, so `STALL` could not fire. `guard.sh` now stamps
+`last_guard_at` on every `Stop` it handles; `watch.sh`, `sentinel.sh` and
+`status.sh` read that and the transcript. `watch.sh` adds `FOREIGN` (the ledger
+moved while the guard has never run, said once) and repeats `NOTLIVE` on a doubling
+backoff rather than saying it once. `SKILL.md`, the arm output and the block text
+say not to build a substitute: it cannot block a turn, and it blinds the watcher.
+
+Failure mode 19 in `references/failure-modes.md` carries the measurements.
+
 ## 2.2.1 - 2026-09-01
 
 Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.
