@@ -4,6 +4,24 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-22
+
+### better-goal 2.3.0: a hook written mid-session loads in the next session, so register it once
+
+A `roadmap-to-green` run in dAIolog was armed on 21 September with `settings_preexisted: true`, which 2.2.x read as "the guard should load live". Its transcript says otherwise: every `stop_hook_summary` record from 12 September 06:11Z to 22 September 02:56Z — 948 consecutive turns — lists the same three Stop hooks, and `guard.sh` is not among them, while `arm.sh` and `disarm.sh` rewrote `.claude/settings.local.json` four times in that window with the guard in three of them. Claude Code snapshots hook configuration when the process starts. The 2.2.0 reading, that only a `.claude/` with no settings file at session start fails to load, described a narrower case than the one measured. All 2,300 turns in the window were `claude-opus-5` at effort `xhigh`; the model was not the cause.
+
+With no live guard, nothing blocked a turn from ending, so the run ended each turn with a status report and waited for "continue". It then built its own verifier, `goal-verify-loop.sh`, which ran the gates every ten minutes and appended a ledger row each time. That kept the ledger's mtime fresh, which was the 2.2.x watcher's only staleness signal, so `STALL` could not fire. The ledger gained seventy-seven identical rows of `16 of 22 DONE` between 14:09 and 02:53 while the transcript shows no assistant message between 00:47 and 12:45.
+
+The guard is now registered once, at user scope in `~/.claude/settings.json`, by a new `install.sh`, on `Stop`, `StopFailure`, `SessionEnd` and `SessionStart`, with the block cap set there. It is inert in any session with nothing armed, so every later session starts with it loaded and `arm.sh` becomes a state write the guard picks up on the next turn. `arm.sh` runs `install.sh` when nothing is registered and strips the per-project copy 2.2.x left behind, so a later session does not run every gate twice.
+
+Whether the guard is loaded in the current session is read from a heartbeat, never from the settings files. `guard.sh` writes `~/.claude/better-goal/live/<session_id>.json` on every event before it looks for a goals directory; `sentinel.sh` writes the same file at `SessionStart` with the list of settings files that carried the guard at that moment. `arm.sh`, `preflight.sh` and `install.sh` read the file for the current session and print LIVE because the guard fired, LIVE because the sentinel fired with the guard registered beside it, or NOT LOADED. The state carries `hook_live` with `hook_evidence`; `settings_preexisted` and `prior_block_cap` are gone.
+
+Liveness is the guard's own `last_guard_at` stamp plus the session transcript. `watch.sh` no longer reads the ledger's mtime, repeats `NOTLIVE` on a doubling backoff rather than saying it once, emits `FOREIGN` once when the ledger moves while the guard has never run, and raises `STALL` only after the guard has run at least once. `SKILL.md`, the arm output and the block text say not to build a substitute verifier: it cannot block a turn, and it hides the stall.
+
+Failure mode 16 is corrected and mode 19 added in `references/failure-modes.md`. Gates: `check_skill_references.py` 0, `build-catalogue.mjs` 0, `verify_quotes.py` 16/16, agent-voice lint clean on the hard checks, and a 12-step scratch-repo run of install, sentinel, arm, guard, preflight, status, watch and disarm.
+
+---
+
 ## 2026-09-12
 
 ### harbourmaster 0.7.0: a full swap file is not a machine out of memory
