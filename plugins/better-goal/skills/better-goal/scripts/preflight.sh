@@ -56,16 +56,40 @@ else
   ok "hooks" "enabled"
 fi
 
-# 1b. will the hook actually load? ----------------------------------------------
-# Claude Code's settings watcher only watches directories that already held a
-# settings file when the session started, so a Stop hook written into an empty
-# .claude/ mid-session is written correctly and never fires. One run spent its
-# whole life like this, with the model running the gates by hand. Creating the
-# file now does not help: the snapshot was taken before this check ran.
-if [ -f "$ROOT/.claude/settings.json" ] || [ -f "$ROOT/.claude/settings.local.json" ]; then
-  ok "hook load" "$ROOT/.claude/ already has a settings file, so a hook written now should load"
+# 1b. is the guard loaded in THIS session? --------------------------------------
+# Hook configuration is snapshotted at process start. A registration written
+# mid-session — into any settings file, whether or not it already existed — is
+# stored correctly and never loaded until /hooks or a restart (measured on
+# 2.1.260: the same three Stop hooks for 948 turns across four settings
+# rewrites). The settings on disk therefore say nothing about the running
+# process; the heartbeat the sentinel or guard wrote under this session id does.
+CFG="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+SID="${CLAUDE_CODE_SESSION_ID:-}"
+HB="$CFG/better-goal/live/${SID:-none}.json"
+OURS_RE='(better-goal|goal-harness).*(guard|goal-guard)\.sh'
+REG=""
+for f in "${settings_files[@]}"; do
+  [ -f "$f" ] || continue
+  jq -e --arg re "$OURS_RE" '[(.hooks.Stop // [])[] | (.hooks // [])[] | .command? // ""] | map(test($re)) | any' "$f" >/dev/null 2>&1 && REG="${REG:+$REG, }$f"
+done
+LIVE_CAP=""
+if [ -n "$SID" ] && [ -f "$HB" ]; then
+  HB_EVENT="$(jq -r '.event // ""' "$HB" 2>/dev/null)"; HB_AT="$(jq -r '.at // ""' "$HB" 2>/dev/null)"
+  LIVE_CAP="$(jq -r '.block_cap // ""' "$HB" 2>/dev/null)"
+  case "$HB_EVENT" in
+    Stop|StopFailure|SessionEnd) ok "hook load" "guard fired in this session ($HB_EVENT at $HB_AT) — arming takes effect next turn" ;;
+    SessionStart)
+      if [ "$(jq -r '(.guard_registered_in // []) | length' "$HB" 2>/dev/null || echo 0)" -gt 0 ]; then
+        ok "hook load" "sentinel fired at this session's start with the guard registered beside it ($HB_AT) — arming takes effect next turn"
+      else
+        bad "hook load" "the sentinel is loaded but the guard was not registered when this session started. Run install.sh, then restart or open /hooks; arming now would verify nothing"
+      fi ;;
+    *) warn "hook load" "heartbeat present but unreadable ($HB)" ;;
+  esac
+elif [ -n "$REG" ]; then
+  bad "hook load" "the guard is registered ($REG) but has not fired in this session — it was written after this process started. Restart or open /hooks, then arm. Do not run the gates by hand or build a ledger-writing loop in its place"
 else
-  warn "hook load" "$ROOT/.claude/ has no settings file, so a hook armed in this session will NOT fire. Arm anyway, then ask the user to open /hooks once or restart — the model cannot do either. The guard stays hook_live=unproven until it writes its first ledger row."
+  bad "hook load" "the guard is registered nowhere. Run install.sh (user scope, once), restart Claude Code, then arm"
 fi
 
 # 2. permission mode ------------------------------------------------------------
@@ -78,14 +102,21 @@ esac
 # 3. block cap ------------------------------------------------------------------
 # Claude Code stops honouring ANY Stop hook after this many consecutive blocks
 # and reports the turn as completed. Unset means 8, which a real run passes on
-# its ninth turn — the single most common silent end.
-CAP="${CLAUDE_CODE_STOP_HOOK_BLOCK_CAP:-$(setting '.env.CLAUDE_CODE_STOP_HOOK_BLOCK_CAP' 2>/dev/null || true)}"
+# its ninth turn — the single most common silent end. Env is read at process
+# start too, so the value the heartbeat recorded is the one in force; a value
+# in a settings file is the one the NEXT session will have.
+CAP="${LIVE_CAP:-${CLAUDE_CODE_STOP_HOOK_BLOCK_CAP:-}}"
+FILE_CAP="$(setting '.env.CLAUDE_CODE_STOP_HOOK_BLOCK_CAP' 2>/dev/null || true)"
 if [ -z "$CAP" ]; then
-  bad "stop-hook block cap" "unset — defaults to 8 consecutive blocks, then Claude Code overrides the hook and ends the turn as 'completed'. arm.sh raises it."
+  if [ -n "$FILE_CAP" ]; then
+    bad "stop-hook block cap" "unset in this process (defaults to 8, then Claude Code overrides the hook and ends the turn as 'completed'); settings carry $FILE_CAP, which loads on restart"
+  else
+    bad "stop-hook block cap" "unset — defaults to 8 consecutive blocks. install.sh writes 500 to user settings; it loads on restart"
+  fi
 elif [ "$CAP" -eq 0 ] 2>/dev/null; then
   warn "stop-hook block cap" "0 (uncapped) — max_iterations and deadline in the state file are then the only ceiling"
 else
-  ok "stop-hook block cap" "$CAP"
+  ok "stop-hook block cap" "$CAP in this process"
 fi
 
 # 4. skills the brief expects the run to invoke ----------------------------------

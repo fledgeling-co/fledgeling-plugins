@@ -6,8 +6,8 @@ it builds exists to stop a run claiming work it did not do. The same failure lan
 one level up: a harness reported as armed and one that *is* armed differ in a file on
 disk, not in a transcript. Since this file was last written the skill has made that
 distinction its own — `arm.sh` registers **four** hook events rather than one, the
-state carries `hook_live: "unproven"` until the guard's first firing stamps it
-`proven`, and the operating rules add the line this file was already arguing for: *A
+state carries `hook_live` decided from a per-session heartbeat rather than from
+the settings files, and the operating rules add the line this file was already arguing for: *A
 hook you cannot prove fired is not armed.* Read this before `## Protocol`.
 
 ## Epistemic status
@@ -177,9 +177,10 @@ to read directly, never to review the brief or check the gates — the guard is 
 verifier. **[docs]** on forks, the failure to avoid is that *"the model didn't stay
 within the bounds of the options"*, so resolve each as a closed set with the choice
 written into the brief: watcher or cron, the `stuck_after` value, arm now or hand
-back (the subagent branch), and what to do when the hook-load row warns. The skill
-resolves that last one — arm anyway, tell the user to open `/hooks` once or restart,
-say nothing is armed until they do, run the gates by hand meanwhile. On step 1's
+back (the subagent branch), and what to do when the hook-load row says NOT LOADED.
+The skill resolves that last one — tell the user to restart or open `/hooks` once,
+say nothing is armed until they re-arm from that session, and build no substitute
+verifier: a loop appending ledger rows cannot block a turn and blinds the watcher. On step 1's
 survey, **[docs]** *"Prefer calling the tool with the available information over
 asking the user, unless"* a later step needs the value; on step 5's apply, **[docs]**
 *"only take an action after all the above reasoning is completed. Once you've taken
@@ -193,8 +194,8 @@ enough in showing the task at hand"*. Author `F-001` at full fidelity — item, 
 status — before the other thirteen. The closing block, shipped filled:
 
 ```
-hook   LOADED — .claude/ held a settings file at session start; hook_live=unproven
-       until the guard's first ledger row, the only proof a Stop hook can give
+hook   LIVE — sentinel heartbeat at session start lists ~/.claude/settings.json;
+       hook_live=proven, hook_evidence=sentinel; first ledger row ends this turn
 armed  ship-remaining-work — 14 rows, F-001…F-014, 0 rows without a gate
 gates  4 of 4 hand-run before arming: brief-exists 0 · queue-empty 1 · typecheck 1 · tests 1
 pre    preflight.sh --skills /ship-fleet:ship-fleet --ports 3000 → "clear to arm", 11 rows, 0 BLOCK, 2 warn
