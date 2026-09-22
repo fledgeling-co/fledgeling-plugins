@@ -94,17 +94,19 @@ run, so two runs in a repo do not overwrite each other's gates.
 ```
 
 `arm.sh` adds `repeat_count`, `escalated`, `last_fingerprint`, `last_failing`,
-`last_failing_set`, `set_repeat_count`, `prior_block_cap`, `settings_preexisted`
-and `hook_live`; the guard maintains them. `verify[]` entries run in order, in the
+`last_failing_set`, `set_repeat_count`, `hook_live` and `hook_evidence`; the guard
+maintains them and adds `last_guard_at` on every `Stop` it handles. `verify[]` entries run in order, in the
 repo root, and are judged on exit code alone. `detail` runs only when `cmd` fails
 and is withheld on a repeat.
 
 Three of those change what the surfaces report rather than what the guard does:
 
-- **`hook_live`** is `"unproven"` from arming until the guard's first real firing
-  stamps it `"proven"`. Report it rather than `armed`, because a hook registered
-  mid-session into a `.claude/` that held no settings file at session start is
-  written correctly and never fires, and the two flags disagree exactly there.
+- **`hook_live`** is `"proven"` at arming when a heartbeat for the current
+  session exists (`hook_evidence: "sentinel"` — the registration was in the
+  startup snapshot — or `"guard"` — it has already fired), and `"unproven"`
+  otherwise. Report it rather than `armed`: hook configuration is snapshotted
+  at process start, so a registration written mid-session is stored correctly
+  and loads only in the next session, and the two flags disagree exactly there.
 - **`set_repeat_count`** counts consecutive turns with the same failing gate set,
   which the output fingerprint misses whenever a count or a path moves. From
   `set_notice_after` turns (default 10) the block reason names the streak. It

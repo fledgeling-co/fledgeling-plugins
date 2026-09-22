@@ -28,13 +28,17 @@ for STATE in "${STATES[@]}"; do
 
   if [ "$ARMED" = "true" ]; then
     LIVE="$(jq -r '.hook_live // "unknown"' "$STATE")"
-    if [ "$LIVE" = "proven" ]; then
-      echo "goal: $SLUG — ARMED (guard proven live at $(jq -r '.hook_proven_at // "?"' "$STATE"))"
+    EVID="$(jq -r '.hook_evidence // ""' "$STATE")"
+    LG="$(jq -r '.last_guard_at // .hook_proven_at // ""' "$STATE")"
+    if [ -n "$LG" ]; then
+      echo "goal: $SLUG — ARMED (guard last ran $LG)"
+    elif [ "$LIVE" = "proven" ] && [ "$EVID" = "sentinel" ]; then
+      echo "goal: $SLUG — ARMED (guard loaded at session start; first run at the end of the current turn)"
     else
       echo "goal: $SLUG — ARMED, BUT THE GUARD HAS NEVER FIRED (hook_live=$LIVE)"
-      echo "      A hook registered mid-session only loads if .claude/ already held a settings"
-      echo "      file when that session started. Open /hooks once, or restart, or re-arm from"
-      echo "      a session that started after the file existed. Nothing is verifying anything."
+      echo "      Hook configuration is snapshotted at process start, so a registration written"
+      echo "      mid-session loads only after /hooks or a restart. Restart, then re-arm from the"
+      echo "      new session. Nothing is verifying anything, whatever the ledger shows."
     fi
     SID="$(jq -r '.session_id // ""' "$STATE")"
     if [ -n "$SID" ]; then
@@ -66,11 +70,14 @@ for STATE in "${STATES[@]}"; do
   [ "$SF" -gt 0 ] 2>/dev/null && echo "api errors: $SF consecutive turn(s) ended on $(jq -r '.last_stop_failure // "an API error"' "$STATE") — 3 disarms the run"
 
   if [ -f "$LEDGER" ]; then
-    # A ledger whose last row is old answers "is it still going" too: that is a
-    # stalled run, not a quiet one.
+    # The ledger's age is context, not liveness: any process can append to it.
+    # Liveness is the guard's last_guard_at line above.
     LM="$(stat -f %m "$LEDGER" 2>/dev/null || stat -c %Y "$LEDGER" 2>/dev/null || echo 0)"
     AGE=$(( ( $(date +%s) - LM ) / 60 ))
     echo "ledger: last written ${AGE}m ago — $LEDGER"
+    if head -n 1 "$LEDGER" 2>/dev/null | grep -qv '^# Goal ledger'; then
+      echo "        header is not the guard's — something other than guard.sh created this file; its rows are not verification"
+    fi
     grep '^|' "$LEDGER" | tail -n "$ROWS"
   else
     echo "ledger: nothing yet at $LEDGER — the guard has not completed a turn"

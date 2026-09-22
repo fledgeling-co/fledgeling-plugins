@@ -35,7 +35,7 @@ And `/goal /create-fleet-goal`, typed 13 times, which sets the condition to the 
 
 ## What it does
 
-It arms its own mechanism rather than borrowing one. Three pieces, all created here:
+It arms its own mechanism rather than borrowing one. Three pieces, all created here, registered once at user scope by `install.sh` so that arming is a state write the already-loaded guard picks up on the next turn:
 
 **A `command` Stop hook** (`guard.sh`), which runs your gate commands at the end of every turn and decides on exit codes. If they pass, the turn ends and the run is over. If they fail, it blocks with the failing gate, its output, the iteration count, the remaining budget and the path to the brief. That reason text becomes the run's next instruction, so it is written as one.
 
@@ -54,17 +54,17 @@ It stops at arming. It does not start the work; the armed run does that.
 | **Writes the brief** | `docs/goals/goal-<slug>.md`: the worklist with IDs, the gate commands, the blocked-item policy, the resource ledger, the concurrency cap, the stop conditions |
 | **Preflights** | The settings that end a run without an error, listed below |
 | **Shows the diff** | Every settings change printed before/after. `arm.sh --dry-run` writes nothing |
-| **Arms** | The guard on `Stop`, `StopFailure` and `SessionEnd`, the sentinel on `SessionStart`, then the watcher, then the ledger |
-| **Proves the hook loaded** | Claude Code watches only a `.claude/` that already held a settings file at session start, so a hook armed into an empty one never fires. The state reads `hook_live: "unproven"` until the guard's first ledger row, and every surface reports that rather than assuming |
+| **Arms** | Writes the per-slug state; the guard is already registered once, at user scope, on `Stop`, `StopFailure` and `SessionEnd` with the sentinel on `SessionStart`. Then the watcher, then the ledger |
+| **Proves the hook loaded** | Hook configuration is snapshotted at process start, so a registration written mid-session loads in the next session, not this one. `arm.sh` reads a per-session heartbeat the sentinel or guard wrote, says LIVE or NOT LOADED, and records `hook_live` with its evidence. Nothing on this row is inferred from the settings files |
 
 ### The preflight
 
 | Check | Why |
 |---|---|
 | Trust dialog, `disableAllHooks`, `allowManagedHooksOnly` | The guard is a hook; any of these and it never runs |
-| A settings file already in `.claude/` | Claude Code watches only directories that held one at session start; without it the hook is written correctly and never fires |
+| The guard is loaded in this session | Read from the heartbeat under the current session id. A registration written mid-session is stored correctly and loads only after `/hooks` or a restart, whether or not the file already existed |
 | Permission mode | A goal changes no permissions, so default mode stalls the run |
-| `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` | Default 8, then override. `arm.sh` raises it and records the prior value so `disarm.sh` can put it back |
+| `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` | Default 8, then override. `install.sh` writes 500 to user settings once; the value in force is the one the heartbeat recorded, because env is snapshotted at start too |
 | Every skill named in a gate reason | The model cannot invoke a `disable-model-invocation` skill from a guard reason. the harness's bundled `/verify` and `/code-review` commands are in that set; `code-review:code-review` is a separate plugin skill |
 | Ports, processes, simulators | Two runs fighting over one simulator is a documented stall |
 | Armed runs already in this repo | Two runs sharing one state file was a real collision; state is per-slug now, and the preflight shows what is live |
@@ -140,16 +140,21 @@ skills/better-goal/
     templates.md      the brief, the state file, the ledger, the settings block
   scripts/
     preflight.sh      the checks; read-only, exits 1 if anything blocks
-    arm.sh            writes per-slug state, registers the four hooks, raises the
-                      block cap, prints the Monitor call; --dry-run shows the diff
+    install.sh        registers the four hooks once at user scope and sets the
+                      block cap; idempotent; --remove takes them out
+    arm.sh            writes per-slug state, runs install.sh if nothing is
+                      registered, reads the heartbeat to say LIVE or NOT LOADED,
+                      prints the Monitor call; --dry-run shows the diff
     guard.sh          Stop: runs the gates, writes the ledger, blocks, escalates
                       on a repeat, disarms when stuck. StopFailure / SessionEnd:
                       records the endings a Stop hook never sees
     sentinel.sh       SessionStart: reports armed runs nobody is watching
-    watch.sh          the stall watcher: NOTLIVE / STALL / RESUMED / DONE /
-                      ENDED / GONE, with liveness read from the transcript
+    watch.sh          the stall watcher: NOTLIVE / FOREIGN / STALL / RESUMED /
+                      DONE / ENDED / GONE, with liveness read from the guard's
+                      own stamp and the transcript, never the ledger's mtime
     status.sh         reads every armed run's state, ledger and hook_live
-    disarm.sh         <slug> | --all; removes all four hooks, restores the cap
+    disarm.sh         <slug> | --all; leaves the user-scope guard registered
+                      (inert), cleans a 2.2.x per-project copy; --uninstall
 evals/evals.json      six cases plus the process evals
 EVALS.md              the measured result against the no-skill baseline
 ```
