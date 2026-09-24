@@ -80,14 +80,14 @@ oldest-turn-forward, and report the fraction at delivery. Filled from arm B of
 
 | # | sweep (`SKILL.md` line) | items found | destination | note |
 |---|---|---|---|---|
-| 1 | standing constraints (40) | `n/a: recorded as quoted, never counted` | — | live runs need an integer |
-| 2 | user corrections (42) | 1 | pin | a peer-runner correction; both arms pinned it |
-| 3 | method dead ends (48) | `n/a: pointed at a named section, not counted` | point | pointer re-read, section confirmed |
-| 4 | product dead ends (50) | 8 | pin | no durable home existed |
-| 5 | exact identifiers (53) | `n/a: not separately counted in the case` | — | live runs need an integer |
-| 6 | REREAD paths (227) | `n/a: the case predates the v3 REREAD list` | — | — |
-| 7 | items carried from a prior pinned block (196) | 0 | — | none existed; B was first |
-| 8 | pin-or-point decisions (202) | 9 recorded | 8 pin · 1 point | one tag per item, none implicit |
+| 1 | standing constraints (45) | `n/a: recorded in the user's own words, never counted` | — | live runs need an integer |
+| 2 | user corrections (48) | 1 | pin | a peer-runner correction; both arms pinned it |
+| 3 | method dead ends (56) | `n/a: pointed at a named section, not counted` | point | pointer re-read, section confirmed |
+| 4 | product dead ends (58) | 8 | pin | no durable home existed |
+| 5 | exact identifiers (61) | `n/a: not separately counted in the case` | — | live runs need an integer |
+| 6 | REREAD paths (243) | `n/a: the case predates the v3 REREAD list` | — | — |
+| 7 | items carried from a prior pinned block (211) | 0 | — | none existed; B was first |
+| 8 | pin-or-point decisions (218) | 9 recorded | 8 pin · 1 point | one tag per item, none implicit |
 
 Delivery line: `4 of 8 ledger rows carry a count, 4 n/a with reasons (rows 1, 3, 5, 6).`
 **[derived]** Four `n/a` cells is a poor score and showing it is the point: on a live run rows 1,
@@ -96,13 +96,13 @@ sweep that did not happen. **[docs]** hand the counting to code — *"Gemini's c
 enables the model to generate and run Python code, and should be enabled whenever the model needs
 to perform any kind of arithmetic, counting, or calculation."* The pinned tier is the stated
 exemption from **[docs]** *"By default, Gemini 3 models provide direct and efficient answers."*,
-carried as a count: ceiling ~20, every ledger row placed.
+carried as a count: ceiling ~12 items / 3 KB, every ledger row placed.
 
 ## Override 2 — every bound is read back off the written summary
 
-**Lands on:** `§ Preserve exactly, never paraphrase`, `§ Length`. **Module:** `bounded-constraint`.
+**Lands on:** `§ Retain precisely, keep items short`, `§ Length`. **Module:** `bounded-constraint`.
 The highest-value section, because `braindump:braindump` has measured this failure on itself: `SKILL.md`
-line 145 records an eval where both arms pasted a nine-line header comment and a schema fragment,
+line 160 records an eval where both arms pasted a nine-line header comment and a schema fragment,
 both blew the length cap, and the skill arm put the comment **inside its pinned block** — against
 a rule stated three lines earlier. **[measured-family]** that shape dominates Gemini's benchmark
 failures: 58% of failing UI assertions are bound-shaped at `medium` and **86%** at `high`, against
@@ -117,24 +117,25 @@ from the **produced** summary, not from `SKILL.md`, on every instance:
 
 | instance | property | stated bound (line) | readback | observed | within? |
 |---|---|---|---|---|---|
-| pinned block | Tier-1 items | `~20 pinned items as the ceiling` (38) | count ledger rows placed | 13 | yes |
-| pinned block | fenced content | `The pinned tier never contains file contents` (142) | count fences between the block markers | 1 (nine-line header comment) | **no** |
-| pinned block | categories | `Four categories, and only these four` (34) | count distinct category headings | 4 | yes |
-| REREAD list | one item per line | `one path per line` (227) | `awk 'NF>1' reread.txt \| wc -l` | 0 | yes |
-| each Tier-1 item | destinations | `exactly two safe destinations` (202) | every item tagged `PIN` or `POINT` | 13 of 13 | yes |
-| whole summary | length | `20.6k characters … a ceiling, not a target` (281) | `wc -c summary.md` | 9,388 | yes |
-| Tier 1 | trimming | `Never cut Tier 1 to fit` (284) | ledger rows before and after the trim | 13 → 13 | yes |
+| pinned block | Tier-1 items | `about 12 items and 3 KB in total` (40) | count ledger rows placed | 11 | yes |
+| pinned block | fenced content | `The pinned tier never contains file contents` (156) | count fences between the block markers | 1 (nine-line header comment) | **no** |
+| pinned block | categories | `Four categories, and only these four` (37) | count distinct category headings | 4 | yes |
+| REREAD list | one item per line | `one path per line` (243) | `awk 'NF>1' reread.txt \| wc -l` | 0 | yes |
+| each Tier-1 item | destinations | `exactly two safe destinations` (218) | every item tagged `PIN` or `POINT` | 11 of 11 | yes |
+| whole summary | length | `20.6k characters … a ceiling, not a target` (297) | `wc -c summary.md` | 9,388 | yes |
+| Tier 1 | trimming | `Never cut Tier 1 to fit` (300) | ledger rows before and after the trim | 11 → 11 | yes |
 
 Report `7 bound rows, 6 within bound, 1 violation — fenced content inside the pinned block` on
 every run, not only a clean one. The violated row stays rather than being tidied away: a ledger
 that has never printed **no** is a ledger nothing reads.
 
 **The prohibition trap, in this skill's own words.** `The pinned tier never contains file
-contents` and `Preserve exactly, never paraphrase` are both binding, they collide, and `SKILL.md`
+contents` and `Retain precisely, keep items short` are both binding, they collide, and `SKILL.md`
 says which wins. As prohibitions they read as style advice; as a counted property with a readback
-— *fenced blocks inside the pinned block: 0* — one becomes checkable. Convert `never paraphrase`
-the same way (every Tier-1 span is substring-present in the transcript), and `It's somewhere in
-the repo is not a destination` (every `POINT` names a file **and** a section, opened).
+— *fenced blocks inside the pinned block: 0* — one becomes checkable. Convert the retention rule
+the same way (every Tier-1 identifier is substring-present in the session; every user-worded item
+traces to the turn that stated it), and `It's somewhere in the repo is not a destination` (every
+`POINT` names a file **and** a section, opened).
 
 ## Override 3 — verification is a command with its output, and a zero denominator is not a pass
 
@@ -190,7 +191,7 @@ assumption.
 
 ## Override 6 — quote it, or record it as unavailable; read what the prompt names
 
-**Lands on:** `§ Preserve exactly, never paraphrase`, `§ The re-read list`, and `treat it as a
+**Lands on:** `§ Retain precisely, keep items short`, `§ The re-read list`, and `treat it as a
 checklist, not a source` in `§ Sweep the whole window`. **Module:** `authorship`. The output is a
 document a stranger acts on without the transcript. **[docs]** Google's strictly-grounded system
 instruction ends on the clause that matters here: *"If the exact answer is not explicitly written
