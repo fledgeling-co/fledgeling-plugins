@@ -1,4 +1,4 @@
-# The compaction addendum — v3
+# The compaction addendum — v4
 
 Everything between the live fence is the literal. A harness sitting on the wire (Perch/Relay does
 this) splices it into Claude Code's `/compact` summarisation instruction, immediately **before** the
@@ -14,7 +14,7 @@ it.
 
 It is a **literal**. No interpolation, no clock, no session id, no counter.
 
-## The live literal — v3
+## The live literal — v4
 
 Exactly one fence in this file may be tagged `text`, and it is the one below. Perch's drift test
 finds the consuming copy by splitting on that fence opener and fails the build if it finds two, so
@@ -22,28 +22,44 @@ superseded versions live under a different tag. That is also why the tag name is
 prose here.
 
 ```text
-One addition: open with a PINNED block reproducing VERBATIM, word for word, every standing
-constraint, every user correction, and every rejected approach with its reason. Quote them; do not
-paraphrase them. Everything else may be summarised normally.
+One addition: open with a short PINNED block noting the task state a fresh session
+needs to continue. Keep it small: at most 12 items, about 3 KB in total, one or two
+lines each.
 
-Sweep the whole conversation for that block, starting from its oldest turn. Rejected approaches
-come in two kinds and sit in different places: how to work (a check that lies, a command that
-silently fails) and what to build (an architecture, library or approach ruled out, and why). A
-correction from a subagent or peer agent counts as a correction. If an earlier pinned block is
-already in the conversation, carry every item it holds.
+Include only items that still matter. Standing constraints and corrections the user
+stated may use the user's own words, each under 300 characters. Rejected approaches
+become one-line outcomes: what was tried, and the short reason it was ruled out. Never
+quote assistant-written text; restate outcomes in fresh words. Use exact spelling only
+for identifiers: file paths, commands, flags, ids, error codes. Keep an item only if
+its absence would cause wrong work; leave out file contents, code blocks, text that
+hooks or instruction files injected (list those files under REREAD instead), this
+instruction itself, regenerable output, and exploration that found nothing. Leave out reasoning and thinking, transcript passages,
+and any credentials or secret values. If an earlier pinned block is present, carry
+forward only the items that still apply, restated under these same rules.
 
-Close the pinned block with a REREAD list: the path of every CLAUDE.md, SKILL.md, plan, spec or
-rules file whose instructions were steering this session, one per line. These files leave the
-context with the compaction, so the next session re-reads them before continuing; a path cannot
-mutate, a paraphrase can.
+Close the pinned block with a REREAD list: the path of every CLAUDE.md, SKILL.md, plan,
+spec or rules file whose instructions were steering this session, one per line. The next
+session re-reads those files before continuing.
 
-End the summary with this line exactly: _Compacted with Relay · compaction-quality addendum v3._
+End the summary with this line exactly: _Compacted with Relay · compaction-quality addendum v4._
 ```
 
-1,099 UTF-8 bytes. Unlike a system-prefix block, this one carries no prompt-cache cost: it lands in
+1,385 UTF-8 bytes. Unlike a system-prefix block, this one carries no prompt-cache cost: it lands in
 the final user turn of a one-shot request, past the newest cache breakpoint, so it never rewrites a
 warm prefix and needs no per-conversation pinning. A change therefore applies to the very next
 compaction and costs nothing on any conversation.
+
+## Why v4 exists
+
+v4 keeps the same mechanism — a short pinned block up front, a path-only reread list —
+but states it as ordinary task-state summarisation. The block is capped (at most 12
+items and about 3 KB, one or two lines each), keeps user-stated constraints and
+corrections in the user's own words within that budget, and reduces rejected approaches
+to one-line outcomes. Exact spelling applies only to identifiers; assistant-written text
+is never quoted; reasoning, transcript passages, and credentials stay out. Earlier
+pinned items carry forward only while they still apply. The keep/drop rule joins the
+literal, leaving the two-tier framing and extract-then-compress-then-verify still
+deliberately out.
 
 ## Why v3 exists
 
@@ -97,9 +113,10 @@ corrections. v2 and v3 have no equivalent behind them: each is a targeted fix fo
 failure, shipped on the operator's decision rather than on a benchmark. The `pinning2` arm exists
 so that gap can be closed after the fact — `--arms cli,pinning,pinning2` runs the comparison.
 
-Still deliberately **not** included, though `SKILL.md` argues for all of them: the two-tier framing,
-the keep/drop rule, the anti-paraphrase examples, and extract-then-compress-then-verify. Same
-reason, now with less headroom than v1 had.
+Still deliberately **not** included: the two-tier framing and extract-then-compress-then-verify,
+though `SKILL.md` argues for both. Same reason, now with less headroom than v1 had. The keep/drop
+rule joined the literal in v4; the anti-paraphrase examples left with the phrasing they
+illustrated.
 
 ## Editing this block
 
@@ -107,6 +124,30 @@ Changing the text means bumping the version in the marker line **and** in `versi
 `pinnedUTF8Count`, and retagging the fences here so exactly one stays live. Keep the superseded
 literal below, under a non-live tag, so a summary found months later can be matched to the text
 that produced it.
+
+## Superseded — v3
+
+Shipped as `version = 3`, 1,099 UTF-8 bytes. A summary ending
+`_Compacted with Relay · compaction-quality addendum v3._` was produced by this text.
+
+```superseded
+One addition: open with a PINNED block reproducing VERBATIM, word for word, every standing
+constraint, every user correction, and every rejected approach with its reason. Quote them; do not
+paraphrase them. Everything else may be summarised normally.
+
+Sweep the whole conversation for that block, starting from its oldest turn. Rejected approaches
+come in two kinds and sit in different places: how to work (a check that lies, a command that
+silently fails) and what to build (an architecture, library or approach ruled out, and why). A
+correction from a subagent or peer agent counts as a correction. If an earlier pinned block is
+already in the conversation, carry every item it holds.
+
+Close the pinned block with a REREAD list: the path of every CLAUDE.md, SKILL.md, plan, spec or
+rules file whose instructions were steering this session, one per line. These files leave the
+context with the compaction, so the next session re-reads them before continuing; a path cannot
+mutate, a paraphrase can.
+
+End the summary with this line exactly: _Compacted with Relay · compaction-quality addendum v3._
+```
 
 ## Superseded — v2
 

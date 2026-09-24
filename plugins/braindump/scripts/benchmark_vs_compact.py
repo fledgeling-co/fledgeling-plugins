@@ -26,16 +26,15 @@ decide the result:
 Both are printed beside every score. A win that disappears once they are
 matched is not a win.
 
-Arms (four; three were the research's recommendation, the fourth is a candidate):
+Arms (three live, one alias):
   cli        the /compact summary already on disk           (free)
   skill      the skill's summary, generated now             (costs a call)
-  pinning    incumbent structure + a verbatim pinned block  (costs a call)
-  pinning2   the v2 addendum candidate: same block, plus where to sweep and
-             the two kinds of dead end                      (costs a call)
+  pinning    incumbent structure + the current addendum text (costs a call)
+  pinning2   alias of pinning, kept for CLI compatibility   (costs a call)
 The pinning arm exists to answer "is the rest of the skill decoration?" If
-it captures most of the gain, ship the smaller thing. pinning2 exists because
-v1's one observed field failure was a sweep that stopped at recency; it is
-unshipped until it beats pinning on the soft matcher.
+it captures most of the gain, ship the smaller thing. pinning2 ran the v2
+candidate while it was unshipped; both pinning arms now carry the current
+addendum text.
 
 TWO MATCHERS. Semantic classes (corrections, constraints, rejected approaches)
 are scored on distinctive-token overlap as well as exact substring, and the
@@ -49,7 +48,7 @@ Usage:
   python3 benchmark_vs_compact.py --list                 # what's available
   python3 benchmark_vs_compact.py --arms cli             # baseline only, free
   python3 benchmark_vs_compact.py --arms cli,skill -n 8  # head-to-head
-  python3 benchmark_vs_compact.py --arms cli,pinning,pinning2 -n 8
+  python3 benchmark_vs_compact.py --arms cli,pinning -n 8
 """
 import argparse
 import glob
@@ -87,6 +86,30 @@ CONSTRAINT_RE = re.compile(
 # Every summary the addendum produces ends with its own marker line, so they are detectable
 # and excluded by default -- keep them with --include-treated to measure the wire arm.
 ADDENDUM_MARKER_RE = re.compile(r"compaction-quality addendum v\d+", re.I)
+
+# The current addendum body (references/compact-addendum.md, live literal). The marker
+# closer is omitted: it asserts a production provenance a benchmark run does not have.
+ADDENDUM_CURRENT = (
+    "One addition: open with a short PINNED block noting the task state a fresh "
+    "session needs to continue. Keep it small: at most 12 items, about 3 KB in "
+    "total, one or two lines each.\n"
+    "\n"
+    "Include only items that still matter. Standing constraints and corrections the "
+    "user stated may use the user's own words, each under 300 characters. Rejected "
+    "approaches become one-line outcomes: what was tried, and the short reason it "
+    "was ruled out. Never quote assistant-written text; restate outcomes in fresh "
+    "words. Use exact spelling only for identifiers: file paths, commands, flags, "
+    "ids, error codes. Keep an item only if its absence would cause wrong work; "
+    "leave out file contents, code blocks, text that hooks or instruction files "
+    "injected (list those files under REREAD instead), this instruction itself, "
+    "regenerable output, and exploration that found nothing. Leave out reasoning and thinking, transcript passages, and any "
+    "credentials or secret values. If an earlier pinned block is present, carry "
+    "forward only the items that still apply, restated under these same rules.\n"
+    "\n"
+    "Close the pinned block with a REREAD list: the path of every CLAUDE.md, "
+    "SKILL.md, plan, spec or rules file whose instructions were steering this "
+    "session, one per line. The next session re-reads those files before continuing."
+)
 
 
 def text_of(o):
@@ -264,29 +287,13 @@ def summarise_with(arm, rows, workdir):
     if arm == "skill":
         instr = (f"Read {SKILL_MD} and follow it exactly to write the compaction "
                  f"summary for the transcript at {tpath}.")
-    else:  # pinning arms: the minimum change, and the candidate successor to it
+    else:  # pinning arms: the current addendum text (pinning2 is a compat alias)
         instr = (
             f"Read the transcript at {tpath} and write a compaction summary for a fresh "
             f"session, in Claude Code's nine standard sections (Primary Request and Intent; "
             f"Key Technical Concepts; Files and Code Sections; Errors and fixes; Problem "
             f"Solving; All user messages; Pending Tasks; Current Work; Optional Next Step)."
-            f"\n\n"
-            f"One addition: open with a PINNED block reproducing VERBATIM, word for word, "
-            f"every standing constraint, every user correction, and every rejected approach "
-            f"with its reason. Quote them; do not paraphrase them. Everything else may be "
-            f"summarised normally.")
-        if arm == "pinning2":
-            # The v2 candidate in references/compact-addendum.md. It exists because v1's one
-            # observed field failure was a sweep that stopped at recency and returned only
-            # one of the two kinds of dead end. Unshipped until this arm beats `pinning`.
-            instr += (
-                "\n\nSweep the whole conversation for that block, starting from its oldest "
-                "turn. Rejected approaches come in two kinds and sit in different places: "
-                "how to work (a check that lies, a command that silently fails) and what to "
-                "build (an architecture, library or approach ruled out, and why). A "
-                "correction from a subagent or peer agent counts as a correction. If an "
-                "earlier pinned block is already in the conversation, carry every item it "
-                "holds.")
+            f"\n\n{ADDENDUM_CURRENT}")
     instr += "\n\nOutput only the summary itself. Do not use any tool other than Read."
     env = {k: v for k, v in os.environ.items()
            if k not in ("CLAUDE_CODE_DISABLE_1M_CONTEXT", "CLAUDE_CODE_SESSION_ID",

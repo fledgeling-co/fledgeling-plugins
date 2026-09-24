@@ -4,6 +4,22 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-25
+
+### braindump 2.5.0: the compaction addendum asks for a summary, not a reproduction
+
+A dAIolog session compacted by hand on 24 September with addendum v3, and every request after that was refused by Anthropic's safety classifier under the category `reasoning_extraction`, including a bare `continue`. Four reviewers from four model families (Muse 1.3, Gemini 3.8 Flash, GPT-6 Astra, Grok 4.7) read the transcript and this plugin and reached the same cause: v3 told the summariser to reproduce earlier conversation content word for word, including text the assistant wrote, to sweep the whole conversation for it, and to carry the reproduced block into every later summary. That instruction then sat in context twice on each refused request, once in the summary's pinned block and once as the PreCompact hook's echoed stdout. None of the four found thinking blocks in the summary, and the plugin's transcript parsers read only text, tool calls and tool results. The cause was the wording, not extraction. None of the four replayed the refused request, so the attribution is inferred from what was new on the first refused call.
+
+Addendum v4 in `references/compact-addendum.md` is 1,385 UTF-8 bytes and asks for task state: a pinned block of at most 12 items and about 3 KB, one or two lines each. Constraints and corrections the user stated may keep the user's words, under 300 characters each. Rejected approaches become one-line outcomes. Assistant-written text is restated rather than quoted, exact spelling is kept for identifiers only, and file contents, code blocks, hook-injected text, the instruction itself, reasoning, transcript passages and secret values stay out. Earlier pinned items carry forward only while they still apply. The REREAD list is unchanged. v3 moves to a superseded fence, so the file keeps exactly one live fence.
+
+`SKILL.md` applies the same caps and rules to the manual path, `gemini.md` updates its line citations, and `scripts/benchmark_vs_compact.py` carries the v4 text as `ADDENDUM_CURRENT`, checked sentence-identical to the live literal.
+
+Relay embeds its own copy of the literal and prints it from the PreCompact hook. That copy and the hook's echo live in `perch` and are not changed by this release. Until they move to v4, compaction through Relay still sends v3.
+
+Gates: `py_compile` exit 0 on both scripts, `benchmark_vs_compact.py --list` exit 0, `check_skill_references.py` 0 errors, `build-catalogue.mjs` exit 0.
+
+---
+
 ## 2026-09-22
 
 ### better-goal 2.3.0: a hook written mid-session loads in the next session, so register it once

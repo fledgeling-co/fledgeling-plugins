@@ -32,28 +32,35 @@ value here, and the evidence for it is in `references/evidence.md`.
 
 ## The two tiers
 
-**Tier 1 — pinned. Reproduced verbatim, never compressed, placed first.**
+**Tier 1 — pinned. Short items carrying what the next session must not get wrong, placed first.**
 
 Four categories, and only these four. Keeping this tier short is as important as filling
 it: instruction-following degrades as instruction count rises — measured on Sonnet 4.6, follow-rate
 falls from 0.964 at one stacked instruction to 0.447 at twenty — so a bloated pinned tier defeats
-itself. Treat ~20 pinned items as the ceiling, and consolidate before exceeding it.
+itself. Cap the tier at about 12 items and 3 KB in total, each item one or two lines,
+and consolidate before exceeding it. Tier 1 never quotes assistant-written text: outcomes
+are restated in fresh words, and reasoning, transcript passages, and credentials or secret
+values stay out of the tier entirely.
 
-1. **Standing constraints and prohibitions** — every "always", "never", "don't", scope
-   fence and boundary the user or the project set. Quote them word for word.
-2. **User corrections** — every time the user rejected, redirected or corrected you.
-   Quoted, with what it supersedes. A correction from a peer agent or subagent counts:
-   in a fleet run it is often the most consequential one in the window.
-3. **Rejected approaches and dead ends, each with its reason** — "tried X, failed because
-   Y, don't retry unless Z". Sweep for **two kinds**, because they live in different parts
-   of the transcript and a single undifferentiated sweep returns only whichever is nearer:
+1. **Standing constraints and prohibitions** — the "always", "never", "don't", scope
+   fences and boundaries the user or the project set. State them in the user's own
+   words, each under 300 characters.
+2. **User corrections** — each time the user rejected, redirected or corrected you,
+   in the user's own words with what it supersedes. A correction from a peer agent
+   or subagent counts, restated as a one-line outcome rather than quoted: in a fleet
+   run it is often the most consequential one in the window.
+3. **Rejected approaches and dead ends, each as a one-line outcome** — what was
+   tried, and the short reason it was ruled out. Cover **two kinds**, because they
+   live in different parts of the session and a single undifferentiated pass returns
+   only whichever is nearer:
    - **Method dead ends** — how to work. A verification command that lies, a shell quoting
      trap, a tool invoked the wrong way, a check that reads green when it is not.
    - **Product dead ends** — what to build. A rejected architecture, a library that emits
      the wrong artifact, a coercion that corrupts stored data, a route deliberately not
      added.
 4. **Exact identifiers** — absolute paths, commands, error strings, failing test names,
-   IDs, ports, versions, flags. The tokens a successor cannot re-derive or guess.
+   IDs, ports, versions, flags. The tokens a successor cannot re-derive or guess;
+   these alone keep their exact spelling.
 
 Measured on a paired case: two summaries of the same window, one written by this skill and
 one by the wire addendum, each pinned seven or eight rejected approaches with reasons — and
@@ -105,18 +112,19 @@ untouched `/compact` reproduces — one buried fragment out of fifteen traceable
 One question per item: *if this is missing, does the next session do something **wrong**, or
 merely something **slower**?*
 
-**Wrong** is unrecoverable. It goes in Tier 1, verbatim:
+**Wrong** is unrecoverable. It goes in Tier 1, under the retention rules above:
 
 - Corrections and rejected approaches, with the *reason* — "rejected: adds a dependency"
-  survives paraphrase, "rejected" does not.
-- Constraints stated once. They never repeat in the transcript, so they have exactly one
+  carries what matters, "rejected" does not.
+- Constraints stated once. They never repeat in the session, so they have exactly one
   chance to survive.
-- Verbatim strings that cannot be re-derived: error text, IDs, hashes, ports, version pins,
-  the precise wording of an acceptance criterion.
+- Identifiers that cannot be re-derived: error text, IDs, hashes, ports, version pins,
+  kept with exact spelling, plus user-stated acceptance criteria in the user's own words,
+  kept short.
 - Where the work actually stands, including what is broken. A summary that reads as
   finished when tests are failing is worse than no summary.
 - Corrections to your own earlier claims. If you said something wrong and fixed it, the
-  *fix* must survive, or the wrong version carries forward.
+  *fix* must survive as a restated outcome, or the wrong version carries forward.
 
 **Slower** is recoverable. Drop it:
 
@@ -129,40 +137,45 @@ merely something **slower**?*
 The asymmetry is deliberate. Re-reading a file costs seconds. Repeating a mistake the user
 corrected costs their trust.
 
-## Preserve exactly, never paraphrase
+## Retain precisely, keep items short
 
-Inside Tier 1, reproduce byte for byte. Paraphrase destroys the only value these have: a
-path that is *nearly* right sends the next session to the wrong file, and an error string
-that is *nearly* right does not match a search.
+Inside Tier 1, identifiers keep their exact spelling: a path that is *nearly* right sends
+the next session to the wrong file, and an error string that is *nearly* right does not
+match a search. Everything else stays short: user constraints and corrections in the
+user's own words, rejected approaches as one-line outcomes. Never quote assistant-written
+text; restate outcomes in fresh words, and keep reasoning, transcript passages, and
+credentials or secret values out of the tier entirely.
 
 The failure is subtler than dropping things. A constraint of "use type hints everywhere"
 was compacted to "the user prefers a consistent code style with type hints" — the absolute
 quantifier silently deleted, the requirement changed. Scope boundaries mutate the same way:
 "remove the calls in `a.py`, leave `b.py` untouched" became a global removal instruction.
+Stating user constraints in the user's own words is what keeps the quantifier and the scope
+attached.
 
 **The pinned tier never contains file contents.** Not a code block, not a pasted comment, not a
 config stanza — a path plus the one sentence that matters, always. The two rules above collide in
-practice and the wrong one wins: handed a distinctive comment or a schema line, "preserve exactly,
-never paraphrase" reads as a licence to paste, and the paste lands *inside* the pinned block as a
+practice and the wrong one wins: handed a distinctive comment or a schema line, "retain precisely"
+reads as a licence to paste, and the paste lands *inside* the pinned block as a
 Tier-1 item. Measured: on the eval written to catch exactly this, both the skill arm and the
 plain-baseline arm pasted a nine-line header comment and a schema fragment, and both blew the
 length cap. The skill arm put the comment in its pinned block.
 
-"The user quoted it in this conversation" is not a reason to pin it. What makes an item Tier 1 is
-that a successor **cannot re-derive** it — an error string, an id, a port, a decision with its
-reason. Anything sitting in a file on disk is re-derivable by definition, so it is a path and a
-clause, however precisely it was quoted at you.
+"The user stated it in this session" is not on its own a reason to pin it. What makes an item
+Tier 1 is that a successor **cannot re-derive** it — an error string, an id, a port, a decision
+with its reason. Anything sitting in a file on disk is re-derivable by definition, so it is a
+path and a clause, however precisely it was stated.
 
-Compress the prose *around* the quotes freely. Fragments are fine; drop articles, hedging
+Keep each item to one or two lines. Fragments are fine; drop articles, hedging
 and connective filler. The tokens you save are what buys room for Tier 1.
 
 ## Order of work: extract, then compress, then verify
 
-1. **Extract first.** Walk the transcript for Tier 1 items and quote them before writing any
-   prose. Extraction before generation measurably improves faithfulness, and doing it second
-   means the narrative has already decided what mattered.
+1. **Extract first.** Walk the session for Tier 1 items and note them under the retention
+   rules before writing any prose. Extraction before generation measurably improves
+   faithfulness, and doing it second means the narrative has already decided what mattered.
 2. **Then compress** Tier 2 into the remaining budget.
-3. **Then verify against the transcript** — not against your summary. Re-read the source
+3. **Then verify against the session** — not against your summary. Re-read the source
    asking "did every correction, constraint and dead end reach Tier 1?" That is a retrieval
    check with external evidence, and it is not the redundant kind: it looks for spans you
    never wrote down, which re-reading your own output cannot surface. Re-reading only your
@@ -196,14 +209,15 @@ Two habits that fix it:
   low-lexical-overlap needle retrieval misses.
 
 If a previous summary is in your context, treat it as a **checklist, not a source**: every
-Tier 1 item it carries is one you must decide about explicitly — re-pin it, or point at
-where it now lives durably. Silently rebuilding from scratch is how eight items were lost.
+Tier 1 item it carries is one you must decide about explicitly — carry it forward only if
+it still applies, restated under the retention rules, or point at where it now lives
+durably. Silently rebuilding from scratch is how eight items were lost.
 
 ### Pin it, or point at it — decide per item, never drop on assumption
 
 Tier 1 has exactly two safe destinations. For each item, pick one:
 
-- **Pin** it verbatim in the block, or
+- **Pin** it in the block under the retention rules, or
 - **Point** at a durable file *and the section inside it* that provably contains it — you
   wrote it there, or you have just read it there.
 
@@ -283,7 +297,9 @@ and 8.
 Observed median for `/compact` is about 20.6k characters. That is a ceiling, not a target. A
 summary is too long when it contains material the next session could regenerate, too short
 when a correction or constraint is missing. If you are over budget, cut file contents and
-intermediate reasoning first. **Never cut Tier 1 to fit.**
+intermediate reasoning first. **Never cut Tier 1 to fit** — the tier has its own cap
+(about 12 items and 3 KB), and items inside it are decided by the keep/drop rule, not by
+remaining budget.
 
 Judge the two tiers on different scales. The pinned block is measured in **items carried**;
 the narrative is measured by **whether anything in it is regenerable**. A pinned block does
@@ -343,7 +359,7 @@ python3 scripts/score_retention.py --transcript <w.jsonl> --summary <a.md> --aga
 python3 scripts/score_retention.py --scan-history          # baseline across your history
 python3 scripts/benchmark_vs_compact.py --arms cli         # score the built-in, free
 python3 scripts/benchmark_vs_compact.py --arms cli,skill -n 8   # head-to-head
-python3 scripts/benchmark_vs_compact.py --arms cli,pinning,pinning2 -n 8  # addendum v1 vs v2
+python3 scripts/benchmark_vs_compact.py --arms cli,pinning -n 8  # addendum arm vs the built-in
 ```
 
 The correction and rejected-approach lists are the part that matters. A dropped path is a
