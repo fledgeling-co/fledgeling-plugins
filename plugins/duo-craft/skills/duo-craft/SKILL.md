@@ -20,10 +20,15 @@ fold API of its own, and no third-party fold library has the adoption to depend 
 
 Deliver what was asked, at the scope intended. Adapting one screen means that screen and the shared
 pieces it needs, not every screen in the app; a new app means the starter plus what the user
-described; a crash fix is the fix, why it works and, when the user asks for it to stay fixed, a check
-inside the app that fails when it regresses (a `package.json` script the build runs, which fails if
-the opt-in leaves `app.json`). Say in one sentence where a wider change would
+described; a crash fix is the fix, why it works and, when the user asks for it to stay fixed, the bundled
+`scripts/check-scene-lifecycle.mjs`, which `install_templates.py` adds and runs before the `ios`
+script. It fails when the opt-in leaves `app.json`, when `expo` drops below 57.0.23, and when a
+generated `ios/` still starts its own window, the half-fix that launches to a black screen. Say in one sentence where a wider change would
 help, then build what was asked.
+
+Write the report for someone who has the app and not this skill: cite the app's files and Apple's or
+Expo's documentation, never this skill's references or this machine's paths, and leave out findings
+about parts of the app the task did not touch.
 
 When the request is a question rather than a change — "should I use this library", "why does it
 crash" — answer it in 25 lines or fewer: the answer first, the reason, and what to do instead. Claim only what
