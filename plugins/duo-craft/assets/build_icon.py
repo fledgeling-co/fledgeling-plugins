@@ -4,7 +4,7 @@
 Geometry and material live here as named constants so a fidelity round is a
 parameter edit rather than path surgery.
 
-    python3 build_icon.py            # writes icon.svg beside this file
+    python3 build_icon.py            # writes icon-engineA-handauthored.svg (the alternate)
 
 THE SUBJECT — "Two panes at a fold"
 -----------------------------------
@@ -252,5 +252,5 @@ def build() -> str:
 
 
 if __name__ == "__main__":
-    (HERE / "icon.svg").write_text(build())
-    print(f"wrote {HERE / 'icon.svg'}")
+    (HERE / "icon-engineA-handauthored.svg").write_text(build())
+    print(f"wrote {HERE / 'icon-engineA-handauthored.svg'}")
