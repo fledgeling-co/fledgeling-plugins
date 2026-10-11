@@ -1,0 +1,47 @@
+{
+  "takes": {
+    "engineA": {
+      "source": "icon-engineA-handauthored.svg",
+      "kind": "svg",
+      "source_sha256": "0bb2e97a8bfd1931ee244a5276f48f9b397e5f74982931957e938f0a35d3eb28",
+      "source_mtime": 1791728028.5264103,
+      "rendered_at": 1791728058.632017
+    },
+    "engineB": {
+      "source": "icon-engineB-arrow.svg",
+      "kind": "svg",
+      "source_sha256": "8c443ead7f5f7836a37192716e61927e52902b6fe170df20b874914058cfa300",
+      "source_mtime": 1791727989.1562946,
+      "rendered_at": 1791728058.783278
+    },
+    "engineC": {
+      "source": "icon-engineC-raster.png",
+      "kind": "raster-mask",
+      "source_sha256": "9d3811b8f984996a53729645bd6ed8c8ec6540c14803e679e546c1237b6acb90",
+      "source_mtime": 1791727989.1612344,
+      "rendered_at": 1791728059.130752
+    },
+    "master": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_sha256": "90ed589e32da90897cb5805e0e1d9d139eabf19c1d49fee33d776972ab3de058",
+      "source_mtime": 1791728058.1256573,
+      "rendered_at": 1791728059.3275352
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}
