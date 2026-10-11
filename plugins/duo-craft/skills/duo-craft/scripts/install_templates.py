@@ -188,9 +188,23 @@ def register_scene_plugin(app_root: str, dry: bool) -> None:
     deps = pkg.setdefault("dependencies", {})
     if "expo-build-properties" not in deps:
         deps["expo-build-properties"] = BUILD_PROPERTIES_RANGE
-        open(pkg_path, "w").write(json.dumps(pkg, indent=2) + "\n")
         print(f"scene lifecycle: added expo-build-properties {BUILD_PROPERTIES_RANGE} to package.json; "
               "run npx expo install expo-build-properties")
+    # The guard that keeps it fixed: fails when the opt-in leaves app.json, when expo drops below
+    # 57.0.23, or when a generated ios/ still has the old window start (a black screen).
+    check = os.path.join(app_root, "scripts", "check-scene-lifecycle.mjs")
+    if not os.path.exists(check):
+        os.makedirs(os.path.dirname(check), exist_ok=True)
+        shutil.copyfile(os.path.join(TEMPLATES, "scripts", "check-scene-lifecycle.mjs"), check)
+    scripts = pkg.setdefault("scripts", {})
+    scripts.setdefault("check:scenes", "node scripts/check-scene-lifecycle.mjs")
+    for name in ("ios", "prebuild"):
+        cmd = scripts.get(name)
+        if cmd and "check:scenes" not in cmd:
+            scripts[name] = f"npm run check:scenes && {cmd}"
+    open(pkg_path, "w").write(json.dumps(pkg, indent=2) + "\n")
+    print("scene lifecycle: scripts/check-scene-lifecycle.mjs added and run before the ios script "
+          "(npm run check:scenes); add it to CI as well")
 
 
 def unlock_orientation(app_root: str, dry: bool) -> None:
@@ -243,8 +257,12 @@ def self_test() -> int:
         install(d, starter=False, alias=None, dry=False)
         if SCENE_PLUGIN not in json.load(open(os.path.join(d, "app.json")))["expo"]["plugins"]:
             print("self-test: SDK 57 app did not get scene support"); ok = False
-        if "expo-build-properties" not in json.load(open(os.path.join(d, "package.json"))).get("dependencies", {}):
+        pkg = json.load(open(os.path.join(d, "package.json")))
+        if "expo-build-properties" not in pkg.get("dependencies", {}):
             print("self-test: SDK 57 app did not get expo-build-properties"); ok = False
+        if not os.path.isfile(os.path.join(d, "scripts", "check-scene-lifecycle.mjs")) or \
+                pkg.get("scripts", {}).get("check:scenes") != "node scripts/check-scene-lifecycle.mjs":
+            print("self-test: SDK 57 app did not get the scene check"); ok = False
         # an existing expo-build-properties entry is merged into, not duplicated
         open(os.path.join(d, "app.json"), "w").write('{"expo": {"plugins": [["expo-build-properties", {"ios": {"deploymentTarget": "16.0"}}]]}}')
         install(d, starter=False, alias=None, dry=False)
