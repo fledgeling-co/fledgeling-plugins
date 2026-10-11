@@ -109,6 +109,14 @@ Designs a screen the way a designer would rather than the way a code generator d
 
 <br clear="left" />
 
+<a href="plugins/duo-craft/README.md"><img src="plugins/duo-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [duo-craft](plugins/duo-craft/README.md)
+
+Makes a React Native app look right on iPhone Duo, Apple's foldable. It puts the list on one side of the fold and the detail on the other, moves the bars into the side column, and fixes the crash an Expo app hits at launch on the new SDK. Then it says which of the nine poses it actually saw running.
+
+<br clear="left" />
+
 <a href="plugins/eli5/README.md"><img src="plugins/eli5/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [eli5](plugins/eli5/README.md)

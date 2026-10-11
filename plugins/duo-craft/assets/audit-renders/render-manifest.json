@@ -1,0 +1,40 @@
+{
+  "takes": {
+    "engineB": {
+      "source": "icon-engineB-arrow.svg",
+      "kind": "svg",
+      "source_sha256": "8c443ead7f5f7836a37192716e61927e52902b6fe170df20b874914058cfa300",
+      "source_mtime": 1791724964.092761,
+      "rendered_at": 1791725063.3448288
+    },
+    "engineC": {
+      "source": "icon-engineC-raster.png",
+      "kind": "raster-mask",
+      "source_sha256": "9d3811b8f984996a53729645bd6ed8c8ec6540c14803e679e546c1237b6acb90",
+      "source_mtime": 1791724927.9773428,
+      "rendered_at": 1791725063.667639
+    },
+    "master": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_sha256": "0bb2e97a8bfd1931ee244a5276f48f9b397e5f74982931957e938f0a35d3eb28",
+      "source_mtime": 1791725048.2950387,
+      "rendered_at": 1791725063.8882902
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

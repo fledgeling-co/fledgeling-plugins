@@ -1,0 +1,10 @@
+{
+  "name": "duo-fold",
+  "version": "1.0.0",
+  "description": "Where a folding iPhone's fold is and how far its hinge is open",
+  "main": "index.ts",
+  "license": "UNLICENSED",
+  "author": "the app",
+  "homepage": "https://example.com",
+  "private": true
+}
