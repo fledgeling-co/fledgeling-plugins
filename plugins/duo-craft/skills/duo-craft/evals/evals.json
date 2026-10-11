@@ -1,0 +1,70 @@
+{
+  "skill_name": "duo-craft",
+  "evals": [
+    {
+      "id": 1,
+      "name": "adapt-field-notes",
+      "prompt": "This is our Expo app, Field Notes (in ./app). It needs to work properly on iPhone Duo, Apple's new foldable iPhone. Make the changes, then write REPORT.md saying what you changed and what you checked.",
+      "files": ["fixtures/field-notes"],
+      "expected_output": "The app adapted in place: per-side insets, no stale Dimensions, an owned fold signal, scene lifecycle handled for SDK 57, list and detail side by side on the open display, native bar items, and an honest report.",
+      "assertions": [
+        "A1 no-stale-dimensions: no Dimensions.get remains under app/src",
+        "A2 per-side-insets: horizontal padding reads insets.left for the left edge and insets.right for the right edge; no paddingHorizontal derived from a single side's inset",
+        "A3 fold-signal-owned: the app gets the fold from native code it contains (Swift reading reservedRegions or UIHingeInteraction under app/modules or app/ios), and package.json adds none of react-native-nitro-hinge, @garrettmacmac/react-native-duo, expo-display-features",
+        "A4 scene-lifecycle: the iOS 27 scene requirement is handled in a way that survives prebuild — a config plugin that writes UIApplicationSceneManifest and a SceneDelegate, or a move to Expo SDK 58",
+        "A5 two-pane: on a wide window with a fold the note detail renders beside the list without navigating",
+        "A6 default-selection: in the two-pane state a note is shown in the detail pane before the user taps anything",
+        "A7 native-bar-items: the note screen's back and share actions are native header or Stack.Toolbar items, not Pressables drawn in a View",
+        "A8 native-tabs: the tab bar is NativeTabs (or another native UITabBarController), not the JS Tabs navigator",
+        "A9 title-clearance: list and settings titles sit at least 44pt from the top when the top inset is 0",
+        "A10 typecheck: npx tsc --noEmit exits 0 in app/",
+        "A11 honest-report: REPORT.md does not claim anything was seen running on a device or simulator"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "new-recipes-app",
+      "prompt": "I've just run create-expo-app in ./app (Expo SDK 57, nothing changed yet). Build a small recipe browser for iPhone Duo in it: a list of recipes and a recipe detail screen with the ingredients and steps. Hard-code three recipes. Write REPORT.md saying what you built and what you checked.",
+      "files": ["fixtures/fresh-sdk57"],
+      "expected_output": "A recipe list and detail that split at the fold on the open display, native tabs and toolbar items, per-side insets, an owned fold signal, the scene plugin, orientation unlocked, typechecking clean.",
+      "assertions": [
+        "B1 scene-lifecycle: the iOS 27 scene requirement is handled in a way that survives prebuild (config plugin writing UIApplicationSceneManifest and a SceneDelegate, or Expo SDK 58)",
+        "B2 fold-signal-owned: native code the app contains reads reservedRegions or UIHingeInteraction; no third-party fold package added",
+        "B3 two-pane: on a wide window with a fold the recipe detail renders beside the list, with a recipe selected by default",
+        "B4 native-bars: tabs are NativeTabs (or the app has a single stack with native header items); any detail action is a native header or Stack.Toolbar item",
+        "B5 per-side-insets: no symmetric horizontal padding derived from one side's inset",
+        "B6 orientation: app.json does not lock orientation to portrait",
+        "B7 opens-on-a-screen: the route at / renders a screen (no Expo Router unmatched route)",
+        "B8 typecheck: npx tsc --noEmit exits 0 in app/",
+        "B9 honest-report: REPORT.md does not claim anything was seen running on a device or simulator"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "launch-crash",
+      "prompt": "Our Expo app in ./app builds fine with Xcode 27.1 but crashes immediately on launch on the iPhone Duo simulator. The crash report's top frame is _UIApplicationEvaluateRuntimeIssueForNoSceneLifecycleAdoption (EXC_BREAKPOINT). Fix it so it stays fixed, and write REPORT.md explaining the cause and the fix.",
+      "files": ["fixtures/field-notes"],
+      "expected_output": "Cause named as missing UIScene lifecycle adoption under the iOS 27 SDK; a fix that survives prebuild; no global Xcode switch.",
+      "assertions": [
+        "C1 cause: REPORT.md names the missing UIScene life cycle (no scene manifest / scene delegate) as the cause",
+        "C2 survives-prebuild: the fix lives in a config plugin registered in app.json, or an Expo SDK 58 upgrade — not only a hand edit under ios/",
+        "C3 plugin-complete: if a plugin, it writes UIApplicationSceneManifest naming a SceneDelegate class and provides that class (e.g. subclassing ExpoAppSceneDelegate), and stops AppDelegate creating its own window",
+        "C4 no-global-xcode: nothing tells the user to run xcode-select -s or change the system Xcode",
+        "C5 scoped: the change is limited to the crash; no unrelated layout rewrite"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "nitro-hinge-question",
+      "prompt": "Quick question: should I use react-native-nitro-hinge to detect the fold on iPhone Duo in my Expo app? Answer in REPORT.md, briefly.",
+      "files": [],
+      "expected_output": "Advises against depending on it, naming the HINGE_IOS_27_1_SDK compile-out and/or the null hinge angle and its low adoption, and offers an owned native module reading reservedRegions.",
+      "assertions": [
+        "D1 compile-out: names that the fold path is compiled out unless HINGE_IOS_27_1_SDK (or an equivalent flag) is set, or that it reports no fold by default",
+        "D2 adoption-or-hinge: notes its low adoption/immaturity or that hingeAngle returns null",
+        "D3 alternative: recommends a small native module the app owns that reads reservedRegions (and UIHingeInteraction)",
+        "D4 brief: REPORT.md is 30 lines or fewer"
+      ]
+    }
+  ]
+}
