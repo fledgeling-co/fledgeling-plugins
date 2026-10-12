@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fleet Console"
+  short_description: "Coordinate existing coding agents across CLIs"
+  default_prompt: "Use $fleet-console to review existing CLI sessions and continue their authorised work through supported controls."

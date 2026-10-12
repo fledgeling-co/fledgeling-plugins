@@ -770,3 +770,13 @@ publish. `references/propagation.md` carries the full corpus with attributions.
 - Do not send a third chase to what two have not reached — treat it as prompt-parked and escalate to the operator.
 - Reach for a subagent only to survey many repos at once, and cap that fan-out at four. The
   conducting itself is never delegated.
+
+
+## Coordinating mixed CLI sessions
+
+For existing Codex, Grok CLI, cursor-agent or Muse CLI work alongside Claude,
+use `flagship:fleet-console`. Its provider controls distinguish native messaging,
+resume/attach and permitted Ghostty review; its dispatch ledger keeps queued,
+held and uncertain sends separate from acknowledged and completed work.
+Continue an unfinished authorised task beyond planning while preserving explicit
+stops, receiving permissions and current conductor ownership.
