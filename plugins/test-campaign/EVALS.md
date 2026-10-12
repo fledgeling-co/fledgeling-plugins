@@ -98,3 +98,14 @@ Grade with a subagent that never sees the skill, marking each assertion passed o
 - **The judge is unexercised.** `assets/judge-contract.md` describes a judge; no judge ran.
 - **A defined eval set proves nothing.** Written assertions are a plan for a measurement.
 - **The set may contain assertions that cannot fail.** Which ones is unknown until both arms run, and any a baseline also passes measure the model rather than the skill and should be relabelled as regression guards or dropped.
+
+
+## Focused ui-regression fixture review — 2026-09-30
+
+The new ui-regression entry point passed skill and UI metadata validation and
+the repository reference gate. An independent read-only neutral fixture review
+kept three reported passing variant cells separate from a blocked dark/compact
+cell, reported 3/4 exercised, and rejected a mock screenshot as runtime evidence.
+No target application was driven or certified by this authoring smoke review;
+native keyboard behavior and current capture lineage remain per-invocation
+acceptance work. No recurring QA or release was started.

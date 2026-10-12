@@ -2,6 +2,13 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.20.0 — 2026-09-30
+
+Added `test-campaign:ui-regression`, a focused reusable journey for navigation,
+keyboard, light/dark and compact/wide regression. Preserves requested scope,
+current app/build identity, capture lineage and blocked variant denominators.
+No monitor or release is configured.
+
 ## 0.19.0 — 2026-09-06
 
 Gates for the demands one owner made more than once. Sourced from a week of sessions in
