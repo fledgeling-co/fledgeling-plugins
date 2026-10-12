@@ -1,21 +1,23 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import { PlatformColor, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { PlatformColor, StyleSheet, View, useWindowDimensions, type LayoutChangeEvent } from 'react-native';
 
 import { SafeAreaInsetsContext, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useRouter } from 'expo-router';
 
-import { useTwoPane, type TwoPane } from '~/lib/fold';
+import { twoPaneForWidth, useFold, useTwoPane, type TwoPane } from '~/lib/fold';
 import { PaneWidthContext } from '~/lib/layout';
 
 /**
- * List and detail split at the fold, for the open inner display of a folding iPhone.
+ * List and detail side by side wherever there is room for both: at the fold on the open
+ * inner display of a folding iPhone, and at about 35/65 on a wide pane without a fold (iPad
+ * in landscape, a wide Mac window).
  *
- * Opening the device reveals one more level of the same hierarchy rather than a
- * different app: the tab's own screen stays in the left pane, and what it would
- * otherwise push (a company, a conversation) fills the right one. With one pane —
- * every other device and pose — `open` pushes exactly as before.
+ * Opening the device or widening the window reveals one more level of the same hierarchy
+ * rather than a different app: the screen's own list stays in the left pane, and what it
+ * would otherwise push (a company, a conversation, a setting) fills the right one. With one
+ * pane, `open` pushes exactly as before.
  */
 
 type DetailPaneValue = {
@@ -25,6 +27,8 @@ type DetailPaneValue = {
   selectedId: string | null;
   /** Show `id` in the right pane when split; push its screen otherwise. */
   open: (id: string) => void;
+  /** Offer the id to show before anything is chosen (the list's first item). */
+  offerDefault: (id: string | null) => void;
 };
 
 const DetailPaneContext = createContext<DetailPaneValue | null>(null);
@@ -32,6 +36,21 @@ const DetailPaneContext = createContext<DetailPaneValue | null>(null);
 /** The enclosing pane, or null outside a `DetailPaneLayout`. */
 export function useDetailPane(): DetailPaneValue | null {
   return useContext(DetailPaneContext);
+}
+
+/**
+ * Opens `id` beside the list when the enclosing screen is split, and pushes `href` when it is
+ * not (or when the list is used outside a `DetailPaneLayout`). `firstId` fills the detail pane
+ * until something is chosen, so the second pane is never blank.
+ */
+export function useOpenDetail(push: (id: string) => void, firstId?: string | null) {
+  const pane = useDetailPane();
+  // Only a split needs a default, so a single pane never re-renders to record one.
+  const offer = pane?.split ? pane.offerDefault : undefined;
+  useEffect(() => {
+    if (offer && firstId !== undefined) offer(firstId);
+  }, [offer, firstId]);
+  return useCallback((id: string) => (pane ? pane.open(id) : push(id)), [pane, push]);
 }
 
 type Props = {
@@ -47,9 +66,23 @@ type Props = {
 
 export function DetailPaneLayout({ hrefFor, defaultId = null, children, renderDetail }: Props) {
   const router = useRouter();
-  const pane = useTwoPane();
+  const fold = useFold();
+  const foldPane = useTwoPane();
+  // Without a fold the split is decided by this pane's own width, which on iPad excludes the
+  // sidebar. Null until the first layout: one pane renders first, then splits if it fits.
+  const [paneWidth, setPaneWidth] = useState<number | null>(null);
+  const { width: windowWidth } = useWindowDimensions();
+  const pane = fold.hasFold ? foldPane : paneWidth == null ? null : twoPaneForWidth(paneWidth);
+  // On a folding iPhone the screen fills the window, so the window stands in until the first layout.
+  const splitWidth = paneWidth ?? windowWidth;
   const [chosenId, setChosenId] = useState<string | null>(null);
-  const selectedId = chosenId ?? defaultId;
+  const [offeredId, setOfferedId] = useState<string | null>(null);
+  const selectedId = chosenId ?? defaultId ?? offeredId;
+  const offerDefault = useCallback((id: string | null) => setOfferedId(id), []);
+  const onLayout = useCallback((e: LayoutChangeEvent) => {
+    const w = Math.round(e.nativeEvent.layout.width);
+    setPaneWidth(prev => (prev === w ? prev : w));
+  }, []);
 
   const open = useCallback(
     (id: string) => {
@@ -67,17 +100,35 @@ export function DetailPaneLayout({ hrefFor, defaultId = null, children, renderDe
     wasSplit.current = pane != null;
   }, [chosenId, hrefFor, pane, router]);
 
-  const value = useMemo(() => ({ split: pane != null, selectedId, open }), [open, pane, selectedId]);
+  const value = useMemo(
+    () => ({ split: pane != null, selectedId, open, offerDefault }),
+    [offerDefault, open, pane, selectedId],
+  );
 
   return (
     <DetailPaneContext.Provider value={value}>
-      {pane ? <Split pane={pane} left={children} right={renderDetail(selectedId)} /> : children}
+      <View style={styles.fill} onLayout={onLayout}>
+        {pane ? (
+          <Split pane={pane} width={splitWidth} left={children} right={renderDetail(selectedId)} />
+        ) : (
+          children
+        )}
+      </View>
     </DetailPaneContext.Provider>
   );
 }
 
-function Split({ pane, left, right }: { pane: TwoPane; left: React.ReactNode; right: React.ReactNode }) {
-  const { width } = useWindowDimensions();
+function Split({
+  pane,
+  width,
+  left,
+  right,
+}: {
+  pane: TwoPane;
+  width: number;
+  left: React.ReactNode;
+  right: React.ReactNode;
+}) {
   const insets = useSafeAreaInsets();
   const trailing = insets.right;
   // Each pane owns only its outer edges: the right pane stops at the side bar rather than
@@ -96,10 +147,7 @@ function Split({ pane, left, right }: { pane: TwoPane; left: React.ReactNode; ri
       <PaneWidthContext.Provider value={Math.max(0, width - trailing - pane.rightX)}>
         <SafeAreaInsetsContext.Provider value={rightInsets}>
           <View
-            style={[
-              styles.right,
-              { marginRight: trailing },
-            ]}
+            style={[styles.right, { marginRight: trailing }]}
           >
             {right}
           </View>
@@ -110,6 +158,7 @@ function Split({ pane, left, right }: { pane: TwoPane; left: React.ReactNode; ri
 }
 
 const styles = StyleSheet.create({
+  fill: { flex: 1 },
   row: { flex: 1, flexDirection: 'row' },
   // System colours, so the detail pane follows light and dark mode without app tokens.
   right: {
