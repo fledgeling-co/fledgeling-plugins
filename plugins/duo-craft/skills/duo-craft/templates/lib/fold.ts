@@ -58,6 +58,16 @@ export function foldGeometry(state: FoldState): FoldGeometry {
   };
 }
 
+/**
+ * The narrowest pane, on a device without a fold, that splits into list and detail: iPad in
+ * landscape (1180pt, less its sidebar) and a wide Mac window qualify; iPad in portrait (820pt)
+ * and a Split View half keep one pane, as Mail and Settings do.
+ */
+export const SPLIT_MIN_WIDTH = 900;
+/** List column bounds without a fold: about 35% of the pane, as Apple's split views size it. */
+export const LIST_MIN_WIDTH = 320;
+export const LIST_MAX_WIDTH = 420;
+
 export type TwoPane = {
   /** Width of the left (list) pane, from the window's left edge to the gap. */
   leftWidth: number;
@@ -76,6 +86,16 @@ export function twoPaneFor(fold: FoldGeometry, windowWidth: number, windowHeight
   if (windowWidth < TWO_PANE_MIN_WIDTH || windowWidth <= windowHeight) return null;
   const half = fold.gap / 2;
   return { leftWidth: Math.max(0, fold.verticalFoldX - half), rightX: fold.verticalFoldX + half };
+}
+
+/**
+ * List and detail without a fold, from the width of the pane being split (not the window,
+ * which on iPad includes the sidebar). No gap: the panes meet at a hairline.
+ */
+export function twoPaneForWidth(paneWidth: number): TwoPane | null {
+  if (paneWidth < SPLIT_MIN_WIDTH) return null;
+  const leftWidth = Math.round(Math.min(LIST_MAX_WIDTH, Math.max(LIST_MIN_WIDTH, paneWidth * 0.36)));
+  return { leftWidth, rightX: leftWidth };
 }
 
 // One subscription to the native module, shared by every hook.

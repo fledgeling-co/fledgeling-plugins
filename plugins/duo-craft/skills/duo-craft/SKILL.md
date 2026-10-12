@@ -108,12 +108,13 @@ with `"ios": { "enableSceneSupport": true }` — adding the package to `package.
 script says to upgrade the patch or move to SDK 58, which adopts scenes itself.
 With `--starter` it replaces the fresh app's route files (keeping the originals in
 `.duo-craft-backup/`) and changes create-expo-app's `"orientation": "portrait"` to `"default"`: the
-outer display honours the lock and the inner display rotates regardless.
+outer display honours the lock and the inner display rotates regardless. An app that keeps regular
+iPhones in portrait while the Duo and iPad turn needs the native rule in pattern 12 instead.
 `--with-tests` adds the two test files; they need `jest-expo` and `@testing-library/react-native`.
 
 ### 4. Apply the patterns
 
-`references/patterns.md` has the ten patterns with the template that implements each and the
+`references/patterns.md` has the twelve patterns with the template that implements each and the
 failure it prevents. The ones that decide most of the result:
 
 - **Branch on space and on `hasFold`, never on the model.** `Platform.isPad` is false and
@@ -122,9 +123,13 @@ failure it prevents. The ones that decide most of the result:
 - **Pad each side for its own inset.** `paddingLeft: insets.left + margin`, `paddingRight:
   insets.right + margin`. Symmetric math is wrong on every pose here, and Split View flips which
   side carries the bar.
-- **List and detail split at the fold.** Wrap the tab's list in `DetailPaneLayout`; with two panes
-  the right one renders what the list would have pushed. Select the first item by default, because
-  an empty right half reads as broken, and push the chosen item full screen when the device closes.
+- **List and detail split at the fold, and on any pane at least 900pt wide.** Wrap the tab's list in
+  `DetailPaneLayout`; with two panes the right one renders what the list would have pushed. Without a
+  fold it measures the pane, not the window, so iPad's sidebar does not count. Select the first item
+  by default, because an empty right half reads as broken, and push the chosen item full screen when
+  the device closes.
+- **A screen drawn in a pane sets its options through `RouteOptions`.** A `Stack.Screen` inside the
+  right pane renames the tab that hosts it.
 - **Bars move to the side only as native bar items.** Use `NativeTabs` triggers with an icon and a
   label and `Stack.Toolbar` buttons with an SF Symbol (Apple's system icon set). A header or tab bar
   drawn in a `View` stays where it was drawn, across the content. Wire every item to its action —
@@ -143,8 +148,9 @@ failure it prevents. The ones that decide most of the result:
 rather than `xcode-select`, which changes the machine for every project. A Release build embeds
 the JavaScript, so it needs no Metro.
 
-Device Hub is the only way to fold, rotate or enter Split View, and driving it takes the user's
-mouse and focus. Ask before clicking through it, or have the user set each pose while you capture.
+Device Hub is the only way to fold or rotate, and driving it takes the user's mouse and focus. It
+has no control for Split View or picture in picture, so report those three poses `not reached` on the
+simulator. Ask before clicking through it, or have the user set each pose while you capture.
 Open each capture and read it; `be-my-witness:be-my-witness` gives a region-by-region read when a
 pose is in doubt.
 

@@ -1,4 +1,4 @@
-import { FOLD_GAP, foldGeometry, twoPaneFor } from '../fold';
+import { FOLD_GAP, LIST_MAX_WIDTH, LIST_MIN_WIDTH, foldGeometry, twoPaneFor, twoPaneForWidth } from '../fold';
 import { layoutFor, sizeClassFor } from '../layout';
 import { NO_FOLD, type FoldState } from '../../modules/duo-fold';
 
@@ -74,5 +74,22 @@ describe('fold-aware layout tiers', () => {
   it('leaves the outer display and the closed phone compact', () => {
     expect(sizeClassFor(382, true)).toBe('compact');
     expect(sizeClassFor(475, true)).toBe('compact');
+  });
+});
+
+describe('twoPaneForWidth (no fold)', () => {
+  it('splits iPad landscape beside its sidebar at about 35/65', () => {
+    // 1180pt window less the 260pt sidebar.
+    expect(twoPaneForWidth(920)).toEqual({ leftWidth: 331, rightX: 331 });
+  });
+
+  it('keeps one pane on iPad portrait and in a Split View half', () => {
+    expect(twoPaneForWidth(820)).toBeNull();
+    expect(twoPaneForWidth(507)).toBeNull();
+  });
+
+  it('holds the list between its bounds on very wide windows', () => {
+    expect(twoPaneForWidth(1600)?.leftWidth).toBe(LIST_MAX_WIDTH);
+    expect(twoPaneForWidth(900)!.leftWidth).toBeGreaterThanOrEqual(LIST_MIN_WIDTH);
   });
 });

@@ -19,11 +19,21 @@ actually has (window minus each side's inset, or the pane's width inside a split
   once and do not rearrange as the hinge moves — Apple's grid example (prefer even columns whenever a
   fold exists) is the same rule.
 
-## 2. List and detail, split at the fold
+## 2. List and detail, split at the fold or on a wide pane
 
-`components/DetailPaneLayout.tsx` wraps a tab's list screen. With two panes (the open display in
-landscape, flat or folded, at least 800pt wide) the left pane keeps the tab's own screen and the
-right pane renders what the list would have pushed. With one pane `open(id)` pushes, exactly as before.
+`components/DetailPaneLayout.tsx` wraps a tab's list screen. The left pane keeps the tab's own screen
+and the right pane renders what the list would have pushed. It splits in two cases:
+
+- **With a fold:** at the fold, on the open display in landscape (flat or folded, at least 800pt wide).
+- **Without a fold:** when the pane itself is at least 900pt wide (`SPLIT_MIN_WIDTH`), with the list
+  about 36% of it, held between 320 and 420pt. The width comes from the pane's own `onLayout`, not the
+  window, because on iPad the window includes the sidebar. iPad in landscape splits beside its sidebar
+  (1180pt less 260pt); iPad in portrait (820pt) and a Split View half keep one pane, as Mail and
+  Settings do.
+
+With one pane `open(id)` pushes, exactly as before. A list opens rows through
+`useOpenDetail(push, firstId)`, which opens beside the list when split, pushes otherwise, and offers
+`firstId` as the default so the right pane is never blank.
 
 What made it work in a real app:
 
@@ -35,9 +45,9 @@ What made it work in a real app:
   inside the left pane read 462pt, so the list lays out as the phone screen it is. The right pane
   stops at the side bar instead of padding for it, and neither pane pads for the fold.
 - **Make detail screens embeddable.** Split the route file into the route (`useLocalSearchParams`)
-  and a component taking `{ id, embedded }`. `embedded` skips `<Stack.Screen options>` (the tab owns
-  the bar) but keeps `Stack.Toolbar` items, which then land in the tab's bar — show that bar
-  transparent while split so the items reach the side column.
+  and a component taking `{ id }`, and set its options through `RouteOptions` (pattern 11), never
+  `<Stack.Screen options>`. `Stack.Toolbar` items inside the embedded screen land in the tab's bar —
+  show that bar transparent while split so the items reach the side column.
 - **Require embedded detail screens on first use, not at import.** A static import of the company
   screen into the Following tab pulled `react-native-keyboard-controller`'s native module into every
   tab test and failed six suites. `require()` inside the render keeps the tab light and only loads
@@ -58,7 +68,8 @@ list → detail. Without it, a 3:2 row puts a card across the hinge.
 below the gap. Use it when `posture === 'tabletop'` on screens with something to watch (a chart, a
 video): the viewable thing goes up, its range picker, transport or actions go down. Keep every
 control the other poses have — rearrange, never remove. Other tabs keep their normal layout so
-nothing is out of reach. *Built and unit-tested; the tabletop pose itself not yet seen running.*
+nothing is out of reach. Seen on the Duo simulator: the chart sat on the raised half and its range
+picker below the fold.
 
 Split a component whose controls are welded to its content (a chart with its range pills) into a
 controlled pair (`range` / `onRangeChange` / `showRanges={false}` + a separate picker) so the two
@@ -107,6 +118,41 @@ Read hinge angle only to drive an effect (a reveal, a parallax, a whammy bar), r
 status leaves `partiallyOpen`, give devices without a hinge the end state, and honour Reduce Motion.
 Layout keys on `posture` and the fold geometry, which the system already decided from angle and
 orientation.
+
+## 11. A screen drawn in a pane sets its options through `RouteOptions`
+
+A detail screen shown in the right pane is still a route's component, and a `<Stack.Screen options>`
+inside it sets options on the stack that hosts the pane: the tab's own screen, whose title and header
+actions it then replaces. Give every embeddable screen a `RouteOptions` wrapper instead. Pushed, it
+renders `<Stack.Screen options>` unchanged. Inside a pane (an `EmbeddedRouteContext` that
+`DetailPaneLayout`'s right pane provides) it draws the title and `headerRight` as the pane's own top
+row, padded with `titleTopPadding()`, so a screen's actions stay with that screen whichever way it is
+shown. Keep one registry of the routes a pane can draw, so a route added later is either registered
+or pushes rather than half-rendering.
+
+A pushed screen that is itself a list splitting into list and detail needs the whole window. When the
+root stack caps pushed screens at a reading-column width through `contentStyle`, exempt those routes
+by name whenever the window can split (a fold pane exists, or the window is at least
+`SPLIT_MIN_WIDTH`); capped, the pane never reaches 900pt and never splits.
+
+## 12. Phones stay portrait; the Duo and iPad turn
+
+To keep a regular iPhone in portrait while the Duo and iPad rotate, decide in native code, because
+the Duo is an iPhone to Info.plist as to every other API:
+
+- Allow all four orientations on iPhone in `ios.infoPlist.UISupportedInterfaceOrientations`, and keep
+  `"orientation": "portrait"` in `app.json`, which then only governs Android.
+- Add an `ExpoAppDelegateSubscriber` implementing `application(_:supportedInterfaceOrientationsFor:)`
+  and register it under `apple.appDelegateSubscribers` in the fold module's `expo-module.config.json`.
+  It returns `.all` off iPhone, `.allButUpsideDown` once a fold has been seen, and portrait otherwise.
+- Detect the fold from the window (`reservedRegions(kind: .division, options: .includeInactive)` is
+  non-empty) and from the module's first reading. When the module first sees one, call
+  `setNeedsUpdateOfSupportedInterfaceOrientations()` on the root view controller, so the outer display
+  turns without a relaunch.
+
+Seen on the Xcode 27.1 simulators: an iPhone 18 Pro held portrait when rotated, and the Duo's outer
+and inner displays both turned. This is not in the templates, because an app that rotates on every
+iPhone does not want it; the starter sets `"orientation": "default"` instead.
 
 ## Design before code
 

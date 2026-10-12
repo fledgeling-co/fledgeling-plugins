@@ -46,6 +46,11 @@ Where each rule in this skill comes from. Four kinds of source, marked in the ta
 | Title top 59 + 8pt when the top inset is 0 | [measured] owner rejected 8pt and then 20pt on the Duo (commits `0d3cdeb5fc`, `c6329e4367`) |
 | Pushed screens pad each side for its own inset | [measured] content ran to within 2pt of the back button; owner flagged it on every screen (commit `6513385fe0`) |
 | A starter with no `/` route opens on Expo Router's 404 | [measured] 2026-10-12, fixed with `app/index.tsx` |
+| Split without a fold once the pane is 900pt wide, list about 36% (320–420pt), measured from the pane so iPad's sidebar is excluded | [measured] dAIolog `lib/fold.ts` (`twoPaneForWidth`) and `DetailPaneLayout`, unit-tested in the app and in this skill's templates; the iPad pose itself was not captured in this skill's runs |
+| A screen drawn in a pane sets its options through `RouteOptions`, never `Stack.Screen` | [measured] dAIolog 2026-10-12: `Stack.Screen` inside an embedded detail renamed the tab hosting it; `components/flow/RouteOptions.tsx` draws the title and `headerRight` in the pane instead |
+| A pushed list that splits is exempt from the reading-column cap on pushed screens | [measured] dAIolog `app/_layout.tsx` `SPLIT_ROUTES`: capped, the pane never reached the split width |
+| iPhones without a fold stay portrait while the Duo and iPad turn, decided in an `ExpoAppDelegateSubscriber` | [measured] 2026-10-12 on the Xcode 27.1 simulators: iPhone 18 Pro held portrait when rotated; the Duo's outer and inner displays turned (dAIolog `DiologFoldAppDelegateSubscriber.swift`) |
+| Device Hub has no Split View or picture-in-picture control | [measured] Xcode 27.1 RC Device Hub, 2026-10-12 |
 
 ## Libraries
 
@@ -61,6 +66,9 @@ Details in `libraries.md`.
 
 ## Not yet seen running
 
-Built and unit-tested, not yet captured on the simulator: tabletop (`FoldRows`), book pose with an
-active division, Split View left and right, PiP pinned. `SKILL.md` asks the runner to mark these
-`not reached` rather than assume them.
+Seen on the Duo simulator in dAIolog on 2026-10-12: closed, open portrait, open landscape, book
+with an active division (the split held with nothing in the fold band) and tabletop (the chart on the
+raised half, its controls below the fold).
+
+Not reached: Split View left and right, and PiP pinned, because Device Hub has no control for either.
+`SKILL.md` asks the runner to mark these `not reached` rather than assume them.

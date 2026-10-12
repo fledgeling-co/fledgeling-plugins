@@ -20,7 +20,7 @@ React Native has no fold API of its own. The fold libraries on npm are weeks old
 The skill carries the code rather than describing it. It came out of adapting a shipping Expo app to the Duo; the fold module, the two-pane split and the starter all ran on the Xcode 27.1 Duo simulator before they went in.
 
 - **A fold module the app owns.** About 150 lines of Swift reading Apple's `reservedRegions` and `UIHingeInteraction`. It needs the iOS 27.1 SDK and fails to compile without it, so it can't quietly report no fold.
-- **List and detail split at the fold.** `DetailPaneLayout` keeps your list on the left and renders what it would have pushed on the right, selects the first item so the right half is never blank, and pushes the chosen item full screen when the device closes.
+- **List and detail split at the fold.** `DetailPaneLayout` keeps your list on the left and renders what it would have pushed on the right, selects the first item so the right half is never blank, and pushes the chosen item full screen when the device closes. It splits on iPad and wide windows too, once the pane is 900 points wide.
 - **Bars that can move to the side.** `NativeTabs` and `Stack.Toolbar` items, because a tab bar or header drawn in a `View` stays where it was drawn, across your content.
 - **Insets per side, titles that clear the top.** Each edge pads for its own inset, and titles sit at 59 + 8pt when the top inset is 0. The app this came from was told 20pt was still touching the edge.
 - **The launch crash, fixed Expo's way.** On SDK 57 it turns on `expo-build-properties` with `ios.enableSceneSupport`, which is Expo's own opt-in.
@@ -39,7 +39,7 @@ Four tasks ran twice each, once with the skill and once with nothing. Three mode
 
 It lost the crash-fix task, and that's worth saying plainly. The no-skill run found Expo's official `enableSceneSupport` flag; the skill had shipped its own config plugin making the same three edits. It was measured on the Duo the same day (prebuild, Release build, launch, two-pane split showing), and the skill now uses it. Three more rounds closed most of the rest of the gap (a regression check, a tighter report), ending at one loss and two splits; on a well-documented crash a strong model finds the fix without help. On the "should I use nitro-hinge?" question the first answer ran to 44 lines with asides; by the third round it was 31 lines and two of the three judges preferred it in both orders. [EVALS.md](EVALS.md) has the tables, the judges' reasons and the re-runs.
 
-Note: tabletop, the book pose with the hinge partly closed, both Split View halves and picture in picture are built and unit-tested but haven't been seen running yet. The skill tells the run to mark them `not reached` rather than assume them.
+Note: tabletop and the book pose with the hinge partly closed have since been seen running on the Duo simulator. Both Split View halves and picture in picture are built and unit-tested but haven't been seen, because the simulator's Device Hub has no control for either. The skill tells the run to mark them `not reached` rather than assume them.
 
 ## What it costs
 

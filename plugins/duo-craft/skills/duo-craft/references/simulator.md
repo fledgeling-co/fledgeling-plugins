@@ -41,9 +41,10 @@ by `pod install` with no config change; the pod log prints `Installing <Pod> (1.
 ## The simulator UI is Device Hub, and it can lose its device list
 
 Xcode 27 replaced Simulator.app with **Device Hub**
-(`Xcode-27.1…app/Contents/Applications/DeviceHub.app`). Opening, closing, folding, rotating and Split
-View are its on-screen controls; `simctl` has no hinge or posture command (its help lists none, and no
-binary in CoreSimulator mentions one).
+(`Xcode-27.1…app/Contents/Applications/DeviceHub.app`). Opening, closing, folding and rotating are its
+on-screen controls; `simctl` has no hinge or posture command (its help lists none, and no binary in
+CoreSimulator mentions one). Device Hub in the Xcode 27.1 RC has no control for Split View or picture in
+picture, so the last three rows of the pose matrix are `not reached` on the simulator.
 
 **Device Hub showing "No Devices" while `simctl list devices` shows booted simulators** is a stale
 `CoreDeviceService`. Its log says `Created device <private> was not found in DeviceKit after
