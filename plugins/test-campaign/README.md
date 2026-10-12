@@ -185,3 +185,11 @@ The desktop lanes came out of a fourth research pass in August 2026. Half of it 
 ```
 
 Then `/test-campaign:test-campaign`, or just ask Claude to test something properly.
+
+
+## Focused regression
+
+`/test-campaign:ui-regression <named journey>` repeats a bounded navigation case
+with keyboard and requested theme/width variants. It reports blocked cells and
+current target evidence, and reuses the project's existing test harness. It does
+not start recurring QA or approve a release.

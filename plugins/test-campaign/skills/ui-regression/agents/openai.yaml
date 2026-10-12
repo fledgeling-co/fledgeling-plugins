@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Regression"
+  short_description: "Repeat navigation, keyboard, theme and width QA"
+  default_prompt: "Use $ui-regression to handle the selected task with evidence and a clear stopping condition."

@@ -1385,3 +1385,10 @@ owner has said to run with the load, report the concurrency chosen and run under
 watcher rather than stopping on a load figure — five projects asked for this in
 one week after a run halted itself on machine load — and where no such override
 exists, the governor's answer is the answer.
+
+## Focused UI regression
+
+For a repeatable, bounded navigation journey across keyboard, light/dark and
+compact/wide variants, use `test-campaign:ui-regression`. It extends existing
+cases, records current target identity and blocked cells, and preserves the
+requested scope. Full application campaigns continue to use this skill.
