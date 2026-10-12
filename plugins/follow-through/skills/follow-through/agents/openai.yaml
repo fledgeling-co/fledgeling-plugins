@@ -1,0 +1,4 @@
+interface:
+  display_name: "Follow Through"
+  short_description: "Reconcile loose ends with sources and next actions"
+  default_prompt: "Use $follow-through to handle the selected task with evidence and a clear stopping condition."

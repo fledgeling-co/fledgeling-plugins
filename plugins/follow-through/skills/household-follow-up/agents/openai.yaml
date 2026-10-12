@@ -1,0 +1,4 @@
+interface:
+  display_name: "Household Follow up"
+  short_description: "Reconcile deliveries and household follow-ups"
+  default_prompt: "Use $household-follow-up to handle the selected task with evidence and a clear stopping condition."

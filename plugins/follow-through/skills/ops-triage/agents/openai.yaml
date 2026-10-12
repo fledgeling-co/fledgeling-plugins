@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ops Triage"
+  short_description: "Triage operational errors, costs and cloud credits"
+  default_prompt: "Use $ops-triage to handle the selected task with evidence and a clear stopping condition."
