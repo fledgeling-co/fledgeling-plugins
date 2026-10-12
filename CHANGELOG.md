@@ -4,6 +4,39 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-09-30
+
+### flagship 1.7.3: queued peer decisions do not answer live clarification prompts
+
+Documents Claude 2.1.285 waiting-choice controls with official sources: agent-view
+peek is for background rows, SDK callbacks belong to their query, and Remote
+Control excludes custom endpoints. Adds a read-only choice handoff planner and
+six tests for receipt/control ownership, exact settled labels and stale prompts.
+After a user has decided, insufficient tools lead to one exact local submission,
+without another decision question, session migration or permission bypass.
+
+
+### flagship 1.7.2: verified native recovery and installed adoption
+
+Fleet-console now documents bounded native Claude discovery/send, sandbox versus
+API/auth failures, peer identity reconciliation, recipient readback and ownership
+isolation. Adds supported local-directory refresh and a read-only adoption
+verifier that refuses empty snapshots, ambiguous targets and stale skill caches.
+Sixteen behavioral tests pass; bundled scripts retain executable modes and
+partial timeout receipts are retained without
+retrying uncertain sends. Operational identities remain outside reusable files.
+
+
+### Six-area follow-through coverage
+
+Added follow-through 1.0.0 for operational error/cost/credit triage, deliveries
+and household follow-ups, research decisions and colleague commitments. Its
+read-only helper checks identity, source scope, freshness and completion evidence.
+Added test-campaign 0.20.0 with focused ui-regression journeys. Registered
+flagship 1.7.0 and its fleet-console for cross-provider agent continuation, owned
+by the concurrent coordinator. These skills preserve bounded requests and do
+not configure live monitors or authorise external actions.
+
 ## 2026-09-25
 
 ### braindump 2.5.0: the compaction addendum asks for a summary, not a reproduction

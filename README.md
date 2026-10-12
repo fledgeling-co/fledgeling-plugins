@@ -295,7 +295,8 @@ The other half of the same app. It reviews the open pull requests, fixes what th
 
 ### [flagship](plugins/flagship/README.md) · **Uses multiple models**
 
-For when you already have a dozen Claude sessions running at once. It tracks what each is doing, works out how much your Mac can carry, batches their questions so only the ones needing your judgement reach you, and tells each what the others found.
+For when you already have a dozen Claude sessions running at once. It tracks what each is doing, works out how much your Mac can carry, batches their questions so only the ones needing your judgement reach you, and tells each what the others found. Its fleet-console skill also coordinates existing Codex, Grok, Cursor and Muse sessions through supported controls, keeping blocked prompts, completed work and uncertain delivery distinct.
+
 
 <br clear="left" />
 
@@ -400,6 +401,14 @@ For when you want more than the first idea. It thinks through several genuinely 
 
 Asks what is left and gives you one page where the status and the open questions stop contradicting each other. Every blocked item links down to the decision that would release it, and every decision says how much it actually releases.
 
+
+<br clear="left" />
+
+<a href="plugins/follow-through/README.md"><img src="plugins/follow-through/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [follow-through](plugins/follow-through/README.md)
+
+Brings selected alerts, household follow-ups, research choices and colleague promises back to their sources. It gives each loose end an evidenced state and next action, keeps stale observations visible, and verifies the authorised outcome before calling it complete.
 
 <br clear="left" />
 
