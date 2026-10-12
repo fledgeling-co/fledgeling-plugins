@@ -128,3 +128,30 @@ night, and each carries the number that produced it:
   state reconciled from git rather than the dead runner's last words; and
   **closing twelve finished sessions by classification lost nothing** while two
   candidates correctly survived (owed work; pending verdict).
+
+
+## Fleet console — 2026-09-30
+
+Twenty-two behavioral tests cover waiting-choice ownership, transport, durable dispatch suppression and
+installed adoption, including zero/empty snapshot false passes and stale cache
+content. Native Claude independent discovery/send and recipient readback were
+verified through an approved execution route; one recipient acknowledged and
+continued under its existing goal hook. Supported Claude/Codex local refresh
+verified source/cache skill equality and unrelated installation preservation.
+A second recipient's acknowledgement remains pending, so queued or delivered
+work is not reported as completed. Codex app supervision separately demonstrated
+accepted dispatch, acknowledgement and subsequent work under its sole owner.
+
+See [verification boundaries](skills/fleet-console/references/verification.md).
+Provider-specific stale daemon, closed ingress, missing leader/persistent session
+and denied app access remain runtime observations, not universal limitations.
+No publishing, push, merge, deploy or persistent permission changes occurred.
+The Codex-only plugin validator requires a `.codex-plugin/plugin.json`; this
+existing repository uses its established Claude marketplace manifests. Source
+reference, skill and catalogue validation are the applicable integration gates.
+
+The 1.7.3 waiting-choice review verified that native peer decision text remains
+queued while an interactive AskUserQuestion is outstanding. Official agent-view
+peek supports background rows; SDK callback controls belong to their query.
+The read-only planner records prompt_answered:false regardless of peer receipts.
+No prompt results, queues or session states were edited to simulate an answer.

@@ -102,3 +102,38 @@ Pairs with `harbourmaster:harbourmaster` (the machine), `ship-armada:ship-armada
 `whats-left:whats-left` (the decision page) and `recover-claude-code:recover-claude-code` (when the terminal dies).
 
 MIT.
+
+## Mixed CLI sessions
+
+Invoke `/flagship:fleet-console` to review and continue existing Claude Code,
+Codex, Grok CLI, cursor-agent and Muse CLI work. It reconciles each session's
+original task and worktree, preserves coordination ownership, and routes the
+next approved stage through `clarify:clarify`, `harbourmaster:harbourmaster`
+and the `shipyard` stage skills. Planning alone does not finish an authorised
+implementation task.
+
+The bundled helper inventories supported native controls and prepares Codex
+queue/Muse send packets in dry-run mode. Explicit execution records a dispatch
+before sending, suppresses repeats and retains uncertain delivery. Claude uses
+its native `ListAgents`/`SendMessage`; resume and team-file edits do not stand
+in for that transport.
+
+When a native route is unavailable it can inspect existing Ghostty tabs through
+permitted computer use, verify the target and idle composer, and submit a bounded
+in-scope message. Denied app access stops this route. Closed ingress, owner
+questions, permissions, cancelled tasks and another conductor's ownership are
+preserved. It does not push, merge, publish, deploy or relay a new user grant.
+
+See [provider controls](skills/fleet-console/references/providers.md) and
+[send packet contract](skills/fleet-console/references/packets.md). Run helper
+tests with `python3 -m unittest discover -s skills/fleet-console/scripts`.
+
+The [recovery and adoption guide](skills/fleet-console/references/recovery-and-adoption.md)
+covers bounded native Claude bridges, sandbox diagnostics and supported local
+plugin refresh. `verify_adoption.py` checks installed versions/content and
+preservation of unrelated plugins; active-session loading requires separate evidence.
+
+A queued peer decision does not answer another interactive clarification prompt.
+The helper's read-only `choice --packet` planner distinguishes background agent-view
+and owned SDK controls from a handoff to the original prompt. After the operator
+has already decided, it supplies the exact choice label without asking again.
