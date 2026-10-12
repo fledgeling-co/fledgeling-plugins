@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commitments"
+  short_description: "Reconcile colleague promises and handoffs"
+  default_prompt: "Use $commitments to handle the selected task with evidence and a clear stopping condition."

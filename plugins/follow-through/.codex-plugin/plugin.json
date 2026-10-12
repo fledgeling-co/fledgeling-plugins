@@ -1,0 +1,22 @@
+{
+  "name": "follow-through",
+  "version": "1.0.0",
+  "description": "Reconcile selected operational alerts, household follow-ups, research decisions and colleague commitments into evidenced next actions and verified outcomes, preserving scope and approval boundaries.",
+  "author": {
+    "name": "Fledgeling"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Follow Through",
+    "shortDescription": "Resolve selected loose ends with source evidence.",
+    "longDescription": "Reconcile selected operational alerts, household follow-ups, research decisions and colleague commitments into evidenced next actions and verified outcomes, preserving scope and approval boundaries.",
+    "developerName": "Fledgeling",
+    "category": "Productivity",
+    "capabilities": [
+      "Read"
+    ],
+    "defaultPrompt": "Review the selected loose ends and identify evidenced next actions.",
+    "logo": "./assets/icon-256.png",
+    "composerIcon": "./assets/icon-128.png"
+  }
+}

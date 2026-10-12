@@ -1,0 +1,4 @@
+interface:
+  display_name: "Decision Brief"
+  short_description: "Turn product and tool research into a decision"
+  default_prompt: "Use $decision-brief to handle the selected task with evidence and a clear stopping condition."

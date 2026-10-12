@@ -1,0 +1,10 @@
+{
+  "name": "follow-through",
+  "description": "Reconcile selected operational alerts, household follow-ups, research decisions and colleague commitments into evidenced next actions and verified outcomes, preserving scope and approval boundaries.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Fledgeling"
+  },
+  "logo": "assets/icon-256.png",
+  "skills": "skills"
+}
