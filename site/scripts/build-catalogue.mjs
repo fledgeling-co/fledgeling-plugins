@@ -90,7 +90,7 @@ const GROUP_OF = {
   // Knowing where things stand.
   reckon: "standing", "whats-left": "standing", stocktake: "standing", report: "standing",
   "dossier-report": "standing", trawl: "standing", positioning: "standing",
-  "status-update": "standing",
+  "status-update": "standing", "follow-through": "standing",
 
   // Keeping a long job alive.
   "better-goal": "long-runs", "better-loop": "long-runs", "should-compact": "long-runs",
