@@ -96,6 +96,29 @@ def scan_sources(root: str) -> list[Finding]:
     return out
 
 
+def has_phone_portrait_rule(root: str, cfg: dict) -> bool:
+    """Pattern 12: phones held portrait in native code while a fold device turns.
+
+    With Info.plist allowing landscape on iPhone and an app-delegate rule
+    implementing `supportedInterfaceOrientationsFor`, app.json's portrait lock
+    only governs Android, so it is not a Duo problem."""
+    plist = (cfg.get("ios") or {}).get("infoPlist") or {}
+    allowed = plist.get("UISupportedInterfaceOrientations") or []
+    if not any("Landscape" in o for o in allowed):
+        return False
+    for base in ("modules", "ios"):
+        for dirpath, dirnames, filenames in os.walk(os.path.join(root, base)):
+            dirnames[:] = [d for d in dirnames if d not in ("node_modules", "Pods", "build")]
+            for name in filenames:
+                if name.endswith(".swift"):
+                    try:
+                        if "supportedInterfaceOrientationsFor" in open(os.path.join(dirpath, name), errors="ignore").read():
+                            return True
+                    except OSError:
+                        continue
+    return False
+
+
 def scan_config(root: str) -> list[Finding]:
     out: list[Finding] = []
     app_json = os.path.join(root, "app.json")
@@ -104,7 +127,7 @@ def scan_config(root: str) -> list[Finding]:
             cfg = json.load(open(app_json)).get("expo", {})
         except (OSError, ValueError):
             cfg = {}
-        if cfg.get("orientation") == "portrait":
+        if cfg.get("orientation") == "portrait" and not has_phone_portrait_rule(root, cfg):
             out.append(Finding("portrait-lock", "warn", "app.json", 1, '"orientation": "portrait"',
                                "Honoured on the outer display only; the inner display rotates anyway, so "
                                "every screen still needs a landscape layout there."))
@@ -239,11 +262,21 @@ def self_test() -> int:
         "app.json": json.dumps({"expo": {"plugins": [["expo-build-properties", {"ios": {"enableSceneSupport": True}}]]}}),
         "package.json": json.dumps({"dependencies": {"expo": "~57.0.3"}}),
     }
+    # Pattern 12 in place: portrait in app.json is Android-only, so no warning.
+    phone_rule = dict(good)
+    phone_rule["app.json"] = json.dumps({"expo": {
+        "orientation": "portrait",
+        "plugins": [["expo-build-properties", {"ios": {"enableSceneSupport": True}}]],
+        "ios": {"infoPlist": {"UISupportedInterfaceOrientations": [
+            "UIInterfaceOrientationPortrait", "UIInterfaceOrientationLandscapeLeft"]}}}})
+    phone_rule["modules/duo-fold/ios/DuoFoldAppDelegateSubscriber.swift"] = (
+        "func application(_ a: UIApplication, supportedInterfaceOrientationsFor w: UIWindow?)")
     expected_bad = {"stale-dimensions", "symmetric-insets", "title-top-from-inset", "device-branching",
                     "core-safeareaview", "hard-width-breakpoint", "hidden-header-own-buttons",
                     "orientation-branching", "portrait-lock", "no-fold-signal", "no-scene-lifecycle"}
     ok = True
-    for label, files, expect in (("bad", bad, expected_bad), ("good", good, set())):
+    for label, files, expect in (("bad", bad, expected_bad), ("good", good, set()),
+                                 ("phone-portrait-rule", phone_rule, set())):
         with tempfile.TemporaryDirectory() as d:
             for rel, body in files.items():
                 p = os.path.join(d, rel)
