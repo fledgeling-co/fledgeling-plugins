@@ -2139,7 +2139,7 @@ def cmd_check(args) -> int:
               f"states {a['statesProved']}/{a['statesDeclared']} · "
               f"routed {a['routedFiled']}/{a['findings']} · "
               f"remaining {len(a['remaining'])} next {a['next'] or '—'} · "
-              f"{'clear' if a['clear'] else f'{len(a['blockers'])} blocker(s)'}")
+              f"{'clear' if a['clear'] else str(len(a['blockers'])) + ' blocker(s)'}")
         return 0 if a["clear"] else 1
 
     c = a["counts"]
@@ -2447,7 +2447,7 @@ def cmd_phase(args) -> int:
     save(d, "campaign", campaign)
     unrecorded = [p for p in PHASES if p not in rec["ran"] and p not in rec["skipped"]]
     print(f"Phases:     ran {' '.join(rec['ran']) or '—'} · skipped "
-          f"{', '.join(f'{k} ({v or 'NO REASON'})' for k, v in rec['skipped'].items()) or '—'} · "
+          f"{', '.join(f'{k} ({v or "NO REASON"})' for k, v in rec['skipped'].items()) or '—'} · "
           f"unrecorded {' '.join(unrecorded) or '—'}")
     return 0
 
