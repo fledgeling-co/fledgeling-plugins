@@ -2447,7 +2447,7 @@ def cmd_phase(args) -> int:
     save(d, "campaign", campaign)
     unrecorded = [p for p in PHASES if p not in rec["ran"] and p not in rec["skipped"]]
     print(f"Phases:     ran {' '.join(rec['ran']) or '—'} · skipped "
-          f"{', '.join(f'{k} ({v or "NO REASON"})' for k, v in rec['skipped'].items()) or '—'} · "
+          f"{', '.join(k + ' (' + (v or 'NO REASON') + ')' for k, v in rec['skipped'].items()) or '—'} · "
           f"unrecorded {' '.join(unrecorded) or '—'}")
     return 0
 
