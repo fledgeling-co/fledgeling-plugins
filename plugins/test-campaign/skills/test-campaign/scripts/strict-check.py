@@ -64,7 +64,7 @@ RATCHET_FILE = "strict-ratchet.json"
 
 def main() -> int:
     d = Path(sys.argv[1] if len(sys.argv) > 1 else "docs/test-campaign")
-    cases = json.loads((d / "cases.json").read_text())
+    cases = json.loads((d / "cases.json").read_text(encoding="utf-8"))
     total = len(cases)
     if not total:
         print("No cases. An empty campaign is not a passing one.")
@@ -99,7 +99,7 @@ def main() -> int:
               f"credit: {', '.join(legacy[:8])}")
 
     ratchet_path = d / RATCHET_FILE
-    prior = json.loads(ratchet_path.read_text()) if ratchet_path.exists() else None
+    prior = json.loads(ratchet_path.read_text(encoding="utf-8")) if ratchet_path.exists() else None
 
     if "--set-ratchet" in sys.argv:
         reason = ""
@@ -119,7 +119,7 @@ def main() -> int:
             record["loweredBecause" if prior and n < prior["checked"] else "reason"] = reason
         if prior:
             record["previous"] = prior["checked"]
-        ratchet_path.write_text(json.dumps(record, indent=1) + "\n")
+        ratchet_path.write_text(json.dumps(record, indent=1) + "\n", encoding="utf-8")
         print(f"\nratchet set to {n}"
               + (f" (was {prior['checked']})" if prior else "")
               + (f" — {reason}" if reason else ""))

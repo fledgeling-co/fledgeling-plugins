@@ -44,11 +44,11 @@ def main() -> int:
         merged = []
         for sh in shards:
             try:
-                merged += json.loads(sh.read_text())
+                merged += json.loads(sh.read_text(encoding="utf-8"))
             except (ValueError, OSError):
                 print(f"   ! unreadable shard: {sh.name}")
         by_surface = {p.get("surface"): p for p in merged}
-        pairs_path.write_text(json.dumps(list(by_surface.values()), indent=1) + "\n")
+        pairs_path.write_text(json.dumps(list(by_surface.values()), indent=1) + "\n", encoding="utf-8")
         print(f"merged {len(shards)} worker file(s) -> {len(by_surface)} unique surfaces")
 
     if not pairs_path.exists():
@@ -58,7 +58,7 @@ def main() -> int:
         print("result — capture with assets/capture-pairs.template.mjs first.")
         return 1
 
-    pairs = json.loads(pairs_path.read_text())
+    pairs = json.loads(pairs_path.read_text(encoding="utf-8"))
 
     # A REFERENCE THAT IS NOT A RASTER CANNOT BE JUDGED.
     #
@@ -87,9 +87,38 @@ def main() -> int:
             q["reference"] = None
             q["reason"] = f"reference {ref} names a file that is not on disk"
 
+    # THE BUILD HALF IS HALF THE COMPARISON.
+    #
+    # A pair with a design render and no build capture cannot be judged, and it is
+    # not comparable: the reference alone says nothing about what was built. This
+    # gate tested the reference and never the shot, so a surface with `shot: null`
+    # was counted in the comparable fraction. capture-lineage counts only captures
+    # that exist, so the two gates disagreed by exactly that surface.
+    unbuilt, shot_missing = [], []
+    for q in pairs:
+        if not q.get("reference"):
+            continue
+        shot = q.get("shot")
+        if not shot:
+            unbuilt.append(f"{q.get('surface', '?'):<12} no build capture recorded")
+            q["reference"] = None
+            q["reason"] = "build half uncaptured"
+        elif not (d / str(shot)).exists():
+            shot_missing.append(f"{q.get('surface', '?'):<12} build capture {shot} does not exist")
+            q["reference"] = None
+            q["reason"] = f"build capture {shot} is not on disk"
+
     judgeable = [p for p in pairs if p.get("reference")]
     blind = [p for p in pairs if not p.get("reference")]
 
+    if unbuilt:
+        print(f"\nPAIRS WITH NO BUILD CAPTURE ({len(unbuilt)}) — demoted to unjudgeable:")
+        for line in unbuilt[:20]:
+            print(f"   {line}")
+    if shot_missing:
+        print(f"\nBUILD CAPTURES THAT DO NOT EXIST ({len(shot_missing)}) — demoted to unjudgeable:")
+        for line in shot_missing[:20]:
+            print(f"   {line}")
     if unrendered:
         print(f"\nREFERENCES THAT ARE NOT IMAGES ({len(unrendered)}) — demoted to unjudgeable:")
         for line in unrendered[:20]:
@@ -119,12 +148,12 @@ def main() -> int:
         print("Differences produced by the capture will be reported as design drift.")
 
     if blind:
-        print("\nSURFACES THAT CANNOT BE JUDGED — no design of record:")
+        print("\nSURFACES THAT CANNOT BE JUDGED — no design of record, or no build capture:")
         for p in blind:
             print(f"   {p.get('surface', '?'):<12} {p.get('name', '')} — {p.get('reason', 'no reason recorded')}")
 
     out = d / "witness-worklist.json"
-    out.write_text(json.dumps(judgeable, indent=1) + "\n")
+    out.write_text(json.dumps(judgeable, indent=1) + "\n", encoding="utf-8")
     print(f"\nwrote {out} ({len(judgeable)} pair(s) to judge)")
     print("A pair with reference:null is an UNCOMPARED surface. It is not a pass.")
     print("\nThis file is the work, not the record of it. Drive be-my-witness per pair and "

@@ -81,7 +81,7 @@ def main() -> int:
     shots_dir = d / (args[args.index("--shots") + 1] if "--shots" in args else "evidence/shots")
 
     inv_path = d / "inventory.json"
-    inventory = json.loads(inv_path.read_text())
+    inventory = json.loads(inv_path.read_text(encoding="utf-8"))
     surfaces = inventory.get("surface", [])
     if not surfaces:
         print(f"no surfaces in {inv_path} — nothing to attach to")
@@ -113,10 +113,12 @@ def main() -> int:
     manifest_by_path: dict[str, dict] = {}
     if man_path.exists():
         try:
-            manifest_by_path = {str(e.get("path", "")): e for e in json.loads(man_path.read_text())}
+            manifest_by_path = {str(e.get("path", "")): e for e in json.loads(man_path.read_text(encoding="utf-8"))}
         except ValueError:
             print(f"! {man_path} is not readable JSON — treating every attachment as uncorroborated")
-    uncorroborated: set[str] = set()
+    # surface id -> the file its current attachment rests on. The file is the thing
+    # a reader needs to see: a surface id alone hides which picture was attached.
+    uncorroborated: dict[str, str] = {}
 
     by_candidate: dict[str, dict] = {}
     for s in surfaces:
@@ -166,10 +168,10 @@ def main() -> int:
         entry = manifest_by_path.get(rel)
         if entry and entry.get("target"):
             hit["shotProvenance"] = "manifest"
-            uncorroborated.discard(hit.get("id", ""))
+            uncorroborated.pop(hit.get("id", ""), None)
         else:
             hit["shotProvenance"] = "filename"
-            uncorroborated.add(hit.get("id", "?"))
+            uncorroborated[hit.get("id", "?")] = rel
 
     without = [s for s in surfaces if not s.get("shot")]
     print(f"\nattached={attached}  surfaces still without an image={len(without)}  unmatched images={len(unmatched)}")
@@ -198,7 +200,7 @@ def main() -> int:
               f"alone, because {man_path.name} has no entry naming what the channel was "
               f"pointed at:")
         for sid in sorted(uncorroborated)[:20]:
-            print(f"   {sid}")
+            print(f"   {sid:<12} {uncorroborated[sid]}")
         if len(uncorroborated) > 20:
             print(f"   … and {len(uncorroborated) - 20} more")
         print("   → Have the capture step write captures.json. A filename is not evidence "
@@ -212,7 +214,7 @@ def main() -> int:
         return 1
 
     if apply_changes:
-        inv_path.write_text(json.dumps(inventory, indent=1) + "\n")
+        inv_path.write_text(json.dumps(inventory, indent=1) + "\n", encoding="utf-8")
         print(f"\nwrote {inv_path}")
     else:
         print("\n(dry run — pass --apply to write inventory.json)")

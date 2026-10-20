@@ -556,5 +556,29 @@ func caller() { measured([1]) }
         self.assertEqual(result['notMeasured'], [])
 
 
+    def test_implicit_member_is_a_value_not_a_mutation(self):
+        result = self.scan('func testValue() { expect(x == .write(.clear)) }')
+        self.assertEqual(result['mutating'], 0)
+        self.assertEqual(self.names(result), [])
+        result = self.scan('func testMethod() { model.write() }')
+        self.assertEqual(self.names(result), ['testMethod'])
+        result = self.scan('func testChain() { model\n    .write() }')
+        self.assertEqual(self.names(result), ['testChain'])
+
+    def test_deferred_mutation_is_observed_by_no_read_in_its_body(self):
+        result = self.scan('func testDeferred() { write(); read(); defer { store() } }')
+        self.assertEqual(self.names(result), [])
+        result = self.scan('func testOnlyDeferred() { defer { write() } }')
+        self.assertEqual(result['mutating'], 1)
+        self.assertEqual(self.names(result), [])
+
+    def test_helper_called_from_another_file_is_not_a_test(self):
+        support = 'enum Stub {\n    static func write(_ v: Int) { storage.stash(v) }\n}\n'
+        result = self.scan('func testCaller() { Stub.write(1); read() }', {'Support.swift': support},
+                           mutators=('stash',), readers=('read',))
+        self.assertNotIn('write', self.names(result))
+        self.assertEqual(result['findings'], [])
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
