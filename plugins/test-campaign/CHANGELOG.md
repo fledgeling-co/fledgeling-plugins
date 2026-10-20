@@ -2,6 +2,39 @@
 
 All notable changes to the `test-campaign` plugin.
 
+## 0.20.1 — 2026-10-20
+
+Fixes the instrument defects that the mcp-router campaign registry recorded against 0.20.0,
+so the next re-vendor carries them. Each has a regression in `tests/test_instrument_defects.py`
+or `tests/test_swift_bodies.py`, run by `tests/run.sh`, and each was watched to fail against
+the 0.20.0 scripts before its fix.
+
+- **DEF-501.** Every registry read and write names `encoding="utf-8"`. On a Windows host with a
+  non-UTF-8 codepage, the read died on the first byte outside that codepage.
+- **DEF-061.** `capture-lineage.py` `tie()` treats a `{name}`, `:name` or `*` route segment as one
+  non-empty target segment, so a parameterised surface ties to any one of its addresses. Literal
+  segments, the source-file refusal and normalisation are unchanged.
+- **DEF-051.** `witness-worklist.py` counts a pair as judgeable only when its build capture is
+  recorded and on disk, not only its design reference.
+- **DEF-054.** `attach-shots.py` prints the file behind each uncorroborated surface beside its id.
+  The `mock/` exclusion rule is unchanged.
+- **DEF-056.** `campaign.py report` prints every case, including those filed under no surface or
+  under an id the inventory does not hold.
+- **DEF-052.** The ledger counts open cases and open defects separately and lists the open
+  defects. `evidence-page.py` renders the registry's open defects beside the failing cases. A
+  defect is closed when its status begins `fixed`, `closed`, `answered` or `superseded`; any other
+  status stays open.
+- **DEF-055, in part.** The blind-mutation pass reads a Swift implicit member (`.reset(.clear)`) as
+  a value, not a mutation; a mutation inside a `defer` block is observed by no read in its body;
+  and helpers are judged across the corpus, so a shared stub called from other suites is not
+  reported blind. Two causes are not changed here. The pass still examines uncalled non-test Swift
+  functions as candidates, which the existing fixtures pin, and assertion-embedded and loop-tail
+  mutations are still read by position.
+
+Not changed: capture-lineage counts a verdict as judged only when it names a judge (from 0.19.0).
+That is the intended rule. The red `--gate` it produces in mcp-router is missing judge fields in
+the verdict data, and recording them is the owner's call.
+
 ## 0.20.0 — 2026-09-30
 
 Added `test-campaign:ui-regression`, a focused reusable journey for navigation,

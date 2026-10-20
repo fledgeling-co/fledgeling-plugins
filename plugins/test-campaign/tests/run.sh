@@ -2237,5 +2237,11 @@ else
   echo "FAIL  Swift lexical/body and public CLI fixtures"; FAIL=$((FAIL+1))
 fi
 
+if python3 "$HERE/test_instrument_defects.py"; then
+  say "ok    instrument defect regressions (registry DEF-051/052/054/056/061/501)"; PASS=$((PASS+1))
+else
+  echo "FAIL  instrument defect regressions"; FAIL=$((FAIL+1))
+fi
+
 echo "campaign gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" = 0 ] || exit 1
