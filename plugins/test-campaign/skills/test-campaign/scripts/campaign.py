@@ -293,11 +293,22 @@ def load(d: Path, name: str, default):
     p = paths(d)[name]
     if not p.exists():
         return default
-    return json.loads(p.read_text())
+    return json.loads(p.read_text(encoding="utf-8"))
 
 
 def save(d: Path, name: str, value) -> None:
-    paths(d)[name].write_text(json.dumps(value, indent=2) + "\n")
+    paths(d)[name].write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+
+
+def defect_open(row: dict) -> bool:
+    """A registry defect is open unless its status says it is closed.
+
+    Defect statuses are prose (`open · detector`, `fixed · in-campaign`, `partially-fixed`),
+    not case states, so the case vocabulary cannot classify them. Unrecognised is open,
+    as it is for cases: a status nobody has named as closed stays on the list.
+    """
+    head = str(row.get("status") or "open").split("·")[0].strip().lower()
+    return not head.startswith(("fixed", "closed", "answered", "superseded"))
 
 
 def state_of(status: str) -> str:
@@ -423,7 +434,7 @@ def cmd_init(args) -> int:
 def cmd_add(args) -> int:
     d = Path(args.dir).resolve()
     kind = args.kind
-    incoming = json.loads(Path(args.file).read_text()) if args.file else json.loads(sys.stdin.read())
+    incoming = json.loads(Path(args.file).read_text(encoding="utf-8")) if args.file else json.loads(sys.stdin.read())
     if isinstance(incoming, dict):
         incoming = [incoming]
 
@@ -815,7 +826,7 @@ def validated_control_exceptions(d: Path, campaign: dict, trust: dict | None = N
                 not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != digest):
             return {}, [f"control exception {label} does not match its independent trust anchor"]
     try:
-        manifest_value = json.loads(manifest.read_text())
+        manifest_value = json.loads(manifest.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return {}, [f"control exception dependency manifest is unreadable: {exc}"]
     if (not isinstance(manifest_value, dict) or set(manifest_value) != {"schema", "dependencies"} or
@@ -860,7 +871,7 @@ def validated_control_exceptions(d: Path, campaign: dict, trust: dict | None = N
         if not receipt.is_file():
             return {}, ["control exception validator exited successfully without writing its receipt"]
         try:
-            value = json.loads(receipt.read_text())
+            value = json.loads(receipt.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError) as exc:
             return {}, [f"control exception validation receipt is unreadable: {exc}"]
     problems: list[str] = []
@@ -1175,7 +1186,7 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
     if manifest_path.exists():
         try:
             sid_by_path = {v: k for k, v in published_shots.items()}
-            for e in json.loads(manifest_path.read_text()):
+            for e in json.loads(manifest_path.read_text(encoding="utf-8")):
                 sid_for_path = sid_by_path.get(str(e.get("path", "")))
                 if sid_for_path and e.get("sharesWith") and e.get("sharesReason"):
                     shares[sid_for_path] = set(e["sharesWith"])
@@ -1411,7 +1422,7 @@ def audit(d: Path, control_exception_trust: dict | None = None) -> dict:
     captured_states: set[tuple[str, str]] = set()
     if manifest_path.exists():
         try:
-            for e in json.loads(manifest_path.read_text()):
+            for e in json.loads(manifest_path.read_text(encoding="utf-8")):
                 if e.get("subject") in declared_states and e.get("state"):
                     captured_states.add((str(e["subject"]), str(e["state"])))
         except (json.JSONDecodeError, OSError):
@@ -2555,7 +2566,13 @@ def cmd_report(args) -> int:
 
     by_surface: dict[str, list[dict]] = {}
     for c in cases:
-        by_surface.setdefault(c.get("surface", "—"), []).append(c)
+        by_surface.setdefault(c.get("surface") or "—", []).append(c)
+    open_defects = [r for r in inventory.get("defect", []) if defect_open(r)]
+
+    def case_row(c: dict, surface: str) -> str:
+        return (f"| {c['id']} | {surface} | {c.get('state', '')} | "
+                f"{c.get('lane', '')} | {c.get('status', 'open')} | "
+                f"{'yes' if c.get('armed') is True else ''} | {len(c.get('evidence', []))} |")
 
     lines = [f"# {a['project']} — campaign ledger", ""]
     lines += [f"Lanes: {', '.join(a['lanes'])}", ""]
@@ -2565,20 +2582,31 @@ def cmd_report(args) -> int:
         f"{a['surfaces']} surfaces · {a['flows']} flows · {a['components']} components · "
         f"{a['cases']} cases",
         f"{a['counts']['pass']} pass · {a['counts']['fail']} fail · {a['counts']['skip']} skip · "
-        f"{a['counts']['n/a']} n/a · {a['counts']['open']} open · armed {a['armedOfPassing']}",
+        f"{a['counts']['n/a']} n/a · {a['counts']['open']} open case(s) · "
+        f"{len(open_defects)} open defect(s) · armed {a['armedOfPassing']}",
         "",
         "| Case | Surface | State | Lane | Status | Armed | Evidence |",
         "|---|---|---|---|---|---|---|",
     ]
     for s in inventory.get("surface", []):
-        for c in by_surface.get(s["id"], []):
-            lines.append(
-                f"| {c['id']} | {s['id']} {s.get('label', '')} | {c.get('state', '')} | "
-                f"{c.get('lane', '')} | {c.get('status', 'open')} | "
-                f"{'yes' if c.get('armed') is True else ''} | {len(c.get('evidence', []))} |")
+        for c in by_surface.pop(s["id"], []):
+            lines.append(case_row(c, f"{s['id']} {s.get('label', '')}"))
+    # What is left was filed under no surface, or under one the inventory does not
+    # hold. It is still a case and the header counts it, so the table prints it
+    # rather than dropping it. A header count that the rows cannot reach is the
+    # disagreement this writer used to hide.
+    for key, rest in by_surface.items():
+        for c in rest:
+            lines.append(case_row(c, "— (no surface)" if key == "—" else f"{key} (not in the inventory)"))
+
+    if open_defects:
+        lines += ["", "## Open defects", ""]
+        for r in open_defects:
+            title = " ".join(str(r.get("title") or r.get("text") or "").split())
+            lines.append(f"- {r.get('id', 'DEF-?')} · {r.get('severity', '—')} · {title}")
 
     text = "\n".join(lines) + "\n"
-    paths(d)["ledger"].write_text(text)
+    paths(d)["ledger"].write_text(text, encoding="utf-8")
     print(text)
     print(f"Written to {paths(d)['ledger']}")
     return 0
@@ -2732,7 +2760,7 @@ def cmd_export_warrant(args) -> int:
     health_path = out / "suite-health.json"
     if health_path.exists():
         try:
-            prior = json.loads(health_path.read_text())
+            prior = json.loads(health_path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             prior = {}
     for key in ("mutation",):
@@ -2755,7 +2783,7 @@ def cmd_export_warrant(args) -> int:
     for name, payload in (("suite-health.json", suite),
                           ("oracle-coverage.json", coverage)):
         path = out / name
-        path.write_text(json.dumps(payload, indent=1, sort_keys=True) + "\n")
+        path.write_text(json.dumps(payload, indent=1, sort_keys=True) + "\n", encoding="utf-8")
         written.append(str(path))
 
     if args.json:

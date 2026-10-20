@@ -49,6 +49,7 @@ import json
 import os
 import re
 import sys
+from collections import Counter
 from pathlib import Path
 
 EFFECT_CLASSES = ("subprocess", "outbound-socket", "inbound-socket", "packet-filter",
@@ -102,7 +103,7 @@ def load_blind_scopes(campaign_dir: Path, raw: object) -> tuple[list[dict], list
         return [], ["blindScopeFile must be a nonempty string when configured"]
     path = (campaign_dir / str(raw)).resolve()
     try:
-        payload = json.loads(path.read_text())
+        payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
         return [], [f"scope file {path} could not be read ({type(error).__name__})"]
     if (not isinstance(payload, dict) or set(payload) != {"version", "scopes"} or
@@ -193,6 +194,49 @@ def balanced_call_end(source: str, opening: int) -> int | None:
             depth -= 1
             if depth == 0: return index + 1
     return None
+
+
+def balanced_block_end(source: str, opening: int) -> int | None:
+    """Return the byte after one masked brace block, or None if unbalanced."""
+    depth = 0
+    for index in range(opening, len(source)):
+        if source[index] == "{": depth += 1
+        elif source[index] == "}":
+            depth -= 1
+            if depth == 0: return index + 1
+    return None
+
+
+def deferred_spans(body: str) -> list[tuple[int, int]]:
+    """Where each `defer` block sits. Its statements run after every statement in its scope."""
+    spans = []
+    for m in re.finditer(r"(?<![A-Za-z0-9_])defer\s*\{", body):
+        end = balanced_block_end(body, m.end() - 1)
+        spans.append((m.start(), len(body) if end is None else end))
+    return spans
+
+
+# What can end a receiver expression. A call after one of these is a method call,
+# and a call after anything else is a Swift implicit member: `.reset(.clear)` names
+# an enum case or a static member from its context, it invokes nothing on a receiver.
+SWIFT_RECEIVER_END = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_)]}?!")
+SWIFT_OPERAND_KEYWORDS = {"return", "try", "await", "case", "throw", "else", "in", "where", "if",
+                          "guard", "while", "some", "any", "is", "as"}
+
+
+def implicit_member(body: str, start: int) -> bool:
+    """Whether the call whose name begins at `start` is a leading-dot implicit member."""
+    if start == 0 or body[start - 1] != ".":
+        return False
+    j = start - 2
+    while j >= 0 and body[j].isspace():
+        j -= 1
+    if j < 0:
+        return True
+    if body[j] not in SWIFT_RECEIVER_END:
+        return True
+    word = re.search(r"[A-Za-z_]\w*$", body[:j + 1])
+    return word is not None and word.group(0) in SWIFT_OPERAND_KEYWORDS
 
 
 def reader_invocation_context(source: str, start: int) -> bool:
@@ -339,7 +383,7 @@ class SourceIndex:
             for f in self.production:
                 try:
                     if f.stat().st_size <= 2_000_000:
-                        self._texts.append(f.read_text(errors="replace"))
+                        self._texts.append(f.read_text(encoding="utf-8", errors="replace"))
                 except OSError:
                     continue
         pat = re.compile(r"(?<![A-Za-z0-9_])" + re.escape(sym) + r"(?![A-Za-z0-9_])")
@@ -414,7 +458,7 @@ def find_root(d: Path, raw: str) -> Path | None:
 
 def load(d: Path, name: str, default):
     p = d / f"{name}.json"
-    return json.loads(p.read_text()) if p.exists() else default
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else default
 
 
 def requirements(d: Path) -> list[dict]:
@@ -770,6 +814,22 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
     # own never do — and half-matching is what made 32 findings against a foreign
     # tree indistinguishable from 32 real ones. Recorded per run, not per test.
     seen_verbs: set[str] = set()
+    # Helpers are judged across the corpus. A fixture declared in a support file and
+    # called from every suite is a helper; judged one file at a time it reads as a test
+    # that mutates and never reads. Measured: MemoryFileSystem.write, HTTPStub.stop and
+    # WatchTestSupport.remove were each reported blind this way. Counts follow the old
+    # rule (a name seen more than once is a helper), over every file in the corpus.
+    corpus_calls: Counter = Counter()
+    scanned: dict[Path, dict] = {}
+    for f in files:
+        try:
+            text = f.read_text(encoding="utf-8", errors="strict" if f.suffix == ".swift" else "replace")
+        except (OSError, UnicodeError):
+            continue
+        if f.suffix == ".swift":
+            scanned[f] = swift_body_spans(text)
+        masked = scanned[f]["masked"] if f in scanned else text
+        corpus_calls.update(re.findall(r"(?<![A-Za-z0-9_])([A-Za-z_]\w*)\s*\(", masked))
     for f in files:
         is_swift = f.suffix == ".swift"
         swift_files += int(is_swift)
@@ -780,7 +840,7 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                 not_measured.append(f"{f}:1 — Swift source could not be read ({type(error).__name__})")
             continue
         original_src = src
-        swift = swift_body_spans(src) if is_swift else None
+        swift = scanned[f] if is_swift else None
         if swift is not None:
             if swift["diagnostics"]:
                 not_measured.extend(f"{f}:{d['line']} — {d['reason']}" for d in swift["diagnostics"])
@@ -813,8 +873,7 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
         #
         # Only declarations can be helpers. An arrow-style `it(` block is never
         # called by name, so it has nothing to be excluded by.
-        helpers = {n for _, n, k in starts if k == "decl"
-                   and len(re.findall(r"(?<![A-Za-z0-9_])" + re.escape(n) + r"\s*\(", src)) > 1}
+        helpers = {n for _, n, k in starts if k == "decl" and corpus_calls[n] > 1}
         if swift is not None:
             helpers -= {block["name"] for block in swift["blocks"] if block["testEntry"]}
             swift_helpers += sum(block["name"] in helpers for block in swift["blocks"])
@@ -847,6 +906,8 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                 # reader match suppresses a finding, which is the safe direction,
                 # while a false mutator match manufactures one.
                 for m in re.finditer(r"(?<![A-Za-z0-9_])" + re.escape(v) + r"\w*\s*\(", body):
+                    if swift is not None and implicit_member(body, m.start()):
+                        continue
                     calls.append((m.start(), m.end(), v))
             if calls:
                 mutating += 1
@@ -861,7 +922,12 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                 ignored.add(matches[0]); scope_uses[id(row)] += 1
                 scoped_counts[row["classification"]] += 1
             calls = [call for call in calls if call not in ignored]
-            last_call = max(calls, default=None, key=lambda call: call[0])
+            # A deferred mutation runs after every assertion in its scope, so no read in
+            # the body can observe it. Source position does not say so: a `defer` written
+            # first reads as the earliest mutation and makes the whole body read as after.
+            spans = deferred_spans(body)
+            observable = [call for call in calls if not any(a <= call[0] < b for a, b in spans)]
+            last_call = max(observable, default=None, key=lambda call: call[0])
             last, which = (-1, None) if last_call is None else (last_call[0], last_call[2])
             if last < 0:
                 scoped_only_bodies += bool(ignored)
@@ -950,7 +1016,7 @@ def seed_strengthen(d: Path, req_id: str, index: "SourceIndex | None" = None) ->
     references/effect-boundary.md §6.
     """
     inv_path = d / "inventory.json"
-    original = inv_path.read_text()
+    original = inv_path.read_text(encoding="utf-8")
     inv = json.loads(original)
     hit = next((r for r in inv.get("requirement", []) if r["id"] == req_id), None)
     if hit is None:
@@ -961,10 +1027,10 @@ def seed_strengthen(d: Path, req_id: str, index: "SourceIndex | None" = None) ->
         hit["effect"] = "packet-filter" if hit.get("effect") != "packet-filter" else "subprocess"
         hit["evidence"] = "observed"
         hit.pop("provider", None)
-        inv_path.write_text(json.dumps(inv, indent=2) + "\n")
+        inv_path.write_text(json.dumps(inv, indent=2) + "\n", encoding="utf-8")
         after = _census_clear(d, index)
     finally:
-        inv_path.write_text(original)
+        inv_path.write_text(original, encoding="utf-8")
 
     print(f"seed-strengthen {req_id}: before={'clear' if before else 'red'} "
           f"after={'clear' if after else 'red'}")

@@ -106,6 +106,21 @@ def route_of(rec: dict) -> str:
     return ""
 
 
+ROUTE_TEMPLATE_SEGMENT = re.compile(r"^(\{[^/{}]+\}|:[A-Za-z_]\w*|\*)$")
+
+
+def template_matches(route: str, target: str) -> bool:
+    """Does a concrete target sit at a route whose segments are parameters?
+
+    `{server}`, `:server` and `*` each stand for exactly one non-empty segment, so
+    a surface whose route is a family of addresses ties to any one of them. Literal
+    segments still have to be equal, and the match is anchored to whole segments.
+    """
+    pattern = "/".join("[^/]+" if ROUTE_TEMPLATE_SEGMENT.match(seg) else re.escape(seg)
+                       for seg in route.split("/"))
+    return re.search(r"(?:^|/)" + pattern + r"$", target) is not None
+
+
 def tie(target: str, route: str) -> tuple[bool, str]:
     """Does this capture's target resolve to the subject's declared route?"""
     if not route:
@@ -116,6 +131,8 @@ def tie(target: str, route: str) -> tuple[bool, str]:
                        f"can photograph one. This lane needs the on-glass channel "
                        f"(a bundle path plus an attach witness), not a browser route")
     if nt == nr or nt.endswith(nr) or nr.endswith(nt):
+        return True, ""
+    if any(ROUTE_TEMPLATE_SEGMENT.match(seg) for seg in nr.split("/")) and template_matches(nr, nt):
         return True, ""
     return False, f"target {target!r} does not resolve to route {route!r}"
 
@@ -200,11 +217,11 @@ def analyse(d: Path) -> dict:
     inv_path = d / "inventory.json"
     if not inv_path.exists():
         return {"fatal": f"no inventory at {inv_path}"}
-    inventory = json.loads(inv_path.read_text())
+    inventory = json.loads(inv_path.read_text(encoding="utf-8"))
     subjects = subjects_of(inventory)
 
     man_path = d / MANIFEST
-    manifest = json.loads(man_path.read_text()) if man_path.exists() else []
+    manifest = json.loads(man_path.read_text(encoding="utf-8")) if man_path.exists() else []
     by_path = {str(e.get("path", "")): e for e in manifest}
 
     shots_dir = d / "evidence/shots"
@@ -332,7 +349,7 @@ def analyse(d: Path) -> dict:
                               + ". A state the script wrote is not a state the product reached.")
 
     ver_path = d / VERDICTS
-    verdicts = json.loads(ver_path.read_text()) if ver_path.exists() else []
+    verdicts = json.loads(ver_path.read_text(encoding="utf-8")) if ver_path.exists() else []
     # 0.19.0. A verdict is a judgement only when something judged. A pairing
     # script once wrote `gate: "pass"` onto 2,853 rows whose two files existed,
     # with `advisory: true`, no findings and no judge named, and those rows were
@@ -374,7 +391,7 @@ def seed_swap(d: Path, a: str, b: str) -> int:
     """Watch the tie pass fail. An assertion nobody has seen go red is
     indistinguishable from one that cannot go red — the campaign's own rule,
     applied to the gate rather than to the suite."""
-    inv = json.loads((d / "inventory.json").read_text())
+    inv = json.loads((d / "inventory.json").read_text(encoding="utf-8"))
     subjects = subjects_of(inv)
     if a not in subjects or b not in subjects:
         print(f"seed-swap: {a} or {b} is not a subject in this campaign")
@@ -384,7 +401,7 @@ def seed_swap(d: Path, a: str, b: str) -> int:
         print(f"seed-swap: no manifest at {man_path} — the tie pass has nothing to read, "
               f"so it cannot be watched to fail. That is pass 1's finding, not this one.")
         return 2
-    manifest = json.loads(man_path.read_text())
+    manifest = json.loads(man_path.read_text(encoding="utf-8"))
     ra, rb = subjects[a].get("shot"), subjects[b].get("shot")
     swapped = copy.deepcopy(manifest)
     for e in swapped:
@@ -394,11 +411,11 @@ def seed_swap(d: Path, a: str, b: str) -> int:
             e["path"] = ra
     backup = manifest
     try:
-        man_path.write_text(json.dumps(swapped, indent=1) + "\n")
+        man_path.write_text(json.dumps(swapped, indent=1) + "\n", encoding="utf-8")
         a2 = analyse(d)
         hard = len(a2["unsourced"]) + len(a2["untied"]) + len(a2["shared"])
     finally:
-        man_path.write_text(json.dumps(backup, indent=1) + "\n")
+        man_path.write_text(json.dumps(backup, indent=1) + "\n", encoding="utf-8")
     if hard:
         print(f"seed-swap CAUGHT — swapping {a} and {b} produced {hard} hard failure(s). "
               f"The tie pass reads what it claims to read.")
@@ -425,7 +442,7 @@ def main() -> int:
             print(f"seed-drop: no inventory at {inv_path}")
             return 2
         before = analyse(d)
-        original = inv_path.read_text()
+        original = inv_path.read_text(encoding="utf-8")
         inv = json.loads(original)
         hit = False
         for s in inv.get("surface", []):
@@ -439,10 +456,10 @@ def main() -> int:
             print(f"seed-drop: {sid} is not a subject with a shot, so dropping it proves nothing")
             return 2
         try:
-            inv_path.write_text(json.dumps(inv, indent=1) + "\n")
+            inv_path.write_text(json.dumps(inv, indent=1) + "\n", encoding="utf-8")
             after = analyse(d)
         finally:
-            inv_path.write_text(original)
+            inv_path.write_text(original, encoding="utf-8")
         if len(after["unpaired"]) > len(before["unpaired"]):
             print(f"seed-drop CAUGHT — dropping {sid}'s capture raised missing from "
                   f"{len(before['unpaired'])} to {len(after['unpaired'])}. The pass counts the "
@@ -544,7 +561,7 @@ def main() -> int:
               + (" …" if len(a['verdictsNotJudgements']) > 5 else ""))
 
     ratchet_path = d / RATCHET_FILE
-    prior = json.loads(ratchet_path.read_text()) if ratchet_path.exists() else None
+    prior = json.loads(ratchet_path.read_text(encoding="utf-8")) if ratchet_path.exists() else None
 
     if "--set-ratchet" in args:
         reason = ""
@@ -583,7 +600,7 @@ def main() -> int:
             rec["loweredBecause" if prior and jn < prior["judged"] else "reason"] = reason
         if prior:
             rec["previous"] = prior["judged"]
-        ratchet_path.write_text(json.dumps(rec, indent=1) + "\n")
+        ratchet_path.write_text(json.dumps(rec, indent=1) + "\n", encoding="utf-8")
         print(f"\nratchet set to {jn}" + (f" (was {prior['judged']})" if prior else ""))
         return 0
 
