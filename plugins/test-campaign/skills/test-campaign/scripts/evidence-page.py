@@ -55,6 +55,17 @@ def esc(s) -> str:
     return html.escape(str(s if s is not None else ""), quote=True)
 
 
+def defect_open(row: dict) -> bool:
+    """A registry defect is open unless its status says it is closed.
+
+    Defect statuses are prose (`open · detector`, `fixed · in-campaign`, `partially-fixed`),
+    not case states, so the case vocabulary cannot classify them. Unrecognised is open,
+    as it is for cases: a status nobody has named as closed stays on the list.
+    """
+    head = str(row.get("status") or "open").split("·")[0].strip().lower()
+    return not head.startswith(("fixed", "closed", "answered", "superseded"))
+
+
 def state_of(status: str) -> str:
     s = (status or "").strip().lower()
     if s in ("pass", "fail"):
@@ -73,7 +84,7 @@ def state_of(status: str) -> str:
 
 def load(d: Path, name: str, default):
     p = d / f"{name}.json"
-    return json.loads(p.read_text()) if p.exists() else default
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else default
 
 
 def img_src(d: Path, rel: str, embed: bool) -> str:
@@ -247,14 +258,14 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
     mp = d / "evidence/shots/captures.json"
     if mp.exists():
         try:
-            manifest = {str(e.get("path", "")): e for e in json.loads(mp.read_text())}
+            manifest = {str(e.get("path", "")): e for e in json.loads(mp.read_text(encoding="utf-8"))}
         except ValueError:
             manifest = {}
     verdicts = {}
     vp = d / "witness-verdicts.json"
     if vp.exists():
         try:
-            verdicts = {v.get("subject"): v for v in json.loads(vp.read_text()) if v.get("subject")}
+            verdicts = {v.get("subject"): v for v in json.loads(vp.read_text(encoding="utf-8")) if v.get("subject")}
         except ValueError:
             verdicts = {}
 
@@ -262,6 +273,9 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
     surfaces = inventory.get("surface", [])
     flows = inventory.get("flow", [])
     components = inventory.get("component", [])
+    # The registry is the defect list. Failing cases are a different population (a case
+    # that failed is not a defect until someone files it), and the page renders both.
+    open_defects = [r for r in inventory.get("defect", []) if defect_open(r)]
 
     counts = {"pass": 0, "fail": 0, "skip": 0, "n/a": 0, "unselected": 0, "open": 0}
     for c in cases:
@@ -302,7 +316,7 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
                              ("requirements", "Requirements", len(reqs)), ("wall-sec", "The wall", len(surfaces)),
                              ("flows", "Flows", len(flows)), ("surfaces", "Surfaces", len(surfaces)),
                              ("components", "Components", len(components)),
-                             ("defects", "Defects", counts["fail"]),
+                             ("defects", "Defects", counts["fail"] + len(open_defects)),
                              ("gaps", "Not covered", counts["open"] + counts["skip"] + len(uncovered)),
                              ("methods", "Methods", 0)]:
         A(f"<a href='#{anchor}'>{esc(label)}<span class=n>{n if n else ''}</span></a>")
@@ -532,6 +546,19 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
     else:
         A("<p class=empty>No failing case. That is a statement about the cases that ran, "
           "not about the application.</p>")
+    A("<h3>Open defects in the registry</h3>")
+    if open_defects:
+        A("<div class=tw><table><thead><tr><th>Defect</th><th>Severity</th><th>What is wrong</th>"
+          "<th>Status</th></tr></thead><tbody>")
+        for r in open_defects:
+            did = esc(r.get("id", "DEF-?"))
+            severity = esc(r.get("severity", ""))
+            what = esc(r.get("title") or r.get("text") or "")
+            status = esc(r.get("status", ""))
+            A(f"<tr><td class=id>{did}</td><td>{severity}</td><td>{what}</td><td>{status}</td></tr>")
+        A("</tbody></table></div>")
+    else:
+        A("<p class=empty>No open defect in the registry.</p>")
     A("</section>")
 
     # ── gaps
@@ -583,7 +610,7 @@ def build(d: Path, out: Path, embed: bool, title: str | None) -> int:
 
     A(f"</main></div><script>{JS}</script></body></html>")
 
-    out.write_text("".join(P))
+    out.write_text("".join(P), encoding="utf-8")
     print(f"Wrote {out} — {len(surfaces)} surfaces · {len(flows)} flows · "
           f"{len(components)} components · {len(cases)} cases "
           f"({counts['pass']} pass, {counts['fail']} fail, {armed} armed)")
