@@ -253,6 +253,14 @@ Writes down exactly what a machine is allowed to sign off without you, then take
 
 <br clear="left" />
 
+<a href="plugins/feedback-panel/README.md"><img src="plugins/feedback-panel/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [feedback-panel](plugins/feedback-panel/README.md)
+
+Takes someone's feedback on your project and has three model families review it against the repo independently, then gives the person who wrote it one page: the questions only they can answer, each starting on a recommended choice with the reasoning inside it, the points worth pushing back on and why, and a JSON export to send back. Their answers come back into the same loop, get built, and turn the page into a record of what was decided.
+
+<br clear="left" />
+
 ## Handing over a pile of work
 
 _Give Claude a list and let it work through it on its own._
