@@ -1,0 +1,9 @@
+{
+  "name": "feedback-panel",
+  "description": "Review a stakeholder's feedback on a project with a panel of model families, decide what to build, what to ask and what to push back on, and hand the feedback author a self-contained HTML report with multiple-choice questions, preselected recommendations, the reasoning inside each question, and a JSON export they send back. Then apply the answers that come back, build the agreed changes, and turn the report into a record of the answers. Use when someone pastes or points at feedback on a website, app, deck, document or design and wants it reviewed, triaged, challenged or turned into questions \u2014 \"review this feedback\", \"what do you make of Amy's notes\", \"have codex and gemini check this too\", \"turn these comments into questions for her\", \"push back where it's wrong\", \"here are her answers, work through them\" \u2014 even when they never say \"panel\" or \"report\". Not for reviewing code diffs (code-review:code-review), a project's own backlog (whats-left:whats-left), or a single fork you need settled (clarify:clarify).",
+  "version": "0.1.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}

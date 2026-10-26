@@ -78,7 +78,7 @@ const GROUP_OF = {
   eli5: "making", visualization: "making", "create-story": "making",
 
   // Checking it before anyone sees it.
-  "design-review": "checking", "be-my-witness": "checking", "mockup-fidelity": "checking",
+  "design-review": "checking", "be-my-witness": "checking", "mockup-fidelity": "checking", "feedback-panel": "checking",
   "code-review": "checking", "test-campaign": "checking", warrant: "checking",
   proctor: "checking", vouch: "checking", tailings: "checking",
 

@@ -4,6 +4,19 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-10-26
+
+### feedback-panel 0.1.0: new plugin
+
+Reviews a stakeholder's feedback on a project with model families from up to four
+vendors (`scripts/run_panel.sh`: Fable, GPT-6 Astra, Gemini 4 Argon, Grok), sorts each
+point into understood, question or push-back with `file:line` evidence, and builds one
+HTML report for the feedback author (`scripts/build_report.py`): multiple-choice questions
+starting on a recommended or default answer, the reasoning inside each question, who each
+question is for, the push-back, and a JSON export. Reads the answers back, builds them,
+and turns the report into a record of the answers. Drawn from a website feedback review
+run 24-26 October 2026.
+
 ## 2026-09-30
 
 ### flagship 1.7.3: queued peer decisions do not answer live clarification prompts

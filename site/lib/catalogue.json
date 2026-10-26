@@ -13,7 +13,7 @@
       "id": "checking",
       "label": "Checking it before anyone sees it",
       "blurb": "Catch the problems while they are still cheap to fix.",
-      "count": 9
+      "count": 10
     },
     {
       "id": "backlog",
@@ -1564,7 +1564,7 @@
       "signals": {
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/atlas-review/evals/EVALS.md",
-        "scripts": false,
+        "scripts": true,
         "references": 8,
         "defer": false
       },
@@ -2105,6 +2105,42 @@
         "evals": true,
         "evalsUrl": "https://github.com/fledgeling-co/fledgeling-plugins/blob/main/plugins/follow-through/EVALS.md",
         "scripts": false,
+        "references": 3,
+        "defer": false
+      },
+      "neighbours": []
+    },
+    {
+      "name": "feedback-panel",
+      "version": "0.1.0",
+      "group": "checking",
+      "groupLabel": "Checking it before anyone sees it",
+      "description": "Review a stakeholder's feedback on a project with a panel of model families, decide what to build, what to ask and what to push back on, and hand the feedback author a self-contained HTML report with multiple-choice questions, preselected recommendations, the reasoning inside each question, and a JSON export they send back. Then apply the answers that come back, build the agreed changes, and turn the report into a record of the answers. Use when someone pastes or points at feedback on a website, app, deck, document or design and wants it reviewed, triaged, challenged or turned into questions — \"review this feedback\", \"what do you make of Amy's notes\", \"have codex and gemini check this too\", \"turn these comments into questions for her\", \"push back where it's wrong\", \"here are her answers, work through them\" — even when they never say \"panel\" or \"report\". Not for reviewing code diffs (code-review:code-review), a project's own backlog (whats-left:whats-left), or a single fork you need settled (clarify:clarify).",
+      "trigger": "Review a stakeholder's feedback on a project with a panel of model families, decide what to build, what to ask and what to push back on, and hand the feedback author a self-contained HTML report with multiple-choice questions, preselected recommendations, the reasoning inside each question, and a JSON export they send back. Then apply the answers that come back, build the agreed changes, and turn the report into a record of the answers. Use when someone pastes or points at feedback on a website, app, deck, document or design and wants it reviewed, triaged, challenged or turned into questions — \"review this feedback\", \"what do you make of Amy's notes\", \"have codex and gemini check this too\", \"turn these comments into questions for her\", \"push back where it's wrong\", \"here are her answers, work through them\" — even when they never say \"panel\" or \"report\". Not for reviewing code diffs (code-review:code-review), a project's own backlog (whats-left:whats-left), or a single fork you need settled (clarify:clarify).",
+      "blurb": "Takes someone's feedback on your project and has three model families review it against the repo independently, then gives the person who wrote it one page: the questions only they can answer, each starting on a recommended choice with the reasoning inside it, the points worth pushing back on and why, and a JSON export to send back. Their answers come back into the same loop, get built, and turn the page into a record of what was decided.",
+      "readme": "Review a stakeholder's feedback on a project with a panel of model families, then hand the\nperson who wrote it one HTML page to answer.\n\n## What it does\n\n1. Grounds every feedback point in the repo and sorts it into understood, question or push-back,\n   with a `file:line` for each.\n2. Has a second model family check that triage, then runs three families in two rounds on the\n   open questions and push-back, and reconciles where they split.\n3. Runs the design, UX and design-review skills over decisions that change what a visitor sees.\n4. Builds a self-contained report (`scripts/build_report.py`): multiple-choice questions that\n   start on a recommended or default answer, the reasoning inside each question, who each\n   question is for, the push-back, and a JSON export.\n5. Builds what needs no answer, then the defaults, when asked.\n6. Reads the exported answers back, asks two families how to implement the ones that differ,\n   builds them, and turns the report into a record of the answers with the push-back kept.\n\nInvoke it with `/feedback-panel:feedback-panel`, or ask to have feedback reviewed, challenged or\nturned into questions.\n\n## What it does not do\n\n- Review code diffs (`code-review:code-review`) or a project's own backlog\n  (`whats-left:whats-left`).\n- Deploy, publish or message the feedback author without asking.\n- Count a lane that returned nothing, or answered a different project, as a vote.\n\n## Requirements\n\nThe lanes call the `claude`, `codex`, `agy` and `grok` CLIs (`scripts/run_panel.sh`); any\nmissing CLI is reported as a failed lane and the panel continues with the rest. The report\nbuilder needs Python 3 only.",
+      "license": "MIT",
+      "keywords": [],
+      "allowedTools": null,
+      "boundary": {
+        "text": "Not for reviewing code diffs (code-review:code-review), a project's own backlog (whats-left:whats-left), or a single fork you need settled (clarify:clarify).",
+        "referrals": []
+      },
+      "examplePrompts": [
+        "review this feedback",
+        "what do you make of Amy's notes",
+        "have codex and gemini check this too",
+        "turn these comments into questions for her",
+        "push back where it's wrong",
+        "here are her answers, work through them"
+      ],
+      "icon": "/icons/feedback-panel.png",
+      "install": "/plugin install feedback-panel@fledgeling-plugins",
+      "repoUrl": "https://github.com/fledgeling-co/fledgeling-plugins/tree/main/plugins/feedback-panel",
+      "signals": {
+        "evals": false,
+        "evalsUrl": null,
+        "scripts": true,
         "references": 3,
         "defer": false
       },
