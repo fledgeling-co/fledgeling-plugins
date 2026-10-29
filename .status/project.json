@@ -1,224 +1,285 @@
 {
-  "project": "fledgeling-plugins",
-  "updated": "2026-09-12T13:20:00+10:00",
-  "verdict": {
-    "token": "done",
-    "number": "7 of 8",
-    "unit": "defects fixed in the harbourmaster skill",
-    "headline": "A near-full swap file made a Mac with 54 GB free look out of memory, and the governor refused all work.",
-    "run_label": "harbourmaster 0.7.0",
-    "head_sha": "df4197e"
+ "project": "fledgeling-plugins",
+ "updated": "2026-10-30T01:31:00+11:00",
+ "verdict": {
+  "token": "done",
+  "number": "34",
+  "unit": "practices from 313 iPhone Duo screenshots, shipped in duo-craft 0.3.0",
+  "headline": "Apps on the open Duo keep the list near 320pt; the bundled layout still splits at the fold.",
+  "run_label": "duo-craft 0.3.0",
+  "head_sha": "38542fd"
+ },
+ "tasks": [
+  {
+   "id": "DC-1",
+   "title": "Read all 313 screenshots, flows included",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "39 Sonnet runs, one per app run, 62 late frames in a second pass"
   },
-  "tasks": [
-    {
-      "id": "HM-1",
-      "title": "A near-full swap file made the Mac look out of memory",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "note": "the kernel's own pressure reading decides it now; swap is kept as evidence"
-    },
-    {
-      "id": "HM-2",
-      "title": "The berth rules doc still described a bug that had been fixed",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "note": "it promised 6 berths where the code allows 3 when a reading fails"
-    },
-    {
-      "id": "HM-3",
-      "title": "An error message told you to run a flag that does not exist",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "note": "install.sh --thermal-read was never a flag; it is --grants"
-    },
-    {
-      "id": "HM-4",
-      "title": "A slowed-down process would never have been sped back up",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "note": "it waited on the disk reading, which this Mac can never satisfy"
-    },
-    {
-      "id": "HM-5",
-      "title": "Speeding a process back up could hit the wrong process",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "note": "macOS reuses process numbers; each one now records its start time too"
-    },
-    {
-      "id": "HM-6",
-      "title": "Two lanes crashed instead of reporting, under the very load they watch for",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "note": "the slowdown detector and the thermal lane now return empty rather than raising"
-    },
-    {
-      "id": "HM-7",
-      "title": "A bad event record crashed the journal writer",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "note": "malformed input now exits with a message"
-    },
-    {
-      "id": "HM-8",
-      "title": "Process families are matched against the whole command line",
-      "origin": "planned",
-      "stage": "being checked",
-      "outcome": "stuck",
-      "note": "measured at 2 wrong matches in 112, both already caught by another guard",
-      "blocked_by": "not worth a change at that size; left with the measurement recorded",
-      "waiting_hours": 0
-    }
-  ],
-  "gates": [
-    {
-      "name": "The skill's own checks",
-      "command": "bash tests/run.sh",
-      "exit_code": 0,
-      "counts": "11/11",
-      "state": "done",
-      "kind": "tests"
-    },
-    {
-      "name": "The mechanism still works on this Mac",
-      "command": "scripts/selftest.sh",
-      "exit_code": 0,
-      "counts": "10/10",
-      "state": "done",
-      "kind": "tests"
-    },
-    {
-      "name": "Every memory reading lands in the right band",
-      "command": "table probe over the ten memory cases",
-      "exit_code": 0,
-      "counts": "10/10",
-      "state": "done",
-      "kind": "tests"
-    },
-    {
-      "name": "The wording of the five changed documents",
-      "command": "agent_voice_lint.py --format skill",
-      "exit_code": 0,
-      "counts": "5/5",
-      "state": "done",
-      "kind": "design"
-    }
-  ],
-  "armed": [
-    {
-      "check": "The guard against invented command flags",
-      "mutation": "my own comment named a script followed by a word",
-      "case_reddened": "the guard failed the run and named the line",
-      "red": 1,
-      "green": 10,
-      "sha": "df4197e",
-      "armed": true
-    }
-  ],
-  "findings": [
-    {
-      "id": "F-1",
-      "score": 30,
-      "severity": "low",
-      "file_line": "plugins/harbourmaster/skills/harbourmaster/scripts/demote.py:54",
-      "claim": "a process family is matched anywhere in the command line, so an argument can stand in for the program",
-      "state": "waived"
-    },
-    {
-      "id": "F-2",
-      "score": 45,
-      "severity": "medium",
-      "file_line": "plugins/harbourmaster/tests/check_surface.py:52",
-      "claim": "the invented-flag guard does not cover install.sh, which is how the bad flag survived",
-      "state": "waived"
-    }
-  ],
-  "coverage": [
-    {
-      "axis": "Scripts in the skill read line by line",
-      "covered": 8,
-      "denominator": 8
-    },
-    {
-      "axis": "Documents checked against what the code does",
-      "covered": 5,
-      "denominator": 5
-    }
-  ],
-  "not_checked": [
-    {
-      "axis": "The kernel's two higher memory warnings",
-      "why_not": "This Mac only ever reported the normal level, so the other two are taken from Apple's own constants rather than seen."
-    },
-    {
-      "axis": "The two crash fixes under real load",
-      "why_not": "Proved by forcing the slowdown by hand; no automatic test watches them."
-    }
-  ],
-  "not_done": [
-    {
-      "action": "Bring install.sh under the invented-flag guard",
-      "reason": "install.sh is not a unique name, so the guard would flag every other plugin's copy.",
-      "what_would_unblock": "A rule in the guard that matches a path rather than a filename.",
-      "size": "under an hour"
-    }
-  ],
-  "roadmap": [
-    {
-      "round": "Next",
-      "goal": "Commit the eleven changed files",
-      "tasks": [
-        "HM-1",
-        "HM-2",
-        "HM-3",
-        "HM-4",
-        "HM-5",
-        "HM-6",
-        "HM-7"
-      ],
-      "tier": "S",
-      "status": "blocked",
-      "waits_on": "your go-ahead to commit",
-      "estimate_min": [
-        3,
-        12
-      ],
-      "median_min": 5
-    }
-  ],
-  "estimate_remaining": {
-    "serial_min": [
-      3,
-      12
-    ],
-    "parallel_min": [
-      3,
-      12
-    ],
-    "median_min": 5,
-    "lanes": 1,
-    "basis": "measured rates (reckon 1,842-agent benchmark)",
-    "tasks_remaining": 1
+  {
+   "id": "DC-2",
+   "title": "Merge what they saw into practices",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "357 candidates became 34 practices and 24 flows"
   },
-  "needs_you": [
-    {
-      "ask": "Go-ahead to commit the eleven changed files",
-      "kind": "decision",
-      "waiting_since": "2026-09-12T03:10:00Z",
-      "one_line": "All checks pass; nothing is committed yet."
-    }
-  ],
-  "git": {
-    "branch": "main",
-    "commits_ahead": 0,
-    "worktree_clean": false,
-    "pushed": false
+  {
+   "id": "DC-3",
+   "title": "Check every practice against the frames",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "5 stood as written, 29 corrected, none thrown out"
+  },
+  {
+   "id": "DC-4",
+   "title": "Write the practices into duo-craft",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "858fa5e",
+   "note": "new reference file, four new patterns, skill file and evidence updated"
+  },
+  {
+   "id": "DC-5",
+   "title": "Release 0.3.0",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "38542fd",
+   "note": "pushed, site live at 0.3.0, installed copy updated"
+  },
+  {
+   "id": "DC-6",
+   "title": "Give the list a fixed 320pt column when the Duo is open flat",
+   "origin": "carried over",
+   "stage": "not started",
+   "outcome": "stuck",
+   "blocked_by": "your decision",
+   "waiting_hours": 0,
+   "note": "changes shipped code; not done without your say"
   }
+ ],
+ "gates": [
+  {
+   "name": "Every screenshot was read",
+   "command": "validate.py per group: assigned frames = reported frames",
+   "exit_code": 0,
+   "counts": "313/313",
+   "state": "done",
+   "kind": "tests"
+  },
+  {
+   "name": "Every practice checked against the frames",
+   "command": "42 verifier runs, each opening at least 2 extra frames",
+   "exit_code": 0,
+   "counts": "34/34",
+   "state": "done",
+   "kind": "tests"
+  },
+  {
+   "name": "Skill names in the repo resolve",
+   "command": "python3 scripts/check_skill_references.py",
+   "exit_code": 0,
+   "counts": "81/81",
+   "state": "done",
+   "kind": "build"
+  },
+  {
+   "name": "The site's catalogue builds",
+   "command": "node site/scripts/build-catalogue.mjs",
+   "exit_code": 0,
+   "counts": "59/59",
+   "state": "done",
+   "kind": "build"
+  },
+  {
+   "name": "duo-craft's audit still proves its checks fire",
+   "command": "duo_audit.py --self-test (bad, good and phone-portrait fixtures)",
+   "exit_code": 0,
+   "state": "done",
+   "kind": "tests",
+   "counts": "3/3"
+  },
+  {
+   "name": "Wording of the changed files",
+   "command": "agent_voice_lint.py --format skill|doc",
+   "exit_code": 0,
+   "counts": "6/6",
+   "state": "done",
+   "kind": "sign-off"
+  },
+  {
+   "name": "No personal data in what was published",
+   "command": "grep for names, places, emails and the bank brand over the new files",
+   "exit_code": 0,
+   "counts": "2/2",
+   "state": "done",
+   "kind": "security"
+  },
+  {
+   "name": "The live site shows 0.3.0",
+   "command": "Vercel status on 38542fd and the duo-craft page",
+   "exit_code": 0,
+   "counts": "1/1",
+   "state": "done",
+   "kind": "sign-off"
+  }
+ ],
+ "armed": [
+  {
+   "check": "The guard against invented command flags",
+   "mutation": "my own comment named a script followed by a word",
+   "case_reddened": "the guard failed the run and named the line",
+   "red": 1,
+   "green": 10,
+   "sha": "df4197e",
+   "armed": true
+  }
+ ],
+ "findings": [
+  {
+   "id": "F-1",
+   "score": 30,
+   "severity": "low",
+   "file_line": "plugins/harbourmaster/skills/harbourmaster/scripts/demote.py:54",
+   "claim": "a process family is matched anywhere in the command line, so an argument can stand in for the program",
+   "state": "waived"
+  },
+  {
+   "id": "F-2",
+   "score": 45,
+   "severity": "medium",
+   "file_line": "plugins/harbourmaster/tests/check_surface.py:52",
+   "claim": "the invented-flag guard does not cover install.sh, which is how the bad flag survived",
+   "state": "waived"
+  },
+  {
+   "id": "F-3",
+   "score": 55,
+   "severity": "medium",
+   "file_line": "plugins/duo-craft/skills/duo-craft/templates/components/DetailPaneLayout.tsx:75",
+   "claim": "the layout splits at the fold when open flat, where 21 apps keep a 320pt list",
+   "state": "blocked"
+  }
+ ],
+ "corrections": [
+  {
+   "earlier_claim": "All 313 screenshots are in the run",
+   "said_pct": 100,
+   "true_pct": 80,
+   "true_state": "The merge first ran on 251 of 313; the 62 late frames never started.",
+   "mechanism": "The job runner only built prompts for group names starting with g, not the new n groups.",
+   "caught_by": "the workflow's own result: 8 groups failed with no prompt"
+  }
+ ],
+ "coverage": [
+  {
+   "axis": "Screenshots read",
+   "covered": 313,
+   "denominator": 313
+  },
+  {
+   "axis": "Practices checked against the frames",
+   "covered": 34,
+   "denominator": 34
+  }
+ ],
+ "not_checked": [
+  {
+   "axis": "The four new patterns in a real app",
+   "why_not": "They record what shipping apps do; none has been built and run on the Duo simulator."
+  },
+  {
+   "axis": "Half-folded, tabletop, Split View and picture in picture",
+   "why_not": "All 313 screenshots are open flat or closed, so these rely on the earlier 34 captures."
+  },
+  {
+   "axis": "What React Native reports for the split keyboard",
+   "why_not": "No screenshot or test measured it; pattern 13 says to check before relying on it."
+  },
+  {
+   "axis": "The kernel's two higher memory warnings",
+   "why_not": "This Mac only ever reported the normal level, so the other two are taken from Apple's own constants rather than seen."
+  },
+  {
+   "axis": "The two crash fixes under real load",
+   "why_not": "Proved by forcing the slowdown by hand; no automatic test watches them."
+  }
+ ],
+ "not_done": [
+  {
+   "action": "Fixed 320pt list on the open-flat Duo",
+   "reason": "It changes the bundled layout code the reference app approved.",
+   "what_would_unblock": "Your decision.",
+   "size": "under an hour plus a simulator check"
+  },
+  {
+   "action": "Bring install.sh under the invented-flag guard",
+   "reason": "install.sh is not a unique name, so the guard would flag every other plugin's copy.",
+   "what_would_unblock": "A rule in the guard that matches a path rather than a filename.",
+   "size": "under an hour"
+  }
+ ],
+ "roadmap": [
+  {
+   "round": "Next",
+   "goal": "320pt list when open flat, if you want it",
+   "tasks": [
+    "DC-6"
+   ],
+   "tier": "M",
+   "status": "blocked",
+   "waits_on": "your decision",
+   "estimate_min": [
+    7,
+    56
+   ],
+   "median_min": 15
+  }
+ ],
+ "estimate_remaining": {
+  "serial_min": [
+   7,
+   56
+  ],
+  "parallel_min": [
+   7,
+   56
+  ],
+  "median_min": 15,
+  "lanes": 1,
+  "basis": "measured rates (reckon 1,842-agent benchmark)",
+  "tasks_remaining": 1
+ },
+ "artifacts": [
+  {
+   "path": "plugins/duo-craft/skills/duo-craft/references/device-captures.md",
+   "kind": "md",
+   "contains": "The 34 practices with measurements, 24 flows and 5 open questions.",
+   "open_first": true
+  },
+  {
+   "path": "plugins/duo-craft/docs/device-captures/2026-10-29-witness.json",
+   "kind": "json",
+   "contains": "Every practice with its frame list, exceptions and both verifier passes."
+  }
+ ],
+ "needs_you": [
+  {
+   "ask": "Should the list sit in a fixed 320pt column when the Duo is open flat?",
+   "kind": "decision",
+   "waiting_since": "2026-10-29T14:31:00Z",
+   "one_line": "21 apps do this; the bundled layout splits at the fold, which suits the half-folded pose."
+  }
+ ],
+ "git": {
+  "branch": "main",
+  "commits_ahead": 0,
+  "worktree_clean": true,
+  "pushed": true
+ }
 }
