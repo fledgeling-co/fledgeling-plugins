@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { PlatformColor, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { titleTopPadding } from '~/lib/layout';
+import { systemColor, titleTopPadding } from '~/lib/layout';
 
 /**
  * A screen's own large title, for screens that hide the navigation bar. Under a status bar it sits
@@ -25,5 +25,5 @@ export function ScreenTitle({ children, trailing }: { children: string; trailing
 
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingBottom: 8 },
-  title: { flex: 1, fontSize: 34, fontWeight: '700', color: PlatformColor('label') },
+  title: { flex: 1, fontSize: 34, fontWeight: '700', color: systemColor('label', '#000000') },
 });

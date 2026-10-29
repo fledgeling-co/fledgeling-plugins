@@ -26,7 +26,7 @@
       "name": "new-recipes-app",
       "prompt": "I've just run create-expo-app in ./app (Expo SDK 57, nothing changed yet). Build a small recipe browser for iPhone Duo in it: a list of recipes and a recipe detail screen with the ingredients and steps. Hard-code three recipes. Write REPORT.md saying what you built and what you checked.",
       "files": ["fixtures/fresh-sdk57"],
-      "expected_output": "A recipe list and detail that split at the fold on the open display, native tabs and toolbar items, per-side insets, an owned fold signal, the scene plugin, orientation unlocked, typechecking clean.",
+      "expected_output": "A recipe list and detail split on the open display (a 320pt list lying flat, the fold once folded), native tabs and toolbar items, per-side insets, an owned fold signal, the scene plugin, orientation unlocked, typechecking clean.",
       "assertions": [
         "B1 scene-lifecycle: the iOS 27 scene requirement is handled in a way that survives prebuild (config plugin writing UIApplicationSceneManifest and a SceneDelegate, or Expo SDK 58)",
         "B2 fold-signal-owned: native code the app contains reads reservedRegions or UIHingeInteraction; no third-party fold package added",
