@@ -8,7 +8,7 @@ description: Build or adapt a React Native / Expo app for iPhone Duo, Apple's fo
 iPhone Duo is an iPhone to every API that names a device, so a React Native app runs on it
 unchanged and looks wrong in ways no simulator other than the Duo shows. The bars stand down the
 trailing edge and take 84pt off one side only. The open display is 951×669pt with a fold at
-475.5pt, so a phone column stretched across it puts a card over the hinge. Split View hands the app
+475.5pt, so a phone layout stretched across it puts a row's label 600 to 800pt from its value. Split View hands the app
 a half whose side bar is on the *left*. And an Expo SDK 57 app built with the iOS 27 SDK does not
 reach its first screen at all.
 
@@ -53,6 +53,11 @@ layout: the window changes size every time the device opens, folds, rotates or e
 | Open, portrait (flat or tabletop) | 669×951, fold at y 475.5 | Horizontal bars: 84pt top, 95pt bottom |
 | Split View half | about 475×669 | Bar on the half's outer edge, so the left app's inset is on its left |
 
+Open, the system keyboard is one 951pt panel split around the fold, its top at y 391 (y 428 without
+a suggestion row); closed, it is 466pt wide from y 374. A modal sheet opens centred on the fold,
+usually 653pt wide. Both come from 313 captures of shipping apps on a device
+(`references/device-captures.md`).
+
 The fold APIs — `UIView.reservedRegions(kind:options:)` and `UIHingeInteraction` — exist only in
 the iOS 27.1 SDK. Build the whole app with Xcode 27.1 or the module fails to compile, which is the
 point: it cannot quietly report no fold.
@@ -88,8 +93,10 @@ falling into the phone tier before any code existed. The mock earns its cost whe
 before the code; in a run with nobody to review it, skip it and say so in the report. A single-screen
 fix or a new starter app skips it too.
 
-`references/apple-reference-screens.md` records what Apple's own apps do in each pose — read it
-before deciding a split ratio, where a control goes, or what a sheet does on the fold.
+`references/apple-reference-screens.md` records what Apple's own apps do in each pose, and
+`references/device-captures.md` what 38 shipping apps do on a real device, with measurements. Read
+the section you need before deciding a split ratio, where a control goes, what a sheet does on the
+fold, how wide rows and text run, or how the keyboard meets the layout.
 
 ### 3. Install the module and the layout pieces
 
@@ -114,8 +121,9 @@ iPhones in portrait while the Duo and iPad turn needs the native rule in pattern
 
 ### 4. Apply the patterns
 
-`references/patterns.md` has the twelve patterns with the template that implements each and the
-failure it prevents. The ones that decide most of the result:
+`references/patterns.md` has the sixteen patterns with the template that implements each and the
+failure it prevents; patterns 13 to 16 are observed on a device and have no template yet. The ones
+that decide most of the result:
 
 - **Branch on space and on `hasFold`, never on the model.** `Platform.isPad` is false and
   `expo-device` says phone, so a device branch either misses the Duo or treats the open display as
@@ -127,7 +135,14 @@ failure it prevents. The ones that decide most of the result:
   `DetailPaneLayout`; with two panes the right one renders what the list would have pushed. Without a
   fold it measures the pane, not the window, so iPad's sidebar does not count. Select the first item
   by default, because an empty right half reads as broken, and push the chosen item full screen when
-  the device closes.
+  the device closes. On the flat open display, shipping apps fix the list near 320pt and let the fold
+  fall inside the detail instead (pattern 2); keep the template's fold split unless the user asks for
+  that, and say in the report which one the app uses.
+- **Lift the focused field above the split keyboard.** It covers up to 42% of the open display and
+  does not resize a sheet, so composers sit just above its top and sheet content scrolls (pattern 13).
+- **Present sheets, alerts and menus natively and let them size themselves.** A sheet centred on the
+  fold is 653pt wide in most states and 459pt in some, so its content flexes; a modal given a width or
+  an offset breaks one of them (pattern 14).
 - **A screen drawn in a pane sets its options through `RouteOptions`.** A `Stack.Screen` inside the
   right pane renames the tab that hosts it.
 - **Bars move to the side only as native bar items.** Use `NativeTabs` triggers with an icon and a
@@ -183,6 +198,7 @@ most one.
 |---|---|
 | `references/patterns.md` | Applying any layout change (step 4) |
 | `references/apple-reference-screens.md` | Deciding a split, a control's place, or sheet behaviour |
+| `references/device-captures.md` | The same decisions with measurements from 38 apps on a device, plus keyboard, row width and flows; read one section, not the whole file |
 | `references/simulator.md` | Building, repairing Device Hub, capturing displays, the pose matrix |
 | `references/libraries.md` | Someone names a fold library, or asks why the module is bundled; the SDK and scene table |
 | `references/evidence.md` | A rule needs its source |
