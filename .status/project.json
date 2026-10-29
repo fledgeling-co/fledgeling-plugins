@@ -7,7 +7,7 @@
   "unit": "where the list ends on the open Duo in duo-craft 0.4.0, measured on the simulator",
   "headline": "The bundled layout now keeps a 320pt list when the Duo lies flat, and a fresh SDK 58 app builds again.",
   "run_label": "duo-craft 0.4.0",
-  "head_sha": "pending"
+  "head_sha": "ac770bb"
  },
  "tasks": [
   {
@@ -159,6 +159,14 @@
    "counts": "1/1",
    "state": "done",
    "kind": "design"
+  },
+  {
+   "name": "The live site shows 0.4.0",
+   "command": "Vercel status on ac770bb4 and the duo-craft page",
+   "exit_code": 0,
+   "counts": "1/1",
+   "state": "done",
+   "kind": "sign-off"
   }
  ],
  "armed": [
@@ -177,7 +185,7 @@
    "case_reddened": "the flat case failed",
    "red": 1,
    "green": 11,
-   "sha": "pending",
+   "sha": "37af1d2",
    "armed": true
   },
   {
@@ -186,7 +194,7 @@
    "case_reddened": "the detail-pane case failed",
    "red": 1,
    "green": 14,
-   "sha": "pending",
+   "sha": "37af1d2",
    "armed": true
   }
  ],
@@ -291,9 +299,9 @@
  ],
  "needs_you": [],
  "git": {
-  "branch": "ai/duo-craft-flat-list",
+  "branch": "main",
   "commits_ahead": 0,
-  "worktree_clean": false,
-  "pushed": false
+  "worktree_clean": true,
+  "pushed": true
  }
 }
