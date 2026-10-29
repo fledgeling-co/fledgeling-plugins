@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { PlatformColor, ScrollView, Share, StyleSheet, Text } from 'react-native';
+import { ScrollView, Share, StyleSheet, Text } from 'react-native';
 
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { FoldColumns } from '~/components/FoldColumns';
-import { titleTopPadding } from '~/lib/layout';
+import { systemColor, titleTopPadding } from '~/lib/layout';
 
 /** Replace with the app's own data source. */
 export const ITEMS = [
@@ -52,6 +52,6 @@ export function ItemDetail({ id, embedded = false }: { id: string; embedded?: bo
 
 const styles = StyleSheet.create({
   content: { padding: 20, gap: 12 },
-  title: { fontSize: 28, fontWeight: '700', color: PlatformColor('label') },
-  body: { fontSize: 17, lineHeight: 24, color: PlatformColor('secondaryLabel') },
+  title: { fontSize: 28, fontWeight: '700', color: systemColor('label', '#000000') },
+  body: { fontSize: 17, lineHeight: 24, color: systemColor('secondaryLabel', 'rgba(60, 60, 67, 0.6)') },
 });

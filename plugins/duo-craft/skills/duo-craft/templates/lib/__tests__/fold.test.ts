@@ -1,4 +1,4 @@
-import { FOLD_GAP, LIST_MAX_WIDTH, LIST_MIN_WIDTH, foldGeometry, twoPaneFor, twoPaneForWidth } from '../fold';
+import { FLAT_LIST_WIDTH, FOLD_GAP, LIST_MAX_WIDTH, LIST_MIN_WIDTH, foldColumnLeftWidth, foldGeometry, twoPaneFor, twoPaneForWidth } from '../fold';
 import { layoutFor, sizeClassFor } from '../layout';
 import { NO_FOLD, type FoldState } from '../../modules/duo-fold';
 
@@ -52,8 +52,12 @@ describe('fold geometry', () => {
 });
 
 describe('two panes', () => {
-  it('splits the open inner display at the fold, flat or folded, with the same divider', () => {
-    expect(twoPaneFor(foldGeometry(flat), 951, 669)).toEqual({ leftWidth: 462, rightX: 489 });
+  it('keeps a fixed 320pt list on the open inner display lying flat', () => {
+    expect(FLAT_LIST_WIDTH).toBe(320);
+    expect(twoPaneFor(foldGeometry(flat), 951, 669)).toEqual({ leftWidth: 320, rightX: 320 });
+  });
+
+  it('divides at the fold, with its gap, once the device folds like a book', () => {
     expect(twoPaneFor(foldGeometry(book), 951, 669)).toEqual({ leftWidth: 460, rightX: 491 });
   });
 
@@ -91,5 +95,23 @@ describe('twoPaneForWidth (no fold)', () => {
   it('holds the list between its bounds on very wide windows', () => {
     expect(twoPaneForWidth(1600)?.leftWidth).toBe(LIST_MAX_WIDTH);
     expect(twoPaneForWidth(900)!.leftWidth).toBeGreaterThanOrEqual(LIST_MIN_WIDTH);
+  });
+});
+
+describe('foldColumnLeftWidth', () => {
+  it('meets at the fold for a row across the open display', () => {
+    // A row padded 20pt from the left edge and ending at the side bar (867pt).
+    expect(foldColumnLeftWidth(foldGeometry(flat), 20, 827)).toBe(442);
+    expect(foldColumnLeftWidth(foldGeometry(book), 20, 827)).toBe(440);
+  });
+
+  it('shares the row by flex inside a detail pane beside the 320pt list', () => {
+    // The detail pane runs 320-867pt; padded, its row starts at 340pt, 135pt short of the fold.
+    expect(foldColumnLeftWidth(foldGeometry(flat), 340, 507)).toBeNull();
+  });
+
+  it('shares the row by flex without a fold or across a tabletop fold', () => {
+    expect(foldColumnLeftWidth(foldGeometry(NO_FOLD), 20, 827)).toBeNull();
+    expect(foldColumnLeftWidth(foldGeometry(tabletop), 20, 627)).toBeNull();
   });
 });
