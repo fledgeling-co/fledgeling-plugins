@@ -1,0 +1,5389 @@
+{
+ "source": "313 screenshots taken on an iPhone Duo on 2026-10-29 (IMG_0154 to IMG_0468, two numbers absent), not bundled because they show personal data",
+ "method": "39 claude-sonnet-5-5 runners witnessed one app run each with be-my-witness:be-my-witness (prescan, 2x crops, diff masks between consecutive frames); a synthesis pass and an integration pass merged 357 candidates into 34 practices; verifier runs opened the cited frames plus at least 2 more per practice",
+ "verdicts": {
+  "confirmed": 5,
+  "amended": 29,
+  "refuted": 0
+ },
+ "practices": [
+  {
+   "id": "D01",
+   "title": "Fix the list column near 320 pt",
+   "statement": "In open landscape give the list or sidebar a fixed 292-403 pt column (320 typical) and let detail fill to 867 pt, so the fold falls inside detail. Fold-aligned dividers (Calendar Day, one Settings frame, Claude's effort/voice pane) are exceptions.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "Only Calendar's Day view divides at the fold; every other list-and-detail app in the captures keeps its column narrower and lets the fold cross detail content, with no re-layout for it.",
+   "measurements": "Column widths: 320 pt in Claude, ChatGPT, Settings, Stocks, Journal, Files, Siri, Shortcuts, Weather; 335-340 in Passwords, Notes, Voice Memos; 360 Slack; 375 Messages; 380 Bear; 403 Mail; 292 Things. The fold sits 72-183 pt inside detail, which runs to 867 pt. Also 320 pt in Weather and Journal; Messages thread 375-867. Two-half pages split at the fold: Music 0-450 | 509-853, Podcasts 0-449 | 502-808, Books 52-449 | 501-877.",
+   "support": {
+    "frames": [
+     "IMG_0157",
+     "IMG_0161",
+     "IMG_0174",
+     "IMG_0175",
+     "IMG_0190",
+     "IMG_0197",
+     "IMG_0198",
+     "IMG_0203",
+     "IMG_0221",
+     "IMG_0222",
+     "IMG_0223",
+     "IMG_0225",
+     "IMG_0226",
+     "IMG_0227",
+     "IMG_0233",
+     "IMG_0256",
+     "IMG_0258",
+     "IMG_0263",
+     "IMG_0267",
+     "IMG_0271",
+     "IMG_0275",
+     "IMG_0278",
+     "IMG_0279",
+     "IMG_0281",
+     "IMG_0286",
+     "IMG_0294",
+     "IMG_0296",
+     "IMG_0299",
+     "IMG_0311",
+     "IMG_0312",
+     "IMG_0315",
+     "IMG_0316",
+     "IMG_0327",
+     "IMG_0331",
+     "IMG_0336",
+     "IMG_0337",
+     "IMG_0344",
+     "IMG_0345",
+     "IMG_0380",
+     "IMG_0383",
+     "IMG_0388",
+     "IMG_0393",
+     "IMG_0407",
+     "IMG_0410",
+     "IMG_0414",
+     "IMG_0425",
+     "IMG_0426",
+     "IMG_0428",
+     "IMG_0436",
+     "IMG_0440",
+     "IMG_0441",
+     "IMG_0449",
+     "IMG_0450",
+     "IMG_0451",
+     "IMG_0452",
+     "IMG_0458",
+     "IMG_0460",
+     "IMG_0464",
+     "IMG_0466",
+     "IMG_0468"
+    ],
+    "nFrames": 60,
+    "apps": [
+     "Bear",
+     "ChatGPT",
+     "Claude",
+     "Files",
+     "Fitness",
+     "Games",
+     "Journal",
+     "Mail",
+     "Messages",
+     "Notes",
+     "Passwords",
+     "Screens",
+     "Settings",
+     "Shortcuts",
+     "Siri",
+     "Slack",
+     "Stocks",
+     "Termius",
+     "Things",
+     "Voice Memos",
+     "Weather"
+    ],
+    "nApps": 21
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0240",
+     "app": "Calendar",
+     "what": "Day view and event detail divide at x 475.5 pt: left pane 0-475.5, right pane 476-867."
+    },
+    {
+     "frame": "IMG_0251",
+     "app": "Calendar",
+     "what": "Same fold-divided split with a sheet in the left pane and 'No Event Selected' on the right."
+    },
+    {
+     "frame": "IMG_0232",
+     "app": "Settings",
+     "what": "Sidebar widened to 475.5 pt for one frame; 0233 shows 320 pt again. Cause unknown, see Open questions."
+    },
+    {
+     "frame": "IMG_0306",
+     "app": "Music",
+     "what": "Now Playing divides at the fold: player 0-450 pt, queue from 509 pt, grabber centred on x 475.5."
+    },
+    {
+     "frame": "IMG_0356",
+     "app": "Podcasts",
+     "what": "Player ends at 449 pt and the transcript starts at 502 pt, a 53 pt gutter centred on the fold."
+    },
+    {
+     "frame": "IMG_0397",
+     "app": "Books",
+     "what": "Audiobook player 52-449 pt and track list 501-877 pt, a 52 pt gutter on the fold."
+    },
+    {
+     "frame": "IMG_0351",
+     "app": "Podcasts",
+     "what": "Show page: hero art fades out at the fold and the episode list starts at 532 pt."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Claude: a session opens in the detail column, the 320 pt sidebar stays",
+     "frames": [
+      "IMG_0174",
+      "IMG_0175"
+     ]
+    },
+    {
+     "name": "Messages: compose and search keep the 375 pt list",
+     "frames": [
+      "IMG_0466",
+      "IMG_0467",
+      "IMG_0468"
+     ]
+    },
+    {
+     "name": "Shortcuts: choosing Automation swaps detail, sidebar stays 320 pt",
+     "frames": [
+      "IMG_0315",
+      "IMG_0316"
+     ]
+    },
+    {
+     "name": "Messages: keyboard, edit, filter, inspector, attach, record, new message, search",
+     "frames": [
+      "IMG_0458",
+      "IMG_0459",
+      "IMG_0460",
+      "IMG_0461",
+      "IMG_0462",
+      "IMG_0463",
+      "IMG_0464",
+      "IMG_0465",
+      "IMG_0466",
+      "IMG_0467",
+      "IMG_0468"
+     ]
+    },
+    {
+     "name": "Weather: edit cities, notification sheets, search with the keyboard",
+     "frames": [
+      "IMG_0344",
+      "IMG_0345",
+      "IMG_0346",
+      "IMG_0347",
+      "IMG_0348",
+      "IMG_0349",
+      "IMG_0350"
+     ]
+    },
+    {
+     "name": "Journal: read view, new journal, entry menu, Places, Insights, sidebar menu",
+     "frames": [
+      "IMG_0446",
+      "IMG_0447",
+      "IMG_0448",
+      "IMG_0449",
+      "IMG_0450",
+      "IMG_0451",
+      "IMG_0452",
+      "IMG_0453"
+     ]
+    },
+    {
+     "name": "ChatGPT: projects, new chat with keyboard, Images, thread",
+     "frames": [
+      "IMG_0221",
+      "IMG_0222",
+      "IMG_0223",
+      "IMG_0224",
+      "IMG_0225"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "contradicts",
+   "vsSkillDetail": "SKILL.md step 4: \"List and detail split at the fold, and on any pane at least 900pt wide.\" patterns.md 2 repeats it (fold, at least 800pt wide). Every app here except Calendar divides at 292-403 pt. The 35/65 flat ratio in apple-reference-screens.md stands; keep a fold split for book posture, which no frame shows.",
+   "belongsIn": "patterns.md",
+   "rnImplication": "Make DetailPaneLayout a fixed 320 pt list plus flex detail when flat and open, and keep the fold-aligned split only for book posture.",
+   "verifyFrames": [
+    "IMG_0174",
+    "IMG_0226",
+    "IMG_0256",
+    "IMG_0240"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Nine more frames (ChatGPT, Weather, Journal, Messages) keep a 320-375 pt list with the fold inside detail. Music, Podcasts and Books player pages split at the fold instead: more exceptions of the Calendar kind.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "App-choice is right: Calendar, Claude voice and one Settings frame divide at the fold, so the system does not force a column width.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D02",
+   "title": "End text and controls at the trailing inset",
+   "statement": "End text, rows, cards and controls at the bar's leading edge: x 867 pt open (usually 0-40 pt clear, mostly 12-25), about 382 pt closed (usually 15-45 clear). Sheets, menus and keyboard backing may run under the bar; Calculator and Siri do.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "The bar's buttons and the keyboard panel occupy x 867-951 pt in every pose; content that enters that strip collides with controls the system draws there.",
+   "measurements": "Open gap to 867 pt: 0-1 (ChatGPT cards, Settings 866), 12 (ChatGPT and Wallet 855), 15-16 (Grok 852, Fitness 851), 21 (Calendar, Shortcuts 846), 24-25 (Screens, Claude 842-843), 34-40 (Games, Podcasts, Stocks, Journal 827-833). Closed: content ends 346-383 pt of 382. Music content ends 832-835 (tightest 853), Books 846, Fitness 846, Journal 826; Podcasts transcript toggle at 770 and queue button at 848.",
+   "support": {
+    "frames": [
+     "IMG_0154",
+     "IMG_0156",
+     "IMG_0172",
+     "IMG_0174",
+     "IMG_0175",
+     "IMG_0198",
+     "IMG_0203",
+     "IMG_0204",
+     "IMG_0208",
+     "IMG_0209",
+     "IMG_0211",
+     "IMG_0215",
+     "IMG_0221",
+     "IMG_0225",
+     "IMG_0226",
+     "IMG_0227",
+     "IMG_0235",
+     "IMG_0236",
+     "IMG_0240",
+     "IMG_0244",
+     "IMG_0246",
+     "IMG_0248",
+     "IMG_0256",
+     "IMG_0259",
+     "IMG_0261",
+     "IMG_0263",
+     "IMG_0267",
+     "IMG_0268",
+     "IMG_0271",
+     "IMG_0275",
+     "IMG_0304",
+     "IMG_0305",
+     "IMG_0306",
+     "IMG_0308",
+     "IMG_0315",
+     "IMG_0317",
+     "IMG_0321",
+     "IMG_0327",
+     "IMG_0355",
+     "IMG_0356",
+     "IMG_0367",
+     "IMG_0381",
+     "IMG_0384",
+     "IMG_0387",
+     "IMG_0388",
+     "IMG_0394",
+     "IMG_0395",
+     "IMG_0407",
+     "IMG_0411",
+     "IMG_0414",
+     "IMG_0420",
+     "IMG_0422",
+     "IMG_0423",
+     "IMG_0433",
+     "IMG_0435",
+     "IMG_0436",
+     "IMG_0449",
+     "IMG_0466",
+     "IMG_0467"
+    ],
+    "nFrames": 59,
+    "apps": [
+     "Books",
+     "Calendar",
+     "ChatGPT",
+     "Claude",
+     "Fitness",
+     "Games",
+     "Gemini",
+     "Grok",
+     "Journal",
+     "Mail",
+     "Messages",
+     "Music",
+     "Passwords",
+     "Podcasts",
+     "Remote-desktop client",
+     "Screens",
+     "Settings",
+     "Shortcuts",
+     "Slack",
+     "Stocks",
+     "TV",
+     "Termius",
+     "Wallet"
+    ],
+    "nApps": 23
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0325",
+     "app": "Calculator",
+     "what": "Keys run to 941 pt and the status cluster is absent; the app draws into the bar."
+    },
+    {
+     "frame": "IMG_0424",
+     "app": "Siri",
+     "what": "Text runs to 920 pt; the status capsule sits over the first lines and cuts words."
+    },
+    {
+     "frame": "IMG_0456",
+     "app": "Safari",
+     "what": "Second card of a two-column grid ends at 875 pt, 8 pt inside the bar's x range."
+    },
+    {
+     "frame": "IMG_0206",
+     "app": "ChatGPT",
+     "what": "'Pages' tab spans 863-909 pt, inside the bar column and 9 pt under the status cluster."
+    },
+    {
+     "frame": "IMG_0362",
+     "app": "a banking app",
+     "what": "A card button underneath the sheet ends at 863 pt, 4 pt from the bar."
+    },
+    {
+     "frame": "IMG_0358",
+     "app": "Podcasts",
+     "what": "Chapters card runs to 883 pt, 16 pt into the bar column, touching the status capsule."
+    },
+    {
+     "frame": "IMG_0457",
+     "app": "Safari",
+     "what": "With no vertical bar the tab grid runs to 935 pt and a card's close X sits under the status pill."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Music: playlist, library, Now Playing, lyrics, search",
+     "frames": [
+      "IMG_0304",
+      "IMG_0305",
+      "IMG_0306",
+      "IMG_0307",
+      "IMG_0308"
+     ]
+    },
+    {
+     "name": "Podcasts: show page, menus, search, transcript, chapters, output picker",
+     "frames": [
+      "IMG_0351",
+      "IMG_0352",
+      "IMG_0353",
+      "IMG_0354",
+      "IMG_0355",
+      "IMG_0356",
+      "IMG_0357",
+      "IMG_0358",
+      "IMG_0360",
+      "IMG_0361"
+     ]
+    },
+    {
+     "name": "Games: onboarding cards, Friends sheets, search, library menu, Arcade",
+     "frames": [
+      "IMG_0402",
+      "IMG_0403",
+      "IMG_0404",
+      "IMG_0405",
+      "IMG_0406",
+      "IMG_0407",
+      "IMG_0408",
+      "IMG_0409"
+     ]
+    },
+    {
+     "name": "Fitness: first run, Summary, Fitness+ sheet, Workout Buddy closed and open",
+     "frames": [
+      "IMG_0410",
+      "IMG_0411",
+      "IMG_0412",
+      "IMG_0413",
+      "IMG_0414",
+      "IMG_0415",
+      "IMG_0416"
+     ]
+    },
+    {
+     "name": "Safari: article, bookmarks sheet, new tab, tab overview",
+     "frames": [
+      "IMG_0454",
+      "IMG_0455",
+      "IMG_0456",
+      "IMG_0457"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "refines",
+   "vsSkillDetail": "SKILL.md step 4 (\"Pad each side for its own inset\") and patterns.md 7 state the rule. This adds the measured clearance (0-40 pt, mostly 12-25) and the closed-portrait edge at 382 pt.",
+   "belongsIn": "patterns.md",
+   "rnImplication": "Pad each screen root by useSafeAreaInsets().right plus a 16-24 pt margin, and confirm on the Duo that the inset reports the bar before relying on it.",
+   "verifyFrames": [
+    "IMG_0209",
+    "IMG_0156",
+    "IMG_0381",
+    "IMG_0244"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Music, Books, Fitness and Journal end text 21-41 pt before the bar, as before. Podcasts' Chapters card (883 pt) and Safari's tab grid (935 pt) enter the bar column.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "App-choice is correct: Calculator, Siri and Safari measurably overlap the strip, so the system does not clip content.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D03",
+   "title": "Declare native bar items; the system places them",
+   "statement": "Declare actions and tabs as native bar items; the system places them as 44-48 pt glass circles and pills at x 879-927 pt: actions from y 125 open or 175 closed, tabs bottom-aligned, search a separate circle. Drawn buttons stay where drawn.",
+   "polarity": "do",
+   "kind": "system",
+   "rationale": "Third-party apps (ChatGPT, Claude, Slack, Things, Bear, Screens, Termius) reach the vertical bar only by declaring native items; a header or tab bar drawn in a View stays across the content.",
+   "measurements": "Circles 47-48 pt at x 879-927 (centre about 903). Top group starts y 125 open, 175 closed, pitch about 60 pt (125-172, 184-232, 244-292, 304-351); related actions share a pill (y 125-223). Tab pill bottom-aligned: 5 icons y 384-644, 4 icons y 433-644, 3 icons y 484-644. Search circle y 598-645. Status stack y 21-107 open. Podcasts back y 125-171, filter-sort-more pill y 185-335, four-icon tab pill y 434-644; Books five-item tab pill y 383-645; Games avatar y 125-171; Wallet plus y 125-171, search y 598-645; Journal editor back, check, undo, text, more y 125-464 then a three-tool pill y 494-644.",
+   "support": {
+    "frames": [
+     "IMG_0154",
+     "IMG_0162",
+     "IMG_0164",
+     "IMG_0172",
+     "IMG_0173",
+     "IMG_0174",
+     "IMG_0176",
+     "IMG_0187",
+     "IMG_0190",
+     "IMG_0197",
+     "IMG_0262",
+     "IMG_0263",
+     "IMG_0265",
+     "IMG_0267",
+     "IMG_0278",
+     "IMG_0279",
+     "IMG_0282",
+     "IMG_0287",
+     "IMG_0294",
+     "IMG_0296",
+     "IMG_0300",
+     "IMG_0310",
+     "IMG_0311",
+     "IMG_0316",
+     "IMG_0317",
+     "IMG_0321",
+     "IMG_0326",
+     "IMG_0330",
+     "IMG_0331",
+     "IMG_0336",
+     "IMG_0339",
+     "IMG_0351",
+     "IMG_0364",
+     "IMG_0365",
+     "IMG_0368",
+     "IMG_0373",
+     "IMG_0374",
+     "IMG_0376",
+     "IMG_0378",
+     "IMG_0381",
+     "IMG_0382",
+     "IMG_0399",
+     "IMG_0402",
+     "IMG_0404",
+     "IMG_0407",
+     "IMG_0408",
+     "IMG_0411",
+     "IMG_0414",
+     "IMG_0415",
+     "IMG_0416",
+     "IMG_0420",
+     "IMG_0422",
+     "IMG_0423",
+     "IMG_0432",
+     "IMG_0433",
+     "IMG_0440",
+     "IMG_0442",
+     "IMG_0443",
+     "IMG_0444",
+     "IMG_0449",
+     "IMG_0451"
+    ],
+    "nFrames": 61,
+    "apps": [
+     "Bear",
+     "Books",
+     "Claude",
+     "Document scanner",
+     "Files",
+     "Fitness",
+     "Games",
+     "Gemini",
+     "Grok",
+     "Journal",
+     "Maps",
+     "Notes",
+     "Passwords",
+     "Podcasts",
+     "Shortcuts",
+     "Slack",
+     "Stocks",
+     "TV",
+     "Termius",
+     "Things",
+     "Translate",
+     "Voice Memos",
+     "Wallet"
+    ],
+    "nApps": 23
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0395",
+     "app": "Books",
+     "what": "Profile avatar stays in the content header at x 803-843 pt instead of the bar."
+    },
+    {
+     "frame": "IMG_0347",
+     "app": "Weather",
+     "what": "Sidebar toggle and ellipsis sit at the sidebar's top corner, x 192-300 pt; the bar holds no app buttons."
+    },
+    {
+     "frame": "IMG_0227",
+     "app": "Settings",
+     "what": "Edit pill sits in the detail header, ending at the bar boundary, not in the bar."
+    },
+    {
+     "frame": "IMG_0344",
+     "app": "Weather",
+     "what": "Sidebar toggle and '...' sit at the sidebar's top corner, x 192-300 pt; the bar holds no app buttons."
+    },
+    {
+     "frame": "IMG_0394",
+     "app": "Books",
+     "what": "Avatar and progress ring stay in the content header and end at 846 pt, beside the bar."
+    },
+    {
+     "frame": "IMG_0356",
+     "app": "Podcasts",
+     "what": "Player buttons sit in content at x 770 and 848 pt; the bar holds only the status cluster."
+    },
+    {
+     "frame": "IMG_0457",
+     "app": "Safari",
+     "what": "No vertical bar: toolbar, done button and tab grid stay in content, status items in a horizontal pill."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Slack: top pill and tab pill follow the screen; Activity drops the top pill",
+     "frames": [
+      "IMG_0263",
+      "IMG_0265",
+      "IMG_0266"
+     ]
+    },
+    {
+     "name": "Safari: article, bookmarks sheet, new tab, tab overview",
+     "frames": [
+      "IMG_0454",
+      "IMG_0455",
+      "IMG_0456",
+      "IMG_0457"
+     ]
+    },
+    {
+     "name": "Translate: languages sheet, camera view, text with keyboard, favourites",
+     "frames": [
+      "IMG_0374",
+      "IMG_0375",
+      "IMG_0376",
+      "IMG_0377",
+      "IMG_0378",
+      "IMG_0379"
+     ]
+    },
+    {
+     "name": "Apple TV: home shelves, search keyboard, episode page",
+     "frames": [
+      "IMG_0260",
+      "IMG_0261",
+      "IMG_0262"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "refines",
+   "vsSkillDetail": "SKILL.md step 4 (\"Bars move to the side only as native bar items\") and patterns.md 8 state the rule. This adds placement numbers and shows third-party apps get the bar the same way.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Use expo-router NativeTabs triggers and Stack.Toolbar items (SF Symbol plus label) so UIKit places them; a View-drawn header will not reach the bar.",
+   "verifyFrames": [
+    "IMG_0263",
+    "IMG_0267",
+    "IMG_0174",
+    "IMG_0395"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Eleven more frames from TV, Podcasts, Books, Games, Fitness, Journal, Wallet, Translate, Maps and a scanner show native items in the bar; Weather, Books, Podcasts and Safari keep some controls in content.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "Placement is OS-done and identical across about 17 apps; adoption is app-choice (Weather, Settings Edit, Books avatar, Safari draw their own).",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D04",
+   "title": "Present sheets natively: 653 pt on the fold",
+   "statement": "Open pose: modal sheets centre on the fold, usually 653 pt (x 149-802), top y 8 (partial-height y 82), 65 pt clear of the bar; small cards float from y 48-56. Exceptions: left-pane sheets (x 8-467), Bear's wide bottom sheet, full-window Now Playing.",
+   "polarity": "do",
+   "kind": "system",
+   "rationale": "A phone-width or left-half modal misses the Duo's convention. A 653 pt sheet always has the fold through its middle, so its content must cope with a crease through a title, grid or row.",
+   "measurements": "Sheet x 149-802 pt; inner cards x 165-786 (621 pt, 16 pt inset); onboarding cards 623 pt (x 164-787); partial-height sheets start at y 82 (Weather, Safari, Siri). Smaller sheets stay centred on the fold: Notes 524 pt, Grok profile 581, Things 349-369, Bear password 400. Games Add Friends 600 pt (x 175-775), Challenges 625 (x 163-788); Weather, Journal, Fitness, Books, a banking app and Shortcuts sheets x 149-802. Now Playing in Music, Podcasts and Books spans x 0-951 from y 0, grabber at x 475.5.",
+   "support": {
+    "frames": [
+     "IMG_0154",
+     "IMG_0155",
+     "IMG_0158",
+     "IMG_0160",
+     "IMG_0176",
+     "IMG_0177",
+     "IMG_0178",
+     "IMG_0179",
+     "IMG_0180",
+     "IMG_0181",
+     "IMG_0182",
+     "IMG_0184",
+     "IMG_0185",
+     "IMG_0189",
+     "IMG_0190",
+     "IMG_0191",
+     "IMG_0192",
+     "IMG_0193",
+     "IMG_0194",
+     "IMG_0195",
+     "IMG_0196",
+     "IMG_0204",
+     "IMG_0205",
+     "IMG_0220",
+     "IMG_0237",
+     "IMG_0238",
+     "IMG_0239",
+     "IMG_0242",
+     "IMG_0248",
+     "IMG_0265",
+     "IMG_0270",
+     "IMG_0272",
+     "IMG_0273",
+     "IMG_0274",
+     "IMG_0276",
+     "IMG_0277",
+     "IMG_0280",
+     "IMG_0287",
+     "IMG_0288",
+     "IMG_0289",
+     "IMG_0290",
+     "IMG_0293",
+     "IMG_0303",
+     "IMG_0309",
+     "IMG_0314",
+     "IMG_0322",
+     "IMG_0329",
+     "IMG_0342",
+     "IMG_0343",
+     "IMG_0346",
+     "IMG_0347",
+     "IMG_0348",
+     "IMG_0349",
+     "IMG_0362",
+     "IMG_0363",
+     "IMG_0368",
+     "IMG_0370",
+     "IMG_0372",
+     "IMG_0373",
+     "IMG_0375",
+     "IMG_0379",
+     "IMG_0387",
+     "IMG_0391",
+     "IMG_0392",
+     "IMG_0395",
+     "IMG_0396",
+     "IMG_0402",
+     "IMG_0403",
+     "IMG_0404",
+     "IMG_0405",
+     "IMG_0412",
+     "IMG_0413",
+     "IMG_0417",
+     "IMG_0418",
+     "IMG_0419",
+     "IMG_0427",
+     "IMG_0437",
+     "IMG_0438",
+     "IMG_0439",
+     "IMG_0443",
+     "IMG_0444",
+     "IMG_0448",
+     "IMG_0455"
+    ],
+    "nFrames": 83,
+    "apps": [
+     "Bear",
+     "Books",
+     "Calendar",
+     "ChatGPT",
+     "Claude",
+     "Files",
+     "Fitness",
+     "Games",
+     "Grok",
+     "Journal",
+     "Notes",
+     "Passwords",
+     "Safari",
+     "Screens",
+     "Shortcuts",
+     "Siri",
+     "Slack",
+     "Stocks",
+     "Things",
+     "Translate",
+     "Voice Memos",
+     "Wallet",
+     "Weather",
+     "a banking app"
+    ],
+    "nApps": 24
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0243",
+     "app": "Calendar",
+     "what": "The New Event sheet occupies only x 8-467 pt, 459 wide, with its right edge 8-9 pt before the fold."
+    },
+    {
+     "frame": "IMG_0186",
+     "app": "Claude",
+     "what": "The Effort page sits in the left half, x 8-467 pt; the same page was fold-centred in 0185."
+    },
+    {
+     "frame": "IMG_0294",
+     "app": "Bear",
+     "what": "A statistics bottom sheet spans x 12-939 pt from y 170, using the bar column below the status cluster."
+    },
+    {
+     "frame": "IMG_0306",
+     "app": "Music",
+     "what": "Now Playing fills x 0-951 and y 0 with a grabber on the fold; no 653 pt frame and no scrim."
+    },
+    {
+     "frame": "IMG_0356",
+     "app": "Podcasts",
+     "what": "Now Playing fills the window, grabber on the fold, status cluster over its surface; no sheet edge at any corner."
+    },
+    {
+     "frame": "IMG_0397",
+     "app": "Books",
+     "what": "Audiobook Now Playing fills x 0-951 from y 0; the top-left corner shows no sheet edge."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Claude: the Usage sheet rises, scrolls and expands inside one frame",
+     "frames": [
+      "IMG_0176",
+      "IMG_0177",
+      "IMG_0178",
+      "IMG_0179"
+     ]
+    },
+    {
+     "name": "Calendar: Calendars, Inbox and Search present the same 653 pt sheet",
+     "frames": [
+      "IMG_0236",
+      "IMG_0237",
+      "IMG_0238",
+      "IMG_0239"
+     ]
+    },
+    {
+     "name": "Music: playlist, library, Now Playing, lyrics, search",
+     "frames": [
+      "IMG_0304",
+      "IMG_0305",
+      "IMG_0306",
+      "IMG_0307",
+      "IMG_0308"
+     ]
+    },
+    {
+     "name": "Weather: edit cities, notification sheets, search with the keyboard",
+     "frames": [
+      "IMG_0344",
+      "IMG_0345",
+      "IMG_0346",
+      "IMG_0347",
+      "IMG_0348",
+      "IMG_0349",
+      "IMG_0350"
+     ]
+    },
+    {
+     "name": "Wallet: card stack, search, orders, rating alert, menu, notifications, select",
+     "frames": [
+      "IMG_0364",
+      "IMG_0365",
+      "IMG_0366",
+      "IMG_0367",
+      "IMG_0368",
+      "IMG_0369",
+      "IMG_0370",
+      "IMG_0371",
+      "IMG_0372",
+      "IMG_0373"
+     ]
+    },
+    {
+     "name": "Books: home, account sheet, owned books, audiobook player, library menus",
+     "frames": [
+      "IMG_0394",
+      "IMG_0395",
+      "IMG_0396",
+      "IMG_0397",
+      "IMG_0398",
+      "IMG_0399",
+      "IMG_0400",
+      "IMG_0401"
+     ]
+    },
+    {
+     "name": "Games: onboarding cards, Friends sheets, search, library menu, Arcade",
+     "frames": [
+      "IMG_0402",
+      "IMG_0403",
+      "IMG_0404",
+      "IMG_0405",
+      "IMG_0406",
+      "IMG_0407",
+      "IMG_0408",
+      "IMG_0409"
+     ]
+    },
+    {
+     "name": "Fitness: first run, Summary, Fitness+ sheet, Workout Buddy closed and open",
+     "frames": [
+      "IMG_0410",
+      "IMG_0411",
+      "IMG_0412",
+      "IMG_0413",
+      "IMG_0414",
+      "IMG_0415",
+      "IMG_0416"
+     ]
+    },
+    {
+     "name": "Journal: compose with media, record, save, state of mind",
+     "frames": [
+      "IMG_0441",
+      "IMG_0442",
+      "IMG_0443",
+      "IMG_0444",
+      "IMG_0445"
+     ]
+    },
+    {
+     "name": "Safari: article, bookmarks sheet, new tab, tab overview",
+     "frames": [
+      "IMG_0454",
+      "IMG_0455",
+      "IMG_0456",
+      "IMG_0457"
+     ]
+    },
+    {
+     "name": "Translate: languages sheet, camera view, text with keyboard, favourites",
+     "frames": [
+      "IMG_0374",
+      "IMG_0375",
+      "IMG_0376",
+      "IMG_0377",
+      "IMG_0378",
+      "IMG_0379"
+     ]
+    },
+    {
+     "name": "Shortcuts: editor, icon picker sheet, filter popover, swipe delete",
+     "frames": [
+      "IMG_0321",
+      "IMG_0322",
+      "IMG_0323",
+      "IMG_0324"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "refines",
+   "vsSkillDetail": "apple-reference-screens.md rows 24 and 32 say sheets are centred and sit over the split. SKILL.md gives no sheet width; this adds 653 pt, top y 8, 65 pt clearance and the 623 pt card.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Use react-native-screens formSheet or pageSheet presentation (expo-router modal) and lay content out with flex; never give a Modal a width or a left offset.",
+   "verifyFrames": [
+    "IMG_0306",
+    "IMG_0403",
+    "IMG_0177",
+    "IMG_0237"
+   ],
+   "change": "statementChanged",
+   "changeReason": "Ten more modal sheets in seven apps sit on the fold; Games' two are 600 and 625 pt. Music, Podcasts and Books Now Playing fill x 0-951 with a grabber on the fold: a third exception.",
+   "verify2": {
+    "verdict": "amend",
+    "amendedStatement": "Open pose: modal sheets centre on the fold, usually 653 pt (x 149-802), top y 8 (partial-height y 82), 65 pt clear of the bar; small cards float from y 48-56. Exceptions: left-pane sheets (x 8-467), Bear's wide bottom sheet, full-window Now Playing.",
+    "measured": "Pixel edge scans, 3x px/3. 0237 Calendar and 0177 Claude: sheet x 149.0-802.0, top y 8, 65 pt to bar at 867. 0403 Games: x ~175-775, top y 8, bottom ~660 (not to the screen edge). 0306 Music: no sheet edge, grabber at x 475.5, no scrim. 0356 Podcasts and 0397 Books: no edges at x 0-900. Extra: 0185 Claude, 0265 Slack, 0387 Stocks, 0346 Weather, 0395 Books, 0418 Fitness: 149-802. Weather 0346, Safari 0455, Journal 0443: top y 82. 0160 Notes 213-737 (524 wide), y 48-621 floating. 0412 Fitness+ welcome card x 164-787, y 56-612, floating. Counter: 0243 Calendar left edge x 8, right ~467; 0186 Claude x 8-467; 0294 Bear x 11-939. All counters are exceptions the statement already names.",
+    "reason": "Widths, edges, top y 8/82 and the 65 pt clearance match in every frame checked, and the Now Playing exception holds. Missing condition: small cards and dialogs float from y 48-56 rather than y 8, so the y 8 claim applies only to full sheets.",
+    "classificationOk": true,
+    "classificationNote": null,
+    "privacyIssue": null
+   },
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "Mostly OS presentation; the left-pane and wide-bottom cases are app or state dependent. Statement should scope itself to the open pose; closed sheets are ~450 pt (0244, 0435).",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D05",
+   "title": "Expect the split keyboard around the fold",
+   "statement": "Open, the system keyboard is one 951 pt panel: key blocks at x 85-388 and 563-866, a 175 pt gap on x 475.5, 278 pt tall with a suggestion row and 241 pt without. Closed, one 466 pt piece, 304 or 265 pt tall.",
+   "polarity": "do",
+   "kind": "system",
+   "rationale": "The panel runs under the bar and over both panes, covering the sidebar, a sheet's lower rows and the bar's lower buttons; only the key blocks stop at the bar's edge.",
+   "measurements": "Open: panel x 0-951, top y 391 (278 pt, suggestion row) or 428 (241 pt, no suggestions or URL type); suggestions and autofill fill the right half only; keys x 85-388 and 563-866. Closed: panel x 0-466, keys x 7-460, top y 374 (304 pt, suggestions), 376 (302) or 413 (265, none). Music 0308 top row ends 361 and resumes 592 (231 pt gap) while g and v rows run 389-563 (174 pt); Games, Messages, Weather and Music panel top y 391-392, 277-278 tall; Maps and remote desktop without suggestions top y 429, 240 tall.",
+   "support": {
+    "frames": [
+     "IMG_0159",
+     "IMG_0163",
+     "IMG_0164",
+     "IMG_0166",
+     "IMG_0168",
+     "IMG_0183",
+     "IMG_0200",
+     "IMG_0201",
+     "IMG_0202",
+     "IMG_0208",
+     "IMG_0222",
+     "IMG_0239",
+     "IMG_0242",
+     "IMG_0243",
+     "IMG_0250",
+     "IMG_0253",
+     "IMG_0254",
+     "IMG_0261",
+     "IMG_0268",
+     "IMG_0269",
+     "IMG_0270",
+     "IMG_0274",
+     "IMG_0275",
+     "IMG_0280",
+     "IMG_0297",
+     "IMG_0300",
+     "IMG_0301",
+     "IMG_0308",
+     "IMG_0314",
+     "IMG_0317",
+     "IMG_0326",
+     "IMG_0328",
+     "IMG_0329",
+     "IMG_0339",
+     "IMG_0343",
+     "IMG_0350",
+     "IMG_0355",
+     "IMG_0365",
+     "IMG_0366",
+     "IMG_0378",
+     "IMG_0384",
+     "IMG_0385",
+     "IMG_0406",
+     "IMG_0424",
+     "IMG_0434",
+     "IMG_0436",
+     "IMG_0442",
+     "IMG_0445",
+     "IMG_0448",
+     "IMG_0458",
+     "IMG_0466",
+     "IMG_0468"
+    ],
+    "nFrames": 52,
+    "apps": [
+     "Bear",
+     "Calendar",
+     "ChatGPT",
+     "Claude",
+     "Files",
+     "Games",
+     "Journal",
+     "Maps",
+     "Messages",
+     "Music",
+     "Notes",
+     "Passwords",
+     "Photos",
+     "Podcasts",
+     "Remote-desktop client",
+     "Screens",
+     "Shortcuts",
+     "Siri",
+     "Stocks",
+     "TV",
+     "Things",
+     "Translate",
+     "Voice Memos",
+     "Wallet",
+     "Weather"
+    ],
+    "nApps": 25
+   },
+   "counterEvidence": [],
+   "flows": [
+    {
+     "name": "Notes: the keyboard rises, Done takes the bar's top slot and a toolbar docks above it",
+     "frames": [
+      "IMG_0158",
+      "IMG_0159"
+     ]
+    },
+    {
+     "name": "Maps: the alert's text field raises the split keyboard; folding closed gives the one-piece one",
+     "frames": [
+      "IMG_0163",
+      "IMG_0165",
+      "IMG_0166"
+     ]
+    },
+    {
+     "name": "Messages: keyboard, edit, filter, inspector, attach, record, new message, search",
+     "frames": [
+      "IMG_0458",
+      "IMG_0459",
+      "IMG_0460",
+      "IMG_0461",
+      "IMG_0462",
+      "IMG_0463",
+      "IMG_0464",
+      "IMG_0465",
+      "IMG_0466",
+      "IMG_0467",
+      "IMG_0468"
+     ]
+    },
+    {
+     "name": "Weather: edit cities, notification sheets, search with the keyboard",
+     "frames": [
+      "IMG_0344",
+      "IMG_0345",
+      "IMG_0346",
+      "IMG_0347",
+      "IMG_0348",
+      "IMG_0349",
+      "IMG_0350"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "new",
+   "vsSkillDetail": "Neither SKILL.md nor the references mention the keyboard.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Draw nothing; read the frame from Keyboard events rather than constants and design for 391 pt of visible height open and 374 pt closed.",
+   "verifyFrames": [
+    "IMG_0159",
+    "IMG_0254",
+    "IMG_0168",
+    "IMG_0200"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Six more apps (Maps, remote desktop, Weather, Games, Messages, Music) show the same split panel; Music's top key row leaves a 231 pt gap where the g and v rows leave 174.",
+   "verify1": {
+    "verdict": "confirmed",
+    "classificationOk": true,
+    "classificationNote": "System keyboard: identical geometry in all 22 apps scanned across 46 frames.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D06",
+   "title": "Top group for screen actions, bottom for tabs",
+   "statement": "Put screen actions (back, close, share, more, Done) in the bar's top group; tabs, creation and toolbar items in the bottom group. Reuse one top slot (x 879-927, y 124-172) across screens. The middle is usually clear; top groups reach y 350 or 500.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "The iPhone top bar maps to the upper group and its bottom toolbar to the lower. A fixed first slot keeps the target still while modals and pushed pages come and go.",
+   "measurements": "Fixed slot x 879-927, y 124-172: ChatGPT shows back, close, add and phone glyphs in it across 7 frames. Mail open: archive-move-reply pill y 426-576 plus compose y 590-637. Slack: tab pill y 373-585, Search y 598-645. Notes: tool pill y 434-584, compose y 598-645. Screens: top capsule y 125-276, bottom y 484-644. Messages round button y 125-171, capsule y 125-276; Music back y 125-171 above its share and '...' pill, tab pill y 384-647; a single contextual button joins the bar under the status stack in 0307.",
+   "support": {
+    "frames": [
+     "IMG_0157",
+     "IMG_0159",
+     "IMG_0168",
+     "IMG_0171",
+     "IMG_0209",
+     "IMG_0210",
+     "IMG_0213",
+     "IMG_0215",
+     "IMG_0220",
+     "IMG_0221",
+     "IMG_0225",
+     "IMG_0236",
+     "IMG_0255",
+     "IMG_0256",
+     "IMG_0259",
+     "IMG_0263",
+     "IMG_0265",
+     "IMG_0267",
+     "IMG_0271",
+     "IMG_0272",
+     "IMG_0304",
+     "IMG_0305",
+     "IMG_0307",
+     "IMG_0310",
+     "IMG_0336",
+     "IMG_0339",
+     "IMG_0387",
+     "IMG_0388",
+     "IMG_0393",
+     "IMG_0458",
+     "IMG_0461"
+    ],
+    "nFrames": 31,
+    "apps": [
+     "Calendar",
+     "ChatGPT",
+     "Mail",
+     "Messages",
+     "Music",
+     "Notes",
+     "Screens",
+     "Slack",
+     "Stocks",
+     "Termius",
+     "Things",
+     "Voice Memos"
+    ],
+    "nApps": 12
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0311",
+     "app": "Voice Memos",
+     "what": "Seven actions fill the column from y 125 to 499, so the middle is not empty."
+    }
+   ],
+   "flows": [
+    {
+     "name": "ChatGPT: one top slot holds close, back and a phone glyph",
+     "frames": [
+      "IMG_0209",
+      "IMG_0210",
+      "IMG_0213",
+      "IMG_0215",
+      "IMG_0220",
+      "IMG_0225"
+     ]
+    },
+    {
+     "name": "Notes: Done takes the top slot and the bottom tools leave when editing starts",
+     "frames": [
+      "IMG_0157",
+      "IMG_0158",
+      "IMG_0159"
+     ]
+    },
+    {
+     "name": "Stocks: the same slot turns from add into a ticked check",
+     "frames": [
+      "IMG_0387",
+      "IMG_0388",
+      "IMG_0393"
+     ]
+    },
+    {
+     "name": "Messages: keyboard, edit, filter, inspector, attach, record, new message, search",
+     "frames": [
+      "IMG_0458",
+      "IMG_0459",
+      "IMG_0460",
+      "IMG_0461",
+      "IMG_0462",
+      "IMG_0463",
+      "IMG_0464",
+      "IMG_0465",
+      "IMG_0466",
+      "IMG_0467",
+      "IMG_0468"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "refines",
+   "vsSkillDetail": "apple-reference-screens.md row 7 (top items to the top, bottom items to the bottom) and patterns.md 8 (\"back -> prominent action -> other actions -> tabs\") cover the order. This adds the reused fixed slot and the bottom group's contents.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Declare back, close and share as Stack.Toolbar items and tabs as NativeTabs triggers; keep the first toolbar item in the same position on every screen.",
+   "verifyFrames": [
+    "IMG_0209",
+    "IMG_0210",
+    "IMG_0256",
+    "IMG_0263"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Music and Messages put screen actions in the top group from y 125: back, share and '...' in Music; one video-call button, then a phone-video-mail capsule, in Messages. Music's tab pill sits below.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "App-choice is right: Voice Memos, Journal and Files bar layouts differ, so the OS imposes no grouping.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D07",
+   "title": "Let ordinary content cross the fold",
+   "statement": "Draw lists, text, charts and cards across x 475.5 pt without a gutter or inset; Apple's own apps do, and no frame shows a seam. Add fold logic only to a grid, picker or pane boundary you control.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "The skill's warning about a card over the hinge does not match shipping apps: in 17 frames rows, charts and text lines cross the fold unbroken. A screenshot cannot show the physical crease or touch response.",
+   "measurements": "Crossing with no gutter: Settings rows 360-845 pt; Stocks chart and stats table; Journal cards 360-827; Files names 427-575; Podcasts result title 114-715; Wallet footnote 185-695; Apple TV separators 94-833. TV cards at 34, 299 and 565 pt (245 wide, 20 gap), card 2 over the fold; Wallet card stack 304-647 with the fold across every card.",
+   "support": {
+    "frames": [
+     "IMG_0226",
+     "IMG_0235",
+     "IMG_0256",
+     "IMG_0260",
+     "IMG_0261",
+     "IMG_0262",
+     "IMG_0278",
+     "IMG_0279",
+     "IMG_0355",
+     "IMG_0364",
+     "IMG_0367",
+     "IMG_0372",
+     "IMG_0388",
+     "IMG_0390",
+     "IMG_0417",
+     "IMG_0420",
+     "IMG_0422",
+     "IMG_0441",
+     "IMG_0446",
+     "IMG_0451"
+    ],
+    "nFrames": 20,
+    "apps": [
+     "Files",
+     "Fitness",
+     "Journal",
+     "Mail",
+     "Podcasts",
+     "Settings",
+     "Stocks",
+     "TV",
+     "Wallet"
+    ],
+    "nApps": 9
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0240",
+     "app": "Calendar",
+     "what": "The fold is the pane divider; nothing crosses it."
+    },
+    {
+     "frame": "IMG_0290",
+     "app": "Bear",
+     "what": "Theme-card grid puts its 15 pt gutter on the fold, x 468-483 pt."
+    },
+    {
+     "frame": "IMG_0298",
+     "app": "Bear",
+     "what": "The custom key grid puts its column gutter on the fold, x 469-482 pt."
+    },
+    {
+     "frame": "IMG_0306",
+     "app": "Music",
+     "what": "Player and queue leave a 50 pt gutter on the fold; nothing crosses it."
+    },
+    {
+     "frame": "IMG_0356",
+     "app": "Podcasts",
+     "what": "Player ends at 449 pt and transcript starts at 502 pt; the fold sits in the gutter."
+    },
+    {
+     "frame": "IMG_0397",
+     "app": "Books",
+     "what": "Player 52-449 pt and track list 501-877 pt; nothing crosses x 475.5."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Stocks: hiding the sidebar widens chart and stats across the fold",
+     "frames": [
+      "IMG_0380",
+      "IMG_0381"
+     ]
+    },
+    {
+     "name": "Wallet: card stack, search, orders, rating alert, menu, notifications, select",
+     "frames": [
+      "IMG_0364",
+      "IMG_0365",
+      "IMG_0366",
+      "IMG_0367",
+      "IMG_0368",
+      "IMG_0369",
+      "IMG_0370",
+      "IMG_0371",
+      "IMG_0372",
+      "IMG_0373"
+     ]
+    },
+    {
+     "name": "Fitness: friends in a sheet, a full page, Fitness+ for you and search",
+     "frames": [
+      "IMG_0417",
+      "IMG_0418",
+      "IMG_0419",
+      "IMG_0420",
+      "IMG_0421",
+      "IMG_0422",
+      "IMG_0423"
+     ]
+    },
+    {
+     "name": "Apple TV: home shelves, search keyboard, episode page",
+     "frames": [
+      "IMG_0260",
+      "IMG_0261",
+      "IMG_0262"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "contradicts",
+   "vsSkillDetail": "SKILL.md opening: \"so a phone column stretched across it puts a card over the hinge\"; patterns.md 3: \"Without it, a 3:2 row puts a card across the hinge.\" Apple's own apps do this in every frame cited. Caveat: no frame shows touch or crease behaviour, so keep FoldColumns optional rather than removing it.",
+   "belongsIn": "patterns.md",
+   "rnImplication": "Render a single pane as an ordinary full-width flex layout and reserve FoldColumns for grids you want a gutter on.",
+   "verifyFrames": [
+    "IMG_0226",
+    "IMG_0388",
+    "IMG_0451",
+    "IMG_0261"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "TV's shelves and Wallet's card stack cross the fold unbroken. Music, Podcasts and Books player pages leave a 50 pt gutter on it instead, the pane-boundary case the statement already excepts.",
+   "verify1": {
+    "verdict": "confirmed",
+    "classificationOk": true,
+    "classificationNote": "App-choice is right: Bear 0290 grid and Calendar 0240 pane divider avoid the fold by layout, not by system rule.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D08",
+   "title": "Anchor menus to their button; use native menus",
+   "statement": "Anchor menus to the trigger, 250 pt wide by default (193-375 by content). Bar menus end near x 930, over the bar, starting at y 125 or 184. Left-pane menus stay left unless the trigger is near x 400-434; then they cross the fold.",
+   "polarity": "do",
+   "kind": "system",
+   "rationale": "The system picks the half from the trigger, not the fold: bar menus sit wholly right of it and a composer plus straddled it. A hand-placed menu misses the bar overlap and the keyboard clamp.",
+   "measurements": "Bar triggers: x 677-929 pt, top y 124-125. Left-pane triggers: x 20-270 (Shortcuts), 52-302 (Stocks), 142-391 (Slack). Composer plus: x 333-611 and 386-635 straddle the fold. 319-320 wide: Voice Memos Options 611-930, Mail Move 610-930; View Options 375 pt; Bear menu height shrinks to y 327 above its accessory at 335. 249 wide: Podcasts bar menu 678-927, Wallet 678-926, Books 677-925 over the tab pill, Games 583-832, Journal 577-826 and its sidebar menu 20-270, Messages filter 32-281; Messages attach menu 320 wide, x 21-341. Podcasts and Books menus from a trigger at x 434: 309-558. Remote-desktop menu 657-904.",
+   "support": {
+    "frames": [
+     "IMG_0155",
+     "IMG_0156",
+     "IMG_0170",
+     "IMG_0175",
+     "IMG_0202",
+     "IMG_0205",
+     "IMG_0207",
+     "IMG_0214",
+     "IMG_0250",
+     "IMG_0251",
+     "IMG_0253",
+     "IMG_0258",
+     "IMG_0264",
+     "IMG_0269",
+     "IMG_0275",
+     "IMG_0283",
+     "IMG_0284",
+     "IMG_0285",
+     "IMG_0286",
+     "IMG_0299",
+     "IMG_0301",
+     "IMG_0302",
+     "IMG_0312",
+     "IMG_0318",
+     "IMG_0323",
+     "IMG_0332",
+     "IMG_0334",
+     "IMG_0338",
+     "IMG_0340",
+     "IMG_0341",
+     "IMG_0352",
+     "IMG_0353",
+     "IMG_0354",
+     "IMG_0360",
+     "IMG_0371",
+     "IMG_0382",
+     "IMG_0383",
+     "IMG_0389",
+     "IMG_0398",
+     "IMG_0400",
+     "IMG_0401",
+     "IMG_0407",
+     "IMG_0408",
+     "IMG_0418",
+     "IMG_0419",
+     "IMG_0441",
+     "IMG_0446",
+     "IMG_0447",
+     "IMG_0449",
+     "IMG_0452",
+     "IMG_0460",
+     "IMG_0463",
+     "IMG_0467"
+    ],
+    "nFrames": 53,
+    "apps": [
+     "Bear",
+     "Books",
+     "Calendar",
+     "ChatGPT",
+     "Claude",
+     "Files",
+     "Fitness",
+     "Games",
+     "Grok",
+     "Journal",
+     "Mail",
+     "Messages",
+     "Notes",
+     "Passwords",
+     "Podcasts",
+     "Remote-desktop client",
+     "Screens",
+     "Shortcuts",
+     "Slack",
+     "Stocks",
+     "Things",
+     "Voice Memos",
+     "Wallet"
+    ],
+    "nApps": 23
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0259",
+     "app": "Mail",
+     "what": "Closed, the same Move menu becomes a bottom sheet 450 pt wide that covers the bar column."
+    },
+    {
+     "frame": "IMG_0245",
+     "app": "Calendar",
+     "what": "Closed portrait calendar picker is x 101-351 pt, inside the content column and clear of the bar."
+    },
+    {
+     "frame": "IMG_0361",
+     "app": "Podcasts",
+     "what": "A '...' trigger at x 434 opens a 249 pt menu at x 309-558, across the fold: left-pane menus do not always stay left."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Claude: the bar pill's '...' expands into a five-item menu",
+     "frames": [
+      "IMG_0174",
+      "IMG_0175"
+     ]
+    },
+    {
+     "name": "Stocks: the capsule's '...' becomes the menu",
+     "frames": [
+      "IMG_0381",
+      "IMG_0382"
+     ]
+    },
+    {
+     "name": "ChatGPT: the plus button's popover opens above it",
+     "frames": [
+      "IMG_0206",
+      "IMG_0207"
+     ]
+    },
+    {
+     "name": "Passwords: share button opens its menu right of the fold",
+     "frames": [
+      "IMG_0331",
+      "IMG_0332"
+     ]
+    },
+    {
+     "name": "Bear: the menu shrinks to end above the keyboard accessory",
+     "frames": [
+      "IMG_0299",
+      "IMG_0301"
+     ]
+    },
+    {
+     "name": "Messages: keyboard, edit, filter, inspector, attach, record, new message, search",
+     "frames": [
+      "IMG_0458",
+      "IMG_0459",
+      "IMG_0460",
+      "IMG_0461",
+      "IMG_0462",
+      "IMG_0463",
+      "IMG_0464",
+      "IMG_0465",
+      "IMG_0466",
+      "IMG_0467",
+      "IMG_0468"
+     ]
+    },
+    {
+     "name": "Podcasts: show page, menus, search, transcript, chapters, output picker",
+     "frames": [
+      "IMG_0351",
+      "IMG_0352",
+      "IMG_0353",
+      "IMG_0354",
+      "IMG_0355",
+      "IMG_0356",
+      "IMG_0357",
+      "IMG_0358",
+      "IMG_0360",
+      "IMG_0361"
+     ]
+    },
+    {
+     "name": "Wallet: card stack, search, orders, rating alert, menu, notifications, select",
+     "frames": [
+      "IMG_0364",
+      "IMG_0365",
+      "IMG_0366",
+      "IMG_0367",
+      "IMG_0368",
+      "IMG_0369",
+      "IMG_0370",
+      "IMG_0371",
+      "IMG_0372",
+      "IMG_0373"
+     ]
+    },
+    {
+     "name": "Books: home, account sheet, owned books, audiobook player, library menus",
+     "frames": [
+      "IMG_0394",
+      "IMG_0395",
+      "IMG_0396",
+      "IMG_0397",
+      "IMG_0398",
+      "IMG_0399",
+      "IMG_0400",
+      "IMG_0401"
+     ]
+    },
+    {
+     "name": "Fitness: friends in a sheet, a full page, Fitness+ for you and search",
+     "frames": [
+      "IMG_0417",
+      "IMG_0418",
+      "IMG_0419",
+      "IMG_0420",
+      "IMG_0421",
+      "IMG_0422",
+      "IMG_0423"
+     ]
+    },
+    {
+     "name": "Journal: compose with media, record, save, state of mind",
+     "frames": [
+      "IMG_0441",
+      "IMG_0442",
+      "IMG_0443",
+      "IMG_0444",
+      "IMG_0445"
+     ]
+    },
+    {
+     "name": "Journal: read view, new journal, entry menu, Places, Insights, sidebar menu",
+     "frames": [
+      "IMG_0446",
+      "IMG_0447",
+      "IMG_0448",
+      "IMG_0449",
+      "IMG_0450",
+      "IMG_0451",
+      "IMG_0452",
+      "IMG_0453"
+     ]
+    },
+    {
+     "name": "Shortcuts: editor, icon picker sheet, filter popover, swipe delete",
+     "frames": [
+      "IMG_0321",
+      "IMG_0322",
+      "IMG_0323",
+      "IMG_0324"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "refines",
+   "vsSkillDetail": "apple-reference-screens.md row 25 says \"Sheets and popovers move off the fold by themselves\" (book pose). In the flat pose menus straddle the fold when the trigger is near it. SKILL.md mentions only Stack.Toolbar items.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Use a native menu library (zeego, @react-native-menu/menu or expo-ui) on a Stack.Toolbar item so UIKit anchors it, overlaps the bar and clamps height itself.",
+   "verifyFrames": [
+    "IMG_0361",
+    "IMG_0175",
+    "IMG_0214",
+    "IMG_0332"
+   ],
+   "change": "statementChanged",
+   "changeReason": "Podcasts, Books, Games, Journal, Wallet and Messages menus are 249-250 pt and follow their trigger. Two menus from a trigger near x 434 span the fold (309-558), so 'left-pane menus stay left' held only for triggers further left.",
+   "verify2": {
+    "verdict": "amend",
+    "amendedStatement": "Anchor menus to the trigger, 250 pt wide by default (193-375 by content). Bar menus end near x 930, over the bar, starting at y 125 or 184. Left-pane menus stay left unless the trigger is near x 400-434; then they cross the fold.",
+    "measured": "Crops at 1x. 0361 Podcasts: x 308-559 (250 wide) from a trigger at x 434, crossing the fold. 0398 Books: x 309-558. 0175 Claude bar menu: x 678-927, top y 184 (trigger pill still visible at y 123-172). 0332 Passwords: x 680-929, top y 124 (covers the trigger). 0214 Claude row '...' menu: x 386-635 from a trigger near x 400, also crossing the fold. Witness records give tops of 124-136 for Passwords, Stocks, Things, Journal 0441, Bear, and 182-192 for Claude, Podcasts, Wallet, Books 0400, Journal 0446, Files 0283. Widths 193 (Things 733-926), 226 (Things 670-896), 319-320 (Voice Memos, Mail, Messages attach) also occur. Counter 0259 Mail bottom sheet (450 wide) and 0245 portrait picker were taken from witness records, not re-opened.",
+    "reason": "Right edge, 250 pt width and the fold-crossing cases are confirmed. Two stated conditions are off: bar menus start at y 125 only when they replace the button and at y 182-192 when they drop below it, and width ranges 193-375. The left-pane limit also sits nearer x 400 than 434.",
+    "classificationOk": true,
+    "classificationNote": "UIKit menu geometry is the same in every app seen, though the top and width vary with the trigger and content.",
+    "privacyIssue": null
+   },
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "System is right for placement and clamping; every menu I opened looks native. Widths vary with content (250, 278, 320, 353), so state them as ranges.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D09",
+   "title": "Lift the focused field above the keyboard",
+   "statement": "In open landscape the split keyboard tops out at y 391 pt (428 without suggestions; 374 in closed portrait). Lift the focused field or composer 8-20 pt above that edge. Keyboard overlays form sheets without resizing them, so make sheet content scroll.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "The keyboard takes 40% of a 669 pt screen and covers both panes. A bottom composer is hidden unless moved, and sheet rows below y 391 are unreachable without scrolling.",
+   "measurements": "Composer bottom 379-384 against keyboard top 391 (ChatGPT, Claude); ChatGPT composer y 288-378 with keyboard, 587-635 without; Shortcuts field y 324-374 with, 587-637 without; Messages composer 20 pt above a 428 keyboard top; TV search pinned at y 25-68; Passwords list header collapses 129 pt. Weather search pill y 336-383 above a keyboard top at 391 (8 pt); Messages field y 331-371 above a 392 top (21 pt); Music and Maps fields at y 24-70, 320-360 pt above; Maps list cut at 429 (240 pt keyboard).",
+   "support": {
+    "frames": [
+     "IMG_0163",
+     "IMG_0183",
+     "IMG_0202",
+     "IMG_0222",
+     "IMG_0225",
+     "IMG_0239",
+     "IMG_0254",
+     "IMG_0261",
+     "IMG_0270",
+     "IMG_0308",
+     "IMG_0317",
+     "IMG_0318",
+     "IMG_0327",
+     "IMG_0328",
+     "IMG_0350",
+     "IMG_0378",
+     "IMG_0424",
+     "IMG_0442",
+     "IMG_0445",
+     "IMG_0458",
+     "IMG_0466",
+     "IMG_0468"
+    ],
+    "nFrames": 22,
+    "apps": [
+     "Calendar",
+     "ChatGPT",
+     "Claude",
+     "Journal",
+     "Maps",
+     "Messages",
+     "Music",
+     "Passwords",
+     "Photos",
+     "Screens",
+     "Shortcuts",
+     "Siri",
+     "TV",
+     "Translate",
+     "Weather"
+    ],
+    "nApps": 15
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0242",
+     "app": "Calendar",
+     "what": "The New Event sheet's lower fields sit behind the keyboard; the sheet did not resize."
+    },
+    {
+     "frame": "IMG_0274",
+     "app": "Screens",
+     "what": "The 'Learn how' link is under the translucent keyboard; Client Secret ends 9 pt above it."
+    },
+    {
+     "frame": "IMG_0448",
+     "app": "Journal",
+     "what": "The second colour-swatch row is clipped at the keyboard's top edge."
+    },
+    {
+     "frame": "IMG_0164",
+     "app": "Maps",
+     "what": "Find Nearby list continues under the keyboard and is cut at y 429 pt; the sheet did not resize."
+    }
+   ],
+   "flows": [
+    {
+     "name": "ChatGPT: the composer rises with the keyboard and returns when it closes",
+     "frames": [
+      "IMG_0225",
+      "IMG_0222"
+     ]
+    },
+    {
+     "name": "Shortcuts: field moves from y 587 to y 324 and back",
+     "frames": [
+      "IMG_0317",
+      "IMG_0318"
+     ]
+    },
+    {
+     "name": "Passwords: the list collapses its header, detail stays put",
+     "frames": [
+      "IMG_0327",
+      "IMG_0328"
+     ]
+    },
+    {
+     "name": "Music: playlist, library, Now Playing, lyrics, search",
+     "frames": [
+      "IMG_0304",
+      "IMG_0305",
+      "IMG_0306",
+      "IMG_0307",
+      "IMG_0308"
+     ]
+    },
+    {
+     "name": "Journal: read view, new journal, entry menu, Places, Insights, sidebar menu",
+     "frames": [
+      "IMG_0446",
+      "IMG_0447",
+      "IMG_0448",
+      "IMG_0449",
+      "IMG_0450",
+      "IMG_0451",
+      "IMG_0452",
+      "IMG_0453"
+     ]
+    },
+    {
+     "name": "ChatGPT: projects, new chat with keyboard, Images, thread",
+     "frames": [
+      "IMG_0221",
+      "IMG_0222",
+      "IMG_0223",
+      "IMG_0224",
+      "IMG_0225"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "new",
+   "vsSkillDetail": "Keyboard avoidance is not in SKILL.md or patterns.md.",
+   "belongsIn": "patterns.md",
+   "rnImplication": "Drive KeyboardAvoidingView or react-native-keyboard-controller from the reported frame (check that RN's events report the split panel on the Duo) and make sheet content a ScrollView.",
+   "verifyFrames": [
+    "IMG_0202",
+    "IMG_0242",
+    "IMG_0317",
+    "IMG_0318"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Maps, Music, Weather and Messages keep the focused field at y 24-383 pt, 8-360 pt above the keyboard; the Maps sheet list is cut at the keyboard top, as in Calendar.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "Keyboard geometry and sheet overlay are system; lifting the field is a required app duty, not optional. Alerts reposition above the keyboard themselves.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D10",
+   "title": "Closed portrait: one 382 pt column plus bar",
+   "statement": "Closed, content sits in one column ending x 382 pt; the 84 pt bar holds back, filter, Cancel and Confirm from y 175, under the status stack (y 75-160). Bottom sheets, Maps search and the keyboard span 466 pt and keep their own close X.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "The status stack is taller closed (y 72-160, first button y 175 against 125 open), the sidebar disappears and bar items replace a sheet header's buttons, so the layout is not the open one scaled.",
+   "measurements": "Bar x 382-466. Status stack y 72-160; first bar button y 175-222; bottom group ends y 645-656. Content ends 346-383 pt. One-piece keyboard x 0-466, 302-304 pt tall. Calendar sheet X and check at y 175-283 in the bar, form rows x 24-367.",
+   "support": {
+    "frames": [
+     "IMG_0166",
+     "IMG_0167",
+     "IMG_0168",
+     "IMG_0169",
+     "IMG_0170",
+     "IMG_0171",
+     "IMG_0172",
+     "IMG_0244",
+     "IMG_0245",
+     "IMG_0246",
+     "IMG_0247",
+     "IMG_0248",
+     "IMG_0253",
+     "IMG_0415",
+     "IMG_0429",
+     "IMG_0430",
+     "IMG_0431",
+     "IMG_0432",
+     "IMG_0433",
+     "IMG_0434"
+    ],
+    "nFrames": 20,
+    "apps": [
+     "Calendar",
+     "Fitness",
+     "Gemini",
+     "Journal",
+     "Maps",
+     "Notes",
+     "Siri"
+    ],
+    "nApps": 7
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0165",
+     "app": "Maps",
+     "what": "Bottom sheet spans x 8.5-458 pt, under the bar column."
+    },
+    {
+     "frame": "IMG_0259",
+     "app": "Mail",
+     "what": "The Move bottom sheet spans x 7-457 pt and covers the bar column."
+    },
+    {
+     "frame": "IMG_0435",
+     "app": "Journal",
+     "what": "Sheet fills x 8-458 pt; only its content is held to x 46-344."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Notes: folders, edit with one-piece keyboard, markup, attach menu, back to read",
+     "frames": [
+      "IMG_0167",
+      "IMG_0168",
+      "IMG_0169",
+      "IMG_0170",
+      "IMG_0171"
+     ]
+    },
+    {
+     "name": "Calendar: new item sheet, picker menu, reminder tab, Details in the bar",
+     "frames": [
+      "IMG_0244",
+      "IMG_0245",
+      "IMG_0246",
+      "IMG_0247"
+     ]
+    },
+    {
+     "name": "Siri: back to the history grid, then voice, bar following the status stack",
+     "frames": [
+      "IMG_0428",
+      "IMG_0429",
+      "IMG_0430",
+      "IMG_0431"
+     ]
+    },
+    {
+     "name": "Journal: empty list, editor, keyboard, onboarding sheet",
+     "frames": [
+      "IMG_0432",
+      "IMG_0433",
+      "IMG_0434",
+      "IMG_0435"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "refines",
+   "vsSkillDetail": "SKILL.md facts table: \"Closed (outer display) | 466×678 | One vertical bar, 84pt trailing; top inset 0\". Adds the 382 pt column, status stack y 72-160, first action y 175, the 304 pt one-piece keyboard and sheet buttons moving into the bar.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Key the closed layout on useWindowDimensions width 466 and pad the root by the right inset; use native toolbar items so sheet buttons can move into the bar.",
+   "verifyFrames": [
+    "IMG_0244",
+    "IMG_0236",
+    "IMG_0171",
+    "IMG_0259"
+   ],
+   "change": "none",
+   "changeReason": null,
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": null,
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D11",
+   "title": "Reflow on measured width, not device",
+   "statement": "Re-flow one screen by the width it has: Stocks goes from one news card to two when its sidebar hides, Fitness from one column closed to two open, Maps from a 400 pt leading panel to a bottom sheet. Key on pane width, not isTablet.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "One screen runs at 382, 467, 631 and 867 pt wide within a session. Apple's apps change column count and chrome at each step instead of scaling the layout.",
+   "measurements": "Stocks detail 467 pt: one news card x 360-827, range tabs overflow; 787 pt: two cards x 40-426 and 442-827, chart 787 pt wide, tabs fit. Fitness closed: one column x 24-358; open: x 20-343 and 385-839. Maps open: panel x 8.5-408; closed: sheet x 8.5-458. Gemini drawer 361 pt open, full width closed. Music pills 34-425 and 442-832, tiles about 188 wide at 16 pt gaps; Books covers 179 wide, 26 pt gaps; Games tiles 253 wide; Weather hourly pitch 58 pt, 9.5 columns in 567 pt.",
+   "support": {
+    "frames": [
+     "IMG_0157",
+     "IMG_0162",
+     "IMG_0165",
+     "IMG_0167",
+     "IMG_0172",
+     "IMG_0173",
+     "IMG_0305",
+     "IMG_0308",
+     "IMG_0310",
+     "IMG_0311",
+     "IMG_0344",
+     "IMG_0349",
+     "IMG_0380",
+     "IMG_0381",
+     "IMG_0399",
+     "IMG_0408",
+     "IMG_0410",
+     "IMG_0414",
+     "IMG_0415",
+     "IMG_0416",
+     "IMG_0428",
+     "IMG_0429",
+     "IMG_0430",
+     "IMG_0431"
+    ],
+    "nFrames": 24,
+    "apps": [
+     "Books",
+     "Fitness",
+     "Games",
+     "Gemini",
+     "Maps",
+     "Music",
+     "Notes",
+     "Siri",
+     "Stocks",
+     "Voice Memos",
+     "Weather"
+    ],
+    "nApps": 11
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0325",
+     "app": "Calculator",
+     "what": "Phone keypad stretched over 631 pt; the fold falls inside the 8-5-2-0 key column."
+    },
+    {
+     "frame": "IMG_0261",
+     "app": "TV",
+     "what": "Search rows keep their phone layout across 740 pt, with the ellipsis 700 pt from the title."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Stocks: hide the sidebar and the detail re-flows from 467 to 787 pt",
+     "frames": [
+      "IMG_0380",
+      "IMG_0381"
+     ]
+    },
+    {
+     "name": "Fitness: Workout Buddy closed then open, one column to two",
+     "frames": [
+      "IMG_0414",
+      "IMG_0415",
+      "IMG_0416"
+     ]
+    },
+    {
+     "name": "Maps: rename a place, fold; the leading panel becomes a bottom sheet",
+     "frames": [
+      "IMG_0162",
+      "IMG_0163",
+      "IMG_0165"
+     ]
+    },
+    {
+     "name": "Gemini: drawer overlay open, full-screen drawer closed",
+     "frames": [
+      "IMG_0172",
+      "IMG_0173"
+     ]
+    },
+    {
+     "name": "Voice Memos: recording drops the list and uses the full width, then the split returns",
+     "frames": [
+      "IMG_0309",
+      "IMG_0310",
+      "IMG_0311"
+     ]
+    },
+    {
+     "name": "Books: home, account sheet, owned books, audiobook player, library menus",
+     "frames": [
+      "IMG_0394",
+      "IMG_0395",
+      "IMG_0396",
+      "IMG_0397",
+      "IMG_0398",
+      "IMG_0399",
+      "IMG_0400",
+      "IMG_0401"
+     ]
+    },
+    {
+     "name": "Fitness: first run, Summary, Fitness+ sheet, Workout Buddy closed and open",
+     "frames": [
+      "IMG_0410",
+      "IMG_0411",
+      "IMG_0412",
+      "IMG_0413",
+      "IMG_0414",
+      "IMG_0415",
+      "IMG_0416"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "confirms",
+   "vsSkillDetail": "patterns.md 1 (useLayout from the width the screen has) and patterns.md 2 (width from the pane's own onLayout) already say this. These frames are worked examples with numbers.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Drive columns and chrome from useLayout() or onLayout width per pane, and re-run when a sidebar toggles.",
+   "verifyFrames": [
+    "IMG_0380",
+    "IMG_0381",
+    "IMG_0415",
+    "IMG_0416"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Music, Books, Games and Weather use 2-4 columns at 800 pt: Music 2-up pills and 4-up tiles, Books 4 cover columns, Games 3 tiles and 2 list columns, Weather 9.5 hourly columns.",
+   "verify1": {
+    "verdict": "confirmed",
+    "classificationOk": true,
+    "classificationNote": "app-choice is right: Calculator and TV keep phone layouts across wide panes.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D12",
+   "title": "Expect the keyboard to cover the lower bar",
+   "statement": "Split keyboard (top y 391 pt; 428 without suggestions) covers the lower bar. Bottom groups stay blurred beneath it (Music, Games, Podcasts, Photos, TV, Translate) or the app folds buttons into a top group (Calendar, Voice Memos, Journal). Keep typing controls in the top group.",
+   "polarity": "do",
+   "kind": "system",
+   "rationale": "A bottom group reaching y 499-645 pt sits below the keyboard top at 391 and would be unreachable. Toolbar groups shrink; tab pills stay covered. Whether the system or the app folds the toolbar is not settled.",
+   "measurements": "Calendar: four circles end with '...' at y 358, 33 pt above the keyboard top; Voice Memos: share, favourite, folder and '...' end y 335 (seven actions to y 499 without keyboard); Journal: back, check and more end y 342; Notes: Done on top, tool pill removed. the five-icon tab pill (y 384-644) stays, blurred, behind the keyboard in Music (0308) and Games (0406); Games' avatar above it stays lit at y 125-171.",
+   "support": {
+    "frames": [
+     "IMG_0159",
+     "IMG_0183",
+     "IMG_0198",
+     "IMG_0200",
+     "IMG_0202",
+     "IMG_0208",
+     "IMG_0236",
+     "IMG_0239",
+     "IMG_0242",
+     "IMG_0249",
+     "IMG_0250",
+     "IMG_0254",
+     "IMG_0261",
+     "IMG_0308",
+     "IMG_0313",
+     "IMG_0314",
+     "IMG_0406",
+     "IMG_0433",
+     "IMG_0434"
+    ],
+    "nFrames": 19,
+    "apps": [
+     "Calendar",
+     "ChatGPT",
+     "Claude",
+     "Games",
+     "Journal",
+     "Music",
+     "Notes",
+     "Photos",
+     "TV",
+     "Voice Memos"
+    ],
+    "nApps": 10
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0251",
+     "app": "Calendar",
+     "what": "The compact chip stack stays after the keyboard is gone; the reflow did not revert in this frame."
+    },
+    {
+     "frame": "IMG_0300",
+     "app": "Bear",
+     "what": "App buttons stay visible above the 428 pt keyboard; they were already in the top group."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Calendar: the bar's six buttons collapse to three plus '...' when the keyboard rises",
+     "frames": [
+      "IMG_0236",
+      "IMG_0239",
+      "IMG_0242"
+     ]
+    },
+    {
+     "name": "Voice Memos: seven actions become four plus '...' with the keyboard",
+     "frames": [
+      "IMG_0313",
+      "IMG_0314"
+     ]
+    },
+    {
+     "name": "Journal: bottom pill moves above the keyboard, bar keeps three buttons",
+     "frames": [
+      "IMG_0433",
+      "IMG_0434"
+     ]
+    },
+    {
+     "name": "Music: playlist, library, Now Playing, lyrics, search",
+     "frames": [
+      "IMG_0304",
+      "IMG_0305",
+      "IMG_0306",
+      "IMG_0307",
+      "IMG_0308"
+     ]
+    },
+    {
+     "name": "Games: onboarding cards, Friends sheets, search, library menu, Arcade",
+     "frames": [
+      "IMG_0402",
+      "IMG_0403",
+      "IMG_0404",
+      "IMG_0405",
+      "IMG_0406",
+      "IMG_0407",
+      "IMG_0408",
+      "IMG_0409"
+     ]
+    },
+    {
+     "name": "Journal: compose with media, record, save, state of mind",
+     "frames": [
+      "IMG_0441",
+      "IMG_0442",
+      "IMG_0443",
+      "IMG_0444",
+      "IMG_0445"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "new",
+   "vsSkillDetail": "No keyboard-and-bar interaction appears in the skill.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Do not put a control that typing needs in the bar's lower half; put it in the top group or in a keyboard accessory view.",
+   "verifyFrames": [
+    "IMG_0308",
+    "IMG_0406",
+    "IMG_0239",
+    "IMG_0314"
+   ],
+   "change": "statementChanged",
+   "changeReason": "Music and Games leave the tab pill in place under the keyboard, blurred (IMG_0308, 0406). Folding is seen only for toolbar buttons in Calendar, Voice Memos and Journal, so it is not a bar-wide rule.",
+   "verify2": {
+    "verdict": "amend",
+    "amendedStatement": "Split keyboard (top y 391 pt; 428 without suggestions) covers the lower bar. Bottom groups stay blurred beneath it (Music, Games, Podcasts, Photos, TV, Translate) or the app folds buttons into a top group (Calendar, Voice Memos, Journal). Keep typing controls in the top group.",
+    "measured": "Keyboard top y 391.0 in 0308, 0406, 0239, 0314, 0355, 0378, 0384, 0436; 428.0 in 0280 Files and 0300 Bear. 0239 Calendar: last toolbar circle (the '...') centre at y ~358 (about 33 pt above the keyboard). 0314 Voice Memos: last circle ends y ~335. 0308 Music and 0406 Games: tab pill blurred under the keyboard in the bar column; Games avatar lit at y ~128-172. 0355 Podcasts and 0378 Translate: lower group also blurred beneath. 0384 Stocks: share capsule stays above. Photos and TV 0254 and 0261 taken from witness records, not re-opened.",
+    "reason": "Keyboard tops (391, 428) and the fold distances (33 pt, 335, 342) match the pixels. The rule is narrower than 'system': most apps leave the lower group blurred under the keyboard and only three fold it, so the statement should name both outcomes.",
+    "classificationOk": false,
+    "classificationNote": "The keyboard cover is system. Folding is not uniform: Calendar, Voice Memos and Journal fold; Music, Games, Podcasts, Translate and Screens do not. Treat folding as app behaviour.",
+    "privacyIssue": null
+   },
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": false,
+    "classificationNote": "Folding differs by app (Calendar and Voice Memos fold, Photos and TV do not), so the fold is an app behaviour; only the covering is the OS's.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D13",
+   "title": "Present contextual sheets over both panes",
+   "statement": "Present item sheets fold-centred over both dimmed panes (653 pt, x 149-802). The same sheet can shrink to the left pane (Calendar New Event and Reminder, Claude Effort). Maps and Journal Places float an undimmed card; players and Messages open companions as a right pane.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "Every captured modal sheet over a list-and-detail screen is fold-centred. Only map screens float a card inside a pane, and transcripts, lyrics and contact info open as right panes beside the subject, not as sheets.",
+   "measurements": "Sheet x 149-802 pt over list x 0-320 and detail x 320-867, scrim on both; Siri's Sources sheet starts y 82. Journal Places card x 531-940 with sidebar and map lit; Maps search panel x 8-408, top y 4; Messages inspector x 547-951; Podcasts transcript x 502-808.",
+   "support": {
+    "frames": [
+     "IMG_0176",
+     "IMG_0177",
+     "IMG_0204",
+     "IMG_0205",
+     "IMG_0237",
+     "IMG_0238",
+     "IMG_0265",
+     "IMG_0346",
+     "IMG_0349",
+     "IMG_0387",
+     "IMG_0417",
+     "IMG_0427",
+     "IMG_0443",
+     "IMG_0455"
+    ],
+    "nFrames": 14,
+    "apps": [
+     "Calendar",
+     "ChatGPT",
+     "Claude",
+     "Fitness",
+     "Journal",
+     "Safari",
+     "Siri",
+     "Slack",
+     "Stocks",
+     "Weather"
+    ],
+    "nApps": 10
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0243",
+     "app": "Calendar",
+     "what": "A New Event sheet sits in the left pane only, with the detail pane left visible beside it."
+    },
+    {
+     "frame": "IMG_0186",
+     "app": "Claude",
+     "what": "The Effort page occupies the left half while the voice screen stays visible on the right."
+    },
+    {
+     "frame": "IMG_0450",
+     "app": "Journal",
+     "what": "Entry card floats at x 531-940 inside the detail pane over a map; sidebar and map stay undimmed."
+    },
+    {
+     "frame": "IMG_0164",
+     "app": "Maps",
+     "what": "Search panel floats at x 8-408 over the map, non-modal, with the map lit beside it."
+    },
+    {
+     "frame": "IMG_0461",
+     "app": "Messages",
+     "what": "Contact info opens as a right pane at x 547-951 beside the thread, not as a sheet."
+    },
+    {
+     "frame": "IMG_0356",
+     "app": "Podcasts",
+     "what": "Transcript opens as a right pane at x 502-808 beside the player."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Siri: tapping a source chip opens the Sources sheet over the dimmed conversation",
+     "frames": [
+      "IMG_0426",
+      "IMG_0427",
+      "IMG_0428"
+     ]
+    },
+    {
+     "name": "ChatGPT: a card opens Edit task as a sheet over list and detail",
+     "frames": [
+      "IMG_0203",
+      "IMG_0204",
+      "IMG_0205"
+     ]
+    },
+    {
+     "name": "Journal: read view, new journal, entry menu, Places, Insights, sidebar menu",
+     "frames": [
+      "IMG_0446",
+      "IMG_0447",
+      "IMG_0448",
+      "IMG_0449",
+      "IMG_0450",
+      "IMG_0451",
+      "IMG_0452",
+      "IMG_0453"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "refines",
+   "vsSkillDetail": "patterns.md 5: \"open it in the right pane instead while split: the subject stays readable beside it.\" Holds for transcripts, lyrics, queue and contact info (Podcasts 0356, Music 0307, Messages 0461) and map cards (Journal 0450); sheets about a list item still open over both panes.",
+   "belongsIn": "patterns.md",
+   "rnImplication": "Present item sheets with formSheet over the split, and keep DetailPaneLayout's right pane for companions that sit beside the subject, such as a transcript or inspector.",
+   "verifyFrames": [
+    "IMG_0450",
+    "IMG_0427",
+    "IMG_0204",
+    "IMG_0164"
+   ],
+   "change": "statementChanged",
+   "changeReason": "Journal Places floats an undimmed card at x 531-940 in the detail pane and Maps floats one at x 8-408. Messages, Music and Podcasts open companions as a right pane: the 'no right-pane precedent' claim was too broad.",
+   "verify2": {
+    "verdict": "amend",
+    "amendedStatement": "Present item sheets fold-centred over both dimmed panes (653 pt, x 149-802). The same sheet can shrink to the left pane (Calendar New Event and Reminder, Claude Effort). Maps and Journal Places float an undimmed card; players and Messages open companions as a right pane.",
+    "measured": "IMG_0427 Siri sheet x ~155-800, top y ~83, scrim on sidebar and detail. IMG_0204 ChatGPT sheet x 148-803, both panes dimmed. IMG_0450 Journal card x 531-940, y ~296-659, sidebar and map lit. IMG_0164 Maps panel x 8-408, map lit, non-modal. IMG_0220 sheet x 150-802. IMG_0356 transcript x 502-808. IMG_0461 inspector starts x 547.",
+    "reason": "The fold-centred default holds in all sampled item sheets. The left-pane cases are the same sheets in another state, and Calendar's Reminder form is a second one the statement omits. Card and pane figures match to within 5 pt.",
+    "classificationOk": true,
+    "classificationNote": "app-choice is right: Maps, Journal, Calendar and Claude all differ from the fold-centred default.",
+    "privacyIssue": null
+   },
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "app-choice stands: Calendar 0243 and Claude 0186 show a left-half presentation. Sheet width varies (Bear 400 pt, Things ~349-369 pt, Notes 524 pt) but every one is fold-centred.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D14",
+   "title": "Centre elements on the area holding them",
+   "statement": "Sheets, search pills, sidebar-less screens (Wallet cards, Podcasts player, TV page dots, camera pills) and system permission alerts centre on the fold, 475.5 pt; in-app alerts and some empty states on 0-867, 433.5; detail content on its pane (~593; Messages inspector 707).",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "Three centres are in use: the fold (475.5), the area left of the bar (433.5) and a pane's own centre. Centring a hero or empty state on the wrong one puts it 42 pt off.",
+   "measurements": "Fold 475.5: sheets, Passwords search pill 150-795, Wallet pill, Safari URL field 295-655. Area 0-867 (433.5): ChatGPT search empty state, Gemini home 434, Shortcuts card 233-633. Pane 320-867 (593): ChatGPT orb and cards 394-793, Slack placeholder 613, Journal banner 367-820. Pane 320-951: Siri 635. Closed 0-382: Journal empty state 191. fold 475.5: Wallet cards 304-647, Podcasts artwork 343-608, TV page dots 401-547, scanner hint pill 345-606; pane: Podcasts empty queue 685 (pane 486-883), Messages avatar 707 (pane 547-867).",
+   "support": {
+    "frames": [
+     "IMG_0163",
+     "IMG_0173",
+     "IMG_0198",
+     "IMG_0199",
+     "IMG_0203",
+     "IMG_0208",
+     "IMG_0260",
+     "IMG_0266",
+     "IMG_0282",
+     "IMG_0317",
+     "IMG_0318",
+     "IMG_0320",
+     "IMG_0328",
+     "IMG_0357",
+     "IMG_0358",
+     "IMG_0360",
+     "IMG_0364",
+     "IMG_0367",
+     "IMG_0369",
+     "IMG_0385",
+     "IMG_0386",
+     "IMG_0425",
+     "IMG_0426",
+     "IMG_0432",
+     "IMG_0435",
+     "IMG_0440",
+     "IMG_0454",
+     "IMG_0456",
+     "IMG_0458",
+     "IMG_0461"
+    ],
+    "nFrames": 30,
+    "apps": [
+     "ChatGPT",
+     "Document scanner",
+     "Gemini",
+     "Journal",
+     "Maps",
+     "Messages",
+     "Passwords",
+     "Podcasts",
+     "Safari",
+     "Shortcuts",
+     "Siri",
+     "Slack",
+     "Stocks",
+     "TV",
+     "Wallet"
+    ],
+    "nApps": 15
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0390",
+     "app": "Stocks",
+     "what": "A permission alert is centred on the fold (x 317-637), not on the 433.5 pt area."
+    },
+    {
+     "frame": "IMG_0267",
+     "app": "Termius",
+     "what": "The create-host form is centred in the pane, so its field and button straddle the fold."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Apple TV: home shelves, search keyboard, episode page",
+     "frames": [
+      "IMG_0260",
+      "IMG_0261",
+      "IMG_0262"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "new",
+   "vsSkillDetail": "The skill never names which centre an element should use.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Centre inside the container that holds the element (onLayout width of the pane or of the inset-padded root), not with window width halved.",
+   "verifyFrames": [
+    "IMG_0364",
+    "IMG_0357",
+    "IMG_0198",
+    "IMG_0390"
+   ],
+   "change": "statementChanged",
+   "changeReason": "Wallet's card stack, Podcasts' player, TV's page dots and the scanner's hint pill centre on 475.5 with no sidebar, where the old statement put sidebar-less content on 433.5. Messages' inspector centres on its 547-867 pane (707).",
+   "verify2": {
+    "verdict": "amend",
+    "amendedStatement": "Sheets, search pills, sidebar-less screens (Wallet cards, Podcasts player, TV page dots, camera pills) and system permission alerts centre on the fold, 475.5 pt; in-app alerts and some empty states on 0-867, 433.5; detail content on its pane (~593; Messages inspector 707).",
+    "measured": "IMG_0364 Wallet cards x 304-646 (centre 475). IMG_0357 Podcasts artwork 343-608 (475.5). IMG_0198 ChatGPT orb 500-687 (593, pane centre) and composer 332-855. IMG_0390 Stocks permission alert 317-635 (476, fold). IMG_0384 Stocks New Watchlist alert 275-593 (434). IMG_0260 TV page dots ~401-547 (474). IMG_0456 Safari Edit pill centre 475. IMG_0267 Termius form 429-758 (593). Messages inspector heading centre 707.",
+    "reason": "Fold, pane and area centres are confirmed. The Stocks permission alert is a real exception: Stocks centres it on the fold (476) while four in-app alerts (Stocks, Maps, Wallet, Voice Memos) sit at 433.5. The statement should split alerts by kind. Termius counter-evidence just confirms pane-centring.",
+    "classificationOk": true,
+    "classificationNote": "app-choice is plausible, but system permission alerts differ from in-app alerts, which suggests an OS-hosted layer.",
+    "privacyIssue": null
+   },
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "app-choice is right: ChatGPT 0208 and Shortcuts 0317 centre custom fields on 433.5 where Passwords and Stocks centre on the fold.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D15",
+   "title": "Use system alerts, centred left of the fold",
+   "statement": "Use the system alert: 319 pt wide, centred on the 0–867 pt area (x 274–593), buttons may straddle the fold. Permission prompts are 320 pt wide and centre on the fold (x 317–637). Cancel confirmations are 240 pt popovers anchored to the button, not alerts.",
+   "polarity": "do",
+   "kind": "system",
+   "rationale": "Alerts are not centred on the fold like sheets. A custom dialog centred at 475.5 pt sits 42 pt right of where the system places its own.",
+   "measurements": "App alerts x 274-593, y 88-303 with the keyboard up (Maps, Voice Memos, Stocks) or y 165-471 for a rating prompt (Wallet); Save at x 437-578 crosses the fold. Permission alert x 317-637 (Stocks), buttons 333-472 and 481-621 with the fold between. Calendar discard alert 240 x 167 pt: x 70-310 and 21-261 open, x 202-442 closed.",
+   "support": {
+    "frames": [
+     "IMG_0163",
+     "IMG_0250",
+     "IMG_0251",
+     "IMG_0253",
+     "IMG_0314",
+     "IMG_0369",
+     "IMG_0384"
+    ],
+    "nFrames": 7,
+    "apps": [
+     "Calendar",
+     "Maps",
+     "Stocks",
+     "Voice Memos",
+     "Wallet"
+    ],
+    "nApps": 5
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0390",
+     "app": "Stocks",
+     "what": "The calendar permission alert is x 317-637 pt, centred on the fold, unlike the four alerts at 274-593 pt."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Maps: Name This Location alert over the split keyboard",
+     "frames": [
+      "IMG_0163"
+     ]
+    },
+    {
+     "name": "Voice Memos: New Folder alert with the keyboard up",
+     "frames": [
+      "IMG_0313",
+      "IMG_0314"
+     ]
+    },
+    {
+     "name": "Calendar: discard alert at Cancel, then rotated closed landscape and closed portrait",
+     "frames": [
+      "IMG_0250",
+      "IMG_0251",
+      "IMG_0252",
+      "IMG_0253"
+     ]
+    },
+    {
+     "name": "Wallet: card stack, search, orders, rating alert, menu, notifications, select",
+     "frames": [
+      "IMG_0364",
+      "IMG_0365",
+      "IMG_0366",
+      "IMG_0367",
+      "IMG_0368",
+      "IMG_0369",
+      "IMG_0370",
+      "IMG_0371",
+      "IMG_0372",
+      "IMG_0373"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "refines",
+   "vsSkillDetail": "apple-reference-screens.md row 10 (\"Alerts and PiP overlay the layout without moving it\") says nothing about centre or width. This adds 319 pt, centre 433.5 pt and the permission-prompt exception.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Use Alert.alert, Alert.prompt or the permission APIs unchanged; centre any custom dialog on the inset-padded root's width.",
+   "verifyFrames": [
+    "IMG_0369",
+    "IMG_0390",
+    "IMG_0163",
+    "IMG_0384"
+   ],
+   "change": "none",
+   "changeReason": null,
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "system holds for alert and permission placement: identical across Maps, Voice Memos, Stocks and Wallet. The Calendar confirmation is an anchored popover, a separate component, so it sits outside the alert rule.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D16",
+   "title": "Do not stretch phone rows across 867 pt",
+   "statement": "Cap label-and-value and toggle rows at about 620-700 pt, centred or in a pane; full-width rows (about 850 pt) put label and value 600-800 pt apart. Multi-column tables, as in Files, may fill the width.",
+   "polarity": "avoid",
+   "kind": "app-choice",
+   "rationale": "A phone row stretched to 847 pt separates label and value by more than a hand's reach. Apps that cap width or sit in a 621 pt sheet column read as made for the Duo.",
+   "measurements": "Stretched: ChatGPT label-to-value 700-800 pt, Apple TV rows 740 pt, Fitness+ search rows 833 pt, Screens rows 400+ pt apart, Stocks date row 600+. Capped: ChatGPT Plugins centred 710 pt, Scheduled cards 399 pt, sheet columns 621 pt (x 165-786), Files grid at 133 pt pitch. Weather sheet rows 621 pt, label from 185, switch 705-768, 340-400 pt apart; Games Add Friends row: name ends 428, Invite pill 680-759 (about 250 pt gap); Weather Continue and Not Now 400 pt wide, x 276-675.",
+   "support": {
+    "frames": [
+     "IMG_0192",
+     "IMG_0193",
+     "IMG_0198",
+     "IMG_0203",
+     "IMG_0209",
+     "IMG_0210",
+     "IMG_0211",
+     "IMG_0214",
+     "IMG_0215",
+     "IMG_0217",
+     "IMG_0248",
+     "IMG_0249",
+     "IMG_0261",
+     "IMG_0273",
+     "IMG_0275",
+     "IMG_0346",
+     "IMG_0348",
+     "IMG_0391",
+     "IMG_0392",
+     "IMG_0403",
+     "IMG_0423"
+    ],
+    "nFrames": 21,
+    "apps": [
+     "Calendar",
+     "ChatGPT",
+     "Claude",
+     "Fitness",
+     "Games",
+     "Screens",
+     "Stocks",
+     "TV",
+     "Weather"
+    ],
+    "nApps": 9
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0279",
+     "app": "Files",
+     "what": "Name and Date Modified columns fill 631 pt as table columns, so the wide row reads as designed."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Weather: edit cities, notification sheets, search with the keyboard",
+     "frames": [
+      "IMG_0344",
+      "IMG_0345",
+      "IMG_0346",
+      "IMG_0347",
+      "IMG_0348",
+      "IMG_0349",
+      "IMG_0350"
+     ]
+    },
+    {
+     "name": "Fitness: friends in a sheet, a full page, Fitness+ for you and search",
+     "frames": [
+      "IMG_0417",
+      "IMG_0418",
+      "IMG_0419",
+      "IMG_0420",
+      "IMG_0421",
+      "IMG_0422",
+      "IMG_0423"
+     ]
+    },
+    {
+     "name": "Apple TV: home shelves, search keyboard, episode page",
+     "frames": [
+      "IMG_0260",
+      "IMG_0261",
+      "IMG_0262"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "new",
+   "vsSkillDetail": "The skill covers where panes split, not how wide a list or form may run.",
+   "belongsIn": "patterns.md",
+   "rnImplication": "Give settings screens a maxWidth near 620-700 pt with alignSelf 'center', or put the list in a left pane.",
+   "verifyFrames": [
+    "IMG_0215",
+    "IMG_0261",
+    "IMG_0210",
+    "IMG_0423"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Weather and Games sheets cap rows at 600-621 pt, yet label-to-control gaps still reach 250-400 pt there. About 620 pt is the ceiling Apple uses, not a promise that label and control sit close.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "app-choice is right: Files and capped ChatGPT pages differ from stretched TV, Fitness+ and Settings rows. The Files grid pitch of 133 pt was not checked.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D17",
+   "title": "Cap reading lines at 300 to 570 pt",
+   "statement": "In chat and reading panes, text runs 300-570 pt (about 30-70 characters): Claude 480, ChatGPT 437 (about 50 characters), Slack 427, Messages 381, Podcasts 306 at large type. Full-width screens run 85-105 characters, so this is a comfort choice.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "A paragraph across 825-867 pt runs 100 or more characters. Apps cap the column and fill the rest with margins or a second pane; Podcasts sets 306 pt at large serif type.",
+   "measurements": "Claude transcript x 360-842 (480 pt) with composer x 360-851; ChatGPT assistant bubbles x 336-774 (437 pt, 38 characters); Slack x 424-851 (427 pt, 50-55); Messages bubble 381 pt (45); Fitness 381-440; Settings 485 pt (70); Siri 570 pt (63). Podcasts transcript x 502-808 (306 pt, 30 characters, large serif); Weather permission small print x 237-713 (90 characters); Fitness banner one line x 92-823 (about 100 characters).",
+   "support": {
+    "frames": [
+     "IMG_0175",
+     "IMG_0185",
+     "IMG_0186",
+     "IMG_0225",
+     "IMG_0263",
+     "IMG_0356",
+     "IMG_0402",
+     "IMG_0404",
+     "IMG_0412",
+     "IMG_0414",
+     "IMG_0428",
+     "IMG_0429",
+     "IMG_0468"
+    ],
+    "nFrames": 13,
+    "apps": [
+     "ChatGPT",
+     "Claude",
+     "Fitness",
+     "Games",
+     "Messages",
+     "Podcasts",
+     "Siri",
+     "Slack"
+    ],
+    "nApps": 8
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0454",
+     "app": "Safari",
+     "what": "Web page paragraphs run about 105 characters over 825 pt across the fold."
+    },
+    {
+     "frame": "IMG_0212",
+     "app": "ChatGPT",
+     "what": "A skill page runs 85-90 characters over 659 pt across the fold."
+    },
+    {
+     "frame": "IMG_0210",
+     "app": "ChatGPT",
+     "what": "Description and footnote lines run 100-110 characters across the fold."
+    },
+    {
+     "frame": "IMG_0346",
+     "app": "Weather",
+     "what": "Permission small print runs about 90 characters per line over 475 pt, across the fold."
+    },
+    {
+     "frame": "IMG_0411",
+     "app": "Fitness",
+     "what": "Banner body is one line of about 100 characters across 730 pt, crossing the fold."
+    }
+   ],
+   "flows": [],
+   "confidence": "medium",
+   "vsSkill": "new",
+   "vsSkillDetail": "No measure rule in SKILL.md or patterns.md.",
+   "belongsIn": "patterns.md",
+   "rnImplication": "Give Text containers inside a detail pane a maxWidth of 440-520 pt and message bubbles a width fraction of the pane's measured width.",
+   "verifyFrames": [
+    "IMG_0356",
+    "IMG_0175",
+    "IMG_0225",
+    "IMG_0346"
+   ],
+   "change": "statementChanged",
+   "changeReason": "Podcasts' transcript runs 306 pt (about 30 characters at large type), below the old 380 pt floor. Weather (90 characters over 475 pt) and Fitness (100 over 730 pt) again run long lines.",
+   "verify2": {
+    "verdict": "amend",
+    "amendedStatement": "In chat and reading panes, text runs 300-570 pt (about 30-70 characters): Claude 480, ChatGPT 437 (about 50 characters), Slack 427, Messages 381, Podcasts 306 at large type. Full-width screens run 85-105 characters, so this is a comfort choice.",
+    "measured": "IMG_0356 transcript 502-808 (306 pt, 25-31 characters). IMG_0175 Claude text 360-842 (482 pt, ~55 characters). IMG_0225 ChatGPT bubbles 337-773 (436 pt) but 49-56 characters per line, not 38. IMG_0346 Weather small print 237-712, ~91 characters. IMG_0454 Safari 72-897 (825 pt, ~105). IMG_0411 Fitness banner 92-822, ~100 characters. IMG_0157 Notes ~430 pt, ~60 characters.",
+    "reason": "The 300-570 pt range holds in all sampled chat and reading panes. ChatGPT's '38 characters' is wrong (49-56 measured). The cap is mostly the pane width, so the limit applies to panes, not full-width screens.",
+    "classificationOk": true,
+    "classificationNote": "app-choice is fine; the 425-490 pt columns are largely the 547 pt pane minus margins, but full-width screens run long.",
+    "privacyIssue": null
+   },
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "app-choice holds: ChatGPT settings, Safari and Slack's pane ignore it while Claude and ChatGPT chat bubbles cap.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D18",
+   "title": "Let backgrounds bleed under the bar, not controls",
+   "statement": "Let maps, artwork, separators and scroll indicators run under the trailing bar; keep text and controls out. Pad horizontal rows so the last item scrolls clear of the bar buttons, and fit fixed rows before the bar (x 867 pt open, 382 pt closed).",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "Passive content looks right bleeding to 951 pt; a chip or tab row that stays under the bar's buttons hides its last item (Stocks 'ALL', a Shortcuts chip, Fitness+ tabs).",
+   "measurements": "Under the bar: Maps tiles, Weather hourly cards to 919, Books cover art, Games carousels, Voice Memos waveform to 951, Files separators to 926, scroll indicator at x 946. Failures: Stocks 10Y at 828-852 past a rule ending 827, ChatGPT Pages tab 863-909, Fitness+ tab row cut at 859-867, Shortcuts chip behind the buttons. New failures: Fitness+ card from 849 under the tab capsule (x 880-926); Messages 'Documents' tab clipped at 951 behind the capsule at y 232; Safari close X under the status pill. New bleeds: Books shelf to 951 with the seventh cover clipped, Music gradient to 951, camera views to 951.",
+   "support": {
+    "frames": [
+     "IMG_0162",
+     "IMG_0206",
+     "IMG_0224",
+     "IMG_0227",
+     "IMG_0235",
+     "IMG_0244",
+     "IMG_0262",
+     "IMG_0279",
+     "IMG_0282",
+     "IMG_0304",
+     "IMG_0306",
+     "IMG_0310",
+     "IMG_0311",
+     "IMG_0321",
+     "IMG_0323",
+     "IMG_0333",
+     "IMG_0344",
+     "IMG_0363",
+     "IMG_0380",
+     "IMG_0383",
+     "IMG_0388",
+     "IMG_0390",
+     "IMG_0394",
+     "IMG_0395",
+     "IMG_0402",
+     "IMG_0403",
+     "IMG_0404",
+     "IMG_0408",
+     "IMG_0409",
+     "IMG_0413",
+     "IMG_0422",
+     "IMG_0435",
+     "IMG_0462"
+    ],
+    "nFrames": 33,
+    "apps": [
+     "Books",
+     "Calendar",
+     "ChatGPT",
+     "Document scanner",
+     "Files",
+     "Fitness",
+     "Games",
+     "Journal",
+     "Maps",
+     "Measure",
+     "Messages",
+     "Music",
+     "Settings",
+     "Shortcuts",
+     "Stocks",
+     "TV",
+     "Voice Memos",
+     "Weather",
+     "a banking app"
+    ],
+    "nApps": 19
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0166",
+     "app": "Maps",
+     "what": "Closed, the status capsule covers a Recent card and hides part of its label."
+    },
+    {
+     "frame": "IMG_0347",
+     "app": "Weather",
+     "what": "The hourly forecast card ends about 919 pt, 52 pt into the bar zone beside the status ring."
+    },
+    {
+     "frame": "IMG_0421",
+     "app": "Fitness",
+     "what": "A carousel card begins at 849 pt and scrolls under the tab capsule, which covers its left part."
+    },
+    {
+     "frame": "IMG_0461",
+     "app": "Messages",
+     "what": "The 'Documents' tab label is clipped at 951 pt and shows through behind the phone-video-mail capsule."
+    },
+    {
+     "frame": "IMG_0457",
+     "app": "Safari",
+     "what": "A tab card's close X sits partly under the status pill at x 825-931, y 21-69."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Books: home, account sheet, owned books, audiobook player, library menus",
+     "frames": [
+      "IMG_0394",
+      "IMG_0395",
+      "IMG_0396",
+      "IMG_0397",
+      "IMG_0398",
+      "IMG_0399",
+      "IMG_0400",
+      "IMG_0401"
+     ]
+    },
+    {
+     "name": "Games: onboarding cards, Friends sheets, search, library menu, Arcade",
+     "frames": [
+      "IMG_0402",
+      "IMG_0403",
+      "IMG_0404",
+      "IMG_0405",
+      "IMG_0406",
+      "IMG_0407",
+      "IMG_0408",
+      "IMG_0409"
+     ]
+    },
+    {
+     "name": "Fitness: friends in a sheet, a full page, Fitness+ for you and search",
+     "frames": [
+      "IMG_0417",
+      "IMG_0418",
+      "IMG_0419",
+      "IMG_0420",
+      "IMG_0421",
+      "IMG_0422",
+      "IMG_0423"
+     ]
+    },
+    {
+     "name": "Safari: article, bookmarks sheet, new tab, tab overview",
+     "frames": [
+      "IMG_0454",
+      "IMG_0455",
+      "IMG_0456",
+      "IMG_0457"
+     ]
+    },
+    {
+     "name": "ChatGPT: projects, new chat with keyboard, Images, thread",
+     "frames": [
+      "IMG_0221",
+      "IMG_0222",
+      "IMG_0223",
+      "IMG_0224",
+      "IMG_0225"
+     ]
+    },
+    {
+     "name": "Apple TV: home shelves, search keyboard, episode page",
+     "frames": [
+      "IMG_0260",
+      "IMG_0261",
+      "IMG_0262"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "confirms",
+   "vsSkillDetail": "apple-reference-screens.md rows 18 and 20: \"Full-bleed scrolling content may pass under the bar; wide controls stay in the nav row\" and \"Background bleeds past the safe area, controls do not\". These frames add 10 more apps and the failure cases.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Render backgrounds absolutely filling the window and inset only interactive overlays; give horizontal ScrollViews contentContainerStyle paddingRight equal to the right inset.",
+   "verifyFrames": [
+    "IMG_0162",
+    "IMG_0395",
+    "IMG_0321",
+    "IMG_0422"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Seventeen more frames: backgrounds, maps, carousels and camera views run to 951 pt in Music, Weather, Books, Games, TV and Translate. Fitness, Messages and Safari let an item sit under the bar's capsule, hiding part of it.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "app-choice holds: Settings, Calendar and Stocks content stop before the bar. Which content passes under the bar is the app's call.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D19",
+   "title": "Modal scrim dims bar buttons, not status items",
+   "statement": "A native modal's scrim dims bar buttons and the tab pill, never the status cluster. Centred sheets stop at x≈802, short of the bar; wide bottom sheets and closed-portrait sheets cover it below the status. Sidebars, menus and popovers do not dim it.",
+   "polarity": "do",
+   "kind": "system",
+   "rationale": "A View overlay clipped to the content area would leave live bar buttons beside a modal and dim nothing in the bar. The native scrim handles it.",
+   "measurements": "Status cluster y 21-107 at full brightness; app buttons x 879-927 dimmed; sheet right edge 802-804 pt, 63-65 pt short of the bar.",
+   "support": {
+    "frames": [
+     "IMG_0154",
+     "IMG_0155",
+     "IMG_0158",
+     "IMG_0160",
+     "IMG_0163",
+     "IMG_0176",
+     "IMG_0177",
+     "IMG_0178",
+     "IMG_0179",
+     "IMG_0180",
+     "IMG_0181",
+     "IMG_0184",
+     "IMG_0185",
+     "IMG_0186",
+     "IMG_0189",
+     "IMG_0190",
+     "IMG_0191",
+     "IMG_0192",
+     "IMG_0193",
+     "IMG_0194",
+     "IMG_0195",
+     "IMG_0196",
+     "IMG_0237",
+     "IMG_0238",
+     "IMG_0239",
+     "IMG_0242",
+     "IMG_0243",
+     "IMG_0270",
+     "IMG_0273",
+     "IMG_0274",
+     "IMG_0276",
+     "IMG_0277",
+     "IMG_0288",
+     "IMG_0289",
+     "IMG_0290",
+     "IMG_0303",
+     "IMG_0322",
+     "IMG_0363",
+     "IMG_0368",
+     "IMG_0369",
+     "IMG_0370",
+     "IMG_0372",
+     "IMG_0375",
+     "IMG_0379",
+     "IMG_0384",
+     "IMG_0391",
+     "IMG_0392",
+     "IMG_0396",
+     "IMG_0402",
+     "IMG_0403",
+     "IMG_0404",
+     "IMG_0405",
+     "IMG_0413",
+     "IMG_0417",
+     "IMG_0418",
+     "IMG_0419",
+     "IMG_0437",
+     "IMG_0438",
+     "IMG_0443",
+     "IMG_0448"
+    ],
+    "nFrames": 60,
+    "apps": [
+     "Bear",
+     "Books",
+     "Calendar",
+     "Claude",
+     "Fitness",
+     "Games",
+     "Grok",
+     "Journal",
+     "Maps",
+     "Notes",
+     "Screens",
+     "Shortcuts",
+     "Stocks",
+     "Translate",
+     "Wallet",
+     "a banking app"
+    ],
+    "nApps": 16
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0259",
+     "app": "Mail",
+     "what": "Closed portrait: the Move bottom sheet spans x 7-457 pt and covers the bar column, dimming the bar buttons behind it."
+    },
+    {
+     "frame": "IMG_0255",
+     "app": "Mail",
+     "what": "A sidebar overlay scrims the panes but leaves the bar's buttons undimmed; it is not a modal."
+    },
+    {
+     "frame": "IMG_0281",
+     "app": "Files",
+     "what": "Sidebar edit mode leaves both bar pills active and undimmed."
+    },
+    {
+     "frame": "IMG_0407",
+     "app": "Games",
+     "what": "A tip popover with no scrim leaves the avatar and tab pill undimmed."
+    },
+    {
+     "frame": "IMG_0450",
+     "app": "Journal",
+     "what": "A floating card over the map has no scrim; the map-mode and location buttons stay bright."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Claude: the Usage sheet rises and the bar buttons dim as it does",
+     "frames": [
+      "IMG_0176",
+      "IMG_0177"
+     ]
+    },
+    {
+     "name": "Wallet: card stack, search, orders, rating alert, menu, notifications, select",
+     "frames": [
+      "IMG_0364",
+      "IMG_0365",
+      "IMG_0366",
+      "IMG_0367",
+      "IMG_0368",
+      "IMG_0369",
+      "IMG_0370",
+      "IMG_0371",
+      "IMG_0372",
+      "IMG_0373"
+     ]
+    },
+    {
+     "name": "Games: onboarding cards, Friends sheets, search, library menu, Arcade",
+     "frames": [
+      "IMG_0402",
+      "IMG_0403",
+      "IMG_0404",
+      "IMG_0405",
+      "IMG_0406",
+      "IMG_0407",
+      "IMG_0408",
+      "IMG_0409"
+     ]
+    },
+    {
+     "name": "Fitness: first run, Summary, Fitness+ sheet, Workout Buddy closed and open",
+     "frames": [
+      "IMG_0410",
+      "IMG_0411",
+      "IMG_0412",
+      "IMG_0413",
+      "IMG_0414",
+      "IMG_0415",
+      "IMG_0416"
+     ]
+    },
+    {
+     "name": "Journal: compose with media, record, save, state of mind",
+     "frames": [
+      "IMG_0441",
+      "IMG_0442",
+      "IMG_0443",
+      "IMG_0444",
+      "IMG_0445"
+     ]
+    },
+    {
+     "name": "Translate: languages sheet, camera view, text with keyboard, favourites",
+     "frames": [
+      "IMG_0374",
+      "IMG_0375",
+      "IMG_0376",
+      "IMG_0377",
+      "IMG_0378",
+      "IMG_0379"
+     ]
+    },
+    {
+     "name": "Shortcuts: editor, icon picker sheet, filter popover, swipe delete",
+     "frames": [
+      "IMG_0321",
+      "IMG_0322",
+      "IMG_0323",
+      "IMG_0324"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "new",
+   "vsSkillDetail": "The skill does not describe scrim behaviour at the bar.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Use formSheet or pageSheet presentation (a native modal) instead of an in-tree overlay so the scrim covers the bar.",
+   "verifyFrames": [
+    "IMG_0177",
+    "IMG_0287",
+    "IMG_0417",
+    "IMG_0255"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Six more frames (Shortcuts, Books, Games, Fitness, a banking app) show a sheet dimming the bar's buttons while the status cluster stays bright; Journal's floating card over a map leaves its map buttons lit.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "Dimming is the same in 12+ apps and both modal styles, so OS behaviour. Sidebars and menus are not modals.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D20",
+   "title": "Sheet header: 48 pt close or back, left",
+   "statement": "In a form sheet (x 150-802), header y 24-72: 48 pt round close or back at x 165-213, title centred on 475.5, action at 738-786. Close can sit trailing (Bear, Books, Translate, ChatGPT). Narrow, wide or Games sheets move or left-align the title.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "Claude, Bear, Fitness, Screens, Wallet and Calendar hold one sheet frame across whole drill-downs, so the controls never move and the crease stays under a centred title.",
+   "measurements": "Header row y 24-72. Close or back x 165-213; trailing confirm, '...' or info x 738-786. Second sheet over the first keeps x 150-802 and starts y 290 with a grabber at y 295. Closed portrait: the same buttons move to the bar at y 175-283. Weather partial sheet (top y 82) back or close circle x 165-213, y 106-154; Books back leading and close trailing; a banking app close 165-213 and reset 738-786; Shortcuts close 165-213, confirm 740-787; Games back 179-227, check 723-771.",
+   "support": {
+    "frames": [
+     "IMG_0180",
+     "IMG_0181",
+     "IMG_0182",
+     "IMG_0184",
+     "IMG_0185",
+     "IMG_0189",
+     "IMG_0190",
+     "IMG_0191",
+     "IMG_0192",
+     "IMG_0195",
+     "IMG_0244",
+     "IMG_0247",
+     "IMG_0248",
+     "IMG_0287",
+     "IMG_0288",
+     "IMG_0293",
+     "IMG_0322",
+     "IMG_0348",
+     "IMG_0349",
+     "IMG_0362",
+     "IMG_0363",
+     "IMG_0368",
+     "IMG_0369",
+     "IMG_0396",
+     "IMG_0417",
+     "IMG_0418",
+     "IMG_0420"
+    ],
+    "nFrames": 27,
+    "apps": [
+     "Bear",
+     "Books",
+     "Calendar",
+     "Claude",
+     "Fitness",
+     "Shortcuts",
+     "Wallet",
+     "Weather",
+     "a banking app"
+    ],
+    "nApps": 9
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0294",
+     "app": "Bear",
+     "what": "Close X sits at x 875-924 pt, inside the bar column, because the wide sheet starts below the status cluster."
+    },
+    {
+     "frame": "IMG_0373",
+     "app": "Wallet",
+     "what": "Select mode swaps in text pills: Select All at the leading edge and Cancel at the trailing edge."
+    },
+    {
+     "frame": "IMG_0403",
+     "app": "Games",
+     "what": "Add Friends: title at the leading edge (x 192), trailing check, no close or back button; nothing is centred on the fold."
+    },
+    {
+     "frame": "IMG_0405",
+     "app": "Games",
+     "what": "Challenges: back circle at x 179-227 and check at 723-771; the title sits large in content, not centred."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Claude: Add context to Connectors, close becomes back in the same slot",
+     "frames": [
+      "IMG_0180",
+      "IMG_0181"
+     ]
+    },
+    {
+     "name": "Claude: Select model to Effort inside one sheet",
+     "frames": [
+      "IMG_0184",
+      "IMG_0185"
+     ]
+    },
+    {
+     "name": "Bear: seven Settings pages in one 653 pt sheet",
+     "frames": [
+      "IMG_0287",
+      "IMG_0288",
+      "IMG_0289",
+      "IMG_0290",
+      "IMG_0291",
+      "IMG_0292",
+      "IMG_0293"
+     ]
+    },
+    {
+     "name": "Fitness: friend profile pushed in the sheet, then a full page with controls in the bar",
+     "frames": [
+      "IMG_0417",
+      "IMG_0418",
+      "IMG_0419",
+      "IMG_0420"
+     ]
+    },
+    {
+     "name": "Claude: Add account stacks a second sheet over Settings",
+     "frames": [
+      "IMG_0189",
+      "IMG_0190"
+     ]
+    },
+    {
+     "name": "Books: home, account sheet, owned books, audiobook player, library menus",
+     "frames": [
+      "IMG_0394",
+      "IMG_0395",
+      "IMG_0396",
+      "IMG_0397",
+      "IMG_0398",
+      "IMG_0399",
+      "IMG_0400",
+      "IMG_0401"
+     ]
+    },
+    {
+     "name": "Games: onboarding cards, Friends sheets, search, library menu, Arcade",
+     "frames": [
+      "IMG_0402",
+      "IMG_0403",
+      "IMG_0404",
+      "IMG_0405",
+      "IMG_0406",
+      "IMG_0407",
+      "IMG_0408",
+      "IMG_0409"
+     ]
+    },
+    {
+     "name": "Fitness: friends in a sheet, a full page, Fitness+ for you and search",
+     "frames": [
+      "IMG_0417",
+      "IMG_0418",
+      "IMG_0419",
+      "IMG_0420",
+      "IMG_0421",
+      "IMG_0422",
+      "IMG_0423"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "new",
+   "vsSkillDetail": "The skill has no sheet-header geometry.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Host a native stack navigator inside the formSheet route with headerLeft, headerRight and a centred headerTitle, and keep the sheet's detent fixed while it pushes.",
+   "verifyFrames": [
+    "IMG_0348",
+    "IMG_0403",
+    "IMG_0288",
+    "IMG_0180"
+   ],
+   "change": "statementChanged",
+   "changeReason": "Games' two sheets left-align the title (Add Friends has no leading button; Challenges has back at 179-227 and a check at 723-771), so 'title centred on the fold' was too broad. Weather, Books, a banking app and Shortcuts match.",
+   "verify2": {
+    "verdict": "amend",
+    "amendedStatement": "In a form sheet (x 150-802), header y 24-72: 48 pt round close or back at x 165-213, title centred on 475.5, action at 738-786. Close can sit trailing (Bear, Books, Translate, ChatGPT). Narrow, wide or Games sheets move or left-align the title.",
+    "measured": "0180 Claude close 165-213, y 24-72, title centre ~475. 0288 Bear back 165-213, close 738-786, y 24-72, title centred. 0348 Weather back 165-213, y 106-154, title ~475. 0403 Games: title leading x 192, check 711-760, no leading button, sheet 176-775. 0405 Games back 179-228, check 723-772. 0190 second sheet starts y~290, grabber y~295, close 165-213. 0244 closed portrait close/confirm x 394-441, y 175-282.",
+    "reason": "Core geometry holds across 9 apps within 1-2 pt. Statement is too broad: narrow and wide sheets, a banking app Add widget and Games vary, and trailing-close apps are more than three. Counter-evidence 0294, 0403, 0405 and 0373 are situations to name, not refutations.",
+    "classificationOk": true,
+    "classificationNote": "app-choice fits: Translate, Books, Bear, Things and Games place or omit controls differently.",
+    "privacyIssue": null
+   },
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "app-choice is right: Bear, Books, ChatGPT, Screens and Stocks each place controls differently.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D21",
+   "title": "Start at the top; header row y 24-72",
+   "statement": "Open: top inset 0; add no status-bar padding. Header row 48 pt at y 24-72 (title centre y 48), first card near y 82, scroll content under a translucent header to y 0. Keep text left of the bar, x 867.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "Apps start at y 22-29 for floating pills, y 48 for inline titles and y 69-95 for large titles; none reserves the 47-59 pt a phone status bar takes, and scroll content blurs under the header.",
+   "measurements": "Grok first chat line y 22, toggle y 26; Things search pill y 29-68, large title y 69-95; ChatGPT title centre y 48, first card y 82; Settings inline title y 48, first card y 82; Claude header band y 0-82; sheets top y 8; leading inline title x 340. Fitness large title cap top y 38, Fitness+ title and pill row y 38 and 83; Journal title centre y 37, sidebar buttons y 25-71.",
+   "support": {
+    "frames": [
+     "IMG_0154",
+     "IMG_0156",
+     "IMG_0173",
+     "IMG_0175",
+     "IMG_0179",
+     "IMG_0216",
+     "IMG_0219",
+     "IMG_0227",
+     "IMG_0228",
+     "IMG_0235",
+     "IMG_0286",
+     "IMG_0336",
+     "IMG_0337",
+     "IMG_0411",
+     "IMG_0421",
+     "IMG_0449"
+    ],
+    "nFrames": 16,
+    "apps": [
+     "ChatGPT",
+     "Claude",
+     "Files",
+     "Fitness",
+     "Gemini",
+     "Grok",
+     "Journal",
+     "Settings",
+     "Things"
+    ],
+    "nApps": 9
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0424",
+     "app": "Siri",
+     "what": "Text starts at y 26 under the status capsule and runs to x 920, so words are cut."
+    },
+    {
+     "frame": "IMG_0259",
+     "app": "Mail",
+     "what": "Closed portrait: the header starts at y 5 because the status items sit in the bar."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Fitness: first run, Summary, Fitness+ sheet, Workout Buddy closed and open",
+     "frames": [
+      "IMG_0410",
+      "IMG_0411",
+      "IMG_0412",
+      "IMG_0413",
+      "IMG_0414",
+      "IMG_0415",
+      "IMG_0416"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "refines",
+   "vsSkillDetail": "patterns.md 6: \"59 + 8 (where it sits on every other iPhone) matched iOS Settings, which starts content ~83pt down\". The first card at y 82 agrees; this adds the 24-72 header row, title centre y 48 and floating pills at y 22-29.",
+   "belongsIn": "patterns.md",
+   "rnImplication": "Use insets.top (0 open) rather than 47 or 59 pt constants, and set headerTransparent with a blur so lists scroll under the header.",
+   "verifyFrames": [
+    "IMG_0216",
+    "IMG_0228",
+    "IMG_0336",
+    "IMG_0156"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Fitness and Journal start titles and pills at y 25-38 pt with no status-bar padding; Fitness+ pills start at y 83.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "app-choice is correct: nothing in the OS forces header y; Mail closed portrait and Siri show other layouts.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D22",
+   "title": "Selecting a sidebar row swaps detail in place",
+   "statement": "Selecting a row highlights it with a pill and replaces the detail in place, with no push, and the sidebar keeps its scroll offset. Settings holds identical sidebar scroll across consecutive selections.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "The sidebar stays 320 pt with the fold inside detail, so a tap changes one pane and the reader keeps their place in the list.",
+   "measurements": "Settings row pill x 20-300; sidebar scroll identical in 0229 and 0230 and in 0234 and 0235; detail replaced within x 340-866. Shortcuts: Automation row swaps the detail list in place. Journal sidebar 0-320 and detail 320-951 in all three frames.",
+   "support": {
+    "frames": [
+     "IMG_0174",
+     "IMG_0175",
+     "IMG_0226",
+     "IMG_0227",
+     "IMG_0228",
+     "IMG_0229",
+     "IMG_0230",
+     "IMG_0231",
+     "IMG_0233",
+     "IMG_0234",
+     "IMG_0235",
+     "IMG_0265",
+     "IMG_0266",
+     "IMG_0315",
+     "IMG_0316",
+     "IMG_0327",
+     "IMG_0331",
+     "IMG_0380",
+     "IMG_0383",
+     "IMG_0449",
+     "IMG_0450",
+     "IMG_0452"
+    ],
+    "nFrames": 22,
+    "apps": [
+     "Claude",
+     "Journal",
+     "Passwords",
+     "Settings",
+     "Shortcuts",
+     "Slack",
+     "Stocks"
+    ],
+    "nApps": 7
+   },
+   "counterEvidence": [],
+   "flows": [
+    {
+     "name": "Settings: General, Wi-Fi, Battery, Appearance, Control Centre, StandBy each fill detail",
+     "frames": [
+      "IMG_0226",
+      "IMG_0227",
+      "IMG_0228",
+      "IMG_0229",
+      "IMG_0230",
+      "IMG_0231"
+     ]
+    },
+    {
+     "name": "Shortcuts: Automation replaces the grid with a list",
+     "frames": [
+      "IMG_0315",
+      "IMG_0316"
+     ]
+    },
+    {
+     "name": "Slack: the DMs tab fills detail with a placeholder",
+     "frames": [
+      "IMG_0265",
+      "IMG_0266"
+     ]
+    },
+    {
+     "name": "Journal: read view, new journal, entry menu, Places, Insights, sidebar menu",
+     "frames": [
+      "IMG_0446",
+      "IMG_0447",
+      "IMG_0448",
+      "IMG_0449",
+      "IMG_0450",
+      "IMG_0451",
+      "IMG_0452",
+      "IMG_0453"
+     ]
+    },
+    {
+     "name": "ChatGPT: projects, new chat with keyboard, Images, thread",
+     "frames": [
+      "IMG_0221",
+      "IMG_0222",
+      "IMG_0223",
+      "IMG_0224",
+      "IMG_0225"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "refines",
+   "vsSkillDetail": "patterns.md 2: \"the right pane renders what the list would have pushed\". Adds keeping the sidebar's scroll offset and selection pill across selections.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Hold the selected id and the sidebar list's scroll offset outside the detail navigator and render detail as a replaceable component.",
+   "verifyFrames": [
+    "IMG_0229",
+    "IMG_0230",
+    "IMG_0315",
+    "IMG_0316"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Journal's sidebar tiles (list, Places, Insights) swap the detail in place while the 320 pt sidebar stays (IMG_0449, 0450, 0452).",
+   "verify1": {
+    "verdict": "confirmed",
+    "classificationOk": true,
+    "classificationNote": "App-choice is fine; no sampled Duo app pushes a page on sidebar selection in open landscape. Pill width differs per app (Stocks, Claude 16-304).",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D23",
+   "title": "Keep each pane's own controls inside that pane",
+   "statement": "Controls live in their pane: sidebar toggle in the sidebar header (x 20-68 or 252-300; Claude uses the trailing bar), search pill at the sidebar foot (spans both panes while the keyboard is up), pinned actions at the pane foot. Pad list ends 70-90 pt.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "A bar button acts on the whole screen. Controls left in the bar or spanning both panes lose their owner, and floating glass pills hide the last rows without end padding.",
+   "measurements": "Toggle x 252-296 (ChatGPT), 252-300 (Shortcuts), 192-300 with ellipsis (Weather), 20-68 when collapsed (Journal, Notes). Search pill x 20-300, y 598-645 (Settings). Pinned actions x 557-846, y 598-644 (Calendar). Pills overprint rows in Grok, Claude, ChatGPT, Settings, Voice Memos, Calendar and Fitness. Weather focused search x 152-739 plus cancel to 799 (587 pt) over a 320 pt sidebar; Messages search pill 20-295 and compose 308-355, y 598-644; Weather '...' 192-240 and toggle 252-300, y 24-71.",
+   "support": {
+    "frames": [
+     "IMG_0154",
+     "IMG_0157",
+     "IMG_0187",
+     "IMG_0188",
+     "IMG_0194",
+     "IMG_0198",
+     "IMG_0203",
+     "IMG_0206",
+     "IMG_0213",
+     "IMG_0223",
+     "IMG_0226",
+     "IMG_0234",
+     "IMG_0240",
+     "IMG_0241",
+     "IMG_0311",
+     "IMG_0344",
+     "IMG_0345",
+     "IMG_0347",
+     "IMG_0350",
+     "IMG_0367",
+     "IMG_0368",
+     "IMG_0373",
+     "IMG_0386",
+     "IMG_0415",
+     "IMG_0446",
+     "IMG_0447",
+     "IMG_0460"
+    ],
+    "nFrames": 27,
+    "apps": [
+     "Calendar",
+     "ChatGPT",
+     "Claude",
+     "Fitness",
+     "Grok",
+     "Journal",
+     "Messages",
+     "Notes",
+     "Settings",
+     "Stocks",
+     "Voice Memos",
+     "Wallet",
+     "Weather"
+    ],
+    "nApps": 13
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0197",
+     "app": "Claude",
+     "what": "The sidebar toggle sits in the trailing bar at x 879-927, y 124-172, not in the sidebar header."
+    },
+    {
+     "frame": "IMG_0385",
+     "app": "Stocks",
+     "what": "A search pill 588 pt wide rides the keyboard and spans the sidebar-detail boundary at 320 pt."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Stocks: the search field rides the keyboard, then docks at the sidebar's foot",
+     "frames": [
+      "IMG_0385",
+      "IMG_0386"
+     ]
+    },
+    {
+     "name": "Calendar: Add To Calendar and Ignore stay pinned at the right pane's foot while it scrolls",
+     "frames": [
+      "IMG_0240",
+      "IMG_0241"
+     ]
+    },
+    {
+     "name": "Messages: keyboard, edit, filter, inspector, attach, record, new message, search",
+     "frames": [
+      "IMG_0458",
+      "IMG_0459",
+      "IMG_0460",
+      "IMG_0461",
+      "IMG_0462",
+      "IMG_0463",
+      "IMG_0464",
+      "IMG_0465",
+      "IMG_0466",
+      "IMG_0467",
+      "IMG_0468"
+     ]
+    },
+    {
+     "name": "Weather: edit cities, notification sheets, search with the keyboard",
+     "frames": [
+      "IMG_0344",
+      "IMG_0345",
+      "IMG_0346",
+      "IMG_0347",
+      "IMG_0348",
+      "IMG_0349",
+      "IMG_0350"
+     ]
+    },
+    {
+     "name": "ChatGPT: projects, new chat with keyboard, Images, thread",
+     "frames": [
+      "IMG_0221",
+      "IMG_0222",
+      "IMG_0223",
+      "IMG_0224",
+      "IMG_0225"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "refines",
+   "vsSkillDetail": "patterns.md 8: \"Controls that act on one pane stay with that pane (Mail keeps the list's filter above the list)\". Adds the sidebar toggle's and search pill's positions and the 70-90 pt list-end padding.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Put the sidebar toggle in the sidebar component's header row and give each pane's scroll content contentContainerStyle paddingBottom of about 90 pt where a pill floats.",
+   "verifyFrames": [
+    "IMG_0198",
+    "IMG_0226",
+    "IMG_0240",
+    "IMG_0197"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Weather keeps its toggle and '...' at x 192-300 in the sidebar header and widens a focused search over both panes; Messages keeps search and compose in its 375 pt list; ChatGPT's last rows hide behind a floating button.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "App-choice is right: Claude puts the toggle in the trailing bar and Settings has none.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D24",
+   "title": "Fill an empty detail pane with a placeholder",
+   "statement": "When nothing is selected, select the first item or show a centred, labelled placeholder in the detail pane ('Select a conversation', 'No Event Selected', 'No Conversation Selected'), centred on the pane (Slack 613, Siri 635, Calendar about 680 pt), not on the fold.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "Siri and Calendar (Apple), Slack and Termius show a labelled empty state; Settings, Files, Mail and Voice Memos select an item. A labelled placeholder is not the blank pane the skill warns about.",
+   "measurements": "Placeholder centres: Slack 613 (pane 360-866), Termius 595, Siri 635 (pane 320-951), Calendar 683 (pane 476-867). Stocks keeps the previous instrument in detail and centres its empty search state at x 160 in the 320 pt sidebar.",
+   "support": {
+    "frames": [
+     "IMG_0226",
+     "IMG_0251",
+     "IMG_0266",
+     "IMG_0267",
+     "IMG_0385",
+     "IMG_0386",
+     "IMG_0425",
+     "IMG_0426"
+    ],
+    "nFrames": 8,
+    "apps": [
+     "Calendar",
+     "Settings",
+     "Siri",
+     "Slack",
+     "Stocks",
+     "Termius"
+    ],
+    "nApps": 6
+   },
+   "counterEvidence": [],
+   "flows": [
+    {
+     "name": "Siri: three conversations selected, then none, detail shows a placeholder",
+     "frames": [
+      "IMG_0424",
+      "IMG_0425",
+      "IMG_0426"
+     ]
+    },
+    {
+     "name": "Slack: DMs tab with no conversation selected",
+     "frames": [
+      "IMG_0265",
+      "IMG_0266"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "refines",
+   "vsSkillDetail": "SKILL.md step 4: \"Select the first item by default, because an empty right half reads as broken\"; patterns.md 2 repeats it. A labelled placeholder is used by four apps; add it as the alternative.",
+   "belongsIn": "patterns.md",
+   "rnImplication": "Render a centred empty-state component in the detail route when nothing is selected, sized from the pane's onLayout width.",
+   "verifyFrames": [
+    "IMG_0266",
+    "IMG_0426",
+    "IMG_0251",
+    "IMG_0267"
+   ],
+   "change": "none",
+   "changeReason": null,
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "App-choice is fine; Settings, Passwords and Stocks keep content in detail, Slack, Siri and Calendar show a labelled placeholder.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D25",
+   "title": "Float keyboard accessories 8 pt above the keys",
+   "statement": "Float a keyboard accessory (format toolbar, search pill) 8-12 pt above the keyboard top (y 391; 428 without a suggestion row), 44-48 pt tall, ending before the bar (x ≤866 open, ≤381 closed). A search pill with its X may centre on the fold.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "The accessory is the one control that stays reachable above the keyboard. It must stop at the bar's edge because the bar's buttons are covered or relocated.",
+   "measurements": "Capsule y 335-383 against keyboard top 391 (Notes x 487-866, Bear x 12-855, Wallet pill, Journal pill y 336-383). Passwords search pill x 150-736 plus X to 795, 8 pt above. Closed: Notes toolbar x 20-382. Bear grid 10 by 4, x 86-865, gutter x 469-482. Weather pill y 336-383, x 152-739 plus cancel to 799; remote-desktop shortcut row x 23-928, y 371-427 above a 240 pt keyboard.",
+   "support": {
+    "frames": [
+     "IMG_0159",
+     "IMG_0168",
+     "IMG_0169",
+     "IMG_0254",
+     "IMG_0297",
+     "IMG_0298",
+     "IMG_0300",
+     "IMG_0326",
+     "IMG_0328",
+     "IMG_0350",
+     "IMG_0355",
+     "IMG_0365",
+     "IMG_0366",
+     "IMG_0367",
+     "IMG_0386",
+     "IMG_0445",
+     "IMG_0468"
+    ],
+    "nFrames": 17,
+    "apps": [
+     "Bear",
+     "Journal",
+     "Messages",
+     "Notes",
+     "Passwords",
+     "Photos",
+     "Podcasts",
+     "Stocks",
+     "Wallet",
+     "Weather"
+    ],
+    "nApps": 10
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0268",
+     "app": "Remote-desktop client",
+     "what": "The special-keys row spans x 22-929 pt, reaching into the bar zone."
+    },
+    {
+     "frame": "IMG_0385",
+     "app": "Stocks",
+     "what": "The search pill is 588 pt wide and covers the sidebar-detail boundary."
+    },
+    {
+     "frame": "IMG_0269",
+     "app": "Remote-desktop client",
+     "what": "Shortcut row spans x 23-928 pt, y 371-427 pt, 62 pt into the bar column above a 240 pt keyboard."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Wallet: search pill rides the keyboard, then drops to the bottom row",
+     "frames": [
+      "IMG_0365",
+      "IMG_0366",
+      "IMG_0367"
+     ]
+    },
+    {
+     "name": "Stocks: new watchlist alert, then the search field rides the keyboard and docks",
+     "frames": [
+      "IMG_0384",
+      "IMG_0385",
+      "IMG_0386"
+     ]
+    },
+    {
+     "name": "Bear: system keyboard replaced by the app's 10-column key grid",
+     "frames": [
+      "IMG_0297",
+      "IMG_0298"
+     ]
+    },
+    {
+     "name": "Weather: edit cities, notification sheets, search with the keyboard",
+     "frames": [
+      "IMG_0344",
+      "IMG_0345",
+      "IMG_0346",
+      "IMG_0347",
+      "IMG_0348",
+      "IMG_0349",
+      "IMG_0350"
+     ]
+    },
+    {
+     "name": "Wallet: card stack, search, orders, rating alert, menu, notifications, select",
+     "frames": [
+      "IMG_0364",
+      "IMG_0365",
+      "IMG_0366",
+      "IMG_0367",
+      "IMG_0368",
+      "IMG_0369",
+      "IMG_0370",
+      "IMG_0371",
+      "IMG_0372",
+      "IMG_0373"
+     ]
+    },
+    {
+     "name": "Journal: compose with media, record, save, state of mind",
+     "frames": [
+      "IMG_0441",
+      "IMG_0442",
+      "IMG_0443",
+      "IMG_0444",
+      "IMG_0445"
+     ]
+    }
+   ],
+   "confidence": "high",
+   "vsSkill": "new",
+   "vsSkillDetail": "The skill has no keyboard-accessory rule.",
+   "belongsIn": "patterns.md",
+   "rnImplication": "Use InputAccessoryView or a keyboard-tracking view with right padding of the inset, and give a custom input view an even column count with a centre gutter.",
+   "verifyFrames": [
+    "IMG_0159",
+    "IMG_0297",
+    "IMG_0328",
+    "IMG_0366"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Weather's search pill rides the keyboard 8 pt above its top, 587 pt wide on the fold; the remote desktop's shortcut row again runs into the bar column, to 928 pt.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "app-choice is right: the remote-desktop row and Bear's find card both do otherwise.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D26",
+   "title": "Slide a 280 pt sidebar over the list",
+   "statement": "In a three-column layout (sidebar, list, detail), open the sidebar on demand as a 280 pt full-height overlay with a scrim (Mail, Notes, Voice Memos; Gemini's drawer is 361 pt) rather than resizing panes. Two-column layouts keep a persistent 320 pt sidebar.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "The overlay ends 195 pt short of the fold, so list and detail geometry and the fold crossing stay unchanged. Apps with a persistent sidebar (Settings, Files) use no overlay.",
+   "measurements": "Overlay x 0-280 pt, full height, blurred; detail stays at 340-867 (Mail 403-867) dimmed; Mail's bar buttons stay undimmed; Gemini drawer x 0-361 with a scrim over the main area.",
+   "support": {
+    "frames": [
+     "IMG_0161",
+     "IMG_0173",
+     "IMG_0255",
+     "IMG_0313"
+    ],
+    "nFrames": 4,
+    "apps": [
+     "Gemini",
+     "Mail",
+     "Notes",
+     "Voice Memos"
+    ],
+    "nApps": 4
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0278",
+     "app": "Files",
+     "what": "A persistent 320 pt sidebar with no overlay; the content pane takes the rest."
+    },
+    {
+     "frame": "IMG_0226",
+     "app": "Settings",
+     "what": "A persistent 320 pt sidebar with the detail pane beside it."
+    },
+    {
+     "frame": "IMG_0461",
+     "app": "Messages",
+     "what": "A third pane (inspector) removes the list column and re-lays thread and inspector at 547 pt instead of overlaying."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Notes: toggle opens the folder overlay over the list, note dimmed",
+     "frames": [
+      "IMG_0159",
+      "IMG_0160",
+      "IMG_0161"
+     ]
+    },
+    {
+     "name": "Voice Memos: folders overlay slides over the list",
+     "frames": [
+      "IMG_0312",
+      "IMG_0313"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "new",
+   "vsSkillDetail": "The skill mentions only a persistent split.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Use a drawer navigator that overlays rather than reflows, with a fixed 280 pt width.",
+   "verifyFrames": [
+    "IMG_0255",
+    "IMG_0161",
+    "IMG_0313",
+    "IMG_0173"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Messages resizes thread and inspector (0-547 and 547-951 pt) and collapses the list when a third pane opens, instead of overlaying a column.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "Defensible as app-choice for RN, but 280 pt is identical in all three Apple three-column apps, so it likely mirrors the OS split view. Gemini's 361 shows custom drawers vary.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D27",
+   "title": "Drawing into the bar changes the status cluster",
+   "statement": "The status cluster stays and never moves your content. Over content it sits on a blur capsule that cuts text beneath it (Siri x 833-925, y 26-68; Maps). Only full-bleed canvases (Calculator, remote desktop) lose it. Keep text out from under it.",
+   "polarity": "avoid",
+   "kind": "system",
+   "rationale": "The system never moves your content; it relocates, hides or overlays its own status items, and in Siri's detail pane the capsule cuts words in the first lines.",
+   "measurements": "Calculator keys to x 941, no status items; Remote-desktop canvas to x 950; Safari status inline at x 832-925, y 26-70; Siri text to x 920 with the cluster at x 833-925, y 26-68. camera views show no clock, battery or 5G, a green dot near x 927, y 26, and bar controls from y 24; Maps and Journal status capsule x 877-930 over the map; Safari status pill x 825-931, y 21-69.",
+   "support": {
+    "frames": [
+     "IMG_0164",
+     "IMG_0268",
+     "IMG_0282",
+     "IMG_0325",
+     "IMG_0333",
+     "IMG_0376",
+     "IMG_0377",
+     "IMG_0424",
+     "IMG_0428",
+     "IMG_0450",
+     "IMG_0454",
+     "IMG_0456",
+     "IMG_0457"
+    ],
+    "nFrames": 13,
+    "apps": [
+     "Calculator",
+     "Document scanner",
+     "Journal",
+     "Maps",
+     "Measure",
+     "Remote-desktop client",
+     "Safari",
+     "Siri",
+     "Translate"
+    ],
+    "nApps": 9
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0162",
+     "app": "Maps",
+     "what": "The map runs under the bar and the status cluster stays intact; only passive art enters the column."
+    },
+    {
+     "frame": "IMG_0347",
+     "app": "Weather",
+     "what": "Forecast cards run to 919 pt and the status cluster stays; only background content enters the bar."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Safari: article, bookmarks sheet, new tab, tab overview",
+     "frames": [
+      "IMG_0454",
+      "IMG_0455",
+      "IMG_0456",
+      "IMG_0457"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "new",
+   "vsSkillDetail": "The skill does not say what the status cluster does when content enters the bar.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Keep scroll content inside the right inset; for an immersive canvas hide the status bar and keep controls inset.",
+   "verifyFrames": [
+    "IMG_0333",
+    "IMG_0282",
+    "IMG_0424",
+    "IMG_0454"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Camera views (Measure, Translate, scanner) lose the cluster and keep a green dot, as canvases do; Maps and Journal put it on a frosted capsule over map content; Safari shows a horizontal pill.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": false,
+    "classificationNote": "Not purely system: cluster hiding appears in only 2 apps, each a full-bleed canvas, so it looks app-requested. Blur backing and the stacked/wide layouts are OS-drawn.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D28",
+   "title": "Bar buttons follow the status stack down",
+   "statement": "Never fix bar buttons at a constant y; they sit below the status stack. Closed, a mic dot pushes them down 22 pt; open, a low-battery banner pushes them 54 pt (status items 100 pt) but a mic dot does not. Use native items.",
+   "polarity": "do",
+   "kind": "system",
+   "rationale": "A hard-coded y 125 would overlap the status cluster the moment an indicator or banner appears; native items re-flow.",
+   "measurements": "Open: stack y 21-107, first button y 125. Closed: stack y 72-160, first button y 175. Siri's mic dot moves a button from y 175-222 to y 197-244. Stocks banner x 535-937, y 16-111: status items drop about 100 pt and the Share capsule about 54 pt. Podcasts normal stack y 21-107, with a capsule y 24-190 (84 pt lower); Messages recording dot at x 925, y 26 with the capsule still at y 125-276.",
+   "support": {
+    "frames": [
+     "IMG_0236",
+     "IMG_0244",
+     "IMG_0351",
+     "IMG_0356",
+     "IMG_0357",
+     "IMG_0388",
+     "IMG_0389",
+     "IMG_0430",
+     "IMG_0431"
+    ],
+    "nFrames": 9,
+    "apps": [
+     "Calendar",
+     "Podcasts",
+     "Siri",
+     "Stocks"
+    ],
+    "nApps": 4
+   },
+   "counterEvidence": [],
+   "flows": [
+    {
+     "name": "Stocks: a low-battery banner pushes the status items and capsule down",
+     "frames": [
+      "IMG_0388",
+      "IMG_0389"
+     ]
+    },
+    {
+     "name": "Siri: the mic dot appears and the bar button moves 22 pt lower",
+     "frames": [
+      "IMG_0430",
+      "IMG_0431"
+     ]
+    },
+    {
+     "name": "Podcasts: show page, menus, search, transcript, chapters, output picker",
+     "frames": [
+      "IMG_0351",
+      "IMG_0352",
+      "IMG_0353",
+      "IMG_0354",
+      "IMG_0355",
+      "IMG_0356",
+      "IMG_0357",
+      "IMG_0358",
+      "IMG_0360",
+      "IMG_0361"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "new",
+   "vsSkillDetail": "The skill gives fixed positions only.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Do not hard-code a y offset for a bar control; declare it as a native toolbar item.",
+   "verifyFrames": [
+    "IMG_0357",
+    "IMG_0388",
+    "IMG_0389",
+    "IMG_0430"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Podcasts shows a black capsule at y 24-93 that pushes the clock to y 136 and the stack to y 190; no bar buttons are visible there. Messages' recording dot leaves its buttons at y 125, as the statement says.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "Stack position and banner are OS behaviour, same in every app seen; buttons re-flow below it.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D29",
+   "title": "Prefer gutters, not buttons, on the fold",
+   "statement": "Where you control a grid, picker or centred row, put its gap on x 475.5 pt rather than a button, icon or title. Treat it as a precaution: Apple's own apps break it and the frames show no seam or missed target.",
+   "polarity": "avoid",
+   "kind": "app-choice",
+   "rationale": "The 45 frames show a title, button or card on x 475.5 pt with no visible seam or missed target. The advice guards against a physical crease that pixels cannot test; Apple's own apps ignore it.",
+   "measurements": "On the fold: Shortcuts play 453-483, AI button 438-485, swipe Delete 414-489; Calendar Maybe button 418-585; Games Continue 276-675; Claude Opus pill 417-510; Voice Memos pause pill 357-511. Gutter on the fold: Bear Themes 164-468 and 483-787; Bear key grid 469-482; Stocks alert buttons end 472 and begin 481. Podcasts pause button and scrubber on the fold; Messages send arrow 462-499; Books fold 29 pt into cover column 3 (446-625); Games chip 402-497; Podcasts gutter 449-502 and Music grabber 447-507 on the fold.",
+   "support": {
+    "frames": [
+     "IMG_0154",
+     "IMG_0155",
+     "IMG_0173",
+     "IMG_0174",
+     "IMG_0177",
+     "IMG_0180",
+     "IMG_0182",
+     "IMG_0183",
+     "IMG_0184",
+     "IMG_0187",
+     "IMG_0189",
+     "IMG_0190",
+     "IMG_0191",
+     "IMG_0195",
+     "IMG_0196",
+     "IMG_0199",
+     "IMG_0203",
+     "IMG_0204",
+     "IMG_0206",
+     "IMG_0209",
+     "IMG_0213",
+     "IMG_0229",
+     "IMG_0231",
+     "IMG_0233",
+     "IMG_0234",
+     "IMG_0236",
+     "IMG_0263",
+     "IMG_0267",
+     "IMG_0271",
+     "IMG_0278",
+     "IMG_0287",
+     "IMG_0288",
+     "IMG_0290",
+     "IMG_0294",
+     "IMG_0298",
+     "IMG_0300",
+     "IMG_0303",
+     "IMG_0315",
+     "IMG_0324",
+     "IMG_0325",
+     "IMG_0351",
+     "IMG_0374",
+     "IMG_0378",
+     "IMG_0390",
+     "IMG_0408",
+     "IMG_0443",
+     "IMG_0448",
+     "IMG_0465"
+    ],
+    "nFrames": 48,
+    "apps": [
+     "Bear",
+     "Calculator",
+     "Calendar",
+     "ChatGPT",
+     "Claude",
+     "Files",
+     "Games",
+     "Gemini",
+     "Grok",
+     "Journal",
+     "Messages",
+     "Podcasts",
+     "Screens",
+     "Settings",
+     "Shortcuts",
+     "Slack",
+     "Stocks",
+     "Termius",
+     "Translate"
+    ],
+    "nApps": 19
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0321",
+     "app": "Shortcuts",
+     "what": "Apple's own app puts the Apple Intelligence button, x 438-485 pt, on the fold."
+    },
+    {
+     "frame": "IMG_0238",
+     "app": "Calendar",
+     "what": "The fold passes through the left 58 pt of the Maybe button."
+    },
+    {
+     "frame": "IMG_0402",
+     "app": "Games",
+     "what": "The Continue button is centred on x 475.5 in a 623 pt card."
+    },
+    {
+     "frame": "IMG_0357",
+     "app": "Podcasts",
+     "what": "With the transcript closed, artwork 343-608 pt, scrubber and pause button all cross the fold."
+    },
+    {
+     "frame": "IMG_0464",
+     "app": "Messages",
+     "what": "Send arrow spans 462-499 pt, centred about 481, straddling the fold."
+    },
+    {
+     "frame": "IMG_0409",
+     "app": "Games",
+     "what": "The Action chip (about 402-497 pt) and its label straddle the fold."
+    },
+    {
+     "frame": "IMG_0399",
+     "app": "Books",
+     "what": "The fold falls 29 pt inside cover column 3 (446-625 pt), through the covers."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Messages: keyboard, edit, filter, inspector, attach, record, new message, search",
+     "frames": [
+      "IMG_0458",
+      "IMG_0459",
+      "IMG_0460",
+      "IMG_0461",
+      "IMG_0462",
+      "IMG_0463",
+      "IMG_0464",
+      "IMG_0465",
+      "IMG_0466",
+      "IMG_0467",
+      "IMG_0468"
+     ]
+    },
+    {
+     "name": "Podcasts: show page, menus, search, transcript, chapters, output picker",
+     "frames": [
+      "IMG_0351",
+      "IMG_0352",
+      "IMG_0353",
+      "IMG_0354",
+      "IMG_0355",
+      "IMG_0356",
+      "IMG_0357",
+      "IMG_0358",
+      "IMG_0360",
+      "IMG_0361"
+     ]
+    },
+    {
+     "name": "Shortcuts: editor, icon picker sheet, filter popover, swipe delete",
+     "frames": [
+      "IMG_0321",
+      "IMG_0322",
+      "IMG_0323",
+      "IMG_0324"
+     ]
+    }
+   ],
+   "confidence": "low",
+   "vsSkill": "refines",
+   "vsSkillDetail": "patterns.md 3 ends the left column at foldX minus gap/2 so no card meets the hinge. Two apps (Bear) do it for grids; the rest ignore it with no visible harm, so make it optional.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "For a grid you build, set columnGap so the gap lands on x 475.5; do not remove fold-aware code elsewhere on this evidence.",
+   "verifyFrames": [
+    "IMG_0321",
+    "IMG_0290",
+    "IMG_0238",
+    "IMG_0390"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Podcasts' recentred player, Messages' send arrow and Books and Games grids put controls and covers on the fold with no visible seam; Music, Podcasts and Books two-half pages leave a gutter there (D30).",
+   "verify1": {
+    "verdict": "confirmed",
+    "classificationOk": true,
+    "classificationNote": "App-choice and optional: Shortcuts, Calendar, Games all put controls on the fold with no visible harm.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D30",
+   "title": "Split two-half screens at the fold",
+   "statement": "Split a screen of two equal-weight halves (player and queue, show hero and episodes, Day and detail) at 475.5 pt, with a grabber or a 50 pt gutter on the fold. Music, Podcasts, Books and Calendar do; Settings keeps its 320 pt sidebar.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "Five Apple screens divide at the fold when two halves carry equal weight; list-and-detail screens do not (D01). Calendar's right pane keeps 40 pt leading and 21 pt trailing margins and pins its actions.",
+   "measurements": "Divider x 475.5; timeline x 0-473 (an event ends 2.5 pt from the divider); detail x 476-867 with cards x 516-846 (40 pt leading, 21 pt trailing); pinned actions x 557-846, y 598-644. Music hero and text in the left half, list from 528; Now Playing player 0-450, queue 509-853, grabber 447-507; Podcasts player ends 449, transcript 502-808, show-page text ends 392, episodes from 532; Books player 52-449, list 501-877, grabber on the fold.",
+   "support": {
+    "frames": [
+     "IMG_0240",
+     "IMG_0241",
+     "IMG_0251",
+     "IMG_0304",
+     "IMG_0306",
+     "IMG_0307",
+     "IMG_0351",
+     "IMG_0356",
+     "IMG_0358",
+     "IMG_0397"
+    ],
+    "nFrames": 10,
+    "apps": [
+     "Books",
+     "Calendar",
+     "Music",
+     "Podcasts"
+    ],
+    "nApps": 4
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0410",
+     "app": "Fitness",
+     "what": "Onboarding splits at 434 pt, 41 pt left of the fold; the fold cuts a notification icon."
+    },
+    {
+     "frame": "IMG_0321",
+     "app": "Shortcuts",
+     "what": "The editor and library divide at 505 pt, 29 pt right of the fold."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Calendar: a search result opens a Day view with the fold as the divider",
+     "frames": [
+      "IMG_0239",
+      "IMG_0240",
+      "IMG_0241"
+     ]
+    },
+    {
+     "name": "Music: playlist, library, Now Playing, lyrics, search",
+     "frames": [
+      "IMG_0304",
+      "IMG_0305",
+      "IMG_0306",
+      "IMG_0307",
+      "IMG_0308"
+     ]
+    },
+    {
+     "name": "Podcasts: show page, menus, search, transcript, chapters, output picker",
+     "frames": [
+      "IMG_0351",
+      "IMG_0352",
+      "IMG_0353",
+      "IMG_0354",
+      "IMG_0355",
+      "IMG_0356",
+      "IMG_0357",
+      "IMG_0358",
+      "IMG_0360",
+      "IMG_0361"
+     ]
+    },
+    {
+     "name": "Books: home, account sheet, owned books, audiobook player, library menus",
+     "frames": [
+      "IMG_0394",
+      "IMG_0395",
+      "IMG_0396",
+      "IMG_0397",
+      "IMG_0398",
+      "IMG_0399",
+      "IMG_0400",
+      "IMG_0401"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "refines",
+   "vsSkillDetail": "patterns.md 3 \"Two columns that meet at the fold\" matches Apple for two-half screens (Music, Podcasts, Books, Calendar Day). patterns.md 2 treats a fold split as the rule for list and detail; those divide near 320-403 pt (D01), so the fold split belongs to two-half pages.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Use FoldColumns with a 50 pt gap for two-half screens such as a player and its queue, and keep DetailPaneLayout's fixed list column for list-and-detail.",
+   "verifyFrames": [
+    "IMG_0306",
+    "IMG_0356",
+    "IMG_0397",
+    "IMG_0240"
+   ],
+   "change": "statementChanged",
+   "changeReason": "Music, Podcasts and Books divide full-window player and show pages at the fold with a 50 pt gutter. The fold split is a recurring Apple layout, not one app's, so the 'one app of about 25' rationale falls.",
+   "verify2": {
+    "verdict": "amend",
+    "amendedStatement": "Split a screen of two equal-weight halves (player and queue, show hero and episodes, Day and detail) at 475.5 pt, with a grabber or a 50 pt gutter on the fold. Music, Podcasts, Books and Calendar do; Settings keeps its 320 pt sidebar.",
+    "measured": "0240 Calendar: timeline ends x 472, divider 475.5-476, cards from ~517. 0306 Music: grabber centred on fold, queue text from ~508. 0356 Podcasts: grabber on fold, transcript text from ~502, player ends ~449. 0397 Books: grabber on fold, list pill from ~503. Gutters 52-59 pt. 0358 Chapters card starts 486, only 37 pt from player edge. 0410 splits at 434, 0321 at 505, as stated.",
+    "reason": "Fold split, grabber and 52-59 pt gutters hold in Music, Podcasts, Books and Calendar. Settings Wallpaper is cited without support and is a widened sidebar, so it should go. Fitness 0410 and Shortcuts 0321 are exceptions. Pane scrolling is not checkable from stills.",
+    "classificationOk": true,
+    "classificationNote": "app-choice fits: Fitness onboarding and Shortcuts divide away from the fold.",
+    "privacyIssue": null
+   },
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "App-choice is right: Fitness (434) and Shortcuts (506) split elsewhere. The 'only one app' rationale is wrong.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D31",
+   "title": "Sheets may sit in the left half",
+   "statement": "Some states show a sheet confined to the left half (x 8-467 pt, 459 wide, 8.5 pt short of the fold, top y 8) instead of fold-centred x 149-802. Inner content is 428 pt wide there, 621 centred; lay out for both.",
+   "polarity": "do",
+   "kind": "system",
+   "rationale": "Calendar and Claude each showed the same sheet at both widths in one session, with no change in window size. Content inside must work at 459 pt and at 653 pt. The trigger is not settled.",
+   "measurements": "Left-half sheet x 8-467 pt, top y 8; fold-centred sheet x 149-802 pt in IMG_0242 and IMG_0185 of the same sessions.",
+   "support": {
+    "frames": [
+     "IMG_0164",
+     "IMG_0186",
+     "IMG_0243",
+     "IMG_0250",
+     "IMG_0251"
+    ],
+    "nFrames": 5,
+    "apps": [
+     "Calendar",
+     "Claude",
+     "Maps"
+    ],
+    "nApps": 3
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0242",
+     "app": "Calendar",
+     "what": "The same New Event sheet is fold-centred, x 149-802 pt, in the frame before."
+    },
+    {
+     "frame": "IMG_0185",
+     "app": "Claude",
+     "what": "The Effort page is fold-centred, x 149-802 pt, in the frame before."
+    },
+    {
+     "frame": "IMG_0346",
+     "app": "Weather",
+     "what": "Permission sheet is fold-centred, x 149-802 pt, over a dimmed split view."
+    },
+    {
+     "frame": "IMG_0396",
+     "app": "Books",
+     "what": "All Books sheet is fold-centred, x 149-802 pt, pushed from the Account sheet."
+    },
+    {
+     "frame": "IMG_0413",
+     "app": "Fitness",
+     "what": "Fitness+ promo sheet is fold-centred, x 149-802 pt, over a dimmed tab."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Calendar: New Event sheet fold-centred, then confined to the left pane",
+     "frames": [
+      "IMG_0241",
+      "IMG_0242",
+      "IMG_0243"
+     ]
+    },
+    {
+     "name": "Claude: Effort page fold-centred, then in the left half",
+     "frames": [
+      "IMG_0185",
+      "IMG_0186"
+     ]
+    }
+   ],
+   "confidence": "low",
+   "vsSkill": "refines",
+   "vsSkillDetail": "apple-reference-screens.md row 25 records a Reminders sheet sliding into the left half in book pose. Two more apps show it, but the capture cannot show whether the device was in book posture.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Lay sheet content out with flex so it works at 459 and 653 pt; do not assume either width.",
+   "verifyFrames": [
+    "IMG_0242",
+    "IMG_0243",
+    "IMG_0185",
+    "IMG_0186"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Maps' floating search panel (x 8-408, top y 4) is a third left-half sheet, but non-modal with the map lit. Ten new modal sheets are all fold-centred; none sits in the left half.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "Plausibly system: two unrelated apps plus Reminders show it. Only Calendar and Claude do, and the trigger is unknown, so 'system' is unproven, not refuted.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D32",
+   "title": "Wide sheets start below the status cluster",
+   "statement": "Bear's bottom sheets (Statistics, Table of Contents) span x 12-939 pt from top y 170, below the bar's first round button, and cover the bar column; close X (x 875-924) and tool pill sit there. Other apps' partial sheets (Claude Usage) stay 653 pt wide.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "Only one app does this: the sheet runs x 12-939 and its close X and vertical pill at x 875-925 sit over the bar column, clear of the status stack that ends at y 107.",
+   "measurements": "Bottom sheet x 12-939 pt, top y 170, bottom y 661; close X x 875-924, y 186-234; three-button tool pill y 452-613 inside the bar column, its active item with a filled highlight and a red icon.",
+   "support": {
+    "frames": [
+     "IMG_0294",
+     "IMG_0295"
+    ],
+    "nFrames": 2,
+    "apps": [
+     "Bear"
+    ],
+    "nApps": 1
+   },
+   "counterEvidence": [
+    {
+     "frame": "IMG_0287",
+     "app": "Bear",
+     "what": "The same app's Settings sheet is 653 pt wide and stops 65 pt before the bar."
+    },
+    {
+     "frame": "IMG_0356",
+     "app": "Podcasts",
+     "what": "Player fills the window from y 0; the status cluster sits on its surface at y 21-107."
+    },
+    {
+     "frame": "IMG_0397",
+     "app": "Books",
+     "what": "Audiobook player fills x 0-951 from y 0 with the status cluster on its surface, not below it."
+    }
+   ],
+   "flows": [
+    {
+     "name": "Bear: statistics to table of contents inside one wide sheet",
+     "frames": [
+      "IMG_0294",
+      "IMG_0295"
+     ]
+    }
+   ],
+   "confidence": "low",
+   "vsSkill": "new",
+   "vsSkillDetail": "The skill has no sheet that enters the bar column.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Use a bottom sheet with a top inset near 170 pt (snap point near 490 pt) and check its trailing controls clear the status stack.",
+   "verifyFrames": [
+    "IMG_0294",
+    "IMG_0295",
+    "IMG_0287"
+   ],
+   "change": "evidenceAdded",
+   "changeReason": "Podcasts and Books Now Playing start at y 0, so the status cluster sits over a wide surface; wide surfaces do not all start below it.",
+   "verify1": {
+    "verdict": "amend",
+    "classificationOk": true,
+    "classificationNote": "app-choice is right: Bear's Settings and Claude's Usage sheets differ. One app only, so it is a Bear style, not a pattern.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D33",
+   "change": "new",
+   "changeReason": "New from Messages (the inspector replaces the list column), with Music and Podcasts frames showing the same pane behaviour for queue, lyrics, transcript and chapters.",
+   "title": "Open a companion as a right-hand pane",
+   "statement": "Open content about the screen (contact inspector, lyrics, queue, transcript, chapters) as a right-hand pane beside the subject. Messages collapses its list to a toggle at x 20-68; Podcasts' player recentres on the full width when its pane closes.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "The subject stays readable while the companion changes, and each pane keeps its own controls. Messages, Music and Podcasts all do it, and Podcasts' player recentres across the fold when its pane closes.",
+   "measurements": "Messages: list 0-375 and thread 375-867 become thread 0-547 and inspector 547-951 (404 pt, 320 usable); toggle x 20-68, y 25-71; inspector close x 567-615, Edit 805-866. Music: player 0-450, queue or lyrics from 509. Podcasts: player to 449, transcript 502-808, chapters card 486-883; with the pane closed, artwork 343-608.",
+   "support": {
+    "frames": [
+     "IMG_0306",
+     "IMG_0307",
+     "IMG_0356",
+     "IMG_0357",
+     "IMG_0358",
+     "IMG_0460",
+     "IMG_0461",
+     "IMG_0462",
+     "IMG_0464",
+     "IMG_0465"
+    ],
+    "nFrames": 10,
+    "apps": [
+     "Messages",
+     "Music",
+     "Podcasts"
+    ],
+    "nApps": 3
+   },
+   "counterEvidence": [],
+   "flows": [
+    {
+     "name": "Messages: keyboard, edit, filter, inspector, attach, record, new message, search",
+     "frames": [
+      "IMG_0458",
+      "IMG_0459",
+      "IMG_0460",
+      "IMG_0461",
+      "IMG_0462",
+      "IMG_0463",
+      "IMG_0464",
+      "IMG_0465",
+      "IMG_0466",
+      "IMG_0467",
+      "IMG_0468"
+     ]
+    },
+    {
+     "name": "Music: playlist, library, Now Playing, lyrics, search",
+     "frames": [
+      "IMG_0304",
+      "IMG_0305",
+      "IMG_0306",
+      "IMG_0307",
+      "IMG_0308"
+     ]
+    },
+    {
+     "name": "Podcasts: show page, menus, search, transcript, chapters, output picker",
+     "frames": [
+      "IMG_0351",
+      "IMG_0352",
+      "IMG_0353",
+      "IMG_0354",
+      "IMG_0355",
+      "IMG_0356",
+      "IMG_0357",
+      "IMG_0358",
+      "IMG_0360",
+      "IMG_0361"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "confirms",
+   "vsSkillDetail": "patterns.md 5: \"open it in the right pane instead while split: the subject stays readable beside it.\" Messages, Music and Podcasts do this for contact info, lyrics, queue, transcript and chapters. It does not cover sheets about a list item (see D13).",
+   "belongsIn": "patterns.md",
+   "rnImplication": "Render the companion in DetailPaneLayout's right pane when it opens, drop the list to a toggle if a third pane is needed, and let the subject take the full width when it closes.",
+   "verifyFrames": [
+    "IMG_0461",
+    "IMG_0460",
+    "IMG_0307",
+    "IMG_0357"
+   ],
+   "verify2": {
+    "verdict": "amend",
+    "amendedStatement": "Open content about the screen (contact inspector, lyrics, queue, transcript, chapters) as a right-hand pane beside the subject. Messages collapses its list to a toggle at x 20-68; Podcasts' player recentres on the full width when its pane closes.",
+    "measured": "0460 list 0-375, thread 375-867. 0461 thread 0-547, inspector 547-951 (320 usable to 867), toggle x 21-68 y 25-71, close 567-615, Edit 805-866. 0306 queue from ~508, 0307 lyrics replace it. 0356 transcript from ~502. 0358 Chapters card 487-883. 0357 pane closed: artwork 343-608, centred on 475.5.",
+    "reason": "Pane geometry matches within 2 pt. Recentring on close appears only in Podcasts 0357; no Music or Books frame shows a closed pane, so the general claim is too wide. Frames show a contact name and message text, but the statement carries none.",
+    "classificationOk": true,
+    "classificationNote": "app-choice fits; all three are Apple apps, and recentring is only observed in Podcasts.",
+    "privacyIssue": null
+   }
+  },
+  {
+   "id": "D34",
+   "change": "new",
+   "changeReason": "New from Translate's camera (0376, 0377), matched by Measure (0333) and a document scanner (0282): same layout in three apps.",
+   "title": "Full-bleed camera views, controls in the bar",
+   "statement": "In a camera view, run the preview full-bleed to x 951 pt and hide the status bar: only the green camera dot (~x 924, y 26) remains. Put round controls in the bar from y 24, modes at its foot (capsule or stacked buttons), and any shutter in the bar or left of x 867.",
+   "polarity": "do",
+   "kind": "app-choice",
+   "rationale": "Measure, Translate and a document scanner give the window to the viewfinder, hide the clock and battery, and use the bar as a control rail, so a header or tab bar drawn in a View would sit over the picture.",
+   "measurements": "Measure: trash y 24-72, undo 85-132, shutter 149-189 in the bar, mode capsule y 535-647. Translate: gallery y 24-71, torch 84-132, mode capsule 484-645, shutter x 783-846 (centre y 334), language pill 340-527. Scanner: close y 24-72, three options y 477-644, shutter x 767-847, hint pill 345-606. Green dot near x 927, y 26.",
+   "support": {
+    "frames": [
+     "IMG_0282",
+     "IMG_0333",
+     "IMG_0376",
+     "IMG_0377"
+    ],
+    "nFrames": 4,
+    "apps": [
+     "Document scanner",
+     "Measure",
+     "Translate"
+    ],
+    "nApps": 3
+   },
+   "counterEvidence": [],
+   "flows": [
+    {
+     "name": "Translate: languages sheet, camera view, text with keyboard, favourites",
+     "frames": [
+      "IMG_0374",
+      "IMG_0375",
+      "IMG_0376",
+      "IMG_0377",
+      "IMG_0378",
+      "IMG_0379"
+     ]
+    }
+   ],
+   "confidence": "medium",
+   "vsSkill": "new",
+   "vsSkillDetail": "The skill has no camera guidance; patterns.md 6 and 8 cover titles and bar items for list and detail screens only.",
+   "belongsIn": "apple-reference-screens.md",
+   "rnImplication": "Draw the camera preview over the whole window, hide the status bar on that route, and declare the round controls as native bar items; keep the shutter left of x 867.",
+   "verifyFrames": [
+    "IMG_0333",
+    "IMG_0377",
+    "IMG_0282",
+    "IMG_0376"
+   ],
+   "verify2": {
+    "verdict": "amend",
+    "amendedStatement": "In a camera view, run the preview full-bleed to x 951 pt and hide the status bar: only the green camera dot (~x 924, y 26) remains. Put round controls in the bar from y 24, modes at its foot (capsule or stacked buttons), and any shutter in the bar or left of x 867.",
+    "measured": "Crops at 1x px/3. IMG_0333: trash y 24-72, undo 84-132, shutter 146-189 (bar, x 880-925), mode capsule y 532-642, dot centre x 924 y 26. IMG_0377: gallery y 24-72, torch 84-132, capsule 482-642, shutter x 783-847 centre y 333, dot x 924 y 26. IMG_0376 identical. IMG_0282: close y 24-72, three separate round buttons y 477-644, shutter x 767-847 centre y 333, dot x 924 y 26. No status cluster in any; stated figures within 5 pt.",
+    "reason": "Positions in the four cited frames match within 5 pt. Two gaps: the scanner's options are three separate round buttons, not a capsule, and hiding the status cluster is the app's choice (Maps keeps it). The shutter sits in the bar in Measure but left of it in the other two.",
+    "classificationOk": true,
+    "classificationNote": "app-choice is right: Maps keeps status over full-bleed content. The green dot itself is the OS privacy indicator, not app-drawn.",
+    "privacyIssue": null
+   }
+  }
+ ],
+ "flows": [
+  {
+   "name": "Messages: keyboard, edit, filter, inspector, attach, record, new message, search",
+   "frames": [
+    "IMG_0458",
+    "IMG_0459",
+    "IMG_0460",
+    "IMG_0461",
+    "IMG_0462",
+    "IMG_0463",
+    "IMG_0464",
+    "IMG_0465",
+    "IMG_0466",
+    "IMG_0467",
+    "IMG_0468"
+   ],
+   "steps": "A conversation is open with the keyboard up (0458); the list goes to Edit with the keyboard gone (0459); Filter opens a menu over the list (0460). Contact info opens beside the thread and the list collapses to a toggle (0461); its Documents tab scrolls (0462). The plus menu opens (0463) and a voice message records (0464, 0465). New Message raises the keyboard, a Contacts popover opens and a search types (0466-0468).",
+   "duoObservation": "The bar keeps one video-call button, then a three-icon capsule, unchanged by the keyboard. The 375 pt list gives way to a 404 pt inspector at 547-951 pt; menus open inside their own pane, and the send arrow sits on the fold.",
+   "practices": [
+    "D33",
+    "D01",
+    "D08",
+    "D05",
+    "D29",
+    "D23",
+    "D06"
+   ]
+  },
+  {
+   "name": "Music: playlist, library, Now Playing, lyrics, search",
+   "frames": [
+    "IMG_0304",
+    "IMG_0305",
+    "IMG_0306",
+    "IMG_0307",
+    "IMG_0308"
+   ],
+   "steps": "A playlist page puts hero art left and tracks right (0304); Library root shows pills and tile rows (0305). Now Playing fills the window with the player left and the queue right (0306), then the right pane switches to lyrics (0307). Search focuses and raises the split keyboard (0308).",
+   "duoObservation": "Player and queue divide at the fold with a 50 pt gutter and a grabber on it. The keyboard covers the tab pill, which shows blurred behind it; content ends 32 pt before the bar.",
+   "practices": [
+    "D30",
+    "D33",
+    "D12",
+    "D02",
+    "D04",
+    "D09"
+   ]
+  },
+  {
+   "name": "Podcasts: show page, menus, search, transcript, chapters, output picker",
+   "frames": [
+    "IMG_0351",
+    "IMG_0352",
+    "IMG_0353",
+    "IMG_0354",
+    "IMG_0355",
+    "IMG_0356",
+    "IMG_0357",
+    "IMG_0358",
+    "IMG_0360",
+    "IMG_0361"
+   ],
+   "steps": "A show page has the hero left and episodes right (0351); Filter and overflow menus open from the bar (0352-0354). Search types with the keyboard (0355). Now Playing opens with the transcript at right (0356), closes to one centred column (0357) and shows chapters (0358). An AirPlay popover opens over the left pane (0360) and an episode menu from a '...' near the fold (0361).",
+   "duoObservation": "Bar menus are 249 pt and sit right of the fold; the menu from a trigger at x 434 spans it (309-558). A black capsule pushes the status items down 84 pt; with the transcript closed the player centres on the fold.",
+   "practices": [
+    "D08",
+    "D30",
+    "D33",
+    "D28",
+    "D29",
+    "D02"
+   ]
+  },
+  {
+   "name": "Weather: edit cities, notification sheets, search with the keyboard",
+   "frames": [
+    "IMG_0344",
+    "IMG_0345",
+    "IMG_0346",
+    "IMG_0347",
+    "IMG_0348",
+    "IMG_0349",
+    "IMG_0350"
+   ],
+   "steps": "The city list sits in a 320 pt sidebar beside the forecast (0344); Edit shows handles in the same column (0345). A permission sheet opens (0346), then notification settings (0347) and per-city toggles (0348). City search shows a preview sheet (0349); the keyboard rises and the focused field spans both panes (0350).",
+   "duoObservation": "Weather's sheets sit on the fold at 653 pt, the partial ones from y 82. The sidebar header holds the toggle and '...', not the bar. The focused search field widens to 587 pt over both panes, 8 pt above a split keyboard.",
+   "practices": [
+    "D04",
+    "D23",
+    "D01",
+    "D16",
+    "D05",
+    "D25"
+   ]
+  },
+  {
+   "name": "Wallet: card stack, search, orders, rating alert, menu, notifications, select",
+   "frames": [
+    "IMG_0364",
+    "IMG_0365",
+    "IMG_0366",
+    "IMG_0367",
+    "IMG_0368",
+    "IMG_0369",
+    "IMG_0370",
+    "IMG_0371",
+    "IMG_0372",
+    "IMG_0373"
+   ],
+   "steps": "The card stack is centred on the fold (0364). Search raises the keyboard (0365, 0366) and drops it (0367); an Orders sheet opens (0368) and an order opens with a rating alert (0369, 0370). The bar's ellipsis opens a menu (0371), then Notifications settings (0372) and a multi-select pass list (0373).",
+   "duoObservation": "Sheets stay on the fold at 653 pt with the bar dimmed beside them; the alert centres on x 434 and the menu opens right of the fold at 678-926 pt. The phone-width card stack puts the fold through every card.",
+   "practices": [
+    "D04",
+    "D08",
+    "D15",
+    "D25",
+    "D19",
+    "D07"
+   ]
+  },
+  {
+   "name": "Books: home, account sheet, owned books, audiobook player, library menus",
+   "frames": [
+    "IMG_0394",
+    "IMG_0395",
+    "IMG_0396",
+    "IMG_0397",
+    "IMG_0398",
+    "IMG_0399",
+    "IMG_0400",
+    "IMG_0401"
+   ],
+   "steps": "Home shows shelves running under the tab capsule (0394). The Account sheet opens (0395) and All Books pushes inside it (0396). An audiobook Now Playing screen shows the player left and tracks right (0397) with a context menu (0398). The library shows four cover columns (0399), a view-options menu (0400) and a book menu (0401).",
+   "duoObservation": "Account and All Books keep one 653 pt sheet frame; the player fills the window and splits at the fold. Menus are 249 pt: 309-558 near the fold, 677-925 from the bar, overlapping the tab pill.",
+   "practices": [
+    "D04",
+    "D30",
+    "D08",
+    "D11",
+    "D18",
+    "D20"
+   ]
+  },
+  {
+   "name": "Games: onboarding cards, Friends sheets, search, library menu, Arcade",
+   "frames": [
+    "IMG_0402",
+    "IMG_0403",
+    "IMG_0404",
+    "IMG_0405",
+    "IMG_0406",
+    "IMG_0407",
+    "IMG_0408",
+    "IMG_0409"
+   ],
+   "steps": "A What's New card opens over Home (0402). Friends shows an Add Friends sheet (0403), an Introducing Challenges card (0404) and a Challenges sheet (0405). Search raises the keyboard (0406); Library shows a filter tip (0407) and a Sort and Filter menu (0408); Arcade runs a full-bleed hero (0409).",
+   "duoObservation": "Sheets are 600 and 625 pt, centred on the fold, with the bar dimmed beside them. With the keyboard up the tab pill is blurred under it. Hero and carousels run under the bar while tiles stop at 832 pt.",
+   "practices": [
+    "D04",
+    "D19",
+    "D12",
+    "D18",
+    "D20",
+    "D02"
+   ]
+  },
+  {
+   "name": "Fitness: first run, Summary, Fitness+ sheet, Workout Buddy closed and open",
+   "frames": [
+    "IMG_0410",
+    "IMG_0411",
+    "IMG_0412",
+    "IMG_0413",
+    "IMG_0414",
+    "IMG_0415",
+    "IMG_0416"
+   ],
+   "steps": "A first-run page splits text and a notification mock (0410). Summary shows a banner over three card columns (0411); a Fitness+ card and a Workout Plans sheet follow (0412, 0413). Workouts on iPhone (0414) leads to Workout Buddy, captured closed in one column (0415) and open in two (0416).",
+   "duoObservation": "Workout Buddy re-flows from 466 to 951 pt and keeps the back button and tab pill in the bar. Summary text ends at 846 pt; the Fitness+ sheet sits on the fold at 653 pt with the tab capsule dimmed.",
+   "practices": [
+    "D11",
+    "D04",
+    "D19",
+    "D02",
+    "D21"
+   ]
+  },
+  {
+   "name": "Fitness: friends in a sheet, a full page, Fitness+ for you and search",
+   "frames": [
+    "IMG_0417",
+    "IMG_0418",
+    "IMG_0419",
+    "IMG_0420",
+    "IMG_0421",
+    "IMG_0422",
+    "IMG_0423"
+   ],
+   "steps": "The Sharing sheet lists friends (0417); a profile pushes inside the same sheet (0418) and offers an overflow menu (0419). The profile then shows as a page with no sheet (0420). Fitness+ For You shows a full-bleed hero (0421); Library shows three columns (0422) and search lists results (0423).",
+   "duoObservation": "A push stays inside one 653 pt sheet frame; the overflow menu opens right of the fold. As a page it runs x 16-851 pt in two columns, and the fold falls through the right column's activity icon. Search rows stretch to 833 pt.",
+   "practices": [
+    "D20",
+    "D08",
+    "D16",
+    "D18",
+    "D07"
+   ]
+  },
+  {
+   "name": "Journal: compose with media, record, save, state of mind",
+   "frames": [
+    "IMG_0441",
+    "IMG_0442",
+    "IMG_0443",
+    "IMG_0444",
+    "IMG_0445"
+   ],
+   "steps": "An add-media menu opens over the bar (0441). Typing the title raises the split keyboard and an edit callout (0442). A recording sheet covers the editor (0443) and a Logged sheet confirms the save (0444). The entry then holds a State of Mind card and a location, keyboard up (0445).",
+   "duoObservation": "Sheets sit on the fold, 653 pt from y 8 in 0444, and leave the bar's buttons visible and dimmed beside them. The add-media menu overlaps the bar; with the keyboard up the four bar buttons end at y 351, above its top at 391.",
+   "practices": [
+    "D04",
+    "D12",
+    "D25",
+    "D19",
+    "D08"
+   ]
+  },
+  {
+   "name": "Journal: read view, new journal, entry menu, Places, Insights, sidebar menu",
+   "frames": [
+    "IMG_0446",
+    "IMG_0447",
+    "IMG_0448",
+    "IMG_0449",
+    "IMG_0450",
+    "IMG_0451",
+    "IMG_0452",
+    "IMG_0453"
+   ],
+   "steps": "A saved entry reads with the sidebar collapsed and a menu open (0446). The sidebar returns with a tip (0447); New Journal opens as a sheet with the keyboard over its lower rows (0448). The list shows an entry menu (0449). Places fills the detail with a full-bleed map and a floating entry card (0450); Insights fills it with cards (0451); a sidebar menu opens (0452) and edit mode follows (0453).",
+   "duoObservation": "The 320 pt sidebar stays while the detail swaps in place. The floating entry card sits at x 531-940 with sidebar and map undimmed. The sidebar menu is 250 pt at x 20-270, wholly left of the fold.",
+   "practices": [
+    "D22",
+    "D01",
+    "D13",
+    "D08",
+    "D09"
+   ]
+  },
+  {
+   "name": "Safari: article, bookmarks sheet, new tab, tab overview",
+   "frames": [
+    "IMG_0454",
+    "IMG_0455",
+    "IMG_0456",
+    "IMG_0457"
+   ],
+   "steps": "An article scrolls under a floating toolbar (0454). Bookmarks opens as a scrimmed sheet (0455). A new tab shows the Start Page (0456) and the tab overview shows a three-column grid (0457).",
+   "duoObservation": "Safari keeps its toolbar in content and shows the status items as a horizontal pill at x 825-931 pt. The bookmarks sheet is 653 pt on the fold; the tab grid runs to 935 pt, so a card's close X sits under the pill.",
+   "practices": [
+    "D27",
+    "D03",
+    "D04",
+    "D02",
+    "D18"
+   ]
+  },
+  {
+   "name": "Translate: languages sheet, camera view, text with keyboard, favourites",
+   "frames": [
+    "IMG_0374",
+    "IMG_0375",
+    "IMG_0376",
+    "IMG_0377",
+    "IMG_0378",
+    "IMG_0379"
+   ],
+   "steps": "The empty Translate page (0374) opens a Languages form sheet (0375). Camera translation shows a language menu (0376) and then idles (0377). Typing a word raises the split keyboard beside a result card (0378); Favourites opens as a sheet (0379).",
+   "duoObservation": "Sheets share one 653 pt frame on the fold. In camera view the status cluster drops out: gallery and torch sit at y 24-132 in the bar, a mode capsule at y 484-645, and the shutter 21 pt left of the bar.",
+   "practices": [
+    "D34",
+    "D04",
+    "D03",
+    "D19"
+   ]
+  },
+  {
+   "name": "Shortcuts: editor, icon picker sheet, filter popover, swipe delete",
+   "frames": [
+    "IMG_0321",
+    "IMG_0322",
+    "IMG_0323",
+    "IMG_0324"
+   ],
+   "steps": "The editor shows action cards left and the action library right (0321). Choosing an icon opens a sheet over the dimmed editor (0322). A filter popover opens (0323) and a swiped filter row shows Delete (0324).",
+   "duoObservation": "The sheet is 653 pt on the fold and dims the bar's four button groups while the status stack stays bright. Editor and library divide at 505 pt, 29 pt right of the fold, so the fold falls inside the editor.",
+   "practices": [
+    "D04",
+    "D19",
+    "D29",
+    "D08"
+   ]
+  },
+  {
+   "name": "ChatGPT: projects, new chat with keyboard, Images, thread",
+   "frames": [
+    "IMG_0221",
+    "IMG_0222",
+    "IMG_0223",
+    "IMG_0224",
+    "IMG_0225"
+   ],
+   "steps": "A projects list sits beside the persistent sidebar (0221). A new chat raises the keyboard and lifts the composer (0222). Images opens with placeholder tiles (0223) that fill in place (0224); an existing thread follows with the keyboard down (0225).",
+   "duoObservation": "The 320 pt sidebar never moves while the detail swaps. The keyboard runs the full 951 pt and covers the sidebar instead of resizing it; the image grid and carousel cross the fold untouched.",
+   "practices": [
+    "D22",
+    "D09",
+    "D01",
+    "D18",
+    "D23"
+   ]
+  },
+  {
+   "name": "Apple TV: home shelves, search keyboard, episode page",
+   "frames": [
+    "IMG_0260",
+    "IMG_0261",
+    "IMG_0262"
+   ],
+   "steps": "Home shows a hero and shelves with a floating tab pill (0260). Search focuses with the keyboard up and phone-style rows (0261). An episode page shows a hero and a season shelf (0262).",
+   "duoObservation": "Shelf cards start at 34 pt and cross the fold; page dots centre on it. Search rows run x 20-846 pt across the fold. Episode cards sit at 34, 299 and 565 pt, and a fourth starts at 831 pt and runs off the screen.",
+   "practices": [
+    "D07",
+    "D16",
+    "D14",
+    "D18",
+    "D03"
+   ]
+  },
+  {
+   "name": "Claude: the Usage sheet rises, scrolls and expands",
+   "frames": [
+    "IMG_0176",
+    "IMG_0177",
+    "IMG_0178",
+    "IMG_0179"
+   ],
+   "steps": "The Usage sheet rises over the chat with a scrim (0176). Fully up it shows Context window, Current session and Weekly limits cards (0177). Tapping Context window expands a token breakdown (0178); scrolling reaches Limit resets and Credits (0179).",
+   "duoObservation": "The 653 pt sheet is centred on the fold, so title, grabber and card centres land on it. It stops about 65 pt short of the bar, and the scrim dims the bar's app buttons but not its status items.",
+   "practices": [
+    "D04",
+    "D19",
+    "D20"
+   ]
+  },
+  {
+   "name": "Calendar: sheets, split Day view, New Event with keyboard, left half",
+   "frames": [
+    "IMG_0236",
+    "IMG_0237",
+    "IMG_0238",
+    "IMG_0239",
+    "IMG_0240",
+    "IMG_0241",
+    "IMG_0242",
+    "IMG_0243"
+   ],
+   "steps": "Calendars, Inbox and Search each open a sheet over the month view (0237-0239). A Day view then shows the event beside it, divided at the fold (0240, 0241). New Event opens with the keyboard up and the bar's buttons collapse to three (0242); the sheet then shows confined to the left half (0243).",
+   "duoObservation": "All sheets share x 149-802 pt on the fold except the last. In Day view the fold is the pane divider and the right pane pins its actions. The same New Event form is 653 pt wide in 0242 and 459 pt in 0243 with no change in window size.",
+   "practices": [
+    "D04",
+    "D30",
+    "D12",
+    "D31",
+    "D23",
+    "D13"
+   ]
+  },
+  {
+   "name": "Notes: attachments sheet, keyboard, handwriting sheet, folder overlay",
+   "frames": [
+    "IMG_0157",
+    "IMG_0158",
+    "IMG_0159",
+    "IMG_0160",
+    "IMG_0161"
+   ],
+   "steps": "A note reads in the two-pane layout (0157). Attachments opens as a sheet over both panes (0158). In edit mode the split keyboard rises, Done takes the bar's top slot and a toolbar docks above the keys (0159). A Lines and Grids sheet opens (0160) and the sidebar toggle slides a 280 pt folder overlay over the list (0161).",
+   "duoObservation": "The Attachments and Lines and Grids sheets cover both dimmed panes, the pane boundary at 340 pt and the fold. The keyboard overlays both panes from y 391. The 280 pt folder overlay draws over the 340 pt list, which keeps its width.",
+   "practices": [
+    "D04",
+    "D05",
+    "D06",
+    "D25",
+    "D26"
+   ]
+  },
+  {
+   "name": "Stocks: hide the sidebar, actions menu, new watchlist with the keyboard",
+   "frames": [
+    "IMG_0380",
+    "IMG_0381",
+    "IMG_0382",
+    "IMG_0383",
+    "IMG_0384",
+    "IMG_0385",
+    "IMG_0386"
+   ],
+   "steps": "Collapsing the sidebar widens the detail (0380, 0381). The bar's '...' opens a menu (0382). With the sidebar back, its options menu leads to a New Watchlist alert over the split keyboard (0383, 0384); the search field rides the keyboard (0385) and then docks at the sidebar's foot (0386).",
+   "duoObservation": "Detail content re-flows from 467 to 787 pt and crosses the fold. The '...' menu grows from the bar capsule with its right edge at 926 pt; the alert, scrim and keyboard span both columns, and the bar capsule vanishes with the keyboard up.",
+   "practices": [
+    "D11",
+    "D08",
+    "D15",
+    "D25",
+    "D23",
+    "D07"
+   ]
+  },
+  {
+   "name": "Claude: model and effort inside one sheet, then the left half",
+   "frames": [
+    "IMG_0184",
+    "IMG_0185",
+    "IMG_0186",
+    "IMG_0187"
+   ],
+   "steps": "The model chip opens a Select model sheet over the chat list (0184). Effort replaces its content inside the same frame (0185). In 0186 the Effort page sits in the left half with the voice screen visible beside it; then the sheet dismisses (0187).",
+   "duoObservation": "Navigation inside the sheet keeps its fold-centred frame. In 0186 the same Effort page sits in the left half, x 8-467 pt, with the voice screen beside it and the pane boundary on the fold.",
+   "practices": [
+    "D20",
+    "D31",
+    "D13",
+    "D04"
+   ]
+  },
+  {
+   "name": "Bear: seven settings pages inside one 653 pt sheet",
+   "frames": [
+    "IMG_0287",
+    "IMG_0288",
+    "IMG_0289",
+    "IMG_0290",
+    "IMG_0291",
+    "IMG_0292",
+    "IMG_0293"
+   ],
+   "steps": "Settings opens as a sheet with a root list (0287). Typography, Privacy, Themes, Sync, Advanced and General each push a page into the same sheet (0288-0293); back sits top left and close top right, and the sheet frame never moves.",
+   "duoObservation": "The sheet is 653 pt wide and stops 65 pt short of the bar. Centred titles and art lie on the crease; the Themes grid puts its 15 pt gutter on the fold, x 468-483.",
+   "practices": [
+    "D20",
+    "D04",
+    "D29"
+   ]
+  },
+  {
+   "name": "Siri: fold closed, back to history, voice with the bar following the status stack",
+   "frames": [
+    "IMG_0428",
+    "IMG_0429",
+    "IMG_0430",
+    "IMG_0431"
+   ],
+   "steps": "Open, a conversation shows beside the card-grid sidebar (0428). Folded closed, it fills one pane with a back chevron in the bar (0429). Back opens a full-screen card grid with filter, search and compose in the bar (0430). The Siri entry shows the listening screen with an X in the bar (0431).",
+   "duoObservation": "Closed, the persistent sidebar becomes navigation: actions move into the 84 pt bar, content reflows to 0-382 pt, and a mic dot pushes the bar button down 22 pt, from y 175 to 197.",
+   "practices": [
+    "D10",
+    "D28",
+    "D11"
+   ]
+  },
+  {
+   "name": "Settings: persistent sidebar, then the page that widens it",
+   "frames": [
+    "IMG_0226",
+    "IMG_0227",
+    "IMG_0228",
+    "IMG_0229",
+    "IMG_0230",
+    "IMG_0231",
+    "IMG_0232",
+    "IMG_0233"
+   ],
+   "steps": "Tapping General, Wi-Fi, Battery, Appearance, Control Centre and StandBy swaps the detail in place with the sidebar at 320 pt (0226-0231). Wallpaper widens the sidebar to the fold and shrinks the detail to 391 pt (0232); Notifications restores 320 pt (0233).",
+   "duoObservation": "Until 0232 the fold sits 155 pt inside the detail and cards cross it. One frame puts the pane boundary exactly on x 475.5, like the Music and Podcasts player pages; whether Settings widened on purpose is not shown.",
+   "practices": [
+    "D22",
+    "D01",
+    "D30"
+   ]
+  }
+ ],
+ "openQuestions": [
+  {
+   "claim": "A form sheet sits in the left half only (x 8-467 pt, 459 wide) in some states and is fold-centred (x 149-802 pt, 653 wide) in others.",
+   "status": "open",
+   "resolution": "Ten new modal sheets in seven apps are all fold-centred, 600-653 pt. Maps' non-modal panel sits left (x 8-408). No new left-half modal sheet appears, so the trigger for Calendar and Claude is still not in the pixels.",
+   "for": [
+    "IMG_0243",
+    "IMG_0251",
+    "IMG_0186",
+    "IMG_0164"
+   ],
+   "against": [
+    "IMG_0242",
+    "IMG_0185",
+    "IMG_0346",
+    "IMG_0348",
+    "IMG_0349",
+    "IMG_0363",
+    "IMG_0396",
+    "IMG_0403",
+    "IMG_0405",
+    "IMG_0413",
+    "IMG_0444",
+    "IMG_0322"
+   ]
+  },
+  {
+   "claim": "System alerts centre on the 0-867 pt content area (x 433.5) rather than on the fold (x 475.5).",
+   "status": "open",
+   "resolution": "No new frame shows a system alert or permission prompt. Weather's 'Allow Notifications' (IMG_0346) is a 653 pt in-app sheet on the fold. Nothing new for either position.",
+   "for": [
+    "IMG_0369",
+    "IMG_0163",
+    "IMG_0314",
+    "IMG_0384"
+   ],
+   "against": [
+    "IMG_0390"
+   ]
+  },
+  {
+   "claim": "Content that crosses the fold at x 475.5 pt, including a button under the crease, has no effect on how it reads or how a touch lands.",
+   "status": "open",
+   "resolution": "Six more frames show content or a control crossing the fold with no seam, and three two-half pages keep a 50 pt gutter on it. Screenshots still cannot show the crease or touch response.",
+   "for": [
+    "IMG_0226",
+    "IMG_0388",
+    "IMG_0451",
+    "IMG_0261",
+    "IMG_0321",
+    "IMG_0364",
+    "IMG_0260",
+    "IMG_0464",
+    "IMG_0399",
+    "IMG_0357",
+    "IMG_0409"
+   ],
+   "against": [
+    "IMG_0240",
+    "IMG_0290",
+    "IMG_0298",
+    "IMG_0306",
+    "IMG_0356",
+    "IMG_0397"
+   ]
+  },
+  {
+   "claim": "The Settings sidebar can widen to 475.5 pt (the fold) instead of its usual 320 pt.",
+   "status": "open",
+   "resolution": "No new frame shows a widened sidebar. Music, Podcasts and Books split full-window pages at the fold, which makes a deliberate fold split for Settings' Wallpaper page plausible; one frame cannot confirm it.",
+   "for": [
+    "IMG_0232"
+   ],
+   "against": [
+    "IMG_0231",
+    "IMG_0233"
+   ]
+  },
+  {
+   "claim": "The closed display held in landscape shows the portrait layout turned 90 degrees, with no re-layout and no status cluster.",
+   "status": "open",
+   "resolution": "All 62 new frames are open landscape; none is closed landscape. The claim keeps its single frame.",
+   "for": [
+    "IMG_0252"
+   ],
+   "against": []
+  },
+  {
+   "claim": "The system, not the app, folds the bar's lower buttons into a '...' overflow when the keyboard opens.",
+   "status": "settled",
+   "resolution": "Not a system rule. Music and Games keep their five-icon tab pill under the keyboard, blurred (0308, 0406), as Photos and TV do. Only toolbar buttons in Calendar, Voice Memos and Journal fold; who folds them stays unproven.",
+   "for": [
+    "IMG_0239",
+    "IMG_0314",
+    "IMG_0434"
+   ],
+   "against": [
+    "IMG_0251",
+    "IMG_0300",
+    "IMG_0308",
+    "IMG_0406"
+   ]
+  }
+ ],
+ "dropped": [
+  {
+   "candidate": "Do not rely on translucent popover text over a bright live feed: unselected rows turn low-contrast gray.",
+   "cid": "n05-7",
+   "reason": "Glass-contrast issue on a live camera feed: not specific to the Duo or large foldable layouts, and one frame (IMG_0376) with no measurement."
+  },
+  {
+   "candidate": "In wide sheet lists, keep text on the leading side and the row action trailing, inset the separators from the text edge, and keep titles one line.",
+   "cid": "n05-10",
+   "reason": "Generic list-row styling (thumbnail, inset separators, 96 pt rows) on one frame (IMG_0396). The sheet it sits in is already covered by D04; the row details are not specific to the Duo."
+  },
+  {
+   "candidate": "Keep the bottom edge clear of controls: the home indicator is centred on the fold (about 245 pt wide, y about 659 pt), and screens run content to within about 15 pt of the bottom edge.",
+   "cid": "n07-10",
+   "reason": "One frame (IMG_0452). The home indicator is system-drawn and sits on the fold because it is centred; apps cannot move it, and tiles ending 5 pt above it are one app's layout, not a Duo rule."
+  }
+ ],
+ "coverage": {
+  "baseIn": 32,
+  "newCandidatesIn": 76,
+  "attached": 71,
+  "newPractices": 2,
+  "droppedCount": 3,
+  "statementChanged": 8,
+  "framesTotal": 313
+ }
+}
