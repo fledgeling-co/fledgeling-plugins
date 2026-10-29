@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { FlatList, PlatformColor, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Stack } from 'expo-router';
 
 import { DetailPaneLayout, useDetailPane } from '~/components/DetailPaneLayout';
 import { ScreenTitle } from '~/components/ScreenTitle';
+import { systemColor } from '~/lib/layout';
 import { ITEMS } from '../../item/[id]';
 
 const itemHref = (id: string) => `/item/${id}`;
@@ -62,6 +63,6 @@ export default function ItemsScreen() {
 
 const styles = StyleSheet.create({
   row: { minHeight: 52, justifyContent: 'center', paddingHorizontal: 20 },
-  selected: { backgroundColor: PlatformColor('systemFill') },
-  rowText: { fontSize: 17, color: PlatformColor('label') },
+  selected: { backgroundColor: systemColor('systemFill', 'rgba(120, 120, 128, 0.2)') },
+  rowText: { fontSize: 17, color: systemColor('label', '#000000') },
 });

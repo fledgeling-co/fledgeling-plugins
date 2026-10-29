@@ -89,8 +89,8 @@ opened and read, ideally through `be-my-witness:be-my-witness` region by region.
 |---|---|---|
 | Closed, portrait | 466×678, 84pt trailing bar | Bar items vertical; title clears the top; nothing under the bar |
 | Closed, landscape | 678×466 | Bar still trailing; camera bottom-right; layout survives the short height |
-| Open flat, landscape | 951×669, 84pt trailing bar | Two panes or two columns meeting at 475.5pt; no sidebar eating the list |
-| Book (partly folded) | same, active vertical division | Nothing tappable in the band; split holds without a jump |
+| Open flat, landscape | 951×669, 84pt trailing bar | A 320pt list beside the detail, which runs to the bar with the fold inside it; two-half pages meet at 475.5pt; no sidebar eating the list |
+| Book (partly folded) | same, active vertical division | The list-and-detail divider moves to the fold; nothing tappable in the band |
 | Open, portrait | 669×951, 84 top / 95 bottom bars | Horizontal bars; regular-width layout, not a stretched phone column |
 | Tabletop | portrait, active horizontal division | Content on the raised half, controls on the flat half |
 | Split View, left | ~475×669 | Bar on the **left** edge; compact layout; insets swapped |

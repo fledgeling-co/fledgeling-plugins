@@ -17,14 +17,15 @@ actually has (window minus each side's inset, or the pane's width inside a split
   says phone). A branch on the model either misses it or treats the open display as a phone.
 - On a device with a fold, `regular` starts at 640pt so the open display in portrait (669pt) is
   regular, as iOS's size class says. iPad and phone tiers are unchanged.
-- A fold is reported while flat too (inactive region, zero width). Decide the layout from `hasFold`
-  once and do not rearrange as the hinge moves — Apple's grid example (prefer even columns whenever a
-  fold exists) is the same rule.
+- A fold is reported while flat too (inactive region, zero width). Decide one pane or two from
+  `hasFold` once and do not switch as the hinge moves — Apple's grid example (prefer even columns
+  whenever a fold exists) is the same rule. A list-and-detail divider is the exception: it moves from
+  the 320pt list column to the fold when the device folds (pattern 2).
 - Shipping apps re-flow one screen by the width it has: Stocks shows one news card beside its
   sidebar and two without it, Fitness one column closed and two open, Maps a leading panel open and a
   bottom sheet closed (D11).
 
-## 2. List and detail, split at the fold or on a wide pane
+## 2. List and detail, on the open display or a wide pane
 
 `components/DetailPaneLayout.tsx` wraps a tab's list screen. The left pane keeps the tab's own screen
 and the right pane renders what the list would have pushed. It splits in two cases:
@@ -57,15 +58,13 @@ What made it work in a real app:
   screen into the Following tab pulled `react-native-keyboard-controller`'s native module into every
   tab test and failed six suites. `require()` inside the render keeps the tab light and only loads
   the detail when split.
-- Apple's own split ratio is about 35/65 flat and 50/50 folded (Mail, Reminders). Splitting at the
-  fold in both poses matches the folded case and avoids a layout jump when the hinge moves.
-- **On the flat open display, shipping apps fix the list instead of splitting at the fold.** In 60
-  device captures across 21 apps the list or sidebar is a fixed 292–403pt column, 320pt in most, and
-  the fold falls 72–183pt inside the detail (D01). A fold-aligned split appears only on pages of two
-  equal halves (pattern 3). `DetailPaneLayout` splits at the fold whenever a fold exists, which
-  matches book posture and is what the reference app's owner approved. When the user wants the flat
-  display to match other apps, use `twoPaneForWidth`'s 320–420pt list while `posture === 'flat'` and
-  keep the fold split for `book`, with a test for each posture; the template does not do this yet.
+- **Flat, the list is a fixed 320pt column; folded, the panes divide at the fold.** `twoPaneFor`
+  returns `FLAT_LIST_WIDTH` (320pt) while `posture === 'flat'` and the fold with its gap for `book`.
+  In 60 device captures across 21 apps the list or sidebar is a fixed 292–403pt column, 320pt in
+  most, and the fold falls 72–183pt inside the detail (D01); Apple's own split is about 35/65 flat and
+  50/50 folded (Mail, Reminders). A fold-aligned split appears only on pages of two equal halves
+  (pattern 3). The divider moves when the hinge folds, which Mail does too. Versions before 0.4.0
+  split at the fold in both poses to avoid that move, and the reference app still does.
 - **Selecting a row swaps the detail in place.** The sidebar keeps its scroll offset and shows the
   selection as a pill (Settings, Shortcuts, Journal; D22).
 - **The alternative to a default selection is a labelled placeholder** ("No Event Selected",
@@ -77,8 +76,11 @@ What made it work in a real app:
 ## 3. Two columns that meet at the fold
 
 `components/FoldColumns.tsx` measures its row in the window. If a vertical fold falls inside it with
-room either side, the left column ends at `foldX - gap/2`; otherwise the columns share the row by
-flex (a 3:2 iPad layout stays 3:2). Use it for dashboards and side-by-side sections that are not
+at least 120pt and 35% of the row on each side (`foldColumnLeftWidth` in `lib/fold.ts`), the left
+column ends at `foldX - gap/2`; otherwise the columns share the row by flex (a 3:2 iPad layout stays
+3:2). A row across the open display meets at the fold; a row in the detail pane beside the 320pt
+list does not, because the fold sits only about 155pt into that pane and meeting there would leave a
+128pt column, so its content crosses the fold as apps' content does (D07). Use it for dashboards and side-by-side sections that are not
 list → detail. Without it, a 3:2 row puts a card across the hinge.
 
 Use it where you control the grid, not to keep every card off the fold. Shipping apps let ordinary

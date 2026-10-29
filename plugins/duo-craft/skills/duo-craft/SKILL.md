@@ -1,6 +1,6 @@
 ---
 name: duo-craft
-description: Build or adapt a React Native / Expo app for iPhone Duo, Apple's foldable iPhone — two panes split at the fold, the vertical side bar, asymmetric safe-area insets, book and tabletop poses, Split View halves, and the iOS 27 scene-lifecycle crash. Ships a tested native fold module, layout components, an audit script and a starter. Use when a React Native or Expo app needs to work on iPhone Duo or a foldable iPhone, when someone mentions the fold, hinge, reserved regions, UIHingeInteraction, the inner or outer display, or an Expo app crashing at launch on the iOS 27 SDK — even if they only say "make it look right on the Duo".
+description: Build or adapt a React Native / Expo app for iPhone Duo, Apple's foldable iPhone — list and detail panes on the open display, the vertical side bar, asymmetric safe-area insets, book and tabletop poses, Split View halves, and the iOS 27 scene-lifecycle crash. Ships a tested native fold module, layout components, an audit script and a starter. Use when a React Native or Expo app needs to work on iPhone Duo or a foldable iPhone, when someone mentions the fold, hinge, reserved regions, UIHingeInteraction, the inner or outer display, or an Expo app crashing at launch on the iOS 27 SDK — even if they only say "make it look right on the Duo".
 ---
 
 # duo-craft
@@ -80,8 +80,9 @@ first fold) to `no-scene-lifecycle` (Expo below 58 with no scene delegate: the l
 carries its reason. Treat `error` as visibly wrong on the Duo, `warn` as a place to confirm on the
 simulator, and `info` as somewhere to look rather than a defect.
 
-For a new app, create it first (`npx create-expo-app@latest`), which today gives Expo SDK 57 with
-the `@/*` → `./src/*` alias.
+For a new app, create it first (`npx create-expo-app@latest`), which gave Expo SDK 58 on 2026-10-30
+(SDK 57 before that), with the `@/*` → `./src/*` alias. Its own web and CSS files fail `tsc` in 3
+places on SDK 58 before anything is installed, so compare against a fresh app before blaming a change.
 
 ### 2. Mock the poses before changing layout
 
@@ -118,6 +119,11 @@ With `--starter` it replaces the fresh app's route files (keeping the originals 
 outer display honours the lock and the inner display rotates regardless. An app that keeps regular
 iPhones in portrait while the Duo and iPad turn needs the native rule in pattern 12 instead.
 `--with-tests` adds the two test files; they need `jest-expo` and `@testing-library/react-native`.
+The templates take colours through `systemColor` in `lib/layout.ts`, never `PlatformColor` at module
+scope: from SDK 58 a fresh app sets `"web": { "output": "server" }`, which loads every route on
+react-native-web while the iOS app builds, and react-native-web has no `PlatformColor`. An app's own
+routes that call it in `StyleSheet.create` fail the Release build the same way
+(`PlatformColor is not a function`); route them through `systemColor` too.
 
 ### 4. Apply the patterns
 
@@ -131,13 +137,12 @@ that decide most of the result:
 - **Pad each side for its own inset.** `paddingLeft: insets.left + margin`, `paddingRight:
   insets.right + margin`. Symmetric math is wrong on every pose here, and Split View flips which
   side carries the bar.
-- **List and detail split at the fold, and on any pane at least 900pt wide.** Wrap the tab's list in
-  `DetailPaneLayout`; with two panes the right one renders what the list would have pushed. Without a
-  fold it measures the pane, not the window, so iPad's sidebar does not count. Select the first item
-  by default, because an empty right half reads as broken, and push the chosen item full screen when
-  the device closes. On the flat open display, shipping apps fix the list near 320pt and let the fold
-  fall inside the detail instead (pattern 2); keep the template's fold split unless the user asks for
-  that, and say in the report which one the app uses.
+- **List and detail on the open display, and on any pane at least 900pt wide.** Wrap the tab's list
+  in `DetailPaneLayout`; with two panes the right one renders what the list would have pushed. Open and
+  flat, the list is a fixed 320pt column and the fold falls inside the detail, as in 21 apps measured
+  on a device; folded like a book, the panes divide at the fold. Without a fold it measures the pane,
+  not the window, so iPad's sidebar does not count. Select the first item by default, because an empty
+  right half reads as broken, and push the chosen item full screen when the device closes.
 - **Lift the focused field above the split keyboard.** It covers up to 42% of the open display and
   does not resize a sheet, so composers sit just above its top and sheet content scrolls (pattern 13).
 - **Present sheets, alerts and menus natively and let them size themselves.** A sheet centred on the

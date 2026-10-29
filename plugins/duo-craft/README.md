@@ -5,7 +5,7 @@
 Make a React Native app look right on iPhone Duo, and say which poses you actually saw.
 
 <p align="center">
-  <img alt="Version 0.3.0" src="https://img.shields.io/badge/version-0.3.0-1c7889">
+  <img alt="Version 0.4.0" src="https://img.shields.io/badge/version-0.4.0-1c7889">
   <img alt="Audit checks: 13" src="https://img.shields.io/badge/audit_checks-13-ee7027">
   <img alt="Poses reported: 9" src="https://img.shields.io/badge/poses_reported-9-5cc7d6">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8fb3bd">
@@ -20,13 +20,13 @@ React Native has no fold API of its own. The fold libraries on npm are weeks old
 The skill carries the code rather than describing it. It came out of adapting a shipping Expo app to the Duo; the fold module, the two-pane split and the starter all ran on the Xcode 27.1 Duo simulator before they went in.
 
 - **A fold module the app owns.** About 150 lines of Swift reading Apple's `reservedRegions` and `UIHingeInteraction`. It needs the iOS 27.1 SDK and fails to compile without it, so it can't quietly report no fold.
-- **List and detail split at the fold.** `DetailPaneLayout` keeps your list on the left and renders what it would have pushed on the right, selects the first item so the right half is never blank, and pushes the chosen item full screen when the device closes. It splits on iPad and wide windows too, once the pane is 900 points wide.
+- **List and detail on the open display.** `DetailPaneLayout` keeps your list on the left, in a fixed 320-point column while the Duo lies flat and at the fold once it folds like a book, and renders what it would have pushed on the right, selects the first item so the right half is never blank, and pushes the chosen item full screen when the device closes. It splits on iPad and wide windows too, once the pane is 900 points wide.
 - **Bars that can move to the side.** `NativeTabs` and `Stack.Toolbar` items, because a tab bar or header drawn in a `View` stays where it was drawn, across your content.
 - **Insets per side, titles that clear the top.** Each edge pads for its own inset, and titles sit at 59 + 8pt when the top inset is 0. The app this came from was told 20pt was still touching the edge.
 - **The launch crash, fixed Expo's way.** On SDK 57 it turns on `expo-build-properties` with `ios.enableSceneSupport`, which is Expo's own opt-in.
 - **An audit before anything changes.** `duo_audit.py` runs 13 checks for the assumptions that break on a foldable (a stale `Dimensions.get`, symmetric insets, branching on the device model, a locked orientation, no scene delegate) and prints `file:line` for each.
 - **A starter.** One command turns a fresh `create-expo-app` into a two-pane app with native tabs and a toolbar.
-- **What shipping apps do on the device.** 313 screenshots of 38 apps on a real iPhone Duo, read frame by frame and checked against the pixels, give the layout rules their numbers: where the split keyboard's top edge sits (y 391 open), how wide a sheet opens (653 points, centred on the fold), where bar buttons land, and how wide rows and text run. One finding disagrees with the template. On the flat open display, apps keep the list in a fixed column near 320 points rather than splitting at the fold. The skill says so and leaves the template's fold split in place until you choose otherwise.
+- **What shipping apps do on the device.** 313 screenshots of 38 apps on a real iPhone Duo, read frame by frame and checked against the pixels, give the layout rules their numbers: where the split keyboard's top edge sits (y 391 open), how wide a sheet opens (653 points, centred on the fold), where bar buttons land, and how wide rows and text run. One finding changed the template: on the flat open display, 21 apps keep the list in a fixed column near 320 points rather than splitting at the fold, so `DetailPaneLayout` now does too.
 
 Then it builds with Xcode 27.1 and reports all nine poses (closed, open in both orientations, book, tabletop, both Split View halves, picture in picture) as **seen**, **not reached** or **not built**. A pose marked seen has a screenshot behind it that was opened and read.
 

@@ -9,14 +9,21 @@ import { DuoFold, NO_FOLD, type FoldRegion, type FoldState } from '../modules/du
  *
  * Layout branches on space and on whether the device HAS a fold, never on its model: a
  * fold is reported even while the device lies flat (an inactive division region with no
- * width), so a two-pane layout is chosen once and does not rearrange as the hinge moves.
+ * width), so the choice of one pane or two is made once and does not change as the hinge
+ * moves. Only the divider moves: a fixed list column while flat, the fold once folded.
  * Everything here is "no fold" on Android, web, in tests and on devices without one.
  */
 
 /** Space kept clear on either side of the fold line, in points: nothing tappable sits in it. */
 export const FOLD_GAP = 27;
-/** The narrowest window that splits into list and detail at the fold. */
+/** The narrowest window that splits into list and detail on a device with a fold. */
 export const TWO_PANE_MIN_WIDTH = 800;
+/**
+ * List width on the open inner display lying flat. Apps on iPhone Duo keep a fixed list
+ * column there (320pt in Settings, Files, Shortcuts, Claude and ChatGPT; 292-403pt across
+ * 21 apps) and let the fold fall inside the detail; only a folded device divides at the fold.
+ */
+export const FLAT_LIST_WIDTH = 320;
 
 export type Posture =
   /** No fold on this device. */
@@ -76,14 +83,16 @@ export type TwoPane = {
 };
 
 /**
- * List and detail split at the fold, or null for one pane. Needs a fold running top to
- * bottom inside a landscape window at least `TWO_PANE_MIN_WIDTH` wide — the open inner
- * display, flat or folded like a book. Split View (half the display) and the closed outer
- * display stay single-pane.
+ * List and detail on a device with a fold, or null for one pane. Needs a fold running top
+ * to bottom inside a landscape window at least `TWO_PANE_MIN_WIDTH` wide: the open inner
+ * display. Lying flat, the list is a fixed `FLAT_LIST_WIDTH` column meeting the detail at a
+ * hairline; folded like a book, the panes divide at the fold with its gap between them.
+ * Split View (half the display) and the closed outer display stay single-pane.
  */
 export function twoPaneFor(fold: FoldGeometry, windowWidth: number, windowHeight: number): TwoPane | null {
   if (fold.verticalFoldX == null) return null;
   if (windowWidth < TWO_PANE_MIN_WIDTH || windowWidth <= windowHeight) return null;
+  if (fold.posture === 'flat') return { leftWidth: FLAT_LIST_WIDTH, rightX: FLAT_LIST_WIDTH };
   const half = fold.gap / 2;
   return { leftWidth: Math.max(0, fold.verticalFoldX - half), rightX: fold.verticalFoldX + half };
 }
@@ -96,6 +105,26 @@ export function twoPaneForWidth(paneWidth: number): TwoPane | null {
   if (paneWidth < SPLIT_MIN_WIDTH) return null;
   const leftWidth = Math.round(Math.min(LIST_MAX_WIDTH, Math.max(LIST_MIN_WIDTH, paneWidth * 0.36)));
   return { leftWidth, rightX: leftWidth };
+}
+
+/** The least a column may keep on its side of the fold before a row will meet at it. */
+export const FOLD_COLUMN_MIN = 120;
+/** ...and the least share of the row it may keep, so a row never splits into a sliver. */
+export const FOLD_COLUMN_MIN_SHARE = 0.35;
+
+/**
+ * Where a row of two columns should end its left column so the columns meet at the fold, or
+ * null to share the row by flex. The fold has to run top to bottom through the row with at least
+ * `FOLD_COLUMN_MIN` points and `FOLD_COLUMN_MIN_SHARE` of the row on each side. A row across the
+ * open display qualifies; a row inside the detail pane beside a 320pt list does not, because the
+ * fold sits about 155pt into it, and apps let such content cross the fold instead.
+ */
+export function foldColumnLeftWidth(fold: FoldGeometry, rowX: number, rowWidth: number): number | null {
+  if (fold.verticalFoldX == null || rowWidth <= 0) return null;
+  const leftWidth = fold.verticalFoldX - fold.gap / 2 - rowX;
+  const rightWidth = rowX + rowWidth - (fold.verticalFoldX + fold.gap / 2);
+  const least = Math.max(FOLD_COLUMN_MIN, rowWidth * FOLD_COLUMN_MIN_SHARE);
+  return leftWidth >= least && rightWidth >= least ? leftWidth : null;
 }
 
 // One subscription to the native module, shared by every hook.
