@@ -1,6 +1,6 @@
 # Evidence
 
-Where each rule in this skill comes from. Four kinds of source, marked in the tables:
+Where each rule in this skill comes from. Five kinds of source, marked in the tables:
 
 - **[measured]** — run here, on 2026-10-10 to 2026-10-12, with Xcode 27.1 RC (27A9274) and the iOS
   27.1 iPhone Duo simulator.
@@ -9,6 +9,11 @@ Where each rule in this skill comes from. Four kinds of source, marked in the ta
   (design). Plus Apple's iOS 27 design resource for point sizes.
 - **[witness]** — 34 captures of Apple's own apps on iPhone Duo, read with `be-my-witness:be-my-witness`;
   the verdict and every observation are in `apple-reference-screens.md`.
+- **[device]** — 313 captures of 38 shipping apps, Apple's and third-party, on a real iPhone Duo on
+  2026-10-29. 39 `claude-sonnet-5-5` runners read them with `be-my-witness:be-my-witness`, two merge
+  passes produced 34 practices, and verifiers opened the cited frames plus at least 2 more for each
+  (5 confirmed as written, 29 amended, none refuted). Cited as D01 to D34 from `device-captures.md`;
+  the export with every frame list is `../../docs/device-captures/2026-10-29-witness.json`.
 - **[research]** — the Dossier panel of 2026-10-11 (xAI, Perplexity, Gemini members), exported with
   sources to `../../docs/deep-research/`. Each claim used here was checked against a package or a
   build; the ones that failed the check are listed at the end.
@@ -24,12 +29,20 @@ Where each rule in this skill comes from. Four kinds of source, marked in the ta
 | Hinge angle drives effects; reset outside `partiallyOpen`; give hingeless devices the end state; honour Reduce Motion | [Apple] 111464 |
 | Bar items go vertical only as system bar items with a symbol; text-only items stay horizontal; order is back → prominent → others → tabs | [Apple] 111462; [witness] #19 Mail `Select` stays horizontal |
 | Only the detail column's bar goes vertical; a list keeps its own controls | [Apple] 111462; [witness] #8, #9, #15, #21 |
-| Split ratio about 35/65 flat, 50/50 folded | [witness] #8 vs #14·p5 (Mail) |
+| Split ratio about 35/65 flat, 50/50 folded | [witness] #8 vs #14·p5 (Mail); [device] D01: flat, the list is a fixed 292–403pt column (320pt in most) in 60 captures across 21 apps; D30: a fold split appears on two-half pages (Music, Podcasts, Books, Calendar Day) |
 | Split View: the bar sits on the half's outer edge, so the left app's inset is on its left | [witness] #12, #13 (Notes), #5 |
 | Sheets move off the fold by themselves; PiP and alerts overlay without moving the layout | [witness] #25, #10 |
 | Tabletop: content on the raised half, controls on the flat half | [Apple] 111464, 111466; [witness] #14·p6 |
 | Content clears ~60–85pt from the top even with a zero top inset | [witness] #33, #34 (Settings ~83pt) |
 | Device Hub "No Devices" is a stale `CoreDeviceService`; quit, `killall -9`, reopen | [measured] log line and fix; source: a Simulator engineer at WWDC labs via RocketSim |
+| Open keyboard: one 951pt panel, key blocks either side of a 175pt gap on the fold, top y 391 (428 without suggestions); closed 466pt from y 374; it covers the bar's lower group and does not resize sheets | [device] D05 (52 captures, 25 apps), D09, D12, D25 |
+| Modal sheets centre on the fold at 653pt (x 149–802), top y 8; some states use the left half at 459pt; the scrim dims bar buttons, not status items | [device] D04 (83 captures, 24 apps), D31, D19, D20 |
+| System alerts are 319pt and centre on x 433.5; permission prompts centre on the fold; menus anchor to their trigger at about 250pt | [device] D15, D08 |
+| Ordinary content crosses the fold with no gutter in Apple's own apps; gutters on the fold are a grid-level choice | [device] D07, D29; a screenshot cannot show the crease or touch, so the gutter stays a precaution |
+| Rows cap near 620–700pt and reading text runs 300–570pt in wide panes | [device] D16, D17 |
+| Bar items sit at x 879–927, first action y 125 open and y 175 closed, and follow the status stack down | [device] D03 (61 captures, 23 apps), D06, D28 |
+| Backgrounds run under the bar, text and controls stop at x 867 open and x 382 closed | [device] D02, D18, D10, D27 |
+| Companions open as a right pane; sheets about one list item open over both panes | [device] D33, D13; agrees with pattern 5 |
 
 ## React Native and Expo
 
