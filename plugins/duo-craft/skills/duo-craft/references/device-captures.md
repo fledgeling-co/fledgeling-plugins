@@ -56,6 +56,7 @@ In open landscape give the list or sidebar a fixed 292-403 pt column (320 typica
 - **Exceptions:** IMG_0240 (Calendar): Day view and event detail divide at x 475.5 pt: left pane 0-475.5, right pane 476-867. IMG_0251 (Calendar): Same fold-divided split with a sheet in the left pane and 'No Event Selected' on the right. IMG_0232 (Settings): Sidebar widened to 475.5 pt for one frame; 0233 shows 320 pt again. Cause unknown, see Open questions.
 - **Against this skill:** contradicts. SKILL.md step 4: "List and detail split at the fold, and on any pane at least 900pt wide." patterns.md 2 repeats it (fold, at least 800pt wide). Every app here except Calendar divides at 292-403 pt. The 35/65 flat ratio in apple-reference-screens.md stands; keep a fold split for book posture, which no frame shows.
 - **In React Native:** Make DetailPaneLayout a fixed 320 pt list plus flex detail when flat and open, and keep the fold-aligned split only for book posture.
+- **Adopted in 0.4.0:** `twoPaneFor` returns a 320 pt list while flat and the fold split for book.
 
 ### D30 · Split two-half screens at the fold
 

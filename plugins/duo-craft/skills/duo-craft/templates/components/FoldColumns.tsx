@@ -2,13 +2,14 @@ import React, { useCallback, useRef, useState } from 'react';
 
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 
-import { useFold } from '~/lib/fold';
+import { foldColumnLeftWidth, useFold } from '~/lib/fold';
 
 /**
  * Two columns side by side. On a folding iPhone, open with the fold running top to
- * bottom, the columns meet at the fold — the gap between them is the band nothing
- * tappable should sit in — instead of at a ratio that lands a card across the hinge.
- * Everywhere else they share the row by `leftFlex : rightFlex`.
+ * bottom through the middle of this row, the columns meet at the fold — the gap between
+ * them is the band nothing tappable should sit in. Where the fold falls near one edge of
+ * the row (a detail pane beside a 320pt list), and everywhere else, they share the row by
+ * `leftFlex : rightFlex`.
  */
 export function FoldColumns({
   left,
@@ -33,12 +34,8 @@ export function FoldColumns({
     ref.current?.measureInWindow((x: number, _y: number, width: number) => setFrame({ x, width }));
   }, []);
 
-  // The fold falls inside this row only if the row spans it with room on each side.
-  const foldX = fold.verticalFoldX;
-  const leftWidth =
-    foldX != null && frame && foldX - fold.gap / 2 - frame.x > 120 && frame.x + frame.width - (foldX + fold.gap / 2) > 120
-      ? foldX - fold.gap / 2 - frame.x
-      : null;
+  // The columns meet at the fold only if the row spans it with a fair share on each side.
+  const leftWidth = frame ? foldColumnLeftWidth(fold, frame.x, frame.width) : null;
 
   return (
     <View ref={ref} onLayout={measure} style={[styles.row, style]}>

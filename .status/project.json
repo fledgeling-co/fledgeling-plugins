@@ -1,13 +1,13 @@
 {
  "project": "fledgeling-plugins",
- "updated": "2026-10-30T01:31:00+11:00",
+ "updated": "2026-10-30T02:19:00+11:00",
  "verdict": {
   "token": "done",
-  "number": "34",
-  "unit": "practices from 313 iPhone Duo screenshots, shipped in duo-craft 0.3.0",
-  "headline": "Apps on the open Duo keep the list near 320pt; the bundled layout still splits at the fold.",
-  "run_label": "duo-craft 0.3.0",
-  "head_sha": "38542fd"
+  "number": "320.0pt",
+  "unit": "where the list ends on the open Duo in duo-craft 0.4.0, measured on the simulator",
+  "headline": "The bundled layout now keeps a 320pt list when the Duo lies flat, and a fresh SDK 58 app builds again.",
+  "run_label": "duo-craft 0.4.0",
+  "head_sha": "pending"
  },
  "tasks": [
   {
@@ -56,11 +56,27 @@
    "id": "DC-6",
    "title": "Give the list a fixed 320pt column when the Duo is open flat",
    "origin": "carried over",
-   "stage": "not started",
-   "outcome": "stuck",
-   "blocked_by": "your decision",
+   "stage": "code written",
+   "outcome": "done",
+   "blocked_by": "",
    "waiting_hours": 0,
-   "note": "changes shipped code; not done without your say"
+   "note": "320pt list flat, fold split folded; seen on the simulator at 320.0pt"
+  },
+  {
+   "id": "DC-7",
+   "title": "A fresh SDK 58 app failed to build with the starter",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "web server output rendered routes on react-native-web; colours now go through systemColor"
+  },
+  {
+   "id": "DC-8",
+   "title": "Detail columns snapped to the fold and left a 128pt column",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "columns now meet at the fold only with a fair share each side"
   }
  ],
  "gates": [
@@ -121,12 +137,28 @@
    "kind": "security"
   },
   {
-   "name": "The live site shows 0.3.0",
-   "command": "Vercel status on 38542fd and the duo-craft page",
+   "name": "Layout logic tests",
+   "command": "bun test fold.test.ts (native modules mocked)",
+   "exit_code": 0,
+   "counts": "15/15",
+   "state": "done",
+   "kind": "tests"
+  },
+  {
+   "name": "The starter builds for the simulator",
+   "command": "xcodebuild Release, Xcode 27.1, fresh SDK 58 app",
    "exit_code": 0,
    "counts": "1/1",
    "state": "done",
-   "kind": "sign-off"
+   "kind": "build"
+  },
+  {
+   "name": "Open-flat list measured on the simulator",
+   "command": "simctl screenshot of the inner display, divider located by pixel scan",
+   "exit_code": 0,
+   "counts": "1/1",
+   "state": "done",
+   "kind": "design"
   }
  ],
  "armed": [
@@ -137,6 +169,24 @@
    "red": 1,
    "green": 10,
    "sha": "df4197e",
+   "armed": true
+  },
+  {
+   "check": "Flat list width test",
+   "mutation": "ran the test against the 0.3.0 fold split",
+   "case_reddened": "the flat case failed",
+   "red": 1,
+   "green": 11,
+   "sha": "pending",
+   "armed": true
+  },
+  {
+   "check": "Detail-pane column test",
+   "mutation": "removed the 35% share rule",
+   "case_reddened": "the detail-pane case failed",
+   "red": 1,
+   "green": 14,
+   "sha": "pending",
    "armed": true
   }
  ],
@@ -163,7 +213,15 @@
    "severity": "medium",
    "file_line": "plugins/duo-craft/skills/duo-craft/templates/components/DetailPaneLayout.tsx:75",
    "claim": "the layout splits at the fold when open flat, where 21 apps keep a 320pt list",
-   "state": "blocked"
+   "state": "done"
+  },
+  {
+   "id": "F-4",
+   "score": 20,
+   "severity": "low",
+   "file_line": "create-expo-app src/components/animated-icon.tsx:8",
+   "claim": "the fresh SDK 58 template's splash animation reads Dimensions.get, which the audit flags",
+   "state": "waived"
   }
  ],
  "corrections": [
@@ -194,10 +252,6 @@
    "why_not": "They record what shipping apps do; none has been built and run on the Duo simulator."
   },
   {
-   "axis": "Half-folded, tabletop, Split View and picture in picture",
-   "why_not": "All 313 screenshots are open flat or closed, so these rely on the earlier 34 captures."
-  },
-  {
    "axis": "What React Native reports for the split keyboard",
    "why_not": "No screenshot or test measured it; pattern 13 says to check before relying on it."
   },
@@ -208,15 +262,13 @@
   {
    "axis": "The two crash fixes under real load",
    "why_not": "Proved by forcing the slowdown by hand; no automatic test watches them."
+  },
+  {
+   "axis": "The half-folded (book) pose after this change",
+   "why_not": "Only closed and open flat were captured; the book split is the 0.3.0 code, unit-tested."
   }
  ],
  "not_done": [
-  {
-   "action": "Fixed 320pt list on the open-flat Duo",
-   "reason": "It changes the bundled layout code the reference app approved.",
-   "what_would_unblock": "Your decision.",
-   "size": "under an hour plus a simulator check"
-  },
   {
    "action": "Bring install.sh under the invented-flag guard",
    "reason": "install.sh is not a unique name, so the guard would flag every other plugin's copy.",
@@ -224,37 +276,6 @@
    "size": "under an hour"
   }
  ],
- "roadmap": [
-  {
-   "round": "Next",
-   "goal": "320pt list when open flat, if you want it",
-   "tasks": [
-    "DC-6"
-   ],
-   "tier": "M",
-   "status": "blocked",
-   "waits_on": "your decision",
-   "estimate_min": [
-    7,
-    56
-   ],
-   "median_min": 15
-  }
- ],
- "estimate_remaining": {
-  "serial_min": [
-   7,
-   56
-  ],
-  "parallel_min": [
-   7,
-   56
-  ],
-  "median_min": 15,
-  "lanes": 1,
-  "basis": "measured rates (reckon 1,842-agent benchmark)",
-  "tasks_remaining": 1
- },
  "artifacts": [
   {
    "path": "plugins/duo-craft/skills/duo-craft/references/device-captures.md",
@@ -268,18 +289,11 @@
    "contains": "Every practice with its frame list, exceptions and both verifier passes."
   }
  ],
- "needs_you": [
-  {
-   "ask": "Should the list sit in a fixed 320pt column when the Duo is open flat?",
-   "kind": "decision",
-   "waiting_since": "2026-10-29T14:31:00Z",
-   "one_line": "21 apps do this; the bundled layout splits at the fold, which suits the half-folded pose."
-  }
- ],
+ "needs_you": [],
  "git": {
-  "branch": "main",
+  "branch": "ai/duo-craft-flat-list",
   "commits_ahead": 0,
-  "worktree_clean": true,
-  "pushed": true
+  "worktree_clean": false,
+  "pushed": false
  }
 }

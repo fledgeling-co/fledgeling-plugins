@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo } from 'react';
 
-import { useWindowDimensions } from 'react-native';
+import { Platform, PlatformColor, useWindowDimensions, type ColorValue } from 'react-native';
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -71,4 +71,15 @@ export function useLayout(): Layout {
   const { hasFold } = useFold();
   const contentWidth = pane ?? Math.max(0, width - left - right);
   return useMemo(() => layoutFor(contentWidth, hasFold), [contentWidth, hasFold]);
+}
+
+/**
+ * An iOS system colour, which follows light and dark mode, or `fallback` where `PlatformColor`
+ * cannot name it. react-native-web has no `PlatformColor`, and Expo Router's server output
+ * (`"web": { "output": "server" }`, the create-expo-app default from SDK 58) loads every route on
+ * it while building the iOS app, so a `PlatformColor` call at module scope fails that build.
+ * Android's system colours have different names, so it takes the fallback too.
+ */
+export function systemColor(name: string, fallback: string): ColorValue {
+  return Platform.OS === 'ios' ? PlatformColor(name) : fallback;
 }

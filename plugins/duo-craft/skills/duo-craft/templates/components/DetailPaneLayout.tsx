@@ -1,18 +1,19 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import { PlatformColor, StyleSheet, View, useWindowDimensions, type LayoutChangeEvent } from 'react-native';
+import { StyleSheet, View, useWindowDimensions, type LayoutChangeEvent } from 'react-native';
 
 import { SafeAreaInsetsContext, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useRouter } from 'expo-router';
 
 import { twoPaneForWidth, useFold, useTwoPane, type TwoPane } from '~/lib/fold';
-import { PaneWidthContext } from '~/lib/layout';
+import { PaneWidthContext, systemColor } from '~/lib/layout';
 
 /**
- * List and detail side by side wherever there is room for both: at the fold on the open
- * inner display of a folding iPhone, and at about 35/65 on a wide pane without a fold (iPad
- * in landscape, a wide Mac window).
+ * List and detail side by side wherever there is room for both: on the open inner display of
+ * a folding iPhone (a fixed 320pt list lying flat, divided at the fold once folded like a
+ * book), and at about 35/65 on a wide pane without a fold (iPad in landscape, a wide Mac
+ * window).
  *
  * Opening the device or widening the window reveals one more level of the same hierarchy
  * rather than a different app: the screen's own list stays in the left pane, and what it
@@ -132,7 +133,8 @@ function Split({
   const insets = useSafeAreaInsets();
   const trailing = insets.right;
   // Each pane owns only its outer edges: the right pane stops at the side bar rather than
-  // padding for it, and neither pads for the fold, which the gap between them clears.
+  // padding for it, and neither pads for the fold. Folded, the gap between them clears it;
+  // lying flat, the fold falls inside the detail, as it does in the system's own apps.
   const leftInsets = useMemo(() => ({ ...insets, right: 0 }), [insets]);
   const rightInsets = useMemo(() => ({ ...insets, left: 0, right: 0 }), [insets]);
   return (
@@ -142,7 +144,7 @@ function Split({
           <View style={{ width: pane.leftWidth }}>{left}</View>
         </SafeAreaInsetsContext.Provider>
       </PaneWidthContext.Provider>
-      {/* The gap at the fold: nothing tappable sits in it, flat or folded. */}
+      {/* The gap at the fold when folded; zero while flat, where the panes meet at a hairline. */}
       <View style={{ width: pane.rightX - pane.leftWidth }} />
       <PaneWidthContext.Provider value={Math.max(0, width - trailing - pane.rightX)}>
         <SafeAreaInsetsContext.Provider value={rightInsets}>
@@ -160,12 +162,12 @@ function Split({
 const styles = StyleSheet.create({
   fill: { flex: 1 },
   row: { flex: 1, flexDirection: 'row' },
-  // System colours, so the detail pane follows light and dark mode without app tokens.
+  // System colours, so the detail pane follows light and dark mode without app tokens on iOS.
   right: {
     flex: 1,
     minWidth: 0,
     borderLeftWidth: StyleSheet.hairlineWidth,
-    backgroundColor: PlatformColor('systemBackground'),
-    borderLeftColor: PlatformColor('separator'),
+    backgroundColor: systemColor('systemBackground', '#ffffff'),
+    borderLeftColor: systemColor('separator', 'rgba(60, 60, 67, 0.29)'),
   },
 });
