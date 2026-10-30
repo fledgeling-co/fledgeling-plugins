@@ -731,6 +731,26 @@ def state_of(status):
     return (status or "open").split(":", 1)[0].strip()
 
 
+def whole_requirement_withdrawal(req):
+    """The requirement's own withdrawal record, when it is complete enough to be a ruling.
+
+    A withdrawal is a person's decision that a claim will not be built, so it settles the
+    `vacuous` disagreement rather than leaving it undecided. It counts only when it names who
+    decided, when, that the WHOLE requirement is withdrawn, the guard that keeps the claim
+    absent, and what would reopen it. A partial withdrawal leaves the rest of the requirement
+    owed, and a record missing any of these is a note, not a ruling.
+    """
+    w = req.get("withdrawn")
+    if not isinstance(w, dict):
+        return None
+    fields = ("date", "decidedBy", "guardedBy", "reopensIf")
+    if any(not str(w.get(f) or "").strip() for f in fields):
+        return None
+    if w.get("scope") != "whole-requirement":
+        return None
+    return w
+
+
 def classify(briefs, campaign, edges, join_is_weak):
     rows = []
     matched_targets = {e["target"] for e in edges}
@@ -812,7 +832,18 @@ def classify(briefs, campaign, edges, join_is_weak):
 
     for r in campaign["requirements"]:
         ev = (r.get("evidence") or "unknown").lower()
-        if ev in EVIDENCE_DISPUTED:
+        withdrawal = whole_requirement_withdrawal(r)
+        if ev in EVIDENCE_DISPUTED and withdrawal:
+            # A person already ruled. `vacuous` is the true reading of a build that never
+            # shipped the claim, and a guarded withdrawal is the decision about it, so the row
+            # is a declared exception rather than a question still waiting for someone. Only a
+            # withdrawal at the top of the row counts: one kept under `history` was reopened.
+            cls = "waived"
+            why = ("requirement evidence %r is answered by a whole-requirement withdrawal "
+                   "decided by %s on %s and guarded by %s. The guard's own run is not checked "
+                   "here; a failing guard reopens the requirement in the project's gate."
+                   % (ev, withdrawal["decidedBy"], withdrawal["date"], withdrawal["guardedBy"]))
+        elif ev in EVIDENCE_DISPUTED:
             cls = "undecided"
             why = "requirement evidence %r is a disagreement between the documents and the build; a person rules on it, an instrument cannot" % ev
         elif ev in EVIDENCE_CIRCULAR:

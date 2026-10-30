@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.9.6 - 2026-10-30
+
+**A withdrawn requirement no longer reads as undecided.** A requirement whose evidence is
+`vacuous` was always classed `undecided` ("a person rules on it"), even when the row carried
+the person's ruling: a `withdrawn` record with who decided, when, a whole-requirement scope, the
+guard that keeps the claim absent, and what would reopen it. Found on perch, where four such
+requirements kept reading as decision work after the operator had confirmed each withdrawal.
+Such a row is now `waived`, with the decision in its `why`. `vacuous` itself is unchanged, since
+it is the true reading of the build. A withdrawal kept only under `history` (one that was later
+reopened), a partial one, or one missing any of those fields leaves the row `undecided`. The
+guard's own run is not checked by reckon; the project's gate owns that.
+
 ## 1.9.4 - 2026-09-02
 
 Two defects that made the ledger stop being a closed world. Both found on perch, whose
