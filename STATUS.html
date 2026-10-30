@@ -456,14 +456,14 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
 <script type="application/json" id="report-data">
 {
  "project": "fledgeling-plugins",
- "updated": "2026-10-30T02:19:00+11:00",
+ "updated": "2026-10-31T06:08:00+11:00",
  "verdict": {
   "token": "done",
-  "number": "320.0pt",
-  "unit": "where the list ends on the open Duo in duo-craft 0.4.0, measured on the simulator",
-  "headline": "The bundled layout now keeps a 320pt list when the Duo lies flat, and a fresh SDK 58 app builds again.",
-  "run_label": "duo-craft 0.4.0",
-  "head_sha": "ac770bb"
+  "number": "30",
+  "unit": "closed-display screenshots behind duo-craft's practices in 0.4.1, up from 22",
+  "headline": "Closed, sheets stop short of the bar and keep their own close button; pills centre on the content column.",
+  "run_label": "duo-craft 0.4.1",
+  "head_sha": "pending"
  },
  "tasks": [
   {
@@ -533,6 +533,38 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "stage": "code written",
    "outcome": "done",
    "note": "columns now meet at the fold only with a fair share each side"
+  },
+  {
+   "id": "DC-9",
+   "title": "Read the 8 new closed-display screenshots",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "one Sonnet run, flows from consecutive frames"
+  },
+  {
+   "id": "DC-10",
+   "title": "Fold them into the 34 practices",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "12 gained evidence, 1 rewritten and re-checked, none new"
+  },
+  {
+   "id": "DC-11",
+   "title": "Release 0.4.1",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "reference rebuilt, two patterns refined"
+  },
+  {
+   "id": "DC-12",
+   "title": "Publish reckon 1.9.6 from another session",
+   "origin": "carried over",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "six commits were unpushed; you chose to send them with this release"
   }
  ],
  "gates": [
@@ -617,12 +649,20 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "kind": "design"
   },
   {
-   "name": "The live site shows 0.4.0",
-   "command": "Vercel status on ac770bb4 and the duo-craft page",
+   "name": "The 8 new screenshots were read",
+   "command": "validate.py n09",
+   "exit_code": 0,
+   "counts": "8/8",
+   "state": "done",
+   "kind": "tests"
+  },
+  {
+   "name": "Rewritten practice checked against the frames",
+   "command": "verifyC01",
    "exit_code": 0,
    "counts": "1/1",
    "state": "done",
-   "kind": "sign-off"
+   "kind": "tests"
   }
  ],
  "armed": [
@@ -701,8 +741,8 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
  "coverage": [
   {
    "axis": "Screenshots read",
-   "covered": 313,
-   "denominator": 313
+   "covered": 321,
+   "denominator": 321
   },
   {
    "axis": "Practices checked against the frames",
@@ -755,10 +795,10 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
  ],
  "needs_you": [],
  "git": {
-  "branch": "main",
+  "branch": "ai/duo-craft-closed-captures",
   "commits_ahead": 0,
-  "worktree_clean": true,
-  "pushed": true
+  "worktree_clean": false,
+  "pushed": false
  }
 }
 </script>
