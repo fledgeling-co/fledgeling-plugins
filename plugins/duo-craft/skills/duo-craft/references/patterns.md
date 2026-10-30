@@ -2,7 +2,7 @@
 
 Each pattern names the template file that implements it and the failure it prevents. Every one was
 built into a shipping Expo app (dAIolog's investor app) and run on the Xcode 27.1 iPhone Duo
-simulator, except where marked *not yet seen running*. Patterns 13 to 16 come from 313 captures of
+simulator, except where marked *not yet seen running*. Patterns 13 to 16 come from 321 captures of
 shipping apps on a real iPhone Duo (`device-captures.md`, cited as D01 to D34) and are marked
 *observed on a device, not built here*: they say what apps do, not what a template has proved.
 
@@ -130,8 +130,8 @@ A native-stack screen fills the window; if its `contentStyle` only centres a rea
 content runs under the 84pt side bar to within 2pt of the back button. Pad
 `paddingLeft: insets.left + column, paddingRight: insets.right + column`. Tab screens that wrap
 their content in a page that already pads each side are fine. Shipping apps end text and controls
-12–25pt before the bar's edge at x 867 in most captures (0–40pt across 23 apps), and at about x 382
-when closed (D02, D10).
+12–25pt before the bar's edge at x 867 in most captures (0–40pt across 23 apps), and 15–45pt before
+x 382 when closed (Codex's cards end at x 366; D02, D10).
 
 ## 8. Bars go vertical only if they are native bar items
 
@@ -227,7 +227,9 @@ and the bar, and nothing in the app has to draw it.
   bright (D19). An overlay drawn inside the app's own tree cannot reach the bar.
 - **Sheet header.** A 48pt round close or back button at the sheet's leading edge, the title centred
   on the fold, the action at the trailing edge, in a row at y 24–72; some apps put close at the
-  trailing edge (D20). Closed, these buttons move into the bar from y 175 (D10).
+  trailing edge (D20). Closed, a sheet spans x 8–458 and its buttons go one of three ways: into the
+  bar from y 175 (Calendar), a close button kept inside the sheet, or none, leaving the bar's back
+  button to close it (Codex; D10, D20).
 - **Alerts.** Use the system alert: 319pt wide, centred on the 0–867pt content area at x 433.5.
   Permission prompts are 320pt and centre on the fold instead (D15).
 - **Menus.** A menu is anchored to its trigger, usually 250pt wide; a menu from a bar button
@@ -243,7 +245,8 @@ and the bar, and nothing in the app has to draw it.
   ChatGPT 437, Slack 427, Messages 381 (D17).
 - Centre an element on the container that holds it: sheets and pages without a sidebar on the fold
   (x 475.5), in-app alerts and some empty states on the 0–867pt area (x 433.5), detail content on its
-  pane (D14). Take the container's width from `onLayout`, never from half the window.
+  pane (D14). Closed, floating pills such as a composer centre on the 0–382pt content column (x 191),
+  not the window (Codex, D14). Take the container's width from `onLayout`, never from half the window.
 
 ## 16. Backgrounds may run under the bar; text and controls stop before it — *observed on a device*
 
