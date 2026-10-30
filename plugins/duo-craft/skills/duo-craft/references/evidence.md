@@ -9,9 +9,9 @@ Where each rule in this skill comes from. Five kinds of source, marked in the ta
   (design). Plus Apple's iOS 27 design resource for point sizes.
 - **[witness]** — 34 captures of Apple's own apps on iPhone Duo, read with `be-my-witness:be-my-witness`;
   the verdict and every observation are in `apple-reference-screens.md`.
-- **[device]** — 313 captures of 38 shipping apps, Apple's and third-party, on a real iPhone Duo on
-  2026-10-29. 39 `claude-sonnet-5-5` runners read them with `be-my-witness:be-my-witness`, two merge
-  passes produced 34 practices, and verifiers opened the cited frames plus at least 2 more for each
+- **[device]** — 321 captures of 38 shipping apps, Apple's and third-party, on a real iPhone Duo:
+  313 on 2026-10-29 and 8 of the closed display on 2026-10-31. 40 `claude-sonnet-5-5` runners read
+  them with `be-my-witness:be-my-witness`, three merge passes produced 34 practices, and verifiers opened the cited frames plus at least 2 more for each
   (5 confirmed as written, 29 amended, none refuted). Cited as D01 to D34 from `device-captures.md`;
   the export with every frame list is `../../docs/device-captures/2026-10-29-witness.json`.
 - **[research]** — the Dossier panel of 2026-10-11 (xAI, Perplexity, Gemini members), exported with
