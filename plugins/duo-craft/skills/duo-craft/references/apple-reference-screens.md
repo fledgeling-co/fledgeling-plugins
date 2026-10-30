@@ -4,7 +4,7 @@ Reviewed with `be-my-witness:be-my-witness` on 2026-10-11. Source: 34 captures t
 (Apple's own apps on iPhone Duo: Safari, Settings, Mail, Reminders, Notes, Health, Music, Fitness,
 App Store, Maps, Pages), from the Tech Talk videos and the Xcode 27.1 Device Hub.
 
-A larger set followed on 2026-10-29: 313 captures of 38 apps on a real device, open and closed, in
+A larger set followed on 2026-10-29 and 2026-10-31: 321 captures of 38 apps on a real device, open and closed, in
 `device-captures.md`. It has no book, tabletop, Split View or picture-in-picture frames, so the rows
 below remain the only record of those poses. Where the two sets cover the same thing, the device set
 adds measurements: flat, lists are a fixed column near 320pt (D01), and sheets centre on the fold at

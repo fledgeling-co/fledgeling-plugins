@@ -55,7 +55,7 @@ layout: the window changes size every time the device opens, folds, rotates or e
 
 Open, the system keyboard is one 951pt panel split around the fold, its top at y 391 (y 428 without
 a suggestion row); closed, it is 466pt wide from y 374. A modal sheet opens centred on the fold,
-usually 653pt wide. Both come from 313 captures of shipping apps on a device
+usually 653pt wide. Both come from 321 captures of shipping apps on a device
 (`references/device-captures.md`).
 
 The fold APIs — `UIView.reservedRegions(kind:options:)` and `UIHingeInteraction` — exist only in

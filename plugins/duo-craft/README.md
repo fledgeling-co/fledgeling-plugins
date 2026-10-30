@@ -5,7 +5,7 @@
 Make a React Native app look right on iPhone Duo, and say which poses you actually saw.
 
 <p align="center">
-  <img alt="Version 0.4.0" src="https://img.shields.io/badge/version-0.4.0-1c7889">
+  <img alt="Version 0.4.1" src="https://img.shields.io/badge/version-0.4.1-1c7889">
   <img alt="Audit checks: 13" src="https://img.shields.io/badge/audit_checks-13-ee7027">
   <img alt="Poses reported: 9" src="https://img.shields.io/badge/poses_reported-9-5cc7d6">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8fb3bd">
@@ -26,7 +26,7 @@ The skill carries the code rather than describing it. It came out of adapting a 
 - **The launch crash, fixed Expo's way.** On SDK 57 it turns on `expo-build-properties` with `ios.enableSceneSupport`, which is Expo's own opt-in.
 - **An audit before anything changes.** `duo_audit.py` runs 13 checks for the assumptions that break on a foldable (a stale `Dimensions.get`, symmetric insets, branching on the device model, a locked orientation, no scene delegate) and prints `file:line` for each.
 - **A starter.** One command turns a fresh `create-expo-app` into a two-pane app with native tabs and a toolbar.
-- **What shipping apps do on the device.** 313 screenshots of 38 apps on a real iPhone Duo, read frame by frame and checked against the pixels, give the layout rules their numbers: where the split keyboard's top edge sits (y 391 open), how wide a sheet opens (653 points, centred on the fold), where bar buttons land, and how wide rows and text run. One finding changed the template: on the flat open display, 21 apps keep the list in a fixed column near 320 points rather than splitting at the fold, so `DetailPaneLayout` now does too.
+- **What shipping apps do on the device.** 321 screenshots of 38 apps on a real iPhone Duo, read frame by frame and checked against the pixels, give the layout rules their numbers: where the split keyboard's top edge sits (y 391 open), how wide a sheet opens (653 points, centred on the fold), where bar buttons land, and how wide rows and text run. One finding changed the template: on the flat open display, 21 apps keep the list in a fixed column near 320 points rather than splitting at the fold, so `DetailPaneLayout` now does too.
 
 Then it builds with Xcode 27.1 and reports all nine poses (closed, open in both orientations, book, tabletop, both Split View halves, picture in picture) as **seen**, **not reached** or **not built**. A pose marked seen has a screenshot behind it that was opened and read.
 
