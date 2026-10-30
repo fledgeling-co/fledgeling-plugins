@@ -10,7 +10,9 @@ requirements kept reading as decision work after the operator had confirmed each
 Such a row is now `waived`, with the decision in its `why`. `vacuous` itself is unchanged, since
 it is the true reading of the build. A withdrawal kept only under `history` (one that was later
 reopened), a partial one, or one missing any of those fields leaves the row `undecided`. The
-guard's own run is not checked by reckon; the project's gate owns that.
+guard's own run is not checked by reckon; the project's gate owns that. The waived row's note
+is the withdrawal ("withdrawn <date> by <who>") when the requirement carries no note of its own,
+so the placement gate sees its reason.
 
 ## 1.9.4 - 2026-09-02
 
