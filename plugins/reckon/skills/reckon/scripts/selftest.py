@@ -863,6 +863,12 @@ checks = [
     ("a reopened withdrawal (history) stays undecided", _withdrawn(where="history"), "undecided"),
     ("a withdrawal does not waive observed evidence", _withdrawn(evidence="observed"), "verified-done"),
 ]
+row = _withdrawn()
+ok = (row.get("note") or "").startswith("withdrawn 2026-08-30 by fleet-23")
+print("%-46s %s" % ("a waived withdrawal carries its reason", "ok" if ok else "FAILED"))
+if not ok:
+    FAILURES.append("withdrawal waived without a note: %r" % row.get("note"))
+
 for name, row, want in checks:
     ok = row["class"] == want
     print("%-46s %s" % (name, "ok" if ok else "FAILED"))
