@@ -13,6 +13,8 @@ reopened), a partial one, or one missing any of those fields leaves the row `und
 guard's own run is not checked by reckon; the project's gate owns that. The waived row's note
 is the withdrawal ("withdrawn <date> by <who>") when the requirement carries no note of its own,
 so the placement gate sees its reason.
+The selftest pins each required field and both disputed readings: a withdrawal missing its
+date or its decider stays `undecided`, and `contradicted` is waived as `vacuous` is.
 
 ## 1.9.4 - 2026-09-02
 

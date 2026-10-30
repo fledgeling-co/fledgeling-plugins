@@ -860,6 +860,9 @@ checks = [
     ("a partial withdrawal stays undecided", _withdrawn(scope="partial"), "undecided"),
     ("a withdrawal with no guard stays undecided", _withdrawn(guardedBy=""), "undecided"),
     ("a withdrawal with no reopen rule stays undecided", _withdrawn(reopensIf=" "), "undecided"),
+    ("a withdrawal with no date stays undecided", _withdrawn(date=""), "undecided"),
+    ("a withdrawal with no decider stays undecided", _withdrawn(decidedBy=""), "undecided"),
+    ("a guarded whole withdrawal waives contradicted", _withdrawn(evidence="contradicted"), "waived"),
     ("a reopened withdrawal (history) stays undecided", _withdrawn(where="history"), "undecided"),
     ("a withdrawal does not waive observed evidence", _withdrawn(evidence="observed"), "verified-done"),
 ]
