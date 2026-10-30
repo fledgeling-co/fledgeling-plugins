@@ -7,7 +7,7 @@
   "unit": "closed-display screenshots behind duo-craft's practices in 0.4.1, up from 22",
   "headline": "Closed, sheets stop short of the bar and keep their own close button; pills centre on the content column.",
   "run_label": "duo-craft 0.4.1",
-  "head_sha": "pending"
+  "head_sha": "5f02b40"
  },
  "tasks": [
   {
@@ -207,6 +207,14 @@
    "counts": "1/1",
    "state": "done",
    "kind": "tests"
+  },
+  {
+   "name": "The live site shows 0.4.1",
+   "command": "Vercel status on 5f02b405 and the duo-craft page (reckon page shows 1.9.6)",
+   "exit_code": 0,
+   "counts": "2/2",
+   "state": "done",
+   "kind": "sign-off"
   }
  ],
  "armed": [
@@ -339,9 +347,9 @@
  ],
  "needs_you": [],
  "git": {
-  "branch": "ai/duo-craft-closed-captures",
+  "branch": "main",
   "commits_ahead": 0,
-  "worktree_clean": false,
-  "pushed": false
+  "worktree_clean": true,
+  "pushed": true
  }
 }
