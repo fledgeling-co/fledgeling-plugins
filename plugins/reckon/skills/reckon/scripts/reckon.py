@@ -897,7 +897,12 @@ def classify(briefs, campaign, edges, join_is_weak):
         rows.append({
             "id": r.get("id"), "entity": "requirement", "class": cls, "kind": KIND_OF[cls],
             "title": (r.get("text") or "")[:200], "evidence": ev,
-            "note": r.get("note"), "provider": r.get("provider"),
+            # A waived row must carry its reason for the placement gate; a withdrawal's reason is
+            # the ruling itself, so it stands in when the row has no note of its own.
+            "note": r.get("note") or (
+                "withdrawn %s by %s" % (withdrawal["date"], withdrawal["decidedBy"])
+                if cls == "waived" and withdrawal else None),
+            "provider": r.get("provider"),
             "backed_by": sorted(backing.get(r.get("id"), [])) or None,
             "remedy": REMEDY.get(ev) if cls == "unmeasured" else None,
             "is_work_item": cls not in ("verified-done", "waived"), "why": why,
