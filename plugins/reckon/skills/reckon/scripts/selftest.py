@@ -838,6 +838,38 @@ if not ok:
     FAILURES.append("unknown evidence why: %r" % (row.get("why") or "")[:200])
 
 # ---------------------------------------------------------------------------
+# A WITHDRAWN requirement. `vacuous` with a complete whole-requirement withdrawal on
+# the row is a ruling already made; anything less stays a question for a person.
+# ---------------------------------------------------------------------------
+def _withdrawn(evidence="vacuous", where="top", **over):
+    w = {"date": "2026-08-30", "decidedBy": "fleet-23 F23-020", "scope": "whole-requirement",
+         "guardedBy": "scripts/withdrawn-claim-guard.py",
+         "reopensIf": "the composition root constructs the driver behind a setting"}
+    w.update(over)
+    r = {"id": "REQ-015", "text": "a withdrawn claim", "evidence": evidence}
+    if where == "top":
+        r["withdrawn"] = w
+    else:
+        r["history"] = {"withdrawn": w}
+    camp = {"present": True, "header": {}, "cases": [], "flows": [], "components": [],
+            "requirements": [r], "surfaces": [], "defects": []}
+    return [x for x in R.classify([], camp, [], False) if x["entity"] == "requirement"][0]
+
+checks = [
+    ("a guarded whole withdrawal waives vacuous", _withdrawn(), "waived"),
+    ("a partial withdrawal stays undecided", _withdrawn(scope="partial"), "undecided"),
+    ("a withdrawal with no guard stays undecided", _withdrawn(guardedBy=""), "undecided"),
+    ("a withdrawal with no reopen rule stays undecided", _withdrawn(reopensIf=" "), "undecided"),
+    ("a reopened withdrawal (history) stays undecided", _withdrawn(where="history"), "undecided"),
+    ("a withdrawal does not waive observed evidence", _withdrawn(evidence="observed"), "verified-done"),
+]
+for name, row, want in checks:
+    ok = row["class"] == want
+    print("%-46s %s" % (name, "ok" if ok else "FAILED"))
+    if not ok:
+        FAILURES.append("%s: class=%r why=%r" % (name, row["class"], (row.get("why") or "")[:160]))
+
+# ---------------------------------------------------------------------------
 # EVIDENCE_CEILING. A stated ceiling is neither a self-report nor a gap, and the
 # class it earns depends on whether the decision is actually on the row.
 # ---------------------------------------------------------------------------
