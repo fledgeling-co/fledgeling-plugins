@@ -4,6 +4,13 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-11-07
+
+### feedback-panel 0.1.1: the Fable lane no longer waits for input
+
+`run_panel.sh` passes `< /dev/null` to the `claude` lane, which otherwise waited three seconds for
+piped input on every panel round and logged a warning.
+
 ## 2026-10-26
 
 ### feedback-panel 0.1.0: new plugin

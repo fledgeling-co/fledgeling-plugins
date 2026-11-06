@@ -43,7 +43,7 @@ run_lane() {
   local lane=$1 md="$OUT/$1.md" log="$OUT/$1.log"
   : > "$md"
   case $lane in
-    fable) limit claude --model "${FP_FABLE_MODEL:-claude-fable-5-1}" --effort high -p "$PROMPT" > "$md" 2> "$log";;
+    fable) limit claude --model "${FP_FABLE_MODEL:-claude-fable-5-1}" --effort high -p "$PROMPT" < /dev/null > "$md" 2> "$log";;
     astra) limit codex exec -m "${FP_ASTRA_MODEL:-gpt-6-astra}" -c model_reasoning_effort="high" -s read-only --skip-git-repo-check -o "$md" "$PROMPT" < /dev/null > "$log" 2>&1;;
     argon) local -a add; for d in $DIRS; do add+=(--add-dir "$d"); done
            limit agy --new-project --model "${FP_ARGON_MODEL:-gemini-4-argon-high}" $add -p "$PROMPT" > "$md" 2> "$log";;
