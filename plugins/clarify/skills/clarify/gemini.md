@@ -229,14 +229,14 @@ the skill's own backpressure fork:
 GATE LEDGER   sweep 4 of 4 — conversation (no prior answer) · repo (CLAUDE.md silent) ·
               session work (plan.md §3 names the queue, not the policy) · files
               (ingest/queue.ts read, bounded channel present) · forks referred 1 of 1
-LANE          codex gpt-6-astra @ low · /tmp/so-queue.md · header greps OK · -o non-empty,
+LANE          grok-4.7 @ xhigh (latest_model.py) · /tmp/so-grok.md · non-empty,
               41 lines
               VERDICT line 3: "drop-oldest is wrong here — billing history is the audited
               artifact; the real fork is latency versus recent loss."
 LINT          1 question, 2 options → lint_questions.py: clean (exit 0)
 ```
 
-> I read the queue code and the plan; neither settles the policy, and the OpenAI lane ruled
+> I read the queue code and the plan; neither settles the policy, and the xAI lane ruled
 > out dropping the oldest data, because this queue is billing data and history is the part
 > you are audited on. That leaves one call and it is yours — how much latency this product
 > can wear against how much recent data it can lose.

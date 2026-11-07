@@ -8,10 +8,9 @@ description: >
   make routine reversible judgement calls without interruption. Use one bounded
   second opinion only for a material technical ambiguity that evidence has not
   resolved; use a panel for a high-impact disagreement and research for external
-  facts. Resolve any model from the current supported catalogue and honor the
-  user's selected roles, thinking level included — the workhorse tier is one claim
-  with four members across three families, and the frontier tiers are reserved for
-  the hardest problems rather than the hardest questions. Ask only the remaining
+  facts. Referrals go to three lanes in three families, Opus at xhigh, Gemini
+  Argon at medium and Grok at xhigh, each resolved to the newest model its CLI
+  offers, and the user's selected roles come first. Ask only the remaining
   user-axis decision, with the available question tool or one concise question,
   and preserve notes attached to the answer. Existing authorization carries
   forward.
@@ -62,7 +61,7 @@ difference between "I read your setup" and "I assumed".
 
 The sharpest version of this is a **divergence test**, and it is worth running literally:
 sketch what you would build under each reading. If the sketches come out the same, there is
-no question here — pick the sensible default, name it in one clause, and carry on.
+no question here — pick the default the repo or its ecosystem already uses, name it in one clause, and carry on.
 
 This is the one gate with a measured result behind it. Generating candidate solutions from
 an ambiguous request and asking only when they disagree lifted GPT-4's pass rate from 70.96%
@@ -111,71 +110,61 @@ than an answer.
 
 #### The lanes
 
-Honor the user's chosen roles first. As of the 2026-09-09 directive those are
-Opus 5 for intake, triage and planning, Gemini 3.8 for implementation once those
-artifacts exist, and GPT-6 Astra, Grok 4.6 or GLM 5.3 for orchestration. Resolve
-a second-opinion model and effort from the actual available catalogue; neither
-those display names nor an old benchmark supplies an executable model ID. Use
-`defer:defer` for routing rather than reconstructing a command from prose, and
-never to override a selected model silently.
+Honor the user's chosen roles first. For referrals from this skill, Luke's roster
+(set 7 November 2026) is three lanes in three families, each at a fixed thinking
+level and each on the newest model its family offers:
 
-**The thinking level is part of the lane, not a dial on top of it.** Four lanes
-are named level with each other for exactly this job — a decision or fork put to
-another model — and picking between them is a family and headroom question, not
-a capability one:
+| Lane | Command | Resolved 7 Nov 2026 |
+|---|---|---|
+| Opus at **xhigh** (Anthropic) | `claude --model opus --effort xhigh -p "<prompt>" < /dev/null > /tmp/so.md` | the newest Opus (the alias) |
+| Gemini Argon at **medium** (Google) | `agy --new-project --model "$(scripts/latest_model.py gemini --effort medium)" --add-dir <each dir the packet names> -p "<prompt>" > /tmp/so-agy.md` | gemini-4-argon-medium |
+| Grok at **xhigh** (xAI) | `grok -m "$(scripts/latest_model.py grok)" --effort xhigh -p "<prompt>" > /tmp/so-grok.md` | grok-4.7 |
 
-| Lane | Command shape |
-|---|---|
-| `gpt-6-astra` at **low** | `codex exec -m gpt-6-astra -c model_reasoning_effort="low" -s read-only --skip-git-repo-check -o /tmp/so.md "<prompt>"` |
-| `gpt-5.6-sol` at **high** | the same, `-m gpt-5.6-sol` at `high` |
-| `grok-4.6` at **high** | `grok -m grok-4.6 --effort high -p "<prompt>"` |
-| `claude-fable-5` at **medium** | `claude --model claude-fable-5 --effort medium -p "<prompt>"` |
+Run each from a neutral directory such as `/tmp`, under a deadline
+(`perl -e 'alarm shift @ARGV; exec @ARGV' 900 <command>`).
 
-They sit in three families, so a referral that needs independence from the
-decision's author has somewhere to go without trading down. `defer:defer --task
-referral` picks between them on headroom and prints the exact argv.
+**Use the latest available version of each model, not a pinned id**, so a new
+release needs no edit here. `claude --model opus` already resolves to the newest
+Opus. grok and agy have no such alias, so `scripts/latest_model.py` reads
+`grok models` and `agy models` and prints the highest version; when a listing
+fails it prints the pin from the last column and says so on stderr. Record the
+id it printed beside the answer, because "Grok" alone does not say which release
+answered. The last column is a record of one resolution, not a setting.
 
-**Astra at medium and high is frontier capacity, reserved for the most difficult
-problems — and a clarifying question is almost never one.** A fork that survived
-three gates is real; it is rarely *hard* in the sense that reserves a frontier
-tier. Reach for `defer:defer --task hard` when the call is genuinely an
-architecture that everything downstream amplifies, and expect that to be rare.
-Length, stakes and your own uncertainty are not difficulty.
+**The thinking level is part of the lane, not a dial on top of it.** Opus and
+Grok run at `xhigh`, which is the highest level the grok CLI accepts. Argon runs
+at medium, and agy carries the effort in the model id, which is why the resolver
+takes `--effort`.
 
-Two more roles worth knowing here, because a referral sometimes wants a
-different job done rather than a bigger reader. **Design questions go to Opus or
-Fable and nowhere else**, at medium effort where a rough plan already exists.
-And **`gemini-3.8-flash-high` through `agy` is the fast implementation lane once
-a spec or plan exists** — which makes it the wrong instrument for an open fork,
-because an unspecified brief is the condition its guard exists for.
+Choose a family different from the decision's author when independence is the
+aim. When the author is Claude, Argon and Grok are the independent lanes and the
+Opus lane is the in-family reading; say which you used. **Design questions go to
+the Opus lane**, because that is the role Luke gives Opus. The Gemini Flash
+models in `agy models` are the implementation lane once a spec or plan exists,
+which makes them the wrong instrument for an open fork: an unspecified brief is
+the condition their guard exists for.
 
 Use the current tool schema or CLI `--help`, with a bounded request and an output
 artifact. The packet contains the unresolved question, options, relevant code or
-source evidence, constraints, and one requested answer format. Choose a capable
-family different from the decision/artifact author when independence is the aim.
-Use one lane by default; a higher-impact unresolved disagreement can justify a
-small panel. A failed request is recorded and routed through an authorized
-fallback, not counted as a completed opinion.
+source evidence, constraints, and one requested answer format. Use one lane by
+default; a higher-impact unresolved disagreement can justify all three. A failed
+request is recorded and routed to the next lane, not counted as a completed
+opinion.
 
-Four CLI facts, measured on this machine on **2026-09-09**, that decide whether a
-lane ran as routed — re-confirm them against `--help` before first use in a
-session, because a CLI's argv is not stable across versions:
+CLI facts, measured on this machine on **2026-11-07**, that decide whether a lane
+ran as routed. Re-confirm them against `--help` before first use in a session,
+because a CLI's argv is not stable across versions:
 
-- `codex exec` **requires `--skip-git-repo-check` outside a trusted directory**,
-  or it exits 1 before reaching a model at all.
-- `codex` accepts any `-m` and any `model_reasoning_effort` **without validating
-  either against the API**. Its header echoes what was configured, not what was
-  served. Since 0.153.4 an unknown model does warn first — `warning: Model
-  metadata for 'X' not found` — but a *known* model prints a clean header on a
-  run that produced nothing, so **an empty `-o` file is the real failure signal**.
-  Confirmed by control: `-m gpt-6-bogus-xyz` failed with `400
-  invalid_request_error` and wrote no file, while `gpt-6-astra` at `low`,
-  `medium`, `high` and `max` each answered.
-- `grok --effort` accepts exactly `xhigh, high, medium, low` and rejects anything
-  else by name; `grok models` lists `grok-4.6` (default) and `grok-4.5`.
-- `agy models` lists `gemini-3.8-flash-high` alongside its medium and low
-  siblings, so the effort travels in the model id. There is also a separate
-  `--effort low|medium|high`.
+- `claude --model opus` resolves to the newest Opus and `--model fable` to
+  `claude-fable-5-1`; `--effort` accepts `low, medium, high, xhigh, max`.
+- `grok --effort` accepts exactly `xhigh, high, medium, low` and rejects `max` by
+  name. `grok models` lists `grok-4.7`, `grok-4.7-build-fast` (the CLI default),
+  `grok-4.6` and `grok-4.5`, and `-m latest` is refused as an unknown model, which
+  is why the resolver exists.
+- `agy models` lists `gemini-4-argon-high`, `-medium` and `-low` beside the
+  `gemini-3.8-flash` family, so the effort travels in the model id.
+- An empty or missing output file is a lane failure whatever the exit code says;
+  a CLI that echoes its flags has proved only that it read them.
 
 Four rules make a referral worth doing rather than theatre:
 
@@ -200,13 +189,12 @@ Read current policy before invocation: honor active `OPT-OUT: external-models` a
 
 When the call is genuinely open and high-leverage — an architecture everything downstream
 amplifies, a verdict two lanes already split on — use up to three available capable families;
-keep within the harness's concurrency limit and report any missing lane. The workhorse tier is
-what a panel is built from, and it spans OpenAI, xAI and Anthropic, so three families is
-reachable without any of the members being a compromise. Same packet to each, candidate options
+keep within the harness's concurrency limit and report any missing lane. The three lanes above
+are the panel: Anthropic, Google and xAI, each on its newest model. Same packet to each, candidate options
 in swapped order between members, verdict-line answers (`VERDICT:` + one reason), members that
 return nothing counted and reported rather than dropped.
 
-A panel of frontier lanes is not a better panel. Three readings from three families beat one
+More thinking per lane is not a better panel. Three readings from three families beat one
 deeper reading from one, which is the whole finding underneath this rung — so spend the breadth
 rather than the thinking level.
 

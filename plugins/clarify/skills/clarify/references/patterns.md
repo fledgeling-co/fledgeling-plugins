@@ -195,20 +195,20 @@ picked the one you had heard of.
 
 ```bash
 perl -e 'alarm shift @ARGV; exec @ARGV' 900 \
-  grok -m grok-4.6 --effort high -p "$(cat /tmp/offline-packet.md)" \
+  grok -m "$(scripts/latest_model.py grok)" --effort xhigh -p "$(cat /tmp/offline-packet.md)" \
   > /tmp/so-offline.md 2>/tmp/so-offline.log
 ```
 
-One lane at the workhorse level, not a frontier tier. This is a bounded fork
-about one codebase, which is what that tier is for; reaching for `gpt-6-astra` at
-medium here would buy thinking tokens for a question the evidence already
-narrows. `defer:defer --task referral` picks the lane and prints the argv.
+One lane, not the whole panel. This is a bounded fork about one codebase, and
+Grok is out of family for a Claude author; the other two lanes would add cost to
+a question the evidence already narrows. The resolver picks the newest Grok, so
+the command stays the same when a new release ships.
 
 The packet is the requirements, the existing mutation code, the conflict rules
 the product already implies, and both candidate shapes. Not "which is better for
 offline?", which returns the blog post.
 
-> Built it as a queued outbox. Grok-4.6 made the call that decided it: this form
+> Built it as a queued outbox. Grok (grok-4.7) made the call that decided it: this form
 > has server-assigned IDs, so optimistic local writes need an ID reconciliation
 > pass that the outbox avoids entirely. It also flagged a third shape I hadn't —
 > a per-field CRDT — and ruled it out, since nothing here is co-edited.

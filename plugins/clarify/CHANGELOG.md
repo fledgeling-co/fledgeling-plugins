@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.7.0 - 2026-11-07
+
+Referral lanes move to Luke's 7 November roster, and each lane now runs the newest model its family offers instead of a pinned id.
+
+- **Three lanes in three families.** Opus at `xhigh` (`claude --model opus`), Gemini Argon at medium (agy) and Grok at `xhigh`. The four-lane table of 1.6.0 (`gpt-6-astra` low, `gpt-5.6-sol` high, `grok-4.6` high, `claude-fable-5` medium) and the frontier-tier paragraph are retired with it.
+- **Latest available version, resolved at run time.** The claude CLI's `opus` alias already tracks the newest Opus. grok and agy have no alias (`grok -m latest` is refused), so the new `scripts/latest_model.py` reads `grok models` and `agy models` and prints the highest version, falling back to a pin with a warning. A new release no longer needs a skill edit.
+- **Grok's highest effort is `xhigh`.** The CLI refuses `max` by name, so the lane runs at `xhigh`.
+- **CLI facts re-measured and dated 7 Nov 2026** in SKILL.md and `references/evidence.md`. The codex facts leave SKILL.md with the OpenAI lanes and stay in the evidence table as history.
+
 ## 1.6.0 - 2026-09-09
 
 Gate 4's lanes move to the 2026-09-09 model roster, and the thinking level becomes part of what a lane *is* rather than a setting on top of it.

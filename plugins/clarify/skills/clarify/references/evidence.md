@@ -74,6 +74,11 @@ and a fact nobody has checked since August are different kinds of claim.
 | `codex` does **not** validate `-m` or `model_reasoning_effort` against the API | 16 Aug 2026, re-confirmed 9 Sep | `-m bogus -c model_reasoning_effort="bogus"` printed `model: bogus` / `reasoning effort: bogus` in its header and failed later |
 | codex-cli 0.153.4 **warns** on an unknown model before the API refuses it | 9 Sep 2026 | `-m gpt-6-bogus-xyz` → `warning: Model metadata for 'gpt-6-bogus-xyz' not found. Defaulting to fallback metadata`, then `400 invalid_request_error`, **no output file** |
 | `gpt-6-astra` serves at `low`, `medium`, `high` and `max` | 9 Sep 2026 | four `codex exec` runs from `/tmp`, each echoing the requested `reasoning effort:` and writing a real answer to `-o` |
+| `claude --model opus` → the newest Opus; `--model fable` → `claude-fable-5-1`; `--effort` accepts `low, medium, high, xhigh, max` | 7 Nov 2026 | `claude --model opus --effort xhigh -p "Reply with only your exact model id"`; `claude --help` |
+| `grok --effort` still accepts exactly `xhigh, high, medium, low`; `max` is refused | 7 Nov 2026 | `grok -m grok-4.7 --effort max -p …` → "unknown effort level 'max'; use one of: xhigh, high, medium, low" |
+| `grok models` → `grok-4.7`, `grok-4.7-build-fast` (default), `grok-4.6`, `grok-4.5`; `-m latest` is refused | 7 Nov 2026 | `grok models`; `grok -m latest -p OK` → "unknown model id" |
+| `agy models` → `gemini-4-argon-{high,medium,low}` beside `gemini-3.8-flash-{high,medium,low}` | 7 Nov 2026 | `agy models` |
+| `scripts/latest_model.py` resolves `grok` → `grok-4.7` and `gemini --effort medium` → `gemini-4-argon-medium`, and falls back to its pin with a stderr warning when the CLI is missing | 7 Nov 2026 | run from `/tmp`, and once with `PATH=/usr/bin:/bin` |
 
 Two rows carry most of the weight.
 
