@@ -97,7 +97,7 @@ const GROUP_OF = {
   "resume-session": "long-runs", "recover-claude-code": "long-runs", braindump: "long-runs",
 
   // Fewer interruptions.
-  clarify: "asking", defer: "asking", discipline: "asking",
+  clarify: "asking", defer: "asking", discipline: "asking", "decision-panel": "asking",
 
   // Making your own skills.
   "create-skill": "authoring", "improve-skill": "authoring", geminify: "authoring",

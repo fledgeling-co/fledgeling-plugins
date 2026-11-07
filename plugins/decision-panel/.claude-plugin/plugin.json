@@ -1,0 +1,9 @@
+{
+  "name": "decision-panel",
+  "description": "Put one decision to a panel of four model families and decide it for the user. Frames the question and its options from the conversation and the repo, runs two rounds across Fable, GPT-6 Astra, Gemini Argon and Grok (each resolved at run time to the newest model), settles it with evidence first and votes second, records every model's position and the dissent on a self-contained HTML decision page, then acts on the result. Use when the user explicitly asks for a panel to decide: \"have the panel decide\", \"put this to the panel\", \"panel this\", \"let the models decide between X and Y\", \"decide this for me with the panel\", \"/decision-panel:decision-panel\", for choices that deserve deliberate, recorded judgement such as architecture, product direction, pricing, vendor or tool selection, or whether a plan is a good one. The panel decides on the user's behalf; actions that are destructive, irreversible, outward-facing or cost money still wait for their confirmation. Not for quick forks met during other work (clarify:clarify refers those on its own), not for reviewing someone's feedback (feedback-panel:feedback-panel), and not for code review (code-review:code-review).",
+  "version": "0.1.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}

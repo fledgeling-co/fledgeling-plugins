@@ -261,6 +261,14 @@ Takes someone's feedback on your project and has three model families review it 
 
 <br clear="left" />
 
+<a href="plugins/decision-panel/README.md"><img src="plugins/decision-panel/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [decision-panel](plugins/decision-panel/README.md)
+
+Hands one decision you'd rather not make alone to four model families at once. Each reads the same evidence in your repo, picks an option without seeing the others, and argues it out in a second round only if they split; evidence beats a majority, and anyone who changes their mind has to say what new fact moved them. You get one page with the decision, every model's position and the dissent, and it goes ahead and acts on it, except for anything destructive, outward-facing or that costs money, which still waits for you. It's the deliberate sibling of clarify: you ask for it, it never fires on its own.
+
+<br clear="left" />
+
 ## Handing over a pile of work
 
 _Give Claude a list and let it work through it on its own._

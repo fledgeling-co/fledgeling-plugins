@@ -1,0 +1,23 @@
+{
+  "skill_name": "decision-panel",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Have the panel decide which stack my A$990 health check should support first: Next.js on Vercel with Supabase, Vite React on Supabase, any React front end on Supabase or Firebase, or no first stack. The plan is in ~/Dev/Business-Automation.",
+      "expected_output": "Four lanes answer from repo evidence in two option orders; tally.py settles it or round two runs; a decision page under docs/decisions/ with each model's verdict, the dissent and the evidence; plan edits marked as waiting for confirmation.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "put this to the panel: should we keep Postgres row-level security in the import job or move the tenant check into the API layer? the repo is ~/Dev/acme-api and the import code is jobs/import.ts",
+      "expected_output": "The decision framed with options A and B from the repo, no secrets or customer data in the brief, four verdicts, a page, and the code change carried out only if it is reversible and local.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "i'm torn between two names for the new CLI, flint or anvil. panel it and just pick one for me",
+      "expected_output": "A taste decision the user delegated: the panel picks, the page records the dissent, and no question goes back to the user because the user asked the panel to choose.",
+      "files": []
+    }
+  ]
+}

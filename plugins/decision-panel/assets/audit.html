@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>decision-panel icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  /* The flex lives on an inner div, never on the <td>. Two independent
+     commissions hit this: the scoring browser computes display:flex on a table
+     cell and still lays its children out as blocks, so all seven renders stack
+     into a column and every row reads as one tall strip. The sheet looks broken
+     and nothing errors. */
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>decision-panel icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Four Marks, One Tick" · one shared spec; a hand-built vector draft and two raster takes; Luke chose a raster to ship · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">master · icon.png<small>GPT Image raster, referenced on clarify and the vector draft, clipped to the family squircle · SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="master hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="master at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="master 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes checks 1 to 4 on real renders: clipped to the shared squircle, centred, the tick alone names it, and the vermilion tick still reads at 16px while the four marks become texture. One warm accent, one top-left light, clarify’s porcelain and clay. Loses #10: a light tile carries the identity, so it leans on the ground it sits on, as clarify’s does.</td>
+  </tr>
+  <tr>
+    <td class="take ">raster-b · icon-engineC-c29c31.png<small>GPT Image raster, second take from the same brief</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/raster-b-1024.png" width="160" height="160" alt="raster-b hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/raster-b-256.png" width="128" height="128" alt="raster-b at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/raster-b-128.png" width="64" height="64" alt="raster-b at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/raster-b-96.png" width="48" height="48" alt="raster-b at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/raster-b-64.png" width="32" height="32" alt="raster-b at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/raster-b-32.png" width="16" height="16" alt="raster-b at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/raster-b-32.png" width="96" height="96" alt="raster-b 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ">10 / 12</td>
+    <td class="verdict">Same material and composition as the master. Lost on spacing: the right-hand mark sits closer to the tick’s arm, so the two touch visually at 48px and below.</td>
+  </tr>
+  <tr>
+    <td class="take ">vector-draft · icon-engineA-draft.svg<small>hand-built layered SVG on clarify’s material constants, used as the composition guide</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/vector-draft-1024.png" width="160" height="160" alt="vector-draft hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/vector-draft-256.png" width="128" height="128" alt="vector-draft at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/vector-draft-128.png" width="64" height="64" alt="vector-draft at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/vector-draft-96.png" width="48" height="48" alt="vector-draft at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/vector-draft-64.png" width="32" height="32" alt="vector-draft at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/vector-draft-32.png" width="16" height="16" alt="vector-draft at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/vector-draft-32.png" width="96" height="96" alt="vector-draft 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ">9 / 12</td>
+    <td class="verdict">Passes 1 to 4, but the right-hand mark crowds the tick’s arm and the four upright marks read as fingers. Flatter material than the raster. Its job was to fix the layout the raster was asked to follow; Luke chose to ship a raster.</td>
+  </tr>
+  <!-- /ROW BLOCK -->
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship master (icon.png).</strong> Checks 1 to 4 pass on the renders above; the material follows clarify’s measured porcelain, clay and vermilion through the reference image, so the two read as one family. It is a decorative marketplace icon, not an Icon Composer package. Known liabilities to revisit: the fan of four marks can read as a hand at a glance; the four marks merge into one grey band below 32px; a light tile depends on its background (#10); there is no layered vector master, so a later change means regenerating the raster.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by `python3 ../scripts/audit_sheet.py render <dir>` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand.</div>
+</body>
+</html>

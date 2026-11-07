@@ -1,0 +1,40 @@
+{
+  "takes": {
+    "master": {
+      "source": "icon.png",
+      "kind": "png",
+      "source_sha256": "cd7f13b106981321f654e30053eeacb1715c28d6e0d320e767d6aea90da99247",
+      "source_mtime": 1794055782.637904,
+      "rendered_at": 1794056621.694922
+    },
+    "raster-b": {
+      "source": "icon-engineC-c29c31.png",
+      "kind": "raster-mask",
+      "source_sha256": "f097d85b228d5a4b31f1ab289547f284f7d9732adcdec18a540fd333fcc70873",
+      "source_mtime": 1794055782.4881256,
+      "rendered_at": 1794056622.122447
+    },
+    "vector-draft": {
+      "source": "icon-engineA-draft.svg",
+      "kind": "svg",
+      "source_sha256": "845f6b44ccdcc092c29f4120487efffd8920c4940af94d6ea03829e11a6aacbb",
+      "source_mtime": 1794055697.681628,
+      "rendered_at": 1794056622.462023
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}
