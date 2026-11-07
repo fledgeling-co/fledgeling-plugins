@@ -59,7 +59,7 @@ disagreements; they are inputs to the panel, not verdicts.
 
 ### 3. The panel, two rounds
 
-Run three families at high effort with `scripts/run_panel.sh --min-bytes 1500` and the round-one brief in
+Run the four lanes in the Lanes table with `scripts/run_panel.sh --min-bytes 1500` and the round-one brief in
 `references/panel-briefs.md`. Each lane gets the feedback, the triage and the project paths,
 and returns a determination per question and a ruling per push-back (uphold, modify, withdraw)
 with evidence. Then run round two with only the points where the lanes split, quoting each
@@ -120,16 +120,23 @@ to resolve the "Other things we noticed" items, fix them and mark each one resol
 
 ## Lanes
 
-| Lane | Family | Command (in `scripts/run_panel.sh`) |
-|---|---|---|
-| `fable` | Anthropic | `claude --model claude-fable-5-1 --effort high -p` |
-| `astra` | OpenAI | `codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only` |
-| `argon` | Google | `agy --new-project --model gemini-4-argon-high --add-dir <repo> -p` |
-| `grok` | xAI | `grok -m grok-4.6 --effort high -p` |
+Every lane runs the newest model its CLI offers, so a new release needs no edit to this skill.
+`fable` uses the claude CLI's alias, which tracks the newest Fable. `argon` and `grok` are looked
+up at run time by `scripts/latest_model.py`, which reads `agy models` and `grok models` and picks
+the highest version. The model column shows what each resolved to on 7 November 2026.
 
-Use the families the user names. When they name none, use three lanes from three families,
-none of them the family writing the report if another is available. Model ids change: confirm
-each with the CLI's model list before the first run and override with `FP_<LANE>_MODEL`.
+| Lane | Family | Command (in `scripts/run_panel.sh`) | Resolved 7 Nov 2026 |
+|---|---|---|---|
+| `fable` | Anthropic | `claude --model fable --effort high -p` | claude-fable-5-1 |
+| `astra` | OpenAI | `codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only` | gpt-6-astra (pinned; codex lists no models) |
+| `argon` | Google | `agy --new-project --model "$(latest_model.py gemini --effort high)" --add-dir <repo> -p` | gemini-4-argon-high |
+| `grok` | xAI | `grok -m "$(latest_model.py grok)" --effort xhigh -p` | grok-4.7 |
+
+Run all four lanes by default. Grok runs at `xhigh`, the highest effort its CLI accepts; it
+rejects `max`. When the user names lanes, use those. When the model writing the report shares a
+family with a lane, keep the lane and say in the report which reviewer shares that family.
+Each lane's log ends with `model=<id>`, the model it was asked for. Pin a model with
+`FP_<LANE>_MODEL`, for example to repeat a run on the same version.
 
 ## Scope and length
 

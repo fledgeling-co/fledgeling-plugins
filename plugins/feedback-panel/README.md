@@ -11,7 +11,7 @@ person who wrote it one HTML page to answer.
 
 1. Grounds every feedback point in the repo and sorts it into understood, question or push-back,
    with a `file:line` for each.
-2. Has a second model family check that triage, then runs three families in two rounds on the
+2. Has a second model family check that triage, then runs four families, each on its newest model, in two rounds on the
    open questions and push-back, and reconciles where they split.
 3. Runs the design, UX and design-review skills over decisions that change what a visitor sees.
 4. Builds a self-contained report (`scripts/build_report.py`): multiple-choice questions that
