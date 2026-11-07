@@ -456,349 +456,144 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
 <script type="application/json" id="report-data">
 {
  "project": "fledgeling-plugins",
- "updated": "2026-10-31T06:08:00+11:00",
+ "updated": "2026-11-07T13:10:49+00:00",
  "verdict": {
   "token": "done",
-  "number": "30",
-  "unit": "closed-display screenshots behind duo-craft's practices in 0.4.1, up from 22",
-  "headline": "Closed, sheets stop short of the bar and keep their own close button; pills centre on the content column.",
-  "run_label": "duo-craft 0.4.1",
-  "head_sha": "5f02b40"
+  "number": "1",
+  "unit": "new plugin, decision-panel 0.1.0, plus clarify 1.7.0 and feedback-panel 0.2.0",
+  "headline": "decision-panel 0.1.0 is live: four model families decide, the dissent is kept, and lanes always run the newest models",
+  "run_label": "decision-panel 0.1.0 · 8 November 2026"
  },
  "tasks": [
   {
-   "id": "DC-1",
-   "title": "Read all 313 screenshots, flows included",
-   "origin": "planned",
-   "stage": "code written",
+   "id": "DP-1",
+   "title": "Build decision-panel: brief, briefs, tally, page builder",
+   "origin": "asked",
+   "stage": "being checked",
    "outcome": "done",
-   "note": "39 Sonnet runs, one per app run, 62 late frames in a second pass"
+   "note": "Derived from feedback-panel for decisions with no stakeholder feedback"
   },
   {
-   "id": "DC-2",
-   "title": "Merge what they saw into practices",
-   "origin": "planned",
-   "stage": "code written",
+   "id": "DP-2",
+   "title": "First live run on a real decision",
+   "origin": "asked",
+   "stage": "being checked",
    "outcome": "done",
-   "note": "357 candidates became 34 practices and 24 flows"
+   "note": "Found a tally bug; a lone dissent with vendor evidence moved the panel"
   },
   {
-   "id": "DC-3",
-   "title": "Check every practice against the frames",
-   "origin": "planned",
-   "stage": "code written",
+   "id": "DP-3",
+   "title": "Icon, banner, audit sheet, README and EVALS",
+   "origin": "asked",
+   "stage": "being checked",
    "outcome": "done",
-   "note": "5 stood as written, 29 corrected, none thrown out"
+   "note": "Raster icon in clarify's family, as Luke chose"
   },
   {
-   "id": "DC-4",
-   "title": "Write the practices into duo-craft",
-   "origin": "planned",
-   "stage": "code written",
+   "id": "FP-0.2",
+   "title": "feedback-panel lanes: Fable high, Grok newest at xhigh, all four by default",
+   "origin": "asked",
+   "stage": "being checked",
    "outcome": "done",
-   "version": "858fa5e",
-   "note": "new reference file, four new patterns, skill file and evidence updated"
+   "note": "latest_model.py picks the newest model at run time"
   },
   {
-   "id": "DC-5",
-   "title": "Release 0.3.0",
-   "origin": "planned",
-   "stage": "code written",
+   "id": "CL-1.7",
+   "title": "clarify lanes: Opus xhigh, Gemini Argon medium, Grok xhigh, newest each",
+   "origin": "asked",
+   "stage": "being checked",
    "outcome": "done",
-   "version": "38542fd",
-   "note": "pushed, site live at 0.3.0, installed copy updated"
-  },
-  {
-   "id": "DC-6",
-   "title": "Give the list a fixed 320pt column when the Duo is open flat",
-   "origin": "carried over",
-   "stage": "code written",
-   "outcome": "done",
-   "blocked_by": "",
-   "waiting_hours": 0,
-   "note": "320pt list flat, fold split folded; seen on the simulator at 320.0pt"
-  },
-  {
-   "id": "DC-7",
-   "title": "A fresh SDK 58 app failed to build with the starter",
-   "origin": "planned",
-   "stage": "code written",
-   "outcome": "done",
-   "note": "web server output rendered routes on react-native-web; colours now go through systemColor"
-  },
-  {
-   "id": "DC-8",
-   "title": "Detail columns snapped to the fold and left a 128pt column",
-   "origin": "planned",
-   "stage": "code written",
-   "outcome": "done",
-   "note": "columns now meet at the fold only with a fair share each side"
-  },
-  {
-   "id": "DC-9",
-   "title": "Read the 8 new closed-display screenshots",
-   "origin": "planned",
-   "stage": "code written",
-   "outcome": "done",
-   "note": "one Sonnet run, flows from consecutive frames"
-  },
-  {
-   "id": "DC-10",
-   "title": "Fold them into the 34 practices",
-   "origin": "planned",
-   "stage": "code written",
-   "outcome": "done",
-   "note": "12 gained evidence, 1 rewritten and re-checked, none new"
-  },
-  {
-   "id": "DC-11",
-   "title": "Release 0.4.1",
-   "origin": "planned",
-   "stage": "code written",
-   "outcome": "done",
-   "note": "reference rebuilt, two patterns refined"
-  },
-  {
-   "id": "DC-12",
-   "title": "Publish reckon 1.9.6 from another session",
-   "origin": "carried over",
-   "stage": "code written",
-   "outcome": "done",
-   "note": "six commits were unpushed; you chose to send them with this release"
+   "note": "Four-lane OpenAI-heavy table retired"
   }
  ],
  "gates": [
   {
-   "name": "Every screenshot was read",
-   "command": "validate.py per group: assigned frames = reported frames",
-   "exit_code": 0,
-   "counts": "313/313",
-   "state": "done",
-   "kind": "tests"
-  },
-  {
-   "name": "Every practice checked against the frames",
-   "command": "42 verifier runs, each opening at least 2 extra frames",
-   "exit_code": 0,
-   "counts": "34/34",
-   "state": "done",
-   "kind": "tests"
-  },
-  {
-   "name": "Skill names in the repo resolve",
+   "name": "Skill references resolve",
    "command": "python3 scripts/check_skill_references.py",
    "exit_code": 0,
-   "counts": "81/81",
-   "state": "done",
-   "kind": "build"
-  },
-  {
-   "name": "The site's catalogue builds",
-   "command": "node site/scripts/build-catalogue.mjs",
-   "exit_code": 0,
-   "counts": "59/59",
-   "state": "done",
-   "kind": "build"
-  },
-  {
-   "name": "duo-craft's audit still proves its checks fire",
-   "command": "duo_audit.py --self-test (bad, good and phone-portrait fixtures)",
-   "exit_code": 0,
-   "state": "done",
-   "kind": "tests",
-   "counts": "3/3"
-  },
-  {
-   "name": "Wording of the changed files",
-   "command": "agent_voice_lint.py --format skill|doc",
-   "exit_code": 0,
-   "counts": "6/6",
-   "state": "done",
-   "kind": "sign-off"
-  },
-  {
-   "name": "No personal data in what was published",
-   "command": "grep for names, places, emails and the bank brand over the new files",
-   "exit_code": 0,
-   "counts": "2/2",
-   "state": "done",
-   "kind": "security"
-  },
-  {
-   "name": "Layout logic tests",
-   "command": "bun test fold.test.ts (native modules mocked)",
-   "exit_code": 0,
-   "counts": "15/15",
+   "counts": "0 errors",
    "state": "done",
    "kind": "tests"
   },
   {
-   "name": "The starter builds for the simulator",
-   "command": "xcodebuild Release, Xcode 27.1, fresh SDK 58 app",
+   "name": "Site catalogue builds",
+   "command": "node site/scripts/build-catalogue.mjs",
    "exit_code": 0,
-   "counts": "1/1",
+   "counts": "60 skills",
    "state": "done",
-   "kind": "build"
+   "kind": "tests"
   },
   {
-   "name": "Open-flat list measured on the simulator",
-   "command": "simctl screenshot of the inner display, divider located by pixel scan",
+   "name": "decision-panel meets the marketplace standard",
+   "command": "node site/scripts/check-conformance.mjs (decision-panel rows)",
    "exit_code": 0,
-   "counts": "1/1",
+   "counts": "0 findings",
    "state": "done",
    "kind": "design"
   },
   {
-   "name": "The 8 new screenshots were read",
-   "command": "validate.py n09",
+   "name": "Decision page refuses bad decisions",
+   "command": "build_decision.py --check on the example and five broken copies",
    "exit_code": 0,
-   "counts": "8/8",
+   "counts": "6/6",
    "state": "done",
    "kind": "tests"
   },
   {
-   "name": "Rewritten practice checked against the frames",
-   "command": "verifyC01",
+   "name": "Tally applies one rule",
+   "command": "tally.py on four fixture rounds",
    "exit_code": 0,
-   "counts": "1/1",
+   "counts": "4/4",
    "state": "done",
    "kind": "tests"
   },
   {
-   "name": "The live site shows 0.4.1",
-   "command": "Vercel status on 5f02b405 and the duo-craft page (reckon page shows 1.9.6)",
+   "name": "Icon audit sheet",
+   "command": "audit_sheet.py check plugins/decision-panel/assets",
    "exit_code": 0,
-   "counts": "2/2",
+   "counts": "3 takes",
    "state": "done",
-   "kind": "sign-off"
-  }
- ],
- "armed": [
-  {
-   "check": "The guard against invented command flags",
-   "mutation": "my own comment named a script followed by a word",
-   "case_reddened": "the guard failed the run and named the line",
-   "red": 1,
-   "green": 10,
-   "sha": "df4197e",
-   "armed": true
+   "kind": "design"
   },
   {
-   "check": "Flat list width test",
-   "mutation": "ran the test against the 0.3.0 fold split",
-   "case_reddened": "the flat case failed",
-   "red": 1,
-   "green": 11,
-   "sha": "37af1d2",
-   "armed": true
-  },
-  {
-   "check": "Detail-pane column test",
-   "mutation": "removed the 35% share rule",
-   "case_reddened": "the detail-pane case failed",
-   "red": 1,
-   "green": 14,
-   "sha": "37af1d2",
-   "armed": true
-  }
- ],
- "findings": [
-  {
-   "id": "F-1",
-   "score": 30,
-   "severity": "low",
-   "file_line": "plugins/harbourmaster/skills/harbourmaster/scripts/demote.py:54",
-   "claim": "a process family is matched anywhere in the command line, so an argument can stand in for the program",
-   "state": "waived"
-  },
-  {
-   "id": "F-2",
-   "score": 45,
-   "severity": "medium",
-   "file_line": "plugins/harbourmaster/tests/check_surface.py:52",
-   "claim": "the invented-flag guard does not cover install.sh, which is how the bad flag survived",
-   "state": "waived"
-  },
-  {
-   "id": "F-3",
-   "score": 55,
-   "severity": "medium",
-   "file_line": "plugins/duo-craft/skills/duo-craft/templates/components/DetailPaneLayout.tsx:75",
-   "claim": "the layout splits at the fold when open flat, where 21 apps keep a 320pt list",
-   "state": "done"
-  },
-  {
-   "id": "F-4",
-   "score": 20,
-   "severity": "low",
-   "file_line": "create-expo-app src/components/animated-icon.tsx:8",
-   "claim": "the fresh SDK 58 template's splash animation reads Dimensions.get, which the audit flags",
-   "state": "waived"
-  }
- ],
- "corrections": [
-  {
-   "earlier_claim": "All 313 screenshots are in the run",
-   "said_pct": 100,
-   "true_pct": 80,
-   "true_state": "The merge first ran on 251 of 313; the 62 late frames never started.",
-   "mechanism": "The job runner only built prompts for group names starting with g, not the new n groups.",
-   "caught_by": "the workflow's own result: 8 groups failed with no prompt"
-  }
- ],
- "coverage": [
-  {
-   "axis": "Screenshots read",
-   "covered": 321,
-   "denominator": 321
-  },
-  {
-   "axis": "Practices checked against the frames",
-   "covered": 34,
-   "denominator": 34
+   "name": "Writing passes the voice checks",
+   "command": "agent_voice_lint.py --format skill; voice_lint.py --format marketing",
+   "exit_code": 0,
+   "counts": "5/5",
+   "state": "done",
+   "kind": "design"
   }
  ],
  "not_checked": [
   {
-   "axis": "The four new patterns in a real app",
-   "why_not": "They record what shipping apps do; none has been built and run on the Duo simulator."
-  },
-  {
-   "axis": "What React Native reports for the split keyboard",
-   "why_not": "No screenshot or test measured it; pattern 13 says to check before relying on it."
-  },
-  {
-   "axis": "The kernel's two higher memory warnings",
-   "why_not": "This Mac only ever reported the normal level, so the other two are taken from Apple's own constants rather than seen."
-  },
-  {
-   "axis": "The two crash fixes under real load",
-   "why_not": "Proved by forcing the slowdown by hand; no automatic test watches them."
-  },
-  {
-   "axis": "The half-folded (book) pose after this change",
-   "why_not": "Only closed and open flat were captured; the book split is the 0.3.0 code, unit-tested."
+   "axis": "Whether the four-model panel beats the best single model",
+   "why_not": "Luke chose one live run instead of the blind comparison; EVALS.md names the run that would settle it"
   }
  ],
  "not_done": [
   {
-   "action": "Bring install.sh under the invented-flag guard",
-   "reason": "install.sh is not a unique name, so the guard would flag every other plugin's copy.",
-   "what_would_unblock": "A rule in the guard that matches a path rather than a filename.",
+   "action": "Update the lane list in your global CLAUDE.md to match the new clarify lanes",
+   "reason": "Your own instruction file; not asked",
+   "what_would_unblock": "Your go-ahead",
    "size": "under an hour"
   }
  ],
  "artifacts": [
   {
-   "path": "plugins/duo-craft/skills/duo-craft/references/device-captures.md",
+   "path": "plugins/decision-panel/README.md",
    "kind": "md",
-   "contains": "The 34 practices with measurements, 24 flows and 5 open questions.",
+   "contains": "What the decision panel does and how its first run went",
    "open_first": true
   },
   {
-   "path": "plugins/duo-craft/docs/device-captures/2026-10-29-witness.json",
-   "kind": "json",
-   "contains": "Every practice with its frame list, exceptions and both verifier passes."
+   "path": "plugins/decision-panel/EVALS.md",
+   "kind": "md",
+   "contains": "What was checked, the live run, and what is unmeasured"
+  },
+  {
+   "path": "plugins/decision-panel/assets/audit.html",
+   "kind": "html",
+   "contains": "The icon takes and why one shipped"
   }
  ],
  "needs_you": [],
