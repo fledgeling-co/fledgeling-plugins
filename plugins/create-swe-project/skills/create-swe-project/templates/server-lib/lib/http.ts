@@ -35,19 +35,39 @@ export function isAllowedOrigin(req: Request): boolean {
 
 export type Parsed<T> = { ok: true; data: T } | { ok: false; response: Response };
 
-/** Read a JSON body under a byte cap and parse it with `schema`. */
+/**
+ * Read a JSON body under a byte cap and parse it with `schema`. The body is
+ * streamed and counted, so a request with no Content-Length (chunked) stops at
+ * the cap instead of being read whole first; a malformed Content-Length is a 400.
+ */
 export async function readJson<S extends z.ZodType>(
   req: Request,
   schema: S,
   maxBytes = 16_384,
 ): Promise<Parsed<z.infer<S>>> {
-  const declared = Number(req.headers.get('content-length') ?? '0');
-  if (declared > maxBytes) return { ok: false, response: jsonError('Payload too large', 413) };
-  const text = await req.text();
-  if (Buffer.byteLength(text) > maxBytes) return { ok: false, response: jsonError('Payload too large', 413) };
+  const header = req.headers.get('content-length');
+  if (header !== null) {
+    if (!/^\d+$/.test(header)) return { ok: false, response: jsonError('Invalid Content-Length', 400) };
+    if (Number(header) > maxBytes) return { ok: false, response: jsonError('Payload too large', 413) };
+  }
+  const chunks: Uint8Array[] = [];
+  let received = 0;
+  if (req.body) {
+    const reader = req.body.getReader();
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      received += value.byteLength;
+      if (received > maxBytes) {
+        await reader.cancel();
+        return { ok: false, response: jsonError('Payload too large', 413) };
+      }
+      chunks.push(value);
+    }
+  }
   let body: unknown;
   try {
-    body = JSON.parse(text);
+    body = JSON.parse(Buffer.concat(chunks).toString('utf8'));
   } catch {
     return { ok: false, response: jsonError('Malformed JSON', 400) };
   }

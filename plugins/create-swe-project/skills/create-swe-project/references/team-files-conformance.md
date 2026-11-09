@@ -56,7 +56,7 @@ Paths are relative to `skills/create-swe-project/`.
 | CP §6.1 | encoded | `templates/auth/app/api/auth/request-code/route.ts`, `templates/admin/app/api/admin-auth/request-code/route.ts` (origin, per-IP limit, equal response and timing), `templates/waitlist/app/api/waitlist/route.ts` (identical response and cookie for a known address) |
 | CP §6.2 | encoded | strict SameSite cookies at Path=/ plus origin checks in `templates/auth/lib/auth-server.ts.tmpl` |
 | CP §6.3 | encoded | atomic upserts in `templates/auth/lib/users.ts` and `templates/waitlist/lib/waitlist.ts`, self-clearing connection cache in `templates/data/lib/db.ts` |
-| CP §6.4 | rule | `templates/kv/lib/rate-limit.ts` documents the x-forwarded-for caveat; upload-token rules govern the first upload route |
+| CP §6.4 | encoded for client IPs, rule for uploads | `templates/kv/lib/rate-limit.ts` takes the IP only from a proxy-written header (Vercel's `x-real-ip`, else the right-most X-Forwarded-For); upload-token rules govern the first upload route |
 | CP §6.5 | rule | no anonymous demo path is scaffolded |
 | CP §6.6 | encoded | React Email templates only; no raw-HTML email is generated |
 | CP §6.7 | encoded; divergence for styles | `templates/csp/lib/csp.ts`, `templates/csp/proxy.ts`, smoke test on a production build; `templates/fragments/divergences/web.tmpl` |

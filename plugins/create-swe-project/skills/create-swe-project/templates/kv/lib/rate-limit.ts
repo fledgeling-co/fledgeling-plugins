@@ -14,11 +14,19 @@ export async function rateLimit(bucket: string, id: string, limit: number, windo
 }
 
 /**
- * The caller's IP, for limits on unauthenticated routes. Outside Vercel's edge
- * x-forwarded-for is attacker-controlled (CP §6.4), so treat this as defence in
- * depth, never the only guard on a path that costs money. Key authenticated
- * routes by user id instead (CP §6.11).
+ * The caller's IP, for limits on unauthenticated routes, taken only from a
+ * header the deployment's own proxy writes (CP §6.4). On Vercel that is
+ * x-real-ip, which the platform sets. Elsewhere it is the RIGHT-most
+ * X-Forwarded-For entry, the one the nearest proxy (Caddy, a load balancer)
+ * appended; every entry to its left came from the client and can be forged.
+ * With neither, all callers share one bucket, which fails closed. Key
+ * authenticated routes by user id instead (CP §6.11).
  */
 export function clientIp(req: Request): string {
-  return req.headers.get('x-real-ip') ?? req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  if (process.env.VERCEL) {
+    const real = req.headers.get('x-real-ip')?.trim();
+    if (real) return real;
+  }
+  const appended = req.headers.get('x-forwarded-for')?.split(',').pop()?.trim();
+  return appended || 'unknown';
 }

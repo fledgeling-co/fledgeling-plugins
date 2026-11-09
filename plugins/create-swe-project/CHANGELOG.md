@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.13.1 - 2026-11-09
+
+Two findings from an automated security review of 1.13.0's templates, both fixed:
+
+- **`readJson` read a body with no Content-Length whole before applying its cap.** It now streams the body with a running byte count and cancels at the cap, and answers a malformed Content-Length with 400. A test feeds a 64 KB chunked stream against a 256-byte cap and asserts fewer than 20 chunks are pulled.
+- **`clientIp` trusted the left-most X-Forwarded-For entry**, which the client writes, so the per-IP limits on sign-in and the waitlist could be dodged by rotating that header. It now reads `x-real-ip` only on Vercel, which sets it, and otherwise the right-most entry, which the nearest proxy appended; with neither, callers share one bucket. Referral counts remain unverified against someone with many real addresses, and the generated CLAUDE.md says to confirm by email before a count earns a reward.
+
 ## 1.13.0 - 2026-11-09
 
 The team-files operating specs are now bundled and carried out by the templates, not only copied beside them. Measured on this machine before the change, every scaffold shipped a CLAUDE.md citing `docs/CODING_PRACTICES.md` and `docs/NEW_PROJECT_BEST_PRACTICES.md` while neither file existed: `~/Dev/bella-team-files` held only a `.claude/` directory, and the copy step warned and carried on.

@@ -54,4 +54,24 @@ describe('readJson', () => {
     const r = await readJson(post(JSON.stringify({ name: 'x'.repeat(100) })), schema, 32);
     expect(r.ok ? 200 : r.response.status).toBe(413);
   });
+
+  it('stops reading a chunked body with no Content-Length once it passes the cap', async () => {
+    let pulled = 0;
+    const stream = new ReadableStream<Uint8Array>({
+      pull(controller) {
+        pulled += 1;
+        if (pulled > 1000) controller.close();
+        else controller.enqueue(new Uint8Array(64).fill(32));
+      },
+    });
+    const req = new Request('http://app.test/api/x', { method: 'POST', body: stream, duplex: 'half' } as RequestInit);
+    const r = await readJson(req, schema, 256);
+    expect(r.ok ? 200 : r.response.status).toBe(413);
+    expect(pulled).toBeLessThan(20);
+  });
+
+  it('answers a malformed Content-Length with 400', async () => {
+    const r = await readJson(post('{"name":"ok"}', { 'content-length': '-5' }), schema);
+    expect(r.ok ? 200 : r.response.status).toBe(400);
+  });
 });

@@ -456,13 +456,13 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
 <script type="application/json" id="report-data">
 {
  "project": "fledgeling-plugins",
- "updated": "2026-11-09T10:25:48+00:00",
+ "updated": "2026-11-09T10:30:20+00:00",
  "verdict": {
   "token": "done",
   "number": "48 of 48",
   "unit": "spec sections mapped into create-swe-project",
   "headline": "New projects now start out following the team's coding and setup specs, with checks proving it",
-  "run_label": "create-swe-project 1.13.0 · merged to main",
+  "run_label": "create-swe-project 1.13.1 · merged to main",
   "head_sha": "6edc4aa"
  },
  "tasks": [
@@ -645,6 +645,24 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "green": 4,
    "sha": "6edc4aa",
    "armed": true
+  },
+  {
+   "check": "Request size cap",
+   "mutation": "read the whole body before checking its size",
+   "case_reddened": "the chunked-body test failed",
+   "red": 1,
+   "green": 11,
+   "sha": "e16451d",
+   "armed": true
+  },
+  {
+   "check": "Client address for rate limits",
+   "mutation": "trusted the left-most forwarded address",
+   "case_reddened": "the spoofed-header test failed",
+   "red": 1,
+   "green": 11,
+   "sha": "e16451d",
+   "armed": true
   }
  ],
  "findings": [
@@ -719,6 +737,22 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "file_line": "templates/api/Dockerfile.tmpl",
    "claim": "API image may not find its packages under pnpm's layout",
    "state": "unmeasured"
+  },
+  {
+   "id": "F-10",
+   "score": 55,
+   "severity": "medium",
+   "file_line": "templates/server-lib/lib/http.ts",
+   "claim": "a body with no length header was read whole before the size cap",
+   "state": "done"
+  },
+  {
+   "id": "F-11",
+   "score": 55,
+   "severity": "medium",
+   "file_line": "templates/kv/lib/rate-limit.ts",
+   "claim": "per-IP limits trusted an address the client can forge",
+   "state": "done"
   }
  ],
  "not_checked": [
@@ -750,6 +784,12 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "action": "Send two spec corrections back to bella-team-files",
    "reason": "Different repo, outside this task.",
    "what_would_unblock": "Your go-ahead.",
+   "size": "an hour"
+  },
+  {
+   "action": "Confirm waitlist addresses by email before counting referrals",
+   "reason": "The waitlist has no email step; counts stay unverified.",
+   "what_would_unblock": "A decision to add email to the waitlist.",
    "size": "an hour"
   }
  ],
