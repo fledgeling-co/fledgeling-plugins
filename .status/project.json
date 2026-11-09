@@ -1,212 +1,136 @@
 {
   "project": "fledgeling-plugins",
-  "updated": "2026-11-09T10:30:20+00:00",
+  "updated": "2026-11-09T10:58:18+00:00",
   "verdict": {
     "token": "done",
-    "number": "48 of 48",
-    "unit": "spec sections mapped into create-swe-project",
-    "headline": "New projects now start out following the team's coding and setup specs, with checks proving it",
-    "run_label": "create-swe-project 1.13.1 · merged to main",
-    "head_sha": "6edc4aa"
+    "number": "38 of 38",
+    "unit": "eval checks passed with the skill, against 32 without",
+    "headline": "The App Store Connect skill is published, with no subscriber email",
+    "run_label": "app-store-connect 0.1.0 \u00b7 pushed to main"
   },
   "tasks": [
     {
-      "id": "SWE-1",
-      "title": "Specs bundled with the plugin, every section mapped",
+      "id": "ASC-1",
+      "title": "Skill maps every asc call to its credential",
+      "origin": "planned",
+      "stage": "code written",
+      "outcome": "done"
+    },
+    {
+      "id": "ASC-2",
+      "title": "Provisioning script plans before it writes",
       "origin": "planned",
       "stage": "code written",
       "outcome": "done",
-      "note": "references/team-files/ + conformance map"
+      "note": "exits 3 on the wrong team"
     },
     {
-      "id": "SWE-2",
-      "title": "Project CLAUDE.md follows the team starter",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done"
-    },
-    {
-      "id": "SWE-3",
-      "title": "Current toolchain: pnpm 12, Node 24, TypeScript 7 beside 6",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done"
-    },
-    {
-      "id": "SWE-4",
-      "title": "Security defaults built in (CSP, request guards, sign-in)",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done"
-    },
-    {
-      "id": "SWE-5",
-      "title": "Data layer and test harness from day one",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done"
-    },
-    {
-      "id": "SWE-6",
-      "title": "Pre-push check that tests only what a push changed",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done"
-    },
-    {
-      "id": "SWE-7",
-      "title": "Local dev stack on *.localhost with no sudo",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done"
-    },
-    {
-      "id": "SWE-8",
-      "title": "Waitlist no longer reveals who already joined",
+      "id": "ASC-3",
+      "title": "Account details kept off the public repo",
       "origin": "carried over",
       "stage": "code written",
+      "outcome": "done",
+      "note": "your answer at the checkpoint"
+    },
+    {
+      "id": "ASC-4",
+      "title": "Push-key question settled from Apple's own pages",
+      "origin": "planned",
+      "stage": "code written",
       "outcome": "done"
+    },
+    {
+      "id": "ASC-5",
+      "title": "Icon, banner, README and registrations",
+      "origin": "planned",
+      "stage": "code written",
+      "outcome": "done"
+    },
+    {
+      "id": "ASC-6",
+      "title": "Six tasks run with and without the skill, three rounds",
+      "origin": "planned",
+      "stage": "code written",
+      "outcome": "done"
+    },
+    {
+      "id": "ASC-7",
+      "title": "Apple sign-in with no one at the keyboard",
+      "origin": "planned",
+      "stage": "being checked",
+      "outcome": "stuck",
+      "blocked_by": "Apple's text never reached this Mac",
+      "waiting_hours": 4
     }
   ],
   "gates": [
     {
-      "name": "Every scaffold option builds and passes its own checks",
-      "command": "scripts/canary.sh",
+      "name": "Skills catalogue builds",
+      "command": "node site/scripts/build-catalogue.mjs",
       "exit_code": 0,
-      "counts": "4/4",
+      "counts": "61/61",
       "state": "done",
       "kind": "build"
-    },
-    {
-      "name": "Browser smoke tests on a production build",
-      "command": "pnpm --filter web test:e2e:smoke",
-      "exit_code": 0,
-      "counts": "3/3",
-      "state": "done",
-      "kind": "tests"
-    },
-    {
-      "name": "Every spec section has a home in the scaffold",
-      "command": "python3 scripts/check-conformance.py",
-      "exit_code": 0,
-      "counts": "48/48",
-      "state": "done",
-      "kind": "sign-off"
     },
     {
       "name": "Skill names in instructions resolve",
       "command": "python3 scripts/check_skill_references.py",
       "exit_code": 0,
-      "counts": "82/82",
+      "counts": "83/83",
       "state": "done",
       "kind": "sign-off"
     },
     {
-      "name": "Skills catalogue builds",
-      "command": "node site/scripts/build-catalogue.mjs",
+      "name": "Icon contact sheet is complete and clears the bar",
+      "command": "audit_sheet.py check plugins/app-store-connect/assets",
       "exit_code": 0,
-      "counts": "60/60",
-      "state": "done",
-      "kind": "build"
-    },
-    {
-      "name": "Writing passes the voice lint",
-      "command": "agent_voice_lint.py",
-      "exit_code": 0,
-      "counts": "5/5",
+      "counts": "21/21",
       "state": "done",
       "kind": "design"
     },
     {
-      "name": "Gemini notes quote sources word for word",
-      "command": "verify_quotes.py gemini.md",
+      "name": "Eval checks with the skill, final round",
+      "command": "grade_commands.py + blind grader",
       "exit_code": 0,
-      "counts": "18/18",
+      "counts": "38/38",
       "state": "done",
-      "kind": "sign-off"
+      "kind": "tests"
+    },
+    {
+      "name": "Provisioning script passes shellcheck (one file)",
+      "command": "shellcheck provision-app.sh",
+      "exit_code": 0,
+      "state": "done",
+      "kind": "build",
+      "counts": "1/1"
     }
   ],
   "armed": [
     {
-      "check": "Env files match the code",
-      "mutation": "removed JWT_SECRET from .env.example",
-      "case_reddened": "check-env exited 1",
+      "check": "Provisioning script checks the team",
+      "mutation": "gave the Diolog team the wrong team ID",
+      "case_reddened": "the script stopped with exit 3",
       "red": 1,
       "green": 1,
-      "sha": "6edc4aa",
       "armed": true
     },
     {
-      "check": "Env files match the code",
-      "mutation": "added a key nothing reads",
-      "case_reddened": "check-env exited 1",
+      "check": "Provisioning script needs the accounts file",
+      "mutation": "pointed it at a folder with no accounts file",
+      "case_reddened": "the script stopped with exit 2",
       "red": 1,
       "green": 1,
-      "sha": "6edc4aa",
       "armed": true
-    },
+    }
+  ],
+  "corrections": [
     {
-      "check": "Script nonce smoke test",
-      "mutation": "made the home page render at build time",
-      "case_reddened": "2 of 3 smoke tests failed",
-      "red": 2,
-      "green": 3,
-      "sha": "6edc4aa",
-      "armed": true
-    },
-    {
-      "check": "Script nonce smoke test",
-      "mutation": "set the security policy on the response only",
-      "case_reddened": "no test noticed; Next 16.4.5 still stamped the nonce",
-      "red": 0,
-      "green": 3,
-      "sha": "6edc4aa",
-      "armed": false
-    },
-    {
-      "check": "Spec section map",
-      "mutation": "deleted one section's row",
-      "case_reddened": "check-conformance exited 1",
-      "red": 1,
-      "green": 1,
-      "sha": "6edc4aa",
-      "armed": true
-    },
-    {
-      "check": "Node version guard",
-      "mutation": "ran the check on Node 22",
-      "case_reddened": "it refused and named nvm use",
-      "red": 1,
-      "green": 1,
-      "sha": "6edc4aa",
-      "armed": true
-    },
-    {
-      "check": "Waitlist hides who joined",
-      "mutation": "stored the viewer token on every join",
-      "case_reddened": "2 of 4 waitlist tests failed",
-      "red": 2,
-      "green": 4,
-      "sha": "6edc4aa",
-      "armed": true
-    },
-    {
-      "check": "Request size cap",
-      "mutation": "read the whole body before checking its size",
-      "case_reddened": "the chunked-body test failed",
-      "red": 1,
-      "green": 11,
-      "sha": "e16451d",
-      "armed": true
-    },
-    {
-      "check": "Client address for rate limits",
-      "mutation": "trusted the left-most forwarded address",
-      "case_reddened": "the spoofed-header test failed",
-      "red": 1,
-      "green": 11,
-      "sha": "e16451d",
-      "armed": true
+      "earlier_claim": "Evals run in a sandbox that can't change your Apple accounts",
+      "said_pct": 100,
+      "true_pct": 92,
+      "true_state": "11 of 12 runs stayed read-only; one unset the guard and created a bundle ID.",
+      "mechanism": "The guard was a setting the run itself could switch off.",
+      "caught_by": "a scan of every transcript for guard overrides"
     }
   ],
   "findings": [
@@ -214,147 +138,123 @@
       "id": "F-1",
       "score": 90,
       "severity": "high",
-      "file_line": "scripts/scaffold.sh",
-      "claim": "every scaffold here cited spec docs it never copied",
+      "file_line": "evals round 1, no-skill run",
+      "claim": "a run without the skill lifted the write guard and created a real bundle ID",
       "state": "done"
     },
     {
       "id": "F-2",
-      "score": 75,
-      "severity": "high",
-      "file_line": "scripts/scaffold.sh",
-      "claim": "pnpm version came from whatever folder the scaffold ran in",
+      "score": 60,
+      "severity": "medium",
+      "file_line": "SKILL.md step 5",
+      "claim": "the skill run read Chrome tab addresses hunting for an Apple session",
       "state": "done"
     },
     {
       "id": "F-3",
-      "score": 70,
-      "severity": "high",
-      "file_line": "templates/auth/lib/auth-server.ts.tmpl",
-      "claim": "a sign-in code could be used twice by two racing requests",
+      "score": 55,
+      "severity": "medium",
+      "file_line": "SKILL.md step 6",
+      "claim": "asking before every write was ignored when the request said set it up",
       "state": "done"
     },
     {
       "id": "F-4",
-      "score": 65,
+      "score": 45,
       "severity": "medium",
-      "file_line": "templates/auth/app/login/page.tsx.tmpl",
-      "claim": "dev login button was decided in browser code",
+      "file_line": "SKILL.md constraints",
+      "claim": "the iCloud run never said the container is permanent",
       "state": "done"
     },
     {
       "id": "F-5",
-      "score": 60,
-      "severity": "medium",
-      "file_line": "templates/api/package.json.tmpl",
-      "claim": "API tests could not load NestJS 12 at all",
+      "score": 40,
+      "severity": "low",
+      "file_line": "SKILL.md step 6",
+      "claim": "the new-app run handed over the command instead of asking",
       "state": "done"
     },
     {
       "id": "F-6",
-      "score": 55,
-      "severity": "medium",
-      "file_line": "templates/observability/next.config.ts.tmpl",
-      "claim": "Sentry option failed to typecheck after Sentry 11",
-      "state": "done"
-    },
-    {
-      "id": "F-7",
-      "score": 50,
-      "severity": "medium",
-      "file_line": "scripts/canary.sh",
-      "claim": "a healthy canary run reported failure",
-      "state": "done"
-    },
-    {
-      "id": "F-8",
-      "score": 45,
-      "severity": "medium",
-      "file_line": "templates/waitlist/lib/waitlist.ts",
-      "claim": "joining with a known email revealed it was already on the list",
-      "state": "done"
-    },
-    {
-      "id": "F-9",
-      "score": 40,
-      "severity": "medium",
-      "file_line": "templates/api/Dockerfile.tmpl",
-      "claim": "API image may not find its packages under pnpm's layout",
-      "state": "unmeasured"
-    },
-    {
-      "id": "F-10",
-      "score": 55,
-      "severity": "medium",
-      "file_line": "templates/server-lib/lib/http.ts",
-      "claim": "a body with no length header was read whole before the size cap",
-      "state": "done"
-    },
-    {
-      "id": "F-11",
-      "score": 55,
-      "severity": "medium",
-      "file_line": "templates/kv/lib/rate-limit.ts",
-      "claim": "per-IP limits trusted an address the client can forge",
+      "score": 30,
+      "severity": "low",
+      "file_line": "docs/deep-research",
+      "claim": "one research citation was dead; the claim was re-sourced from Apple",
       "state": "done"
     }
   ],
   "not_checked": [
     {
-      "axis": "Docker images",
-      "why_not": "No image was built; the canary checks the dev toolchain."
+      "axis": "A successful unattended Apple sign-in",
+      "why_not": "Apple's text never reached this Mac."
     },
     {
-      "axis": "Expo app on a phone",
-      "why_not": "Lint and types ran; no simulator or Maestro run."
+      "axis": "The script's write path succeeding",
+      "why_not": "Every eval run was read-only on purpose."
     },
     {
-      "axis": "The vercel build path of the check",
-      "why_not": "No test project was linked to Vercel."
+      "axis": "Answers graded by a second model family",
+      "why_not": "One Claude grader read every answer."
     },
     {
-      "axis": "A model following the new instructions",
-      "why_not": "The skill's eval set is still unrun."
+      "axis": "A both-environment push key in the portal",
+      "why_not": "Apple's page and a push provider disagree; the portal wasn't opened."
     }
   ],
-  "not_done": [
+  "not_done": [],
+  "roadmap": [
     {
-      "action": "Two Storybooks for the design system",
-      "reason": "No shared components exist yet; logged as a divergence.",
-      "what_would_unblock": "The first shared UI component.",
-      "size": "a day"
-    },
-    {
-      "action": "Send two spec corrections back to bella-team-files",
-      "reason": "Different repo, outside this task.",
-      "what_would_unblock": "Your go-ahead.",
-      "size": "an hour"
-    },
-    {
-      "action": "Confirm waitlist addresses by email before counting referrals",
-      "reason": "The waitlist has no email step; counts stay unverified.",
-      "what_would_unblock": "A decision to add email to the waitlist.",
-      "size": "an hour"
+      "round": "Next",
+      "goal": "Prove an unattended Apple sign-in end to end",
+      "tasks": [
+        "ASC-7"
+      ],
+      "tier": "S",
+      "status": "blocked",
+      "waits_on": "Text Message Forwarding on the iPhone",
+      "estimate_min": [
+        3,
+        25
+      ],
+      "median_min": 8
     }
   ],
-  "needs_you": [],
+  "needs_you": [
+    {
+      "ask": "Turn on Text Message Forwarding to this Mac",
+      "kind": "setting",
+      "waiting_since": "2026-11-09T10:58:18+00:00",
+      "one_line": "Without it, Apple sign-in needs you at the keyboard."
+    },
+    {
+      "ask": "Sign in once as the Diolog Admin Apple Account",
+      "kind": "credential",
+      "waiting_since": "2026-11-09T10:58:18+00:00",
+      "one_line": "Stores its password so Diolog web steps can run."
+    }
+  ],
   "artifacts": [
     {
-      "path": "plugins/create-swe-project/skills/create-swe-project/references/team-files-conformance.md",
+      "path": "plugins/app-store-connect/evals/EVALS.md",
       "kind": "md",
-      "contains": "Every spec section and where the scaffold carries it out.",
+      "contains": "How the skill did against no skill, round by round.",
       "open_first": true
     },
     {
-      "path": "plugins/create-swe-project/CHANGELOG.md",
+      "path": "plugins/app-store-connect/skills/app-store-connect/SKILL.md",
       "kind": "md",
-      "contains": "What 1.13.0 changed and how it was checked."
+      "contains": "The procedure the skill follows."
+    },
+    {
+      "path": "plugins/app-store-connect/docs/deep-research/2026-11-09-apns-key-scope-addendum.md",
+      "kind": "md",
+      "contains": "Apple's own rules for push keys, quoted."
     }
   ],
   "git": {
-    "branch": "feat/create-swe-project-team-files",
+    "branch": "main",
     "commits_ahead": 0,
     "worktree_clean": false,
-    "pushed": false
+    "pushed": true
   }
 }

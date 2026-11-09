@@ -655,7 +655,7 @@
     },
     {
       "name": "feedback-panel",
-      "description": "Review a stakeholder's feedback on a project with a panel of model families, decide what to build, what to ask and what to push back on, and hand the feedback author a self-contained HTML report with multiple-choice questions, preselected recommendations, the reasoning inside each question, and a JSON export they send back. Then apply the answers that come back, build the agreed changes, and turn the report into a record of the answers. Use when someone pastes or points at feedback on a website, app, deck, document or design and wants it reviewed, triaged, challenged or turned into questions — \"review this feedback\", \"what do you make of Amy's notes\", \"have codex and gemini check this too\", \"turn these comments into questions for her\", \"push back where it's wrong\", \"here are her answers, work through them\" — even when they never say \"panel\" or \"report\". Not for reviewing code diffs (code-review:code-review), a project's own backlog (whats-left:whats-left), or a single fork you need settled (clarify:clarify).",
+      "description": "Review a stakeholder's feedback on a project with a panel of model families, decide what to build, what to ask and what to push back on, and hand the feedback author a self-contained HTML report with multiple-choice questions, preselected recommendations, the reasoning inside each question, and a JSON export they send back. Then apply the answers that come back, build the agreed changes, and turn the report into a record of the answers. Use when someone pastes or points at feedback on a website, app, deck, document or design and wants it reviewed, triaged, challenged or turned into questions \u2014 \"review this feedback\", \"what do you make of Amy's notes\", \"have codex and gemini check this too\", \"turn these comments into questions for her\", \"push back where it's wrong\", \"here are her answers, work through them\" \u2014 even when they never say \"panel\" or \"report\". Not for reviewing code diffs (code-review:code-review), a project's own backlog (whats-left:whats-left), or a single fork you need settled (clarify:clarify).",
       "version": "0.2.0",
       "author": {
         "name": "Fledgeling",
@@ -673,6 +673,17 @@
         "email": "lukerhodes27@gmail.com"
       },
       "source": "./plugins/decision-panel",
+      "category": "development"
+    },
+    {
+      "name": "app-store-connect",
+      "description": "Drives App Store Connect and the Apple Developer Portal through the Rork asc CLI, and says which credential each call uses and where it lives: API keys in the system keychain behind asc profiles, Apple Account web sessions whose SMS two-factor codes are read from Messages, Warden for the rest. Account details stay in a private file on the machine, so the skill itself names no team. A bundled script provisions a new app, planning before it writes: bundle ID, capabilities reconciled from an entitlements file with push included, and the App Store Connect app record, each read back by resource ID. App Groups, iCloud containers and signing profiles are covered as commands. The APNs push key is the one piece Apple exposes to no API, so the skill treats it as a team asset created once and reused by every app.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/app-store-connect",
       "category": "development"
     }
   ]

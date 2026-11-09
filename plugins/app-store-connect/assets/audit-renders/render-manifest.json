@@ -1,0 +1,40 @@
+{
+  "takes": {
+    "engineB": {
+      "source": "icon-engineB-60ff7b.svg",
+      "kind": "svg-letterbox",
+      "source_sha256": "d18be610f86b35fc3285702e0a9b3e556660e28d29c1a3fee53a4b3fd428b481",
+      "source_mtime": 1794214598.884459,
+      "rendered_at": 1794219932.2211058
+    },
+    "engineC": {
+      "source": "icon-engineC-3e570a.png",
+      "kind": "raster-mask",
+      "source_sha256": "3409903f85a33954902067df0f422050e9255e1686ed0c91bd7387184d9f4fcf",
+      "source_mtime": 1794214631.3812768,
+      "rendered_at": 1794219932.5481322
+    },
+    "master": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_sha256": "11bb2aff431097511608d9aa1f730870a46c75d6cb5a37b63d97a467fd553e51",
+      "source_mtime": 1794219931.474607,
+      "rendered_at": 1794219932.917013
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

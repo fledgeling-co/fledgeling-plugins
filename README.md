@@ -291,6 +291,14 @@ After you finish something anywhere in your portfolio, this updates that one pro
 
 <br clear="left" />
 
+<a href="plugins/app-store-connect/README.md"><img src="plugins/app-store-connect/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [app-store-connect](plugins/app-store-connect/README.md)
+
+Sets up the Apple side of a new app from the terminal: the bundle ID, its capabilities including push, and the App Store Connect record, for Diolog's team and my own. It knows which credential each call uses and which team it lands on, plans before it writes, and treats Apple's push key as the one thing no API will make.
+
+<br clear="left" />
+
 <a href="plugins/atlas-publish/README.md"><img src="plugins/atlas-publish/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [atlas-publish](plugins/atlas-publish/README.md)

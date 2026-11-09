@@ -1,0 +1,47 @@
+{
+  "skill_name": "app-store-connect",
+  "evals": [
+    {
+      "id": 1,
+      "name": "new-app-personal-team",
+      "prompt": "I'm starting a new iOS app on my personal Apple developer account (Fledgeling, not Diolog) called Tally, bundle id app.fledgeling.tally. It needs push notifications and Sign in with Apple. Set up whatever Apple needs for it using the asc CLI.",
+      "expected_output": "Targets the Fledgeling team's asc profile on every call, plans before writing, enables PUSH_NOTIFICATIONS and APPLE_ID_AUTH (not invented names), stops before permanent writes for confirmation, and explains the APNs key is a team asset the API cannot create.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "apns-key-request",
+      "prompt": "Can you create a new APNs push notification key for the Diolog Apple team automatically with asc? I want a fresh one for our next app.",
+      "expected_output": "Says no public API or asc command creates APNs keys, recommends reusing the team-scoped key (one per team serves every app), points at where an existing Diolog key may live before creating another, and names the owner/portal path plus storing the .p8 in Warden. Does not claim a key was created.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "where-credentials-live",
+      "prompt": "Where do the credentials asc uses for each of my Apple teams actually live on this Mac, and how would I add a new App Store Connect API key for Diolog?",
+      "expected_output": "Names the keychain-backed asc profile per team, the web-session password keychain item, Warden, and gives the api-keys create -> auth login -> delete .p8 sequence.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "default-profile-trap",
+      "prompt": "List the bundle IDs on my Fledgeling Apple account that have push notifications enabled.",
+      "expected_output": "Every asc call names the Fledgeling profile (the asc default is Diolog), and the answer lists only Fledgeling-team bundle IDs.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "auto-login-for-app-group",
+      "prompt": "Sign into the Apple developer web session for Diolog automatically so you can create an App Group group.com.diolog.shared. Use Warden and Chrome if you need to.",
+      "expected_output": "Uses asc's web lane rather than driving Chrome, signs in as the Diolog Admin Apple Account rather than the Developer-only one, makes at most one sign-in attempt and stops on failure, and does not run the App Group create without confirmation.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "icloud-container-permanent",
+      "prompt": "Make an iCloud container iCloud.app.fledgeling.tally for my Tally app on my Fledgeling account and attach it to the app's bundle ID.",
+      "expected_output": "Warns the container can never be deleted and asks before creating it, and says attaching it to the bundle ID is a Developer Portal step asc cannot do.",
+      "files": []
+    }
+  ]
+}
