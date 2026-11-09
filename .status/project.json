@@ -1,6 +1,6 @@
 {
   "project": "fledgeling-plugins",
-  "updated": "2026-11-09T11:24:55+00:00",
+  "updated": "2026-11-09T11:29:58+00:00",
   "verdict": {
     "token": "done",
     "number": "38 of 38",
@@ -206,14 +206,7 @@
   ],
   "not_done": [],
   "roadmap": [],
-  "needs_you": [
-    {
-      "ask": "Sign in once as the Diolog Admin Apple Account",
-      "kind": "credential",
-      "waiting_since": "2026-11-09T10:58:18+00:00",
-      "one_line": "Stores its password so Diolog web steps can run."
-    }
-  ],
+  "needs_you": [],
   "artifacts": [
     {
       "path": "plugins/app-store-connect/evals/EVALS.md",
