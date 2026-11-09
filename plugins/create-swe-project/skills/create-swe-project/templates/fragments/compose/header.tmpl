@@ -1,5 +1,14 @@
-# Dockerized local dev stack for {{DISPLAY}} (BP §21), fronted by the shared Caddy (§20).
-# Rules encoded here: NEVER bind-mount node_modules (named volumes per service);
-# polling file-watch scoped to Docker; healthchecks probe 127.0.0.1.
+# Dockerized local dev stack for {{DISPLAY}} (BP §21), fronted by the shared Caddy (BP §20).
+# Rules encoded here:
+#  - ports bind to 127.0.0.1, so nothing is reachable from the LAN;
+#  - source is bind-mounted, node_modules NEVER is: each service gets named
+#    volumes for its own modules and store, and every other workspace member's
+#    node_modules is shadowed, so a container install can't clobber the host's;
+#  - heavy trees a container never reads (native ios/android/macOS output) are
+#    masked with empty volumes, so watchers can't exhaust macOS's kern.maxfiles;
+#  - healthchecks probe 127.0.0.1, not localhost;
+#  - file watching is event-based. Create, edit, rename and delete a file once and
+#    watch the logs; only if an event never arrives, run `next dev --webpack`
+#    with WATCHPACK_POLLING=true here (Turbopack ignores polling settings).
 name: {{CODENAME}}
 services:

@@ -1,1 +1,1 @@
-| `apps/api` | jest + @swc/jest (plain `.js` config — never ts-jest) | `pnpm --filter api test` | handlers + pure logic; hermetic (no Docker in default `test`) |
+| `apps/api` | Jest + @swc/jest (plain `.js` config, never ts-jest) | `pnpm --filter api test` | controllers and services; DI resolves because SWC emits decorator metadata; type-checked by `tsc` with `src/` |

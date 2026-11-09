@@ -1,0 +1,30 @@
+// Every destructive script (seed, migrate, replace-all) calls this first
+// (CP §6.8). Right after `vercel env pull`, .env.local holds production
+// credentials, and the next seed would wipe the production tenant.
+//
+// It passes only when every host in MONGODB_URI is loopback AND the database is
+// one of this project's local databases, or when SEED_CONFIRM carries the exact
+// phrase below. A loopback host alone is not enough: it can be an SSH tunnel.
+const LOOPBACK = new Set(['localhost', '127.0.0.1', '::1']);
+const LOCAL_DATABASES = new Set(['{{DB_NAME}}_dev', '{{DB_NAME}}_test']);
+export const SEED_CONFIRM_PHRASE = 'yes-wipe-this-database';
+
+export function parseMongoUri(uri: string): { hosts: string[]; database: string } {
+  const match = /^mongodb(\+srv)?:\/\/(?:[^@/]*@)?([^/?]+)(?:\/([^?]*))?/.exec(uri);
+  if (!match) throw new Error('MONGODB_URI is not a mongodb:// connection string');
+  // An SRV record resolves to remote hosts by definition.
+  if (match[1]) return { hosts: ['srv'], database: match[3] ?? '' };
+  const hosts = (match[2] ?? '').split(',').map((h) => (h.startsWith('[') ? h.slice(1, h.indexOf(']')) : h.split(':')[0] ?? ''));
+  return { hosts, database: decodeURIComponent(match[3] ?? '') };
+}
+
+export function assertLocalDatabase(uri: string | undefined, confirm: string | undefined): void {
+  if (confirm === SEED_CONFIRM_PHRASE) return;
+  if (!uri) throw new Error('MONGODB_URI is not set');
+  const { hosts, database } = parseMongoUri(uri);
+  const remote = hosts.filter((h) => !LOOPBACK.has(h));
+  if (remote.length > 0) throw new Error(`refusing: MONGODB_URI points at a non-local host (${remote.join(', ')})`);
+  if (!LOCAL_DATABASES.has(database)) {
+    throw new Error(`refusing: database "${database}" is not a local database (${[...LOCAL_DATABASES].join(', ')})`);
+  }
+}

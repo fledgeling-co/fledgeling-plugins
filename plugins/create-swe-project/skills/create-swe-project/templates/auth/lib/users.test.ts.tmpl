@@ -1,0 +1,32 @@
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
+import mongoose from 'mongoose';
+import { MongoMemoryReplSet } from 'mongodb-memory-server';
+import { UserModel } from './models';
+import { findOrCreateUser } from './users';
+import { db } from './db';
+
+// In-memory replica set, as the day-one harness prescribes (BP §15): a replica
+// set because audit logging relies on transactions (CP §6.8).
+let replSet: MongoMemoryReplSet | undefined;
+
+beforeAll(async () => {
+  replSet = await MongoMemoryReplSet.create({ replSet: { count: 1 } });
+  vi.stubEnv('MONGODB_URI', replSet.getUri('{{DB_NAME}}_test'));
+  await db();
+  await UserModel.init(); // the unique email index must exist before the race below
+}, 180_000);
+
+afterAll(async () => {
+  await mongoose.disconnect();
+  await replSet?.stop();
+});
+
+describe('findOrCreateUser', () => {
+  it('creates one user under five concurrent first sign-ins, and reports created once', async () => {
+    const results = await Promise.all(Array.from({ length: 5 }, () => findOrCreateUser('New.Person@Example.com')));
+    expect(new Set(results.map((r) => r.id)).size).toBe(1);
+    expect(results.filter((r) => r.created)).toHaveLength(1);
+    expect(results[0]?.email).toBe('new.person@example.com');
+    expect(await UserModel.countDocuments({ email: 'new.person@example.com' })).toBe(1);
+  });
+});

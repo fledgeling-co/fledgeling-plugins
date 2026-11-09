@@ -2,10 +2,22 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": ["ES2023"],
-    "types": ["react"],
+    "lib": [
+      "ES2023"
+    ],
+    "types": [
+      "react"
+    ],
     "noEmit": true
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "eslint.config.js",
+    "metro.config.js",
+    "babel.config.js"
+  ]
 }

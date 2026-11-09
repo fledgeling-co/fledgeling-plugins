@@ -1,31 +1,35 @@
 import 'server-only';
+import type { ReactElement } from 'react';
 import { Resend } from 'resend';
 import { SignInCodeEmail } from '@/emails/sign-in-code';
 import { WelcomeEmail } from '@/emails/welcome';
+import { optionalEnv, requireEnv } from './env';
+import { logger } from './logger';
+import { canReceiveOutbound } from './outbound';
 
-// Resend + React Email templates (BP §8): named export per template, verified
-// sender from env, never hand-inlined HTML.
-function client(): Resend {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) throw new Error('RESEND_API_KEY is not set');
-  return new Resend(key);
-}
-const from = () => process.env.RESEND_FROM_EMAIL ?? '{{DISPLAY}} <onboarding@resend.dev>';
+// Resend + React Email (BP §8): one named export per template, verified sender
+// from env. React Email escapes interpolated text, so no escapeHtml here.
 
-export async function sendSignInCodeEmail(to: string, code: string): Promise<void> {
-  await client().emails.send({
-    from: from(),
+async function send(to: string, subject: string, react: ReactElement): Promise<void> {
+  if (!canReceiveOutbound(to)) {
+    logger.info({ domain: to.slice(to.lastIndexOf('@') + 1) }, 'outbound email suppressed outside production');
+    return;
+  }
+  const resend = new Resend(requireEnv('RESEND_API_KEY'));
+  // The SDK reports failure in its result rather than throwing.
+  const { error } = await resend.emails.send({
+    from: optionalEnv('RESEND_FROM_EMAIL', '{{DISPLAY}} <onboarding@resend.dev>'),
     to,
-    subject: `${code} is your {{DISPLAY}} sign-in code`,
-    react: SignInCodeEmail({ code }),
+    subject,
+    react,
   });
+  if (error) throw new Error(`Resend rejected the email: ${error.message}`);
 }
 
-export async function sendWelcomeEmail(to: string): Promise<void> {
-  await client().emails.send({
-    from: from(),
-    to,
-    subject: 'Welcome to {{DISPLAY}}',
-    react: WelcomeEmail({ email: to }),
-  });
+export function sendSignInCodeEmail(to: string, code: string): Promise<void> {
+  return send(to, `${code} is your {{DISPLAY}} sign-in code`, SignInCodeEmail({ code }));
+}
+
+export function sendWelcomeEmail(to: string): Promise<void> {
+  return send(to, 'Welcome to {{DISPLAY}}', WelcomeEmail({ email: to }));
 }

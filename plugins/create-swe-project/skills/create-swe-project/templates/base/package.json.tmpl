@@ -4,14 +4,16 @@
   "version": "0.1.0",
   "description": "{{DESCRIPTION}}",
   "packageManager": "pnpm@{{PNPM_VERSION}}",
-  "engines": { "node": ">=20.9.0" },
+  "engines": { "node": ">=24.9.0" },
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "gate": "turbo run lint typecheck build",
+    "test:integration": "turbo run test:integration",
+    "gate": "node scripts/gate.mjs --all",
+    "check:env": "node scripts/check-env.mjs",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "prepare": "husky"
   },

@@ -1,6 +1,7 @@
 import 'server-only';
 import * as http2 from 'node:http2';
 import { SignJWT, importPKCS8 } from 'jose';
+import { appEnv } from './env';
 
 /*
  * Server-side push straight to APNs over HTTP/2 with token-based ES256 auth
@@ -10,6 +11,10 @@ import { SignJWT, importPKCS8 } from 'jose';
  *
  * The APNs JWT is cached ~50 minutes: minting per-request risks APNs
  * TooManyProviderTokenUpdates (limit: 1/minute).
+ *
+ * Production APNs is reachable only from a production runtime (BP §24): a
+ * staging run can push to sandbox tokens, which only development builds on the
+ * team's own devices hold, and never to real customers' phones.
  */
 
 export type PushPayload = { title: string; body: string; data?: Record<string, string> };
@@ -41,6 +46,9 @@ async function apnsJwt(keyId: string, teamId: string, privateKeyPem: string): Pr
 export async function sendPushToDevice(deviceToken: string, payload: PushPayload): Promise<SendResult> {
   const config = readConfig();
   if (!config) return { outcome: 'failed', reason: 'APNs unconfigured' };
+  if (config.host === 'https://api.push.apple.com' && appEnv() !== 'production') {
+    return { outcome: 'failed', reason: 'production APNs is suppressed outside production' };
+  }
   const jwt = await apnsJwt(config.keyId, config.teamId, config.privateKeyPem);
   return new Promise((resolve) => {
     const client = http2.connect(config.host);

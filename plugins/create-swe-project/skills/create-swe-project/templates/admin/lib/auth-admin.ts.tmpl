@@ -1,81 +1,98 @@
 import 'server-only';
 import { cookies } from 'next/headers';
-import { SignJWT, jwtVerify } from 'jose';
+import { SignJWT, errors, jwtVerify } from 'jose';
 import { createHmac, randomInt, timingSafeEqual } from 'node:crypto';
 import { Resend } from 'resend';
+import { optionalEnv, requireEnv, requireSecret } from './env';
+import { logger } from './logger';
 import { redis } from './redis';
 
-// Distinct trust domain (BP §9.5): ADMIN_JWT_SECRET + a different audience — a
-// user-side key compromise must not mint admin tokens. Admin access is an
-// explicit email allowlist (ADMIN_EMAILS, comma-separated).
+// A distinct trust domain (BP §9.5, CP §6.1): its own secret and audience, so a
+// user-side key compromise can't mint admin tokens. Access is an explicit email
+// allowlist with email-code sign-in, the multi-admin variant BP §9.5 calls for
+// once more than one person administers.
 const ALGORITHM = 'HS256';
 const ISSUER = '{{CODENAME}}';
 const AUDIENCE = '{{CODENAME}}-admin';
-const COOKIE = 'admin_session';
-const TTL_S = 60 * 60 * 12; // 12h — admin sessions stay short; no refresh path
+const SECURE = process.env.NODE_ENV === 'production';
+const COOKIE = SECURE ? '__Host-admin_session' : 'admin_session';
+const TTL_S = 60 * 60 * 12; // 12h: admin sessions stay short and have no refresh path
+const CODE_TTL_S = 600;
 
-function secret(): Uint8Array {
-  const s = process.env.ADMIN_JWT_SECRET;
-  if (!s) throw new Error('ADMIN_JWT_SECRET is not set');
-  return new TextEncoder().encode(s);
-}
-const hash = (v: string) => createHmac('sha256', process.env.ADMIN_JWT_SECRET ?? '').update(v).digest('hex');
+const key = (): Uint8Array => new TextEncoder().encode(requireSecret('ADMIN_JWT_SECRET'));
+const hmac = (v: string): string => createHmac('sha256', requireSecret('ADMIN_JWT_SECRET')).update(v).digest('hex');
 
 export function isAdminEmail(email: string): boolean {
-  const list = (process.env.ADMIN_EMAILS ?? '').split(',').map((e) => e.trim().toLowerCase()).filter(Boolean);
+  const list = requireEnv('ADMIN_EMAILS').split(',').map((e) => e.trim().toLowerCase()).filter(Boolean);
   return list.includes(email.trim().toLowerCase());
 }
 
-export async function requestAdminCode(email: string): Promise<void> {
-  if (!isAdminEmail(email)) return; // same response either way — no existence leak
-  const n = await redis().incr(`admin:rate:${email}`);
-  await redis().expire(`admin:rate:${email}`, 3600);
-  if (n > 3) return;
-  const code = String(randomInt(100000, 1000000));
-  await redis().set(`admin:code:${email}`, hash(code), 'EX', 600);
-  const key = process.env.RESEND_API_KEY;
-  if (!key) throw new Error('RESEND_API_KEY is not set');
-  await new Resend(key).emails.send({
-    from: process.env.RESEND_FROM_EMAIL ?? '{{DISPLAY}} <onboarding@resend.dev>',
+async function sendCode(email: string, code: string): Promise<void> {
+  const { error } = await new Resend(requireEnv('RESEND_API_KEY')).emails.send({
+    from: optionalEnv('RESEND_FROM_EMAIL', '{{DISPLAY}} <onboarding@resend.dev>'),
     to: email,
     subject: `${code} is your {{DISPLAY}} admin code`,
     text: `Your {{DISPLAY}} admin sign-in code is ${code}. It expires in 10 minutes.`,
   });
+  if (error) throw new Error(`Resend rejected the admin code email: ${error.message}`);
 }
+
+/**
+ * Issue a code when the address is on the allowlist. The per-email counter runs
+ * for every address and the send is deferred by the caller (via after()), so a
+ * non-admin and an admin get the same response in the same time (CP §6.1).
+ * Returns the deferred send, or null when there is nothing to send.
+ */
+export async function requestAdminCode(email: string): Promise<(() => Promise<void>) | null> {
+  const client = await redis();
+  const rateKey = `admin:rate:${email}`;
+  const [count] = await client.multi().incr(rateKey).expire(rateKey, 3600, 'NX').exec();
+  if (!isAdminEmail(email) || Number(count) > 3) return null;
+  const code = String(randomInt(100000, 1000000));
+  await client.set(`admin:code:${email}`, hmac(code), { EX: CODE_TTL_S });
+  return () => sendCode(email, code).catch((err: unknown) => logger.error({ err }, 'admin code email failed'));
+}
+
+const COMPARE_AND_DELETE = "if redis.call('GET', KEYS[1]) == ARGV[1] then return redis.call('DEL', KEYS[1]) else return 0 end";
 
 export async function verifyAdminCode(email: string, code: string): Promise<boolean> {
   if (!isAdminEmail(email)) return false;
-  const attempts = await redis().incr(`admin:attempts:${email}`);
-  await redis().expire(`admin:attempts:${email}`, 600);
-  if (attempts > 5) return false;
-  const stored = await redis().get(`admin:code:${email}`);
-  if (!stored) return false;
-  const candidate = hash(code);
-  const ok = stored.length === candidate.length && timingSafeEqual(Buffer.from(stored), Buffer.from(candidate));
-  if (ok) {
-    await redis().del(`admin:code:${email}`, `admin:attempts:${email}`);
-    const jar = await cookies();
-    const token = await new SignJWT({ email })
-      .setProtectedHeader({ alg: ALGORITHM })
-      .setSubject(email)
-      .setIssuer(ISSUER)
-      .setAudience(AUDIENCE)
-      .setIssuedAt()
-      .setExpirationTime(`${TTL_S}s`)
-      .sign(secret());
-    jar.set(COOKIE, token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict', path: '/', maxAge: TTL_S });
+  const client = await redis();
+  const codeKey = `admin:code:${email}`;
+  const attemptsKey = `admin:attempts:${email}`;
+  const [attempts] = await client.multi().incr(attemptsKey).expire(attemptsKey, CODE_TTL_S, 'NX').exec();
+  if (Number(attempts) > 5) {
+    await client.del(codeKey);
+    return false;
   }
-  return ok;
+  const stored = await client.get(codeKey);
+  if (!stored) return false;
+  const candidate = hmac(code);
+  if (stored.length !== candidate.length || !timingSafeEqual(Buffer.from(stored), Buffer.from(candidate))) return false;
+  if (Number(await client.eval(COMPARE_AND_DELETE, { keys: [codeKey], arguments: [stored] })) !== 1) return false;
+  await client.del(attemptsKey);
+  const token = await new SignJWT({ email })
+    .setProtectedHeader({ alg: ALGORITHM })
+    .setSubject(email)
+    .setIssuer(ISSUER)
+    .setAudience(AUDIENCE)
+    .setIssuedAt()
+    .setExpirationTime(`${TTL_S}s`)
+    .sign(key());
+  (await cookies()).set(COOKIE, token, { httpOnly: true, secure: SECURE, sameSite: 'strict', path: '/', maxAge: TTL_S });
+  return true;
 }
 
 export async function getAdminSession(): Promise<{ email: string } | null> {
   const token = (await cookies()).get(COOKIE)?.value;
   if (!token) return null;
   try {
-    const { payload } = await jwtVerify(token, secret(), { algorithms: [ALGORITHM], issuer: ISSUER, audience: AUDIENCE });
-    return { email: payload.sub as string };
-  } catch {
-    return null;
+    const { payload } = await jwtVerify(token, key(), { algorithms: [ALGORITHM], issuer: ISSUER, audience: AUDIENCE });
+    // Re-check the allowlist on every request, so removing an address revokes access.
+    return typeof payload.sub === 'string' && isAdminEmail(payload.sub) ? { email: payload.sub } : null;
+  } catch (err: unknown) {
+    if (err instanceof errors.JOSEError) return null;
+    throw err;
   }
 }
 

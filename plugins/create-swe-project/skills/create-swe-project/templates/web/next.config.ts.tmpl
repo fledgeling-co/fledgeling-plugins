@@ -1,10 +1,14 @@
 import type { NextConfig } from 'next';
 
-// Baseline security headers from day one (BP §12). CSP is the one deliberate gap:
-// add a nonce-based CSP with the first inline script (see BP §12 / fledgeling-app's
-// proxy.ts for the Next 16 nonce pattern) rather than shipping 'unsafe-inline'.
+// Static security headers from day one (BP §12). The CSP is per-request, so it
+// lives in proxy.ts with its nonce, not here (CP §6.7).
+//
+// HSTS starts short. Raise max-age to 63072000 once every subdomain is confirmed
+// to serve HTTPS; `includeSubDomains` forces HTTPS on all of them the moment a
+// browser sees the header. Preload-list submission is a separate, slow-to-undo
+// step and is deliberately not implied here.
 const securityHeaders = [
-  { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+  { key: 'Strict-Transport-Security', value: 'max-age=300; includeSubDomains' },
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
@@ -14,7 +18,11 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // Required for the Docker image (BP §17); Vercel ignores it, so it's safe everywhere.
   output: 'standalone',
-  allowedDevOrigins: ['{{CODENAME}}.local'],
+  // node-redis loads a native addon (@node-rs/xxhash) that the bundler can't place;
+  // keep it a runtime require. Listing it is harmless where Redis isn't installed.
+  serverExternalPackages: ['redis', '@redis/client'],
+  // Keep in sync with the Caddyfile host, .env.example and the CSP (BP §14).
+  allowedDevOrigins: ['{{HOST}}'],
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
   },

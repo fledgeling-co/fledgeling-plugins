@@ -1,7 +1,10 @@
-# Local dev reverse proxy routes for {{DISPLAY}} (BP §20).
-# Repo-local file: run standalone with `caddy run --config Caddyfile`, or mirror the
-# route blocks (NOT the global block) into /opt/homebrew/etc/caddy/conf.d/{{CODENAME}}.caddy
-# for the machine-wide shared Caddy. /etc/hosts needs: 127.0.0.1 {{CODENAME}}.local
+# Local dev routes for {{DISPLAY}} (BP §20), served by the ONE machine-wide Caddy.
+# Mirror the route blocks below (NOT the global block) into the machine's
+# conf.d/{{CODENAME}}.caddy, then `caddy validate` and `caddy reload`; or run this
+# file standalone with `caddy run --config Caddyfile`. *.localhost resolves to
+# loopback with no /etc/hosts entry on macOS 26+, and browsers treat it as a
+# secure context. Keep these hosts in step with allowedDevOrigins, each app's
+# .env.example and the CSP in the same change (BP §14).
 {
 	auto_https off
 }

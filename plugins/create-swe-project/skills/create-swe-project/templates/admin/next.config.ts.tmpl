@@ -1,7 +1,8 @@
 import type { NextConfig } from 'next';
 
+// Static headers here; the per-request nonce CSP lives in proxy.ts (CP §6.7).
 const securityHeaders = [
-  { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+  { key: 'Strict-Transport-Security', value: 'max-age=300; includeSubDomains' }, // raise once HTTPS is confirmed (BP §12)
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
@@ -10,7 +11,10 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  allowedDevOrigins: ['admin.{{CODENAME}}.local'],
+  // node-redis loads a native addon (@node-rs/xxhash) that the bundler can't place;
+  // keep it a runtime require. Listing it is harmless where Redis isn't installed.
+  serverExternalPackages: ['redis', '@redis/client'],
+  allowedDevOrigins: ['admin.{{HOST}}'],
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
   },

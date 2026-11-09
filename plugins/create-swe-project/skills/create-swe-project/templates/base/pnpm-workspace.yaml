@@ -2,38 +2,63 @@ packages:
   - "apps/*"
   - "packages/*"
 
-# pnpm 10+ blocks lifecycle build scripts by default (supply-chain safety, BP §17).
-# Pre-approve only the native binaries the toolchain genuinely needs.
-# NOTE pnpm 11 renames this mechanism to `allowBuilds` (and requires Node >=22) —
-# when bumping packageManager past 10.x, migrate this key or the approvals
-# silently stop applying.
-onlyBuiltDependencies:
-  - esbuild
-  - sharp
-  - "@swc/core"
+# Supply-chain settings (BP §2, §17; CP §4 A03). pnpm 11+ defaults both of these;
+# they are written out so the policy is visible and survives a default change.
+# A dependency must have been public for a day before it can enter the lockfile,
+# and an install fails on any build script not approved below.
+minimumReleaseAge: 1440
+strictDepBuilds: true
 
-# Shared external version ranges (BP + research: the pinning middle ground —
-# policy ranges live HERE once, exact resolution lives in the lockfile).
-# Apps reference these as "catalog:"; bump a range in one place.
+# Approve only the native builds the toolchain genuinely needs. A package that
+# is not listed fails the install by name; add it here after reading what its
+# script does, or set it to false to skip the script deliberately.
+allowBuilds:
+  esbuild: true
+  sharp: true
+  "@swc/core": true
+  unrs-resolver: true
+  mongodb-memory-server: true
+  "@sentry/cli": true
+  # Declined on purpose: @parcel/watcher resolves a prebuilt binary through its
+  # optional dependencies, so its build-from-source script is unnecessary; and
+  # @scarf/scarf exists only to send install telemetry.
+  "@parcel/watcher": false
+  "@scarf/scarf": false
+
+# Shared external version ranges live HERE once; apps reference them as
+# "catalog:". scaffold.sh rewrites every "latest" to the caret range it
+# resolved, so the committed specifiers are real ranges (BP §2, CP §4 A03).
+#
+# Held exceptions (BP §2): typescript stays on 6.0 for typescript-eslint and the
+# Nest CLI, which need a compiler API that TypeScript 7 does not ship; eslint
+# stays on 9 for eslint-config-next's bundled plugins. TypeScript 7 runs beside
+# it as `tsc` for the fast typecheck (BP §23): `tsc` is 7, `tsc6` is 6, and
+# anything that require()s "typescript" gets the 6.0 API.
 catalog:
   "@ai-sdk/anthropic": "latest"
   "@ai-sdk/react": "latest"
+  "@playwright/test": "latest"
   "@react-email/components": "latest"
-  "@types/node": "latest"
+  "@testing-library/react": "latest"
+  "@types/node": "^24"
   "@types/react": "latest"
   "@types/react-dom": "latest"
-  "@typescript/native-preview": "latest"
+  "@typescript/native": "npm:typescript@^7.0.2"
   "ai": "^7"
   "date-fns": "latest"
   "eslint": "^9"
   "eslint-config-next": "latest"
-  "ioredis": "latest"
   "jose": "latest"
+  "jsdom": "latest"
+  "mongodb-memory-server": "latest"
   "mongoose": "latest"
   "next": "latest"
   "react": "latest"
   "react-dom": "latest"
+  "redis": "latest"
   "resend": "latest"
   "server-only": "latest"
-  "typescript": "^6"
+  "tsx": "latest"
+  "typescript": "npm:@typescript/typescript6@~6.0.2"
+  "vitest": "latest"
   "zod": "latest"

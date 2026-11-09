@@ -1,14 +1,21 @@
-import { NextResponse, type NextRequest } from 'next/server';
+import { NextResponse, after, type NextRequest } from 'next/server';
 import { z } from 'zod';
 import { requestAdminCode } from '@/lib/auth-admin';
+import { isAllowedOrigin, jsonError, readJson } from '@/lib/http';
+import { clientIp, rateLimit } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
-const bodySchema = z.object({ email: z.string().trim().toLowerCase().email() }).strict();
+const bodySchema = z.strictObject({ email: z.string().trim().toLowerCase().max(254).email() });
 
-export async function POST(req: NextRequest): Promise<NextResponse> {
-  const parsed = bodySchema.safeParse(await req.json());
-  if (!parsed.success) return NextResponse.json({ error: 'Invalid body' }, { status: 400 });
-  await requestAdminCode(parsed.data.email);
-  return NextResponse.json({ ok: true }); // identical response for non-admins
+// Partitioned per IP, never one global bucket, so nobody can lock every admin
+// out by failing from anywhere (CP §6.1).
+export async function POST(req: NextRequest): Promise<Response> {
+  if (!isAllowedOrigin(req)) return jsonError('Forbidden', 403);
+  if (!(await rateLimit('admin-code-ip', clientIp(req), 10, 3600))) return jsonError('Too many requests', 429);
+  const body = await readJson(req, bodySchema, 1024);
+  if (!body.ok) return body.response;
+  const send = await requestAdminCode(body.data.email);
+  if (send) after(send);
+  return NextResponse.json({ ok: true }); // identical for admins and everyone else
 }

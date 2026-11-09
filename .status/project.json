@@ -1,150 +1,320 @@
 {
   "project": "fledgeling-plugins",
-  "updated": "2026-11-07T13:10:49+00:00",
+  "updated": "2026-11-09T10:25:48+00:00",
   "verdict": {
     "token": "done",
-    "number": "1",
-    "unit": "new plugin, decision-panel 0.1.0, plus clarify 1.7.0 and feedback-panel 0.2.0",
-    "headline": "decision-panel 0.1.0 is live: four model families decide, the dissent is kept, and lanes always run the newest models",
-    "run_label": "decision-panel 0.1.0 · 8 November 2026"
+    "number": "48 of 48",
+    "unit": "spec sections mapped into create-swe-project",
+    "headline": "New projects now start out following the team's coding and setup specs, with checks proving it",
+    "run_label": "create-swe-project 1.13.0 · merged to main",
+    "head_sha": "6edc4aa"
   },
   "tasks": [
     {
-      "id": "DP-1",
-      "title": "Build decision-panel: brief, briefs, tally, page builder",
-      "origin": "asked",
-      "stage": "being checked",
+      "id": "SWE-1",
+      "title": "Specs bundled with the plugin, every section mapped",
+      "origin": "planned",
+      "stage": "code written",
       "outcome": "done",
-      "note": "Derived from feedback-panel for decisions with no stakeholder feedback"
+      "note": "references/team-files/ + conformance map"
     },
     {
-      "id": "DP-2",
-      "title": "First live run on a real decision",
-      "origin": "asked",
-      "stage": "being checked",
-      "outcome": "done",
-      "note": "Found a tally bug; a lone dissent with vendor evidence moved the panel"
+      "id": "SWE-2",
+      "title": "Project CLAUDE.md follows the team starter",
+      "origin": "planned",
+      "stage": "code written",
+      "outcome": "done"
     },
     {
-      "id": "DP-3",
-      "title": "Icon, banner, audit sheet, README and EVALS",
-      "origin": "asked",
-      "stage": "being checked",
-      "outcome": "done",
-      "note": "Raster icon in clarify's family, as Luke chose"
+      "id": "SWE-3",
+      "title": "Current toolchain: pnpm 12, Node 24, TypeScript 7 beside 6",
+      "origin": "planned",
+      "stage": "code written",
+      "outcome": "done"
     },
     {
-      "id": "FP-0.2",
-      "title": "feedback-panel lanes: Fable high, Grok newest at xhigh, all four by default",
-      "origin": "asked",
-      "stage": "being checked",
-      "outcome": "done",
-      "note": "latest_model.py picks the newest model at run time"
+      "id": "SWE-4",
+      "title": "Security defaults built in (CSP, request guards, sign-in)",
+      "origin": "planned",
+      "stage": "code written",
+      "outcome": "done"
     },
     {
-      "id": "CL-1.7",
-      "title": "clarify lanes: Opus xhigh, Gemini Argon medium, Grok xhigh, newest each",
-      "origin": "asked",
-      "stage": "being checked",
-      "outcome": "done",
-      "note": "Four-lane OpenAI-heavy table retired"
+      "id": "SWE-5",
+      "title": "Data layer and test harness from day one",
+      "origin": "planned",
+      "stage": "code written",
+      "outcome": "done"
+    },
+    {
+      "id": "SWE-6",
+      "title": "Pre-push check that tests only what a push changed",
+      "origin": "planned",
+      "stage": "code written",
+      "outcome": "done"
+    },
+    {
+      "id": "SWE-7",
+      "title": "Local dev stack on *.localhost with no sudo",
+      "origin": "planned",
+      "stage": "code written",
+      "outcome": "done"
+    },
+    {
+      "id": "SWE-8",
+      "title": "Waitlist no longer reveals who already joined",
+      "origin": "carried over",
+      "stage": "code written",
+      "outcome": "done"
     }
   ],
   "gates": [
     {
-      "name": "Skill references resolve",
-      "command": "python3 scripts/check_skill_references.py",
-      "exit_code": 0,
-      "counts": "0 errors",
-      "state": "done",
-      "kind": "tests"
-    },
-    {
-      "name": "Site catalogue builds",
-      "command": "node site/scripts/build-catalogue.mjs",
-      "exit_code": 0,
-      "counts": "60 skills",
-      "state": "done",
-      "kind": "tests"
-    },
-    {
-      "name": "decision-panel meets the marketplace standard",
-      "command": "node site/scripts/check-conformance.mjs (decision-panel rows)",
-      "exit_code": 0,
-      "counts": "0 findings",
-      "state": "done",
-      "kind": "design"
-    },
-    {
-      "name": "Decision page refuses bad decisions",
-      "command": "build_decision.py --check on the example and five broken copies",
-      "exit_code": 0,
-      "counts": "6/6",
-      "state": "done",
-      "kind": "tests"
-    },
-    {
-      "name": "Tally applies one rule",
-      "command": "tally.py on four fixture rounds",
+      "name": "Every scaffold option builds and passes its own checks",
+      "command": "scripts/canary.sh",
       "exit_code": 0,
       "counts": "4/4",
       "state": "done",
+      "kind": "build"
+    },
+    {
+      "name": "Browser smoke tests on a production build",
+      "command": "pnpm --filter web test:e2e:smoke",
+      "exit_code": 0,
+      "counts": "3/3",
+      "state": "done",
       "kind": "tests"
     },
     {
-      "name": "Icon audit sheet",
-      "command": "audit_sheet.py check plugins/decision-panel/assets",
+      "name": "Every spec section has a home in the scaffold",
+      "command": "python3 scripts/check-conformance.py",
       "exit_code": 0,
-      "counts": "3 takes",
+      "counts": "48/48",
       "state": "done",
-      "kind": "design"
+      "kind": "sign-off"
     },
     {
-      "name": "Writing passes the voice checks",
-      "command": "agent_voice_lint.py --format skill; voice_lint.py --format marketing",
+      "name": "Skill names in instructions resolve",
+      "command": "python3 scripts/check_skill_references.py",
+      "exit_code": 0,
+      "counts": "82/82",
+      "state": "done",
+      "kind": "sign-off"
+    },
+    {
+      "name": "Skills catalogue builds",
+      "command": "node site/scripts/build-catalogue.mjs",
+      "exit_code": 0,
+      "counts": "60/60",
+      "state": "done",
+      "kind": "build"
+    },
+    {
+      "name": "Writing passes the voice lint",
+      "command": "agent_voice_lint.py",
       "exit_code": 0,
       "counts": "5/5",
       "state": "done",
       "kind": "design"
+    },
+    {
+      "name": "Gemini notes quote sources word for word",
+      "command": "verify_quotes.py gemini.md",
+      "exit_code": 0,
+      "counts": "18/18",
+      "state": "done",
+      "kind": "sign-off"
+    }
+  ],
+  "armed": [
+    {
+      "check": "Env files match the code",
+      "mutation": "removed JWT_SECRET from .env.example",
+      "case_reddened": "check-env exited 1",
+      "red": 1,
+      "green": 1,
+      "sha": "6edc4aa",
+      "armed": true
+    },
+    {
+      "check": "Env files match the code",
+      "mutation": "added a key nothing reads",
+      "case_reddened": "check-env exited 1",
+      "red": 1,
+      "green": 1,
+      "sha": "6edc4aa",
+      "armed": true
+    },
+    {
+      "check": "Script nonce smoke test",
+      "mutation": "made the home page render at build time",
+      "case_reddened": "2 of 3 smoke tests failed",
+      "red": 2,
+      "green": 3,
+      "sha": "6edc4aa",
+      "armed": true
+    },
+    {
+      "check": "Script nonce smoke test",
+      "mutation": "set the security policy on the response only",
+      "case_reddened": "no test noticed; Next 16.4.5 still stamped the nonce",
+      "red": 0,
+      "green": 3,
+      "sha": "6edc4aa",
+      "armed": false
+    },
+    {
+      "check": "Spec section map",
+      "mutation": "deleted one section's row",
+      "case_reddened": "check-conformance exited 1",
+      "red": 1,
+      "green": 1,
+      "sha": "6edc4aa",
+      "armed": true
+    },
+    {
+      "check": "Node version guard",
+      "mutation": "ran the check on Node 22",
+      "case_reddened": "it refused and named nvm use",
+      "red": 1,
+      "green": 1,
+      "sha": "6edc4aa",
+      "armed": true
+    },
+    {
+      "check": "Waitlist hides who joined",
+      "mutation": "stored the viewer token on every join",
+      "case_reddened": "2 of 4 waitlist tests failed",
+      "red": 2,
+      "green": 4,
+      "sha": "6edc4aa",
+      "armed": true
+    }
+  ],
+  "findings": [
+    {
+      "id": "F-1",
+      "score": 90,
+      "severity": "high",
+      "file_line": "scripts/scaffold.sh",
+      "claim": "every scaffold here cited spec docs it never copied",
+      "state": "done"
+    },
+    {
+      "id": "F-2",
+      "score": 75,
+      "severity": "high",
+      "file_line": "scripts/scaffold.sh",
+      "claim": "pnpm version came from whatever folder the scaffold ran in",
+      "state": "done"
+    },
+    {
+      "id": "F-3",
+      "score": 70,
+      "severity": "high",
+      "file_line": "templates/auth/lib/auth-server.ts.tmpl",
+      "claim": "a sign-in code could be used twice by two racing requests",
+      "state": "done"
+    },
+    {
+      "id": "F-4",
+      "score": 65,
+      "severity": "medium",
+      "file_line": "templates/auth/app/login/page.tsx.tmpl",
+      "claim": "dev login button was decided in browser code",
+      "state": "done"
+    },
+    {
+      "id": "F-5",
+      "score": 60,
+      "severity": "medium",
+      "file_line": "templates/api/package.json.tmpl",
+      "claim": "API tests could not load NestJS 12 at all",
+      "state": "done"
+    },
+    {
+      "id": "F-6",
+      "score": 55,
+      "severity": "medium",
+      "file_line": "templates/observability/next.config.ts.tmpl",
+      "claim": "Sentry option failed to typecheck after Sentry 11",
+      "state": "done"
+    },
+    {
+      "id": "F-7",
+      "score": 50,
+      "severity": "medium",
+      "file_line": "scripts/canary.sh",
+      "claim": "a healthy canary run reported failure",
+      "state": "done"
+    },
+    {
+      "id": "F-8",
+      "score": 45,
+      "severity": "medium",
+      "file_line": "templates/waitlist/lib/waitlist.ts",
+      "claim": "joining with a known email revealed it was already on the list",
+      "state": "done"
+    },
+    {
+      "id": "F-9",
+      "score": 40,
+      "severity": "medium",
+      "file_line": "templates/api/Dockerfile.tmpl",
+      "claim": "API image may not find its packages under pnpm's layout",
+      "state": "unmeasured"
     }
   ],
   "not_checked": [
     {
-      "axis": "Whether the four-model panel beats the best single model",
-      "why_not": "Luke chose one live run instead of the blind comparison; EVALS.md names the run that would settle it"
+      "axis": "Docker images",
+      "why_not": "No image was built; the canary checks the dev toolchain."
+    },
+    {
+      "axis": "Expo app on a phone",
+      "why_not": "Lint and types ran; no simulator or Maestro run."
+    },
+    {
+      "axis": "The vercel build path of the check",
+      "why_not": "No test project was linked to Vercel."
+    },
+    {
+      "axis": "A model following the new instructions",
+      "why_not": "The skill's eval set is still unrun."
     }
   ],
   "not_done": [
     {
-      "action": "Update the lane list in your global CLAUDE.md to match the new clarify lanes",
-      "reason": "Your own instruction file; not asked",
-      "what_would_unblock": "Your go-ahead",
-      "size": "under an hour"
-    }
-  ],
-  "artifacts": [
-    {
-      "path": "plugins/decision-panel/README.md",
-      "kind": "md",
-      "contains": "What the decision panel does and how its first run went",
-      "open_first": true
+      "action": "Two Storybooks for the design system",
+      "reason": "No shared components exist yet; logged as a divergence.",
+      "what_would_unblock": "The first shared UI component.",
+      "size": "a day"
     },
     {
-      "path": "plugins/decision-panel/EVALS.md",
-      "kind": "md",
-      "contains": "What was checked, the live run, and what is unmeasured"
-    },
-    {
-      "path": "plugins/decision-panel/assets/audit.html",
-      "kind": "html",
-      "contains": "The icon takes and why one shipped"
+      "action": "Send two spec corrections back to bella-team-files",
+      "reason": "Different repo, outside this task.",
+      "what_would_unblock": "Your go-ahead.",
+      "size": "an hour"
     }
   ],
   "needs_you": [],
+  "artifacts": [
+    {
+      "path": "plugins/create-swe-project/skills/create-swe-project/references/team-files-conformance.md",
+      "kind": "md",
+      "contains": "Every spec section and where the scaffold carries it out.",
+      "open_first": true
+    },
+    {
+      "path": "plugins/create-swe-project/CHANGELOG.md",
+      "kind": "md",
+      "contains": "What 1.13.0 changed and how it was checked."
+    }
+  ],
   "git": {
-    "branch": "main",
+    "branch": "feat/create-swe-project-team-files",
     "commits_ahead": 0,
-    "worktree_clean": true,
-    "pushed": true
+    "worktree_clean": false,
+    "pushed": false
   }
 }

@@ -61,6 +61,41 @@ if [ "$TEMPLATE_REF" != "-" ]; then
   fi
 fi
 
+# Templates say "latest"; a scaffolded project's manifests carry the caret ranges
+# pin-latest.py resolved. Carry the project's current specifier into both renders
+# so an untouched package.json is not "upgraded" back to "latest". A dependency
+# new to the templates keeps "latest"; re-run the install and pin-latest.py after.
+carry_pins() { # carry_pins <render-root>
+python3 - "$PROJECT" "$1" <<'PINS'
+import json, pathlib, re, sys
+project, render = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
+for pj in [render / "package.json", *render.glob("apps/*/package.json"), *render.glob("packages/*/package.json")]:
+    cur = project / pj.relative_to(render)
+    if not cur.exists():
+        continue
+    have = json.loads(cur.read_text())
+    data = json.loads(pj.read_text())
+    for group in ("dependencies", "devDependencies"):
+        for name, spec in (data.get(group) or {}).items():
+            pinned = (have.get(group) or {}).get(name)
+            if spec == "latest" and pinned and pinned != "latest":
+                data[group][name] = pinned
+    pj.write_text(json.dumps(data, indent=2) + "\n")
+ws, cur = render / "pnpm-workspace.yaml", project / "pnpm-workspace.yaml"
+if ws.exists() and cur.exists():
+    pins = dict(re.findall(r'^\s+"?([^":\n]+)"?:\s*"([^"]+)"\s*$', cur.read_text(), re.M))
+    out = []
+    for line in ws.read_text().splitlines(keepends=True):
+        m = re.match(r'^(\s+)"?([^":]+)"?:\s*"latest"\s*$', line)
+        if m and pins.get(m.group(2), "latest") != "latest":
+            line = f'{m.group(1)}"{m.group(2)}": "{pins[m.group(2)]}"\n'
+        out.append(line)
+    ws.write_text("".join(out))
+PINS
+}
+carry_pins "$TMP/new/$CODENAME"
+[ -n "$BASE_DIR" ] && carry_pins "$BASE_DIR"
+
 python3 - "$PROJECT" "$TMP/new/$CODENAME" "$APPLY" "$BASE_DIR" "$BASE_MODE" <<'PY'
 import hashlib, json, pathlib, shutil, subprocess, sys
 project, fresh = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])

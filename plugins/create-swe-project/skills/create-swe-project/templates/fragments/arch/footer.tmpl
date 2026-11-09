@@ -1,8 +1,10 @@
 
 ## Boundary rules (the ones that don't move)
 
-- **The browser calls only its own BFF** — client HTTP goes through `apps/web` route handlers, which attach auth/tenant context server-side; the API is never called from the browser directly (BP §24).
-- **The server is the single authority for env- and tenant-gated behaviour** — never branch on `NODE_ENV` or a public env var in client code (BP §24).
-- **Trust boundaries are Zod-validated, never cast** — including AI/model output (CP §1, BP §6).
+- **The browser calls only its own BFF** — client HTTP goes through `apps/web` route handlers, which attach auth/tenant context server-side; the API is never called from the browser directly, and ESLint blocks the shortcuts (BP §24).
+- **The server is the single authority for env- and tenant-gated behaviour** — `appEnv()` on the server, never `NODE_ENV` or a public env var in client code. Feature flags, internal-user visibility and non-production outbound limits are all decided there, at the data source and the outbound choke points (BP §24).
+- **Tenant context is server-authoritative** — resolved from the session and checked against membership on every request; every query is scoped to the caller in its own filter, never fetched by id and compared afterwards (BP §9, §24; CP §4).
+- **Trust boundaries are Zod-validated, never cast** — including AI/model output, env values and pagination cursors (CP §1, BP §6).
+- **Cross-app wire shapes live in `packages/contract`**, created with the first feature that crosses two apps (CP §6.10, BP §17).
 - **Secrets live in 1Password** (`.env.local` op:// references; see CLAUDE.md § Secrets), never in source or chat.
 - **Cross-surface logic lives once**: shared business logic belongs in `crates/core` (when present) or a shared package — never duplicated per platform.

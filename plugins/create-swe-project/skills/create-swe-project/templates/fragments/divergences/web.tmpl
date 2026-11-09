@@ -1,0 +1,4 @@
+| BP §1, §22: two Storybooks (HTML reference ⇄ React host) in 1:1 parity | No Storybook yet | BP §22 sets them up before the second UI surface exists; the scaffold has no component library to catalogue | The first shared UI component lands |
+| CP §6.7: nonce for styles too | `style-src 'unsafe-inline'` | CP §6.7's own posture: nonce scripts now; React `style` attributes need the page loaded under a stricter policy first | Before launch, load each page under `style-src-attr 'none'` |
+| BP §5: Cache Components | Off; the root layout awaits `headers()` | A nonce CSP and Cache Components don't combine (CP §6.7) | Only with a deliberate CSP decision |
+| BP §19: `vercel build` in the gate | An unlinked Next app builds with next build, and the gate says so | `vercel build` needs `vercel link` + `vercel pull`, which a fresh clone hasn't done | Every clone that links |

@@ -1,32 +1,40 @@
 import 'server-only';
 import { cookies } from 'next/headers';
-import { SignJWT, jwtVerify } from 'jose';
-import { createHmac, randomBytes } from 'node:crypto';
+import { SignJWT, errors, jwtVerify } from 'jose';
+import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
+import { z } from 'zod';
+import { requireSecret } from './env';
+import { rateLimit } from './rate-limit';
 import { redis } from './redis';
 
-// BP §9: HS256 pinned, iss/aud/iat/exp always set, algorithms pinned on verify.
-// Short-lived access JWT in an httpOnly cookie + rotating refresh token in Redis
-// (hashed — a DB leak must not yield usable tokens).
+// Email-code sign-in and sessions (BP §9, CP §4 A07, §6.1). HS256 pinned with
+// iss/aud/iat/exp always set and algorithms pinned on verify. A 15-minute access
+// JWT in an httpOnly cookie, plus a single-use refresh token stored hashed in
+// Redis so a Redis leak yields nothing usable.
 const ALGORITHM = 'HS256';
 const ISSUER = '{{CODENAME}}';
 const AUDIENCE = '{{CODENAME}}-web';
 const ACCESS_TTL_S = 60 * 15;
 const REFRESH_TTL_S = 60 * 60 * 24 * 30;
-const ACCESS_COOKIE = 'session';
-const REFRESH_COOKIE = 'refresh';
+const CODE_TTL_S = 60 * 10;
+const MAX_VERIFY_ATTEMPTS = 5;
+const CODE_REQUESTS_PER_HOUR = 3;
 
-function secret(): Uint8Array {
-  const s = process.env.JWT_SECRET;
-  if (!s) throw new Error('JWT_SECRET is not set');
-  return new TextEncoder().encode(s);
-}
-const hashToken = (t: string) =>
-  createHmac('sha256', process.env.JWT_SECRET ?? '').update(t).digest('hex');
+// The __Host- prefix pins the cookie to this exact host, HTTPS-only, Path=/
+// (CP §4 A04); the refresh cookie is path-scoped, so it takes __Secure-. Both
+// prefixes demand Secure, which a plain-http dev origin can't meet.
+const SECURE = process.env.NODE_ENV === 'production';
+const ACCESS_COOKIE = SECURE ? '__Host-session' : 'session';
+const REFRESH_COOKIE = SECURE ? '__Secure-refresh' : 'refresh';
+const REFRESH_PATH = '/api/auth';
 
-export type Session = { userId: string; email: string };
+const key = (): Uint8Array => new TextEncoder().encode(requireSecret('JWT_SECRET'));
+const hmac = (value: string): string => createHmac('sha256', requireSecret('JWT_SECRET')).update(value).digest('hex');
+
+const sessionSchema = z.object({ userId: z.string().min(1), email: z.string().email() });
+export type Session = z.infer<typeof sessionSchema>;
 
 export async function mintSession(user: Session): Promise<void> {
-  const jar = await cookies();
   const access = await new SignJWT({ email: user.email })
     .setProtectedHeader({ alg: ALGORITHM })
     .setSubject(user.userId)
@@ -34,73 +42,93 @@ export async function mintSession(user: Session): Promise<void> {
     .setAudience(AUDIENCE)
     .setIssuedAt()
     .setExpirationTime(`${ACCESS_TTL_S}s`)
-    .sign(secret());
+    .sign(key());
   const refresh = randomBytes(32).toString('base64url');
-  await redis().set(`refresh:${hashToken(refresh)}`, JSON.stringify(user), 'EX', REFRESH_TTL_S);
-  const base = { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict' as const };
+  const client = await redis();
+  await client.set(`refresh:${hmac(refresh)}`, JSON.stringify(user), { EX: REFRESH_TTL_S });
+  const jar = await cookies();
+  const base = { httpOnly: true, secure: SECURE, sameSite: 'strict' as const };
   jar.set(ACCESS_COOKIE, access, { ...base, path: '/', maxAge: REFRESH_TTL_S });
-  jar.set(REFRESH_COOKIE, refresh, { ...base, path: '/api/auth', maxAge: REFRESH_TTL_S });
+  jar.set(REFRESH_COOKIE, refresh, { ...base, path: REFRESH_PATH, maxAge: REFRESH_TTL_S });
 }
 
 export async function getSession(): Promise<Session | null> {
   const token = (await cookies()).get(ACCESS_COOKIE)?.value;
   if (!token) return null;
   try {
-    const { payload } = await jwtVerify(token, secret(), {
-      algorithms: [ALGORITHM],
-      issuer: ISSUER,
-      audience: AUDIENCE,
-    });
-    return { userId: payload.sub as string, email: payload.email as string };
-  } catch {
-    return null; // expired/invalid access token — the client calls /api/auth/refresh
+    const { payload } = await jwtVerify(token, key(), { algorithms: [ALGORITHM], issuer: ISSUER, audience: AUDIENCE });
+    const parsed = sessionSchema.safeParse({ userId: payload.sub, email: payload.email });
+    return parsed.success ? parsed.data : null;
+  } catch (err: unknown) {
+    // An expired or tampered token is a signed-out caller; the client calls
+    // /api/auth/refresh. Anything else is a real failure and propagates.
+    if (err instanceof errors.JOSEError) return null;
+    throw err;
   }
 }
 
-// Rotation with reuse-detection: a refresh token is single-use; presenting a
-// consumed token invalidates nothing further but fails closed (BP §9).
+/**
+ * Refresh rotation: GETDEL makes each refresh token single-use even when two
+ * requests race. A missing or reused token returns null, and the route answers
+ * 401, which the client treats as "session over" (BP §9.7).
+ */
 export async function rotateRefresh(): Promise<Session | null> {
-  const jar = await cookies();
-  const token = jar.get(REFRESH_COOKIE)?.value;
+  const token = (await cookies()).get(REFRESH_COOKIE)?.value;
   if (!token) return null;
-  const key = `refresh:${hashToken(token)}`;
-  const raw = await redis().get(key);
+  const client = await redis();
+  const raw = await client.getDel(`refresh:${hmac(token)}`);
   if (!raw) return null;
-  await redis().del(key);
-  const user = JSON.parse(raw) as Session;
-  await mintSession(user);
-  return user;
+  let stored: unknown;
+  try {
+    stored = JSON.parse(raw);
+  } catch {
+    return null;
+  }
+  const parsed = sessionSchema.safeParse(stored);
+  if (!parsed.success) return null;
+  await mintSession(parsed.data);
+  return parsed.data;
 }
 
 export async function clearSession(): Promise<void> {
   const jar = await cookies();
   const token = jar.get(REFRESH_COOKIE)?.value;
-  if (token) await redis().del(`refresh:${hashToken(token)}`);
+  if (token) await (await redis()).del(`refresh:${hmac(token)}`);
   jar.delete(ACCESS_COOKIE);
-  jar.delete({ name: REFRESH_COOKIE, path: '/api/auth' });
+  jar.delete({ name: REFRESH_COOKIE, path: REFRESH_PATH });
 }
 
-// ---- email-code sign-in primitives (BP §9: HMAC-stored code, TTL, caps) ----
+// ---- email-code primitives (BP §9.1-9.2) ----
+
+/** 3 code requests per email per hour, counted for every address alike. */
+export function allowCodeRequest(email: string): Promise<boolean> {
+  return rateLimit('signin-code', email, CODE_REQUESTS_PER_HOUR, 3600);
+}
+
 export async function storeSignInCode(email: string, code: string): Promise<void> {
-  await redis().set(`signin:code:${email}`, hashToken(code), 'EX', 600);
-  await redis().del(`signin:attempts:${email}`);
+  const client = await redis();
+  await client.multi().set(`signin:code:${email}`, hmac(code), { EX: CODE_TTL_S }).del(`signin:attempts:${email}`).exec();
 }
+
+// Deletes the code only if it is still the value this request verified, so a
+// code is consumed exactly once under concurrent verifies (BP §9.2).
+const COMPARE_AND_DELETE = "if redis.call('GET', KEYS[1]) == ARGV[1] then return redis.call('DEL', KEYS[1]) else return 0 end";
+
 export async function consumeSignInCode(email: string, code: string): Promise<boolean> {
-  const attempts = await redis().incr(`signin:attempts:${email}`);
-  await redis().expire(`signin:attempts:${email}`, 600);
-  if (attempts > 5) return false;
-  const stored = await redis().get(`signin:code:${email}`);
+  const client = await redis();
+  const codeKey = `signin:code:${email}`;
+  const attemptsKey = `signin:attempts:${email}`;
+  const [attempts] = await client.multi().incr(attemptsKey).expire(attemptsKey, CODE_TTL_S, 'NX').exec();
+  if (Number(attempts) > MAX_VERIFY_ATTEMPTS) {
+    await client.del(codeKey); // past the cap the code is purged, not just refused
+    return false;
+  }
+  const stored = await client.get(codeKey);
   if (!stored) return false;
-  const candidate = hashToken(code);
-  const { timingSafeEqual } = await import('node:crypto');
-  const ok =
-    stored.length === candidate.length &&
-    timingSafeEqual(Buffer.from(stored), Buffer.from(candidate));
-  if (ok) await redis().del(`signin:code:${email}`, `signin:attempts:${email}`);
-  return ok;
-}
-export async function rateLimitCodeRequest(email: string): Promise<boolean> {
-  const n = await redis().incr(`signin:rate:${email}`);
-  await redis().expire(`signin:rate:${email}`, 3600);
-  return n <= 3; // 3 requests per email per hour (BP §9)
+  const candidate = hmac(code);
+  if (stored.length !== candidate.length || !timingSafeEqual(Buffer.from(stored), Buffer.from(candidate))) return false;
+  const consumed = await client.eval(COMPARE_AND_DELETE, { keys: [codeKey], arguments: [stored] });
+  if (Number(consumed) !== 1) return false;
+  await client.del(attemptsKey);
+  return true;
 }

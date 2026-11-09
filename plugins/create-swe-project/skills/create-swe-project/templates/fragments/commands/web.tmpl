@@ -1,0 +1,2 @@
+pnpm --filter web test # web unit tests; one file: pnpm --filter web exec vitest run lib/logger.test.ts
+pnpm --filter web test:e2e   # Playwright against the built app (pnpm --filter web build first)

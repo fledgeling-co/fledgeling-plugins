@@ -1,10 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+// Stable testIDs on what a device flow asserts, so a copy change can't break it
+// (BP §18).
+export default function App(): React.ReactElement {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{{DISPLAY}}</Text>
+    <View style={styles.container} testID="home-screen">
+      <Text style={styles.title} testID="app-title" accessibilityRole="header">
+        {{DISPLAY}}
+      </Text>
       <Text style={styles.subtitle}>Scaffolded and ready.</Text>
       <StatusBar style="auto" />
     </View>

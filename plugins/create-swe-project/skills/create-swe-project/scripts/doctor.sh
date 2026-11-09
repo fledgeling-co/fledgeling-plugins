@@ -21,5 +21,9 @@ add "$(json_kv gh     "$(have gh && echo true || echo false)"     "$(gh --versio
 add "$(json_kv maestro "$(have maestro && echo true || echo false)" "")"
 add "$(json_kv fastlane "$(have fastlane && echo true || echo false)" "$(ver fastlane --version | tail -1)")"
 add "$(json_kv vercel "$(have vercel && echo true || echo false)" "$(ver vercel --version)")"
-printf '{%s, "machine_caddy_confd": %s}\n' "$entries" \
+# Generated projects need Node 24.9+ (BP §1); scaffold.sh falls back to an
+# nvm-installed Node 24 when the shell's node is older.
+node24="$(ls -d "${NVM_DIR:-$HOME/.nvm}"/versions/node/v24.* 2>/dev/null | sort -V | tail -1 | xargs -n1 basename 2>/dev/null || true)"
+macos="$(sw_vers -productVersion 2>/dev/null || echo "")"
+printf '{%s, "nvm_node24": "%s", "macos": "%s", "machine_caddy_confd": %s}\n' "$entries" "$node24" "$macos" \
   "$([ -d /opt/homebrew/etc/caddy/conf.d ] && echo true || echo false)"

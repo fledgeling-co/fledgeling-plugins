@@ -4,31 +4,50 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Operating rules — load before writing code
 
-Two operating specs govern all code in this repo. Read them before generating code and apply them **as you write** — they are the rules the `code-review:code-review` skill blocks on:
+Two operating specs govern the code in this repo. They are the rules the `code-review:code-review` skill blocks on, so applying them **as you write** is what makes a review come back clean:
 
-- **`docs/CODING_PRACTICES.md`** (cited as **CP §n**) — TypeScript boundary safety, NestJS, Next.js App Router + React 19, OWASP-aligned security, cross-cutting logic-bug patterns. Apply **CP §7** to the changed scope, run the required checks and report the evidence; add another review only for a named unresolved risk.
-- **`docs/NEW_PROJECT_BEST_PRACTICES.md`** (cited as **BP §n**) — stack defaults and day-one decisions. When a task is underspecified, take the BP default instead of inventing one; when you deliberately diverge, say so and why.
+- **`docs/CODING_PRACTICES.md`** (cited as **CP §n**) — TypeScript boundary safety, NestJS, Next.js App Router + React 19, OWASP-aligned security, cross-cutting logic-bug patterns (CP §6.14), client React / React Native hygiene (CP §6.15), and the review checklist (CP §7).
+- **`docs/NEW_PROJECT_BEST_PRACTICES.md`** (cited as **BP §n**) — stack defaults and day-one decisions: dependency versions (BP §1–§2), monorepo/pnpm/Turborepo (BP §17), the quality gate (BP §19), the Caddy + Docker dev stack (BP §20–§21), design tokens (BP §22), env/tenant-correct behaviour (BP §24), and changing security controls safely (BP §25). When a task is underspecified, take the BP default instead of inventing one; when you deliberately diverge, say so and why.
 
-**Behaviour under ambiguity** (bias toward caution over speed; for trivial tasks, use judgment):
+Each spec runs to roughly 22,000–25,000 tokens, so read the shared baseline plus the sections for the area you are changing, rather than both files end to end:
 
-- **Resolve ambiguity at the right level.** Read the source and existing decisions, make routine reversible calls, and state material assumptions. Ask only when different readings lead to materially different work the user must choose; do not ask again for existing authorization.
-- **Simplicity first.** Minimum change that solves the problem. No speculative features or abstractions.
-- **Surgical changes.** Don't "improve" adjacent code; match existing style; mention unrelated problems instead of fixing them. Every changed line traces to the request.
-- **Finish against concrete criteria.** Define the required artifact and acceptance checks, complete the requested scope, and stop when those criteria are met. Repeat checks when changes, failures or unresolved concerns require it.
+| You are changing | Read first |
+|---|---|
+| anything | CP protocol (top of the file), §1, §5, §7 |
+| a mutation path (endpoint, Server Action, job, webhook) | CP §4, §6.1, §6.3, §6.8, §6.14 |
+{{ROUTING_ROWS}}| a wire shape shared by two apps | CP §6.10; BP §17 |
+| the gate, test setup or CI | BP §15, §19 |
+| Docker, Caddy, worktrees | BP §20, §21, §23 |
+| a new dependency or a toolchain upgrade | BP §1, §2; CP §4 (A03) |
+
+A change is done when `pnpm gate` passes. Report its result, and quote the output of anything that failed. Before opening a PR, run the `code-review:code-review` skill on the diff: it checks the CP rules the gate can't, such as auth order, logging and contracts. Where that skill isn't installed, apply CP §7 as the review checklist instead.
+
+Deliberate divergences from the specs are logged in `docs/DIVERGENCES.md` — check there before "fixing" something that looks non-compliant, and add a row in the same change as any new divergence.
+
+**Behaviour under ambiguity** (for trivial tasks, use judgment):
+
+- **Decide routine calls; ask about real forks.** Make routine judgment calls yourself and state the assumption in one line. Check in only when different readings of the request would lead to materially different work, and name the readings when you do. If the request looks mistaken or a better approach exists, say so in a sentence and continue with the task as asked.
+- **Simplicity first.** Minimum change that solves the problem. No speculative features, abstractions, or impossible-case handling. Test: would a senior reviewer call this overcomplicated?
+- **Surgical changes.** Don't "improve" adjacent code; match existing style; mention unrelated problems instead of fixing them. Clean up only orphans your own change created. Test: every changed line traces to the request.
+- **Goal-driven execution.** Turn the task into checkable success criteria before starting ("fix the bug" → "a test reproducing it passes; the gate stays green") and finish when they pass.
 
 ## Project overview
 
-{{DESCRIPTION}} Scaffolded by slipway on {{DATE}} as a pnpm-workspaces + Turborepo monorepo (BP §17). Local host: `http://{{CODENAME}}.local` via the shared machine Caddy (BP §20); repo `Caddyfile` carries the routes.
+{{DESCRIPTION}} Scaffolded by slipway on {{DATE}} as a pnpm-workspaces + Turborepo monorepo (BP §17). Local host: `http://{{HOST}}` via the shared machine Caddy (BP §20); the repo `Caddyfile` carries the routes.
 
 ## Commands
 
 ```bash
-pnpm dev              # turbo run dev — every app's dev server
-pnpm gate             # lint + typecheck + build — run before claiming done
+pnpm gate             # path-aware lint + typecheck + test + build + e2e smoke; run before claiming done
+pnpm dev              # every app's dev server
+pnpm test             # hermetic unit suites only; never needs Docker (BP §15)
+pnpm check:env        # every .env.example matches the keys its app reads (CP §6.8)
 pnpm format           # prettier --write
+{{COMMAND_ROWS}}scripts/worktree-add.sh <path> <branch>      # a worktree with a real install and a live gate (BP §23)
+scripts/prune-merged-worktrees.sh [--apply]  # remove clean worktrees already merged into origin/main
 ```
 
-The quality gate is the **husky pre-push hook** (`.husky/pre-push`) running `pnpm turbo run lint typecheck build`; bypass only with `SKIP_GATE=1 git push`. There is intentionally no hosted CI (BP §19).
+The quality gate is the **husky pre-push hook** running `node scripts/gate.mjs --pre-push`. It is path-aware: it checks the packages the push changed, revalidates everything when shared code changes, and runs everything when it can't compute the range (BP §19). `GATE_FULL=1 git push` forces the whole suite; `SKIP_VERCEL_BUILD=1` skips only the `vercel build` step. A Next app linked to Vercel builds with `vercel build`, for true parity. There is intentionally no hosted CI (BP §19): read any spec phrase "CI runs X" as "the gate runs X".
 
 ## Feature pipeline
 
@@ -38,6 +57,6 @@ Resolve skills from the installed catalogue and pass exact identifiers to the Sk
 
 ## Documentation map
 
-Durable docs — update the right one **in the same change** that makes it stale: `OVERVIEW.md` (positioning, audience, market context — the source of truth the marketing site and briefs ground in), `docs/MARKETING-FEATURES.md` (feature → benefit → proof rows + pricing; a stale row becomes a false public claim, so update it when a feature ships or changes), `docs/ARCHITECTURE.md` (surfaces, governance, boundary rules), `docs/TESTING.md` (harness map + rules), `docs/DEPLOYMENT.md` (Vercel/fastlane/notarization knowledge), `docs/AI-MODEL-USAGE.md` (every AI feature registers its model tier + call site — the migration index), `docs/deep-research/` (exported research reports; evidence, not assertion), plus the operating specs above.
+Durable docs — update the right one **in the same change** that makes it stale: `OVERVIEW.md` (positioning, audience, market context — the source of truth the marketing site and briefs ground in), `docs/MARKETING-FEATURES.md` (feature → benefit → proof rows + pricing; a stale row becomes a false public claim, so update it when a feature ships or changes), `docs/ARCHITECTURE.md` (surfaces, governance, boundary rules), `docs/TESTING.md` (harness map + rules), `docs/DEPLOYMENT.md` (Vercel/fastlane/notarization knowledge), `docs/DIVERGENCES.md` (every deliberate departure from CP/BP, with its reason), `docs/AI-MODEL-USAGE.md` (every AI feature registers its model tier + call site — the migration index), `docs/deep-research/` (exported research reports; evidence, not assertion), plus the operating specs above.
 
 ## Repo layout

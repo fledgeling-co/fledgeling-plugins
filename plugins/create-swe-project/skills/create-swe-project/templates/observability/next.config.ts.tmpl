@@ -1,10 +1,11 @@
 import type { NextConfig } from 'next';
-import { withSentryConfig } from '@sentry/nextjs';
+import { withSentryConfig } from '@sentry/nextjs/config';
 
-// Baseline security headers from day one (BP §12); CSP is the deliberate gap —
-// add a nonce-based CSP with the first inline script (see BP §12).
+// Static security headers from day one (BP §12); the per-request nonce CSP lives
+// in proxy.ts (CP §6.7). HSTS starts short: raise max-age to 63072000 once every
+// subdomain serves HTTPS. Preload submission is a separate decision.
 const securityHeaders = [
-  { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+  { key: 'Strict-Transport-Security', value: 'max-age=300; includeSubDomains' },
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
@@ -13,11 +14,14 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  allowedDevOrigins: ['{{CODENAME}}.local'],
+  // node-redis loads a native addon (@node-rs/xxhash) that the bundler can't place;
+  // keep it a runtime require. Listing it is harmless where Redis isn't installed.
+  serverExternalPackages: ['redis', '@redis/client'],
+  allowedDevOrigins: ['{{HOST}}'],
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
   },
 };
 
-// Sourcemap upload only runs when SENTRY_AUTH_TOKEN is set; builds stay green without it.
-export default withSentryConfig(nextConfig, { silent: true });
+// Sourcemap upload runs only when SENTRY_AUTH_TOKEN is set; builds stay green without it.
+export default withSentryConfig(nextConfig, { silent: true, authToken: process.env.SENTRY_AUTH_TOKEN });

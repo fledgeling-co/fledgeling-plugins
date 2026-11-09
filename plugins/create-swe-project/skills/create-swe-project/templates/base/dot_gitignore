@@ -1,18 +1,29 @@
-# ONE consolidated root .gitignore (BP §17) — no per-app .gitignore files.
-# Local-state patterns lead with **/ so they reach inside every apps/*.
+# ONE consolidated root .gitignore (BP §17): no per-app .gitignore files.
+# Local-state patterns lead with **/ so they reach inside every apps/*; check a
+# nested path with `git check-ignore -v apps/web/.env.local` after editing.
 node_modules
-**/.env.local
-**/.env*.local
+
+# Env files: every .env* except the committed canonical list (CP §6.8). Next.js
+# loads .env, .env.production and friends, so ignoring only .env.local leaks the
+# file a contributor copies for a tool that doesn't read .local.
+**/.env
+**/.env.*
+!**/.env.example
+
 **/.claude/settings.local.json
 **/.DS_Store
-.vercel
-.turbo
+**/.vercel
 **/.turbo
 
-# Generated build output (anchored — a bare glob would swallow nested source dirs)
+# Generated build output (anchored, so a bare glob can't swallow nested source)
 **/.next/
 **/dist/
 /coverage
+apps/*/coverage/
+packages/*/coverage/
+**/test-results/
+**/playwright-report/
+**/blob-report/
 
 # Native (xcodegen generates the .xcodeproj; project.yml is the source of truth)
 apps/macos/*.xcodeproj

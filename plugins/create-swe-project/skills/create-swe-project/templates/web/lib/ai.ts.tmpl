@@ -1,34 +1,40 @@
 import 'server-only';
-import { generateText, Output } from 'ai';
+import { generateText, Output, type LanguageModel } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
 import { z } from 'zod';
 
-// Model IDs live in ONE config object so swaps are one-line (BP §6). Verify IDs
-// against the live list (curl -s https://ai-gateway.vercel.sh/v1/models) — never
-// paste from memory.
+// Model IDs live in ONE config object so a swap is one line (BP §6), and every
+// feature that calls a model registers here and in docs/AI-MODEL-USAGE.md.
+// Verify IDs against the live list before changing them:
+//   curl -s https://ai-gateway.vercel.sh/v1/models
 export const MODELS = {
-  default: 'anthropic/claude-sonnet-5',
-  fast: 'anthropic/claude-haiku-4.5',
+  default: 'anthropic/claude-sonnet-5.5',
+  fast: 'anthropic/claude-haiku-5.5',
 } as const;
 
-// "provider/model" string routes through AI Gateway when AI_GATEWAY_API_KEY or
-// VERCEL_OIDC_TOKEN is set; falls back to the direct provider for local dev.
-// Gateway IDs use dots in the version, the direct Anthropic API uses dashes —
-// normalise or the fallback 404s (BP §6).
-export function resolveModel(id: string) {
+/**
+ * A "provider/model" string routes through AI Gateway when AI_GATEWAY_API_KEY or
+ * VERCEL_OIDC_TOKEN is set. Otherwise it falls back to the direct provider, whose
+ * IDs use dashes where Gateway IDs use dots; normalise or the fallback 404s.
+ */
+export function resolveModel(id: string): LanguageModel {
   if (process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN) return id;
+  if (!process.env.ANTHROPIC_API_KEY) {
+    throw new Error('No AI credentials: set AI_GATEWAY_API_KEY, or ANTHROPIC_API_KEY for local dev');
+  }
   return anthropic(id.replace(/^anthropic\//, '').replace(/\./g, '-'));
 }
 
-// Example structured call — every LLM payload is schema-enforced (BP §6): pass a
-// Zod schema via Output.object and read the validated `output`. No JSON salvage.
-export async function summarise(input: string) {
+// Model output is a trust boundary (CP §1): every payload the code consumes as
+// data is schema-enforced through Output.object and read from `output`.
+const summarySchema = z.object({ tldr: z.string(), bullets: z.array(z.string()) });
+export type Summary = z.infer<typeof summarySchema>;
+
+export async function summarise(input: string): Promise<Summary> {
   const { output } = await generateText({
     model: resolveModel(MODELS.default),
     prompt: input,
-    output: Output.object({
-      schema: z.object({ tldr: z.string(), bullets: z.array(z.string()) }),
-    }),
+    output: Output.object({ schema: summarySchema }),
   });
   return output;
 }

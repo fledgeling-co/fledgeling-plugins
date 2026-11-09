@@ -7,14 +7,16 @@
     "build": "next build",
     "start": "next start --port {{PORT_ADMIN}}",
     "lint": "eslint .",
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --project unit",
+    "test:integration": "vitest run --project integration --passWithNoTests"
   },
   "dependencies": {
-    "ioredis": "catalog:",
     "jose": "catalog:",
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "redis": "catalog:",
     "resend": "catalog:",
     "server-only": "catalog:",
     "zod": "catalog:"
@@ -23,9 +25,10 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@typescript/native-preview": "catalog:",
+    "@typescript/native": "catalog:",
     "eslint": "catalog:",
     "eslint-config-next": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }

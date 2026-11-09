@@ -1,7 +1,10 @@
 
 ## Rules of the harness
 
-- The pre-push gate runs `lint + typecheck + build`; unit suites run via `pnpm test`; e2e/device suites run on demand and before release — a default `test` must never require Docker (BP §15).
-- Run flows **twice** — the second run catches isolation and leftover-state bugs (acceptance-e2e discipline).
-- For known-good fixtures, assert value-shaped strings (a digit, a `$`, a date) and explicitly NOT the placeholder (`—`, `N/A`).
-- Never remove or weaken a test to make a change pass; if a test is wrong, say so and fix the test deliberately.
+- The pre-push gate runs lint + typecheck + `test` + build + the `@smoke` e2e subset for the packages a push changes (BP §19). `test` is the hermetic suite and never needs Docker; `test:integration` runs black-box against a seeded server and stays out of the gate (BP §15).
+- No test depends on live model output: test the handling of valid, invalid and failed responses with the AI SDK's mock models from `ai/test`, and assert on the schema-validated shape (BP §15).
+- Risk-weighted done bar: auth and admin get the strongest coverage, not the weakest (BP §15).
+- For known-good fixtures, assert value-shaped strings (a digit, a `$`, a date) and explicitly NOT the placeholder (`—`, `N/A`). Seed what a flow needs; presence-guard only genuinely optional steps, and report what was skipped.
+- Run flows **twice**: the second run catches isolation and leftover-state bugs.
+- Never remove, skip or loosen a test to make a change pass; if a test is wrong, say so and fix it deliberately (CP §5).
+- Keep volatile numbers (test counts, coverage %) out of this doc; the runner owns them (CP §5).

@@ -1,14 +1,26 @@
   api:
-    image: node:22-slim
+    image: node:24-slim
     working_dir: /repo
-    command: ["sh", "-c", "corepack enable && pnpm install && pnpm --filter api dev"]
-    ports: ["{{PORT_API}}:{{PORT_API}}"]
+    command: ["sh", "-c", "corepack enable && pnpm install --frozen-lockfile && pnpm --filter api dev"]
+    ports: ["127.0.0.1:{{PORT_API}}:{{PORT_API}}"]
+    env_file:
+      - path: apps/api/.env.local
+        required: false
     environment:
       SHELL: /bin/sh
-      CHOKIDAR_USEPOLLING: "true"
-      CHOKIDAR_INTERVAL: "3000"
+      COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
+      npm_config_store_dir: /pnpm-store
     volumes:
       - .:/repo:cached
       - api_root_modules:/repo/node_modules
       - api_app_modules:/repo/apps/api/node_modules
-    mem_limit: 2g
+      - api_pnpm_store:/pnpm-store
+{{COMPOSE_MASKS_API}}    mem_limit: 2g
+    ulimits:
+      nofile: { soft: 65536, hard: 65536 }
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:{{PORT_API}}/health').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 90s

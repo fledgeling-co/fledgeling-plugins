@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
+export const maxDuration = 10;
 
-// Health + warm target for the vercel.json cron (BP §16: a persistent surface
-// without a health check can deploy "green" while broken).
-export function GET(): NextResponse {
+// Liveness for the vercel.json warm cron (BP §16); no detail in production (CP §4 A02).
+export function GET(): Response {
   return NextResponse.json({ ok: true, ts: new Date().toISOString() });
 }

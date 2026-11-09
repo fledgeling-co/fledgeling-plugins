@@ -1,26 +1,29 @@
-// Dev boot runs through @swc-node/register — the SAME transform as the prod build
-// (nest build -b swc) — so SWC-only boot crashes (circular-import TDZ) reproduce
-// locally (BP §15). Don't switch dev to ts-node/tsc.
+// Dev boot runs through @swc-node/register, the SAME transform as the prod build
+// (nest build -b swc), so SWC-only boot crashes such as circular-import TDZ
+// reproduce locally (BP §15). Don't switch dev to ts-node or tsc.
 import 'reflect-metadata';
 import helmet from 'helmet';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   app.use(helmet());
-  // Global validation (CP §2): whitelist strips undeclared fields so an attacker
-  // can't slip extras into a DTO; transform materialises typed instances.
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-  const openapi = new DocumentBuilder()
-    .setTitle('{{DISPLAY}} API')
-    .setVersion('0.1.0')
-    .build();
-  SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, openapi));
+  // No CORS: the browser never calls this API directly; apps/web's route
+  // handlers do, server to server (BP §24).
+  // OpenAPI is the contract clients read in development. It stays out of
+  // production, like any API explorer (CP §4 A02).
+  if (process.env.NODE_ENV !== 'production') {
+    const openapi = new DocumentBuilder().setTitle('{{DISPLAY}} API').setVersion('0.1.0').build();
+    SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, openapi));
+  }
   app.enableShutdownHooks();
   await app.listen({{PORT_API}});
-  console.log(`api listening on :{{PORT_API}} (http://api.{{CODENAME}}.local — OpenAPI at /docs)`);
+  new Logger('bootstrap').log('api listening on :{{PORT_API}} (http://api.{{HOST}})');
 }
-void bootstrap();
+void bootstrap().catch((err: unknown) => {
+  new Logger('bootstrap').error(err);
+  process.exit(1);
+});

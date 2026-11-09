@@ -3,9 +3,11 @@
 #
 # Renders the template tree into a new project directory with token substitution,
 # assembles the composite files (Caddyfile, docker-compose, CLAUDE.md, README) from
-# per-module fragments, copies the operating specs, initialises git, installs deps,
-# generates Xcode projects, and runs the typecheck gate. Designed so the calling
-# agent supplies decisions (flags) and the script does the work.
+# per-module fragments, copies the operating specs (CODING_PRACTICES.md and
+# NEW_PROJECT_BEST_PRACTICES.md, bundled in references/team-files/), initialises
+# git, installs deps, pins every "latest" to the range it resolved, generates
+# Xcode projects, and runs the full quality gate. Designed so the calling agent
+# supplies decisions (flags) and the script does the work.
 #
 # Usage:
 #   scaffold.sh --codename loft --display "Loft" \
@@ -13,19 +15,19 @@
 #     [--modules web,api,macos,ios,tokens,data]   # default: web,tokens
 #     [--bundle-prefix app.loft]                  # default: app.<codename>
 #     [--dest ~/Dev] [--port-web N] [--port-api N] \
-#     [--team-files ~/Dev/bella-team-files] \
+#     [--team-files <dir>]                        # default: the bundled snapshot
 #     [--no-install] [--dry-run]
 #
 # Safe by default: refuses to write into an existing directory; --dry-run prints
-# the plan (ports, paths, modules) and writes nothing; never runs sudo — hosts and
-# Caddy commands are printed and written to SETUP-NEXT-STEPS.md for the user.
+# the plan (ports, paths, modules) and writes nothing; never runs sudo — Caddy
+# commands are printed and written to SETUP-NEXT-STEPS.md for the user.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TPL="$SCRIPT_DIR/../templates"
 
 CODENAME="" DISPLAY="" DESCRIPTION="" BUNDLE_PREFIX="" MODULES="web,tokens"
-DEST="$HOME/Dev" PORT_WEB="" PORT_API="" TEAM_FILES="$HOME/Dev/bella-team-files"
+DEST="$HOME/Dev" PORT_WEB="" PORT_API="" TEAM_FILES=""
 NO_INSTALL=0 DRY_RUN=0 PLAN=0 MACOS_STYLE="window" MACOS_DIST="direct" OP_ACCOUNT="" OP_VAULT="" GITHUB_ORG="" DESIGN_REF=""
 
 while [ $# -gt 0 ]; do
@@ -58,6 +60,9 @@ done
 [ -n "$DESCRIPTION" ] || DESCRIPTION="$DISPLAY."
 [ -n "$BUNDLE_PREFIX" ] || BUNDLE_PREFIX="app.$(echo "$CODENAME" | tr -d '-')"
 PROJECT_DIR="$DEST/$CODENAME"
+# *.localhost: loopback with no /etc/hosts entry on macOS 26+, and a secure
+# context in browsers, so Secure cookies work on the dev origin (BP §20).
+HOST="$CODENAME.localhost"
 
 has_module() { case ",$MODULES," in *",$1,"*) return 0;; *) return 1;; esac; }
 
@@ -101,7 +106,7 @@ if [ "${PLAN:-0}" != 1 ]; then
   echo "   modules:  $MODULES"
   echo "   bundle:   $BUNDLE_PREFIX.<app>"
   echo "   ports:    web=$PORT_WEB api=$PORT_API"
-  echo "   host:     $CODENAME.local"
+  echo "   host:     $HOST"
 fi
 if [ "$PLAN" = 1 ]; then
   python3 - "$TPL" "$MODULES" "$CODENAME" "$PORT_WEB" "$PORT_API" "$PORT_ADMIN" <<'PY'
@@ -130,7 +135,43 @@ PY
 fi
 [ "$DRY_RUN" = 1 ] && { echo "   (dry run — nothing written)"; exit 0; }
 
-PNPM_VERSION="$(pnpm --version 2>/dev/null || echo 10.17.1)"
+# A reviewed pin, not whatever pnpm the caller's directory resolves (corepack
+# reads the nearest packageManager, so running from inside another repo used to
+# stamp that repo's pnpm here). pnpm 11+ is required: catalogs, allowBuilds,
+# minimumReleaseAge on by default (BP §2, §17). Bump it here; canary.sh proves it.
+PNPM_VERSION="12.18.0"
+export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+
+# Generated projects run on Node 24.9+ (BP §1; NestJS 12's ESM packages need it
+# under Jest). When the shell's node is older, use an nvm-installed 24 for the
+# install and gate rather than failing in a way that looks like a broken test.
+node_ok() { node -e 'const [a,b]=process.versions.node.split(".").map(Number);process.exit(a>24||(a===24&&b>=9)?0:1)' 2>/dev/null; }
+if ! node_ok; then
+  NODE24="$(ls -d "${NVM_DIR:-$HOME/.nvm}"/versions/node/v24.* 2>/dev/null | sort -V | tail -1)"
+  if [ -n "$NODE24" ] && [ -x "$NODE24/bin/node" ]; then
+    export PATH="$NODE24/bin:$PATH"
+    [ "${PLAN:-0}" = 1 ] || echo "   node:     $(node --version) from $NODE24 (the shell default is older)"
+  else
+    echo "WARN: node $(node --version 2>/dev/null) is older than 24.9 and no nvm Node 24 was found; the gate will refuse to run (nvm install 24)" >&2
+  fi
+fi
+
+# Operating specs: --team-files wins, else the snapshot bundled with this skill,
+# which is what the templates were written against. A team-files checkout that
+# has moved on is reported, not silently preferred.
+BUNDLED_TEAM_FILES="$SCRIPT_DIR/../references/team-files"
+[ -n "$TEAM_FILES" ] || TEAM_FILES="$BUNDLED_TEAM_FILES"
+for f in CODING_PRACTICES.md NEW_PROJECT_BEST_PRACTICES.md; do
+  [ -f "$TEAM_FILES/$f" ] || { echo "ERROR: $TEAM_FILES/$f not found; the generated CLAUDE.md requires it" >&2; exit 1; }
+done
+for live in "$HOME/Dev/bella-team-files" "/Volumes/LLMs/Dev/bella-team-files"; do
+  [ -f "$live/CODING_PRACTICES.md" ] || continue
+  if ! cmp -s "$live/CODING_PRACTICES.md" "$BUNDLED_TEAM_FILES/CODING_PRACTICES.md" \
+     || ! cmp -s "$live/NEW_PROJECT_BEST_PRACTICES.md" "$BUNDLED_TEAM_FILES/NEW_PROJECT_BEST_PRACTICES.md"; then
+    echo "NOTE: $live differs from the bundled team-files snapshot; run scripts/sync-team-files.sh and update the templates" >&2
+  fi
+  break
+done
 
 # ---- render engine: copies a template dir into a target dir.
 #   *.tmpl        → token-substituted, suffix stripped
@@ -138,7 +179,8 @@ PNPM_VERSION="$(pnpm --version 2>/dev/null || echo 10.17.1)"
 #   everything else copied verbatim
 export SW_CODENAME="$CODENAME" SW_DISPLAY="$DISPLAY" SW_DESCRIPTION="$DESCRIPTION" \
        SW_BUNDLE_PREFIX="$BUNDLE_PREFIX" SW_PORT_WEB="$PORT_WEB" SW_PORT_API="$PORT_API" \
-       SW_PNPM_VERSION="$PNPM_VERSION" SW_YEAR="$(date +%Y)" SW_DATE="$(date +%Y-%m-%d)" SW_PORT_ADMIN="$PORT_ADMIN"
+       SW_PNPM_VERSION="$PNPM_VERSION" SW_YEAR="$(date +%Y)" SW_DATE="$(date +%Y-%m-%d)" SW_PORT_ADMIN="$PORT_ADMIN" \
+       SW_HOST="$HOST" SW_DB_NAME="$(echo "$CODENAME" | tr '-' '_')"
 export SW_ID_PREFIX="$(python3 -c "import os;print(os.environ['SW_CODENAME'].replace('-','')[:3].upper())")"
 export SW_APP_NAME="$(python3 -c "import re,os; print(''.join(w.capitalize() for w in re.split(r'[^A-Za-z0-9]+', os.environ['SW_DISPLAY']) if w))")"
 if [ "$MACOS_STYLE" = "menubar" ]; then
@@ -187,7 +229,15 @@ mkdir -p "$PROJECT_DIR"
 
 # ---- 1. base + selected modules
 render_dir base "$PROJECT_DIR"
-has_module web    && render_dir web    "$PROJECT_DIR/apps/web"
+# server-lib (env, http guards, logger, vitest config) and csp (nonce proxy) go
+# into every Next app; kv (node-redis + rate limiter) into every app that has
+# Redis. The same template source renders into each, so the copies start equal.
+if has_module web; then
+  render_dir web        "$PROJECT_DIR/apps/web"
+  render_dir server-lib "$PROJECT_DIR/apps/web"
+  render_dir csp        "$PROJECT_DIR/apps/web"
+fi
+has_module data && render_dir kv "$PROJECT_DIR/apps/web"
 has_module api    && render_dir api    "$PROJECT_DIR/apps/api"
 has_module macos  && render_dir macos  "$PROJECT_DIR/apps/macos"
 has_module ios    && render_dir ios    "$PROJECT_DIR/apps/ios"
@@ -195,20 +245,23 @@ has_module tokens && render_dir tokens "$PROJECT_DIR/packages/design-tokens"
 has_module data   && render_dir data   "$PROJECT_DIR/apps/web"
 has_module auth   && render_dir auth   "$PROJECT_DIR/apps/web"   # overwrites data's models/types with the User-bearing versions
 has_module push   && render_dir push   "$PROJECT_DIR/apps/web"
-has_module admin  && render_dir admin  "$PROJECT_DIR/apps/admin"
+if has_module admin; then
+  render_dir admin      "$PROJECT_DIR/apps/admin"
+  render_dir server-lib "$PROJECT_DIR/apps/admin"
+  render_dir csp        "$PROJECT_DIR/apps/admin"
+  render_dir kv         "$PROJECT_DIR/apps/admin"
+fi
 has_module waitlist && render_dir waitlist "$PROJECT_DIR/apps/web"
-has_module observability && render_dir observability "$PROJECT_DIR/apps/web"   # overwrites next.config with the Sentry-wrapped version
+has_module observability && render_dir observability "$PROJECT_DIR/apps/web"   # overwrites next.config + csp-origins with the Sentry versions
 
 # tokens: generate tokens.css NOW (pure node, no deps) so the committed file is in
 # sync and the gate's drift check passes from the first run.
 has_module tokens && (cd "$PROJECT_DIR/packages/design-tokens" && node build.mjs >/dev/null)
 
-# rn (React Native / Expo, BP §18): the app plus the monorepo accommodations —
-# node-linker=hoisted in the root .npmrc (Metro/autolinking need a flat node_modules).
-if has_module rn; then
-  render_dir rn      "$PROJECT_DIR/apps/mobile"
-  render_dir rn-root "$PROJECT_DIR"
-fi
+# rn (React Native / Expo, BP §18): pnpm's default isolated layout and Expo's
+# automatic Metro monorepo config (SDK 54+), so no root .npmrc and no hand-written
+# watchFolders.
+has_module rn && render_dir rn "$PROJECT_DIR/apps/mobile"
 
 # macos distribution: pick the matching entitlements (direct = Developer ID, no
 # sandbox; mas = App Store, sandboxed — a review requirement).
@@ -250,7 +303,7 @@ if has_module api && has_module data; then
   node -e '
     const fs = require("fs"); const p = process.argv[1];
     const j = JSON.parse(fs.readFileSync(p, "utf8"));
-    j.dependencies = { ...j.dependencies, "@nestjs/mongoose": "latest", mongoose: "catalog:", ioredis: "catalog:" };
+    j.dependencies = { ...j.dependencies, "@nestjs/mongoose": "latest", mongoose: "catalog:", redis: "catalog:" };
     fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
   ' "$PROJECT_DIR/apps/api/package.json"
 fi
@@ -261,12 +314,21 @@ if has_module auth; then
     const fs = require("fs"); const p = process.argv[1];
     const j = JSON.parse(fs.readFileSync(p, "utf8"));
     j.dependencies = { ...j.dependencies, jose: "catalog:", resend: "catalog:", "@react-email/components": "catalog:" };
+    j.devDependencies = { ...j.devDependencies, "mongodb-memory-server": "catalog:" };
     fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
   ' "$PROJECT_DIR/apps/web/package.json"
-  cat "$TPL/fragments/env/auth.env" >> "$PROJECT_DIR/apps/web/.env.example"
+  render_fragment "fragments/env/auth.env" >> "$PROJECT_DIR/apps/web/.env.example"
 fi
 if has_module push; then
-  cat "$TPL/fragments/env/push.env" >> "$PROJECT_DIR/apps/web/.env.example"
+  render_fragment "fragments/env/push.env" >> "$PROJECT_DIR/apps/web/.env.example"
+fi
+if has_module waitlist; then
+  node -e '
+    const fs = require("fs"); const p = process.argv[1];
+    const j = JSON.parse(fs.readFileSync(p, "utf8"));
+    j.devDependencies = { ...j.devDependencies, "mongodb-memory-server": "catalog:" };
+    fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
+  ' "$PROJECT_DIR/apps/web/package.json"
 fi
 if has_module observability; then
   node -e '
@@ -275,7 +337,7 @@ if has_module observability; then
     j.dependencies = { ...j.dependencies, "@sentry/nextjs": "latest" };
     fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
   ' "$PROJECT_DIR/apps/web/package.json"
-  cat "$TPL/fragments/env/observability.env" >> "$PROJECT_DIR/apps/web/.env.example"
+  render_fragment "fragments/env/observability.env" >> "$PROJECT_DIR/apps/web/.env.example"
 fi
 
 # 1Password: seed .env.local from .env.example with OP_ACCOUNT/OP_VAULT filled.
@@ -299,10 +361,13 @@ if has_module data; then
   node -e '
     const fs = require("fs"); const p = process.argv[1];
     const j = JSON.parse(fs.readFileSync(p, "utf8"));
-    j.dependencies = { ...j.dependencies, mongoose: "catalog:", ioredis: "catalog:" };
+    j.dependencies = { ...j.dependencies, mongoose: "catalog:", redis: "catalog:" };
+    j.devDependencies = { ...j.devDependencies, tsx: "catalog:" };
+    // Scripts import server-only modules, so they run under the react-server condition (BP §14).
+    j.scripts = { ...j.scripts, script: "tsx --env-file-if-exists=.env.local --conditions=react-server" };
     fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
   ' "$PROJECT_DIR/apps/web/package.json"
-  cat "$TPL/fragments/env/data.env" >> "$PROJECT_DIR/apps/web/.env.example"
+  render_fragment "fragments/env/data.env" >> "$PROJECT_DIR/apps/web/.env.example"
 fi
 
 # ---- 2. composite files from fragments
@@ -317,6 +382,54 @@ assemble() { # assemble <fragment-group> <out-file> [module...]
   done
   [ -f "$TPL/fragments/$group/footer.tmpl" ] && render_fragment "fragments/$group/footer.tmpl" >> "$out" || true
 }
+# Rows that land inside a fragment rather than after it: the CLAUDE.md routing
+# map and command block, and the compose service details that depend on which
+# other workspace members exist.
+rows() { # rows <group> <module...> → concatenated rendered rows for selected modules
+  local group="$1"; shift
+  for m in "$@"; do
+    if has_module "$m" && [ -f "$TPL/fragments/$group/$m.tmpl" ]; then render_fragment "fragments/$group/$m.tmpl"; fi
+  done
+}
+SW_ROUTING_ROWS="$(rows routing web api admin auth data push waitlist observability rn tokens macos ios rust)"
+SW_COMMAND_ROWS="$(rows commands web api admin data rn tokens macos rust)"
+[ -n "$SW_ROUTING_ROWS" ] && SW_ROUTING_ROWS="$SW_ROUTING_ROWS
+"
+[ -n "$SW_COMMAND_ROWS" ] && SW_COMMAND_ROWS="$SW_COMMAND_ROWS
+"
+MEMBERS=""   # workspace members whose node_modules a container must not share
+has_module web    && MEMBERS="$MEMBERS apps/web"
+has_module api    && MEMBERS="$MEMBERS apps/api"
+has_module admin  && MEMBERS="$MEMBERS apps/admin"
+has_module rn     && MEMBERS="$MEMBERS apps/mobile"
+has_module tokens && MEMBERS="$MEMBERS packages/design-tokens"
+HEAVY=""     # trees no JS container reads (BP §21: they exhaust kern.maxfiles)
+has_module rn    && HEAVY="$HEAVY apps/mobile/ios apps/mobile/android"
+has_module macos && HEAVY="$HEAVY apps/macos"
+has_module ios   && HEAVY="$HEAVY apps/ios"
+has_module rust  && HEAVY="$HEAVY target"
+masks_for() { # masks_for <own-member> → compose volume lines shadowing everything else
+  local m
+  for m in $MEMBERS; do [ "$m" = "$1" ] || printf '      - /repo/%s/node_modules\n' "$m"; done
+  for m in $HEAVY; do printf '      - /repo/%s\n' "$m"; done
+}
+SW_COMPOSE_MASKS_WEB="$(masks_for apps/web)"
+SW_COMPOSE_MASKS_API="$(masks_for apps/api)"
+[ -n "$SW_COMPOSE_MASKS_WEB" ] && SW_COMPOSE_MASKS_WEB="$SW_COMPOSE_MASKS_WEB
+"
+[ -n "$SW_COMPOSE_MASKS_API" ] && SW_COMPOSE_MASKS_API="$SW_COMPOSE_MASKS_API
+"
+SW_COMPOSE_DATA_ENV=""
+if has_module data; then
+  SW_COMPOSE_DATA_ENV="      MONGODB_URI: mongodb://mongo:27017/${SW_DB_NAME}_dev?replicaSet=rs0&directConnection=true
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      mongo: { condition: service_healthy }
+      redis: { condition: service_healthy }
+"
+fi
+export SW_ROUTING_ROWS SW_COMMAND_ROWS SW_COMPOSE_MASKS_WEB SW_COMPOSE_MASKS_API SW_COMPOSE_DATA_ENV
+
 assemble caddy   "$PROJECT_DIR/Caddyfile"              web api admin
 if has_module web || has_module api || has_module data; then
   assemble compose "$PROJECT_DIR/docker-compose.dev.yml" web api data
@@ -325,15 +438,14 @@ assemble claude  "$PROJECT_DIR/CLAUDE.md"              web api rn macos ios toke
 assemble readme  "$PROJECT_DIR/README.md"              web api rn macos ios tokens data auth admin push waitlist observability rust
 mkdir -p "$PROJECT_DIR/docs"
 assemble arch    "$PROJECT_DIR/docs/ARCHITECTURE.md"    web api admin macos ios rn tokens rust
-assemble testing "$PROJECT_DIR/docs/TESTING.md"         web api rn macos ios rust
+assemble testing "$PROJECT_DIR/docs/TESTING.md"         web admin api rn macos ios rust
 assemble deploy  "$PROJECT_DIR/docs/DEPLOYMENT.md"      web admin macos ios rn api
+assemble divergences "$PROJECT_DIR/docs/DIVERGENCES.md" web auth admin
 
 # ---- 3. operating specs + AGENTS.md symlink
 mkdir -p "$PROJECT_DIR/docs"
-for f in CODING_PRACTICES.md NEW_PROJECT_BEST_PRACTICES.md; do
-  if [ -f "$TEAM_FILES/$f" ]; then cp "$TEAM_FILES/$f" "$PROJECT_DIR/docs/$f"
-  else echo "WARN: $TEAM_FILES/$f not found — docs/$f not copied" >&2; fi
-done
+for f in CODING_PRACTICES.md NEW_PROJECT_BEST_PRACTICES.md; do cp "$TEAM_FILES/$f" "$PROJECT_DIR/docs/$f"; done
+TEAM_FILES_COMMIT="$(python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('source_commit',''))" "$TEAM_FILES/SOURCE.json" 2>/dev/null || git -C "$TEAM_FILES" rev-parse HEAD 2>/dev/null || echo "")"
 mkdir -p "$PROJECT_DIR/docs/features-to-triage" "$PROJECT_DIR/docs/specs" "$PROJECT_DIR/docs/plans" "$PROJECT_DIR/docs/deep-research" "$PROJECT_DIR/design/mocks/html" "$PROJECT_DIR/design/icon" "$PROJECT_DIR/design/marketing/assets"
 printf '# LEDGER\n\n| ID | Feature | Status |\n|---|---|---|\n' > "$PROJECT_DIR/docs/features-to-triage/LEDGER.md"
 ln -s CLAUDE.md "$PROJECT_DIR/AGENTS.md"
@@ -367,27 +479,37 @@ json.dump({
     "design_ref": "$DESIGN_REF" or None,
     "ports": {"web": $PORT_WEB, "api": $PORT_API, "admin": $PORT_ADMIN},
     "op_vault": "$OP_VAULT" or None,
+    "host": "$HOST",
+    "team_files": {"source": "$TEAM_FILES", "commit": "$TEAM_FILES_COMMIT" or None},
 }, open(sys.argv[1], "w"), indent=2)
 PY
 
 # ---- state inventory (.slipway/state.json): SHA256 of every generated file +
 # ownership class. This is what makes drift detection and upgrades possible —
 # an unmodified hash means the file is safely replaceable by a newer template.
-python3 - "$PROJECT_DIR" <<'PY'
-import hashlib, json, os, pathlib, sys
+# Written before the first commit, and again after the install pins ranges.
+write_state() {
+python3 - "$PROJECT_DIR" <<'PY2'
+import hashlib, json, pathlib, subprocess, sys
 root = pathlib.Path(sys.argv[1])
 GENERATOR_OWNED = ("docs/CODING_PRACTICES.md", "docs/NEW_PROJECT_BEST_PRACTICES.md",
-                   "scripts/env-pull.sh", ".slipway/", ".husky/pre-push")
+                   "scripts/env-pull.sh", "scripts/gate.mjs", "scripts/check-env.mjs",
+                   "scripts/worktree-add.sh", "scripts/prune-merged-worktrees.sh",
+                   ".slipway/", ".husky/pre-push")
+listed = subprocess.run(["git", "-C", str(root), "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
+                        capture_output=True, text=True)
+paths = sorted(set(listed.stdout.split("\0")) - {""}) if listed.returncode == 0 else \
+    sorted(str(p.relative_to(root)) for p in root.rglob("*") if p.is_file() and ".git/" not in str(p))
 state = {}
-for p in sorted(root.rglob("*")):
-    if p.is_dir() or ".git/" in str(p) or p.name in ("state.json", "next-env.d.ts"):
+for rel in paths:
+    p = root / rel
+    if p.name in ("state.json", "next-env.d.ts", "pnpm-lock.yaml") or p.is_symlink() or not p.is_file():
         continue
-    rel = str(p.relative_to(root))
     ownership = "generator" if any(rel.startswith(g) or rel == g.rstrip("/") for g in GENERATOR_OWNED) else "starter"
     state[rel] = {"sha256": hashlib.sha256(p.read_bytes()).hexdigest(), "ownership": ownership}
-out = root / ".slipway" / "state.json"
-out.write_text(json.dumps(state, indent=1) + "\n")
-PY
+(root / ".slipway" / "state.json").write_text(json.dumps(state, indent=1) + "\n")
+PY2
+}
 
 # ---- 4. guard: no unrendered tokens
 if grep -rn "{{[A-Z_]*}}" "$PROJECT_DIR" --include='*' -l 2>/dev/null | grep -q .; then
@@ -399,17 +521,19 @@ fi
 # ---- 5. git + install + native projects + gate
 cd "$PROJECT_DIR"
 git init -q -b main
+write_state
+# The one root .gitignore must reach inside every app (BP §17, CP §6.8): prove it
+# on nested paths before anything is committed.
+for must in apps/web/.env.local apps/web/.env apps/web/.env.production apps/admin/.env.local apps/web/.vercel/project.json; do
+  git check-ignore -q "$must" || { echo "ERROR: .gitignore does not ignore $must" >&2; exit 1; }
+done
+if git check-ignore -q apps/web/.env.example; then echo "ERROR: .gitignore ignores apps/web/.env.example" >&2; exit 1; fi
 git add -A
 git commit -qm "Scaffold $DISPLAY via slipway (modules: $MODULES)"
 [ -n "$GITHUB_ORG" ] && git remote add origin "git@github.com:$GITHUB_ORG/$CODENAME.git"
 
-INSTALL_OK=""; GATE_OK=""; XCODE_OK=""
-if [ "$NO_INSTALL" = 0 ] && [ -f package.json ]; then
-  if pnpm install --silent; then
-    INSTALL_OK=yes
-    if pnpm turbo run typecheck build --output-logs=errors-only; then GATE_OK=yes; fi
-  fi
-fi
+INSTALL_OK=""; GATE_OK=""; XCODE_OK=""; PIN_OK=""; BROWSER_OK=""
+# Native projects first: the gate's swift test reads apps/macos.
 if has_module macos || has_module ios; then
   if command -v xcodegen >/dev/null 2>&1; then
     XCODE_OK=yes
@@ -427,25 +551,64 @@ if has_module rust; then
     echo "WARN: cargo not installed (rustup) — rust crate not verified" >&2
   fi
 fi
+if [ "$NO_INSTALL" = 0 ] && [ -f package.json ]; then
+  if pnpm install --silent; then
+    INSTALL_OK=yes
+    # Committed specifiers become real caret ranges (BP §2, CP §4 A03): every
+    # "latest" in a package.json or the catalog is rewritten to the version the
+    # cooldown-respecting install resolved, then the lockfile catches up.
+    if pnpm list -r --json --depth 0 > .slipway/resolved.json 2>/dev/null \
+       && python3 "$SCRIPT_DIR/pin-latest.py" "$PROJECT_DIR" .slipway/resolved.json \
+       && pnpm install --silent; then PIN_OK=yes; fi
+    rm -f .slipway/resolved.json
+    if has_module web; then
+      if pnpm --filter web exec playwright install chromium >/dev/null 2>&1; then BROWSER_OK=yes
+      else echo "WARN: playwright install chromium failed; the e2e smoke step of the gate will fail until it is installed" >&2; fi
+    fi
+    if pnpm gate; then GATE_OK=yes; fi
+  fi
+fi
 if [ -n "$INSTALL_OK" ] || [ -n "$XCODE_OK" ] || [ -n "$RUST_OK" ]; then
-  git add -A && git commit -qm "Post-scaffold: lockfile + generated projects" 2>/dev/null || true
+  write_state
+  git add -A && git commit -qm "Post-scaffold: lockfile, pinned ranges, generated projects" 2>/dev/null || true
 fi
 
 # ---- 6. next-steps file (the only manual part: sudo + accounts)
 {
   render_fragment "fragments/next-steps/header.tmpl"
   echo
-  echo '## 1. Hosts + Caddy (needs sudo — run these yourself)'
+  echo '## 1. Caddy (no sudo — BP §20)'
+  echo
+  echo "Mirror the repo Caddyfile's route blocks (not its global block) into the machine-wide Caddy, validate, reload:"
   echo
   echo '```bash'
-  hosts_line="127.0.0.1 $CODENAME.local\\n127.0.0.1 api.$CODENAME.local"
-  has_module admin && hosts_line="$hosts_line\\n127.0.0.1 admin.$CODENAME.local"
-  echo "sudo sh -c 'printf \"$hosts_line\\n\" >> /etc/hosts'"
-  echo "sed '/^{/,/^}/d' \"$PROJECT_DIR/Caddyfile\" | sudo tee /opt/homebrew/etc/caddy/conf.d/$CODENAME.caddy >/dev/null"
-  echo 'sudo caddy reload --config /opt/homebrew/etc/Caddyfile   # or: sudo brew services start caddy'
+  echo "sed '/^{/,/^}/d' \"$PROJECT_DIR/Caddyfile\" > /opt/homebrew/etc/caddy/conf.d/$CODENAME.caddy"
+  echo 'caddy validate --config /opt/homebrew/etc/Caddyfile && caddy reload --config /opt/homebrew/etc/Caddyfile'
+  echo '# Caddy not running yet: brew services start caddy'
   echo '```'
   echo
-  has_module web && { echo '## 2. Vercel'; echo; echo '```bash'; echo "cd $PROJECT_DIR/apps/web && vercel link"; echo '```'; echo; }
+  macos_major="$(sw_vers -productVersion 2>/dev/null | cut -d. -f1 || echo 26)"
+  if [ "${macos_major:-26}" -lt 26 ] 2>/dev/null; then
+    echo "This Mac runs macOS $macos_major, which doesn't resolve *.localhost on its own. Add hosts lines (needs sudo):"
+    echo
+    echo '```bash'
+    for h in "$HOST" "api.$HOST" "admin.$HOST"; do echo "printf '127.0.0.1 $h\\n::1 $h\\n' | sudo tee -a /etc/hosts >/dev/null"; done
+    echo '```'
+  else
+    echo "macOS 26+ resolves \`*.localhost\` to loopback, so no /etc/hosts entry is needed."
+  fi
+  echo
+  if has_module web; then
+    echo '## 2. Vercel'
+    echo
+    echo 'Link each Next app before the first push. Once linked, the pre-push gate builds it with a real `vercel build` (BP §19); until then it says it fell back to next build.'
+    echo
+    echo '```bash'
+    echo "cd $PROJECT_DIR/apps/web && vercel link && vercel pull"
+    has_module admin && echo "cd $PROJECT_DIR/apps/admin && vercel link && vercel pull"
+    echo '```'
+    echo
+  fi
   if has_module macos || has_module ios; then
     echo '## 3. Release path (TestFlight / App Store / notarized DMG)'
     echo
@@ -457,7 +620,7 @@ fi
   fi
   echo '## Testing'
   echo
-  has_module web && echo '- Web e2e (Obscura + `node --test`): needs `obscura` on PATH (aarch64-macos release from https://github.com/h4ckf0r0day/obscura into ~/.local/bin), then `pnpm --filter web test:e2e`. Build suites with the acceptance-e2e skill.'
+  has_module web && echo "- Web e2e (Playwright, against the built app): \`pnpm --filter web build && pnpm --filter web test:e2e\`. Chromium: ${BROWSER_OK:+installed by the scaffold}${BROWSER_OK:-not installed — run \`pnpm --filter web exec playwright install chromium\`}. Build acceptance suites with \`acceptance-e2e:acceptance-e2e\`."
   has_module api && echo '- API unit (jest + @swc/jest): `pnpm --filter api test`.'
   has_module rn && echo '- Mobile device E2E (Maestro): `brew install maestro`, app in simulator, then `cd apps/mobile && maestro test .maestro/`.'
   has_module rust && echo '- Rust: `cargo test` at the repo root.'
@@ -478,14 +641,14 @@ fi
   if has_module data; then
     echo '## 4. Data services'
     echo
-    echo 'Fill MONGODB_URI and REDIS_URL in apps/web/.env.local (or `docker compose -f docker-compose.dev.yml up` for local Mongo+Redis).'
+    echo '`docker compose -f docker-compose.dev.yml up mongo redis` starts a local Mongo single-node replica set and Redis; `.env.example` already points at them. Copy it to `apps/web/.env.local` and keep the database name ending `_dev` or `_test`, which is what `scripts/lib/assert-local-db.ts` accepts.'
     echo
   fi
   if has_module auth; then
     echo '## Auth & email'
     echo
-    echo '- Generate secrets into apps/web/.env.local: `openssl rand -base64 32` for JWT_SECRET (and ADMIN_JWT_SECRET in apps/admin/.env.local).'
-    echo '- Resend: verify the sender domain, set RESEND_API_KEY + RESEND_FROM_EMAIL. Until then the code email will fail — use the Dev login button on /login (non-prod only).'
+    echo '- Generate secrets into apps/web/.env.local with `openssl rand -base64 32`: JWT_SECRET (and ADMIN_JWT_SECRET in apps/admin/.env.local). Both must be at least 32 characters; the code refuses shorter ones.'
+    echo '- Resend: verify the sender domain, set RESEND_API_KEY + RESEND_FROM_EMAIL. Outside production, email only reaches domains listed in OUTBOUND_ALLOWED_DOMAINS (empty means nobody, BP §24), so add your own domain there to receive sign-in codes locally; or use the Dev login button on /login.'
     has_module admin && echo '- Admin: set ADMIN_EMAILS (comma-separated allowlist) in apps/admin/.env.local.'
     echo
   fi
@@ -518,12 +681,12 @@ fi
   fi
   echo '## Finally'
   echo
-  echo "- \`cd $PROJECT_DIR && pnpm dev\` then open http://$CODENAME.local"
+  echo "- \`cd $PROJECT_DIR && pnpm dev\` then open http://$HOST"
   echo '- Bootstrap DESIGN.md (the visual source of truth) with the design-md-from-website or design-craft skill before the first UI feature.'
   echo '- Add this project to ~/Dev/ARMADA.md with the armada-sync skill.'
 } > "$PROJECT_DIR/SETUP-NEXT-STEPS.md"
 
 echo
 echo "== done: $PROJECT_DIR"
-echo "   install: ${INSTALL_OK:-skipped/failed}  gate(typecheck+build): ${GATE_OK:-skipped/failed}  xcodegen: ${XCODE_OK:-skipped}  cargo: ${RUST_OK:-skipped}"
+echo "   install: ${INSTALL_OK:-skipped/failed}  pin: ${PIN_OK:-skipped/failed}  gate: ${GATE_OK:-skipped/failed}  xcodegen: ${XCODE_OK:-skipped}  cargo: ${RUST_OK:-skipped}"
 echo "   manual steps → $PROJECT_DIR/SETUP-NEXT-STEPS.md"

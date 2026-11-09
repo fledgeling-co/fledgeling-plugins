@@ -1,0 +1,29 @@
+import { describe, expect, it } from 'vitest';
+import { assertLocalDatabase, SEED_CONFIRM_PHRASE } from './assert-local-db';
+
+describe('assertLocalDatabase', () => {
+  const ok = 'mongodb://127.0.0.1:27017/{{DB_NAME}}_dev?replicaSet=rs0&directConnection=true';
+
+  it('allows a loopback host with a local database name', () => {
+    expect(() => assertLocalDatabase(ok, undefined)).not.toThrow();
+    expect(() => assertLocalDatabase('mongodb://[::1]:27017/{{DB_NAME}}_test', undefined)).not.toThrow();
+  });
+
+  it('refuses a host that only contains the word localhost', () => {
+    expect(() => assertLocalDatabase('mongodb://localhost.attacker.example/{{DB_NAME}}_dev', undefined)).toThrow(/non-local/);
+  });
+
+  it('refuses any remote member of a replica set, and every SRV record', () => {
+    expect(() => assertLocalDatabase('mongodb://localhost:27017,db.prod.example:27017/{{DB_NAME}}_dev', undefined)).toThrow(/non-local/);
+    expect(() => assertLocalDatabase('mongodb+srv://u:p@cluster.example/{{DB_NAME}}_dev', undefined)).toThrow(/non-local/);
+  });
+
+  it('refuses a loopback host serving a database that is not on the local list', () => {
+    expect(() => assertLocalDatabase('mongodb://127.0.0.1:27017/production', undefined)).toThrow(/not a local database/);
+  });
+
+  it('lets the exact confirmation phrase through', () => {
+    expect(() => assertLocalDatabase('mongodb+srv://u:p@cluster.example/x', SEED_CONFIRM_PHRASE)).not.toThrow();
+    expect(() => assertLocalDatabase('mongodb+srv://u:p@cluster.example/x', 'yes')).toThrow();
+  });
+});

@@ -1,10 +1,11 @@
 import { redirect } from 'next/navigation';
 import { getAdminSession } from '@/lib/auth-admin';
 
-// Server-guarded shell: every admin page calls getAdminSession() — the guard
-// lives server-side, never in client state (BP §24). Audit-log every
-// admin-initiated mutation you add here (BP §12).
-export default async function AdminHome() {
+// Server-guarded shell: every admin page calls getAdminSession(); the guard
+// lives server-side, never in client state (BP §24). Every admin mutation you
+// add writes its audit entry in the same transaction (BP §12, CP §6.8) and gets
+// a test that an unauthorised caller is denied (BP §15).
+export default async function AdminHome(): Promise<React.ReactElement> {
   const session = await getAdminSession();
   if (!session) redirect('/login');
   return (

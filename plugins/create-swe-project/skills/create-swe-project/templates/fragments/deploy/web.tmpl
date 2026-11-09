@@ -1,7 +1,9 @@
 
 ## Web (Vercel)
 
-- One Vercel project per deployable; Root Directory = `apps/web`; `vercel.json` pins `regions: ["syd1"]` with a `/api/health` warm cron and turbo-ignore. Set Function CPU to **Performance** in the dashboard (not expressible in vercel.json).
+- One Vercel project per deployable; Root Directory = `apps/web`; `vercel.json` pins `regions: ["syd1"]` with a `/api/health` warm cron. Leave Vercel's automatic skipping of unaffected projects on, so a push touching one app doesn't rebuild the others (BP §17). Set Function CPU to **Performance** in the dashboard (not expressible in vercel.json).
+- Link before the first push: `vercel link && vercel pull` in `apps/web`. The pre-push gate then builds this app with a real `vercel build`, which catches standalone, CSP-nonce and build-time-env bugs a plain next build misses (BP §19).
 - Promote to prod via merge to main — never the Vercel UI (BP §16).
 - Deploys require git author `luke@rhodes.gg`; the Vercel CLI reports the BLOCKED state as **UNKNOWN** — check the dashboard when a deploy stalls.
+- An HTTP-triggered cron route rejects any request whose `Authorization` isn't `Bearer <CRON_SECRET>` and fails closed when `CRON_SECRET` is unset; give every cron and queue route an explicit `maxDuration` (BP §16, CP §6.12).
 - Cold-start trap (BP §16): cache the connection/app **promise** across invocations; a bootstrap that exceeds `maxDuration` 504s every cold request while warm ones work, which reads as "intermittent".

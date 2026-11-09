@@ -4,6 +4,14 @@
 
 The scripts, on the other hand, are testable without an agent, and they were tested. That is what the next section is.
 
+## 9 Nov 2026: the gate, run end to end
+
+The 18 Aug caveat below, that no real scaffold was rendered and no gate executed, no longer holds. For 1.13.0 the scaffold now runs its whole gate, and `canary.sh` was run on all four permutations (all modules, saas, native, site): each scaffold ended `gate: yes`, meaning env parity, lint, typecheck, unit tests, build, three Playwright `@smoke` tests on the production build, and the Swift and Rust tests where present all passed. Getting there surfaced four template defects that had never run before (Jest and NestJS 12's ESM, Sentry 11's moved export, node-redis's native addon under Turbopack, the canary's own exit code); the CHANGELOG names each.
+
+Checks were armed, not only run. `check-env.mjs` exited 1 with a key removed from `.env.example` and with an unread key added, and 0 when restored. The smoke suite turned two of three tests red when the root layout was made static (nonce mismatch, CSP violations in the browser) and green when restored. A proxy that set the CSP only on the response did **not** turn it red: Next 16.4.5 stamped the nonce anyway, so that is recorded as a finding rather than a guard. The pre-push gate, fed seven simulated ref sets, scoped a docs-only push to nothing, a web change to `web`, an api + macOS change to `api` and `swift`, and ran everything for a shared package, a new branch, an unknown base and an unclassified path.
+
+This is still a measurement of the scripts and templates, not of a model following the SKILL.md; the eval set below remains unrun.
+
 ## What was checked, and what it found
 
 Every result below was produced on 18 Aug 2026 by running the skill's own scripts. Nothing wrote into `~/Dev`: every scaffold went to a temporary destination through `--dest`.

@@ -1,0 +1,4 @@
+# Canonical list of the env vars apps/api reads (BP §13); `pnpm check:env` enforces it.
+# AI (BP §6): AI Gateway routes across providers; ANTHROPIC_API_KEY alone works for local dev.
+AI_GATEWAY_API_KEY=
+ANTHROPIC_API_KEY=

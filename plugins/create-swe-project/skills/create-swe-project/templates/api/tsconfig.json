@@ -8,11 +8,13 @@
     "outDir": "./dist",
     "noEmit": true,
     "types": [
-      "node"
+      "node",
+      "jest"
     ]
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "test/**/*.ts"
   ],
   "exclude": [
     "node_modules",

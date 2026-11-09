@@ -1,0 +1,7 @@
+# {{DISPLAY}} — Deliberate divergences from CP / BP
+
+Every place this repo knowingly departs from `docs/CODING_PRACTICES.md` (CP) or `docs/NEW_PROJECT_BEST_PRACTICES.md` (BP), with the reason. Check here before "fixing" something that looks non-compliant, and add a row in the same change as any new divergence. When a divergence ends, delete its row.
+
+| Rule | What this repo does instead | Why | Revisit when |
+|---|---|---|---|
+| BP §1, §17: a single-app project stays standalone | Always a pnpm + Turborepo monorepo, even for one app | Slipway projects gain apps later (admin, native, mobile), and retrofitting a standalone repo into a workspace is the rework BP §17 warns about | — |

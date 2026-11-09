@@ -1,4 +1,9 @@
-export default function Home() {
+import type { Metadata } from 'next';
+
+// Per-page metadata on every server page (team convention, CP §6.9).
+export const metadata: Metadata = { title: '{{DISPLAY}}', description: '{{DESCRIPTION}}' };
+
+export default function Home(): React.ReactElement {
   return (
     <main>
       <h1>{{DISPLAY}}</h1>

@@ -1,12 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import { rotateRefresh } from '@/lib/auth-server';
+import { isAllowedOrigin, jsonError } from '@/lib/http';
 
 export const runtime = 'nodejs';
 
-// BP §9: classify the failure — a 401 here means the session is dead (client
-// signs out ONCE); transient/5xx elsewhere must not sign the user out.
-export async function POST(): Promise<NextResponse> {
+// 401 here means the session is over: the client signs out once. A network
+// error or 5xx is transient and must not sign anyone out (BP §9.7).
+export async function POST(req: NextRequest): Promise<Response> {
+  if (!isAllowedOrigin(req)) return jsonError('Forbidden', 403);
   const session = await rotateRefresh();
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!session) return jsonError('Unauthorized', 401);
   return NextResponse.json({ ok: true });
 }

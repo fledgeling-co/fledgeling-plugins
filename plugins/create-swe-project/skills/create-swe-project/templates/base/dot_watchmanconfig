@@ -1,0 +1,3 @@
+{
+  "ignore_dirs": [".git", "node_modules", ".next", ".turbo", "dist", "coverage", "DerivedData", "target", "test-results", "playwright-report"]
+}

@@ -1,8 +1,13 @@
-# Admin app env (BP §13). Distinct trust domain: NEVER reuse JWT_SECRET here.
-# Generate with: openssl rand -base64 32
+# Admin app env (BP §13); `pnpm check:env` keeps this in step with the code.
+# This app's origin, and the only origin its state-changing requests may come from.
+NEXT_PUBLIC_APP_URL=http://admin.{{HOST}}
+# production | preview | development when the platform doesn't say (BP §24)
+APP_ENV=
+# Distinct trust domain: NEVER reuse JWT_SECRET here. At least 32 chars:
+#   openssl rand -base64 32
 ADMIN_JWT_SECRET=
 # Comma-separated allowlist of admin emails
 ADMIN_EMAILS=
 RESEND_API_KEY=
 RESEND_FROM_EMAIL=
-REDIS_URL=redis://localhost:6379
+REDIS_URL=redis://127.0.0.1:6379

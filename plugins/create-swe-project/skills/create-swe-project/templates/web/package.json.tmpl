@@ -5,11 +5,13 @@
   "scripts": {
     "dev": "next dev --port {{PORT_WEB}}",
     "build": "next build",
-    "start": "next start --port {{PORT_WEB}}",
+    "start": "node scripts/serve-standalone.mjs",
     "lint": "eslint .",
-    "typecheck": "tsgo --noEmit",
-    "test": "echo 'unit tests: add vitest for pure lib/ logic (BP \u00a715)'",
-    "test:e2e": "node --test e2e/"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --project unit",
+    "test:integration": "vitest run --project integration --passWithNoTests",
+    "test:e2e": "playwright test",
+    "test:e2e:smoke": "playwright test --grep @smoke"
   },
   "dependencies": {
     "ai": "catalog:",
@@ -27,12 +29,16 @@
     "react-hook-form": "latest"
   },
   "devDependencies": {
+    "@playwright/test": "catalog:",
+    "@testing-library/react": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@typescript/native": "catalog:",
     "eslint": "catalog:",
     "eslint-config-next": "catalog:",
+    "jsdom": "catalog:",
     "typescript": "catalog:",
-    "@typescript/native-preview": "catalog:"
+    "vitest": "catalog:"
   }
 }

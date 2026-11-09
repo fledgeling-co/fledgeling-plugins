@@ -25,11 +25,13 @@ esac
 # survives, which is how 1.4GB was left behind in /var/folders once. The trap
 # makes cleanup unconditional.
 DEST=""
-cleanup() { [ -n "$DEST" ] && [ -d "$DEST" ] && rm -rf "$DEST"; }
+# An `if`, not an `&&` chain: the chain's false test became the script's exit
+# status, so a run whose loop had already removed its last dir exited 1.
+cleanup() { if [ -n "$DEST" ] && [ -d "$DEST" ]; then rm -rf "$DEST"; fi; }
 trap cleanup EXIT INT TERM
 
 PERMS=(
-  "all:web,api,macos,ios,rn,tokens,data,auth,admin,push,waitlist,rust"
+  "all:web,api,macos,ios,rn,tokens,data,auth,admin,push,waitlist,observability,rust"
   "saas:web,tokens,data,auth,admin"
   "native:macos,ios,rust"
   "site:web,tokens"
@@ -40,12 +42,15 @@ for perm in "${PERMS[@]}"; do
   name="${perm%%:*}"; modules="${perm#*:}"
   DEST="$(mktemp -d)"
   echo "== canary: $name ($modules)"
-  if ! "$SCRIPT_DIR/scaffold.sh" --codename "canary$name" --display "Canary"       --description "slipway canary ($name)." --modules "$modules"       --dest "$DEST" 2>&1 | tail -2 | grep -q "gate(typecheck+build): yes\|install: skipped"; then
-    echo "   scaffold/gate FAILED for $name"; fail=1
+  # The scaffold's last line reports each step; the gate is the full one (lint,
+  # typecheck, test, build, e2e smoke, swift/cargo where present), so a "gate: yes"
+  # is the whole verdict for this permutation.
+  if ! "$SCRIPT_DIR/scaffold.sh" --codename "canary$name" --display "Canary" \
+       --description "slipway canary ($name)." --modules "$modules" --dest "$DEST" \
+       > "$DEST/scaffold.log" 2>&1 || ! tail -3 "$DEST/scaffold.log" | grep -q "gate: yes"; then
+    echo "   FAILED for $name; last lines of the scaffold log:"; tail -25 "$DEST/scaffold.log" | sed 's/^/     /'
+    fail=1
   fi
-  case ",$modules," in *,web,*|*,api,*|*,tokens,*)
-    (cd "$DEST/canary$name" && pnpm turbo run lint --output-logs=errors-only >/dev/null 2>&1) || { echo "   lint FAILED for $name"; fail=1; };;
-  esac
   rm -rf "$DEST"
 done
 [ "$fail" = 0 ] && echo "slipway canary: all permutations healthy ($(date +%Y-%m-%d))" || { echo "slipway canary: FAILURES — fix the templates"; exit 1; }

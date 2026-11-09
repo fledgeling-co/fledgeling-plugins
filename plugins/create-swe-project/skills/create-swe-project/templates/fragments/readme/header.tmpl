@@ -7,9 +7,9 @@ pnpm + Turborepo monorepo, scaffolded by slipway on {{DATE}}. Read `SETUP-NEXT-S
 ```bash
 pnpm install
 pnpm dev          # all dev servers
-pnpm gate         # lint + typecheck + build (the pre-push gate runs this)
+pnpm gate         # lint + typecheck + test + build + e2e smoke (the pre-push gate runs the scoped version)
 ```
 
-Local origin: http://{{CODENAME}}.local (shared machine Caddy — see `Caddyfile`).
+Local origin: http://{{HOST}} (shared machine Caddy; see `Caddyfile`).
 
 ## What's here

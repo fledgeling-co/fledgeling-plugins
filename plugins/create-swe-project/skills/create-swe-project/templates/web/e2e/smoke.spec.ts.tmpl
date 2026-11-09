@@ -1,0 +1,39 @@
+import { expect, test } from '@playwright/test';
+
+// @smoke runs in the pre-push gate. It asserts real content and the security
+// posture a typecheck can't see (BP §15, CP §6.7).
+test('home names the product and the browser reports no CSP violation @smoke', async ({ page }) => {
+  const violations: string[] = [];
+  page.on('console', (msg) => {
+    if (msg.text().includes('Content Security Policy')) violations.push(msg.text());
+  });
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('{{DISPLAY}}');
+  await page.waitForLoadState('networkidle');
+  expect(violations).toEqual([]);
+});
+
+// Next stamps the nonce only when it finds the CSP on the forwarded request, so
+// this is checked on a production build (CP §6.7). Scripts that a nonced script
+// inserts later (analytics, for one) are allowed by 'strict-dynamic' and carry
+// no nonce of their own, so the check reads the server-rendered HTML.
+test('every server-rendered script carries this response\'s CSP nonce @smoke', async ({ request }) => {
+  const res = await request.get('/');
+  const csp = res.headers()['content-security-policy'] ?? '';
+  const nonce = /'nonce-([^']+)'/.exec(csp)?.[1];
+  expect(nonce, 'the response carried no CSP nonce').toBeTruthy();
+  const scriptSrc = csp.split(';').map((d) => d.trim()).find((d) => d.startsWith('script-src')) ?? '';
+  expect(scriptSrc).not.toContain("'unsafe-inline'");
+  const tags = (await res.text()).match(/<script\b[^>]*>/g) ?? [];
+  expect(tags.length).toBeGreaterThan(0);
+  expect(tags.filter((tag) => !tag.includes(`nonce="${nonce}"`))).toEqual([]);
+});
+
+test('static security headers are present @smoke', async ({ request }) => {
+  const res = await request.get('/');
+  const h = res.headers();
+  expect(h['x-frame-options']).toBe('DENY');
+  expect(h['x-content-type-options']).toBe('nosniff');
+  expect(h['referrer-policy']).toBe('strict-origin-when-cross-origin');
+  expect(h['strict-transport-security']).toContain('max-age=');
+});

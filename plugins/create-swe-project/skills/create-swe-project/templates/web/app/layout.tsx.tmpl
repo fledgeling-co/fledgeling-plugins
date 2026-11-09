@@ -1,13 +1,21 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 export const metadata: Metadata = {
   title: '{{DISPLAY}}',
   description: '{{DESCRIPTION}}',
+  // iOS Safari rewrites detected phone numbers and dates into links, which
+  // diverges from the server HTML and breaks hydration (CP §3).
+  formatDetection: { telephone: false, date: false, email: false, address: false },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+// Async on purpose: reading headers() renders every page per request, which is
+// what lets each response carry a fresh CSP nonce (CP §6.7). This rules out
+// Cache Components; see docs/DIVERGENCES.md before switching them on.
+export default async function RootLayout({ children }: { children: React.ReactNode }): Promise<React.ReactElement> {
+  await headers();
   return (
     <html lang="en">
       <body>

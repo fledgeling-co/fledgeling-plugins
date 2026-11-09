@@ -1,0 +1,19 @@
+import { defineConfig, devices } from '@playwright/test';
+
+// End-to-end flows run against the BUILT app (BP §15): `pnpm build` first, then
+// this starts the standalone server. Point E2E_BASE_URL at a running dev server
+// or a deployed preview to skip the local server entirely.
+const baseURL = process.env.E2E_BASE_URL ?? 'http://127.0.0.1:{{PORT_WEB}}';
+
+export default defineConfig({
+  testDir: 'e2e',
+  fullyParallel: true,
+  forbidOnly: Boolean(process.env.CI),
+  retries: 0,
+  reporter: [['list']],
+  use: { baseURL, trace: 'retain-on-failure' },
+  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  webServer: process.env.E2E_BASE_URL
+    ? undefined
+    : { command: 'node scripts/serve-standalone.mjs', url: `${baseURL}/api/health`, reuseExistingServer: !process.env.CI, timeout: 60_000 },
+});

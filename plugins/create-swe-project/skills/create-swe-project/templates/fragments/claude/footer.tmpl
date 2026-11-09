@@ -1,7 +1,14 @@
 
+## Conventions (repo deltas — the operating specs carry the rest)
+
+- **Tests are part of the feature** (BP §15): a pure helper with logic of its own gets a co-located `*.test.ts`, and a route handler or Server Action gets a handler test, in the same change that writes it. The most security-sensitive surfaces (auth, admin) get the strongest coverage, including a test that an unauthorised caller is denied.
+- **Assert real data, not "it rendered"**: for a known-good fixture, assert a value-shaped string and explicitly not the placeholder (BP §15).
+- **The first feature that crosses two apps creates `packages/contract`** for the shared Zod wire DTOs (CP §6.10, BP §17), plus `docs/CONTRACTS.md` for the sync workflow. Until then there is deliberately no contract package.
+- **Worktrees come from `scripts/worktree-add.sh`**, never a bare `git worktree add` (no install, no gate), and a merged worktree is removed in the turn it merges (`scripts/prune-merged-worktrees.sh --apply`, BP §23).
+
 ## Secrets — 1Password
 
-Secrets come from 1Password, never from chat or hardcoding. `apps/web/.env.local` carries `OP_ACCOUNT` (the default 1Password account/team id) and `OP_VAULT` (this project's vault); keys graduate to `op://<vault>/<item>/<field>` references and `scripts/env-pull.sh` resolves them in place with the `op` CLI — values flow 1Password → file directly and never pass through an agent's context. When a new secret is needed, add the empty key to `.env.example` (committed, canonical list — BP §13) and the `op://` reference to `.env.local`.
+Secrets come from 1Password, never from chat or hardcoding. `.env.local` files carry `OP_ACCOUNT` (the default 1Password account/team id) and `OP_VAULT` (this project's vault); keys graduate to `op://<vault>/<item>/<field>` references and `scripts/env-pull.sh` resolves them in place with the `op` CLI — values flow 1Password → file directly and never pass through an agent's context. When a new secret is needed, add the empty key to `.env.example` (committed, canonical list — BP §13; `pnpm check:env` enforces it) and the `op://` reference to `.env.local`. Each trust domain has its own secret (BP §13): `JWT_SECRET` for users, `ADMIN_JWT_SECRET` for the admin console, `CRON_SECRET` for any HTTP-triggered cron, each from `openssl rand -base64 32`.
 
 ## External-model egress (the loupe rule)
 
@@ -13,4 +20,4 @@ This project is tracked in `~/Dev/ARMADA.md`, the portfolio manifest the `ship-a
 
 ## Keeping this file honest
 
-`AGENTS.md` is a **symlink** to this file — edit only `CLAUDE.md`, never replace the symlink with a copy. Update this file in the same change as any behaviour/architecture shift; put new depth in `docs/`, not here — this file is loaded into every session, so every line must earn its place.
+`AGENTS.md` is a **symlink** to this file (non-Claude agents read the same text) — edit only `CLAUDE.md`, and never replace the symlink with a copy. Update this file in the same change as any behaviour/architecture shift; put new depth in `docs/` (a routed reference doc), not here — this file is loaded into every session, so every line must earn its place. **Working if:** diffs stay scoped to the request; every "done" report quotes the gate result; commands and paths cited here actually exist in the tree; docs and code land in the same change.

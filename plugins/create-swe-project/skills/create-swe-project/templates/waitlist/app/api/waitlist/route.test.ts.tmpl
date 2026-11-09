@@ -1,0 +1,80 @@
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
+import mongoose from 'mongoose';
+import { MongoMemoryReplSet } from 'mongodb-memory-server';
+import { NextRequest } from 'next/server';
+
+// Redis is not under test here; the join logic and its responses are.
+vi.mock('@/lib/rate-limit', () => ({ rateLimit: async () => true, clientIp: () => '203.0.113.7' }));
+
+const { GET, POST } = await import('./route');
+const { WaitlistModel } = await import('@/lib/waitlist');
+const { db } = await import('@/lib/db');
+
+let replSet: MongoMemoryReplSet | undefined;
+
+beforeAll(async () => {
+  replSet = await MongoMemoryReplSet.create({ replSet: { count: 1 } });
+  vi.stubEnv('MONGODB_URI', replSet.getUri('{{DB_NAME}}_test'));
+  vi.stubEnv('NEXT_PUBLIC_APP_URL', 'http://app.test');
+  await db();
+  await WaitlistModel.init();
+}, 180_000);
+
+afterAll(async () => {
+  await mongoose.disconnect();
+  await replSet?.stop();
+});
+
+function join(email: string, opts: { ref?: string; cookie?: string } = {}): Promise<Response> {
+  const headers: Record<string, string> = { origin: 'http://app.test', 'content-type': 'application/json' };
+  if (opts.cookie) headers.cookie = `waitlist_viewer=${opts.cookie}`;
+  return POST(new NextRequest('http://app.test/api/waitlist', { method: 'POST', headers, body: JSON.stringify({ email, ref: opts.ref }) }));
+}
+
+function viewerToken(res: Response): string | undefined {
+  return /waitlist_viewer=([^;]+)/.exec(res.headers.get('set-cookie') ?? '')?.[1];
+}
+
+async function ownStatus(token: string | undefined): Promise<Response> {
+  const headers: Record<string, string> = token ? { cookie: `waitlist_viewer=${token}` } : {};
+  return GET(new NextRequest('http://app.test/api/waitlist', { headers }));
+}
+
+describe('waitlist join', () => {
+  it('answers a new address and a known one identically, cookie included', async () => {
+    const first = await join('known@example.com');
+    const again = await join('known@example.com');
+    expect([first.status, again.status]).toEqual([200, 200]);
+    expect(await first.json()).toEqual(await again.json());
+    const [a, b] = [viewerToken(first), viewerToken(again)];
+    expect(a).toBeTruthy();
+    expect(b?.length).toBe(a?.length);
+  });
+
+  it('shows position and share link only to the browser that created the entry', async () => {
+    const first = await join('mine@example.com');
+    const owner = await ownStatus(viewerToken(first));
+    expect(owner.status).toBe(200);
+    expect(await owner.json()).toMatchObject({ position: expect.any(Number), refCode: expect.any(String) });
+
+    const probe = await join('mine@example.com');
+    expect((await ownStatus(viewerToken(probe))).status).toBe(404);
+    expect((await ownStatus(undefined)).status).toBe(404);
+  });
+
+  it('keeps a browser\'s working token when it joins again', async () => {
+    const token = viewerToken(await join('returning@example.com'));
+    const again = await join('someone-else@example.com', { cookie: token });
+    expect(again.headers.get('set-cookie')).toBeNull();
+    expect((await ownStatus(token)).status).toBe(200);
+  });
+
+  it('credits a referral once, only on a real insert, never to yourself', async () => {
+    const referrerToken = viewerToken(await join('referrer@example.com'));
+    const referrer = (await (await ownStatus(referrerToken)).json()) as { refCode: string };
+    await join('friend@example.com', { ref: referrer.refCode });
+    await join('friend@example.com', { ref: referrer.refCode });
+    await join('referrer@example.com', { ref: referrer.refCode });
+    expect(await (await ownStatus(referrerToken)).json()).toMatchObject({ referrals: 1 });
+  });
+});

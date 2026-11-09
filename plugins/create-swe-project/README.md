@@ -51,7 +51,7 @@ You don't need to know any commands. In Claude Code, say what you want:
 
 Before it asks anything, it runs `doctor.sh`, a read-only check of your machine, so it won't offer you a Mac app without XcodeGen or 1Password seeding without the `op` CLI. Then:
 
-- **A codename.** Three single-word options, lowercase and evocative rather than descriptive, in the style of the existing portfolio: zephyr, perch, anvil, loupe, tare, sift. It reads `~/Dev` first and won't propose a name that already exists. You'll see what each one implies: `~/Dev/<codename>` and `<codename>.local`.
+- **A codename.** Three single-word options, lowercase and evocative rather than descriptive, in the style of the existing portfolio: zephyr, perch, anvil, loupe, tare, sift. It reads `~/Dev` first and won't propose a name that already exists. You'll see what each one implies: `~/Dev/<codename>` and `<codename>.localhost`.
 - **Which modules you need.** Thirteen of them, and most are inferred rather than asked. A product with accounts implies **auth**, which implies **data**. A SaaS gets web, tokens, data and auth by default. A marketing site gets web and tokens only. An unvalidated idea adds a **waitlist**. The inferred set arrives pre-selected and you adjust it.
 - **Native or React Native**, only when the idea implies a mobile app. Swift when it's Apple-only or needs deep platform integration; Expo when Android matters.
 - **Mac window style**, only when you picked a Mac app: a **window** with a sidebar and search, or a **menubar** agent with no Dock icon.
@@ -70,37 +70,38 @@ Everything else has a good default in the script. Ports, hostnames, versions, ga
 
 A project that already works, in `~/Dev/<codename>`:
 
-- A **pnpm and Turborepo monorepo**, with shared dependency ranges in one workspace catalog so you bump a version in one place.
+- **The team's operating specs, applied rather than attached.** `CODING_PRACTICES.md` and `NEW_PROJECT_BEST_PRACTICES.md` are bundled with the plugin and copied into `docs/`, the generated `CLAUDE.md` routes each area of the repo to the sections that govern it, and the templates already do what the specs say: a nonce Content-Security-Policy, origin checks and rate limits on every state-changing route, env files that can't be committed, one redacting logger, secrets that refuse to start when too short. `docs/DIVERGENCES.md` lists the few places the project departs from the specs and why.
+- A **pnpm and Turborepo monorepo** on Node 24, with shared dependency ranges in one workspace catalog, a one-day release-age cooldown on new dependencies, and an allowlist for packages that want to run install scripts.
 - A **Next.js web app** with security headers, a `/api/health` route, AI SDK wiring, and a Sydney-region Vercel config.
 - **Mac, iPhone, or cross-platform apps**, whichever you chose. XcodeGen owns the project file, and the fastlane TestFlight lanes plus the sign, notarize and DMG scripts are already written.
 - **Sign-in, emails and an admin console** if you asked for them. Email-code sign-in, rotating refresh tokens, React Email templates, and the admin console on its **own trust domain** with its own secret and audience.
-- **Tests and quality checks** from the first commit: Playwright for web, jest for the API, Maestro for React Native, XCTest for Swift, and a husky pre-push gate.
-- **Documentation that was assembled from the modules you chose**, not a stub. Architecture, testing, deployment, and an AI model registry when the web or API modules are present.
+- **Tests and quality checks** from the first commit: Vitest and Playwright for web, Vitest for the admin console, jest for the API, Maestro for React Native, XCTest for Swift, and a husky pre-push gate that checks only what a push changed.
+- **Documentation that was assembled from the modules you chose**, not a stub. Architecture, testing, deployment, divergences, and an AI model registry when the web or API modules are present.
 - A **`SETUP-NEXT-STEPS.md`** listing the few manual steps left, each with the exact command to copy.
 
-Then it runs `pnpm install` and the **typecheck and build gate**, and tells you the result. Green is the intended outcome.
+Then it runs `pnpm install`, turns every floating `latest` into the version range it actually installed, and runs the **full gate**: env-file parity, lint, typecheck, tests, build, a browser smoke test against the production build, and the Swift and Rust tests where those apps exist. It tells you the result. Green is the intended outcome.
 
 <details>
 <summary><strong>The full module inventory</strong> (click to expand)</summary>
 
 | Module | What it adds |
 |---|---|
-| base (always) | Root workspace config, consolidated `.gitignore`, `.claude/settings.json` with build and test commands pre-allowed so agents work promptless from day one, prettier, husky pre-push gate (`SKIP_GATE=1` bypasses it), Caddyfile, `CLAUDE.md` plus `AGENTS.md`, README, `SETUP-NEXT-STEPS.md`, and generated docs: `ARCHITECTURE.md`, `TESTING.md`, `DEPLOYMENT.md`, `AI-MODEL-USAGE.md` |
-| `web` | Next.js App Router, `/api/health`, `vercel.json` with a warm cron, security headers, `output: 'standalone'`, flat ESLint, `lib/ai.ts` with models in one config, react-hook-form, Vercel Analytics and Blob, date-fns, Dockerfile |
-| `api` | NestJS on SWC for both dev boot and prod build, so dev and prod behave the same. AI SDK at `src/ai.ts`, global config, rate limiting, in-process cron, helmet, validation pipe, OpenAPI at `/docs`, jest with `@swc/jest` |
+| base (always) | Root workspace config, consolidated `.gitignore`, `.claude/settings.json` with build and test commands pre-allowed so agents work promptless from day one, prettier, a husky pre-push gate that checks what the push changed (`GATE_FULL=1` forces everything), an env-file parity check, worktree create and prune scripts, Caddyfile, `CLAUDE.md` plus `AGENTS.md`, README, `SETUP-NEXT-STEPS.md`, the two operating specs, and generated docs: `ARCHITECTURE.md`, `TESTING.md`, `DEPLOYMENT.md`, `DIVERGENCES.md`, `AI-MODEL-USAGE.md` |
+| `web` | Next.js App Router with a per-request nonce CSP, `/api/health`, `vercel.json` with a warm cron, security headers, `output: 'standalone'`, ESLint that blocks direct backend calls and stray `console`, shared helpers for env, request guards and logging, `lib/ai.ts` with models in one config, Vitest and Playwright, react-hook-form, Vercel Analytics and Blob, date-fns, Dockerfile |
+| `api` | NestJS on SWC for both dev boot and prod build, so dev and prod behave the same. AI SDK at `src/ai.ts`, global config, rate limiting, in-process cron, helmet, a strict validation pipe, OpenAPI at `/docs` outside production, jest with `@swc/jest` |
 | `macos` | XcodeGen `project.yml` as the source of truth with the `.xcodeproj` gitignored, an SPM `AppCore` package with tests, distribution-aware entitlements, and two shells: a NavigationSplitView window or a MenuBarExtra agent |
 | `ios` | XcodeGen `project.yml`, simulator-first with no signing, generated Info.plist, a unit-test target |
-| `rn` | Expo app in `apps/mobile` with its own bundle id and URL scheme, monorepo-aware Metro config, hoisted node linker, a Maestro smoke flow. Expo modules only, never the Expo cloud: release builds are local prebuild plus fastlane |
+| `rn` | Expo app in `apps/mobile` with its own bundle id and URL scheme, Expo's own monorepo setup with pnpm's default install, test IDs and a Maestro smoke flow, Vitest for pure helpers. Expo modules only, never the Expo cloud: release builds are local prebuild plus fastlane |
 | `tokens` | `packages/design-tokens`, one source file generating `tokens.css`, with a drift check wired into the gate |
-| `data` | Cached Mongoose connection, models, types, a fail-closed Redis client, and the matching compose services |
-| `auth` | Email-code sign-in, 15-minute access tokens with rotating hashed refresh tokens in Redis, rate limits, constant-time comparison, no account-existence leak, a `/login` page, and a dev login route gated server-side to non-production |
-| `admin` | `apps/admin` on its own subdomain and port, with a separate JWT secret and audience, an email allowlist, 12-hour sessions and a server-guarded shell |
-| `push` | APNs over HTTP/2 with ES256 token auth and JWT caching, device-token registration, dead-token detection |
-| `waitlist` | A pre-launch waitlist with share codes and queue-jumping by referral count, ready to drop into the marketing page |
+| `data` | Cached Mongoose connection that rejects misspelt query fields, models, types, a fail-closed Redis client, an atomic rate limiter, a guard that stops destructive scripts touching a non-local database, and a replica-set Mongo plus Redis in compose |
+| `auth` | Email-code sign-in where each code works exactly once, 15-minute access tokens with single-use refresh tokens hashed in Redis, rate limits per IP and per email, constant-time comparison, the same answer for every address, outside production email only to domains you list, a `/login` page, and a dev login decided server-side |
+| `admin` | `apps/admin` on its own subdomain and port, with a separate JWT secret and audience, an email allowlist checked on every request, per-IP limits, 12-hour sessions and a server-guarded shell |
+| `push` | APNs over HTTP/2 with ES256 token auth and JWT caching, device-token registration, dead-token detection, and production push refused outside production |
+| `waitlist` | A pre-launch waitlist with share codes and queue-jumping by referral count, ready to drop into the marketing page. Joining never reveals whether an address was already on the list |
 | `observability` | Sentry wiring that stays inert until you add a DSN |
 | `rust` | A Cargo workspace with a cross-OS core crate, so shared logic is bound into Swift and Node rather than written twice |
 
-Across every relevant module: typechecking is **`tsgo`** everywhere, never `tsc` and never `ts-node`; secrets come from 1Password; and the release path (fastlane lanes, notarization scripts) ships with the native modules rather than being added later.
+Across every relevant module: typechecking is TypeScript 7's **`tsc`**, never `ts-node`; secrets come from 1Password; and the release path (fastlane lanes, notarization scripts) ships with the native modules rather than being added later.
 
 </details>
 
@@ -127,11 +128,13 @@ Once the scaffold is green, there's a second act you can opt into: the **launch 
 
 ## The honest bits
 
-A few steps stay manual on purpose. Anything needing your admin password (the local web address), your Apple developer account, or your 1Password sign-in is left for you with the exact command. That's a deliberate line, not a gap.
+A few steps stay manual on purpose. Registering the local web address with the machine's Caddy (no admin password on macOS 26 and later), linking Vercel, your Apple developer account and your 1Password sign-in are left for you with the exact command. That's a deliberate line, not a gap.
 
-New projects use the newest version of everything, fetched at creation time, so the lockfile pins something fresh. Occasionally the world moves and a new project needs a small fix. When that happens Claude fixes it in the project **and** fixes the template, so the next launch is clean. `scripts/canary.sh` scaffolds four representative module combinations and gates each one, weekly, which is what usually catches this before you do.
+New projects use the newest version of everything that has been public for at least a day, fetched at creation time, and the committed version ranges are the ones that were actually installed. Occasionally the world moves and a new project needs a small fix. When that happens Claude fixes it in the project **and** fixes the template, so the next launch is clean. `scripts/canary.sh` scaffolds four representative module combinations and gates each one, weekly, which is what usually catches this before you do.
 
-One pin worth knowing about: **TypeScript is held at `^6`** in the web, API and React Native apps. TypeScript 7.0 ships only the `tsc` executable, and both the Nest CLI and typescript-eslint need the programmatic compiler API, which is expected back in 7.1. It stays installed as a library the tooling needs, while `tsgo` does the actual typechecking. It gets unpinned when the ecosystem catches up.
+One pin worth knowing about: **two TypeScripts are installed side by side.** `tsc` is TypeScript 7 and does the typechecking, while anything that loads the `typescript` package gets 6.0, because the Nest CLI and typescript-eslint need a compiler API that 7.0 doesn't ship. ESLint is held at 9 for a similar reason. Both holds lift when the tools catch up.
+
+The specs themselves are a bundled snapshot. `scripts/sync-team-files.sh` refreshes it from the team-files repo, and `scripts/check-conformance.py` then fails until every numbered section is mapped to the template that carries it out, so a new rule in the specs can't quietly go unapplied.
 
 And template rot is the classic way scaffolding tools die, so there are two commands for it:
 
@@ -148,10 +151,12 @@ Adding an app to a project that already exists: edit that project directly, foll
 plugins/create-swe-project/
 ├── skills/create-swe-project/
 │   ├── SKILL.md              the interview and the decisions
-│   ├── scripts/              scaffold, doctor, drift, upgrade, canary
+│   ├── scripts/              scaffold, doctor, drift, upgrade, canary,
+│   │                         pin-latest, sync-team-files, check-conformance
 │   ├── templates/            every file a new project is made of
-│   └── references/           the launch pipeline, Apple commercialization,
-│                             and the research this design came from
+│   └── references/           the bundled operating specs and their
+│                             conformance map, the launch pipeline, Apple
+│                             commercialization, and the research behind it
 └── assets/                   icon, banner, and the icon audit
 ```
 

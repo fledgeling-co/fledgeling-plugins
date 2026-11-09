@@ -1,39 +1,16 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": [
-    "tsconfig.base.json",
-    ".npmrc"
-  ],
+  "globalDependencies": ["tsconfig.base.json", "pnpm-workspace.yaml"],
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "dist/**",
-        "tokens.css"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "tokens.css"]
     },
-    "lint": {
-      "dependsOn": [
-        "^build"
-      ]
-    },
-    "typecheck": {
-      "dependsOn": [
-        "^build"
-      ]
-    },
-    "test": {
-      "dependsOn": [
-        "^build"
-      ]
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    }
+    "lint": { "dependsOn": ["^build"] },
+    "typecheck": { "dependsOn": ["^build"] },
+    "test": { "dependsOn": ["^build"] },
+    "test:integration": { "dependsOn": ["^build"], "cache": false },
+    "test:e2e:smoke": { "dependsOn": ["build"], "cache": false },
+    "dev": { "cache": false, "persistent": true }
   }
 }

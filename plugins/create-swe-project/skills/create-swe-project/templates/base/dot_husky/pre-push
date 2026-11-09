@@ -1,4 +1,5 @@
-# Quality gate (BP §19): lint + typecheck + build on every push.
-# Bypass for a genuine emergency only: SKIP_GATE=1 git push
-[ "$SKIP_GATE" = "1" ] && exit 0
-pnpm turbo run lint typecheck build
+# Quality gate (BP §19): path-aware lint + typecheck + test + build + e2e smoke
+# for what this push changes. git hands the pushed refs to the hook on stdin;
+# gate.mjs reads them. GATE_FULL=1 forces everything; SKIP_VERCEL_BUILD=1 skips
+# only the Vercel build step. There is no other bypass.
+node scripts/gate.mjs --pre-push
