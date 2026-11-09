@@ -678,7 +678,7 @@
     {
       "name": "app-store-connect",
       "description": "Drives App Store Connect and the Apple Developer Portal through the Rork asc CLI, and says which credential each call uses and where it lives: API keys in the system keychain behind asc profiles, Apple Account web sessions whose SMS two-factor codes are read from Messages, Warden for the rest. Account details stay in a private file on the machine, so the skill itself names no team. A bundled script provisions a new app, planning before it writes: bundle ID, capabilities reconciled from an entitlements file with push included, and the App Store Connect app record, each read back by resource ID. App Groups, iCloud containers and signing profiles are covered as commands. The APNs push key is the one piece Apple exposes to no API, so the skill treats it as a team asset created once and reused by every app.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

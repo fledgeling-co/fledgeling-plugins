@@ -86,30 +86,50 @@ name.
 Check first; most web commands also sign in again on their own when a cached session expires:
 
 ```bash
-asc web auth status --apple-id <the team's apple_id>
+asc web auth status --apple-id <apple_id> --output json   # authenticated, providerId
 ```
+
+A web session is bound to one App Store Connect provider, and an Apple Account on several teams
+has several. Select it with the team's `provider_id` from `accounts.json`, Apple's numeric
+App Store Connect ID. It is not the Developer Portal team ID: passing the team ID to
+`--public-provider-id` fails with "did not match any available providers", and that error is
+also the quickest way to list an account's real provider IDs. Developer Portal commands
+(`app-groups`, `icloud-containers`, `service-ids`, `sign-in-keys`) select the team separately,
+with `--developer-team <team_id>`.
 
 To sign in without a person, ask Apple to text the code and read it from Messages:
 
 ```bash
-asc web auth login --apple-id <apple_id> --public-provider-id <team_id> \
+asc web auth login --apple-id <apple_id> --provider-id <provider_id> \
   --two-factor-method sms \
   --two-factor-code-command "asc web auth messages-code --timeout 50s"
 ```
 
-This has two prerequisites. The app running asc needs Full Disk Access so `messages-code` can
+Then confirm `asc web auth status` reports `"authenticated": true` and the expected
+`providerId` before any web command runs.
+
+This has two prerequisites: the app running asc needs Full Disk Access so `messages-code` can
 read `chat.db`, and the iPhone must forward SMS to this Mac (Settings → Messages → Text Message
-Forwarding). On the Mac this skill was built on, on 2026-11-09, the first held and the second did
-not: Apple texted the code to the trusted number and it never reached Messages, within 50
-seconds or four minutes later. Until forwarding is on, the unattended sign-in fails at the code
-step, and the owner signs in instead by typing this into the prompt:
+Forwarding). Measured on 2026-11-09: with forwarding off, Apple's text never reached Messages
+at all; with it on, two sign-ins read the code and finished within ten seconds. When the code
+step times out, check for the text itself before blaming the reader:
 
 ```bash
-! asc web auth login --apple-id <apple_id> --public-provider-id <team_id>
+/usr/bin/sqlite3 -readonly ~/Library/Messages/chat.db "SELECT datetime(m.date/1000000000+978307200,'unixepoch','localtime') FROM message m JOIN handle h ON h.ROWID=m.handle_id WHERE h.id='Apple' ORDER BY m.date DESC LIMIT 3;"
+```
+
+No recent row means the text never arrived, which is forwarding, not asc. When unattended
+sign-in is not available, or the account has no stored password yet, the owner signs in once
+by typing this into the prompt:
+
+```bash
+! asc web auth login --apple-id <apple_id> --provider-id <provider_id> --two-factor-method sms
 ```
 
 The session is cached and later commands reuse it until Apple expires it. That first interactive
-sign-in also stores the account's password for later unattended ones.
+sign-in also stores the account's password for later unattended ones. asc's help also describes
+entering a wrong trusted-device code to make Apple fall back to SMS; `--two-factor-method sms`
+asks for the text up front, so that workaround is never needed here.
 
 Make one sign-in attempt per task. When it fails, report the error and stop rather than
 retrying: repeated failures lock the Apple Account (service error -20209, after which asc pauses

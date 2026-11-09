@@ -8,7 +8,7 @@
 New bundle IDs, capabilities, push and app records through Rork's <code>asc</code> CLI, with every credential's home written down.</p>
 
 <p align="center">
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D24B1E">
+  <img alt="Version 0.1.1" src="https://img.shields.io/badge/version-0.1.1-D24B1E">
   <img alt="SWE skill: release" src="https://img.shields.io/badge/SWE_skill-release-434A55">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
@@ -33,7 +33,7 @@ For a new app, `provision-app.sh` finds or creates the bundle ID, reconciles cap
 
 **The skill names no account.** Team IDs, key IDs, Apple Accounts and Warden entry names live in a private folder on the Mac, `~/.config/app-store-connect/`, which the skill reads before its first command. When that folder is missing, it builds it from what asc already knows.
 
-Note: unattended sign-in doesn't work yet on the Mac I built this on. Full Disk Access is fine, so asc can read Messages, but on 2026-11-09 Apple sent the code and it never arrived; not in 50 seconds, and not four minutes later. Text Message Forwarding on the iPhone is the setting that carries it. Until that's on, I sign in once with `! asc web auth login` and the cached session is reused.
+Note: unattended sign-in needs Text Message Forwarding on the iPhone. My first attempt failed because the text never reached the Mac; with forwarding on, the same command signed in within ten seconds. The other trap is the team: a web session picks one App Store Connect provider, and that's App Store Connect's own ID, not the developer team ID the portal shows. 0.1.0 passed the wrong one; 0.1.1 fixes it, and the script now refuses to create an app record on the wrong provider.
 
 ## Push keys are the exception
 

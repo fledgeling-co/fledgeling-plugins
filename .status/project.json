@@ -1,12 +1,12 @@
 {
   "project": "fledgeling-plugins",
-  "updated": "2026-11-09T10:58:18+00:00",
+  "updated": "2026-11-09T11:24:55+00:00",
   "verdict": {
     "token": "done",
     "number": "38 of 38",
     "unit": "eval checks passed with the skill, against 32 without",
-    "headline": "The App Store Connect skill is published, with no subscriber email",
-    "run_label": "app-store-connect 0.1.0 \u00b7 pushed to main"
+    "headline": "App Store Connect skill published; unattended Apple sign-in now works",
+    "run_label": "app-store-connect 0.1.1 \u00b7 pushed to main"
   },
   "tasks": [
     {
@@ -57,10 +57,9 @@
       "id": "ASC-7",
       "title": "Apple sign-in with no one at the keyboard",
       "origin": "planned",
-      "stage": "being checked",
-      "outcome": "stuck",
-      "blocked_by": "Apple's text never reached this Mac",
-      "waiting_hours": 4
+      "stage": "code written",
+      "outcome": "done",
+      "note": "works with Text Message Forwarding on"
     }
   ],
   "gates": [
@@ -181,13 +180,17 @@
       "file_line": "docs/deep-research",
       "claim": "one research citation was dead; the claim was re-sourced from Apple",
       "state": "done"
+    },
+    {
+      "id": "F-7",
+      "score": 70,
+      "severity": "medium",
+      "file_line": "SKILL.md step 5",
+      "claim": "0.1.0 passed the team ID where App Store Connect wants its own provider ID",
+      "state": "done"
     }
   ],
   "not_checked": [
-    {
-      "axis": "A successful unattended Apple sign-in",
-      "why_not": "Apple's text never reached this Mac."
-    },
     {
       "axis": "The script's write path succeeding",
       "why_not": "Every eval run was read-only on purpose."
@@ -202,30 +205,8 @@
     }
   ],
   "not_done": [],
-  "roadmap": [
-    {
-      "round": "Next",
-      "goal": "Prove an unattended Apple sign-in end to end",
-      "tasks": [
-        "ASC-7"
-      ],
-      "tier": "S",
-      "status": "blocked",
-      "waits_on": "Text Message Forwarding on the iPhone",
-      "estimate_min": [
-        3,
-        25
-      ],
-      "median_min": 8
-    }
-  ],
+  "roadmap": [],
   "needs_you": [
-    {
-      "ask": "Turn on Text Message Forwarding to this Mac",
-      "kind": "setting",
-      "waiting_since": "2026-11-09T10:58:18+00:00",
-      "one_line": "Without it, Apple sign-in needs you at the keyboard."
-    },
     {
       "ask": "Sign in once as the Diolog Admin Apple Account",
       "kind": "credential",

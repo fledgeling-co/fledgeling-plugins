@@ -32,6 +32,8 @@ asc --profile <p> web apps create --apple-id <apple id> --name "Example" --bundl
   --sku example-ios --platform IOS --primary-locale en-AU --if-exists skip --auto-rename=false
 ```
 
+The record lands on whichever provider the web session selected, so check
+`asc web auth status --apple-id <apple id> --output json` shows the team's `providerId` first.
 `--auto-rename` defaults to true, which retries a taken name with a suffix and creates the app
 under a name nobody chose; pass `--auto-rename=false` every time. The record binds the bundle ID
 permanently and reserves the name, so confirm both with the user first.

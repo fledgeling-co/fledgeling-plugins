@@ -73,10 +73,11 @@ missing = [k for k in ("profile", "team_id", "apple_id") if not t.get(k)]
 if missing:
     sys.stderr.write("provision-app: team %s is missing %s in the accounts file\n" % (sys.argv[2], ", ".join(missing)))
     sys.exit(2)
-print(t["profile"], t["team_id"], t["apple_id"])
+print(t["profile"], t["team_id"], t["apple_id"], t.get("provider_id") or "-")
 PY
 ) || exit 2
-read -r profile team_id apple_id <<<"$team_fields"
+read -r profile team_id apple_id provider_id <<<"$team_fields"
+[[ "$provider_id" == "-" ]] && provider_id=""
 app_name="${app_name:-$name}"
 sku="${sku:-$identifier}"
 
@@ -174,6 +175,37 @@ if [[ $wants_push -eq 1 ]]; then
   say "push: the capability is handled above; sending also needs the team's APNs key (SKILL.md step 7)"
 fi
 
+# A web session is bound to one App Store Connect provider; an Apple Account on several teams
+# has several, and app creation lands on whichever the session selected.
+web_session() {
+  asc web auth status --apple-id "$apple_id" --output json 2>/dev/null | python3 -c '
+import json, sys
+try: d = json.load(sys.stdin)
+except Exception: d = {}
+print("yes" if d.get("authenticated") else "no", d.get("providerId") or "-")'
+}
+
+ensure_web_session() {
+  if [[ -z "$provider_id" ]]; then
+    echo "provision-app: accounts file has no provider_id for $team; add it before creating an app record" >&2
+    exit 2
+  fi
+  read -r signed_in session_provider <<<"$(web_session)"
+  if [[ "$signed_in" != "yes" ]]; then
+    asc web auth login --apple-id "$apple_id" --provider-id "$provider_id" \
+      --two-factor-method sms --two-factor-code-command "asc web auth messages-code --timeout 50s" >/dev/null || {
+      echo "provision-app: Apple sign-in failed; one attempt only (SKILL.md step 5)" >&2; exit 1; }
+    read -r signed_in session_provider <<<"$(web_session)"
+  fi
+  if [[ "$signed_in" != "yes" ]]; then
+    echo "provision-app: no Apple web session for $apple_id after sign-in" >&2; exit 1
+  fi
+  if [[ "$session_provider" != "$provider_id" ]]; then
+    echo "provision-app: web session for $apple_id is on provider $session_provider, not $provider_id; stopping" >&2
+    exit 3
+  fi
+}
+
 # 6. App Store Connect app record, through a web session. --if-exists skip makes a re-run safe;
 #    --auto-rename=false stops asc from creating the app under a suffixed name if the name is taken.
 if [[ $app_record -eq 1 ]]; then
@@ -182,8 +214,16 @@ if [[ $app_record -eq 1 ]]; then
   if [[ -n "$existing_app" ]]; then
     say "app record: exists for $identifier (app $existing_app); no change"
   elif [[ $apply -eq 0 ]]; then
-    say "app record: --apply creates \"$app_name\" (SKU $sku, $app_platform) as $apple_id"
+    read -r signed_in session_provider <<<"$(web_session)"
+    if [[ "$signed_in" == "yes" ]]; then
+      session_note="signed in on provider $session_provider"
+      [[ -n "$provider_id" && "$session_provider" != "$provider_id" ]] && session_note="$session_note, NOT the expected $provider_id"
+    else
+      session_note="not signed in; --apply signs in once by SMS"
+    fi
+    say "app record: --apply creates \"$app_name\" (SKU $sku, $app_platform) as $apple_id ($session_note)"
   else
+    ensure_web_session
     asc --profile "$profile" web apps create --apple-id "$apple_id" --name "$app_name" \
       --bundle-id "$identifier" --sku "$sku" --platform "$app_platform" \
       --if-exists skip --auto-rename=false \

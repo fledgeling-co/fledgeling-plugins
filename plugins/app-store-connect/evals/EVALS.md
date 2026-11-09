@@ -52,4 +52,4 @@ The 16 eval sessions reported $11.08 between them (round 1: $8.31 for 12 runs; r
 
 - The bundle ID `app.fledgeling.tally` from round 1 is still on my personal team. It's harmless and deletable, and deleting it is my call rather than the skill's.
 - The run harness and the command grader live in the untracked `plugins/app-store-connect-workspace/`, with the transcripts, because they carry my account identifiers. The prompts are in `evals.json`.
-- Unattended sign-in still needs Text Message Forwarding on my iPhone, so no round exercised a successful sign-in.
+- No round exercised a successful sign-in; the eval sandbox blocked it on purpose. Outside the evals, an unattended sign-in worked on 9 November once Text Message Forwarding was on, and it exposed a bug the evals couldn't: 0.1.0 passed the developer team ID where App Store Connect wants its own provider ID. Fixed in 0.1.1.
