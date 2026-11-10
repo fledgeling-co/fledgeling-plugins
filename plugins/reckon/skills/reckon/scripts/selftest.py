@@ -147,6 +147,26 @@ lying_summary = ledger(clean)
 lying_summary["summary"]["counts"] = {"verified-done": 99}
 expect("summary disagreeing with rows", lying_summary, 2, "disagrees with its rows", "disclosure")
 
+# An unreadable brief is an input the partition lost. Measured 2026-11-10: two iCloud-evicted
+# briefs timed out in read_briefs, were skipped in silence, and the ledger gated clean.
+expect("unreadable brief refuses the ledger",
+       ledger(clean, unreadable_inputs=[{"file": "late.md", "error": "TimeoutError: timed out"}]),
+       1, "could not be read", "conservation")
+
+import os as _os, tempfile as _tempfile
+with _tempfile.TemporaryDirectory() as _d:
+    with open(_os.path.join(_d, "good.md"), "w", encoding="utf-8") as _fh:
+        _fh.write("---\nstatus: to-triage\n---\n# Good\n")
+    with open(_os.path.join(_d, "bad.md"), "wb") as _fh:
+        _fh.write(b"\xff\xfe not utf-8 \xc3\x28")
+    _lost = []
+    _read = R.read_briefs(_d, unreadable=_lost)
+    _ok = [b for b in _read if b.get("file", b.get("path", "")).endswith("good.md")] or len(_read) == 1
+    _ok = bool(_ok) and [u["file"] for u in _lost] == ["bad.md"]
+    print("%-46s %s" % ("read_briefs reports the file it skipped", "ok" if _ok else "FAILED"))
+    if not _ok:
+        FAILURES.append("read_briefs reports the file it skipped: read %d, lost %r" % (len(_read), _lost))
+
 # --- 4. weak join is a warning that degrades a claim, not a blocker --------
 # Weakness is carried by the adjudicated axis since 1.9.4 — a low whole-corpus
 # rate over a healthy adjudicated population is an archive, not a broken join,

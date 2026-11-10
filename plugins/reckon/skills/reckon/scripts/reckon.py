@@ -340,7 +340,7 @@ FRONTMATTER_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*\n", re.S)
 RESERVED_BRIEF_NAMES = ("BRIEF-TEMPLATE.MD", "README.MD", "00-INDEX.MD", "LEDGER.MD")
 
 
-def read_briefs(briefs_dir, ignore=()):
+def read_briefs(briefs_dir, ignore=(), unreadable=None):
     """Read the feature-brief queue. A brief is one markdown file; its id is
     its slug. Frontmatter is parsed shallowly — enough to find a status and to
     recognise this tool's own emissions, which must not be counted as fresh
@@ -361,7 +361,13 @@ def read_briefs(briefs_dir, ignore=()):
             try:
                 with open(path, encoding="utf-8") as fh:
                     body = fh.read()
-            except (OSError, UnicodeDecodeError):
+            except (OSError, UnicodeDecodeError) as error:
+                # A brief that cannot be read is an item missing from a partition that
+                # must be total. Measured 2026-11-10: two iCloud-evicted briefs timed
+                # out here, were skipped in silence, and the ledger gated clean at 1,605
+                # rows against 1,607. Record it so the gate refuses the ledger.
+                if unreadable is not None:
+                    unreadable.append({"file": rel_path, "error": "%s: %s" % (type(error).__name__, error)})
                 continue
 
             meta, generated_by, source_ids = {}, None, []
@@ -1724,6 +1730,13 @@ def gate(ledger, weak_join_ratio=0.5):
             violations.append(("disclosure", "denominator %r is absent; a remaining-work list without a "
                                              "denominator reads as though it covered everything" % key))
 
+    for u in ledger.get("unreadable_inputs") or []:
+        violations.append((
+            "conservation",
+            "brief %s could not be read (%s), so it is absent from the partition; a ledger that "
+            "lost an input is not a total reckoning. Make the file readable and rebuild."
+            % (u.get("file"), u.get("error"))))
+
     for u in unclassified_inputs(rows):
         violations.append((
             "vocabulary",
@@ -2504,7 +2517,11 @@ def render_html(ledger):
 
 def cmd_build(args):
     campaign = read_campaign(args.campaign)
-    briefs = read_briefs(args.briefs)
+    unreadable_briefs = []
+    briefs = read_briefs(args.briefs, unreadable=unreadable_briefs)
+    if unreadable_briefs:
+        print("reckon: %d brief(s) could not be read and are absent from this ledger: %s"
+              % (len(unreadable_briefs), ", ".join(u["file"] for u in unreadable_briefs[:5])), file=sys.stderr)
 
     edges = build_join(briefs, campaign, threshold=args.join_threshold)
     joined = {e["brief"] for e in edges}
@@ -2605,6 +2622,7 @@ def cmd_build(args):
         "blockers": blockers,
         "schedule": schedule,
         "unclassified": unclassified,
+        "unreadable_inputs": unreadable_briefs,
         "rows": rows,
     }
 
