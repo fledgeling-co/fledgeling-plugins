@@ -155,15 +155,31 @@ def parse_session_ref(ref: str) -> Dict[str, Optional[str]]:
     return out
 
 
+def ro_connect(path: pathlib.Path) -> sqlite3.Connection:
+    """Open a SQLite file read-only, falling back to an immutable read.
+
+    Muse and AGY keep their indexes in WAL mode while running, and the older SQLite bundled with
+    macOS's system Python can fail a `mode=ro` open while the log is busy ("unable to open
+    database file"). `immutable=1` reads the main file without taking locks, which can miss the
+    newest uncheckpointed rows but never writes to another tool's database.
+    """
+    try:
+        conn = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+        conn.execute("SELECT 1 FROM sqlite_master LIMIT 1").fetchone()
+        return conn
+    except sqlite3.OperationalError:
+        return sqlite3.connect(f"file:{path}?mode=ro&immutable=1", uri=True)
+
+
 def muse_index_lookup(name_or_id: str) -> Optional[str]:
     """Map a Muse session name (e.g. winter-nova) or id prefix to a session id via session-index.db."""
     if not MUSE_INDEX.exists():
         return None
     try:
-        conn = sqlite3.connect(f"file:{MUSE_INDEX}?mode=ro", uri=True)
+        conn = ro_connect(MUSE_INDEX)
         row = conn.execute(
             "SELECT session_id FROM sessions WHERE session_name = ? OR session_id LIKE ? "
-            "OR session_id IN (SELECT session_id FROM session_old_names WHERE name = ?) "
+            "OR session_id IN (SELECT session_id FROM session_old_names WHERE normalized_name = ?) "
             "ORDER BY updated_at_us DESC LIMIT 1",
             (name_or_id, name_or_id + "%", name_or_id),
         ).fetchone()
@@ -171,7 +187,7 @@ def muse_index_lookup(name_or_id: str) -> Optional[str]:
         return row[0] if row else None
     except Exception:
         try:
-            conn = sqlite3.connect(f"file:{MUSE_INDEX}?mode=ro", uri=True)
+            conn = ro_connect(MUSE_INDEX)
             row = conn.execute(
                 "SELECT session_id FROM sessions WHERE session_name = ? OR session_id LIKE ? "
                 "ORDER BY updated_at_us DESC LIMIT 1", (name_or_id, name_or_id + "%")).fetchone()
@@ -747,7 +763,7 @@ def agy_summary(conversation_id: str) -> Dict[str, Optional[str]]:
     if not AGY_SUMMARIES.exists():
         return out
     try:
-        conn = sqlite3.connect(f"file:{AGY_SUMMARIES}?mode=ro", uri=True)
+        conn = ro_connect(AGY_SUMMARIES)
         row = conn.execute(
             "SELECT title, preview, workspace_uris, parent_conversation_id FROM conversation_summaries "
             "WHERE conversation_id = ?", (conversation_id,)).fetchone()
@@ -935,7 +951,7 @@ def parse_cursor_session(chat_dir: pathlib.Path, quick_scan: bool = True) -> Dic
     # 2. Read messages from store.db (SQLite)
     if store_file.exists():
         try:
-            conn = sqlite3.connect(f"file:{store_file}?mode=ro", uri=True)
+            conn = ro_connect(store_file)
             cur = conn.cursor()
             cur.execute("SELECT data FROM blobs")
             for row in cur.fetchall():
@@ -1137,7 +1153,7 @@ def muse_index_row(session_id: str) -> Dict[str, Any]:
     if not MUSE_INDEX.exists():
         return {}
     try:
-        conn = sqlite3.connect(f"file:{MUSE_INDEX}?mode=ro", uri=True)
+        conn = ro_connect(MUSE_INDEX)
         conn.row_factory = sqlite3.Row
         row = conn.execute("SELECT * FROM sessions WHERE session_id = ?", (session_id,)).fetchone()
         conn.close()

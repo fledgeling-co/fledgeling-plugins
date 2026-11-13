@@ -106,7 +106,7 @@ has a budget near 450,000. When you cannot determine your window, assume 200,000
 python3 render_transcript.py --ref <same ref as Phase 1> --budget-tokens <budget>
 ```
 
-It writes `/tmp/resume-session/<session-id>/` containing `transcript.md`, `chunks/chunk-NNN.md`
+It writes `~/.cache/resume-session/<session-id>/` (owner-only, mode 0700) containing `transcript.md`, `chunks/chunk-NNN.md`
 and `manifest.json`, and prints the plan. Run it every time you take over a session, even when
 that directory already exists: each run gets a `render_id`, and readers write findings under
 `findings/<render_id>/`, so findings left by an earlier or interrupted run are never at the paths
@@ -158,7 +158,7 @@ test to each item: if the successor lacks it, does it do something *wrong*, or o
 Export the metadata skeleton, then build the briefing on top of it:
 
 ```bash
-python3 find_session.py --ref <ref> --export /tmp/resume-session/<session-id>/handover.md
+python3 find_session.py --ref <ref> --export ~/.cache/resume-session/<session-id>/handover.md
 ```
 
 The export fills dimensions 1 to 5 from the parser. Write the final briefing to the same file

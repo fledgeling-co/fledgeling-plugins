@@ -244,7 +244,7 @@ usage: render_transcript.py [--ref REF | --file FILE] [--cli CLI] [--out OUT]
                             [--detail {auto,full,normal,lean,minimal}]
 
 Writes transcript.md, chunks/chunk-NNN.md, briefs/chunk-NNN.md and manifest.json to
-/tmp/resume-session/<session-id>/ (or --out), and prints the plan: full or fanout.
+~/.cache/resume-session/<session-id>/ (mode 0700; or --out), and prints the plan: full or fanout.
 ```
 
 ---

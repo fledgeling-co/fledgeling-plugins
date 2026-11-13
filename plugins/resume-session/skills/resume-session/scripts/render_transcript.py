@@ -235,7 +235,7 @@ def iter_cursor(chat_dir: pathlib.Path) -> Iterator[Dict[str, Any]]:
     if not store.exists():
         return
     try:
-        conn = sqlite3.connect(f"file:{store}?mode=ro", uri=True)
+        conn = fs.ro_connect(store)
         rows = conn.execute("SELECT data FROM blobs").fetchall()
         conn.close()
     except Exception:
@@ -379,7 +379,7 @@ def split_chunks(rendered: List[Dict[str, Any]], chunk_tokens: int) -> List[List
 
 def header(meta: Dict[str, Any], extra: str = "") -> str:
     lines = [
-        f"# Session transcript: {meta.get('custom_name') or meta.get('title') or meta.get('session_id')}",
+        f"# Session transcript: {fs.redact(meta.get('custom_name') or meta.get('title') or meta.get('session_id') or '')}",
         "",
         f"- CLI: {meta.get('cli_type')}  |  session: `{meta.get('session_id')}`",
         f"- Working directory: `{meta.get('cwd')}`  |  branch: `{meta.get('git_branch')}`",
@@ -392,6 +392,32 @@ def header(meta: Dict[str, Any], extra: str = "") -> str:
     lines.append("Event numbers (`#N`) are stable anchors across the full transcript and every chunk.")
     lines.append("")
     return "\n".join(lines)
+
+
+def private_out_dir(requested: Optional[str], session_id: str) -> pathlib.Path:
+    """The output directory, created owner-only and refused if it is a symlink or someone else's.
+
+    Transcripts carry a session's prompts and tool output, so they never default to the shared
+    /tmp, where another local user could pre-create the predictable path or plant a symlink in it.
+    """
+    if requested:
+        out = pathlib.Path(os.path.expanduser(requested))
+    else:
+        base = pathlib.Path(os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache")) / "resume-session"
+        base.mkdir(parents=True, exist_ok=True, mode=0o700)
+        out = base / re.sub(r"[^A-Za-z0-9._-]", "_", session_id)
+    for d in [out.parent, out] if not requested else [out]:
+        if d.is_symlink():
+            raise SystemExit(f"refusing to write through a symlink: {d}")
+    out.mkdir(parents=True, exist_ok=True, mode=0o700)
+    st = out.stat()
+    if st.st_uid != os.getuid():
+        raise SystemExit(f"refusing to write into a directory owned by another user: {out}")
+    os.chmod(out, 0o700)
+    for sub in ("chunks", "briefs", "findings"):
+        if (out / sub).is_symlink():
+            raise SystemExit(f"refusing to write through a symlink: {out / sub}")
+    return out
 
 
 BRIEF_TEMPLATE = pathlib.Path(__file__).resolve().parent.parent / "references" / "chunk-reader-brief.md"
@@ -418,7 +444,7 @@ def main() -> int:
     ap.add_argument("--ref", help="Deeplink (codex://threads/<id>), UUID or prefix, or Muse session name")
     ap.add_argument("--file", help="Path to a session file or session directory instead of --ref")
     ap.add_argument("--cli", choices=[c for c in fs.CLI_CHOICES if c != "repo"], default="all")
-    ap.add_argument("--out", help="Output directory (default: /tmp/resume-session/<session-id>)")
+    ap.add_argument("--out", help="Output directory (default: ~/.cache/resume-session/<session-id>, mode 0700)")
     ap.add_argument("--budget-tokens", type=int, default=0,
                     help="Tokens the reading model can spend on the whole transcript; 0 forces fan-out planning")
     ap.add_argument("--chunk-tokens", type=int, default=120000, help="Target tokens per chunk (default 120000)")
@@ -488,7 +514,7 @@ def main() -> int:
     if mode == "fanout" and len(chunks) == 1:
         mode = "full"
 
-    out = pathlib.Path(os.path.expanduser(args.out or f"/tmp/resume-session/{meta['session_id']}"))
+    out = private_out_dir(args.out, meta["session_id"])
     (out / "chunks").mkdir(parents=True, exist_ok=True)
     for old in (out / "chunks").glob("chunk-*.md"):
         old.unlink()
@@ -515,7 +541,7 @@ def main() -> int:
             carry = (f"\n## Carried in from earlier chunks\n\nSession goal (first user message):\n\n> "
                      + fs.clean_text_snippet(goal, 1500)
                      + "\n\nMost recent user message before this chunk:\n\n> "
-                     + fs.clean_text_snippet(last_user, 800) + "\n")
+                     + fs.redact(fs.clean_text_snippet(last_user, 800)) + "\n")
         body = header(meta, f"- Chunk {i} of {len(chunks)}  |  events #{ch[0]['n']}-#{ch[-1]['n']}  |  detail: {level}") + carry + "\n" + "\n".join(r["md"] for r in ch)
         name = f"chunk-{i:03d}.md"
         (out / "chunks" / name).write_text(body, encoding="utf-8")
@@ -538,7 +564,8 @@ def main() -> int:
         counts[e["role"]] = counts.get(e["role"], 0) + 1
     manifest = {
         "render_id": render_id,
-        "session_id": meta["session_id"], "cli": cli, "title": meta.get("custom_name") or meta.get("title"),
+        "session_id": meta["session_id"], "cli": cli,
+        "title": fs.redact(meta.get("custom_name") or meta.get("title") or ""),
         "goal": fs.clean_text_snippet(goal, 2000),
         "cwd": meta.get("cwd"), "source": str(fpath), "events": len(events), "event_counts": counts,
         "detail_level": level, "est_tokens_total": total, "budget_tokens": args.budget_tokens,
