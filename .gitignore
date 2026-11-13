@@ -28,3 +28,17 @@ plugins/*/evals/runs/
 site/node_modules
 # a symlinked .worktrees is not matched by the "/" directory pattern
 .worktrees
+
+# Icon and banner iteration scratch: fidelity loops, per-round renders and the numpy
+# arrays behind them. Kept locally, out of the repo. Untracked on 2026-11-14 (about
+# 254 MB in the tree); nothing the site, README, conformance gate or any audit sheet
+# embeds lives here. audit-renders/ and banner-renders/ stay tracked because
+# audit.html and banner-audit.html display them and the gate checks the former.
+plugins/*/assets/loop-runs/
+plugins/*/assets/fidelity/
+plugins/*/assets/fidelity-runs/
+*.npy
+
+# Uncompressed originals of the shipped icons and banners (the repo carries
+# compressed copies at the same dimensions).
+plugins/*/assets/originals/
