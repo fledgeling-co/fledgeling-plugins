@@ -1,0 +1,284 @@
+[
+  {
+    "file": "workflow-agent-a7ea3376c176f1c5f.jsonl",
+    "spans": {
+      "file paths": 181,
+      "identifiers": 272,
+      "CORRECTIONS": 1,
+      "constraints": 1,
+      "rejected approaches": 17
+    },
+    "arms": {
+      "cli": {
+        "chars": 26746,
+        "extractiveness": 0.128,
+        "scores": {
+          "file paths": {
+            "recall": 0.1270718232044199,
+            "n": 181,
+            "missed": 158,
+            "matcher": "exact",
+            "exact": 0.1270718232044199
+          },
+          "identifiers": {
+            "recall": 0.33455882352941174,
+            "n": 272,
+            "missed": 181,
+            "matcher": "exact",
+            "exact": 0.33455882352941174
+          },
+          "CORRECTIONS": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": 0.0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": 0.0
+          },
+          "rejected approaches": {
+            "recall": 0.5882352941176471,
+            "n": 17,
+            "missed": 7,
+            "matcher": "soft",
+            "exact": 0.0
+          }
+        }
+      },
+      "skill": {
+        "chars": 10003,
+        "extractiveness": 0.02,
+        "scores": {
+          "file paths": {
+            "recall": 0.055248618784530384,
+            "n": 181,
+            "missed": 171,
+            "matcher": "exact",
+            "exact": 0.055248618784530384
+          },
+          "identifiers": {
+            "recall": 0.23529411764705882,
+            "n": 272,
+            "missed": 208,
+            "matcher": "exact",
+            "exact": 0.23529411764705882
+          },
+          "CORRECTIONS": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": 0.0
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": 0.0
+          },
+          "rejected approaches": {
+            "recall": 0.35294117647058826,
+            "n": 17,
+            "missed": 11,
+            "matcher": "soft",
+            "exact": 0.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "workflow-agent-a9ec17ba6a867464f.jsonl",
+    "spans": {
+      "file paths": 148,
+      "identifiers": 201,
+      "CORRECTIONS": 0,
+      "constraints": 0,
+      "rejected approaches": 32
+    },
+    "arms": {
+      "cli": {
+        "chars": 30560,
+        "extractiveness": 0.066,
+        "scores": {
+          "file paths": {
+            "recall": 0.1554054054054054,
+            "n": 148,
+            "missed": 125,
+            "matcher": "exact",
+            "exact": 0.1554054054054054
+          },
+          "identifiers": {
+            "recall": 0.5572139303482587,
+            "n": 201,
+            "missed": 89,
+            "matcher": "exact",
+            "exact": 0.5572139303482587
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": null
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": null
+          },
+          "rejected approaches": {
+            "recall": 0.7037037037037037,
+            "n": 27,
+            "missed": 8,
+            "matcher": "soft",
+            "exact": 0.0
+          }
+        }
+      },
+      "skill": {
+        "chars": 11130,
+        "extractiveness": 0.031,
+        "scores": {
+          "file paths": {
+            "recall": 0.05405405405405406,
+            "n": 148,
+            "missed": 140,
+            "matcher": "exact",
+            "exact": 0.05405405405405406
+          },
+          "identifiers": {
+            "recall": 0.39303482587064675,
+            "n": 201,
+            "missed": 122,
+            "matcher": "exact",
+            "exact": 0.39303482587064675
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": null
+          },
+          "constraints": {
+            "recall": null,
+            "n": 0,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": null
+          },
+          "rejected approaches": {
+            "recall": 0.6296296296296297,
+            "n": 27,
+            "missed": 10,
+            "matcher": "soft",
+            "exact": 0.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "file": "workflow-agent-a3be260b70865ddb8.jsonl",
+    "spans": {
+      "file paths": 153,
+      "identifiers": 221,
+      "CORRECTIONS": 0,
+      "constraints": 1,
+      "rejected approaches": 45
+    },
+    "arms": {
+      "cli": {
+        "chars": 26617,
+        "extractiveness": 0.085,
+        "scores": {
+          "file paths": {
+            "recall": 0.17647058823529413,
+            "n": 153,
+            "missed": 126,
+            "matcher": "exact",
+            "exact": 0.17647058823529413
+          },
+          "identifiers": {
+            "recall": 0.40271493212669685,
+            "n": 221,
+            "missed": 132,
+            "matcher": "exact",
+            "exact": 0.40271493212669685
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": null
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": 0.0
+          },
+          "rejected approaches": {
+            "recall": 0.9354838709677419,
+            "n": 31,
+            "missed": 2,
+            "matcher": "soft",
+            "exact": 0.03225806451612903
+          }
+        }
+      },
+      "skill": {
+        "chars": 9799,
+        "extractiveness": 0.012,
+        "scores": {
+          "file paths": {
+            "recall": 0.0915032679738562,
+            "n": 153,
+            "missed": 139,
+            "matcher": "exact",
+            "exact": 0.0915032679738562
+          },
+          "identifiers": {
+            "recall": 0.21266968325791855,
+            "n": 221,
+            "missed": 174,
+            "matcher": "exact",
+            "exact": 0.21266968325791855
+          },
+          "CORRECTIONS": {
+            "recall": null,
+            "n": 0,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": null
+          },
+          "constraints": {
+            "recall": 1.0,
+            "n": 1,
+            "missed": 0,
+            "matcher": "soft",
+            "exact": 0.0
+          },
+          "rejected approaches": {
+            "recall": 0.8387096774193549,
+            "n": 31,
+            "missed": 5,
+            "matcher": "soft",
+            "exact": 0.0
+          }
+        }
+      }
+    }
+  }
+]

@@ -133,7 +133,44 @@ def text_of(o):
     return '\n'.join(out)
 
 
+RENDERED_HEAD_RE = re.compile(
+    r'^#{3,4} #(\d+)(?: [\d\- :]+)? (USER|ASSISTANT|ERROR|COMPACTION SUMMARY|tool call|tool result|'
+    r'todo list|reasoning summary|system / agent message)\b.*$', re.M)
+
+
+def load_rendered(path):
+    """Rows from a transcript rendered by resume-session's render_transcript.py.
+
+    That renderer reads Claude Code, Codex, Antigravity, Muse, Cursor and Grok sessions into
+    one Markdown shape with `### #N USER` style headings, so accepting it lets this scorer
+    grade a handover of any of them. Rows are mapped onto the Claude shape extract() reads:
+    user blocks become user rows, everything else assistant text, and the first compaction
+    summary is flagged so score_one() cuts there exactly as it does for a .jsonl.
+    One-line tool calls (`- #N` bullets at lean detail) stay inside the preceding block's
+    text, which keeps their paths and identifiers in scope.
+    """
+    with io.open(path, encoding='utf-8', errors='replace') as fh:
+        text = fh.read()
+    heads = list(RENDERED_HEAD_RE.finditer(text))
+    rows = []
+    for i, h in enumerate(heads):
+        body = text[h.end(): heads[i + 1].start() if i + 1 < len(heads) else len(text)].strip()
+        kind = h.group(2)
+        if kind == 'USER':
+            if body.startswith('Base directory for this skill:'):
+                rows.append({'type': 'assistant', 'message': {'content': [{'type': 'text', 'text': body}]}})
+            else:
+                rows.append({'type': 'user', 'message': {'content': body}})
+        elif kind == 'COMPACTION SUMMARY':
+            rows.append({'type': 'user', 'isCompactSummary': True, 'message': {'content': body}})
+        else:
+            rows.append({'type': 'assistant', 'message': {'content': [{'type': 'text', 'text': body}]}})
+    return rows
+
+
 def load(path):
+    if path.endswith('.md'):
+        return load_rendered(path)
     rows = []
     with io.open(path, encoding='utf-8', errors='replace') as fh:
         for line in fh:
@@ -149,9 +186,23 @@ def load(path):
 def extract(rows):
     """Pull the four retention classes out of a run of transcript rows."""
     paths, idents, umsgs, corrections = set(), set(), [], []
+    plain = {((p.get('message') or {}).get('content') or '').strip() for p in rows
+             if p.get('type') == 'user' and isinstance((p.get('message') or {}).get('content'), str)}
     for p in rows:
         if p.get('isCompactSummary'):
             continue          # never credit a prior summary's content as source material
+        if p.get('type') == 'queue-operation' and p.get('operation') == 'enqueue':
+            # A message typed while the agent was mid-turn. Claude Code stores it here, not as
+            # a user row, and mid-turn messages are disproportionately corrections. About a fifth
+            # are delivered again as a plain user row, so count only the ones that are not.
+            q = p.get('content')
+            if isinstance(q, str) and q.strip() and q.strip() not in plain \
+                    and not q.lstrip().startswith('<task-notification>'):
+                s = q.strip()
+                umsgs.append(s)
+                if CORRECTION_RE.search(strip_wrappers(s)[:600]):
+                    corrections.append(s)
+            continue
         t = text_of(p)
         if not t:
             continue
@@ -161,7 +212,8 @@ def extract(rows):
         idents.update(IDENT_RE.findall(t))
         if p.get('type') == 'user':
             c = (p.get('message') or {}).get('content')
-            if isinstance(c, str) and c.strip() and not c.startswith('[{'):
+            if isinstance(c, str) and c.strip() and not c.startswith('[{') \
+                    and not c.lstrip().startswith('<task-notification>'):
                 s = c.strip()
                 umsgs.append(s)
                 if CORRECTION_RE.search(strip_wrappers(s)[:600]):
@@ -325,7 +377,8 @@ def scan_history(limit=None):
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--transcript', help='session .jsonl the summary replaced')
+    ap.add_argument('--transcript', help='session .jsonl the summary replaced, or a transcript.md '
+                    'rendered by resume-session (any CLI)')
     ap.add_argument('--summary', help='file holding the summary text')
     ap.add_argument('--against',
                     help='a second summary of the SAME window; switches to compare '

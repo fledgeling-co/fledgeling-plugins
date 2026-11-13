@@ -1,6 +1,6 @@
 {
   "skill_name": "braindump",
-  "notes": "Assertions are checkable by scripts/score_retention.py, scripts/benchmark_vs_compact.py, or exact string match against the source transcript. Deliberately no LLM-judge assertions: G-Eval correlates with humans at rho~0.514 against 0.8-0.9 inter-human, and self-preference bias disqualifies judging a Claude-written summary with a Claude judge. The head-to-head against the built-in /compact is the comparison that matters; its baseline arm is free because those summaries are already on disk. Evals 8-12 come from references/case-study-paired.md, a three-arm paired measurement on one real session; each encodes a failure mode observed there rather than a hypothesised one. Read semantic classes on the soft matcher — evals 5, 8 and 9 all score 0.0% on exact match even when passed perfectly.",
+  "notes": "Assertions are checkable by scripts/score_retention.py, scripts/benchmark_vs_compact.py, or exact string match against the source transcript. Deliberately no LLM-judge assertions: G-Eval correlates with humans at rho~0.514 against 0.8-0.9 inter-human, and self-preference bias disqualifies judging a Claude-written summary with a Claude judge. The head-to-head against the built-in /compact is the comparison that matters; its baseline arm is free because those summaries are already on disk. Evals 8-12 come from references/case-study-paired.md, a three-arm paired measurement on one real session; each encodes a failure mode observed there rather than a hypothesised one. Read semantic classes on the soft matcher \u2014 evals 5, 8 and 9 all score 0.0% on exact match even when passed perfectly.",
   "evals": [
     {
       "id": 1,
@@ -95,8 +95,8 @@
     {
       "id": 8,
       "name": "both-kinds-of-dead-end-survive",
-      "prompt": "Compact this session. Early on we settled some architecture: we rejected the Safari web-extension converter because it emits its own container app, and we rejected Boolean() for the allowPaid default because stored revisions are immutable so coercion reads every existing one as false and silently refuses paid work — use ?? instead. In the last hour I also learned two things about how to work here: `git log --grep=<id>` does not prove a merge because ids appear in other items' commit bodies, and backticks inside an inline `git commit -m` run as shell substitution and silently delete text, so write messages from a file. Now I am part-way through wiring the review sheet.",
-      "expected_output": "All four dead ends pinned with reasons — two product-level from early in the session, two method-level from the last hour. This is the discriminating eval: the measured failure is returning only one kind.",
+      "prompt": "Compact this session. Early on we settled some architecture: we rejected the Safari web-extension converter because it emits its own container app, and we rejected Boolean() for the allowPaid default because stored revisions are immutable so coercion reads every existing one as false and silently refuses paid work \u2014 use ?? instead. In the last hour I also learned two things about how to work here: `git log --grep=<id>` does not prove a merge because ids appear in other items' commit bodies, and backticks inside an inline `git commit -m` run as shell substitution and silently delete text, so write messages from a file. Now I am part-way through wiring the review sheet.",
+      "expected_output": "All four dead ends pinned with reasons \u2014 two product-level from early in the session, two method-level from the last hour. This is the discriminating eval: the measured failure is returning only one kind.",
       "assertions": [
         "Both product dead ends appear with their reasons (the converter's container app; immutable revisions making Boolean() read false)",
         "Both method dead ends appear with their reasons (ids in other items' commit bodies; backticks as shell substitution)",
@@ -109,10 +109,10 @@
     {
       "id": 9,
       "name": "pin-or-point-never-assume",
-      "prompt": "Write the compaction summary. I have just consolidated our method notes into ORCHESTRATOR.md under a section called 'Method notes — bought with wasted work', which now holds every verification and git lesson we learned. Separately there are three architecture rejections from last week that live nowhere except this conversation: no direct OpenAI routing (it reverses merged resolveModel hardening), no refresh-token families for the extension (auth-server.ts already gives the web session the same shape), and no headless rung for X (measured returning the identical 3,740-byte shell a plain fetch returns).",
+      "prompt": "Write the compaction summary. I have just consolidated our method notes into ORCHESTRATOR.md under a section called 'Method notes \u2014 bought with wasted work', which now holds every verification and git lesson we learned. Separately there are three architecture rejections from last week that live nowhere except this conversation: no direct OpenAI routing (it reverses merged resolveModel hardening), no refresh-token families for the extension (auth-server.ts already gives the web session the same shape), and no headless rung for X (measured returning the identical 3,740-byte shell a plain fetch returns).",
       "expected_output": "The consolidated notes are pointed at by file AND section name; the three homeless rejections are pinned verbatim with reasons. Neither is dropped on the assumption it is recoverable.",
       "assertions": [
-        "The pointer names both the file ORCHESTRATOR.md and the section 'Method notes — bought with wasted work'",
+        "The pointer names both the file ORCHESTRATOR.md and the section 'Method notes \u2014 bought with wasted work'",
         "All three architecture rejections appear pinned with their reasons",
         "The three rejections are not replaced by a pointer, since no durable file holds them",
         "The method notes are not also pasted in full, since the pointer covers them",
@@ -122,7 +122,7 @@
     {
       "id": 10,
       "name": "unfinished-obligation-not-just-clean-tree",
-      "prompt": "Write the handover summary. State of the work: all 27 items merged and verified by ancestry, cold gate passes on main, no branches, no worktrees, tree clean. What I was doing when this ran: I armed the goal and created the cron, but I had not yet printed the closing report block — the condition line, the four gates and their readings, the bounds, the ledger path, and how to check status or stop early.",
+      "prompt": "Write the handover summary. State of the work: all 27 items merged and verified by ancestry, cold gate passes on main, no branches, no worktrees, tree clean. What I was doing when this ran: I armed the goal and created the cron, but I had not yet printed the closing report block \u2014 the condition line, the four gates and their readings, the bounds, the ledger path, and how to check status or stop early.",
       "expected_output": "Current Work reports the clean tree AND names the unprinted closing report block as outstanding. A clean tree is not evidence the obligation was met.",
       "assertions": [
         "Current Work states that the closing report block was not printed",
@@ -135,7 +135,7 @@
     {
       "id": 11,
       "name": "pinned-block-buys-the-narrative-no-slack",
-      "prompt": "Compact this session. Pin these two: never `git add -A`, stage by explicit path; and we rejected adding a DELETE route to satisfy the popup mock — correct the mock instead. For context, the route collision was resolved by moving the board endpoint, and I added this header comment to the new file: '// Lives at /api/board, not /api/items. HOP-0015 and HOP-0016 were built in parallel and each created /api/items, because neither existed when either started. They are not two versions of one endpoint: this one returns a BOARD (rows plus per-status counts, from the same readBoard the first paint uses, so a refresh cannot disagree with the page it refreshes), while /api/items returns items to any signed-in client and is what the phone calls. The name follows the shape.' The schema repair was `closedAt: { type: Date, default: null },` inside the timestamps block.",
+      "prompt": "Compact this session. Pin these two: never `git add -A`, stage by explicit path; and we rejected adding a DELETE route to satisfy the popup mock \u2014 correct the mock instead. For context, the route collision was resolved by moving the board endpoint, and I added this header comment to the new file: '// Lives at /api/board, not /api/items. HOP-0015 and HOP-0016 were built in parallel and each created /api/items, because neither existed when either started. They are not two versions of one endpoint: this one returns a BOARD (rows plus per-status counts, from the same readBoard the first paint uses, so a refresh cannot disagree with the page it refreshes), while /api/items returns items to any signed-in client and is what the phone calls. The name follows the shape.' The schema repair was `closedAt: { type: Date, default: null },` inside the timestamps block.",
       "expected_output": "Both pinned items verbatim; the resolution stated in a line; the nine-line header comment and the schema fragment dropped, because both are on disk and regenerable.",
       "assertions": [
         "Both pinned items appear verbatim with the `git add -A` and DELETE-route reasons",
@@ -161,16 +161,29 @@
     {
       "id": 13,
       "name": "reread-list-names-the-steering-files",
-      "prompt": "Compact this session. Files that came up: docs/plans/plan-PERCH-0406.md, macos/Sources/RelayCore/ProxyServer.swift, ~/Dev/perch/CLAUDE.md, three test fixtures under macos/Tests/, ~/.claude/plugins/cache/fledgeling-plugins/braindump/SKILL.md, ~/.claude/CLAUDE.md, about twenty files under docs/deep-research/, and docs/CODING_PRACTICES.md. I have been implementing the plan since the start and I'm partway through the SKILL.md procedure — extract done, compress and verify not. The user said early on to follow CODING_PRACTICES.md. The rest I opened to understand the code and the prior art.",
-      "expected_output": "A REREAD list closing the pinned block, one path per line, carrying only the files whose instructions were steering the work — the two CLAUDE.md files, the plan, the half-executed SKILL.md, and the practices file. The files opened as data are excluded from that list, though they may appear elsewhere. The eval deliberately does NOT label which is which: sorting them is the thing being tested, and a prompt that pre-sorts them tests nothing.",
+      "prompt": "Compact this session. Files that came up: docs/plans/plan-PERCH-0406.md, macos/Sources/RelayCore/ProxyServer.swift, ~/Dev/perch/CLAUDE.md, three test fixtures under macos/Tests/, ~/.claude/plugins/cache/fledgeling-plugins/braindump/SKILL.md, ~/.claude/CLAUDE.md, about twenty files under docs/deep-research/, and docs/CODING_PRACTICES.md. I have been implementing the plan since the start and I'm partway through the SKILL.md procedure \u2014 extract done, compress and verify not. The user said early on to follow CODING_PRACTICES.md. The rest I opened to understand the code and the prior art.",
+      "expected_output": "A REREAD list closing the pinned block, one path per line, carrying only the files whose instructions were steering the work \u2014 the two CLAUDE.md files, the plan, the half-executed SKILL.md, and the practices file. The files opened as data are excluded from that list, though they may appear elsewhere. The eval deliberately does NOT label which is which: sorting them is the thing being tested, and a prompt that pre-sorts them tests nothing.",
       "assertions": [
         "The pinned block ends with a REREAD list, one path per line",
         "Both CLAUDE.md paths appear in it (~/Dev/perch/CLAUDE.md and ~/.claude/CLAUDE.md)",
         "The plan path docs/plans/plan-PERCH-0406.md appears in it",
         "The half-executed SKILL.md path appears in it, and is marked as a procedure partway through",
         "docs/CODING_PRACTICES.md appears in it, because the user said to follow it",
-        "ProxyServer.swift, the test fixtures and the deep-research files are absent FROM THE REREAD LIST — mentioning them elsewhere in the summary is fine, and a checker must test the list rather than the whole document",
+        "ProxyServer.swift, the test fixtures and the deep-research files are absent FROM THE REREAD LIST \u2014 mentioning them elsewhere in the summary is fine, and a checker must test the list rather than the whole document",
         "The list carries paths only, not paraphrases of what those files say"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "window-too-large-routes-to-anchored-fanout",
+      "prompt": "Write the handover for Codex thread 01a1b965-2795-7013-9828-89685dd272bd so a fresh Claude session with 200k tokens of context can continue it. The rollout is about 200 MB.",
+      "expected_output": "The window is recognised as larger than the reader, rendered through resume-session's render_transcript.py with a budget near 100k tokens, read by one subagent per chunk (at most 8) that lists every instance with a #N anchor, and the pinned block is chosen by the parent, with every pinned item anchored and every constraint naming its source.",
+      "assertions": [
+        "render_transcript.py runs with --budget-tokens at or below 100000 and the plan it prints is fanout",
+        "No subagent output is pasted into the pinned block unchanged; the parent's block has at most 12 items",
+        "Every pinned item ends with a #N anchor that appears in one of the chunk files",
+        "Every constraint in the pinned block names its source as a user message, an instruction file path, or a refusal",
+        "score_retention.py is run with --transcript pointing at the rendered transcript.md"
       ]
     }
   ]

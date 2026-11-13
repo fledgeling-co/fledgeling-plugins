@@ -66,7 +66,7 @@ implementation --shape brownfield-integration` answers it there.
 
 ## C1 — The quota ledger
 
-`SKILL.md:37` says the engine searches `across all platforms` — **[docs]** the
+Phase 1 says the engine searches every CLI on the machine — **[docs]** the
 qualifier **Ambiguity** asks to be replaced with an objective constraint.
 **[measured-family]** one run delivered 12 of 12 *enumerated* features and 1 of 6
 *categorically* named states, 0 menus, 0 flows. Write this ledger into the work
@@ -74,18 +74,20 @@ before Phase 1 and report the fraction at delivery; it ships filled:
 
 | scope | number | how it is counted | delivered |
 |---|---|---|---|
-| platforms searched | **6** | `--cli` takes `claude agy cursor codex grok repo` | 6 of 6 |
-| storage paths in the matrix | **14** | `SKILL.md:59-66`, 3+1+2+2+2+4 | 14 of 14 |
-| takeover dimensions | **6** | `SKILL.md:24-31` | 6 of 6, 2 `not recorded` |
-| Phase 4 continuity steps | **4** | `SKILL.md:143-160` | 4 of 4, output pasted |
+| platforms searched | **7** | `--cli` takes `claude agy cursor codex grok muse repo` | 7 of 7 |
+| storage paths in the matrix | **16** | Phase 1 matrix, Claude 3 + Codex 2 + AGY 1 + Muse 1 + Cursor 1 + Grok 2 + repo 6 | 16 of 16 |
+| takeover dimensions | **6** | the Tier 2 table | 6 of 6, 2 `not recorded` |
+| pinned-block items | **at most 12** | Tier 1, each with a `#N` anchor | N of N anchored |
+| fan-out readers | **one per manifest chunk, at most 8** | `manifest.json` → `len(chunks)` | N of N findings files on disk |
+| Phase 4 continuity steps | **4** | Phase 4 | 4 of 4, output pasted |
 | modified files in Section 3 | **N** | `--json` → `len(results[0].files_written)` | 25 shown of N |
 | configs and decisions in Section 4 | **K** | `--json` → `env_configs` + `decisions` | K of K honoured |
 
 Two traps it exists to catch, both in the target's own tooling. **A pathless
-search is 5 platforms, not 6:** `find_session.py` runs the repo lane only when
+search is 6 platforms, not 7:** `find_session.py` runs the repo lane only when
 `--path` is given (`if cli_filter in ("all", "repo") and target_path`), so a
 `--recent 5` sweep silently excludes `docs/goals/`, `docs/plans/`,
-`ORCHESTRATOR.md` and `handover_report.md`. Report `5 of 6` and say which, or pass
+`ORCHESTRATOR.md` and `handover_report.md`. Report `6 of 7` and say which, or pass
 `--path`.
 
 **Sections 2 and 4 are emitted conditionally.** With no goal/plan/spec refs there
@@ -111,12 +113,12 @@ carries where its value came from, shipped filled:
 | briefing row | where the value comes from | readback | trust it? |
 |---|---|---|---|
 | Session ID, cwd, transcript path | script | `--json` → `results[0]` | yes |
-| **Git Branch** | **a default** — `git_branch or "main"`, populated only on the Claude lane | `git -C <cwd> rev-parse --abbrev-ref HEAD` | **no, re-read** |
+| **Git Branch** | script on the Claude, Codex and Muse lanes; otherwise the export says `not recorded` | `git -C <cwd> rev-parse --abbrev-ref HEAD` | **re-read; the session's branch may have moved** |
 | Models Used | script, falls back to the CLI name | `--json` → `results[0].models` | only if non-empty |
 | Modified files | script, list truncated at 25 | `git -C <cwd> status --porcelain` | count, then reconcile |
 | Config keys | regex over transcript text | quote the transcript line beside it | quote or drop |
 | Terminal error | script `last_error` | `--json`; empty is *not recorded*, not *clean exit* | as recorded |
-| **Section 6 next steps** | **3-step boilerplate**, not derived from the session | read the transcript tail yourself | **no, replace** |
+| **Section 6 next steps** | **3-step boilerplate** in the export (plus the session's own todo list on Muse) | Phase 3 replaces it from the transcript, each step anchored `#N` | **no, replace** |
 | Phase 4 baseline | `pnpm typecheck` | paste the last five lines and the exit code | pasted only |
 
 **A denominator of zero is a search that did not run.** `find_session.py` exits 1
@@ -141,7 +143,7 @@ retried **four consecutive times** with minor parameter tweaks before pivoting t
 a Python split; the class is documented beyond this repo — `gemini-cli` ships a
 loop detector whose halt message names *"repetitive tool calls"*.
 
-For this skill that ceiling is the normal case, not an edge. **[derived]** on this
+For this skill that ceiling is the normal case, not an edge, and `render_transcript.py` exists for it: read `transcript.md` or a chunk in consecutive line ranges from the first call, using the line count the script printed. **[derived]** on this
 machine, 23 August 2026, `find ~/.claude/projects -name '*.jsonl' -size +100k | wc
 -l` returns **13,448** of **58,870** transcripts, the largest **420 MB**. So never
 `Read` a raw transcript — go through `find_session.py` (`--json`, `--details`,
@@ -172,7 +174,7 @@ the one instruction last.
 
 ## C5 — The worked example is shipped; keep it out of the output
 
-`SKILL.md:91-135` is a filled example, and **[docs]** **Missing output format
+Phase 3's briefing is a filled example, and **[docs]** **Missing output format
 specification** asks for exactly that: *"use a clear, explicit instruction to
 specify the format and show the output structure in your few-shot examples."*
 **[derived]** Its risk is the mirror of what it solves: the values are
@@ -236,8 +238,11 @@ discovery engine, not a pass/fail check, so its exit codes and `total_matches`
 denominator sit in C2; **`count-contract`** — the skill already promises counts,
 and C1's ledger is that contract extended to the cells; **`platform-values`** —
 the vendor values here are storage paths, and read-don't-recall is C7 verbatim.
-`delegation`, `visual` and `authorship` are dropped outright: this skill spawns no
-agents, renders nothing, and publishes no prose to an outside reader. `injection`
+`visual` and `authorship` are dropped outright: this skill renders nothing and publishes
+no prose to an outside reader. **`delegation` is now real**: Phase 2's fan-out spawns one
+reader per chunk, at most 8. When a reader is a Gemini model, add one readback to its brief:
+every item's `#N` anchor must appear in its chunk file (`grep -c '#N ' <chunk>`), and an
+item whose anchor is absent is dropped rather than repaired. `injection`
 is dropped as a module and kept as one `[derived]` line in C2, the size the
 evidence supports.
 
@@ -247,4 +252,4 @@ One line at the end of the takeover, from the ledgers rather than from memory.
 Scan record: 1 quota row, 0 bound rows, 0 dropped as prose, 0 qualitative skill
 references to convert (this skill composes none), 0 emphasis hits.
 
-`6 of 6 platforms searched (repo lane included via --path) · 6 of 6 dimensions filled, 2 marked not-recorded · branch re-read from git, not from the briefing · Section 6 replaced with steps read from the transcript tail · baseline typecheck exit 0, output pasted.`
+`7 of 7 platforms searched (repo lane included via --path) · 6 of 6 dimensions filled, 2 marked not-recorded · branch re-read from git, not from the briefing · Section 6 replaced with steps read from the transcript tail · baseline typecheck exit 0, output pasted.`

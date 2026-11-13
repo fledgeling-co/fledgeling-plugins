@@ -1,0 +1,829 @@
+{
+  "run_date": "2026-11-13",
+  "writer_model": "claude opus (claude --bare --model opus -p), skill arm = SKILL.md appended to the system prompt, baseline = identical call without it",
+  "harness": "/tmp/bd-evals/run_arm.sh; both arms --bare, --disable-slash-commands, file tools disallowed, one framing sentence prepended identically to both arms",
+  "grader": "claude-fable, blind A/B with seeded order; in-family because all three out-of-family lanes were down at run time (agy 429 quota, grok 402, codex usage limit)",
+  "caveats": [
+    "in-family grader: self-preference bias is not excluded",
+    "one run per arm per eval, so no variance estimate",
+    "seven of the twelve text evals passed every assertion in both arms and do not discriminate"
+  ],
+  "evals": [
+    {
+      "id": 1,
+      "name": "corrections-survive",
+      "assertions": 4,
+      "skill_pass": 4,
+      "baseline_pass": 4,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "Do not use the Agent tool for this task. / The benchmark data is already in the sqlite db. / ponytail was only run on 4.8."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "User corrections (standing instructions; they still bind)"
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "a chart fix for clipping on mobile is partway done. It is not finished and not verified."
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "absent"
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "Do not use the Agent tool for this task. / The benchmark data is already in the SQLite db. / Ponytail was only run on 4.8."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "## User Corrections (follow these strictly)"
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "Fixing a chart that clips on mobile. This is partly done."
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "absent"
+        }
+      ],
+      "blind_mapping": {
+        "A": "skill",
+        "B": "baseline"
+      }
+    },
+    {
+      "id": 2,
+      "name": "verbatim-preserved",
+      "assertions": 6,
+      "skill_pass": 6,
+      "baseline_pass": 6,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "Proxy bind address: `127.0.0.1:8787`"
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "State file: `~/Library/Application Support/Perch/usage.json`"
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "Failing test: `packageBundleNameMatchesSwiftPM`"
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "Compiler error: `Cannot find 'SavingsDisplaySource' in scope`"
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "Keychain service pattern: `dev.perch.account.<id>`"
+        },
+        {
+          "n": 6,
+          "pass": true,
+          "evidence": "All five strings appear verbatim under 'Exact identifiers', e.g. `127.0.0.1:8787`, `packageBundleNameMatchesSwiftPM`, `dev.perch.account.<id>`"
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "**Proxy bind address:** `127.0.0.1:8787` (loopback only)"
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "**State file:** `~/Library/Application Support/Perch/usage.json`"
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "**Failing test:** `packageBundleNameMatchesSwiftPM`"
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "**Error:** `Cannot find 'SavingsDisplaySource' in scope`"
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "under service/account names of the form `dev.perch.account.<id>`"
+        },
+        {
+          "n": 6,
+          "pass": true,
+          "evidence": "All five strings appear verbatim: `127.0.0.1:8787`, `~/Library/Application Support/Perch/usage.json`, `packageBundleNameMatchesSwiftPM`, `dev.perch.account.<id>`"
+        }
+      ],
+      "blind_mapping": {
+        "A": "baseline",
+        "B": "skill"
+      }
+    },
+    {
+      "id": 3,
+      "name": "drops-the-recoverable",
+      "assertions": 5,
+      "skill_pass": 5,
+      "baseline_pass": 5,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "Router config: `macos/Sources/RelayCore/Config.swift`"
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "Port selection: `PortPicker`. The chosen port is persisted to `UserDefaults`."
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "absent; only one file path is named: 'About 40 files were read during exploration... They are on disk if needed and are not listed here.'"
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "absent; runs only mentioned in aggregate: 'the test suite was run 6 times, but the pass/fail outcome is not recorded here.'"
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "Whole output is roughly 2,500 characters, well under 6000."
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "The router config is in **`macos/Sources/RelayCore/Config.swift`**."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "The port is chosen by **`PortPicker`** and saved to **`UserDefaults`**."
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "absent; only one file path is named: 'Read about 40 files while exploring.'"
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "absent; runs only mentioned in aggregate: 'Ran the test suite 6 times.'"
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "Whole output is roughly 800 characters, well under 6000."
+        }
+      ],
+      "blind_mapping": {
+        "A": "skill",
+        "B": "baseline"
+      }
+    },
+    {
+      "id": 4,
+      "name": "states-the-failure",
+      "assertions": 4,
+      "skill_pass": 4,
+      "baseline_pass": 4,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "Unreviewed items: 2 of the 8 shipped without their out-of-family review ever coming back."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "`CACHE-03`: shipped, 0 commits, so its deliverable is absent."
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "`CACHE-04`: depends on CACHE-03, so it currently rests on nothing."
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "Wave C is merged and the swift tests are green at 3856. **The wave is not done.**"
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "Two of the eight items merged while their out-of-family review was still outstanding. The reviews never came back."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "CACHE-03 is recorded as shipped but contains **no commits**."
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "**CACHE-04 was built against CACHE-03** as a dependency. It assumes code, interfaces, or behavior that were never written."
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "\"Merged\" and \"tests green\" overstate how healthy wave C is. One item is empty, one is built on that empty item"
+        }
+      ],
+      "blind_mapping": {
+        "A": "skill",
+        "B": "baseline"
+      }
+    },
+    {
+      "id": 5,
+      "name": "negative-knowledge-survives",
+      "assertions": 5,
+      "skill_pass": 5,
+      "baseline_pass": 5,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "It kept losing the build script state. / Stale cache hits made two rounds score identically / That wasted judge calls on candidates the gate rejects."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "## PINNED (Tier 1) ... **Rejected approaches (do not retry):**"
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "Do not use the Agent tool to run the icon rounds. / Do not cache renders in `/tmp`. / Do not run the panel before the gate."
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "**What works (the adopted approach):** score in the harness after the agent finishes, not inside the agent run."
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "**The work is unfinished.** The review sheet is partially wired. It is not confirmed working"
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "it kept losing the build script state / stale cache hits caused two different rounds to get identical scores / spent judge calls on candidates the gate would reject"
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "## Approaches tried and abandoned (do not retry) \u2014 one dedicated block, second section from the top, though not labelled 'pinned'"
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "## Approaches tried and abandoned (do not retry) ... Renders must be fresh each round. ... The gate must run first."
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "## What works (current approach) - **Score in the harness after the agent finishes.**"
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "**In progress:** wiring up the review sheet. This is partly done."
+        }
+      ],
+      "blind_mapping": {
+        "A": "skill",
+        "B": "baseline"
+      }
+    },
+    {
+      "id": 6,
+      "name": "quantifier-and-scope-survive-verbatim",
+      "assertions": 5,
+      "skill_pass": 5,
+      "baseline_pass": 4,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "1. \"use type hints everywhere\""
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "2. \"only ever edit build_icon.py, never icon.svg directly\""
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "3. \"remove the deprecated calls in relay.py but leave proxy.py untouched\""
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "Quoted verbatim, then: \"everywhere\" is absolute and is not a style preference. No softened or widened restatement of the constraints found."
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "## PINNED: Tier 1 (read first; these bind) **Standing constraints** (source: user message; user's own words)"
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "**Type hints everywhere.**"
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "**Edit `build_icon.py` only, never `icon.svg`.**"
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "**Remove the deprecated calls in `relay.py`, but leave `proxy.py` untouched.** Do not modify `proxy.py` in any way"
+        },
+        {
+          "n": 4,
+          "pass": false,
+          "evidence": "All new or modified Python code must have full type annotations: parameters, return types, and variables where it helps clarity."
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "**Standing instructions from the user (carry forward exactly)** is a dedicated numbered block at the top, separate from Work state and Next steps"
+        }
+      ],
+      "blind_mapping": {
+        "A": "baseline",
+        "B": "skill"
+      }
+    },
+    {
+      "id": 8,
+      "name": "both-kinds-of-dead-end-survive",
+      "assertions": 6,
+      "skill_pass": 6,
+      "baseline_pass": 5,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "It emits its own container app... Stored revisions are immutable, so coercion reads every existing revision as `false` and silently refuses paid work."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "Ids also appear in other items' commit bodies, so a hit proves nothing... the backticks run as shell substitution and silently delete text."
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "*Rejected approaches: product dead ends (architecture, settled early)* - **Safari web-extension converter**: rejected... **`Boolean()` for the `allowPaid` default**: rejected."
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "Use `??` instead."
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "All four sit under '**PINNED: read before anything else**' as 'Rejected approaches: product dead ends' and 'Rejected approaches: method dead ends'."
+        },
+        {
+          "n": 6,
+          "pass": true,
+          "evidence": "Wiring the review sheet is part-done... The turn's obligation is unfinished: do not treat a clean or compiling tree as evidence the sheet is complete."
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "It emits its own container app, which we don't want... Stored revisions are immutable... `Boolean(undefined)` coerces every existing revision to `false`."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "Item ids also appear in other items' commit bodies, so a match can be a false positive... The shell runs them as command substitution and silently deletes the text."
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "## Settled architecture decisions (do not revisit) 1. **Rejected: the Safari web-extension converter.**... 2. **Rejected: `Boolean()` for the `allowPaid` default.**"
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "**Use `??` instead** (e.g. `rev.allowPaid ?? <intended default>`), so only a truly missing value falls back to the default."
+        },
+        {
+          "n": 5,
+          "pass": false,
+          "evidence": "absent: no pinned block. The four are split across 'Settled architecture decisions (do not revisit)' and 'Working-practice lessons (learned this session)'."
+        },
+        {
+          "n": 6,
+          "pass": true,
+          "evidence": "**In progress:** wiring up the review sheet. This is part-way done, not yet complete or committed."
+        }
+      ],
+      "blind_mapping": {
+        "A": "skill",
+        "B": "baseline"
+      }
+    },
+    {
+      "id": 9,
+      "name": "pin-or-point-never-assume",
+      "assertions": 5,
+      "skill_pass": 5,
+      "baseline_pass": 5,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "Every verification and git lesson lives in `ORCHESTRATOR.md` \u00a7 \"Method notes \u2014 bought with wasted work\"."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "**No direct OpenAI routing.** It reverses the merged `resolveModel` hardening. (items 2 and 3 likewise carry their reasons)"
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "**Rejected approaches: product (pinned here because they have no durable home)** followed by all three stated in full"
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "absent"
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "Measured returning the identical 3,740-byte shell that a plain fetch returns."
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "now lives in `ORCHESTRATOR.md` under **\"Method notes \u2014 bought with wasted work\"**"
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "**No direct OpenAI routing.** - Reason: it would reverse the `resolveModel` hardening that has already been merged. (items 2 and 3 likewise)"
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "## Architecture rejections (recorded only here, keep these) followed by all three stated in full with reasons"
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "absent"
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "It returned the identical 3,740-byte shell that a plain fetch returns, so it adds cost and no content."
+        }
+      ],
+      "blind_mapping": {
+        "A": "skill",
+        "B": "baseline"
+      }
+    },
+    {
+      "id": 10,
+      "name": "unfinished-obligation-not-just-clean-tree",
+      "assertions": 5,
+      "skill_pass": 5,
+      "baseline_pass": 5,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "the closing report block that this turn promised was never printed"
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "A clean tree is not evidence that the turn finished."
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "the goal's **condition line**; the **four gates**, each with its current reading; the **bounds**; the **ledger path**; **how to check status** and **how to stop early**"
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "All 27 items are already merged to `main` and verified by ancestry. Do not re-merge, re-verify by hand, or recreate branches."
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "1. Read back the actual armed goal and the cron entry created this session. Do not create new ones. ... 3. Print the closing report block"
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "No section titled Current Work; equivalent 'What was in progress' says: **Not done:** I had not yet printed the closing report block."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "Absent: 'complete' is applied only to the work. The turn is marked '**Not done:** I had not yet printed the closing report block.'"
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "**Condition line:** ... **The four gates and their current readings.** ... **Bounds:** ... **Ledger path:** ... **How to check status and how to stop early:**"
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "**All 27 items are merged** into `main`. Each merge was verified by ancestry ... No implementation, merge or cleanup work is outstanding."
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "No section titled Optional Next Step; equivalent text: The next session's only remaining task is to produce that report."
+        }
+      ],
+      "blind_mapping": {
+        "A": "skill",
+        "B": "baseline"
+      }
+    },
+    {
+      "id": 11,
+      "name": "pinned-block-buys-the-narrative-no-slack",
+      "assertions": 5,
+      "skill_pass": 5,
+      "baseline_pass": 3,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "\"never `git add -A`, stage by explicit path\" / \"adding a DELETE route to satisfy the popup mock was rejected. The mock is wrong, so correct the mock\""
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "absent; only \"The user added a header comment there explaining the split from `/api/items`. Read it in the file rather than restating it.\""
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "absent; described in prose only: \"Schema field `closedAt`, type Date, default null. Added inside the schema's timestamps block\""
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "\"each created `/api/items`. Resolved by moving the board endpoint to `/api/board`.\""
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "Hand count of the whole output is about 3,800 characters, under 4000 but with a narrow margin."
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "\"Never `git add -A`.** Always stage files by explicit path.\" / \"Do not add a DELETE route to satisfy the popup mock.** We considered and rejected this.\""
+        },
+        {
+          "n": 2,
+          "pass": false,
+          "evidence": "Full comment reproduced in a code block: \"// Lives at /api/board, not /api/items. HOP-0015 and HOP-0016 were built in parallel ... The name follows the shape.\""
+        },
+        {
+          "n": 3,
+          "pass": false,
+          "evidence": "Fragment reproduced in a code block: \"closedAt: { type: Date, default: null },\""
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "\"The board endpoint moved to **`/api/board`**. `/api/items` stays as is.\""
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "Whole output is roughly 1,900 characters, well under 4000."
+        }
+      ],
+      "blind_mapping": {
+        "A": "skill",
+        "B": "baseline"
+      }
+    },
+    {
+      "id": 12,
+      "name": "peer-agent-correction-is-a-correction",
+      "assertions": 5,
+      "skill_pass": 5,
+      "baseline_pass": 4,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "PINNED: Tier 1 ... the WIP commit was a **complete, building layer**, not a broken starting point. The commit message's claim is false."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "The commit message's claim is false. It says three files reference types that are not yet declared and that the package therefore does not build."
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "The ledger is fixed, so do not re-edit it. The commit message is the open item. / the commit message is still factually wrong, and that obligation is unmet."
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "Verification: `swift build` on the exact committed tree printed `Build complete! (6.32s)`."
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "do not describe this WIP as non-building, and do not plan work premised on \"declare the missing types first\". Nothing is missing."
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": false,
+          "evidence": "absent: Output A has no pinned block; the correction appears only under ordinary headings such as 'What happened' and 'Current state'."
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "**That claim was false.** `Isolation.swift` declares all six of those types, and it was part of the same committed set."
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "**Commit message:** **still wrong.** It still says the package does not build because of undeclared types."
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "Result: **`Build complete! (6.32s)`**."
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "**Correct description:** the WIP was a complete layer that builds. It was not a broken starting point."
+        }
+      ],
+      "blind_mapping": {
+        "A": "baseline",
+        "B": "skill"
+      }
+    },
+    {
+      "id": 13,
+      "name": "reread-list-names-the-steering-files",
+      "assertions": 7,
+      "skill_pass": 7,
+      "baseline_pass": 1,
+      "skill": [
+        {
+          "n": 1,
+          "pass": true,
+          "evidence": "**REREAD before continuing** - `~/.claude/plugins/cache/fledgeling-plugins/braindump/SKILL.md` ... (last item of PINNED block, one path per bullet)"
+        },
+        {
+          "n": 2,
+          "pass": true,
+          "evidence": "- `~/Dev/perch/CLAUDE.md` - `~/.claude/CLAUDE.md`"
+        },
+        {
+          "n": 3,
+          "pass": true,
+          "evidence": "- `docs/plans/plan-PERCH-0406.md`"
+        },
+        {
+          "n": 4,
+          "pass": true,
+          "evidence": "- `~/.claude/plugins/cache/fledgeling-plugins/braindump/SKILL.md` (procedure partway done; highest priority)"
+        },
+        {
+          "n": 5,
+          "pass": true,
+          "evidence": "- `docs/CODING_PRACTICES.md`"
+        },
+        {
+          "n": 6,
+          "pass": true,
+          "evidence": "absent (the REREAD list holds only SKILL.md, the plan, CODING_PRACTICES.md and the two CLAUDE.md paths)"
+        },
+        {
+          "n": 7,
+          "pass": true,
+          "evidence": "Entries are bare paths; the only annotation is the status marker '(procedure partway done; highest priority)', not a paraphrase of file contents"
+        }
+      ],
+      "baseline": [
+        {
+          "n": 1,
+          "pass": false,
+          "evidence": "No pinned block or REREAD list; the only re-read instruction is prose: 'Re-read SKILL.md before resuming so each step follows its exact instructions.'"
+        },
+        {
+          "n": 2,
+          "pass": false,
+          "evidence": "No REREAD list; both paths appear only under 'Governing / instructions' in 'Files by role', with no instruction to re-read them"
+        },
+        {
+          "n": 3,
+          "pass": false,
+          "evidence": "No REREAD list; plan path appears only under 'Primary task' and 'Files by role'. 'Re-check the plan against the actual changes' is not a reread list"
+        },
+        {
+          "n": 4,
+          "pass": false,
+          "evidence": "No REREAD list; path is marked partway only in prose: 'I am partway through the procedure in ...braindump/SKILL.md' and 'Re-read SKILL.md before resuming'"
+        },
+        {
+          "n": 5,
+          "pass": false,
+          "evidence": "No REREAD list; 'Follow `docs/CODING_PRACTICES.md`' appears as a directive and in 'Files by role', with no instruction to re-read it"
+        },
+        {
+          "n": 6,
+          "pass": true,
+          "evidence": "absent (no REREAD list exists; the only re-read instruction names SKILL.md, and these files sit under 'Code' and 'Background only')"
+        },
+        {
+          "n": 7,
+          "pass": false,
+          "evidence": "No REREAD list to carry paths only; the nearest list annotates entries, e.g. '`docs/CODING_PRACTICES.md`: user-mandated practices'"
+        }
+      ],
+      "blind_mapping": {
+        "A": "skill",
+        "B": "baseline"
+      }
+    },
+    {
+      "id": 14,
+      "name": "window-too-large-routes-to-anchored-fanout",
+      "assertions": 5,
+      "skill_pass": 3,
+      "baseline_pass": 1,
+      "graded_by": "mechanical check of manifest, pinned block and anchors (/tmp/bd-evals)",
+      "notes": "--bare removes the subagent tool, so the skill arm read sequentially instead of fanning out and disclosed it; it failed on 2 unanchored pinned items and on not running score_retention.py. Baseline wrote no pinned block; its one pass (at most 12 items) is vacuous. A non-bare run fanned out (6 of 8 readers finished before it was stopped) but its output was discarded as contaminated."
+    }
+  ],
+  "totals": {
+    "text_evals": {
+      "skill": 62,
+      "baseline": 51,
+      "assertions": 62
+    }
+  }
+}

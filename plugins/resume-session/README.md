@@ -4,19 +4,19 @@
 
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> resume-session</h1>
 <p align="center">
-  <img alt="Version 1.1.1" src="https://img.shields.io/badge/version-1.1.1-D33C21">
+  <img alt="Version 1.2.0" src="https://img.shields.io/badge/version-1.2.0-D33C21">
   <img alt="SWE skill: session recovery" src="https://img.shields.io/badge/SWE_skill-session_recovery-434A55">
-  <img alt="CLI platforms: 5" src="https://img.shields.io/badge/CLI_platforms-5-756E60">
+  <img alt="CLI platforms: 6" src="https://img.shields.io/badge/CLI_platforms-6-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
 
 **The multi-model handover skill for agentic coding.**
 
-When an AI model hits its usage limit (a 503 reserve cap, a 429 rate limit, token window exhaustion, or your weekly quota on Claude Opus 5), you should not have to wait hours or start from scratch. You switch to another model or CLI, such as Antigravity (AGY), Codex, Cursor, Grok, or Claude Sonnet, and keep building.
+When an AI model hits its usage limit (a 503 reserve cap, a 429 rate limit, token window exhaustion, or your weekly quota on Claude Opus 5), you should not have to wait hours or start from scratch. You switch to another model or CLI, such as Antigravity (AGY), Codex, Muse Code, Cursor, Grok, or Claude Sonnet, and keep building.
 
 The problem is that the new model starts completely blind. It spends thousands of tokens re-reading files you already modified, re-asking questions you answered an hour ago, guessing at database configs, and re-writing plans from zero.
 
-`resume-session:resume-session` moves that rediscovery off the model and onto your own machine. It scans for sessions across the CLIs listed below, parses their transcripts on disk, extracts six things the incoming agent would otherwise have to work out for itself, and hands it a written briefing to start from.
+`resume-session:resume-session` moves that rediscovery off the model and onto your own machine. It scans for sessions across the CLIs listed below, accepts a pasted `codex://threads/<id>` deeplink or a Muse session name, reads the transcript itself (whole when the reader's context holds it, split across parallel subagents when it does not), and hands the incoming agent a written briefing to start from: first the rules, corrections and dead ends it must not get wrong, then six things it would otherwise have to work out for itself.
 
 ---
 
@@ -51,11 +51,34 @@ Every resumed session is distilled into six concrete things:
 | CLI platform | Transcripts discovered | Supported formats |
 | :--- | :--- | :--- |
 | **Claude Code** | `~/.claude/projects/<slug>/*.jsonl`<br>`~/.claude/sessions/`<br>`<repo>/.claude/` | JSONL turns, tool invocations, `aiTitle`, `cwd`, branch |
-| **Antigravity (AGY)** | `~/.gemini/antigravity-cli/brain/<uuid>/` | Multi-agent step transcripts, tool calls, checkpoints, plans |
+| **Antigravity (AGY)** | `~/.gemini/antigravity-cli/brain/<uuid>/`<br>`~/.gemini/antigravity-cli/conversation_summaries.db` | `transcript_full.jsonl` steps, tool calls, checkpoints, titles |
 | **Cursor IDE** | `~/.cursor/chats/<hash>/<uuid>/`<br>`~/Library/Application Support/Cursor/...` | SQLite message blob stores, `meta.json`, workspace state |
-| **Codex / OpenAI** | `~/.codex/sessions/YYYY/MM/DD/*.jsonl`<br>`~/.codex/session_index.jsonl` | Structured turn context, model specs, response items |
+| **Codex / OpenAI** | `~/.codex/sessions/YYYY/MM/DD/*.jsonl`<br>`~/.codex/archived_sessions/`<br>`~/.codex/session_index.jsonl` | Rollout events, `apply_patch` edits, thread titles; `codex://threads/<id>` deeplinks resolve here |
+| **Muse Code** | `~/.local/share/muse/sessions/YYYY/MM/DD/<uuid>/session.jsonl`<br>`~/.local/share/muse/session-index.db` | Event log, session names, model changes, terminal reason, todo list, subagent sessions |
 | **Grok / X.AI** | `~/.grok/sessions/<encoded_path>/<uuid>/`<br>`~/.xai/sessions/` | Chat history JSONL, `summary.json`, event streams |
 | **Repo Workspaces** | `docs/goals/`, `docs/plans/`, `ORCHESTRATOR.md`, `handover_report.md` | Repository ledgers, markdown plans, feature specs |
+
+---
+
+## Reading a session in full
+
+A takeover briefing is only as good as the reading behind it, and a summary skimmed off the
+start and end of a transcript misses the middle, which is where a stated-once rule or a
+rejected approach usually sits. `render_transcript.py` renders the whole session as Markdown
+with numbered `#N` anchors and plans the read against the reader's budget:
+
+- **It fits:** the reader reads `transcript.md` end to end and sweeps it once per category.
+- **It does not:** the transcript splits at user turns into chunks of about 120,000 tokens, at
+  most 8, and one subagent reads each with a filled brief. Each reader lists every constraint,
+  correction, dead end and identifier it finds with an anchor, using the extraction method from
+  [`braindump`](../braindump/README.md); the parent merges them and settles disagreements by
+  reading the anchored events.
+
+User and assistant messages are never shortened. Tool calls collapse to one line naming their
+command or path, and tool output is clipped at the richest detail level that fits. Measured on
+this machine: a 200 MB Codex rollout (12,785 events) renders to about 900,000 tokens at `lean`
+detail, 8 chunks; a 182 MB Muse session to about 685,000 tokens, 7 chunks or one full read for
+a reader with 700,000 tokens to spare.
 
 ---
 
@@ -115,7 +138,17 @@ python3 plugins/resume-session/skills/resume-session/scripts/find_session.py --c
 python3 plugins/resume-session/skills/resume-session/scripts/find_session.py --cli claude --path ~/Dev/my-app
 ```
 
-### 3. Generate a complete takeover briefing
+### 3. Resume from a deeplink or a session name
+
+```bash
+python3 plugins/resume-session/skills/resume-session/scripts/find_session.py --ref codex://threads/01a1b965-2795-7013-9828-89685dd272bd --details
+python3 plugins/resume-session/skills/resume-session/scripts/find_session.py --ref winter-nova   # Muse session name
+
+# Render the transcript and plan the read for a reader with 400k tokens to spare
+python3 plugins/resume-session/skills/resume-session/scripts/render_transcript.py --ref codex://threads/01a1b965-2795-7013-9828-89685dd272bd --budget-tokens 400000
+```
+
+### 4. Generate a complete takeover briefing
 
 ```bash
 # Print the detailed handover report to the terminal
@@ -184,7 +217,7 @@ The session modified 4 files:
 ## Command-line reference
 
 ```text
-usage: find_session.py [-h] [--name NAME] [--id ID] [--cli {all,claude,agy,cursor,codex,grok,repo}]
+usage: find_session.py [-h] [--name NAME] [--id ID] [--ref REF] [--cli {all,claude,agy,cursor,codex,grok,muse,repo}]
                        [--path PATH] [--recent [RECENT]] [--details] [--json] [--export EXPORT]
                        [--limit LIMIT] [--deep]
 
@@ -194,7 +227,8 @@ options:
   -h, --help            show this help message and exit
   --name, -n NAME       Search by session title, custom name, or topic keyword
   --id, -i ID           Search by session UUID or UUID prefix
-  --cli, -c {all,claude,agy,cursor,codex,grok,repo}
+  --ref REF             A deeplink (codex://threads/<id>), session URL, UUID, or Muse session name
+  --cli, -c {all,claude,agy,cursor,codex,grok,muse,repo}
                         Filter by CLI engine (default: all)
   --path, -p, --cwd PATH
                         Filter by project directory or folder name
@@ -204,6 +238,13 @@ options:
   --export, -e EXPORT   Export takeover briefing Markdown report to target file path
   --limit, -l LIMIT     Maximum results to return (default 10)
   --deep                Deep scan: fully parse transcripts rather than fast header scan
+
+usage: render_transcript.py [--ref REF | --file FILE] [--cli CLI] [--out OUT]
+                            [--budget-tokens N] [--chunk-tokens N] [--max-chunks N]
+                            [--detail {auto,full,normal,lean,minimal}]
+
+Writes transcript.md, chunks/chunk-NNN.md, briefs/chunk-NNN.md and manifest.json to
+/tmp/resume-session/<session-id>/ (or --out), and prints the plan: full or fanout.
 ```
 
 ---

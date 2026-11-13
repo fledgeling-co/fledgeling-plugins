@@ -456,66 +456,116 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
 <script type="application/json" id="report-data">
 {
  "project": "fledgeling-plugins",
- "updated": "2026-11-09T11:29:58+00:00",
+ "updated": "2026-11-13T06:52:23+00:00",
  "verdict": {
-  "token": "done",
-  "number": "38 of 38",
-  "unit": "eval checks passed with the skill, against 32 without",
-  "headline": "App Store Connect skill published; unattended Apple sign-in now works",
-  "run_label": "app-store-connect 0.1.1 · pushed to main"
+  "token": "needs-work",
+  "number": "62 of 62",
+  "unit": "braindump eval checks passed with the skill, against 51 without",
+  "headline": "braindump wins its own evals but loses recall to the built-in compact on 3 real sessions",
+  "run_label": "braindump 2.6.0 evals · resume-session 1.2.0 · uncommitted"
  },
  "tasks": [
   {
-   "id": "ASC-1",
-   "title": "Skill maps every asc call to its credential",
+   "id": "RS-1",
+   "title": "Muse sessions found, named and parsed",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "winter-nova resolves by name"
+  },
+  {
+   "id": "RS-2",
+   "title": "codex://threads links open the right session",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done"
   },
   {
-   "id": "ASC-2",
-   "title": "Provisioning script plans before it writes",
+   "id": "RS-3",
+   "title": "Codex titles, first prompt and edited files fixed",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "RS-4",
+   "title": "Antigravity reads current tool names and full transcript",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "RS-5",
+   "title": "Whole session read in one go when it fits, else split across up to 8 readers",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "RS-6",
+   "title": "Reader instructions built on the braindump method",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done",
-   "note": "exits 3 on the wrong team"
+   "note": "one real reader tried"
   },
   {
-   "id": "ASC-3",
-   "title": "Account details kept off the public repo",
+   "id": "RS-7",
+   "title": "Skill text, README, changelog and catalogue updated",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "RS-8",
+   "title": "Ambiguous id prefixes refused instead of guessed",
    "origin": "carried over",
    "stage": "code written",
    "outcome": "done",
-   "note": "your answer at the checkpoint"
+   "note": "Codex, Muse, Grok share 01a1"
   },
   {
-   "id": "ASC-4",
-   "title": "Push-key question settled from Apple's own pages",
+   "id": "RS-9",
+   "title": "Messages sent mid-turn are read as user turns",
+   "origin": "carried over",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "BD-1",
+   "title": "braindump pins carry anchors and constraint sources",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done"
   },
   {
-   "id": "ASC-5",
-   "title": "Icon, banner, README and registrations",
+   "id": "BD-2",
+   "title": "braindump covers sessions too big for one reader",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done"
   },
   {
-   "id": "ASC-6",
-   "title": "Six tasks run with and without the skill, three rounds",
+   "id": "BD-3",
+   "title": "braindump scorer reads any CLI and mid-turn messages",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done"
   },
   {
-   "id": "ASC-7",
-   "title": "Apple sign-in with no one at the keyboard",
-   "origin": "planned",
+   "id": "BD-4",
+   "title": "braindump evals run for the first time",
+   "origin": "carried over",
    "stage": "code written",
    "outcome": "done",
-   "note": "works with Text Message Forwarding on"
+   "note": "grader in-family; other lanes down"
+  },
+  {
+   "id": "RS-10",
+   "title": "Findings tied to the render that made them",
+   "origin": "carried over",
+   "stage": "code written",
+   "outcome": "done"
   }
  ],
  "gates": [
@@ -528,164 +578,139 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "kind": "build"
   },
   {
-   "name": "Skill names in instructions resolve",
-   "command": "python3 scripts/check_skill_references.py",
+   "name": "Skill and reader instructions pass the writing lint",
+   "command": "agent_voice_lint.py --format skill / brief",
    "exit_code": 0,
-   "counts": "83/83",
+   "counts": "2/2",
    "state": "done",
    "kind": "sign-off"
   },
   {
-   "name": "Icon contact sheet is complete and clears the bar",
-   "command": "audit_sheet.py check plugins/app-store-connect/assets",
+   "name": "Real sessions render, one per source",
+   "command": "render_transcript.py on codex, muse, agy, claude, grok",
    "exit_code": 0,
-   "counts": "21/21",
-   "state": "done",
-   "kind": "design"
-  },
-  {
-   "name": "Eval checks with the skill, final round",
-   "command": "grade_commands.py + blind grader",
-   "exit_code": 0,
-   "counts": "38/38",
+   "counts": "5/5",
    "state": "done",
    "kind": "tests"
   },
   {
-   "name": "Provisioning script passes shellcheck (one file)",
-   "command": "shellcheck provision-app.sh",
+   "name": "Test reader's references all point at real events",
+   "command": "anchor check on findings/chunk-008.md",
    "exit_code": 0,
+   "counts": "71/71",
    "state": "done",
-   "kind": "build",
-   "counts": "1/1"
-  }
- ],
- "armed": [
-  {
-   "check": "Provisioning script checks the team",
-   "mutation": "gave the Diolog team the wrong team ID",
-   "case_reddened": "the script stopped with exit 3",
-   "red": 1,
-   "green": 1,
-   "armed": true
+   "kind": "tests"
   },
   {
-   "check": "Provisioning script needs the accounts file",
-   "mutation": "pointed it at a folder with no accounts file",
-   "case_reddened": "the script stopped with exit 2",
-   "red": 1,
-   "green": 1,
-   "armed": true
-  }
- ],
- "corrections": [
+   "name": "Evals for the new paths",
+   "command": "evals/evals.json, 13 defined",
+   "state": "unmeasured",
+   "kind": "tests"
+  },
   {
-   "earlier_claim": "Evals run in a sandbox that can't change your Apple accounts",
-   "said_pct": 100,
-   "true_pct": 92,
-   "true_state": "11 of 12 runs stayed read-only; one unset the guard and created a bundle ID.",
-   "mechanism": "The guard was a setting the run itself could switch off.",
-   "caught_by": "a scan of every transcript for guard overrides"
+   "name": "braindump instructions pass the writing lint",
+   "command": "agent_voice_lint.py --format skill SKILL.md",
+   "exit_code": 0,
+   "counts": "1/1",
+   "state": "done",
+   "kind": "sign-off"
+  },
+  {
+   "name": "braindump text evals, skill arm",
+   "command": "run_arm.sh + blind grader (in-family)",
+   "exit_code": 0,
+   "counts": "62/62",
+   "state": "done",
+   "kind": "tests"
+  },
+  {
+   "name": "braindump text evals, no-skill arm",
+   "command": "run_arm.sh + blind grader (in-family)",
+   "exit_code": 0,
+   "counts": "51/62",
+   "state": "needs-work",
+   "kind": "tests"
+  },
+  {
+   "name": "braindump vs built-in compact, rejected approaches kept",
+   "command": "benchmark_vs_compact.py --bare -n 3",
+   "exit_code": 0,
+   "counts": "3/3",
+   "state": "needs-work",
+   "kind": "tests"
   }
  ],
  "findings": [
   {
    "id": "F-1",
-   "score": 90,
-   "severity": "high",
-   "file_line": "evals round 1, no-skill run",
-   "claim": "a run without the skill lifted the write guard and created a real bundle ID",
-   "state": "done"
+   "score": 45,
+   "severity": "medium",
+   "file_line": "references/chunk-reader-brief.md",
+   "claim": "test reader wrote 18.9 KB against a 12,000-character target",
+   "state": "needs-work"
   },
   {
    "id": "F-2",
-   "score": 60,
+   "score": 40,
    "severity": "medium",
-   "file_line": "SKILL.md step 5",
-   "claim": "the skill run read Chrome tab addresses hunting for an Apple session",
-   "state": "done"
+   "file_line": "references/chunk-reader-brief.md",
+   "claim": "reading an 83k-token chunk cost the reader 234k tokens",
+   "state": "needs-work"
   },
   {
    "id": "F-3",
-   "score": 55,
-   "severity": "medium",
-   "file_line": "SKILL.md step 6",
-   "claim": "asking before every write was ignored when the request said set it up",
-   "state": "done"
+   "score": 70,
+   "severity": "high",
+   "file_line": "braindump/SKILL.md",
+   "claim": "skill summaries keep fewer rejected approaches than the built-in compact (61% vs 74%, 3 sessions)",
+   "state": "needs-work"
   },
   {
    "id": "F-4",
-   "score": 45,
+   "score": 50,
    "severity": "medium",
-   "file_line": "SKILL.md constraints",
-   "claim": "the iCloud run never said the container is permanent",
-   "state": "done"
-  },
-  {
-   "id": "F-5",
-   "score": 40,
-   "severity": "low",
-   "file_line": "SKILL.md step 6",
-   "claim": "the new-app run handed over the command instead of asking",
-   "state": "done"
-  },
-  {
-   "id": "F-6",
-   "score": 30,
-   "severity": "low",
-   "file_line": "docs/deep-research",
-   "claim": "one research citation was dead; the claim was re-sourced from Apple",
-   "state": "done"
-  },
-  {
-   "id": "F-7",
-   "score": 70,
-   "severity": "medium",
-   "file_line": "SKILL.md step 5",
-   "claim": "0.1.0 passed the team ID where App Store Connect wants its own provider ID",
-   "state": "done"
+   "file_line": "braindump/evals/evals.json",
+   "claim": "7 of 12 text evals pass in both arms and cannot tell them apart",
+   "state": "needs-work"
   }
  ],
  "not_checked": [
   {
-   "axis": "The script's write path succeeding",
-   "why_not": "Every eval run was read-only on purpose."
+   "axis": "Full split-read with 8 readers and a merged briefing",
+   "why_not": "Only one reader was run, to keep cost down."
   },
   {
-   "axis": "Answers graded by a second model family",
-   "why_not": "One Claude grader read every answer."
+   "axis": "Gemini instructions file",
+   "why_not": "Edited by hand, not regenerated with geminify."
   },
   {
-   "axis": "A both-environment push key in the portal",
-   "why_not": "Apple's page and a push provider disagree; the portal wasn't opened."
+   "axis": "braindump's published figures under the new extractor",
+   "why_not": "The benchmark was not re-run."
   }
  ],
- "not_done": [],
- "roadmap": [],
- "needs_you": [],
- "artifacts": [
+ "not_done": [
   {
-   "path": "plugins/app-store-connect/evals/EVALS.md",
-   "kind": "md",
-   "contains": "How the skill did against no skill, round by round.",
-   "open_first": true
+   "action": "Read Muse subagent sessions",
+   "reason": "Briefing names the folder but does not render it.",
+   "size": "an hour or two"
   },
   {
-   "path": "plugins/app-store-connect/skills/app-store-connect/SKILL.md",
-   "kind": "md",
-   "contains": "The procedure the skill follows."
-  },
+   "action": "Commit and push",
+   "reason": "Not asked for; unrelated edits sit in the same tree."
+  }
+ ],
+ "needs_you": [
   {
-   "path": "plugins/app-store-connect/docs/deep-research/2026-11-09-apns-key-scope-addendum.md",
-   "kind": "md",
-   "contains": "Apple's own rules for push keys, quoted."
+   "ask": "Say whether to commit both skills",
+   "kind": "decision",
+   "waiting_since": "2026-11-13T05:36:30+00:00",
+   "one_line": "Unrelated decision-panel and feedback-panel edits share the tree."
   }
  ],
  "git": {
   "branch": "main",
-  "commits_ahead": 0,
   "worktree_clean": false,
-  "pushed": true
+  "pushed": false
  }
 }
 </script>

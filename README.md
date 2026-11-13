@@ -478,7 +478,7 @@ Your terminal crashed and it is all still on disk, just unattached. Reopening th
 
 ### [resume-session](plugins/resume-session/README.md)
 
-Picks up where a previous AI session left off, including one from a different tool entirely. It reads the transcripts already on your machine and works out the goal, the errors, the files touched and the decisions made, so nobody rediscovers it all.
+Picks up where a previous AI session left off, including one from a different tool entirely: Claude Code, Codex (paste a `codex://threads/` link), Antigravity, Muse, Cursor or Grok. It reads the whole transcript, splitting a long one across parallel readers, and hands the next agent the rules, corrections and dead ends it must not get wrong, then the goal, errors, files touched and decisions made.
 
 <br clear="left" />
 

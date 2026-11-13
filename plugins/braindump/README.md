@@ -77,6 +77,7 @@ Note: the items were never unreachable. The sweep just stopped where the materia
 ```bash
 # score one summary
 python3 scripts/score_retention.py --transcript session.jsonl --summary summary.md
+python3 scripts/score_retention.py --transcript transcript.md --summary summary.md   # a Codex, Muse, Antigravity, Cursor or Grok session rendered by resume-session
 
 # measure your own real compaction events
 python3 scripts/score_retention.py --scan-history

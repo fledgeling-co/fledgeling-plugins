@@ -1,3 +1,41 @@
+# Results, 2026-11-13: the eval prompts have now run
+
+**Text evals (12 of 14): skill 62 of 62 assertions, baseline 51 of 62.** Writer: Claude Opus via
+`claude --bare -p`, skill arm with SKILL.md appended to the system prompt, baseline identical
+without it; both arms had skills, commands and file tools disabled and the same one-sentence
+framing. Grader: Claude Fable, blind A/B with a seeded order. The grader is in-family because all
+three out-of-family lanes were down when it ran (Gemini quota, Grok 402, Codex usage limit), so
+self-preference bias is not excluded. One run per arm, so there is no variance estimate. Every
+assertion's verdict and quoted evidence is in `evals/results-2026-11-13.json`.
+
+Seven of the twelve did not discriminate: both arms passed every assertion (evals 1, 2, 3, 4, 5,
+9 and 10). The gap comes from five: eval 13, the REREAD list (7 vs 1, the baseline wrote no
+REREAD list at all); eval 11 (5 vs 3, the baseline pasted a comment and a schema line into its
+summary); and evals 6, 8 and 12 by one assertion each (a quantifier paraphrased, no pinned block
+for the dead ends, a peer correction left in the narrative). The suite needs harder cases before it
+can rank anything beyond those five behaviours; the missing adversarial case is still missing.
+
+**Eval 14 (window too large): skill 3 of 5, baseline 1 of 5**, graded mechanically against the
+manifest and chunk files. Under `--bare` the skill arm had no subagent tool, read the transcript
+sequentially and said so; it lost on 2 unanchored pinned items and on never running the scorer.
+
+**Eval 7 (head-to-head, `docs/benchmark-head-to-head-2026-11-13-bare.json`): the skill did not beat
+the built-in.** Three usable transcripts, soft matcher: rejected approaches 60.7% against the
+built-in's 74.2%, identifiers 28.0% against 43.1%, file paths 6.7% against 15.3%; corrections and
+constraints tied at n=1 and n=2. The skill's summaries were 2.7 times shorter (median 10,003
+characters against 26,746) and less extractive (0.02 against 0.09), and the case study already
+shows soft recall over a long window rewards length and copying, so this is a floor check that the
+skill passes on no class rather than a ranking. A first run without `--bare` scored the skill lower
+still (rejected approaches 44.4%) because the operator's global CLAUDE.md brevity rules reached
+the skill arm and not the on-disk built-in arm; `benchmark_vs_compact.py --bare` now exists for that
+reason, and both runs are committed with their `matcher` fields.
+
+What would settle it: `score_retention.py --against` on these three pairs to read the disjoint
+sets, which the case study names as the instrument for ranking two arms, and more usable events
+(only three on this machine are under 1.5M characters). That comparison could not run on these
+results because the script kept only scores and overwrote its working transcript; it now saves
+every arm's summary under `<workdir>/summaries/`, so the next run can be read pair by pair.
+
 # Does braindump actually work? A benchmark ran, the eval prompts did not
 
 **The measurement layer was run and its output is committed. The thirteen eval

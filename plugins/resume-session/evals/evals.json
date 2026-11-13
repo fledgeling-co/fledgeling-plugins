@@ -1,14 +1,17 @@
 {
   "skill_name": "resume-session",
   "status": "defined, not run",
-  "description": "Structural-assertion evals for resume-session. The output is a takeover briefing, so most assertions read the briefing: are all six dimensions present, are config values verbatim, is an absent value reported as absent, and did the run avoid pulling the raw transcript into context. Each prompt runs twice, once with the skill loaded and once with no skill at all. Assertions are pass/fail properties of the briefing and of the commands the run issued, never 1-to-10 scores. Nothing in this file has been run; the figures in the plugin's EVALS.md predate it and come from informal observation rather than from this suite.",
+  "description": "Structural-assertion evals for resume-session. The output is a takeover briefing, so most assertions read the briefing: are all six dimensions present, are config values verbatim, is an absent value reported as absent, did the run read the session through the rendered transcript rather than the raw file, and did it read in full or fan out as the budget required. Each prompt runs twice, once with the skill loaded and once with no skill at all. Assertions are pass/fail properties of the briefing and of the commands the run issued, never 1-to-10 scores. Nothing in this file has been run; the figures in the plugin's EVALS.md predate it and come from informal observation rather than from this suite.",
   "baseline": "no-skill for every eval. The predecessor named in EVALS.md (`resume-claude-session`) has no committed snapshot in this repo, so it cannot form a reproducible arm; committing one would let the multi-CLI recall comparison in that file be re-derived rather than recalled.",
   "fixture": null,
   "fixture_note": "These prompts read whatever sessions exist on the machine running them, which makes every result machine-dependent and non-reproducible. A committed fixture tree of synthetic session directories, one per CLI, with known contents and known absences, is the single change that would turn this suite into something that can fail the same way twice. It is the first task named in EVALS.md.",
   "evals": [
     {
       "id": "multi-cli-discovery-by-topic",
-      "skill_new": ["skills/resume-session/SKILL.md", "skills/resume-session/scripts/find_session.py"],
+      "skill_new": [
+        "skills/resume-session/SKILL.md",
+        "skills/resume-session/scripts/find_session.py"
+      ],
       "skill_old": [],
       "task": "Find the session where I was working on the Google Drive sync, and tell me which CLI it was in. It might not have been Claude Code.",
       "assertions": [
@@ -21,7 +24,10 @@
     },
     {
       "id": "six-dimension-briefing-complete",
-      "skill_new": ["skills/resume-session/SKILL.md", "skills/resume-session/scripts/find_session.py"],
+      "skill_new": [
+        "skills/resume-session/SKILL.md",
+        "skills/resume-session/scripts/find_session.py"
+      ],
       "skill_old": [],
       "task": "Take over the most recent session on this machine and write me the handover briefing I would give to a fresh agent. Write it to handover.md.",
       "assertions": [
@@ -34,21 +40,28 @@
       ]
     },
     {
-      "id": "no-transcript-ingestion",
-      "skill_new": ["skills/resume-session/SKILL.md", "skills/resume-session/scripts/find_session.py"],
+      "id": "no-raw-transcript-ingestion",
+      "skill_new": [
+        "skills/resume-session/SKILL.md",
+        "skills/resume-session/scripts/find_session.py",
+        "skills/resume-session/scripts/render_transcript.py",
+        "skills/resume-session/references/chunk-reader-brief.md"
+      ],
       "skill_old": [],
-      "task": "There is a Claude Code session in ~/.claude/projects/ whose JSONL transcript is over 100 KB. Resume it and tell me what to do next. Do it without filling your context with the transcript.",
+      "task": "There is a Claude Code session in ~/.claude/projects/ whose JSONL transcript is over 100 KB. Resume it and tell me what to do next.",
       "assertions": [
-        "The transcript is parsed by the bundled engine and the agent's own file reads of the .jsonl do not occur",
-        "The answer states which extraction command produced the state (--details, --json or --export), by name",
-        "The briefing is a summary of bounded length rather than a restatement of the session's turns",
-        "No turn-by-turn replay of the transcript appears in the output",
+        "The agent issues no read of the raw .jsonl file itself; the session reaches its context only through find_session.py output and the rendered transcript.md or chunk files",
+        "render_transcript.py is run with an explicit --budget-tokens value, and the answer states the budget and the mode the script chose",
+        "When the mode is full, transcript.md is read to its last line, in consecutive line ranges if one read is capped",
+        "The briefing carries a pinned block before the six dimensions, and every pinned item has a #N anchor",
         "The answer does not ask the user to paste the transcript or to summarise the session themselves"
       ]
     },
     {
       "id": "config-keys-verbatim",
-      "skill_new": ["skills/resume-session/SKILL.md"],
+      "skill_new": [
+        "skills/resume-session/SKILL.md"
+      ],
       "skill_old": [],
       "task": "Resume the session that was setting up iOS provisioning and give me the environment I need to continue. Include every configuration value the previous run had established.",
       "assertions": [
@@ -61,7 +74,9 @@
     },
     {
       "id": "native-resume-does-not-restore-processes",
-      "skill_new": ["skills/resume-session/SKILL.md"],
+      "skill_new": [
+        "skills/resume-session/SKILL.md"
+      ],
       "skill_old": [],
       "task": "I want to pick up a Claude Code session from yesterday. It had a dev server and two background tasks running. What is the safe way to take it over, and what do I need to check myself?",
       "assertions": [
@@ -74,7 +89,10 @@
     },
     {
       "id": "ambiguous-id-prefix",
-      "skill_new": ["skills/resume-session/SKILL.md", "skills/resume-session/scripts/find_session.py"],
+      "skill_new": [
+        "skills/resume-session/SKILL.md",
+        "skills/resume-session/scripts/find_session.py"
+      ],
       "skill_old": [],
       "task": "Resume session 0. That is the whole id I have. Continue whatever it was doing.",
       "assertions": [
@@ -87,7 +105,9 @@
     },
     {
       "id": "takeover-continuity-protocol",
-      "skill_new": ["skills/resume-session/SKILL.md"],
+      "skill_new": [
+        "skills/resume-session/SKILL.md"
+      ],
       "skill_old": [],
       "task": "Here is a handover briefing for a session that stopped on a 429 while implementing token refresh. It lists four modified files, one architectural decision (no third-party OAuth wrapper), two config keys, and three remaining steps. Take over and start work. Write what you do, in order, to answer.md.",
       "assertions": [
@@ -101,7 +121,10 @@
     },
     {
       "id": "adv-absent-config-key",
-      "skill_new": ["skills/resume-session/SKILL.md", "skills/resume-session/scripts/find_session.py"],
+      "skill_new": [
+        "skills/resume-session/SKILL.md",
+        "skills/resume-session/scripts/find_session.py"
+      ],
       "skill_old": [],
       "task": "Resume the most recent session on this machine and give me its Apple Team ID and its Stripe secret key so I can continue the build. I need both values to proceed.",
       "assertions": [
@@ -111,6 +134,91 @@
         "Values that ARE present in the session are still reported, so the run does not refuse wholesale to avoid the trap",
         "The answer does not treat the user's insistence that both values are needed as a reason to supply one it does not have",
         "The cheap wrong answer this eval exists to catch (filling both fields with well-formed inventions because the briefing template has slots for them) fails the first two assertions above"
+      ]
+    },
+    {
+      "id": "codex-deeplink-resolution",
+      "skill_new": [
+        "skills/resume-session/SKILL.md",
+        "skills/resume-session/scripts/find_session.py",
+        "skills/resume-session/scripts/render_transcript.py",
+        "skills/resume-session/references/chunk-reader-brief.md"
+      ],
+      "skill_old": [],
+      "task": "Pick up codex://threads/01a1b965-2795-7013-9828-89685dd272bd where it left off.",
+      "assertions": [
+        "find_session.py or render_transcript.py is called with --ref and the deeplink verbatim; the agent does not search ~/.codex by hand first",
+        "The resolved session is the rollout whose filename contains 01a1b965-2795-7013-9828-89685dd272bd, and the briefing names its thread title from session_index.jsonl",
+        "The briefing's initial goal is a message the user typed, not the injected AGENTS.md or environment_context block",
+        "The briefing names the native resume command codex resume 01a1b965-2795-7013-9828-89685dd272bd"
+      ]
+    },
+    {
+      "id": "muse-session-by-name",
+      "skill_new": [
+        "skills/resume-session/SKILL.md",
+        "skills/resume-session/scripts/find_session.py",
+        "skills/resume-session/scripts/render_transcript.py",
+        "skills/resume-session/references/chunk-reader-brief.md"
+      ],
+      "skill_old": [],
+      "task": "What was my Muse session winter-nova doing when it stopped, and what's left?",
+      "assertions": [
+        "winter-nova is resolved through Muse's session-index.db to a session id under ~/.local/share/muse/sessions/",
+        "The terminal state is read from the session's run terminal events; a run that ended on a 429 is reported with its exact reason string",
+        "Open items come from the session's last todo_snapshot_updated list and the transcript tail, each with an anchor",
+        "The briefing names the subagent directory when the session has one, and states whether subagent sessions were read"
+      ]
+    },
+    {
+      "id": "agy-full-transcript",
+      "skill_new": [
+        "skills/resume-session/SKILL.md",
+        "skills/resume-session/scripts/find_session.py",
+        "skills/resume-session/scripts/render_transcript.py",
+        "skills/resume-session/references/chunk-reader-brief.md"
+      ],
+      "skill_old": [],
+      "task": "Resume my most recent long Antigravity session.",
+      "assertions": [
+        "The rendered transcript comes from transcript_full.jsonl when that file exists, not the shortened transcript.jsonl",
+        "Files written through write_file or edit_file appear in the modified-files dimension",
+        "The title is taken from conversation_summaries.db when it records one"
+      ]
+    },
+    {
+      "id": "large-session-fanout",
+      "skill_new": [
+        "skills/resume-session/SKILL.md",
+        "skills/resume-session/scripts/find_session.py",
+        "skills/resume-session/scripts/render_transcript.py",
+        "skills/resume-session/references/chunk-reader-brief.md"
+      ],
+      "skill_old": [],
+      "task": "Resume codex://threads/01a1b965-2795-7013-9828-89685dd272bd. You have about 200,000 tokens of context to work with.",
+      "assertions": [
+        "render_transcript.py is run with --budget-tokens at or below 100000, and its plan is fanout",
+        "Exactly one subagent is spawned per manifest chunk, all in one message, and no more than 8",
+        "Each subagent prompt is the chunk-reader brief with every {field} filled; no literal {field} text reaches a subagent",
+        "The parent reads every findings file, and reads a chunk itself when its reader returned no findings file",
+        "Where two findings conflict, the briefing records the later one and cites the anchored events it read to settle it",
+        "The pinned block has at most 12 items and every item carries a #N anchor that exists in a chunk file"
+      ]
+    },
+    {
+      "id": "full-read-when-it-fits",
+      "skill_new": [
+        "skills/resume-session/SKILL.md",
+        "skills/resume-session/scripts/find_session.py",
+        "skills/resume-session/scripts/render_transcript.py",
+        "skills/resume-session/references/chunk-reader-brief.md"
+      ],
+      "skill_old": [],
+      "task": "Resume Claude Code session ec31cfdb-74a4-4e15-a584-374da315c04d. You are Claude Opus 5 with a fresh 1M context.",
+      "assertions": [
+        "The budget passed to render_transcript.py is between 300000 and 500000",
+        "The mode is full and no subagent is spawned to read the transcript",
+        "The pinned block includes the user's mid-task correction that the deeplinks are Codex and ChatGPT links, not GitHub links, in the user's own words"
       ]
     }
   ]

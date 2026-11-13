@@ -44,7 +44,12 @@ values stay out of the tier entirely.
 
 1. **Standing constraints and prohibitions** — the "always", "never", "don't", scope
    fences and boundaries the user or the project set. State them in the user's own
-   words, each under 300 characters.
+   words, each under 300 characters, and name where each came from: a user message, an
+   instruction file (with its path), or a tool or system refusal. A pattern inferred from
+   how the agent behaved is not a constraint. Measured on one chunk read of a Codex fleet
+   session: a reader handed this category without the source rule listed the agent's own
+   receipt fields (`RootGitWritten: false`) as "project doctrine", which pins a habit as
+   if somebody had ordered it.
 2. **User corrections** — each time the user rejected, redirected or corrected you,
    in the user's own words with what it supersedes. A correction from a peer agent
    or subagent counts, restated as a one-line outcome rather than quoted: in a fleet
@@ -137,6 +142,16 @@ merely something **slower**?*
 The asymmetry is deliberate. Re-reading a file costs seconds. Repeating a mistake the user
 corrected costs their trust.
 
+## Anchor every Tier-1 item to where it came from
+
+When the source numbers its turns or events (a rendered transcript's `#N`, a turn index, a
+timestamp), end each Tier-1 item with that anchor: `(#412)`. Two things follow. The successor
+can open the exact turn when an item's wording is not enough, and the verify step below stops
+being a re-read of the whole window and becomes a check that the anchor on every pinned item (at most 12) exists and says what
+the item claims. On the one fan-out read measured so far, all 71 of a reader's anchors resolved
+to real events in its chunk, which is what made that check a script rather than a judgement.
+Anchors count toward the tier's 3 KB; drop them before dropping an item.
+
 ## Retain precisely, keep items short
 
 Inside Tier 1, identifiers keep their exact spelling: a path that is *nearly* right sends
@@ -209,9 +224,30 @@ Two habits that fix it:
   low-lexical-overlap needle retrieval misses.
 
 If a previous summary is in your context, treat it as a **checklist, not a source**: every
-Tier 1 item it carries is one you must decide about explicitly — carry it forward only if
+Tier 1 item it carries is one you decide about explicitly — carry it forward only if
 it still applies, restated under the retention rules, or point at where it now lives
 durably. Silently rebuilding from scratch is how eight items were lost.
+
+### When you cannot hold the window
+
+The rules above assume the window is in your context: you are about to compact your own
+session. Two cases break that. You are handing over a session you were not in (another CLI,
+another model, last week's run), or the session is larger than your context. Measured on this
+machine: a 200 MB Codex rollout renders to about 900,000 tokens even with tool output clipped,
+and about 6.7 million with it intact.
+
+For those, use `resume-session:resume-session`. Its `render_transcript.py` reads Claude Code,
+Codex, Antigravity, Muse, Cursor and Grok sessions into one numbered transcript, and when the
+transcript exceeds your budget it splits it into at most 8 chunks, each with a reader brief
+built from the four Tier-1 categories above.
+
+"Do the sweep yourself" still governs what survives, and the split is arranged so it can. Each
+reader lists every instance it finds, with an anchor, rather than the ones it judged salient.
+You then make every keep-or-drop call over the merged lists, and settle a disagreement between
+readers by opening the anchored events. Salience is the judgment this skill exists to keep in
+one place, so the readers extract and only you decide. Evidence for the split is thin: one
+reader on one chunk, all anchors resolving, output 58% over its length target. Treat it as the
+fallback for a window you cannot hold, never as a substitute for a sweep you can do yourself.
 
 ### Pin it, or point at it — decide per item, never drop on assumption
 
@@ -312,7 +348,7 @@ the keep/drop rule already excludes. Length went entirely to the half that did n
 and the longer summary still carried eight fewer dead ends.
 
 Write the summary to the length the material needs. Do not pad the nine sections to look
-thorough; an empty section that says "none" is better than a paragraph restating section 1.
+complete; an empty section that says "none" is better than a paragraph restating section 1.
 
 ## When to compact — and when to do something else
 
@@ -355,6 +391,7 @@ exactly the knowledge the next session lacks.
 
 ```bash
 python3 scripts/score_retention.py --transcript <session.jsonl> --summary <summary.md>
+python3 scripts/score_retention.py --transcript <transcript.md> --summary <summary.md>  # any CLI, rendered by resume-session
 python3 scripts/score_retention.py --transcript <w.jsonl> --summary <a.md> --against <b.md>
 python3 scripts/score_retention.py --scan-history          # baseline across your history
 python3 scripts/benchmark_vs_compact.py --arms cli         # score the built-in, free

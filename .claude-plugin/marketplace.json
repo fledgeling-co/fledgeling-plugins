@@ -83,7 +83,7 @@
     {
       "name": "braindump",
       "description": "Gets everything load-bearing out of a session and onto the page before the context holding it is thrown away. Measured across 121 real compaction events, the built-in prompt keeps 0.3% of the approaches you ruled out and 33.8% of your standing constraints; violations run 0% when a rule survives into the summary and 38% when it does not. Writes a pinned verbatim tier (constraints, corrections, dead ends and exact identifiers) ahead of the narrative, and ships a deterministic retention scorer plus a head-to-head benchmark whose baseline arm is free. Published as compaction-quality until 2026-08.",
-      "version": "2.5.0",
+      "version": "2.6.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -309,8 +309,8 @@
     {
       "name": "resume-session",
       "source": "./plugins/resume-session",
-      "description": "Locate, parse, and resume work from past sessions across any agent CLI (Claude Code, Antigravity/AGY, Cursor, Codex, Grok, or repo workspaces). Discovers sessions by query, ID, path, or recency, extracts the 6D takeover state (original goal, terminal errors, modified files, config keys, decisions, and immediate next steps), and produces an uncorrupted continuity briefing without redundant re-discovery.",
-      "version": "1.1.1",
+      "description": "Locate, read, and resume past agent sessions on this machine: Claude Code, Codex (including codex://threads/<id> deeplinks), Antigravity (AGY), Muse Code, Cursor, Grok, or repo handover files. Renders a session as a numbered transcript, reads it in full when the reader's context holds it or fans out one subagent per chunk with the braindump extraction method, and writes a takeover briefing: a pinned block of constraints, corrections, dead ends and exact identifiers, then the 6D state.",
+      "version": "1.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

@@ -8,6 +8,7 @@ takeover state across ALL major AI coding agent CLIs and workspace artifacts:
   - Cursor IDE (~/.cursor/chats/, ~/Library/Application Support/Cursor/User/workspaceStorage/)
   - Codex / OpenAI CLI (~/.codex/sessions/, ~/.codex/session_index.jsonl, ~/.openai/sessions/)
   - Grok / X.AI CLI (~/.grok/sessions/, ~/.xai/sessions/)
+  - Muse Code / Meta (~/.local/share/muse/sessions/YYYY/MM/DD/<uuid>/session.jsonl)
   - Generic Repo Workspaces (docs/goals/, docs/plans/, ORCHESTRATOR.md, handover_report.md)
 
 Usage:
@@ -17,6 +18,8 @@ Usage:
   python3 find_session.py --cli claude --path ~/Dev/fledgeling-plugins
   python3 find_session.py --id daaf6175 --json
   python3 find_session.py --id daaf6175 --export handover.md
+  python3 find_session.py --ref codex://threads/01a1b965-2795-7013-9828-89685dd272bd --details
+  python3 find_session.py --ref winter-nova --cli muse      # a Muse session name
 """
 
 from __future__ import annotations
@@ -28,6 +31,7 @@ import os
 import pathlib
 import re
 import sqlite3
+import subprocess
 import sys
 import urllib.parse
 from typing import Any, Dict, List, Optional, Set, Tuple
@@ -40,6 +44,7 @@ CLAUDE_SESSIONS = CLAUDE_HOME / "sessions"
 
 AGY_HOME = USER_HOME / ".gemini" / "antigravity-cli"
 AGY_BRAIN = AGY_HOME / "brain"
+AGY_SUMMARIES = AGY_HOME / "conversation_summaries.db"
 
 CURSOR_HOME = USER_HOME / ".cursor"
 CURSOR_CHATS = CURSOR_HOME / "chats"
@@ -48,6 +53,7 @@ CURSOR_WS = USER_HOME / "Library" / "Application Support" / "Cursor" / "User" / 
 CODEX_HOME = USER_HOME / ".codex"
 CODEX_SESSIONS = CODEX_HOME / "sessions"
 CODEX_INDEX = CODEX_HOME / "session_index.jsonl"
+CODEX_ARCHIVED = CODEX_HOME / "archived_sessions"
 OPENAI_HOME = USER_HOME / ".openai"
 OPENAI_SESSIONS = OPENAI_HOME / "sessions"
 
@@ -55,6 +61,166 @@ GROK_HOME = USER_HOME / ".grok"
 GROK_SESSIONS = GROK_HOME / "sessions"
 XAI_HOME = USER_HOME / ".xai"
 XAI_SESSIONS = XAI_HOME / "sessions"
+
+MUSE_HOME = pathlib.Path(os.environ.get("MUSE_DATA_DIR") or (USER_HOME / ".local" / "share" / "muse"))
+MUSE_SESSIONS = MUSE_HOME / "sessions"
+MUSE_INDEX = MUSE_HOME / "session-index.db"
+
+CLI_CHOICES = ["all", "claude", "agy", "cursor", "codex", "grok", "muse", "repo"]
+
+# The command each CLI offers for resuming natively, keyed by cli_type.
+NATIVE_RESUME = {
+    "claude": "claude --resume {id}",
+    "agy": "agy --conversation {id}",
+    "codex": "codex resume {id}",
+    "muse": "muse resume {id}",
+}
+
+UUID_RE = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+
+# User-role messages a harness injects rather than the person typing them.
+INJECTED_PREFIXES = (
+    "<system-reminder>", "# AGENTS.md instructions", "<environment_context>", "<user_instructions>",
+    "<recommended_plugins>", "<external_", "<permissions", "<INSTRUCTIONS>", "<local-command",
+    "<command-name>", "Caveat: The messages below", "<task-notification>", "Base directory for this skill:",
+)
+
+
+def claude_plain_user_texts(path: pathlib.Path) -> Set[str]:
+    """Plain-string user rows in a Claude Code transcript, for de-duplicating queued messages.
+
+    A message typed while the agent is mid-turn is written as a `queue-operation` row with
+    `operation: "enqueue"`; about a fifth of them are later delivered again as an ordinary
+    user row, so a queued message counts only when no identical user row exists.
+    """
+    out: Set[str] = set()
+    try:
+        for line in iter_jsonl_lines(path):
+            if '"user"' not in line:
+                continue
+            try:
+                d = json.loads(line)
+            except Exception:
+                continue
+            c = (d.get("message") or {}).get("content") if d.get("type") == "user" else None
+            if isinstance(c, str):
+                out.add(c.strip())
+    except Exception:
+        pass
+    return out
+
+
+def is_injected(text: str) -> bool:
+    t = (text or "").lstrip()
+    return any(t.startswith(p) for p in INJECTED_PREFIXES)
+
+
+# ── Session references & deeplinks ───────────────────────────────────────────
+
+def parse_session_ref(ref: str) -> Dict[str, Optional[str]]:
+    """Resolve a session reference into {cli, id, name, note}.
+
+    Accepts codex://threads/<uuid> (the Codex app and ChatGPT deeplink), a chatgpt.com/codex URL,
+    a claude/muse/agy URL carrying a UUID, a bare UUID or UUID prefix, or a Muse session name.
+    """
+    ref = (ref or "").strip().strip("<>\"'")
+    out: Dict[str, Optional[str]] = {"cli": None, "id": None, "name": None, "note": None}
+    if not ref:
+        return out
+    parsed = urllib.parse.urlparse(ref)
+    scheme = (parsed.scheme or "").lower()
+    uuid_m = UUID_RE.search(ref)
+    if scheme in ("codex", "chatgpt") or "chatgpt.com" in (parsed.netloc or "") or "/codex/" in (parsed.path or ""):
+        out["cli"] = "codex"
+        if "chatgpt.com" in (parsed.netloc or "") and "/tasks/" in (parsed.path or ""):
+            out["note"] = ("chatgpt.com/codex/tasks links name Codex cloud tasks; only a task that ran "
+                           "locally has a rollout file on this machine.")
+        if uuid_m:
+            out["id"] = uuid_m.group(0).lower()
+        else:
+            tail = [seg for seg in (parsed.netloc + parsed.path).split("/") if seg]
+            out["id"] = tail[-1] if tail else None
+        return out
+    if scheme in ("claude", "muse", "agy", "antigravity", "cursor", "grok"):
+        out["cli"] = {"antigravity": "agy"}.get(scheme, scheme)
+    if uuid_m:
+        out["id"] = uuid_m.group(0).lower()
+    elif scheme:
+        tail = [seg for seg in (parsed.netloc + parsed.path).split("/") if seg]
+        out["id"] = tail[-1] if tail else None
+    elif re.fullmatch(r"[0-9a-fA-F\-]{6,}", ref):
+        out["id"] = ref.lower()
+    else:
+        out["name"] = ref
+    return out
+
+
+def muse_index_lookup(name_or_id: str) -> Optional[str]:
+    """Map a Muse session name (e.g. winter-nova) or id prefix to a session id via session-index.db."""
+    if not MUSE_INDEX.exists():
+        return None
+    try:
+        conn = sqlite3.connect(f"file:{MUSE_INDEX}?mode=ro", uri=True)
+        row = conn.execute(
+            "SELECT session_id FROM sessions WHERE session_name = ? OR session_id LIKE ? "
+            "OR session_id IN (SELECT session_id FROM session_old_names WHERE name = ?) "
+            "ORDER BY updated_at_us DESC LIMIT 1",
+            (name_or_id, name_or_id + "%", name_or_id),
+        ).fetchone()
+        conn.close()
+        return row[0] if row else None
+    except Exception:
+        try:
+            conn = sqlite3.connect(f"file:{MUSE_INDEX}?mode=ro", uri=True)
+            row = conn.execute(
+                "SELECT session_id FROM sessions WHERE session_name = ? OR session_id LIKE ? "
+                "ORDER BY updated_at_us DESC LIMIT 1", (name_or_id, name_or_id + "%")).fetchone()
+            conn.close()
+            return row[0] if row else None
+        except Exception:
+            return None
+
+
+def iter_jsonl_lines(path: pathlib.Path):
+    """Yield text lines from a .jsonl file, decompressing .zst through the zstd CLI when present."""
+    if path.suffix == ".zst":
+        try:
+            proc = subprocess.Popen(["zstd", "-dc", str(path)], stdout=subprocess.PIPE,
+                                    stderr=subprocess.DEVNULL, text=True, errors="replace")
+        except FileNotFoundError:
+            return
+        assert proc.stdout is not None
+        for line in proc.stdout:
+            yield line
+        proc.wait()
+        return
+    with open(path, "r", encoding="utf-8", errors="replace") as f:
+        for line in f:
+            yield line
+
+
+SECRET_PATTERNS = [
+    re.compile(r"\b(sk-(?:ant-|proj-)?[A-Za-z0-9_\-]{16,})"),
+    re.compile(r"\b(gh[pousr]_[A-Za-z0-9]{20,})"),
+    re.compile(r"\b(xox[abprs]-[A-Za-z0-9\-]{10,})"),
+    re.compile(r"\b(AKIA[0-9A-Z]{16})\b"),
+    re.compile(r"\b(AIza[0-9A-Za-z_\-]{30,})"),
+    re.compile(r"(?i)(?:bearer\s+)([A-Za-z0-9._\-]{24,})"),
+    re.compile(r"(?i)(?:api[_-]?key|secret|token|password|passwd)[\"']?\s*[:=]\s*[\"']?([^\s\"'&,;]{12,})"),
+    re.compile(r"://[^/\s:@]+:([^@\s/]{3,})@"),
+]
+
+
+def redact(text: str) -> str:
+    """Mask secret-shaped substrings so a briefing or transcript never re-publishes a credential."""
+    if not text:
+        return text
+    for pat in SECRET_PATTERNS:
+        text = pat.sub(lambda m: m.group(0).replace(m.group(1), m.group(1)[:4] + "…[redacted]"), text)
+    return text
+
+
+APPLY_PATCH_FILE_RE = re.compile(r"\*\*\* (Add|Update|Delete) File: ([^\n\\\"]+)")
 
 
 # ── Path & Text Helpers ───────────────────────────────────────────────────────
@@ -269,7 +435,21 @@ def find_codex_candidates(target_id: Optional[str], target_path: Optional[str]) 
         except Exception:
             pass
 
-    # 2. Check ~/.openai/sessions
+    # 2. Check ~/.codex/archived_sessions (plain or zstd-compressed rollouts)
+    if CODEX_ARCHIVED.exists():
+        try:
+            for entry in list(CODEX_ARCHIVED.glob("*.jsonl")) + list(CODEX_ARCHIVED.glob("*.jsonl.zst")):
+                if target_id and target_id.lower() not in entry.name.lower():
+                    continue
+                try:
+                    st = entry.stat()
+                    results.append(("codex", entry, st.st_mtime, st.st_size))
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
+    # 3. Check ~/.openai/sessions
     if OPENAI_SESSIONS.exists():
         try:
             for entry in OPENAI_SESSIONS.glob("**/*.jsonl"):
@@ -340,6 +520,26 @@ def find_grok_candidates(target_id: Optional[str], target_path: Optional[str]) -
     return results
 
 
+def find_muse_candidates(target_id: Optional[str], target_path: Optional[str]) -> List[Tuple[str, pathlib.Path, float, int]]:
+    """Find top-level Muse Code sessions (subagent sessions nest under each session's subagent/ dir)."""
+    results: List[Tuple[str, pathlib.Path, float, int]] = []
+    if not MUSE_SESSIONS.exists():
+        return results
+    try:
+        for entry in MUSE_SESSIONS.glob("*/*/*/*/session.jsonl"):
+            sid = entry.parent.name
+            if target_id and target_id.lower() not in sid.lower():
+                continue
+            try:
+                st = entry.stat()
+                results.append(("muse", entry, st.st_mtime, st.st_size))
+            except Exception:
+                pass
+    except Exception:
+        pass
+    return results
+
+
 def find_repo_candidates(target_path: Optional[str]) -> List[Tuple[str, pathlib.Path, float, int]]:
     """Find workspace handover artifacts in current or target repository."""
     results: List[Tuple[str, pathlib.Path, float, int]] = []
@@ -407,6 +607,7 @@ def parse_claude_session(filepath: pathlib.Path, quick_scan: bool = True) -> Dic
     meta = create_empty_session_record("claude", filepath.stem, str(filepath), st.st_mtime if st else 0, st.st_size if st else 0)
     
     models_set = set()
+    plain_users: Optional[Set[str]] = None
     files_written_set = set()
     files_read_set = set()
     goal_set = set()
@@ -425,6 +626,18 @@ def parse_claude_session(filepath: pathlib.Path, quick_scan: bool = True) -> Dic
                     continue
 
                 t = d.get("type")
+
+                if t == "queue-operation" and d.get("operation") == "enqueue":
+                    q = d.get("content")
+                    if isinstance(q, str) and q.strip() and not is_injected(q):
+                        if plain_users is None:
+                            plain_users = claude_plain_user_texts(filepath)
+                        if q.strip() not in plain_users:
+                            meta["turn_count"] += 1
+                            meta["last_prompts"].append(q.strip())
+                            if len(meta["last_prompts"]) > 4:
+                                meta["last_prompts"].pop(0)
+                    continue
 
                 if "aiTitle" in d and d["aiTitle"]:
                     title = d["aiTitle"].strip()
@@ -450,10 +663,10 @@ def parse_claude_session(filepath: pathlib.Path, quick_scan: bool = True) -> Dic
                             if m:
                                 meta["custom_name"] = m.group(1).strip()
 
-                        if not meta["first_prompt"] and not content.startswith("<system-reminder>"):
+                        if not meta["first_prompt"] and not is_injected(content):
                             meta["first_prompt"] = content.strip()
 
-                        if not content.startswith("<system-reminder>"):
+                        if not is_injected(content):
                             meta["last_prompts"].append(content.strip())
                             if len(meta["last_prompts"]) > 4:
                                 meta["last_prompts"].pop(0)
@@ -526,6 +739,33 @@ def parse_claude_session(filepath: pathlib.Path, quick_scan: bool = True) -> Dic
     meta["spec_refs"] = sorted(list(spec_set))
 
     return meta
+
+
+def agy_summary(conversation_id: str) -> Dict[str, Optional[str]]:
+    """Read title, workspace and parent from AGY's conversation_summaries.db."""
+    out: Dict[str, Optional[str]] = {}
+    if not AGY_SUMMARIES.exists():
+        return out
+    try:
+        conn = sqlite3.connect(f"file:{AGY_SUMMARIES}?mode=ro", uri=True)
+        row = conn.execute(
+            "SELECT title, preview, workspace_uris, parent_conversation_id FROM conversation_summaries "
+            "WHERE conversation_id = ?", (conversation_id,)).fetchone()
+        conn.close()
+    except Exception:
+        return out
+    if not row:
+        return out
+    title, preview, uris, parent = row
+    out["title"] = (title or "").strip() or clean_text_snippet(preview or "", 80) or None
+    try:
+        first = (json.loads(uris or "[]") or [None])[0]
+        if first and first.startswith("file://"):
+            out["cwd"] = urllib.parse.unquote(first[len("file://"):])
+    except Exception:
+        pass
+    out["parent"] = parent or None
+    return out
 
 
 def parse_agy_session(filepath: pathlib.Path, quick_scan: bool = True) -> Dict[str, Any]:
@@ -606,8 +846,10 @@ def parse_agy_session(filepath: pathlib.Path, quick_scan: bool = True) -> Dict[s
                                 except Exception:
                                     args = {}
 
-                            if tname in ("write_to_file", "replace_file_content"):
-                                target_f = args.get("TargetFile") or args.get("target_file") or args.get("path")
+                            if not isinstance(args, dict):
+                                args = {}
+                            if tname in ("write_to_file", "replace_file_content", "write_file", "edit_file"):
+                                target_f = args.get("TargetFile") or args.get("target_file") or args.get("Path") or args.get("path")
                                 if target_f:
                                     target_f = target_f.strip("\"'")
                                     files_written_set.add(target_f)
@@ -615,8 +857,8 @@ def parse_agy_session(filepath: pathlib.Path, quick_scan: bool = True) -> Dict[s
                                     elif "plan-" in target_f: plan_set.add(target_f)
                                     elif "spec-" in target_f: spec_set.add(target_f)
 
-                            elif tname in ("view_file", "read_resource"):
-                                target_f = args.get("AbsolutePath") or args.get("path")
+                            elif tname in ("view_file", "read_resource", "read_file"):
+                                target_f = args.get("AbsolutePath") or args.get("Path") or args.get("path")
                                 if target_f:
                                     target_f = target_f.strip("\"'")
                                     files_read_set.add(target_f)
@@ -647,6 +889,15 @@ def parse_agy_session(filepath: pathlib.Path, quick_scan: bool = True) -> Dict[s
         first_line = meta["first_prompt"].split("\n")[0].strip()
         meta["title"] = first_line[:60]
 
+    summary = agy_summary(session_id)
+    if summary.get("title"):
+        meta["title"] = summary["title"]
+    if summary.get("cwd") and not meta["cwd"]:
+        meta["cwd"] = summary["cwd"]
+    if summary.get("parent"):
+        meta["parent_session_id"] = summary["parent"]
+    full = filepath.parent / "transcript_full.jsonl"
+    meta["full_transcript_path"] = str(full) if full.exists() else str(filepath)
     meta["models"] = ["Antigravity / AGY"]
     meta["files_written"] = sorted(list(files_written_set))
     meta["files_read"] = sorted(list(files_read_set))
@@ -736,86 +987,300 @@ def parse_cursor_session(chat_dir: pathlib.Path, quick_scan: bool = True) -> Dic
     return meta
 
 
-def parse_codex_session(filepath: pathlib.Path, quick_scan: bool = True) -> Dict[str, Any]:
-    """Parse Codex / OpenAI session JSONL file."""
-    st = filepath.stat() if filepath.exists() else None
-    session_id = filepath.stem
-    if session_id.startswith("rollout-") and len(session_id) > 28:
-        # e.g. rollout-2026-08-04T23-21-29-019fccef-b4ff-7d60-b920-7aadb940ee72
-        session_id = session_id[28:]
+_CODEX_TITLES: Optional[Dict[str, str]] = None
 
+
+def codex_thread_titles() -> Dict[str, str]:
+    """Map Codex thread ids to their latest thread_name from session_index.jsonl (cached)."""
+    global _CODEX_TITLES
+    if _CODEX_TITLES is None:
+        _CODEX_TITLES = {}
+        if CODEX_INDEX.exists():
+            try:
+                with open(CODEX_INDEX, "r", encoding="utf-8", errors="replace") as f:
+                    for line in f:
+                        try:
+                            d = json.loads(line)
+                        except Exception:
+                            continue
+                        if d.get("id") and d.get("thread_name"):
+                            _CODEX_TITLES[d["id"]] = d["thread_name"]
+            except Exception:
+                pass
+    return _CODEX_TITLES
+
+
+def codex_item_text(content: Any) -> str:
+    """Join the visible text parts of a Codex content array."""
+    if isinstance(content, str):
+        return content
+    parts = []
+    if isinstance(content, list):
+        for c in content:
+            if isinstance(c, dict) and isinstance(c.get("text"), str):
+                parts.append(c["text"])
+    return "\n".join(parts)
+
+
+def note_written_paths(text: str, files_written_set: Set[str], meta: Dict[str, Any]) -> None:
+    """Record files named in apply_patch headers inside any tool-call text."""
+    for m in APPLY_PATCH_FILE_RE.finditer(text or ""):
+        fp = m.group(2).strip()
+        if m.group(1) == "Delete":
+            meta.setdefault("files_deleted", [])
+            if fp not in meta["files_deleted"]:
+                meta["files_deleted"].append(fp)
+        files_written_set.add(fp)
+
+
+def parse_codex_session(filepath: pathlib.Path, quick_scan: bool = True) -> Dict[str, Any]:
+    """Parse a Codex rollout (live, archived, or zstd-compressed)."""
+    st = filepath.stat() if filepath.exists() else None
+    name = filepath.name.split(".jsonl")[0]
+    m_id = UUID_RE.search(name)
+    session_id = m_id.group(0) if m_id else name
     meta = create_empty_session_record("codex", session_id, str(filepath), st.st_mtime if st else 0, st.st_size if st else 0)
+    files_written_set: Set[str] = set()
+    models: Set[str] = set()
 
     try:
-        with open(filepath, "r", encoding="utf-8", errors="replace") as f:
-            for line_idx, line in enumerate(f):
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    d = json.loads(line)
-                except Exception:
-                    continue
+        for line_idx, line in enumerate(iter_jsonl_lines(filepath)):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                d = json.loads(line)
+            except Exception:
+                continue
+            rtype = d.get("type")
+            payload = d.get("payload") or {}
+            if not isinstance(payload, dict):
+                payload = {}
+            ptype = payload.get("type")
+            if d.get("timestamp"):
+                meta["timestamps"].append(d["timestamp"])
 
-                rtype = d.get("type")
-                payload = d.get("payload", {})
-                ts = d.get("timestamp")
-                if ts:
-                    meta["timestamps"].append(ts)
+            if rtype == "session_meta":
+                meta["cwd"] = meta["cwd"] or payload.get("cwd")
+                git = payload.get("git") or {}
+                if isinstance(git, dict) and git.get("branch") and not meta["git_branch"]:
+                    meta["git_branch"] = git["branch"]
+            elif rtype == "turn_context":
+                meta["cwd"] = meta["cwd"] or payload.get("cwd")
+                if payload.get("model"):
+                    models.add(payload["model"])
+            elif rtype == "event_msg":
+                if ptype == "thread_settings_applied":
+                    ts = payload.get("thread_settings") or {}
+                    if ts.get("model"):
+                        models.add(ts["model"])
+                    meta["cwd"] = meta["cwd"] or ts.get("cwd")
+                elif ptype and ("error" in ptype or "aborted" in ptype):
+                    meta["last_error"] = clean_text_snippet(json.dumps(payload)[:600], 400)
+                elif ptype == "task_complete" and payload.get("last_agent_message"):
+                    meta["last_assistant"] = payload["last_agent_message"]
+            elif rtype == "response_item":
+                role = payload.get("role")
+                if ptype == "message" and role == "user":
+                    text = codex_item_text(payload.get("content")).strip()
+                    if not text or is_injected(text):
+                        continue
+                    meta["turn_count"] += 1
+                    if not meta["first_prompt"] and not text.startswith("<send_user_message_question_reply>"):
+                        meta["first_prompt"] = text
+                    meta["last_prompts"].append(text)
+                    if len(meta["last_prompts"]) > 4:
+                        meta["last_prompts"].pop(0)
+                    extract_env_keys_from_string(text, meta["env_configs"])
+                elif ptype == "message" and role == "assistant":
+                    text = codex_item_text(payload.get("content"))
+                    if text:
+                        meta["last_assistant"] = text
+                        for dec_match in re.finditer(r"(?:REJECTED|CHOSEN|DECISION|CONSTRAINT):\s*([^\n\.]+)", text, re.IGNORECASE):
+                            if len(meta["decisions"]) < 10 and dec_match.group(0) not in meta["decisions"]:
+                                meta["decisions"].append(dec_match.group(0).strip())
+                elif ptype in ("function_call", "custom_tool_call"):
+                    body = payload.get("arguments") or payload.get("input") or ""
+                    if not isinstance(body, str):
+                        body = json.dumps(body)
+                    note_written_paths(body, files_written_set, meta)
+                    if payload.get("name") in ("exec_command", "shell", "local_shell"):
+                        try:
+                            a = json.loads(body)
+                            cmd = a.get("cmd") or a.get("command")
+                            if isinstance(cmd, list):
+                                cmd = " ".join(cmd)
+                            if cmd:
+                                meta["commands"].append(cmd)
+                        except Exception:
+                            pass
+                    for cm in re.finditer(r"exec_command\(\{\s*cmd:\s*\"((?:[^\"\\]|\\.){1,400})\"", body):
+                        meta["commands"].append(cm.group(1))
 
-                if rtype == "session_meta" and isinstance(payload, dict):
-                    if payload.get("id") and not meta["session_id"]:
-                        meta["session_id"] = payload.get("id")
-                    if payload.get("cwd") and not meta["cwd"]:
-                        meta["cwd"] = payload.get("cwd")
-
-                elif rtype == "turn_context" and isinstance(payload, dict):
-                    if payload.get("cwd") and not meta["cwd"]:
-                        meta["cwd"] = payload.get("cwd")
-                    if payload.get("summary") and not meta["title"]:
-                        meta["title"] = payload.get("summary")
-                    if payload.get("model"):
-                        meta["models"].append(payload.get("model"))
-
-                elif rtype == "response_item" and isinstance(payload, dict):
-                    role = payload.get("role")
-                    content = payload.get("content")
-                    if role == "user":
-                        meta["turn_count"] += 1
-                        user_str = ""
-                        if isinstance(content, list):
-                            for citem in content:
-                                if isinstance(citem, dict) and "text" in citem:
-                                    user_str += citem["text"] + "\n"
-                        elif isinstance(content, str):
-                            user_str = content
-
-                        if user_str:
-                            user_str = user_str.strip()
-                            if not meta["first_prompt"] and not user_str.startswith("<recommended_plugins>"):
-                                meta["first_prompt"] = user_str
-                            meta["last_prompts"].append(user_str)
-                            if len(meta["last_prompts"]) > 4:
-                                meta["last_prompts"].pop(0)
-                            extract_env_keys_from_string(user_str, meta["env_configs"])
-
-                    elif role == "assistant":
-                        if isinstance(content, list):
-                            for citem in content:
-                                if isinstance(citem, dict) and "text" in citem:
-                                    meta["last_assistant"] = citem["text"]
-                        elif isinstance(content, str):
-                            meta["last_assistant"] = content
-
-                if quick_scan and line_idx > 250 and meta["first_prompt"] and meta["cwd"]:
-                    break
+            if quick_scan and line_idx > 250 and meta["first_prompt"] and meta["cwd"]:
+                break
     except Exception:
         pass
 
+    title = codex_thread_titles().get(session_id)
+    if title:
+        meta["title"] = title
+    elif meta["first_prompt"]:
+        meta["title"] = meta["first_prompt"].split("\n")[0][:60].strip()
+    meta["files_written"] = sorted(files_written_set)
+    meta["models"] = sorted(models) if models else ["Codex / OpenAI"]
+    return meta
+
+
+def muse_index_row(session_id: str) -> Dict[str, Any]:
+    """Read one Muse session-index.db row as a dict, or {} when the index is unavailable."""
+    if not MUSE_INDEX.exists():
+        return {}
+    try:
+        conn = sqlite3.connect(f"file:{MUSE_INDEX}?mode=ro", uri=True)
+        conn.row_factory = sqlite3.Row
+        row = conn.execute("SELECT * FROM sessions WHERE session_id = ?", (session_id,)).fetchone()
+        conn.close()
+        return dict(row) if row else {}
+    except Exception:
+        return {}
+
+
+def muse_events(filepath: pathlib.Path):
+    """Yield (record, payload_type, payload) from a Muse session.jsonl, unwrapping retained frames."""
+    for line in iter_jsonl_lines(filepath):
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            d = json.loads(line)
+        except Exception:
+            continue
+        if "children" in d and d.get("retained_frame"):
+            for child in d.get("children") or []:
+                try:
+                    c = json.loads(child.get("record_json") or "{}")
+                except Exception:
+                    continue
+                yield c, c.get("payload_type"), c.get("payload") or {}
+            continue
+        if d.get("payload_type"):
+            yield d, d.get("payload_type"), d.get("payload") or {}
+
+
+def muse_user_text(payload: Dict[str, Any]) -> str:
+    """Text of a runtime.user_intent.accepted payload."""
+    parts = []
+    for msg in payload.get("model_messages") or []:
+        for c in (msg or {}).get("content") or []:
+            if isinstance(c, dict) and c.get("kind") == "text" and c.get("text"):
+                parts.append(c["text"])
+    if not parts:
+        for b in payload.get("refill_blocks") or []:
+            if isinstance(b, dict) and b.get("text"):
+                parts.append(b["text"])
+    return "\n".join(parts).strip()
+
+
+def parse_muse_session(filepath: pathlib.Path, quick_scan: bool = True) -> Dict[str, Any]:
+    """Parse a Muse Code session.jsonl (Meta Muse Spark / Ember)."""
+    st = filepath.stat() if filepath.exists() else None
+    session_id = filepath.parent.name
+    meta = create_empty_session_record("muse", session_id, str(filepath), st.st_mtime if st else 0, st.st_size if st else 0)
+    row = muse_index_row(session_id)
+    if row:
+        meta["custom_name"] = row.get("session_name") or None
+        meta["title"] = row.get("title") or None
+        meta["cwd"] = row.get("workspace_root")
+        meta["git_branch"] = row.get("git_branch")
+        if row.get("model_id"):
+            meta["models"] = [row["model_id"]]
+        meta["first_prompt"] = row.get("first_user_prompt")
+        meta["turn_count"] = row.get("prompt_count") or 0
+        if row.get("updated_at_us"):
+            meta["timestamps"].append(int(row["updated_at_us"]) // 1000)
+    subagent_dir = filepath.parent / "subagent"
+    if subagent_dir.exists():
+        meta["subagent_dir"] = str(subagent_dir)
+    if quick_scan and row:
+        return meta
+
+    files_written_set: Set[str] = set()
+    files_read_set: Set[str] = set()
+    models: Set[str] = set(meta["models"])
+    user_turns = 0
+    meta["first_prompt"] = None
+    for rec, ptype, payload in muse_events(filepath):
+        if rec.get("recorded_at"):
+            meta["timestamps"].append(int(rec["recorded_at"]) // 1000)
+        if ptype == "runtime.session.metadata":
+            r = payload.get("record") or {}
+            meta["cwd"] = meta["cwd"] or r.get("workspace_root")
+            if r.get("model_id"):
+                models.add(r["model_id"])
+        elif ptype == "session.workspace_branch.observed":
+            ref = (payload.get("record") or {}).get("reference") or {}
+            if ref.get("name"):
+                meta["git_branch"] = ref["name"]
+        elif ptype == "session.name.changed" and payload.get("new_name"):
+            meta["custom_name"] = payload["new_name"]
+        elif ptype == "run.model.configured":
+            mid = (payload.get("record") or {}).get("model_id")
+            if mid:
+                models.add(mid)
+        elif ptype == "runtime.user_intent.accepted":
+            text = muse_user_text(payload)
+            intent = payload.get("intent_id")
+            if intent and intent == meta.get("_last_intent"):
+                continue
+            meta["_last_intent"] = intent
+            if text and not is_injected(text):
+                user_turns += 1
+                if not meta["first_prompt"]:
+                    meta["first_prompt"] = text
+                meta["last_prompts"].append(text)
+                if len(meta["last_prompts"]) > 4:
+                    meta["last_prompts"].pop(0)
+                extract_env_keys_from_string(text, meta["env_configs"])
+        elif ptype == "runtime.session" and payload.get("kind") == "run":
+            ev = payload.get("event") or {}
+            kind = ev.get("kind")
+            if kind == "assistant_message_committed" and ev.get("text"):
+                meta["last_assistant"] = ev["text"]
+            elif kind == "assistant_tool_calls_committed":
+                for tc in ev.get("tool_calls") or []:
+                    try:
+                        a = json.loads(tc.get("args") or "{}")
+                    except Exception:
+                        a = {}
+                    if not isinstance(a, dict):
+                        continue
+                    n = tc.get("name")
+                    if n in ("edit_file", "write_file") and a.get("path"):
+                        files_written_set.add(a["path"])
+                    elif n == "read_file" and a.get("path"):
+                        files_read_set.add(a["path"])
+                    elif n == "bash" and a.get("command"):
+                        meta["commands"].append(a["command"])
+                        extract_env_keys_from_string(a["command"], meta["env_configs"])
+            elif kind == "terminal":
+                if ev.get("terminal") not in (None, "completed", "succeeded"):
+                    meta["last_error"] = f"{ev.get('terminal')}: {ev.get('reason') or ''}".strip()
+                else:
+                    meta["last_error"] = None
+            elif kind == "todo_snapshot_updated":
+                items = ev.get("items") or []
+                meta["next_steps"] = [i.get("text") for i in items if isinstance(i, dict) and i.get("status") != "completed" and i.get("text")]
+            elif kind == "started" and ev.get("prompt") and user_turns == 0 and not meta["first_prompt"]:
+                meta["first_prompt"] = ev["prompt"]
+    meta.pop("_last_intent", None)
+    if user_turns:
+        meta["turn_count"] = user_turns
+    meta["files_written"] = sorted(files_written_set)
+    meta["files_read"] = sorted(files_read_set)
+    meta["models"] = sorted(models) if models else ["Muse"]
     if not meta["title"] and meta["first_prompt"]:
         meta["title"] = meta["first_prompt"].split("\n")[0][:60].strip()
-
-    meta["models"] = sorted(list(set(meta["models"]))) if meta["models"] else ["Codex / OpenAI"]
     return meta
 
 
@@ -972,6 +1437,8 @@ def load_session_details(cli_type: str, fpath: pathlib.Path, quick_scan: bool = 
         return parse_codex_session(fpath, quick_scan=quick_scan)
     elif cli_type == "grok":
         return parse_grok_session(fpath, quick_scan=quick_scan)
+    elif cli_type == "muse":
+        return parse_muse_session(fpath, quick_scan=quick_scan)
     elif cli_type == "repo":
         return parse_repo_session(fpath)
     return create_empty_session_record(cli_type, fpath.stem, str(fpath), 0, 0)
@@ -1017,7 +1484,7 @@ def generate_handover_report(meta: Dict[str, Any]) -> str:
     name = meta.get("custom_name") or meta.get("title") or f"{cli} Session"
     sid = meta.get("session_id", "unknown")
     cwd = meta.get("cwd") or "Unknown"
-    branch = meta.get("git_branch") or "main"
+    branch = meta.get("git_branch") or "not recorded (read it with git -C <cwd> branch --show-current)"
     models = ", ".join(meta.get("models", [])) or cli
     last_active = format_timestamp(meta.get("timestamps")[-1] if meta.get("timestamps") else None, meta.get("mtime", 0))
 
@@ -1031,12 +1498,20 @@ def generate_handover_report(meta: Dict[str, Any]) -> str:
         f"**Models Used:** `{models}`  ",
         f"**Last Recorded Active:** `{last_active}`  ",
         f"**Transcript / State Path:** `{meta.get('file_path')}`  ",
+    ]
+    native = NATIVE_RESUME.get(meta.get("cli_type", ""))
+    if native:
+        report.append(f"**Native Resume:** `{native.format(id=sid)}`  ")
+    if meta.get("subagent_dir"):
+        report.append(f"**Subagent Sessions:** `{meta['subagent_dir']}`  ")
+    report += [
+        f"**Read In Full:** `python3 render_transcript.py --ref {sid} --cli {meta.get('cli_type')}` (this skill's scripts/)  ",
         f"",
         f"---",
         f"",
         f"## 1. Initial Goal & User Intent",
         f"",
-        f"> {meta.get('first_prompt', 'No initial prompt extracted.')}",
+        f"> {redact(meta.get('first_prompt') or 'No initial prompt extracted.')}",
         f"",
     ]
 
@@ -1060,6 +1535,8 @@ def generate_handover_report(meta: Dict[str, Any]) -> str:
             report.append(f"- `{fw}`")
         if len(meta["files_written"]) > 25:
             report.append(f"- *...and {len(meta['files_written']) - 25} additional files.*")
+        if meta.get("files_deleted"):
+            report.append(f"Deleted: " + ", ".join(f"`{x}`" for x in meta["files_deleted"][:15]))
     else:
         report.append("No file modifications recorded in transcript.")
     report.append("")
@@ -1068,7 +1545,7 @@ def generate_handover_report(meta: Dict[str, Any]) -> str:
     if meta.get("env_configs") or meta.get("decisions"):
         report.append("## 4. Technical Environment & Decisions")
         for k, v in meta.get("env_configs", {}).items():
-            report.append(f"- **Config `{k}`:** `{v}`")
+            report.append(f"- **Config `{k}`:** `{redact(v)}`")
         for dec in meta.get("decisions", []):
             report.append(f"- {dec}")
         report.append("")
@@ -1078,24 +1555,29 @@ def generate_handover_report(meta: Dict[str, Any]) -> str:
     if meta.get("last_error"):
         report.append(f"> [!WARNING]")
         report.append(f"> **Session Halted on Error:**")
-        report.append(f"> `{meta['last_error']}`")
+        report.append(f"> `{redact(meta['last_error'])}`")
         report.append("")
 
     if meta.get("last_prompts"):
         report.append("**Recent User Prompts:**")
         for p in meta["last_prompts"][-2:]:
-            clean_p = clean_text_snippet(p, 200)
+            clean_p = redact(clean_text_snippet(p, 200))
             report.append(f"- \"{clean_p}\"")
         report.append("")
 
     if meta.get("last_assistant"):
         report.append("**Last Assistant Output:**")
-        ast_snippet = clean_text_snippet(meta["last_assistant"], 500)
+        ast_snippet = redact(clean_text_snippet(meta["last_assistant"], 500))
         report.append(f"```text\n{ast_snippet}\n```")
         report.append("")
 
     # Actionable Immediate Next Steps
     report.append("## 6. Immediate Next Steps for Takeover Agent")
+    if meta.get("next_steps"):
+        report.append("Open items from the session's own todo list at its last update:")
+        for item in meta["next_steps"][:15]:
+            report.append(f"- [ ] {redact(item)}")
+        report.append("")
     report.append(f"1. **Verify Workspace State:** Run `git status` and `git diff` in `{cwd}` to confirm what is committed vs uncommitted.")
     if meta.get("plan_refs"):
         report.append(f"2. **Inspect Plan:** Read `{meta['plan_refs'][0]}` to verify which task items were completed vs remaining.")
@@ -1111,6 +1593,56 @@ def generate_handover_report(meta: Dict[str, Any]) -> str:
 
 # ── Main Entrypoint ──────────────────────────────────────────────────────────
 
+class AmbiguousRef(Exception):
+    """A ref matched more than one session; carries one line per candidate."""
+
+
+def resolve_ref(ref: str, cli_filter: str = "all") -> Dict[str, Optional[str]]:
+    """parse_session_ref plus a Muse session-name lookup when the ref is a bare name."""
+    out = parse_session_ref(ref)
+    if out.get("name") and cli_filter in ("all", "muse"):
+        sid = muse_index_lookup(out["name"])
+        if sid:
+            out.update({"id": sid, "cli": "muse", "name": None})
+    return out
+
+
+def resolve_session(ref: str, cli_filter: str = "all") -> Optional[Dict[str, Any]]:
+    """Resolve a ref, UUID or name to a fully parsed session record, newest match first."""
+    r = resolve_ref(ref, cli_filter)
+    cli = r.get("cli") or cli_filter
+    tid = r.get("id")
+    finders = {
+        "claude": lambda: find_claude_candidates(tid, None),
+        "agy": lambda: find_agy_candidates(tid, None),
+        "cursor": lambda: find_cursor_candidates(tid, None),
+        "codex": lambda: find_codex_candidates(tid, None),
+        "grok": lambda: find_grok_candidates(tid, None),
+        "muse": lambda: find_muse_candidates(tid, None),
+    }
+    cands: List[Tuple[str, pathlib.Path, float, int]] = []
+    for name, fn in finders.items():
+        if cli in ("all", name):
+            cands.extend(fn())
+    if not tid and r.get("name"):
+        cands.sort(key=lambda x: x[2], reverse=True)
+        for c in cands[:300]:
+            meta = load_session_details(c[0], c[1], quick_scan=True)
+            if matches_query(meta, r["name"]):
+                return load_session_details(c[0], c[1], quick_scan=False)
+        return None
+    if not cands:
+        return None
+    cands.sort(key=lambda x: x[2], reverse=True)
+    distinct = {}
+    for c in cands:
+        m = UUID_RE.search(str(c[1]))
+        distinct.setdefault((c[0], m.group(0) if m else str(c[1])), c)
+    if len(distinct) > 1 and not (tid and UUID_RE.fullmatch(tid)):
+        raise AmbiguousRef([f"{k[0]}  {k[1]}  {v[1]}" for k, v in list(distinct.items())[:10]])
+    return load_session_details(cands[0][0], cands[0][1], quick_scan=False)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Universal Multi-CLI session discovery, parsing, and takeover engine.",
@@ -1118,7 +1650,8 @@ def main() -> int:
     )
     parser.add_argument("--name", "-n", type=str, help="Search by session title, custom name, or topic keyword")
     parser.add_argument("--id", "-i", type=str, help="Search by session UUID or UUID prefix")
-    parser.add_argument("--cli", "-c", type=str, choices=["all", "claude", "agy", "cursor", "codex", "grok", "repo"], default="all", help="Filter by CLI engine (default: all)")
+    parser.add_argument("--ref", type=str, help="A deeplink (codex://threads/<id>), session URL, UUID, or Muse session name")
+    parser.add_argument("--cli", "-c", type=str, choices=CLI_CHOICES, default="all", help="Filter by CLI engine (default: all)")
     parser.add_argument("--path", "-p", "--cwd", type=str, dest="path", help="Filter by project directory or folder name")
     parser.add_argument("--recent", "-r", nargs="?", const=10, type=int, help="Show N most recent sessions (default 10)")
     parser.add_argument("--details", "-d", action="store_true", help="Print detailed 6D takeover briefing for matched session")
@@ -1133,6 +1666,16 @@ def main() -> int:
     target_name = args.name.strip() if args.name else None
     target_path = args.path.strip() if args.path else None
     cli_filter = args.cli.lower()
+    ref_note = None
+    if args.ref or (target_id and ("://" in target_id or "/" in target_id)):
+        resolved = resolve_ref(args.ref or target_id, cli_filter)
+        target_id, ref_note = resolved["id"], resolved.get("note")
+        if resolved.get("cli") and cli_filter == "all":
+            cli_filter = resolved["cli"]
+        if not target_id and resolved.get("name"):
+            target_name = resolved["name"]
+        if ref_note and not args.json:
+            print(f"Note: {ref_note}\n")
     recent_count = args.recent if args.recent is not None else (10 if not (target_id or target_name or target_path) else None)
 
     # 1. Gather raw candidates from target CLIs
@@ -1148,6 +1691,8 @@ def main() -> int:
         raw_candidates.extend(find_codex_candidates(target_id, target_path))
     if cli_filter in ("all", "grok"):
         raw_candidates.extend(find_grok_candidates(target_id, target_path))
+    if cli_filter in ("all", "muse"):
+        raw_candidates.extend(find_muse_candidates(target_id, target_path))
     if cli_filter in ("all", "repo") and target_path:
         raw_candidates.extend(find_repo_candidates(target_path))
 
@@ -1186,6 +1731,13 @@ def main() -> int:
         else:
             print(f"No sessions matched query '{target_name or target_id}'.")
         return 1
+
+    if (args.details or args.export) and len(matches) > 1 and not (target_id and UUID_RE.fullmatch(target_id)):
+        print(f"{len(matches)} sessions match; pass --cli or a longer id before --details/--export:\n")
+        for idx, m in enumerate(matches, 1):
+            print(format_session_summary(m, idx))
+            print()
+        return 2
 
     # If details or export requested on top match, ensure full parse
     if (args.details or args.export) and matches:

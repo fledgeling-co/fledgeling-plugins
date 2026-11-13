@@ -64,6 +64,7 @@ import tempfile
 
 HERE = pathlib.Path(__file__).resolve().parent
 SKILL_MD = HERE.parent / "SKILL.md"
+BARE = False  # set from --bare in main()
 
 PATH_RE = re.compile(r'(?:/[\w.\-]+){2,}\.\w{1,6}\b')
 IDENT_RE = re.compile(r'`([A-Za-z_][\w./\-]{2,60})`')
@@ -299,7 +300,7 @@ def summarise_with(arm, rows, workdir):
            if k not in ("CLAUDE_CODE_DISABLE_1M_CONTEXT", "CLAUDE_CODE_SESSION_ID",
                         "CLAUDE_CODE_CHILD_SESSION", "CLAUDE_EFFORT")}
     r = subprocess.run(
-        ["claude", "-p", instr, "--model", "opus", "--allowedTools", "Read",
+        ["claude"] + (["--bare"] if BARE else []) + ["-p", instr, "--model", "opus", "--allowedTools", "Read",
          "--permission-mode", "acceptEdits", "--strict-mcp-config",
          "--add-dir", str(workdir), "--add-dir", str(SKILL_MD.parent)],
         cwd=str(pathlib.Path.home()), capture_output=True, text=True,
@@ -315,10 +316,16 @@ def main():
     ap.add_argument("--max-chars", type=int, default=1_500_000)
     ap.add_argument("--out", default="")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--bare", action="store_true",
+                    help="run each generated arm with `claude --bare`, so the operator's CLAUDE.md, "
+                         "hooks and plugins cannot shape the summary (a global brevity rule otherwise "
+                         "lands in the skill arm and not in the on-disk cli arm)")
     ap.add_argument("--include-treated", action="store_true",
                     help="keep events whose summary already carries the addendum marker; "
                          "off by default, because they are the treatment, not a baseline")
     args = ap.parse_args()
+    global BARE
+    BARE = args.bare
 
     events = find_events(limit=args.limit, max_chars=args.max_chars,
                          include_treated=args.include_treated)
@@ -345,6 +352,12 @@ def main():
               f"rejections={len(spans['rejected approaches'])}")
         for arm in arms:
             summary = e["cli_summary"] if arm == "cli" else summarise_with(arm, e["rows"], workdir)
+            if summary:
+                # Keep every arm's summary so `score_retention.py --against` can read the disjoint
+                # sets afterwards; scores alone cannot rank two arms (references/case-study-paired.md).
+                keep = workdir / "summaries"
+                keep.mkdir(exist_ok=True)
+                (keep / f"{pathlib.Path(e['file']).stem}-{arm}.md").write_text(summary)
             if not summary:
                 print(f"    {arm:8} FAILED to produce a summary")
                 continue
