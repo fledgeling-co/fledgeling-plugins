@@ -52,6 +52,8 @@ The value of a fresh reviewer isn't the second model — it's the **question the
 
 Pair the critique with the per-unit visual micro-check from `visual-verification.md` when browser automation exists (375px + 1280px, overflow probe, console); when it doesn't, run the static checks and say rendered verification didn't happen. Take desktop and mobile in the **same** capture round rather than two trips.
 
+**Compare against the unit's gold before the contract.** When `mobbin-trawl.md` checkpoint M2 recorded a gold for this unit type, reopen it beside your capture and answer the five pairs in M5 — leading object, density, frame, word budget, the one thing its designer would send back. A "no" there is the unit's first `mustFix`, ahead of craft points. No new search is needed; the gold is already in the ledger.
+
 **Audit against the render, then against the contract — in that order.** Inventory what the unit actually shows in your own words *before* rereading the direction contract or any summary of it: a review anchored on the contract inherits whatever the contract's abstraction already dropped. Then walk the five blocks (THESIS, OWN-WORLD, STORY, FIRST VIEWPORT, FORM from `frontend-aesthetic-direction.md` Phase 4) promise by promise, and classify each salient element **match / acceptable adaptation / missing / contradicted / added without approval**. Two rows are mandatory:
 
 - **TYPE** — the display lettering's character, compression, width, weight, contrast, terminals, against what the direction committed to. A face of a different character is *contradicted* however well the layout matches.

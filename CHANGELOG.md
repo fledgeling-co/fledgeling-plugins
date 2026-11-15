@@ -4,6 +4,16 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-11-15
+
+### design-craft 1.5.0: taste, tools, direction, dial
+
+Greenfield work now runs in four named stages. A new taste board turns the user's own reference screenshots into one line the direction is held to; Mobbin is consulted at five checkpoints instead of once (direction, one closest real screen per section type, hardest states, steer evidence, side-by-side critique); `product-demo.md` adapts Benji Taylor's Stageshow (MIT) for hero demos and bento tiles, with a filmed contact-sheet rehearsal before handover; Dial mode gives a tuning panel after the pick instead of more prompt rounds. The slop check detects the default look by the five parts Anthropic's Opus 5.5 prompting guide names, and borrows unslop's (CC BY 4.0) three fix scopes and redline order. Sources were three YouTube walkthroughs, the Stageshow, unslop, Impeccable and taste-skill repos, and the Opus 5.5 guide; each is recorded in the plugin's `evidence.md` §11.
+
+### ux-craft 2.6.0: Mobbin in every mode, generative UI
+
+`mobbin-evidence.md` adds four checkpoints that work without design-craft: shipped flows before the step list, the two hardest states before the state grid, shipped examples beside each serious review finding, and a count behind any "users expect X" claim. `ai-product-ux.md` gains guidance for products where the model composes the interface, drawn from A2UI, OpenUI and json-render: registered components for forms and data, full states per component, repeated jobs on fixed screens, and generated buttons gated like designed ones. Two copy rules from unslop and a "demo as proof" rule for Persuade surfaces.
+
 ## 2026-11-07
 
 ### feedback-panel 0.1.1: the Fable lane no longer waits for input

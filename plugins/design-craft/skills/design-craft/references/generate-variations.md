@@ -129,6 +129,11 @@ End with a clear recommendation. The user is the decider, but a designer offers 
 
 Be direct. Don't hedge by saying all options are equally good. They aren't.
 
-## Phase 9: Hand off
+## Phase 9: Hand off — the fork after the pick
 
-After the user picks (or asks for another round), suggest the next step: a single-direction iteration to refine the chosen variation; a second variation round on a different axis; `make-a-prototype` to take a chosen variation to interactive; or `polish-pass` if they're ready to ship the chosen variation.
+After the user picks, the next round is one of two shapes, and naming which one keeps the user steering instead of re-rolling:
+
+- **Macro** — the direction is right but its expression is not settled. Build three variations *of the chosen take*, each holding its identity lock and moving one axis further (composition, material, type voice). Run it when the user's comment is about the whole ("I like the character of 2, not sure about the layout").
+- **Micro** — the expression is right and the details need tuning. Build the dial in `make-tweakable.md` § Dial mode instead of answering each detail with a prompt. Run it when the comments are about parts ("the green on green", "the image overlaps the bar", "can the motion be calmer").
+
+A comment that mixes both gets the macro round first, because a dial built on a composition that is about to change is spent twice. The other next steps still apply: `make-a-prototype` to take the choice to interactive, or `polish-pass` when it is ready to ship.

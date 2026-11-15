@@ -1,3 +1,12 @@
+## 2.6.0 - 2026-11-15
+
+- **Mobbin in every mode.** Real shipped flows before the step list is written; the two hardest states before the state grid is filled; one or two shipped examples cited beside each serious review finding (three searches at most per review); and a count behind any "users expect X" claim, e.g. "4 of the 5 checkouts I opened do this". It works without design-craft installed.
+- **Generative UI.** New guidance for products where the model builds the interface, like a map or a form inside a chat answer. There are three approaches shipping now: fixed widgets, composing from registered components (OpenUI, A2UI, json-render), and sandboxed generated code. For forms and data it recommends registered components. Each one needs its full set of states. Repeated jobs stay on fixed screens. A half-built surface can't accept a submit, and a button the model placed gets the same confirmation as one a designer placed.
+- **Two copy rules.** A changed number names its comparison ("+12% vs last month"), and a page title names the context rather than greeting the user.
+- **Hero demos as proof.** A demo counts as proof on a landing page only when it shows one action a visitor can follow, and its still frame makes the claim on its own.
+
+Note: a Mobbin count shows what users have learned, not what works. It skews towards well-funded consumer and SaaS products, so the skill says so on enterprise and regulated surfaces, and the ethics checks still apply whatever the count.
+
 ## 2.5.0 - 2026-08-31
 
 Adds `persuade-conversion.md` for Persuade surfaces only: one offer, one audience, one action; first-viewport CTA visibility; proof beside claims; honest objection handling. Flow-shape variety now reads and records the project diversity ledger, and two evals cover both paths. Operate, Read, Experience, checkout, auth, and payment do not load the conversion layer.

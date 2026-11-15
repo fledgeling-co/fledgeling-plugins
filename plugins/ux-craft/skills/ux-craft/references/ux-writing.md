@@ -4,6 +4,8 @@ Words are the interface's densest material — a one-word button change moves co
 
 ## Ground rules (Krug + plain language)
 
+- **A changed figure names its comparison.** "+12%" alone is a number the reader must interrogate; "+12% vs last month" is information. Every delta, trend arrow and percentage change on a dashboard, report or email states what it is measured against.
+- **Titles name the context, not a greeting.** A dashboard headed "Welcome back, Sam!" spends its largest type on nothing; "October 2026" or "Portfolio · 14 holdings" orients. No exclamation marks in headings, and no periods on short UI strings (labels, buttons, table headers, toasts of one clause).
 - **Omit needless words**: cut half, then cut half of what's left. Every word competes for the scan.
 - **The user's language, never the org's**: no internal jargon, feature codenames, or acronyms the user didn't choose to learn. Unavoidable technical terms get defined in context on first use ("Download as CSV (a spreadsheet format)").
 - **Banned-word discipline**: marketing-inflation words are noise in an interface — *seamless(ly), effortless(ly), powerful, robust, leverage, unleash, blazing/lightning-fast, turnkey, holistic, best-in-class, next-generation, cutting-edge, world-class, streamline, elevate, harness, empower, revolutionary, synergy, utilize (→ use), myriad, plethora*. Also cut the invisible fillers (*just, simply, actually* — "simply click" insults anyone who found it hard) and the hedges (*Consider…, You may want to…, It is important to note…*) — say the thing.

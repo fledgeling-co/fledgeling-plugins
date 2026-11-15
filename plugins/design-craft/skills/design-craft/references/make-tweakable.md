@@ -128,3 +128,30 @@ In a browser: toggle the panel on and off — it shows/hides cleanly; change eac
 ## Phase 7: Summarize
 
 Report: tweaks exposed and their value types; defaults; any tweaks you considered but excluded (and why); whether the tweak set covers the user's intended exploration axes.
+
+## Dial mode — a wide panel for converging on a chosen take
+
+Phases 1–7 describe the **delivered** panel: a few expressive knobs that ship with a finished design, capped at four. Dial mode is a different tool for a different moment. It runs **after** the user has picked a direction (`generate-variations.md` § Phase 9, the micro branch) and **before** handover, and its job is to replace a long series of one-detail prompts ("make the green calmer", "pull the hero up", "less bounce") with controls the user moves themselves. A practitioner run in Nov 2026 asked for a deep panel on a chosen landing page and got 101 controls; the user then converged in one session on details that would each have cost a prompt round.
+
+**Build it when** the user is commenting on parts rather than the whole, or asks to "play with it", "iterate faster", or "see more options on this one". Skip it on Operate surfaces with a matched design system, where the system already fixes the values.
+
+**What goes on it.** Group controls under axis headings, in this order, and fill each group from the committed direction's own world — never generic presets:
+
+1. **Palette** — 4–6 named presets derived from the direction's world (a campground brand gets *sage*, *desert*, *lakeside*, *dusk*, not *blue*/*red*), plus hue and saturation for the accent.
+2. **Type** — display face from 2–3 candidates that fit the contract, scale ratio, display tracking, body size.
+3. **Composition** — hero size and position, image offset toward the headline, column split, section density.
+4. **Material** — background texture, grain, shadow depth and softness, corner radius, rule weight.
+5. **Motion** — intensity, easing, entrance distance, replay-on-scroll toggle, and a reduced-motion preview.
+6. **Content toggles** — show or hide optional sections and the signature detail.
+
+Depth is the point here, so the four-knob cap does not apply: 20–60 controls is normal, and every one still writes a key in the `DEFAULTS` object through a CSS custom property, exactly as Phases 3–4 describe.
+
+**Three controls every dial carries:**
+
+- **Shuffle within the direction** — randomises every control *inside the ranges the direction contract allows*, so a shuffle can surprise without leaving the committed world. An unconstrained randomiser is a slot machine, which is what the dial exists to replace.
+- **Reset** — back to the contract's values.
+- **Copy values** — writes the current state as a `:root { … }` token block to the clipboard and into the panel as text, so the chosen state can be applied to source.
+
+**Named steers sit beside the dials** for moves no single slider makes. Offer them as buttons that apply a coordinated change across groups: *bolder* (scale contrast up, accent coverage up), *quieter* (accent down, motion down, density relaxed), *distill* (hide the least-used optional section, collapse ornament), *colorize* (move from Restrained to Committed colour strategy), *calmer motion*. The vocabulary follows Paul Bakaus's Impeccable command set (Apache-2.0, `github.com/pbakaus/impeccable`), which uses the same verbs as targeted commands; here they are bounded presets over the dial, not regenerations.
+
+**Converge, then strip.** When the user settles, write the copied values into the source tokens, remove the dial, and if the design ships with tweaks at all, expose the two to four knobs the user actually moved most, under Phases 1–6. Report the final values and which groups the user changed; a dial left in a delivered artifact is scaffolding, and Phase 5's rule applies to it at full strength.

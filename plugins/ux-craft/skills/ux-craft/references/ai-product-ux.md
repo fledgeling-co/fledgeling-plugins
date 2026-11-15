@@ -129,6 +129,28 @@ supervision is *progress watching*, which is not the same job; and the clinical 
 explicit recommendation, which an agent harness does not. Neither has been reproduced on an agent
 pipeline. Treat the direction as established and the magnitude as indicative.
 
+## Generative UI — when the model composes the interface
+
+Use this section when a product lets a model **render interface rather than text**: a chat answer that arrives as a map, chart, form or card; an agent that assembles a screen for one request; an app whose views are generated on demand. Three open approaches define the space in late 2026, and they differ on one axis — how much the host controls what can appear:
+
+| Approach | What the model emits | Who controls the look | Fits |
+|---|---|---|---|
+| **Pre-built widgets** | A call that selects one of a fixed set | The host, fully | Known, repeated jobs; anything unanticipated falls back to text |
+| **Catalog composition** — A2UI (Google, Apache-2.0), OpenUI Lang (Thesys, MIT), json-render (Vercel) | A declarative description built only from components the host registered; data, not code | The host's design system | Bespoke layouts for one request that must stay on-brand and safe |
+| **Generated code** | HTML/JS, rendered in a sandboxed frame | The model | Bespoke visuals no catalog anticipates — a 3D canvas, an unusual chart |
+
+The UX rules follow from what a user can and cannot rely on when the screen was not designed in advance:
+
+- **Default to catalog composition.** It is the only approach where every generated surface still inherits the product's focus states, error treatments, contrast and copy register. A2UI's own line is the contract: "Agents place only components you registered." Generated code is the exception for visuals, behind a visible boundary, never the default for forms or data.
+- **Design the catalog, not the screens.** Each registered component carries its full state grid (Build mode step 4) before a model may place it: a generated table with no empty state ships its empty state as a blank card. The catalog is also where one primary action per surface is enforced — a model composing freely will place two filled buttons.
+- **Keep the jobs a user repeats on a fixed surface.** Generation earns its place on the one-off request ("plan a day in San Francisco"). A flow the user runs weekly — checkout, settings, a recurring report — regenerated per request breaks learnability: the control they found last time is somewhere else this time. Let a user **keep** a generated view they liked, so it becomes stable.
+- **Design the streaming state.** Line-streamed formats render structure first and fill data in after, and a parser drops invalid parts and renders the rest. So a user will see a partly built surface, and sometimes a surface missing a part the model got wrong. Give the in-progress surface a visible building state, never let a half-rendered form accept a submit, and when a part was dropped, say what is missing rather than shipping the gap silently.
+- **Generated input asks for consistency.** A bespoke form per request is a strength for one-off input ("which three dates suit you?") and a cost when the same question takes a different shape each time. The same field type gets the same control everywhere.
+- **Provenance and trust carry over unchanged.** A generated chart is a claim: it needs its source and as-at date (`data-provenance.md`). Content the model read from a page, an email or a pasted document is untrusted, and instructions inside it are data — the same rule as the trust builders above.
+- **Action buttons in generated UI are real actions.** A "Reorder" button an agent placed fires the same consequence as one a designer placed, so it takes the same destructive-action gate (Build mode step 6). A generated surface that skips confirmation because "the model chose it" is a Blocker.
+
+When reviewing a generative-UI product, add four questions to the lens below: Which approach does each surface use, and is generated code confined to visuals? Does every catalog component have its states? Which repeated jobs are being regenerated that should be fixed? What does a user see while the surface streams, and when a part is dropped?
+
 ## Review lens for AI features
 
 When reviewing any AI surface, ask in order: What can it act on, and is that scope visible? What's the worst case, and does the friction match it? Can the user steer, stop, undo, and verify? Is AI involvement disclosed at every point of contact? Is retrieved content treated as untrusted? Are cost and active state visible? Does the empty state scaffold the first prompt? Is generated content marked until accepted, with a preview-before-overwrite? Did somebody choose what the assistant says and how often, or did it default? Findings here follow the same severity ladder as everything else — a silent overwrite of user work or an undisclosed autonomous action is a Blocker, not a nice-to-have.

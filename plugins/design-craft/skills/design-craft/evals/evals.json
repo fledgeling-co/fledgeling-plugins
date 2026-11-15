@@ -138,6 +138,38 @@
       },
       "baseline_prompt": "Design a landing page for a password manager for freelance photographers. The goal is a free trial signup. Use the UX and visual craft skills.",
       "baseline_mode": "run with no design-craft or trawl:trawl skill loaded; keep the same project files and user brief"
+    },
+    {
+      "id": 12,
+      "name": "taste-to-dial-with-mobbin-checkpoints",
+      "prompt": "Design a landing page for Fourteen, an app that finds free legal dispersed campsites on public land. Here are two screenshots I like: a clay-illustrated hiking app hero and an outdoor SaaS page where the map bleeds off the right edge. Show me three directions, then let me tune the one I pick.",
+      "expected_output": "Writes a taste board with a SHARED line from the user's two references plus Mobbin M1 searches, builds three distinct takes side by side, and on the pick routes to macro or micro; the micro branch builds a Dial-mode panel with shuffle-within-direction, reset and copy-values, and strips it before handover.",
+      "files": [],
+      "assertions": [
+        "Writes .design-craft/taste-board.md with at least three measurable observations per user reference and one SHARED line that names no adjective-only quality",
+        "Runs at least 3 Mobbin searches before the direction commits, including one outside the camping/booking category, and records TOOK and LEFT lines",
+        "Records one closest gold (M2) per unit type before drafting that unit, with measurable inherited structure",
+        "Presents three takes in one file that differ on at least two named axes",
+        "After the pick, names whether the next round is macro or micro and why",
+        "A Dial-mode panel, when built, carries palette presets named from the subject's world plus shuffle-within-direction, reset and copy-values, and is removed or cut to at most four knobs before handover",
+        "Does not ship a cream ground, italic headline accent words, 01/02/03 section labels, monospace labels and pill buttons together unless the direction contract names them"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "product-demo-rehearsed",
+      "prompt": "Add a looping hero demo to our landing page showing someone assigning an issue to a teammate. Our app's tokens are in src/styles/tokens.css.",
+      "expected_output": "Plans medium, look and story before markup; maps the product tokens; one action in 3-5 beats over 10-16 seconds; 3-7 real strings with filler elsewhere; window bleeds off an edge; builds on the seekable timeline; films a contact sheet at shown width and 390; reports jumps, overflow and loop seam; writes REHEARSAL.md naming the gold and what was not checked.",
+      "files": [],
+      "assertions": [
+        "Writes the medium, size, look and story plan before any markup",
+        "Uses one action in 3 to 5 beats with a payoff over 10 to 16 seconds",
+        "Counts the real strings on screen and keeps them between 3 and 7",
+        "The window fills at least two thirds of the stage and runs off an edge rather than sitting whole on a plate",
+        "Ships a compact composition at 358px rather than a scaled-down desktop demo",
+        "Films the loop as a contact sheet and reports one-frame jumps, text overflow and the loop seam, or states which of these could not be measured",
+        "Writes REHEARSAL.md naming the gold it started from, what changed, and what was not checked, including that a person must watch the loop"
+      ]
     }
   ],
   "gate_evals": {

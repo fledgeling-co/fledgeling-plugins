@@ -6,18 +6,44 @@ Mobbin is a curated library of real, shipped product UI — iOS and web screens,
 
 The reference layer is **structural**: what real products do with hierarchy, density, sequence, and the surfaces nobody thinks to design. It is never a source of brand identity. §20 of the skill still binds — you extract mechanisms, not marks.
 
-## When to trawl
+## Five checkpoints — Mobbin is consulted more than once
+
+A single trawl at kickoff informs the direction and then stops informing anything. The builds that come back generic usually had a reference pass; they lost it by the third section, because nothing tied a later decision back to a real screen. So the trawl runs at five points in a commission, each answering a different question. Benji Taylor's finding while building Stageshow is the reason checkpoint M2 exists: "An agent told to run a window off the edge of the frame barely does it. Shown an example that does, it gets it right." Rules describe the move; an example makes it happen.
+
+| # | Checkpoint | When | Tool | Searches | The question it answers |
+|---|---|---|---|---|---|
+| **M1** | Taste board | Before `frontend-aesthetic-direction.md` commits | `search_sections` (web) or `search_screens`, plus one search outside the category | 3–5 | What range exists, and which of it suits this subject? Feeds `taste-board.md`. |
+| **M2** | Closest gold | Before drafting each unit (section, screen, demo) | `search_sections` / `search_screens`, `limit` 4–6 | 1 per unit type | Which single shipped screen is closest to this unit, and what structure does it hand you? |
+| **M3** | State coverage | When `interaction-states-pass.md` or a ux-craft:ux-craft state grid runs | `search_screens` for the hardest two states (usually empty and error) | 2 | What do shipped products put in the state a spec never draws? |
+| **M4** | Steer evidence | When the user asks for a steer ("bolder", "quieter", "more premium") or names a competitor | `search_screens` scoped to the named app, or to the steer's mechanism | 1–3 | What does that adjective look like in shipped UI, in measurable terms? |
+| **M5** | Side-by-side critique | Inside `unit-critique-gate.md` Phase 2, once per unit | No new search: reopen the M2 gold beside your capture | 0 | Where does this render fall short of the gold on framing, hierarchy, density? |
+
+**Budget.** A greenfield landing page runs roughly 8–12 searches across M1–M4; a single app screen 3–5; a small tweak, copy change or bug fix runs none. Every result is images in your context, so keep `limit` at 4–8 and stop a checkpoint when its next search would return the shapes the last one did. On a follow-up `search_screens` call, pass the ids you have already seen in `exclude_screen_ids` so the second page is new material.
+
+**Situations that add searches to M1 or M4:**
 
 | Situation | Searches |
 |---|---|
-| Greenfield hi-fi direction, before `frontend-aesthetic-direction.md` commits | 3–5 |
-| A surface type you have not designed recently — pricing, onboarding, settings, empty states, a dashboard | 2–3 |
-| Named-competitor diagnosis: "X feels more premium than this" | 2–4, on X |
-| The user rejected a build as generic, bland, or boring | 3–5, and re-derive |
-| "Don't base it on anything in this repo" — divergence work | 3–5, deliberately across unrelated categories |
-| Small tweak, copy change, or a bug in an existing surface | none |
+| Named-competitor diagnosis: "X feels more premium than this" | 2–4, on X (M4) |
+| The user rejected a build as generic, bland, or boring | 3–5, and re-derive from M1 |
+| "Don't base it on anything in this repo" — divergence work | 3–5, deliberately across unrelated categories (M1) |
+| A surface type you have not designed recently — pricing, onboarding, settings, a dashboard | 2–3 (M2) |
 
-Two or three well-aimed searches beat eight scattergun ones; every result is images in your context. Stop when the next search would return the same shapes as the last.
+### M2 in detail — inherit structure from one gold
+
+Pick **one** result per unit type as its gold: the screen whose job, scale and content shape sit closest to the unit you are about to draft. Then write down what you inherit from it in measurable terms before you draw: the first-viewport element count, the frame (does the product image bleed off an edge or sit on a plate), the row height and gutter, the type sizes in play, where the single focal object sits, and how much of the frame is quiet. Draft the unit to those numbers, then replace the look and the content with your own direction. Changing only the nouns on someone else's composition is imitation; keeping its proportions under your own world is the move.
+
+One gold per unit type, not per unit: eight landing sections usually need four or five golds (hero, proof, feature cluster, pricing, close), and repeating a gold across two adjacent sections reproduces the "same layout family twice" defect `ai-slop-check.md` §11 flags.
+
+### M5 in detail — compare, then fix the biggest gap first
+
+Open your capture and the gold in the same look and answer five pairs, each a yes or no. Any "no" is the unit's biggest fault and is fixed before polish:
+
+1. Is one object clearly leading, the way it leads in the gold?
+2. Is the density within a third of the gold's element count?
+3. Does the frame do what the gold's frame does (bleed, crop, or hold), or did you shrink a whole window into a card with even margins?
+4. Does every word on screen carry the story, with filler rendered as filler rather than as more real text?
+5. Would the gold's designer screenshot one thing in yours and send it back? That thing is your next fix.
 
 ## Writing a query that returns anything useful
 
@@ -32,7 +58,7 @@ The tools run natural-language search over screen content, so a query describes 
 
 ## Looking at what comes back
 
-Results arrive as images. **Read them** — the metadata alone tells you an app's name and nothing about why its screen works. A result you did not open is a result you did not use, and the same rule that governs your own renders governs these (`visual-verification.md` § Phase 0, rule 1).
+Results arrive as images. **Read them** — the metadata alone tells you an app's name and nothing about why its screen works. A result you did not open is a result you did not use, and the same rule that governs your own renders governs these (`visual-verification.md` § Phase 0, rule 1). **Discard a capture that caught a loading state** — a section that is only a gradient and a nav bar is a hero photographed before its content painted, not a minimal design to learn from.
 
 For each screen worth keeping, ask what it is *doing* that a generated screen would not have thought to do:
 

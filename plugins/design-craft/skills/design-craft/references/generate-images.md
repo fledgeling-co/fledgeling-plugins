@@ -36,9 +36,10 @@ Keep **one shared style/identity block** — medium, palette, lighting, characte
 ## Phase 3: Resolve the backend — once, in this order
 
 1. **User-named backend.** If the user names a backend in this request, use it.
-2. **Session tool inventory.** Search the available tools and skills for an image-generation capability — an MCP tool or an installed skill (names vary: `generate_image`, `imagegen`, `image_generate`, a `*-image-gen` skill). If deferred tools are in play, query them (e.g. `ToolSearch` with "image generation") before concluding nothing exists. If a match is found, use it — and note its quirks:
+2. **Session tool inventory.** Search the available tools and skills for an image-generation capability — an MCP tool or an installed skill (names vary: `generate_image`, `imagegen`, `image_generate`, a `*-image-gen` skill, or an aggregator MCP such as Higgsfield or OpenArt that fronts several image and video models behind one connector). If deferred tools are in play, query them (e.g. `ToolSearch` with "image generation") before concluding nothing exists. If a match is found, use it — and note its quirks:
    - Some take an aspect-ratio parameter; others need dimensions stated in the prompt text.
    - Some write to a managed location you must move the file out of afterward.
+   - Aggregators bill per generation and let you pick the model. Show the prompt file and the chosen model before the first paid call, and ask once per project rather than per image.
 3. **None available → ask.** Tell the user no image backend is available and ask how to proceed: install one, point at one, or switch to the none/minimal path. **Never silently fall back.**
 
 Resolve once per project, not per image — re-detecting mid-flow risks a style break from a backend switch.

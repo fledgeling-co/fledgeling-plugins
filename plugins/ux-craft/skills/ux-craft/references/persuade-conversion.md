@@ -24,6 +24,8 @@ Required, in this order, unless a named exception applies:
 4. One proof signal: a real logo, a sourced number, or a short testimonial. Invented proof is a High ethics finding, not a placeholder to style.
 5. A hero visual that demonstrates the offer, or an honest placeholder naming the missing asset.
 
+**A demo is proof only when a visitor can follow it.** When the hero visual shows the product working, it shows **one action** in 3–5 beats with a payoff, and only the words that carry that action are legible; a full screenshot gives the visitor a whole interface to read, so they read none of it. The poster frame — what a thumbnail, a still capture and a reduced-motion visitor see — has to make the claim on its own. `design-craft:design-craft` builds the demo itself through its `product-demo.md` procedure; this skill owns which single action best proves the offer.
+
 The primary action must be visible without scrolling at 1280px and at 375px. A first viewport whose call to action sits below the fold is a High finding.
 
 ## The argument, then the objections
