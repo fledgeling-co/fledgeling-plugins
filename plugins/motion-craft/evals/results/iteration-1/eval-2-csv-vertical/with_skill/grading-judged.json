@@ -1,0 +1,19 @@
+{
+  "expectations": [
+    {
+      "text": "Every figure shown on screen is derivable from the CSV, and a chart, if present, has a zero baseline or a labelled truncated axis.",
+      "passed": true,
+      "evidence": "Every on-screen figure (index.html:5-13 data-composition-variables, plus the chart's own value labels; frames at 0-14 s): '412 / ORDERS IN JANUARY' = row 2025-01 online_orders 412; the 12 ridge points = ORDERS [412,398,455,471,503,489,522,560,601,644,1187,903] (index.html:190), byte-identical to the CSV column; '+56% SINCE JANUARY', shown at the frame where the line's leading edge is at OCT (frame 8 s) = 644/412-1 = 0.5631 -> +56.3%; 'NOVEMBER 1,187' = row 2025-11, the maximum of the twelve; '+84% VS OCTOBER' = 1187/644-1 = 0.8432 -> +84.3%; '7,145 ORDERS' = sum(online_orders) = 7145 (computed with python3 csv.DictReader); '42% REPEAT' = row 2025-12 repeat_customer_pct 42 (noted: it is December's rate paired with a full-year order total, which the end card does not spell out, but the value is in the CSV). The count-up transients ('1,180' at 10 s) are an animated counter landing on 1,187 (index.html:421-425). Chart baseline: 'var X0 = 90, X1 = 990, YBASE = 1150, VMAX = 1200, YTOP = 500' with the comment 'One fixed scale, 0 to 1,200 orders, for the whole film; the baseline is zero and is never moved or rescaled' (index.html:196-199); a baseline line is drawn at YBASE and labelled '0' (index.html:238-250, visible in every frame at the right of the axis). No figure on screen is absent from the CSV or its arithmetic."
+    },
+    {
+      "text": "The clip's message reads with the sound off: on-screen text carries the point rather than narration alone.",
+      "passed": true,
+      "evidence": "The audio stream is music/SFX only - sound/cues.py builds assets/sound.wav from cue hits; there is no narration track and BRIEF.md records 'Sound-led, music/hits only, no narration ... Every line is also readable with the sound off'. Every beat of the argument is on screen as type: 'ONLINE ORDERS - 2025, MONTHLY' header persists through the chart (frames 0-12 s), '412 / ORDERS IN JANUARY' (0-3 s), '+56% SINCE JANUARY' (8 s), 'NOVEMBER / 1,187 / +84% VS OCTOBER' (10-12 s), 'RIDGELINE / 7,145 ORDERS - 42% REPEAT' (13-14 s). Muting the file loses nothing: the climb, the spike and the totals are all legible as text plus a labelled chart."
+    },
+    {
+      "text": "Key text sits inside the centre band, clear of the top 10% (192 px) and bottom 20% (384 px) of the 1920 px frame.",
+      "passed": true,
+      "evidence": "Measured on the 15 extracted frames at 1 s intervals (PIL, counting pixels more than 60 grey levels from the band median, sampled every 3 px): top band y 0-192 = 0 ink pixels on all 15 frames; bottom band y 1536-1920 = 0 ink pixels on all 15 frames; the centre band carries 1,808-9,206. Confirmed against the source: header top 300 px, hook/payoff numbers top 430 px, labels top 660-690 px, wordmark top 320 px and the end-card figure line top 560 px (index.html CSS); the lowest elements are the chart baseline at y 1150 and the month ticks at y 1216 (index.html:197, 273), both well above 1536. SPEC.md states the intended band explicitly: 'every read sits inside Instagram Reels' clear band, y 269-1248 and x 65-1015 on a 1080x1920 frame'."
+    }
+  ]
+}

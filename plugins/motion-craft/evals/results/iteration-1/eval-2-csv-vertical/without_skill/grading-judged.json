@@ -1,0 +1,19 @@
+{
+  "expectations": [
+    {
+      "text": "Every figure shown on screen is derivable from the CSV, and a chart, if present, has a zero baseline or a labelled truncated axis.",
+      "passed": true,
+      "evidence": "Every figure is computed in src/data.mjs from the CSV, and each reproduces independently (python3 over the CSV): '7,145' orders placed in 2025 = sum(online_orders) = 7145 (frame 7 s); 'NOVEMBER / 1,187 orders / +84% on October' = max month 1187 and 1187/644-1 = 84.3% (frames 8-10 s); 'AVERAGE ORDER $42.80 +12%' = December avg_order_aud 42.80, 42.80/38.20-1 = 12.0% (frame 13 s); 'REPEAT CUSTOMERS 42% +11 pts' = December 42 against January 31 (frame 13 s); '$38.20 in January -> $42.80 in December' = first and last avg_order_aud; '~ $291,000 through the store' = sum(orders x aov) = 291,216.30, rounded and shown with an explicit '~' (frame 14 s). Intermediate values ('0', '1,630', '3,961', '7,063', '$40.91') are count-up transients landing on the real figures. Chart: 'const scale = (v) => (v / 1250) * (CHART.bottom - CHART.top)' with bars drawn from CHART.bottom (src/frame.mjs:60, 83) - a zero baseline, with an explicit baseline rule (src/frame.mjs:71) and gridlines labelled 400 / 800 / 1,200. The axis top at 1,250 rather than 1,200 is recorded as a deliberate call in README.md."
+    },
+    {
+      "text": "The clip's message reads with the sound off: on-screen text carries the point rather than narration alone.",
+      "passed": true,
+      "evidence": "The file carries a silent AAC stream and nothing else - README.md: 'Silent audio track: the clip has no music (nothing licensed was available offline), but ships a silent AAC stream so players and uploads that expect audio behave.' There is therefore no narration at all, and the whole argument is set in type: 'RIDGELINE / Online orders / 2025' (0-2 s), 'ORDERS PLACED IN 2025 / 7,145' with the labelled bar chart (4-10 s), 'NOVEMBER / 1,187 orders / +84% on October' (8-10 s), 'THE ORDERS GOT BIGGER TOO / AVERAGE ORDER $42.80 +12% / REPEAT CUSTOMERS 42% +11 pts' (12-13 s), '7,145 orders in 2025 / ~ $291,000 through the store' (14 s)."
+    },
+    {
+      "text": "Key text sits inside the centre band, clear of the top 10% (192 px) and bottom 20% (384 px) of the 1920 px frame.",
+      "passed": false,
+      "evidence": "The November callout - the clip's hero figure - sits inside the bottom 20%. src/frame.mjs:133-140: 'const cardW = 760, cardH = 250, cardX = W / 2 - cardW / 2, cardY = 1390', with '1,187 orders' drawn at y = cardY + 160 = 1550 and '+84% on October' at y = cardY + 214 = 1604, against a bottom-band boundary of 1536. Measured on the extracted frames (PIL, pixels more than 60 grey levels from the band median, sampled every 3 px): bottom band y 1536-1920 carries 778 ink pixels at 8 s, 721 at 9 s and 778 at 10 s, against 0 for every other second; a crop of y 1400-1920 at 8 s and 10 s shows the whole 'NOVEMBER / 1,187 orders / +84% on October' card, with the 1536 line cutting through '1,187 orders' at 8-9 s. The run's own stated safe area is looser than the assertion: README.md 'Safe area: content held between y=300 and y=1640 so Instagram's UI chrome does not cover a number.' The top band is clear (0 ink pixels on all 15 frames)."
+    }
+  ]
+}

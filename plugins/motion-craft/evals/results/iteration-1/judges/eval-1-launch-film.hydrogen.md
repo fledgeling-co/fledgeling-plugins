@@ -1,0 +1,4 @@
+specific: B — Shows twelve identical dark AI UI slabs (00:01–00:02), `design-lint.py` token contrast failures (00:12–00:14), fixture scores (00:16), and the `/plugin install` command (00:19), whereas A stays mostly on the swatch-fan metaphor.
+craft: A — Keeps generous framing and readable type hierarchy across 00:01–00:13 and 00:18–00:19, whereas B relies on tiny, low-contrast eyebrows, legends, and footers across 00:02, 00:05–00:10, and 00:14–00:17.
+story: B — Flows causally from the generic-UI problem (00:01–00:02) through swatch-fan divergence (00:04–00:10), contrast linting (00:12–00:14), and assertion gains (00:16) to the installable payoff (00:18–00:19), while A's 00:14–00:16 numbers lack context.
+overall: B — Despite overly small secondary captions, B clearly shows what `design-craft` fights, how it checks contrast, and how to install it, making it a far stronger launch video.

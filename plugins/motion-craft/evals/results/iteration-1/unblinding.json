@@ -1,0 +1,10 @@
+{
+  "eval-1-launch-film": {
+    "A": "with_skill",
+    "B": "without_skill"
+  },
+  "eval-2-csv-vertical": {
+    "A": "without_skill",
+    "B": "with_skill"
+  }
+}

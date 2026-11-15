@@ -1,0 +1,4 @@
+specific: B — Neither explicitly mentions coffee, but B’s forest-green and terracotta palette (00:09–00:11) feels tailored to an independent brand, whereas A’s dark vignette and KPI bars (00:02–00:12) look like a generic SaaS dashboard template.
+craft: A — A maintains clean alignment and crisp primary numerals throughout, while B leaves dead upper space (00:03–00:06), misaligns "1,187" against "NOVEMBER" and "+84%" (00:10–00:11), and shrinks "7,145 ORDERS · 42% REPEAT" into tiny text (00:13–00:14).
+story: A — A builds logically from the 7,145-order climb (00:02–00:07) to November’s 1,187 spike (00:08–00:09), repeat customers rising +11 pts to 42% (00:11–00:12), and the final total (00:13–00:14), whereas B drops its headline mid-clip (00:03–00:06) and omits the 31% baseline.
+overall: A — A communicates every stat from the brief with clear visual pacing and mobile readability, whereas B buries the annual total and repeat-customer story.

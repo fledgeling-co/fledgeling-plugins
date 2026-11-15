@@ -1,0 +1,8 @@
+{"expectations": [
+ {"text": "Every figure shown on screen is derivable from the CSV, and a chart, if present, has a zero baseline or a labelled truncated axis", "passed": true,
+  "evidence": "Checked against the CSV row by row: monthly labels 412/398/471/489/560/644 (Jan/Feb/Apr/Jun/Aug/Oct), November 1,187, 2.9x January (1187/412=2.88), 7,145 total, Jan 412 -> Dec 903 +119% (903/412=2.19), average order $38.20 -> $42.80 +12% (1.120), repeat buyers 31% -> 42%. The chart is labelled 'ZERO BASELINE' on screen. The 6,911 at t=9 s is the total counting up to 7,145, settled by t=10 s."},
+ {"text": "The clip's message reads with the sound off: on-screen text carries the point rather than narration alone", "passed": true,
+  "evidence": "No narration; every point is set as text (title, month values, November callout, total and the three comparisons), held 4-5 s at the end. Sound is music and cue hits only."},
+ {"text": "Key text sits inside the centre band, clear of the top 10% and bottom 20% of the frame", "passed": true,
+  "evidence": "1 fps contact sheet: the topmost text (the chart eyebrow) starts at about 17% of frame height; the headline, the November figure and the end-card figures sit between 17% and about 60%. Only the J-D month tick letters sit in the bottom 20%, and they are axis labels, not key text."}
+]}

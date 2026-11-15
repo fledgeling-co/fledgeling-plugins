@@ -1,0 +1,4 @@
+specific: A — The twelve identical dark slabs at 0–3s show the exact problem the plugin exists to fight: generic AI design that all looks the same. B's icon swatches at 0–5s are on-brand but never show what "the rut" actually looks like.
+craft: B — B's big headlines at 1–5s and 6–9s, its large lint table at 12s and its huge "23" at 15s all read easily. A's small body copy (2s, 10s, 12–14s), tiny legends (5–10s) and faded 17s frame would be hard to read at video size.
+story: A — A runs a clear chain: the same slab twelve times (2s), so the rut is named (4–6s), so it leaves the neighbourhood (7–10s), proved by the contrast check (12–14s) and the 23-vs-9 score (16s), then the icon payoff (18s). B's "rut / opposite / derives past both" is abstract until its lint table appears.
+overall: B — It reads at a glance and looks finished, with a confident icon-led opening and a clean end card. A's stronger argument is weakened by text too small to read.

@@ -1,0 +1,4 @@
+specific: B — Neither explicitly names coffee, but B's warm forest-green, cream, and terracotta palette with a climbing ridgeline area curve fits the roaster's brand far better than A's generic dark-mode mint bar dashboard (00s–14s).
+craft: B — Even with "1,000 ORDERS" clipping to "RS" during the 04s–06s pan, B has far stronger hierarchy, contrast, and mobile readability across 07s–14s than A's tiny, dim labels in 03s–07s and 11s–14s and dead transition frame at 10s.
+story: B — B pans Jan–Oct up the curve (00s–06s) into the November 1,187 peak (07s–08s), then pulls back (09s–14s) to layer 7,145 orders, AOV, and 31% → 42% repeat buyers; A stalls at 10s, omits the 31% baseline at 11s–12s, and drops the chart at 13s–14s.
+overall: B — B looks purposefully designed for Instagram, carries clear momentum from start to finish, and lands all requested stats on one cohesive closing card.

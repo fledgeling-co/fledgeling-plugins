@@ -1,0 +1,4 @@
+I'll look at both contact sheets first, then score them only from the frames.specific: B — 0:07–0:08 makes November the picture (1,187, “2.9× January”), and 0:12 prints “31% → 42%”. A’s 0:00–0:01 is a faint “Online orders 2025” title, and 0:11 shows 40% with “+11 pts”.
+craft: A — 0:03–0:09 hold one chart, one orange bar, and a large total, and 0:13–0:14 leaves a single line under 7,145. B’s month letters and y-axis label are clipped at 0:03–0:06, and 0:12 stacks four lines under the hero.
+story: B — The point walks Jan–Oct (0:01–0:06), so the November hit at 0:07 is the consequence, and 0:10–0:12 folds that peak into 7,145 and the repeat line. A goes nearly black at 0:10, then opens a different card.
+overall: B — The brief’s three facts are the frames, and 0:00 is already a picture. A opens too faint and never shows the rise from 31%.

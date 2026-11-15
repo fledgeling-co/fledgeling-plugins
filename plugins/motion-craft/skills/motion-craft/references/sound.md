@@ -1,0 +1,83 @@
+# Sound
+
+A film over about 15 s that tells something ships with music and sound on its visible actions unless the user asked for silence; most generated motion graphics are silent, and sound is what makes a piece feel produced (claude-motion `sound-design`; cDb-wPq0Iyk shows the same clip with and without). A transparent overlay ships silent.
+
+You cannot hear. Never write that a sound "fits", "lands" or "feels right"; report what you measured (loudness, peak, where each hit sits against its beat) and say that nobody listened.
+
+## 1. Order of work
+
+- **Narrated film: voice first.** The script sets the timing for everything else (explainroo). Write `script.md`, get the voice file (a recording the user gives, or generated speech when the session has a speech tool and the user approved it), get word timings, then tie each picture to the spoken word it illustrates. Word timings come from the speech tool's own timestamps when it returns them, or from a local Whisper run (`whisper --word_timestamps True`, or `faster-whisper`) when one is installed; name which in REVIEW.md. With no timing source, place pictures on sentence boundaries measured from the waveform and say so.
+- **Music-led film: tempo first, picture on the grid.** Pick a BPM (100-125 for an energetic launch, 80-100 for calm or ambient), put scene labels on beats, and mark hit points while you animate. Mix the sound after picture lock: changing the animation after sound design moves the sync (cDb-wPq0Iyk tip 6). Marking cues during animation and mixing after lock are compatible: the cue sheet reads the same timeline file, so a retime moves the sound with it.
+- **Supplied track**: find its beats and drop with a beat tracker (librosa's `beat_track` when installed; otherwise ask the user for the BPM and the drop time), then lay the picture's grid on it and put the hero moment on the drop.
+- **Voiceover written to a finished cut**: when the picture is locked at a fixed length (a 15 s or 30 s spot), write the voiceover to fit that length rather than generating speech first and hoping (cDb-wPq0Iyk tip 10).
+
+## 2. The bundled sound engine
+
+`scripts/sfx/` is claude-motion's procedural sound engine (MIT, by whaleyxbt; licence in `scripts/sfx/LICENSE-claude-motion.txt`): pure Python standard library, no samples, no licences to clear, identical output on every run, mastered automatically to a loudness target.
+
+```bash
+cd <skill>/scripts && python3 -m sfx --list            # the generators and what each is for
+PYTHONPATH=<skill>/scripts python3 -m sfx <project>/sound/cues.py \
+  --timeline <project>/timeline.json --out <project>/assets/sound.wav
+```
+
+A cue sheet is a Python file with a `score(mix, tl)` function; every time in it comes from the timeline file, never a typed number, so retiming the picture retimes the sound. `scripts/sfx/cues/example_effort.py` is a complete real example (129 sounds and a pad bed). The essentials:
+
+```python
+from sfx.synth import whoosh, pop, chime, impact, riser, pad, envelope
+
+TARGET_LUFS = -14.0
+
+def score(mix, tl):
+    s = tl["scenes"]
+    mix.put(s["hook"]["title"], whoosh(0.4, 500, 2400, peak=0.45), 0.12)
+    for i, t in enumerate(s["proof"]["steps"]):
+        mix.put(t, pop(900 + i * 150, 400), 0.3, pan=-0.4 + i * 0.3)
+    mix.put(s["payoff"]["hit"] - 1.0, riser(1.0), 0.2)
+    mix.put(s["payoff"]["hit"], impact(), 0.32)
+    mix.typing(s["proof"]["typeStart"], s["proof"]["typeEnd"], chars=28)
+```
+
+`timeline.json` must carry a top-level `"duration"` in seconds; the rest of its shape is yours, as long as the composition and the cue sheet read the same keys.
+
+## 3. Which event gets which sound
+
+| On screen | Generator | Notes |
+|---|---|---|
+| Typing | `mix.typing()` | humanised per keystroke |
+| Word or line reveal | `whoosh()`, `blip()` on the landing | short and airy |
+| Badge, chip or card pops in | `pop()` | raise the pitch across a sequence |
+| Control snaps to a step | `click()` + `blip()` in key | |
+| Sketch or draw-on | `scratch()` | |
+| Build-up | `riser()` | ends exactly on the hit; one big riser per film |
+| Success or arrival | `chime()` | a chord in the film's key |
+| Hero transition | `whoosh()` in, `impact()` on the hit | one impact per film |
+| Montage cut | a short hit or tick per cut | gives the burst weight |
+| Under everything | `pad()` with an `envelope()` | duck it about 65 % under the hero transition |
+
+Accent, do not narrate: continuous motion (drift, grain, rotation) stays silent. Aim for a hit on every landing that matters, roughly 8-15 in 30 s (huashu-motion). Levels: hero hits gain 0.25-0.35, supporting sounds 0.08-0.2, the pad about 0.03. Pan follows on-screen position (−1 left to +1 right). Keep every tonal sound in one key, rising with progress and resolving on the payoff.
+
+## 4. Music beyond the engine
+
+The engine makes effects and beds, not songs. For a full music track:
+
+- a track the user supplies (mix it under the effects; place the drop on the hero moment);
+- a track generated by a music tool the session has (Suno, ElevenLabs music), only with the user's approval because these are paid: ask for the exact length in seconds and the BPM in the prompt so it fits the cut (cDb-wPq0Iyk);
+- licensed sound-effect packs the user owns, placed by filename on the timeline.
+
+Record each track's source and licence in `materials.md`.
+
+## 5. Loudness and delivery
+
+- Social and web masters: integrated −14 LUFS ±1, true peak ≤ −1 dBTP. The engine masters to −14 LUFS with the true peak at or under −2 dBFS, leaving room for AAC overshoot.
+- A mix of mostly short hits with silence between cannot reach −14 LUFS without crushing; add sustained sound (a pad, longer tails) rather than forcing the gain. The engine says when it came out quieter.
+- Place the mastered WAV in the composition so the render carries it: `<audio id="score" class="clip" src="assets/sound.wav" data-start="0" data-duration="<film length>" data-volume="1"></audio>` inside the root of `index.html`. A voice file is a second `<audio>` with its own `id`. Check the rendered file has an audio stream (`ffprobe -v error -show_entries stream=codec_type -of csv=p=0 out/<name>.mp4` prints `audio`); a render whose `<audio>` tag is missing or malformed comes out silent with no error.
+
+## 6. Checking sound you cannot hear
+
+1. Loudness of the file you will actually deliver: the same `hf.sh audio` JSON carries `loudness.lufsIntegrated` and `loudness.truePeakDb`; quote both. Without HyperFrames, `ffmpeg -hide_banner -i film.mp4 -af ebur128=peak=true -f null - 2>&1 | tail -12` gives the same two numbers.
+2. Sync: `<skill>/scripts/hf.sh audio out/<name>.mp4 --json` lists the onsets (`onsets.events[].t`) and loudness of the rendered file. Compare each hero onset with its beat in `timeline.json`: a transient more than 2 frames early, or more than 100 ms late, is a note, and a hit between beats means a hardcoded time or a stale WAV. Measured on a test film, three cues at 0.30, 1.40 and 3.20 s produced onsets at 0.310, 1.395 and 3.195 s.
+3. A spectrogram for the eye: `ffmpeg -i assets/sound.wav -lavfi showspectrumpic=s=1600x400 out/spectrum.png`, then open it and check that the hits are where the beat map says and nothing masks the voice.
+4. When the earshot tool is installed (Leonxlnx/earshot), use its `timeline` and `critique` commands for a listening transcript and per-cut sync; quote its numbers.
+
+REVIEW.md always carries the line "sound measured, not heard".

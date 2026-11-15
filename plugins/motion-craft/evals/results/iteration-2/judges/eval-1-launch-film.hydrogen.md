@@ -1,0 +1,4 @@
+specific: A — 00:01–00:02 visualizes generic AI output as twelve identical dark slabs, and 00:05–00:10 maps the plugin's swatch-fan icon onto escaping "the rut" and "its predictable opposite," whereas B never depicts the AI design problem it fights.
+craft: A — A maintains clean two-column hierarchy and clear framing across 00:04–00:16, while B has a clipped headline artifact at 00:07, a blurry "23" colliding behind the lint card at 00:14, and empty left framing at 00:15.
+story: A — A builds a causal sequence a stranger can follow: generic dark-card problem (00:01–00:02), narrow distribution diagnosis (00:04–00:06), swatch commitment forming the icon (00:07–00:11), lint gate (00:12–00:14), 23/25 benchmark (00:15–00:16), and install payoff (00:18–00:19); B opens with unexplained fragments (00:01–00:05).
+overall: A — A clearly shows what design-craft fixes, connects its real icon and lint gate to that problem, and lands a cohesive, shareable payoff.

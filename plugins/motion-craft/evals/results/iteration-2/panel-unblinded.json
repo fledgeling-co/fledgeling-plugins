@@ -1,0 +1,54 @@
+{
+  "eval-1-launch-film": {
+    "specific": {
+      "astra": "without_skill",
+      "grok": "without_skill",
+      "hydrogen": "without_skill",
+      "opus": "without_skill"
+    },
+    "craft": {
+      "astra": "with_skill",
+      "grok": "with_skill",
+      "hydrogen": "without_skill",
+      "opus": "with_skill"
+    },
+    "story": {
+      "astra": "without_skill",
+      "grok": "without_skill",
+      "hydrogen": "without_skill",
+      "opus": "without_skill"
+    },
+    "overall": {
+      "astra": "with_skill",
+      "grok": "without_skill",
+      "hydrogen": "without_skill",
+      "opus": "with_skill"
+    }
+  },
+  "eval-2-csv-vertical": {
+    "specific": {
+      "astra": "with_skill",
+      "grok": "with_skill",
+      "hydrogen": "with_skill",
+      "opus": "with_skill"
+    },
+    "craft": {
+      "astra": "with_skill",
+      "grok": "without_skill",
+      "hydrogen": "with_skill",
+      "opus": "without_skill"
+    },
+    "story": {
+      "astra": "with_skill",
+      "grok": "with_skill",
+      "hydrogen": "with_skill",
+      "opus": "with_skill"
+    },
+    "overall": {
+      "astra": "with_skill",
+      "grok": "with_skill",
+      "hydrogen": "with_skill",
+      "opus": "with_skill"
+    }
+  }
+}

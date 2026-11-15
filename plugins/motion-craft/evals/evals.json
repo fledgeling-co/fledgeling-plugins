@@ -1,0 +1,50 @@
+{
+  "skill_name": "motion-craft",
+  "note": "Two briefs chosen before generation by the 2026-11-15 decision panel: one representative, one adversarial. Each is run once with the skill and once with no skill. Assertions are checked by scripts/grade_eval.py where marked [script], otherwise by an independent grader reading the outputs.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "launch-film-from-real-plugin-material",
+      "prompt": "Make a 20-second 16:9 launch video for the design-craft plugin. Everything about it is in /Volumes/LLMs/Dev/fledgeling-plugins/plugins/design-craft (README, icon, banner, skill). I won't be around to answer questions, so make the calls yourself and give me the MP4.",
+      "expected_output": "A directed 15-30 s 1920x1080 film with sound, made from the plugin's real icon and words, with a non-empty first frame, a hook in the first 3 s, readable holds, and a written plan made before the build.",
+      "files": [
+        "/Volumes/LLMs/Dev/fledgeling-plugins/plugins/design-craft"
+      ],
+      "assertions": [
+        "[script] An MP4 exists in outputs, 15-30 s long, 1920x1080",
+        "[script] The MP4 has an audio stream",
+        "[script] Frame 0 is not a flat field: its luma range (YMAX-YMIN) is at least 40",
+        "[script] The picture changes within the first 3 s: mean absolute difference between the frames at 0.0 s and 3.0 s is at least 2.0",
+        "[script] The plugin's real icon file is used: a byte-identical copy of plugins/design-craft/assets/icon.png or icon-256.png or icon.svg sits in the project, or the composition references one of those paths",
+        "[script] No banned hype word (seamless, unlock, supercharge, game-changer, revolutionize, effortless) appears in any composition source file",
+        "A written plan with per-shot or per-beat timing exists in the project and predates the composition files (by file modification time or by the run's own account)",
+        "Every product claim on screen can be found in the plugin's README or SKILL.md"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "csv-to-vertical-clip-one-liner",
+      "prompt": "turn this into a 15 second vertical clip for instagram /private/tmp/claude-501/-Users-lukerhodes-Dev-dAIolog/71aa0a44-4a67-4066-96bc-90723a122818/scratchpad/motion-craft-workspace/inputs/ridgeline-orders-2025.csv",
+      "expected_output": "A 10-20 s 1080x1920 clip whose every figure matches the CSV (7,145 orders in 2025, the November peak of 1,187, January to December up 119%, repeat customers 31% to 42%), readable with the sound off, with key text clear of the platform UI bands.",
+      "files": [
+        "/private/tmp/claude-501/-Users-lukerhodes-Dev-dAIolog/71aa0a44-4a67-4066-96bc-90723a122818/scratchpad/motion-craft-workspace/inputs/ridgeline-orders-2025.csv"
+      ],
+      "assertions": [
+        "[script] An MP4 exists in outputs, 10-20 s long, 1080x1920",
+        "[script] Frame 0 is not a flat field: its luma range (YMAX-YMIN) is at least 40",
+        "[script] The picture changes within the first 3 s: mean absolute difference between the frames at 0.0 s and 3.0 s is at least 2.0",
+        "[script] At least one headline figure computed from the CSV (7145 or 7,145; 1187 or 1,187; 119%) appears in the composition source",
+        "Every figure shown on screen is derivable from the CSV, and a chart, if present, has a zero baseline or a labelled truncated axis",
+        "The clip's message reads with the sound off: on-screen text carries the point rather than narration alone",
+        "Key text sits inside the centre band, clear of the top 10% and bottom 20% of the frame"
+      ]
+    }
+  ],
+  "dropped_assertions": [
+    {
+      "eval": 2,
+      "text": "[script] No number in the composition source text contradicts the CSV",
+      "reason": "In iteration 1 it fired on both arms for layout coordinates (YBASE = 1150, y: 1194, y: 1130, y: 1180), not on-screen claims, so it measured code rather than the film. Figure accuracy is judged by the grader instead."
+    }
+  ]
+}

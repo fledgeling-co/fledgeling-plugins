@@ -1,0 +1,4 @@
+I'll look at both contact sheets before judging.specific: B — At 00:00:09 the field turns terracotta and 1,187 sits on the spike through 00:00:11, a frame only this November earns. A's count from 00:00:03 to 00:00:07 is a year-total template.
+craft: A — At 00:00:08, 7,145, the gold bar and the November card ("1,187 orders") are large and high-contrast. B leaves 00:00:03–00:00:06 mostly empty, and at 00:00:13–00:00:14 "7,145 orders · 42% repeat" is smaller than RIDGELINE.
+story: B — 00:00:00 starts at 412 orders in January, 00:00:07 states +56% since January, 00:00:09 names the 1,187 spike, and 00:00:13 lands 7,145 and 42% repeat on that same chart. At 00:00:11 A switches to average order size, and 00:00:13 pays off as $291,000.
+overall: A — The year total stays readable across the clip, and the last frame is one sentence someone can repeat.

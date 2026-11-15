@@ -174,6 +174,14 @@ The other half of design-craft: how a thing behaves rather than how it looks. Fl
 
 <br clear="left" />
 
+<a href="plugins/motion-craft/README.md"><img src="plugins/motion-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [motion-craft](plugins/motion-craft/README.md)
+
+Short films from code: launch films, explainers, a spreadsheet turned into a vertical clip, logo stings and lower thirds. It directs before it builds (real material, three storylines, a spec in numbers, a rhythm sheet), renders through HyperFrames on your own machine with telemetry off, scores sound from the same beat map, and reviews the result from measured frames instead of guessing.
+
+<br clear="left" />
+
 ## Checking it before anyone sees it
 
 _Catch the problems while they are still cheap to fix._

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>motion-craft icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  /* The flex lives on an inner div, never on the <td>. Two independent
+     commissions hit this: the scoring browser computes display:flex on a table
+     cell and still lays its children out as blocks, so all seven renders stack
+     into a column and every row reads as one tall strip. The sheet looks broken
+     and nothing errors. */
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>motion-craft icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "Onion-skin ghosts (Tahoe gel-glass, porcelain cushion)" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  
+  <tr>
+    <td class="take ship">engineA · icon.svg<small>hand-authored layered SVG from build_icon.py — SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineA-1024.png" width="160" height="160" alt="engineA hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineA-256.png" width="128" height="128" alt="engineA at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineA-128.png" width="64" height="64" alt="engineA at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineA-96.png" width="48" height="48" alt="engineA at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineA-64.png" width="32" height="32" alt="engineA at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineA-32.png" width="16" height="16" alt="engineA at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineA-32.png" width="96" height="96" alt="engineA 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes checks 1-4 on real renders: shared squircle from create-mac-icon, the three frames read as separate shapes at 32 px and still as a grey trail into a vermilion capsule at 16 px. One key light, two hue families (warm neutrals and the vermilion accent), porcelain ground matched to design-craft and ux-craft. Loses a point on depth coherence: the landed capsule's inner glow is flatter than the raster's. Salvaged from engineC: lighter frosted ghosts, a shared capsule orientation along the path, a broader specular band and a warm bloom on the ground.</td>
+  </tr>
+  
+  <tr>
+    <td class="take ">engineB · icon-engineB-arrow-431b80.svg<small>Arrow 2 vector take</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineB-1024.png" width="160" height="160" alt="engineB hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineB-256.png" width="128" height="128" alt="engineB at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-128.png" width="64" height="64" alt="engineB at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB-96.png" width="48" height="48" alt="engineB at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineB-64.png" width="32" height="32" alt="engineB at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB-32.png" width="16" height="16" alt="engineB at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB-32.png" width="96" height="96" alt="engineB 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ">8 / 12</td>
+    <td class="verdict">Good material on the landed capsule (pale core, glossy sliver), but fails check 4: at 16 px the two ghosts fade to a faint smudge barely darker than the ground, so the tile reads as one orange pill rather than successive frames. Its tile edge also crops tight to the canvas. Its pale core gradient informed the master's ACCENT_CORE stop.</td>
+  </tr>
+  
+  <tr>
+    <td class="take ">engineC · icon-engineC-82b1d4.png<small>GPT Image raster, corpus-referenced (apple-06, apple-12, apple-28)</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineC-1024.png" width="160" height="160" alt="engineC hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC-256.png" width="128" height="128" alt="engineC at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC-128.png" width="64" height="64" alt="engineC at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC-96.png" width="48" height="48" alt="engineC at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC-64.png" width="32" height="32" alt="engineC at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC-32.png" width="16" height="16" alt="engineC at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC-32.png" width="96" height="96" alt="engineC 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ">9 / 12</td>
+    <td class="verdict">Best material of the three: see-through frosted ghosts, a gel capsule lit from inside, warm light thrown on the ground. Loses on family fit and mask discipline: a pure white tile rather than the family's porcelain, and the generated tile sits inside the squircle mask, so a second tile edge shows at every size. It is the material target the master was edited towards, never the shipped file.</td>
+  </tr>
+  
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship engineA (icon.svg).</strong> It is the only take that passes all four non-negotiable checks on real renders, it shares the family's squircle, ground and accent, and it is vector source with every value a named constant in build_icon.py, so later material work is a parameter edit. Its material was moved towards the raster take by hand-judged edits across four renders. Known liabilities to revisit: the measured fidelity loop (fidelity.py score and gate, blind panel) was not run, so how close the master got to the raster's material is judged by eye, not measured; the landed capsule's inner glow and gloss are flatter than engineC's; the ghost capsules' frost is opaque grey rather than truly translucent against the ground; and at 16 px the trail reads as a grey smear rather than two frames.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by `python3 ../scripts/audit_sheet.py render <dir>` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand.</div>
+</body>
+</html>

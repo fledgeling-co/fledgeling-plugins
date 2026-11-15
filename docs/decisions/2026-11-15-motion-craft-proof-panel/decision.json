@@ -1,0 +1,38 @@
+{
+  "lang": "en-AU",
+  "title": "How much proof should motion-craft get before it ships?",
+  "kicker": "fledgeling-plugins · motion-craft · decision · 15 November 2026",
+  "status": "decided",
+  "decision": {
+    "option": "B",
+    "summary": "Run the full baseline: two briefs, each rendered with and without the skill, structural assertions graded independently, and a blind multi-family panel on anonymised contact sheets.",
+    "confidence": "medium",
+    "tally": "4 of 4 models"
+  },
+  "why": "create-skill allows shipping unevaluated only when the runners, the budget or the user's wish are missing, and none is missing here. Two briefs is the smallest run that keeps one noisy film from deciding the result, and the skill ships to other people. Contact sheets cannot show easing, smoothness or sync, so EVALS.md reports it as a two-brief evaluation and names those limits.",
+  "next": [
+    {"action": "Pick one representative brief and one adversarial brief before generation; keep them about 20 seconds at 720p so four renders fit nearer an hour.", "needs_confirmation": false},
+    {"action": "Hold the model, effort, assets and render settings constant across arms; predeclare assertions and frame-sampling rules; report ties and losses.", "needs_confirmation": false},
+    {"action": "Write EVALS.md as a two-brief evaluation, not the full 6-8 prompt suite, with playback smoothness and audio sync marked unverified by contact sheets.", "needs_confirmation": false}
+  ],
+  "options": [
+    {"id": "B", "label": "Full baseline, two briefs", "outcome": "chosen", "votes": ["Fable", "Argon", "Astra", "Grok"], "reason": "The smallest honest comparison that one noisy film cannot decide."},
+    {"id": "C", "label": "One-brief baseline", "outcome": "dismissed", "votes": [], "reason": "One pair cannot tell 'the skill helps' from 'this brief suited it'; two judges can deadlock."},
+    {"id": "A", "label": "Mechanical checks only", "outcome": "dismissed", "votes": [], "reason": "The escape hatch is for sessions that cannot run evals, not ones that would rather not."}
+  ],
+  "models": [
+    {"name": "Fable", "model": "claude-fable-5-1", "verdict": "chose", "option": "B", "position": "B strictly contains A and C; keep the briefs short so it costs nearer an hour."},
+    {"name": "Argon", "model": "gemini-4-hydrogen-high", "verdict": "chose", "option": "B", "position": "A no-skill baseline with design-craft available could plausibly match the skill, so it has to be tested."},
+    {"name": "Astra", "model": "gpt-6-astra", "verdict": "chose", "option": "B", "position": "Report it as a two-brief evaluation; contact sheets cannot establish smoothness or sync."},
+    {"name": "Grok", "model": "grok-4.7", "verdict": "chose", "option": "B", "position": "Nothing in the evidence shows the run is impossible, so the disclosure path does not apply."}
+  ],
+  "dissent": [],
+  "evidence": [
+    "plugins/create-skill/skills/create-skill/SKILL.md:111-140",
+    "plugins/create-skill/skills/create-skill/references/evals-and-judging.md:19-27, 40-43, 56-57, 84-87"
+  ],
+  "made": [
+    "Four models from four families answered the same evidence pack independently with the options in swapped order; all four chose B in round one, so no second round ran."
+  ],
+  "source": "docs/decisions/2026-11-15-motion-craft-proof.html"
+}

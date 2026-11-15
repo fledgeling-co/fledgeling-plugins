@@ -1,0 +1,102 @@
+{
+  "lang": "en-AU",
+  "title": "Which engine should motion-craft render videos with by default?",
+  "kicker": "fledgeling-plugins · motion-craft · decision · 15 November 2026",
+  "status": "decided",
+  "decision": {
+    "option": "C",
+    "summary": "Render through HyperFrames, pinned to 0.9.52, local only, with telemetry switched off and its usage beacon and HeyGen media steering left out; motion-craft is the director layer on top.",
+    "confidence": "medium",
+    "tally": "4 of 4 models"
+  },
+  "why": "HyperFrames is Apache-2.0, an existing library as the owner asked, and already does the deterministic frame-by-frame render, the editable Studio preview and the check, snapshot and audio measurement the skill would otherwise build. Every lane made it conditional on two facts, and both checked out on this machine: its docs say you can create and render locally without an account, telemetry turns off with HYPERFRAMES_NO_TELEMETRY=1 or DO_NOT_TRACK=1, and a 10-second 1080p test film rendered locally in 19 seconds. Bundling GSAP failed the licence gate, Remotion charges companies of four or more, and an own runtime would rebuild what design-craft and HyperFrames already ship.",
+  "next": [
+    {
+      "action": "Write motion-craft's engine reference around pinned npx hyperframes@0.9.52 with HYPERFRAMES_NO_TELEMETRY=1 and DO_NOT_TRACK=1 on every command, no usage beacon, and no HeyGen paid media without the user's approval.",
+      "needs_confirmation": false
+    },
+    {
+      "action": "Keep the director layer (story, rhythm, craft, sound, review) engine-independent and name design-craft's plain HTML timeline engine as the fallback when the user declines the vendor CLI.",
+      "needs_confirmation": false
+    }
+  ],
+  "options": [
+    {
+      "id": "C",
+      "label": "HyperFrames as the engine",
+      "outcome": "chosen",
+      "votes": [
+        "Fable",
+        "Argon",
+        "Astra",
+        "Grok"
+      ],
+      "reason": "Apache-2.0, already renders, previews and checks; nothing third-party bundled in the plugin."
+    },
+    {
+      "id": "B",
+      "label": "Own MIT runtime, no GSAP",
+      "outcome": "dismissed",
+      "votes": [],
+      "reason": "Licence-clean but rebuilds an engine and a studio that exist."
+    },
+    {
+      "id": "D",
+      "label": "Remotion",
+      "outcome": "dismissed",
+      "votes": [],
+      "reason": "Company licence at four or more employees, inherited by every installer."
+    },
+    {
+      "id": "A",
+      "label": "Bundled runtime on GSAP",
+      "outcome": "dismissed",
+      "votes": [],
+      "reason": "GSAP's licence is silent on redistribution and bars visual animation builders, which a tweaks panel resembles."
+    }
+  ],
+  "models": [
+    {
+      "name": "Fable",
+      "model": "claude-fable-5-1",
+      "verdict": "chose",
+      "option": "C",
+      "position": "Route, don't rebuild; skip the beacon and HeyGen media, keep design-craft's engine as the fallback."
+    },
+    {
+      "name": "Argon",
+      "model": "gemini-4-hydrogen-high",
+      "verdict": "chose",
+      "option": "C",
+      "position": "Apache-2.0 CLI already covers render, Studio editing and verification; call it without the beacon."
+    },
+    {
+      "name": "Astra",
+      "model": "gpt-6-astra",
+      "verdict": "chose",
+      "option": "C",
+      "position": "Best fit, but the top-level licence does not clear its GSAP dependency; pin a validated version."
+    },
+    {
+      "name": "Grok",
+      "model": "grok-4.7",
+      "verdict": "chose",
+      "option": "C",
+      "position": "Only option without a licence problem for installers; a quota or breaking change is the risk."
+    }
+  ],
+  "dissent": [],
+  "evidence": [
+    "hyperframes docs/guides/authentication.mdx:6 — create and render locally without an account",
+    "hyperframes docs/packages/cli.mdx:118 — HYPERFRAMES_NO_TELEMETRY and DO_NOT_TRACK opt-outs",
+    "local test 2026-11-15: npx hyperframes@0.9.52 render, 10 s 1920x1080 30 fps in 19.3 s, no sign-in",
+    "gsap.com/standard-license — Prohibited Uses clause",
+    "plugins/design-craft/skills/design-craft/references/make-an-animation.md:27-79"
+  ],
+  "made": [
+    "Four models from four families answered the same evidence pack independently with the options in swapped order; all four chose C in round one, so no second round ran.",
+    "The two conditions every lane attached were checked against HyperFrames' own docs and a local render before deciding.",
+    "Conditions the lanes raised while agreeing: HyperFrames' player depends on GSAP, which installers fetch through npx so the plugin redistributes nothing (Astra); and the skill needs a second capture path if the CLI changes (Grok), answered by the design-craft fallback."
+  ],
+  "source": "docs/decisions/2026-11-15-motion-craft-engine.html"
+}

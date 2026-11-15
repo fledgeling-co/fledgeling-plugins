@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-11-15
 
+### motion-craft 0.1.0: new plugin
+
+Makes short films from code: launch films, explainers, data stories, stings, overlays, vertical clips and demos. It renders locally through HyperFrames 0.9.52 (Apache-2.0, pinned, telemetry off) and adds sound from claude-motion's vendored procedural engine (MIT). Before anything is built it writes a brief with must-carry facts, three storylines, a numeric spec with a banned-defaults list, and a rhythm sheet; afterwards it reviews from HyperFrames' craft checks, contact sheets and measured cuts. Two decision panels chose the engine (HyperFrames over a bundled GSAP runtime and Remotion) and the proof (a blind with/without-skill baseline). That baseline went against the skill in round one; `evals/EVALS.md` records the loss, the rules it produced, and the second round. Sources: about twenty creator walkthroughs, claude-motion, the huashu motion repos, earshot, reanimate and explainroo, recorded in the plugin's `evidence.md`.
+
 ### design-craft 1.5.0: taste, tools, direction, dial
 
 Greenfield work now runs in four named stages. A new taste board turns the user's own reference screenshots into one line the direction is held to; Mobbin is consulted at five checkpoints instead of once (direction, one closest real screen per section type, hardest states, steer evidence, side-by-side critique); `product-demo.md` adapts Benji Taylor's Stageshow (MIT) for hero demos and bento tiles, with a filmed contact-sheet rehearsal before handover; Dial mode gives a tuning panel after the pick instead of more prompt rounds. The slop check detects the default look by the five parts Anthropic's Opus 5.5 prompting guide names, and borrows unslop's (CC BY 4.0) three fix scopes and redline order. Sources were three YouTube walkthroughs, the Stageshow, unslop, Impeccable and taste-skill repos, and the Opus 5.5 guide; each is recorded in the plugin's `evidence.md` §11.

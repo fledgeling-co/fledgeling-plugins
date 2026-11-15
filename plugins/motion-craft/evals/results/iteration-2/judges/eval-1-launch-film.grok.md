@@ -1,0 +1,4 @@
+I'll open both contact sheets and judge only what the frames show.specific: A — 0:01–0:03 show twelve identical dark cards, the anonymous output this skill refuses, and 0:12–0:16 show its contrast gate and a 23-against-9 fixture bar. B from 0:00–0:05 is a mark study any product could wear.
+craft: B — "The rut." at 0:01, "Derives past both." at 0:04, and the 23 at 0:15 are large and high-contrast. A's case at 0:00, 0:10, and 0:12–0:14 is small gray body copy. B's smeared frame at 0:14 is the miss.
+story: A — Cards arrive at 0:01, wash out at 0:03, an orange blade leaves them at 0:07–0:09, the gate measures contrast at 0:12, the bar fills at 0:16, and the name lands at 0:18. B shows the finished mark at 0:01 under "The rut." and holds that pose through 0:05.
+overall: A — The frames cause one another and pay off on this plugin's own gate, so this is the film to send.

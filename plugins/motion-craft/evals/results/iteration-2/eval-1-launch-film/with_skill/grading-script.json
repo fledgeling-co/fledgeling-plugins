@@ -1,0 +1,34 @@
+{
+  "expectations": [
+    {
+      "text": "An MP4 exists in outputs, 15-30 s long, 1920x1080",
+      "passed": true,
+      "evidence": "ffprobe: 20.00 s, 1920x1080"
+    },
+    {
+      "text": "The MP4 has an audio stream",
+      "passed": true,
+      "evidence": "audio stream present: True"
+    },
+    {
+      "text": "Frame 0 is not a flat field: its luma range (YMAX-YMIN) is at least 40",
+      "passed": true,
+      "evidence": "frame 0 luma range 214 (96x54 grey thumbnail)"
+    },
+    {
+      "text": "The picture changes within the first 3 s: mean absolute difference between the frames at 0.0 s and 3.0 s is at least 2.0",
+      "passed": true,
+      "evidence": "mean abs luma difference 0 s vs 3 s: 6.37"
+    },
+    {
+      "text": "The plugin's real icon file is used (byte-identical copy in the project, or a path reference)",
+      "passed": true,
+      "evidence": "copies: ['project/materials/icon.png', 'project/materials/icon-256.png', 'project/assets/icon.png']; references: []"
+    },
+    {
+      "text": "No banned hype word appears in any composition source file",
+      "passed": true,
+      "evidence": "hits: []"
+    }
+  ]
+}

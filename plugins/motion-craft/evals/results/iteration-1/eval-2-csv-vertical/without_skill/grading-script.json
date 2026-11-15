@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "text": "An MP4 exists in outputs, 10-20 s long, 1080x1920",
+      "passed": true,
+      "evidence": "ffprobe: 15.00 s, 1080x1920"
+    },
+    {
+      "text": "Frame 0 is not a flat field: its luma range (YMAX-YMIN) is at least 40",
+      "passed": false,
+      "evidence": "frame 0 luma range 24 (96x54 grey thumbnail)"
+    },
+    {
+      "text": "The picture changes within the first 3 s: mean absolute difference between the frames at 0.0 s and 3.0 s is at least 2.0",
+      "passed": false,
+      "evidence": "mean abs luma difference 0 s vs 3 s: 0.95"
+    },
+    {
+      "text": "At least one headline figure computed from the CSV (7145, 1187, 119%) appears in the composition source",
+      "passed": true,
+      "evidence": "found: ['7,145', '1187', '1,187']"
+    },
+    {
+      "text": "No number in the composition source contradicts the CSV (a stated total other than 7145 or a peak other than 1187)",
+      "passed": false,
+      "evidence": "near-miss numbers in composition source: ['1130', '1180']"
+    }
+  ]
+}

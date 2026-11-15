@@ -1,0 +1,14 @@
+{
+  "expectations": [
+    {
+      "text": "A written plan with per-shot or per-beat timing exists in the project and predates the composition files (by file modification time or by the run's own account).",
+      "passed": true,
+      "evidence": "stat -f '%m %N': BRIEF.md 1794733139 (19:58:59), STORYLINES.md 1794733197 (19:59:57) both predate every composition file - index.html 1794734163 (20:16:03), compositions/fan.html 1794734278 (20:17:58), compositions/titles.html 1794734367 (20:19:27), timeline.json 1794734367, assets/timeline.js 1794734367. SPEC.md carries the per-shot timing ('SHOTS: (frame ranges at 30 fps; every time also lives in timeline.json) 1 000-084 HOOK ... 7 498-600 END CARD', SPEC.md:52-96) plus a bar-level rhythm sheet; its mtime is 1794734654 (20:24:14) because it was revised after the build, and REVIEW.md gives the run's own account of that: 'SPEC.md first said \"four\"; the built film has six, and the spec was corrected to the measured number rather than the other way round' (REVIEW.md, 'Against SPEC.md's QA list'). REVIEW.md also grades the delivered film against SPEC.md's pre-written QA list, which only exists if the list predated the render."
+    },
+    {
+      "text": "Every product claim on screen can be found in the plugin's README or SKILL.md.",
+      "passed": true,
+      "evidence": "On-screen text (compositions/titles.html:3-14 data-composition-variables, confirmed in frames at 1 s, 8 s, 14.6 s, 16 s, 18.5 s): 'Ask for something distinctive' = README.md:19 'Asked for something distinctive, a model reaches for the same small set of choices every time'; 'The rut, and its predictable opposite' = README.md:27 'names the category's rut and its predictable opposite before generating'; 'Seven candidates, three families' = README.md:27 'derives seven candidates across at least three material families'; 'Derive past both, then commit' and the end-card tagline 'Names the rut and its predictable opposite, then derives past both and commits.' = the README banner line (README.md:2 alt text); 'contrast, computed from source' = README.md:29 'Ships a gate that computes contrast rather than asserting it ... reads WCAG ratios from source'; '2.773' with 'recorded 2.77' = README.md:29 '#D72229 on #2E2B2B computes 2.773 against a recorded 2.77'; 'unmeasurable' = README.md:31 'A gradient, an image or an undeclared ground is reported UNMEASURABLE, never skipped'; 'design-craft' wordmark = README title. The only two on-screen figures not in the README are the '19' and '40' degree calipers (titles.html:82,91), which come from plugin material in assets/icon-notes.md:18-28 ('Two of them cluster 19 deg apart ... The third leaf stands 40 deg ... The ratio between the two gaps ... is the argument') - stated here as an icon-notes-only source. No invented performance, adoption or speed claim appears; frames at 14.6 s and 16 s show only the contrast readout and its flip."
+    }
+  ]
+}
