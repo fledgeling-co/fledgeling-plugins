@@ -1,0 +1,144 @@
+{
+ "id": "tYOI-WoLS_o",
+ "title": "Delegate and schedule tasks in Claude Cowork",
+ "brand": "Claude",
+ "duration_s": 257.08,
+ "status": "ok",
+ "format": "tutorial",
+ "format_note": "Second in a series: two real-use walkthroughs (meeting prep, scheduled task) in a screen recording, bracketed by typographic title cards and a three-card recap.",
+ "one_thing": "You can steer Claude mid-task and also hand it recurring work, so it does the legwork on your terms.",
+ "transcript": {
+  "source": "human-captions",
+  "voiceover": "narrator-vo",
+  "words_total": 641,
+  "words_per_minute": 150,
+  "voice_style": "Calm second-person instruction narrator that reads the on-screen prompts aloud as they are typed and states each benefit once.",
+  "script_shape": "Two scenarios, each prompt, work, pivot or edit, handoff line ('the final document is yours to own'); closing two-sentence summary 'steer while they run / run on a schedule'."
+ },
+ "structure": {
+  "frame0": "Terracotta field with the full two-line title 'Delegate and schedule tasks in Claude Cowork' in black serif, centred; the subject is the poster (f0001.jpg).",
+  "first_3s": "Title assembles word by word in under 1.1 s (strip window-01), holds, then a white hand-drawn oval circles 'Delegate' at t=2.0 s; no product UI until 5.4 s.",
+  "beats": [
+   {"start_s": 0, "end_s": 5.38, "role": "hook", "what": "Title card on terracotta; oval swipe on 'Delegate'; words exit one by one."},
+   {"start_s": 5.38, "end_s": 13.97, "role": "setup", "what": "App home 'Good morning, Katie', then Downloads folder and Review folder in Finder, shown as a cluttered folder of files."},
+   {"start_s": 13.97, "end_s": 17.06, "role": "other", "what": "Beige chapter card: 'Using Cowork for multi-step tasks' with terracotta underline on 'multi-step'."},
+   {"start_s": 17.06, "end_s": 48, "role": "setup", "what": "Toggle Gmail, Calendar, Slack connectors; pick Meeting Notes folder; type the long prompt character by character."},
+   {"start_s": 48, "end_s": 69.5, "role": "demo", "what": "Task window: progress checklist ticks off, context panel fills with Slack, Calendar, web search."},
+   {"start_s": 69.5, "end_s": 80, "role": "turn", "what": "User queues 'Please check my email...' mid-task; Claude pivots and builds the doc with email context."},
+   {"start_s": 80, "end_s": 120, "role": "payoff", "what": "Prep doc ready: biggest wins and watch items; side pane opens the doc and scrolls to blank Action Items."},
+   {"start_s": 120, "end_s": 139.5, "role": "turn", "what": "Second edit: 'Add the pricing update from last Tuesday's Slack thread'; doc regenerates with a Slack thread section."},
+   {"start_s": 139.5, "end_s": 142, "role": "other", "what": "Beige chapter card: 'Scheduling tasks', underline on 'Scheduling'."},
+   {"start_s": 142, "end_s": 205.5, "role": "setup", "what": "Type the hourly drive-watch prompt; Claude asks one detail, offers alternatives; user adds weekdays 10am-6pm; Schedule button accepted."},
+   {"start_s": 205.5, "end_s": 235, "role": "proof", "what": "Scheduled page, run toast, the finished summary doc, Keep awake toggle, missed-run toasts, history, edit dialog."},
+   {"start_s": 236.65, "end_s": 257.08, "role": "logo", "what": "Cream recap: three cards (purple, green, terracotta) stagger in, fade, then star + 'Claude Cowork' logo."}
+  ],
+  "hero_moment": {"t_s": 70, "share": 0.272, "what": "User's second message lands while the checklist is running and Claude replies 'On it' and carries on: the steer-mid-task claim shown as a state change."},
+  "ending": {"cta_text": "none", "logo_hold_s": 5, "what": "Three icon cards 'Work through complex tasks / Schedule recurring tasks / Claude executes the work' then logo lockup; no URL or call to action."}
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 18,
+  "cuts_per_min": 4.2,
+  "median_shot_s": 4.71,
+  "how_change_is_paced": "Title cards and openings cut every 3-5 s; the two walkthroughs are single unbroken screen takes of 111.8 s (43.5% of runtime) and ~62 s, paced by typing and UI state changes. No bursts."
+ },
+ "look": {
+  "ground": "Terracotta field behind title and behind the floating app window; beige and cream for chapter and end cards; the app itself is white with faint dot-grid.",
+  "palette": ["#CF6F57 terracotta", "#E2D9CB beige", "#FAF9F5 cream", "#000 black type", "#8075B8 purple", "#68A388 green", "#FFFFFF app white"],
+  "accent_use": "Terracotta doubles as ground and underline/star accent; one hand-drawn underline marks the key word of each chapter title; recap cards give each idea one colour.",
+  "type": "High-contrast book serif for titles and the app's greeting, grotesque sans for UI. Titles are black, centred, two lines; end cards left-aligned 'Claude Cowork' at top.",
+  "title_height_pct": [7.2, 11.4],
+  "title_measurements": [
+   {"t_s": 3, "text": "in Claude Cowork", "line_height_px": 63, "frame_height_px": 720, "pct": 8.8},
+   {"t_s": 15, "text": "Using Cowork for / multi-step tasks (ink band, one line plus descender)", "line_height_px": 82, "frame_height_px": 720, "pct": 11.4},
+   {"t_s": 140.5, "text": "Scheduling tasks (with underline and descender)", "line_height_px": 82, "frame_height_px": 720, "pct": 11.4},
+   {"t_s": 248, "text": "Claude Cowork", "line_height_px": 52, "frame_height_px": 720, "pct": 7.2},
+   {"t_s": 254, "text": "Claude Cowork logo lockup with star", "line_height_px": 78, "frame_height_px": 720, "pct": 10.8}
+  ],
+  "max_words_per_title_line": 5,
+  "density": "sparse",
+  "depth": "Flat; the app window floats on terracotta with a soft drop shadow and rounded corners; no parallax."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 88,
+  "shown_as": ["real-ui-capture"],
+  "cursor": "real",
+  "camera_on_ui": "Mostly the whole window at 1:1; punch-in zoom to 150% on the Scheduled tasks page (t=3:26-3:30) for the Keep awake toggle; no pans.",
+  "legible_at_phone_width": "partly",
+  "notes": "Real captured app with demo data. Prompts and message bubbles are legible; progress list, context panel, document pane and history text sit near 8-12 px glyph height at 720p, so phone viewers rely on the narration."
+ },
+ "motion": {
+  "text_entry": "Titles type on word by word at ~40 ms per word with a fade per word (strip window-01); exit by word pops over ~0.5 s, shorter than entry. Chapter cards enter in ~0.8 s.",
+  "ui_motion": "Real UI motion: typing, checklist strike-through, panels refresh, document scrolls; recap cards slide up-left to right and fade out together.",
+  "camera": "Static, except one zoom-in on the Scheduled tasks page and a window resize when the doc pane opens.",
+  "eases": "Not measured by easing curve; entries read as quick fade with slight settle, hand-drawn oval and underline draw on like a pen stroke.",
+  "transitions": [
+   {"type": "hard-cut", "count": 14, "example_t_s": 5.38, "cause": "Title card to app window; background colour changes terracotta to beige to white."},
+   {"type": "ui-state-change", "count": 12, "example_t_s": 69.5, "cause": "User sends message, window content changes in place without a cut."},
+   {"type": "fade-through-colour", "count": 2, "example_t_s": 13.97, "cause": "Beige chapter card fades text in after the cut from the Finder window."},
+   {"type": "mask-or-wipe", "count": 2, "example_t_s": 25.3, "cause": "Native macOS folder picker slides over the app with a grey scrim."}
+  ],
+  "strips_read": [
+   "strips/window-01-0.084s.jpg: title assembles word by word in about 1 s",
+   "strips/window-05-4.046s.jpg: oval swipe, word-by-word exit, cut into app at 5.38 s",
+   "strips/window-11-13.889s.jpg: Finder cuts to beige chapter card, words fade in",
+   "strips/window-19-25.276s.jpg: folder picker appears in 0.2 s over scrim",
+   "strips/window-35-69.195s.jpg: queued message appears, old chat scrolls up in 0.6 s",
+   "strips/window-53-123.123s.jpg: second prompt typing, near static",
+   "strips/window-60-130.422s.jpg: doc pane reloads with spinner then new section"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {"t_s": 1, "text": "Delegate and schedule tasks in Claude Cowork", "words": 7, "hold_s": 3.8},
+   {"t_s": 14.5, "text": "Using Cowork for multi-step tasks", "words": 5, "hold_s": 2.5},
+   {"t_s": 140, "text": "Scheduling tasks", "words": 2, "hold_s": 2.0},
+   {"t_s": 24, "text": "Prep me for today's call with Acme Corp at 1PM", "words": 10, "hold_s": 2},
+   {"t_s": 70, "text": "Please check my email for any additional context on this account.", "words": 12, "hold_s": 6},
+   {"t_s": 126, "text": "Add the pricing update from last Tuesday's Slack thread, that's going to come up.", "words": 14, "hold_s": 4},
+   {"t_s": 238, "text": "Work through complex tasks", "words": 4, "hold_s": 12},
+   {"t_s": 240, "text": "Schedule recurring tasks", "words": 3, "hold_s": 10},
+   {"t_s": 244, "text": "Claude executes the work", "words": 4, "hold_s": 6},
+   {"t_s": 252, "text": "Claude Cowork", "words": 2, "hold_s": 5}
+  ],
+  "holds_vs_reading_rule": "Title cards hold 2.0-3.8 s against 0.5+0.3 s/word (2.6 s for 7 words): the two short chapter cards run at the minimum. Typed prompts take 20-30 s, far over."
+ },
+ "sound": {
+  "music": "Audio kind 'music' (confidence 0.67), no steady beat (confidence 0.011); 'keyboard_musical' tag 0.271 supports a soft keyboard bed; 'speech' tag 0.856 dominates.",
+  "sfx": "Nothing in the tags names UI sounds; 18 silence gaps under 0.7 s, none longer than 1.6 s except the final 1.56 s tail.",
+  "vo_music_balance": "Narration leads (speech 0.856 vs music 0.613); integrated -16.5 LUFS, short-term max -14.4, LRA 3.5 LU.",
+  "energy_arc": "Flat and conversational for 257 s; sections B (5-55 s, 78.5-120.5 s) recur and no climax is measured.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.0 against chance_share 0.056."
+ },
+ "good": [
+  {"observation": "Full title is on screen at frame 0 and stays readable from t=1 s; the hook states the two subjects (delegate, schedule) immediately.", "evidence": "f0001.jpg; strips/window-01-0.084s.jpg"},
+  {"observation": "Prompts are typed in real time and the narration reads them as they appear, so every must-carry instruction reaches the screen verbatim and legibly large.", "evidence": "f0013.jpg-f0028.jpg; transcript 0:24-0:42"},
+  {"observation": "Mid-task steering is shown rather than described: queue box, message bubble, checklist keeps running, then 'On it' reply.", "evidence": "f0034.jpg-f0037.jpg; strips/window-35-69.195s.jpg"},
+  {"observation": "Chapter cards use one underlined key word in the accent colour and a ground colour change, giving a clear section boundary in about 3 s.", "evidence": "f0008.jpg; f0071.jpg"},
+  {"observation": "A single punch-in to 150% shows the one detail a viewer would miss, the Keep awake toggle, and the click is seen.", "evidence": "f0107.jpg-f0109.jpg; transcript 3:26"},
+  {"observation": "Closing recap pairs three colour-coded cards with hand-drawn icons, one idea each, staggered about 2 s apart, then a still logo.", "evidence": "f0124.jpg-f0129.jpg"}
+ ],
+ "weak": [
+  {"observation": "A 111.8 s single shot (43.5% of runtime) with long typing stretches; the median hold is 1.54 s but the longest is 15.8 s, so the middle is slow.", "evidence": "metrics.json rhythm.longest_shot; events.longest_hold_s"},
+  {"observation": "Side panels, doc text and history at about 8-12 px glyph height are not readable at phone width.", "evidence": "f0058.jpg; f0097.jpg"},
+  {"observation": "No call to action or URL at the end; only the logo.", "evidence": "f0129.jpg"},
+  {"observation": "Integrated loudness -16.5 LUFS and true peak +0.3 dBTP miss a -14 LUFS / -1 dBTP social master.", "evidence": "metrics.json sound.lufs_integrated, true_peak_db"}
+ ],
+ "rule_candidates": [
+  {"rule": "In a tutorial, let a task run in real time, interrupt it once on screen, and show the same window continuing; the interruption is the proof of the claim.", "evidence": "t=69.5 s steer; transcript 1:07-1:13", "relation": "new", "skill_rule": "none"},
+  {"rule": "Open a walkthrough with the title card on the same ground colour as the app's surround, so the cut into the UI changes only what is inside the window.", "evidence": "f0001.jpg to f0004.jpg terracotta in both", "relation": "new", "skill_rule": "none"},
+  {"rule": "A chapter card carries at most 5 words and one hand-underlined word in the accent colour, and holds 2-3 s.", "evidence": "f0008.jpg 5 words, 3.1 s; f0071.jpg 2 words, 2.5 s", "relation": "extends", "skill_rule": "Rule 3 (one accent word)"},
+  {"rule": "In a screen-recording film, a shot over 60 s is acceptable when typing or UI state changes at least every 2 s; re-start it with a chapter card every 60-140 s.", "evidence": "metrics.json: 111.8 s shot; cards at 14 s, 139.5 s", "relation": "contradicts", "skill_rule": "Rule 10 (cuts every 1.8-3.5 s)"},
+  {"rule": "Zoom 1.5x on the one control the narration names, hold 4 s, then return to full window.", "evidence": "f0107.jpg-f0109.jpg at 3:26-3:30", "relation": "extends", "skill_rule": "Rule 5 (must-carry facts legible)"},
+  {"rule": "End a recap on three cards, each 4 words or fewer, colour-coded, staggered about 2 s apart, followed by a still logo held about 5 s.", "evidence": "f0121.jpg-f0129.jpg", "relation": "confirms", "skill_rule": "Rule 2 (last line holds at least 2 s)"},
+  {"rule": "A calm tutorial can sit without cuts locked to sound: narration-led, no beat, 0.0 cut share, and still read as finished.", "evidence": "metrics.json cuts_on_strong_onset_share 0.0, beats.count 0", "relation": "contradicts", "skill_rule": "Rule 8 (hero on strongest musical point)"}
+ ],
+ "frames_opened": 53,
+ "crops_made": 6,
+ "unchecked": [
+  "Music instrument is a single 0.271 tag; no genre claimed.",
+  "Ease curves not measured, only observed from strips.",
+  "hero_moment and presence_pct_runtime are estimated from cut times and sheets, not measured.",
+  "Title heights at 15 s include a descender and the second line's top, so 82 px overstates one line."
+ ]
+}

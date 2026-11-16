@@ -48,13 +48,15 @@ Good openers: the result first; a real moment that creates the need; a question 
 
 Measured with `hyperframes measure cuts`: Anthropic's Claude Motion launch has 8 hard cuts in 82 s with one unbroken 32-second stretch (continuous with few cuts); the owner's reference film has 20 cuts in 95 s, an unbroken 20.6-second opening, then nine cuts between 24 and 37 s and six between 42 and 58 s (hybrid); music-driven launch films averaged a shot every 1.8-3.5 s (huashu-motion, 21 films, October 2026). Whatever the route, every cut is motivated: carried by an object or landed on a beat.
 
+Product walkthroughs and explainers are paced by change inside the shot rather than by cuts. Across 48 SaaS product films measured on 2026-11-16 the median film cuts 5.7 times a minute with a 4.7 s median shot, holds its longest shot for 31 s, and changes something on screen every 1.3 s; only 7 of the 48 have a burst. `saas-films.md` §1 gives the numbers by film type; use them instead of the launch cadence when the film's job is to show a product working.
+
 ## 5. Draw the energy curve
 
 Before the beat map, score each stretch of a few seconds from 0 to 10 and check the shape:
 
 - **Hook within 3 s.**
 - **Climb in steps you can name** (the kick enters, the camera starts travelling, the cuts double), not a slope nobody can see.
-- **A burst near the middle**: 5-8 cuts in five seconds, about one per beat, at 30-60 % of the length (median about 37 % in the measured films).
+- **A burst near the middle** for an energetic film: 5-8 cuts in five seconds, about one per beat, at 30-60 % of the length (median about 37 % in the measured films). A walkthrough replaces it with change inside the shot, and keeps a burst only where something on screen causes one, such as one cut per spoken list item (`saas-films.md` §1).
 - **The hero moment on the strongest musical point**, usually after the burst.
 - **A stop when it earns its place**: 0.5-1.6 s of near stillness and near silence, then picture and sound land on the same frame.
 - **Resolve** to one idea, held.

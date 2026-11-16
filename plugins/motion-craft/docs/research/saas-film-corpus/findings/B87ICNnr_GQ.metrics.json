@@ -1,0 +1,337 @@
+{
+ "id": "B87ICNnr_GQ",
+ "title": "Harvey\u2019s Legal AI Is Now Inside Microsoft 365",
+ "uploader": "Harvey",
+ "duration_s": 151.08,
+ "fps": 60,
+ "rhythm": {
+  "hard_cuts": 10,
+  "cuts_per_min": 3.97,
+  "cut_times_s": [
+   21.7,
+   21.85,
+   25.4,
+   27.72,
+   56.42,
+   82.45,
+   84.83,
+   109.03,
+   111.63,
+   116.25
+  ],
+  "median_shot_s": 4.62,
+  "mean_shot_s": 13.73,
+  "shots_over_10s": 5,
+  "first_cut_s": 21.7,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 116.25,
+   "end": 151.08,
+   "seconds": 34.83,
+   "share_of_runtime": 0.231
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 13,
+   "flash": 6,
+   "appear": 31,
+   "disappear": 41,
+   "change": 281,
+   "hold": 88
+  },
+  "holds_over_1s": 34,
+  "median_hold_s": 1.12,
+  "longest_hold_s": 7.35,
+  "windows": 100
+ },
+ "frames": {
+  "count": 76,
+  "not_evidence_frames": [],
+  "dark_share": 0.0,
+  "light_share": 1.0,
+  "median_contentful_cells": 0.478,
+  "intervals_new_composition_share": 0.147,
+  "intervals_static_share": 0.293,
+  "longest_static_run_s": 22,
+  "longest_static_run_ends_at_s": 150,
+  "frame0": {
+   "meanLuminance": 0.9784,
+   "contentfulCells": 0.0312,
+   "blankCells": 0.9688,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0004.jpg",
+  "f0007.jpg",
+  "f0010.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0019.jpg",
+  "f0022.jpg",
+  "f0025.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0031.jpg",
+  "f0034.jpg",
+  "f0037.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0044.jpg",
+  "f0046.jpg",
+  "f0049.jpg",
+  "f0051.jpg",
+  "f0052.jpg",
+  "f0055.jpg",
+  "f0056.jpg",
+  "f0058.jpg",
+  "f0059.jpg",
+  "f0061.jpg",
+  "f0064.jpg",
+  "f0067.jpg",
+  "f0070.jpg",
+  "f0073.jpg",
+  "f0076.jpg"
+ ],
+ "sound": {
+  "kind": "voice",
+  "lufs_integrated": -14.7,
+  "lufs_short_term_max": -11.3,
+  "true_peak_db": 0.2,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.012,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 8.365,
+    "end": 8.585
+   },
+   {
+    "start": 12.605,
+    "end": 12.97
+   },
+   {
+    "start": 16.165,
+    "end": 16.54
+   },
+   {
+    "start": 17.99,
+    "end": 18.28
+   },
+   {
+    "start": 20.995,
+    "end": 21.335
+   },
+   {
+    "start": 25.63,
+    "end": 26.145
+   },
+   {
+    "start": 33.015,
+    "end": 34.345
+   },
+   {
+    "start": 39.69,
+    "end": 40.29
+   },
+   {
+    "start": 44.1,
+    "end": 44.45
+   },
+   {
+    "start": 46.65,
+    "end": 47.04
+   },
+   {
+    "start": 50.5,
+    "end": 50.935
+   },
+   {
+    "start": 54.785,
+    "end": 55.34
+   },
+   {
+    "start": 59.45,
+    "end": 59.67
+   },
+   {
+    "start": 64.62,
+    "end": 65.99
+   },
+   {
+    "start": 73.475,
+    "end": 74.995
+   },
+   {
+    "start": 79.27,
+    "end": 80.57
+   },
+   {
+    "start": 85.47,
+    "end": 86.29
+   },
+   {
+    "start": 91.155,
+    "end": 91.48
+   },
+   {
+    "start": 95.83,
+    "end": 96.535
+   },
+   {
+    "start": 101.465,
+    "end": 102.65
+   },
+   {
+    "start": 105.08,
+    "end": 105.44
+   },
+   {
+    "start": 109.125,
+    "end": 109.695
+   },
+   {
+    "start": 114.445,
+    "end": 114.7
+   },
+   {
+    "start": 118.95,
+    "end": 119.775
+   },
+   {
+    "start": 128.49,
+    "end": 128.855
+   },
+   {
+    "start": 132.795,
+    "end": 133.295
+   },
+   {
+    "start": 138.68,
+    "end": 139.42
+   },
+   {
+    "start": 141.47,
+    "end": 141.685
+   },
+   {
+    "start": 144.095,
+    "end": 144.39
+   },
+   {
+    "start": 145.86,
+    "end": 146.09
+   },
+   {
+    "start": 150.53,
+    "end": 151.074
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 21.5,
+    "label": "A"
+   },
+   {
+    "start": 21.5,
+    "end": 30.5,
+    "label": "B"
+   },
+   {
+    "start": 30.5,
+    "end": 35.5,
+    "label": "C"
+   },
+   {
+    "start": 35.5,
+    "end": 49,
+    "label": "D"
+   },
+   {
+    "start": 49,
+    "end": 59.5,
+    "label": "E"
+   },
+   {
+    "start": 59.5,
+    "end": 66,
+    "label": "F"
+   },
+   {
+    "start": 66,
+    "end": 73,
+    "label": "G"
+   },
+   {
+    "start": 73,
+    "end": 129,
+    "label": "H"
+   },
+   {
+    "start": 129,
+    "end": 139.5,
+    "label": "I"
+   },
+   {
+    "start": 139.5,
+    "end": 151.074,
+    "label": "J"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.915
+   ],
+   [
+    "insect",
+    0.203
+   ],
+   [
+    "mosquito_buzz",
+    0.141
+   ],
+   [
+    "writing",
+    0.124
+   ],
+   [
+    "click",
+    0.082
+   ],
+   [
+    "music",
+    0.078
+   ],
+   [
+    "fly_buzz",
+    0.068
+   ],
+   [
+    "tick",
+    0.059
+   ]
+  ],
+  "lra_lu": 4.4,
+  "cuts_on_strong_onset_share": 0.1,
+  "chance_share": 0.098,
+  "strong_onsets_per_min": 25.4
+ },
+ "look": {
+  "luma": 232,
+  "contrast": 26.8,
+  "saturation": 0.012,
+  "bw_share": 0.58,
+  "warmth": 0.5
+ }
+}

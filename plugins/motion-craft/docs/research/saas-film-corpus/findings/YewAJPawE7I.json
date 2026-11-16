@@ -1,0 +1,431 @@
+{
+ "id": "YewAJPawE7I",
+ "title": "Introducing Claude Whiteboards, Sheets, and Data",
+ "brand": "Claude",
+ "duration_s": 57.78,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "Three feature chapters (Whiteboards, Sheets, Data) each opened by a title card, then a staged demo, closed by a tagline and logo; music only.",
+ "one_thing": "Claude now makes whiteboards, spreadsheets and dashboards that teammates edit alongside it, at the speed of thought.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No voice. Captions covered 28% of runtime and local whisper only repeated one invented sentence, so it was discarded.",
+  "script_shape": "All meaning is carried by on-screen type and typed prompts: three chapter titles, three typed or chat prompts, then a three-variant tagline and the logo."
+ },
+ "structure": {
+  "frame0": "Off-white ground with a small grey 'New in' chip alone mid-frame (f0 in strips/window-01-0s.jpg); contentful cells 6%, so frame 0 is near-empty.",
+  "first_3s": "A Claude-labelled cursor types 'Artifact' with a text caret by 1.3s; a row of four coloured icons (doc, deck, sheet, palette) replaces the letters, 'cts' still on screen at 2s.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 1.4,
+    "role": "hook",
+    "what": "'New in' chip, Claude cursor types the word Artifacts"
+   },
+   {
+    "start_s": 1.4,
+    "end_s": 4.9,
+    "role": "setup",
+    "what": "Word collapses into four line icons: doc, deck, sheet, palette; chart icon joins at 4.9s"
+   },
+   {
+    "start_s": 4.9,
+    "end_s": 8.0,
+    "role": "reveal",
+    "what": "Title 'Plan it out with Claude Whiteboards' tumbles in over three named collaborator cursors"
+   },
+   {
+    "start_s": 8.0,
+    "end_s": 14.0,
+    "role": "setup",
+    "what": "Grid appears; 'Soooo cool!' tag; prompt box types '@Claude Lay out an illustrated timeline...'"
+   },
+   {
+    "start_s": 14.0,
+    "end_s": 19.5,
+    "role": "demo",
+    "what": "Claude draws the Huckleberry Pie timeline: sticky notes, road, truck appear and canvas zooms out"
+   },
+   {
+    "start_s": 19.5,
+    "end_s": 22.0,
+    "role": "payoff",
+    "what": "Teammates add a green Holiday delivery card with map, a heart and 'Perfect!'"
+   },
+   {
+    "start_s": 22.0,
+    "end_s": 26.0,
+    "role": "reveal",
+    "what": "Title 'Build it with Claude Sheets' on a spreadsheet grid; a grey prompt bubble slides in"
+   },
+   {
+    "start_s": 26.0,
+    "end_s": 32.0,
+    "role": "demo",
+    "what": "Blur-through to chat plus sheet; Claude fills a colour-banded forecast table, Rosa and Dev cursors present"
+   },
+   {
+    "start_s": 32.0,
+    "end_s": 34.8,
+    "role": "reveal",
+    "what": "Title 'Share a story with Claude Data'; dashboard slides in from the right"
+   },
+   {
+    "start_s": 34.8,
+    "end_s": 40.0,
+    "role": "demo",
+    "what": "Four KPI tiles, line chart, bar chart; Design panel offers Scrollyteller and Visual short"
+   },
+   {
+    "start_s": 40.0,
+    "end_s": 45.8,
+    "role": "proof",
+    "what": "Scrollyteller page 'Holiday Pies: Pre-order Sales' scrolls; push into the Share button"
+   },
+   {
+    "start_s": 45.8,
+    "end_s": 48.0,
+    "role": "turn",
+    "what": "Hard cut: floating tool logos (Airtable, Excel, Grafana and others) drift and blur away"
+   },
+   {
+    "start_s": 48.0,
+    "end_s": 55.0,
+    "role": "payoff",
+    "what": "Tagline cycles Plan / Share / Work at the speed of thought with cursors and hearts"
+   },
+   {
+    "start_s": 55.0,
+    "end_s": 57.8,
+    "role": "logo",
+    "what": "Orange starburst then Claude wordmark; silence from 56.6s"
+   }
+  ],
+  "hero_moment": {
+   "t_s": 20.0,
+   "share": 0.346,
+   "what": "Finished illustrated pie-launch whiteboard with four collaborator cursors, a heart and 'Perfect!' reaction (f0011.jpg)."
+  },
+  "ending": {
+   "cta_text": "Work at the speed of thought",
+   "logo_hold_s": 2.8,
+   "what": "No URL or button; tagline then starburst morphs to the Claude wordmark on off-white."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 1,
+  "cuts_per_min": 1.04,
+  "median_shot_s": 28.89,
+  "how_change_is_paced": "One hard cut at 45.79s; everything else is animated inside one long shot (45.8s, 79% of runtime). Chapters change every 10-12s through type-card, blur or slide, with roughly 4 new on-screen elements per 2s sample."
+ },
+ "look": {
+  "ground": "Warm off-white (luma 242, saturation 0.035) for the whole film; light_share 1.0, no dark frames.",
+  "palette": [
+   "off-white ground",
+   "near-black serif type",
+   "Claude terracotta orange",
+   "forest green for data",
+   "sticky-note yellow and orange",
+   "per-feature icon colours blue, brown, green, purple, crimson"
+  ],
+  "accent_use": "Terracotta marks Claude's cursor and starburst; each feature gets one line-icon colour; the dashboard is re-themed in forest green and pink.",
+  "type": "High-contrast serif for titles with a light first line and a bold second line; grotesque sans for UI and prompts; chat prompts sit in grey rounded bubbles.",
+  "title_height_pct": [
+   6.7,
+   10.8
+  ],
+  "title_measurements": [
+   {
+    "t_s": 6.7,
+    "text": "Plan it out with",
+    "line_height_px": 48,
+    "frame_height_px": 720,
+    "pct": 6.7
+   },
+   {
+    "t_s": 41.0,
+    "text": "Holiday Pies: Pre-order Sales",
+    "line_height_px": 64,
+    "frame_height_px": 720,
+    "pct": 8.9
+   },
+   {
+    "t_s": 49.0,
+    "text": "Plan at the speed of thought",
+    "line_height_px": 63,
+    "frame_height_px": 720,
+    "pct": 8.75
+   },
+   {
+    "t_s": 56.0,
+    "text": "Claude",
+    "line_height_px": 78,
+    "frame_height_px": 720,
+    "pct": 10.8
+   }
+  ],
+  "max_words_per_title_line": 6,
+  "density": "medium",
+  "depth": "Flat. UI sits in a rounded window with a faint shadow on off-white; sticky notes and cards carry the only depth."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 62,
+  "shown_as": [
+   "redrawn-simplified-ui",
+   "floating-ui-cards"
+  ],
+  "cursor": "labelled-cursors",
+  "camera_on_ui": "Whiteboard opens oversized then zooms out to a framed window (t=14-18s); chat-plus-sheet slides in; dashboard slides from the right; final push into the Share button at 44s.",
+  "legible_at_phone_width": "partly",
+  "notes": "UI carries a consistent invented story (GeeGolly Good Pies) with real figures such as 58,500 pre-orders and +17%. Sheet cells and chart axes are about 10-14 px tall at 720p, so only the big numbers survive a phone."
+ },
+ "motion": {
+  "text_entry": "Titles tumble in rotated and slide to rest over about 1.5s (strips/window-05-4.917s.jpg); prompts type letter by letter with a caret; tagline word swaps via a selection highlight.",
+  "ui_motion": "Elements are drawn in by Claude's cursor: stickies pop onto the road, table bands fill, charts draw lines; teammate cursors drift and drop hearts.",
+  "camera": "Zoom-out from oversized canvas, horizontal slides, push into the Share button, then a defocus into floating logos.",
+  "eases": "Soft ease-out landings with slight overshoot on cursors; blur-and-defocus dissolves between chapters.",
+  "transitions": [
+   {
+    "type": "morph-or-shared-element",
+    "count": 2,
+    "example_t_s": 1.4,
+    "cause": "Typed word Artifacts resolves into four tool icons; Claude cursor drives it."
+   },
+   {
+    "type": "push-or-slide",
+    "count": 3,
+    "example_t_s": 33.5,
+    "cause": "Chapter title slides left while the next product surface slides in from right."
+   },
+   {
+    "type": "fade-through-colour",
+    "count": 1,
+    "example_t_s": 26.5,
+    "cause": "Prompt bubble pulls focus as the title card blurs out into the chat window."
+   },
+   {
+    "type": "zoom-through",
+    "count": 2,
+    "example_t_s": 44.0,
+    "cause": "Camera pushes into the Share button, then logos float out."
+   },
+   {
+    "type": "hard-cut",
+    "count": 1,
+    "example_t_s": 45.79,
+    "cause": "Share close-up cuts to the integrations cloud."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 3,
+    "example_t_s": 40.0,
+    "cause": "Design panel Scrollyteller click redoes the dashboard as a scroll page."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0s.jpg: chip then Artifact typed",
+   "strips/window-05-4.917s.jpg: icons to tumbling title",
+   "strips/window-07-8.084s.jpg: cursors drift on grid",
+   "strips/window-14-14.875s.jpg: whiteboard builds and zooms out",
+   "strips/window-19-21.709s.jpg: collaborators react then slide out",
+   "strips/window-22-26.959s.jpg: blur into chat plus sheet",
+   "strips/window-32-40.584s.jpg: scrollyteller shown",
+   "strips/window-36-45.459s.jpg: Share push, hard cut, logos",
+   "strips/window-40-51.75s.jpg: tagline with hearts and cursors"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0.0,
+    "text": "New in Artifacts",
+    "words": 3,
+    "hold_s": 1.3
+   },
+   {
+    "t_s": 5.5,
+    "text": "Plan it out with Claude Whiteboards",
+    "words": 6,
+    "hold_s": 2.8
+   },
+   {
+    "t_s": 10.0,
+    "text": "@Claude Lay out an illustrated timeline for the Huckleberry Pie launch, from locking the flavor to holiday delivery.",
+    "words": 18,
+    "hold_s": 4.0
+   },
+   {
+    "t_s": 22.0,
+    "text": "Build it with Claude Sheets",
+    "words": 5,
+    "hold_s": 3.5
+   },
+   {
+    "t_s": 24.0,
+    "text": "Draft a forecast for pre-orders. Reference last year's numbers from the Historical tab.",
+    "words": 13,
+    "hold_s": 3.0
+   },
+   {
+    "t_s": 27.0,
+    "text": "You got it.",
+    "words": 3,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 32.0,
+    "text": "Share a story with Claude Data",
+    "words": 6,
+    "hold_s": 2.0
+   },
+   {
+    "t_s": 40.0,
+    "text": "Holiday Pies: Pre-order Sales",
+    "words": 4,
+    "hold_s": 3.0
+   },
+   {
+    "t_s": 48.0,
+    "text": "Plan at the speed of thought",
+    "words": 6,
+    "hold_s": 2.0
+   },
+   {
+    "t_s": 50.0,
+    "text": "Share at the speed of thought",
+    "words": 6,
+    "hold_s": 1.6
+   },
+   {
+    "t_s": 51.8,
+    "text": "Work at the speed of thought",
+    "words": 6,
+    "hold_s": 3.2
+   },
+   {
+    "t_s": 56.0,
+    "text": "Claude",
+    "words": 1,
+    "hold_s": 1.8
+   }
+  ],
+  "holds_vs_reading_rule": "Three-word and six-word titles hold 2.0-3.5s, above the 0.5s+0.3s/word floor (2.3s for 6 words); the 18-word prompt is typed over about 4s. Final wordmark holds 1.8s, short of the 2s last-line minimum."
+ },
+ "sound": {
+  "music": "Music-only bed: describe tags keyboard_musical 0.507, synthesizer 0.451, percussion 0.326, piano 0.292; beat estimate 185.7 bpm at confidence 0.44, so tempo is unreliable.",
+  "sfx": "Not separable from audio.json; no sfx tag above 0.2. Not claimed.",
+  "vo_music_balance": "No voice; music is the only track. Integrated -15.5 LUFS, true peak -1.1 dBTP, loudness range 7.1 LU.",
+  "energy_arc": "Three sections: A 0-15.6s, B 15.6-51.9s, C 51.9-57.8s; silence span 56.62-57.77s under the logo.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.0 against chance 0.216, from a single cut."
+ },
+ "good": [
+  {
+   "observation": "One long continuous take with one hard cut lets three features read as one connected product story rather than three ads.",
+   "evidence": "hard_cuts 1; longest shot 45.79s, 79% of runtime"
+  },
+  {
+   "observation": "Every chapter opens with the same card: line icon, light first line, bold product name in two lines of at most 3 words.",
+   "evidence": "f0004, f0012, f0017 title cards"
+  },
+  {
+   "observation": "Typing the prompt on screen shows the user action and the result without any caption naming the problem.",
+   "evidence": "f0006, f0007 prompt box; f0010 result"
+  },
+  {
+   "observation": "One consistent invented story (GeeGolly pies, Day 1-12, 58,500 pre-orders) links whiteboard, sheet and dashboard with real-looking numbers.",
+   "evidence": "f0010, f0016, f0019 share 58,500 and 6,500 figures"
+  },
+  {
+   "observation": "Named coloured cursors (Claude, Mia, Rosa, Dev, June) make collaboration visible instead of stated, and the tagline reuses them.",
+   "evidence": "f0004, f0011, f0027"
+  },
+  {
+   "observation": "The tagline is rebuilt live by a selection highlight swapping Plan, Share, Work, so the three chapters are summarised in one line.",
+   "evidence": "f0025-f0027; strips/window-40-51.75s.jpg"
+  },
+  {
+   "observation": "Ground, type and accent stay constant for 58s, so the brand reads as calm and consistent.",
+   "evidence": "look.light_share 1.0; saturation 0.035"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Frame 0 is a near-empty frame with a small grey chip; the subject only builds after 1.3s.",
+   "evidence": "frame0 contentful 0.0625; strips/window-01-0s.jpg"
+  },
+  {
+   "observation": "Dashboard and sheet text is small, so only headline figures survive at phone width; the chart axes are about 10 px at 720p.",
+   "evidence": "f0016, f0019 crops"
+  },
+  {
+   "observation": "Closing wordmark holds about 1.8s and has no call to action, URL or availability line.",
+   "evidence": "f0029; silence span 56.62-57.77"
+  },
+  {
+   "observation": "No cut is placed on a musical onset; pacing is by animation only.",
+   "evidence": "cuts_on_strong_onset_share 0.0 vs chance 0.216"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "A multi-feature launch can run as one continuous shot with chapter title cards; one hard cut in 58s still holds attention when an animated change lands every 2-3s.",
+   "evidence": "hard_cuts 1, median shot 28.89s, 42 strip windows",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Give every feature chapter the same title card template: icon above, light line then bold product name, centred, 6.7-10.8% of frame height.",
+   "evidence": "f0004, f0012, f0017; title_height_pct 6.7-10.8",
+   "relation": "confirms",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "Show collaboration with named, coloured cursors that touch the content, then reuse them in the tagline; keep each label visible at least 1s.",
+   "evidence": "f0004, f0011, f0027",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Prompt text is typed letter by letter on screen and held about 4s for 18 words, then the result is built by a cursor.",
+   "evidence": "f0006-f0007; t=10-14s",
+   "relation": "extends",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "A tagline can be rebuilt by swapping its first word in place with a selection highlight, one swap about every 1.8s, so each variant lands once.",
+   "evidence": "f0025, f0026, f0027 at t=48, 50, 52s",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Open an animated launch with a chip and typing animation rather than a logo; frame 0 may be near-empty if the subject builds within 1.3s.",
+   "evidence": "frame0 contentful 0.0625; strips/window-01-0s.jpg",
+   "relation": "contradicts",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Keep one invented but consistent story and figures across all UI so the demo reads as a single business; use the same figures in headings and charts.",
+   "evidence": "58,500 and 6,500 on f0019 and f0021",
+   "relation": "extends",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Close with silence under the wordmark: music stops about 1.2s before the end and the logo holds at least 2s.",
+   "evidence": "silence_spans 56.62-57.774; f0029",
+   "relation": "extends",
+   "skill_rule": "2"
+  }
+ ],
+ "frames_opened": 29,
+ "crops_made": 6,
+ "unchecked": [
+  "Whether the UI is a real capture or a redraw cannot be told from frames.",
+  "Individual sound effects: audio.json holds no sfx tag above 0.2.",
+  "Title heights at t=6.7 and t=49 may include cursor tags in the ROI.",
+  "Phone-width legibility judged from 720p frames, not on a phone."
+ ]
+}

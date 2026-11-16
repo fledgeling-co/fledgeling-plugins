@@ -1,0 +1,396 @@
+{
+ "id": "G3vwVsh9RtU",
+ "title": "Claude Fable 5.1 builds the ops review in Slack",
+ "brand": "Claude",
+ "duration_s": 85.52,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "A scripted Slack thread plays as a tale: a boss asks for a deck, Claude reads the files and delivers, then a two-line tagline and logo.",
+ "one_thing": "Claude does a rushed ops-review deck inside Slack and the human still makes the one real call; 'You still run the show.'",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No speech. Whisper returned only repeated 'Music' lines, so the story is carried by on-screen Slack messages and status labels.",
+  "script_shape": "Message from a boss, a title, the team's ask, Claude's silent work shown as status labels, a human decision, the deck delivered, a tagline, a logo."
+ },
+ "structure": {
+  "frame0": "f0001.jpg: beige desktop with blue folders ('Q3 Materials', 'Past Reviews'), a faded Slack toast from Fabian fading in and a cursor. Subject present, not black.",
+  "first_3s": "Fabian's toast 'Hey Vickie - hate to do this, but exec review moved to tomorrow.' goes sharp at 2 s over a blurred desktop; second line 'Any chance you can have the deck by 8AM?' at 3.7 s.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 6.1,
+    "role": "hook",
+    "what": "Desktop with a Slack toast from Fabian: exec review moved to tomorrow, deck by 8AM."
+   },
+   {
+    "start_s": 6.1,
+    "end_s": 8.6,
+    "role": "turn",
+    "what": "Cut to title 'Let Claude handle more' fading in word by word on a plain beige ground."
+   },
+   {
+    "start_s": 8.6,
+    "end_s": 16.4,
+    "role": "setup",
+    "what": "Vickie types her reply in a Slack composer, @-mentions Claude and attaches last month's deck."
+   },
+   {
+    "start_s": 16.4,
+    "end_s": 24,
+    "role": "setup",
+    "what": "Teammates drop files (CSV, PNG); Claude reacts with a thumbs-up or eyes emoji on each."
+   },
+   {
+    "start_s": 24,
+    "end_s": 37.6,
+    "role": "demo",
+    "what": "Streak transition into a gridded canvas: file messages scatter and drift while a red line runs down the centre."
+   },
+   {
+    "start_s": 37.6,
+    "end_s": 41.8,
+    "role": "demo",
+    "what": "Thirteen cuts: circular iris opens on a spreadsheet and a log file, labels 'Analyzing data...' and 'Understanding incidents...'."
+   },
+   {
+    "start_s": 41.8,
+    "end_s": 55,
+    "role": "demo",
+    "what": "One long move along the red line past file cards marked read/scanned, labels 'Channel analysis complete', 'Starting to build the deck...'."
+   },
+   {
+    "start_s": 55,
+    "end_s": 65,
+    "role": "turn",
+    "what": "'ISSUE DETECTED' conflicting Week 2 spend; Claude pings Vickie, who answers 'Split the spend 40-60'; files merge into one."
+   },
+   {
+    "start_s": 65,
+    "end_s": 71,
+    "role": "payoff",
+    "what": "'August ops review.pptx' card, then the #august-ops-review message 'Done' with confetti reactions."
+   },
+   {
+    "start_s": 71,
+    "end_s": 78.3,
+    "role": "proof",
+    "what": "Whip-pan to #leadership-team: Vickie shares the deck, replies of praise scroll up."
+   },
+   {
+    "start_s": 78.3,
+    "end_s": 82.1,
+    "role": "cta",
+    "what": "Tagline: 'Fable 5.1 runs bigger projects. You still run the show.'"
+   },
+   {
+    "start_s": 82.1,
+    "end_s": 85.5,
+    "role": "logo",
+    "what": "Starburst appears; 'Claude' wordmark builds letter by letter over silence."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 70,
+   "share": 0.819,
+   "what": "The finished deck lands in #august-ops-review and three emoji reactions (6, 7, 4) pop with confetti."
+  },
+  "ending": {
+   "cta_text": "Fable 5.1 runs bigger projects. You still run the show.",
+   "logo_hold_s": 1.8,
+   "what": "Two-line serif tagline held about 3.7 s, then a starburst and 'Claude' wordmark, then silence to the end."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 19,
+  "cuts_per_min": 13.33,
+  "median_shot_s": 0.83,
+  "how_change_is_paced": "Only 6 of 19 cuts fall outside one 4.2 s burst (13 cuts at 37.6-41.8 s). The longest shot is 29.3 s (34% of runtime), a continuous move; the rest is slow UI state changes."
+ },
+ "look": {
+  "ground": "Warm off-white beige for title and tagline cards; white Slack panels; a grid-paper beige texture for the work section.",
+  "palette": [
+   "#EFEEE6 beige",
+   "#FFFFFF white",
+   "#C9503A Claude coral-red",
+   "#1A1A18 near-black",
+   "Slack blue/green/purple avatars"
+  ],
+  "accent_use": "One coral-red hand-drawn line runs through the work section (18-71 s); the coral starburst opens status labels and the logo. Nothing else is saturated.",
+  "type": "Serif (Tiempos-like) for the title, tagline and wordmark; Lato-style sans for Slack UI; italic grotesque in coral for agent status labels.",
+  "title_height_pct": [
+   6.4,
+   8.3
+  ],
+  "title_measurements": [
+   {
+    "t_s": 7.5,
+    "text": "Let Claude handle more",
+    "line_height_px": 47,
+    "frame_height_px": 720,
+    "pct": 6.5
+   },
+   {
+    "t_s": 80,
+    "text": "Fable 5.1 runs bigger projects.",
+    "line_height_px": 59,
+    "frame_height_px": 720,
+    "pct": 8.2
+   },
+   {
+    "t_s": 80,
+    "text": "You still run the show.",
+    "line_height_px": 46,
+    "frame_height_px": 720,
+    "pct": 6.4
+   },
+   {
+    "t_s": 84,
+    "text": "Claude wordmark with starburst",
+    "line_height_px": 60,
+    "frame_height_px": 720,
+    "pct": 8.3
+   }
+  ],
+  "max_words_per_title_line": 5,
+  "density": "sparse",
+  "depth": "Soft shadows under Slack cards, defocus blur on the desktop at 2-6 s, a circular iris vignette at 37.6-41.8 s, and rotated cards at 52 s."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 88,
+  "shown_as": [
+   "redrawn-simplified-ui",
+   "floating-ui-cards"
+  ],
+  "cursor": "stylised",
+  "camera_on_ui": "Slack panels fill most of the frame at 8-22 s and 66-78 s. In the work section the view pans and zooms through a canvas of floating file cards and a circular iris.",
+  "legible_at_phone_width": "partly",
+  "notes": "Messages and file names are large and readable (f0007, f0035). Card sub-labels ('read · variables logged') and the Slack panel at 66-70 s are small, about 10-14 px high at 720p. Table and log text in the iris is legible only through the crops."
+ },
+ "motion": {
+  "text_entry": "Title fades in word by word over about 0.4 s (strip window-03-6.042s.jpg). Slack messages fade up with a soft blur-to-sharp; the wordmark builds letter by letter.",
+  "ui_motion": "Cards enter sliding and fading, tilt, and settle; reactions pop as pills with a colour wipe; checklist cards stack down a red spine; confetti bursts at 70 s.",
+  "camera": "Blurred desktop at 2-6 s, then a long continuous pan down and across a gridded canvas (41.8-71.1 s) following the red line.",
+  "eases": "Soft ease-out on entrances, with blur cross-fades and motion-blur streaks on the whip-pans. Exact curves not measured.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 19,
+    "example_t_s": 6.12,
+    "cause": "UI card to the title card; 13 of them are the 37.6-41.8 s burst."
+   },
+   {
+    "type": "whip-pan",
+    "count": 3,
+    "example_t_s": 73.4,
+    "cause": "Horizontal streak when the message moves to #leadership-team; vertical streak at 24 s."
+   },
+   {
+    "type": "zoom-through",
+    "count": 1,
+    "example_t_s": 38.5,
+    "cause": "Iris opens on the file being read as Claude starts analysing."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 1,
+    "example_t_s": 55,
+    "cause": "The red line leads the eye from card to card for 29 s."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 6,
+    "example_t_s": 70,
+    "cause": "Typing, reactions, replies and status labels change in place."
+   }
+  ],
+  "strips_read": [
+   "window-01-0.167s.jpg",
+   "window-03-6.042s.jpg",
+   "window-19-37.542s.jpg",
+   "window-23-41.792s.jpg",
+   "window-39-71.042s.jpg",
+   "window-41-73.375s.jpg",
+   "window-46-77.75s.jpg",
+   "window-48-82.042s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 2,
+    "text": "Hey Vickie - hate to do this, but exec review moved to tomorrow.",
+    "words": 11,
+    "hold_s": 1.7
+   },
+   {
+    "t_s": 3.7,
+    "text": "Any chance you can have the deck by 8AM?",
+    "words": 9,
+    "hold_s": 2.4
+   },
+   {
+    "t_s": 6.5,
+    "text": "Let Claude handle more",
+    "words": 4,
+    "hold_s": 2.1
+   },
+   {
+    "t_s": 10,
+    "text": "@here leadership pulled the ops review up to tomorrow at 9 am ... need a deck from everything posted since last month's review ASAP.",
+    "words": 28,
+    "hold_s": 2
+   },
+   {
+    "t_s": 42,
+    "text": "Channel analysis complete",
+    "words": 3,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 52,
+    "text": "ISSUE DETECTED: Conflicting totals for Week 2 spend! Flagging to the team.",
+    "words": 10,
+    "hold_s": 4
+   },
+   {
+    "t_s": 56,
+    "text": "Nearly done, but need your eyes on one issue ASAP. Week 2 data conflicts across two vendors.",
+    "words": 16,
+    "hold_s": 3
+   },
+   {
+    "t_s": 56.5,
+    "text": "Good catch! We switched to a new agency! Take the second report. Split the spend 40-60.",
+    "words": 16,
+    "hold_s": 2.5
+   },
+   {
+    "t_s": 68,
+    "text": "Done — duplicate removed and the deck is attached. Summary for the team leads is drafted, ready when you are.",
+    "words": 35,
+    "hold_s": 3
+   },
+   {
+    "t_s": 78.4,
+    "text": "Fable 5.1 runs bigger projects. You still run the show.",
+    "words": 9,
+    "hold_s": 3.7
+   }
+  ],
+  "holds_vs_reading_rule": "Title: 2.1 s held, 1.7 s required. Tagline: 3.7 s held, 3.2 s required. The 35-word Done message is on screen about 3 s against an 11 s read, so it is not meant to be read."
+ },
+ "sound": {
+  "music": "Music only. describe tags: keyboard_musical 0.589, synthesizer 0.573, percussion 0.534, drum 0.493, piano 0.352, electric_piano 0.345, drum_kit 0.33; 110.1 BPM at beat confidence 0.54; five sections, B starting 26.3 s and E at 73.8 s.",
+  "sfx": "Not separable from the music in the measurements; no sfx evidence. Not checked by ear.",
+  "vo_music_balance": "No voiceover; the music is the only audible layer. Integrated -19.3 LUFS, short-term max -15.6, true peak -0.2 dBTP, loudness range 5.5 LU.",
+  "energy_arc": "Silence span 83.7-85.5 s under the logo. The section change at 43.8 s lands just after the 13-cut burst ends at 41.8 s. No other energy claims.",
+  "sync_to_picture": "cuts_on_strong_onset_share 0.158 against chance 0.061, a gap of 0.097, under 0.10: cuts are not locked to the sound."
+ },
+ "good": [
+  {
+   "observation": "The problem is shown as a real-looking Slack toast from a named person, not a caption, and it is readable at once.",
+   "evidence": "f0003.jpg at t=4s; no VO"
+  },
+  {
+   "observation": "The title and tagline cards use a quiet serif on plain beige, and each is held long enough: 2.1 s for 4 words, 3.7 s for 9 words.",
+   "evidence": "f0004.jpg; f0040.jpg; copy.on_screen_lines"
+  },
+  {
+   "observation": "A single coral line draws the eye through 29 s of drifting file cards and gives the long section a spine.",
+   "evidence": "f0018-f0034; longest_shot 29.33 s"
+  },
+  {
+   "observation": "Status labels in coral italic ('Analyzing data...', 'ISSUE DETECTED') narrate the agent's work with no voiceover.",
+   "evidence": "f0019.jpg; crops/issue.png"
+  },
+  {
+   "observation": "A human decision ('Split the spend 40-60') sits in the middle of the work, and the tagline pays it off.",
+   "evidence": "f0030.jpg; f0040.jpg"
+  },
+  {
+   "observation": "Calm ending: tagline, a wordmark built letter by letter, then 1.8 s of silence.",
+   "evidence": "strips/window-48-82.042s.jpg; silence_spans 83.685-85.514"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Loudness is -19.3 LUFS with a true peak of -0.2 dBTP, quiet for social and above the -1 dBTP limit.",
+   "evidence": "metrics.json sound"
+  },
+  {
+   "observation": "The agent's step cards use text about 10-14 px high at 720p (1.4-1.9% of frame height), below a phone-readable size.",
+   "evidence": "f0018.jpg; f0021.jpg"
+  },
+  {
+   "observation": "Cuts are not locked to the music (0.158 vs chance 0.061), so the 13-cut burst reads as editing rather than rhythm.",
+   "evidence": "metrics.json cuts_on_strong_onset_share"
+  },
+  {
+   "observation": "The 'Done' message runs 35 words in a small panel and the 70-71 s frames are too brief to read.",
+   "evidence": "f0036.jpg; window-39-71.042s.jpg"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "End on a two-line tagline held at least 0.5 s + 0.3 s a word (9 words = 3.2 s), then the wordmark, then a silent tail of about 1.8 s.",
+   "evidence": "tagline 78.4-82.1 s; silence 83.685-85.514 s",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Put the burst near mid-film: 13 cuts in 4.2 s at 46% of runtime, then follow it with a long calm shot (29.3 s) so the burst reads as an event.",
+   "evidence": "bursts[0] start 37.62, end 41.79, mid_share 0.464",
+   "relation": "extends",
+   "skill_rule": "8"
+  },
+  {
+   "rule": "A film may break the 1.8-3.5 s cut rate when one continuous camera move carries a third of the runtime and a visible line leads the eye.",
+   "evidence": "longest shot 29.33 s, 34.3% of runtime; mean shot 4.28 s",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Open on the problem as a named person's message inside the product UI at the 2-4 s mark, with the desktop behind it, instead of a caption.",
+   "evidence": "f0001.jpg; f0002.jpg; f0003.jpg",
+   "relation": "confirms",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Use one thin accent line, hand-drawn in the brand colour, as the visual spine across a long section; keep every other mark neutral.",
+   "evidence": "coral line f0018-f0034 on a beige grid",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Hide the transition in the action: a screen whip-pan streak when the message moves to another channel (73.4 s) and an iris when the agent starts reading (38 s).",
+   "evidence": "window-41-73.375s.jpg; window-19-37.542s.jpg",
+   "relation": "confirms",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "With no voiceover, carry the agent's progress in short status labels beside the cards ('Analyzing data...', 'Channel analysis complete') rather than only on card sub-text.",
+   "evidence": "f0019.jpg; f0022.jpg; f0027.jpg",
+   "relation": "extends",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "An owner-approved film can sit at -19.3 LUFS with a true peak of -0.2 dBTP; do not treat the -14 LUFS social master as a quality bar.",
+   "evidence": "metrics.json sound lufs_integrated -19.3, true_peak_db -0.2",
+   "relation": "contradicts",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 43,
+ "crops_made": 6,
+ "unchecked": [
+  "Audio heard by ear: instruments come from describe tags only.",
+  "Whether the Slack UI is a capture or a redraw.",
+  "Exact ease curves and motion durations beyond the strips read.",
+  "Per-frame hold times; holds come from 2 s samples plus strips.",
+  "Transcript tool returned no caption track; local whisper gave only 'Music'."
+ ]
+}

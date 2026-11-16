@@ -1,0 +1,282 @@
+{
+ "id": "ydIT4EdLK54",
+ "title": "Harvey Platform Overview",
+ "uploader": "Harvey",
+ "duration_s": 231.57,
+ "fps": 30,
+ "rhythm": {
+  "hard_cuts": 11,
+  "cuts_per_min": 2.85,
+  "cut_times_s": [
+   2,
+   7.23,
+   9.67,
+   22.97,
+   30.4,
+   108.23,
+   131.5,
+   141.97,
+   144.53,
+   218.13,
+   220.97
+  ],
+  "median_shot_s": 8.95,
+  "mean_shot_s": 19.3,
+  "shots_over_10s": 6,
+  "first_cut_s": 2,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 30.4,
+   "end": 108.23,
+   "seconds": 77.83,
+   "share_of_runtime": 0.336
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 16,
+   "flash": 0,
+   "appear": 9,
+   "disappear": 14,
+   "change": 104,
+   "hold": 78
+  },
+  "holds_over_1s": 52,
+  "median_hold_s": 1.73,
+  "longest_hold_s": 7.87,
+  "windows": 89
+ },
+ "frames": {
+  "count": 116,
+  "not_evidence_frames": [
+   "f0007.jpg",
+   "f0012.jpg",
+   "f0014.jpg",
+   "f0016.jpg",
+   "f0072.jpg",
+   "f0073.jpg",
+   "f0105.jpg",
+   "f0110.jpg"
+  ],
+  "dark_share": 0.017,
+  "light_share": 0.983,
+  "median_contentful_cells": 0.225,
+  "intervals_new_composition_share": 0.043,
+  "intervals_static_share": 0.322,
+  "longest_static_run_s": 14,
+  "longest_static_run_ends_at_s": 158,
+  "frame0": {
+   "meanLuminance": 0.9786,
+   "contentfulCells": 0.0312,
+   "blankCells": 0.9688,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0004.jpg",
+  "f0007.jpg",
+  "f0010.jpg",
+  "f0013.jpg",
+  "f0016.jpg",
+  "f0019.jpg",
+  "f0022.jpg",
+  "f0025.jpg",
+  "f0028.jpg",
+  "f0031.jpg",
+  "f0034.jpg",
+  "f0037.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0046.jpg",
+  "f0049.jpg",
+  "f0052.jpg",
+  "f0055.jpg",
+  "f0057.jpg",
+  "f0058.jpg",
+  "f0061.jpg",
+  "f0064.jpg",
+  "f0067.jpg",
+  "f0070.jpg",
+  "f0072.jpg",
+  "f0073.jpg",
+  "f0076.jpg",
+  "f0079.jpg",
+  "f0082.jpg",
+  "f0085.jpg",
+  "f0088.jpg",
+  "f0091.jpg",
+  "f0094.jpg",
+  "f0097.jpg",
+  "f0100.jpg",
+  "f0103.jpg",
+  "f0106.jpg",
+  "f0109.jpg",
+  "f0110.jpg",
+  "f0111.jpg",
+  "f0112.jpg",
+  "f0115.jpg",
+  "f0116.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -14.1,
+  "lufs_short_term_max": -10.6,
+  "true_peak_db": -0.2,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.028,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 230,
+    "end": 231.554
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 14,
+    "label": "A"
+   },
+   {
+    "start": 14,
+    "end": 29,
+    "label": "B"
+   },
+   {
+    "start": 29,
+    "end": 35.5,
+    "label": "C"
+   },
+   {
+    "start": 35.5,
+    "end": 48.5,
+    "label": "D"
+   },
+   {
+    "start": 48.5,
+    "end": 59.5,
+    "label": "E"
+   },
+   {
+    "start": 59.5,
+    "end": 67.5,
+    "label": "F"
+   },
+   {
+    "start": 67.5,
+    "end": 83.5,
+    "label": "G"
+   },
+   {
+    "start": 83.5,
+    "end": 105.5,
+    "label": "H"
+   },
+   {
+    "start": 105.5,
+    "end": 115,
+    "label": "I"
+   },
+   {
+    "start": 115,
+    "end": 123,
+    "label": "J"
+   },
+   {
+    "start": 123,
+    "end": 140.5,
+    "label": "K"
+   },
+   {
+    "start": 140.5,
+    "end": 150,
+    "label": "L"
+   },
+   {
+    "start": 150,
+    "end": 158.5,
+    "label": "M"
+   },
+   {
+    "start": 158.5,
+    "end": 169.5,
+    "label": "N"
+   },
+   {
+    "start": 169.5,
+    "end": 183,
+    "label": "O"
+   },
+   {
+    "start": 183,
+    "end": 209,
+    "label": "P"
+   },
+   {
+    "start": 209,
+    "end": 214,
+    "label": "Q"
+   },
+   {
+    "start": 214,
+    "end": 224.5,
+    "label": "R"
+   },
+   {
+    "start": 224.5,
+    "end": 231.554,
+    "label": "S"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.82
+   ],
+   [
+    "music",
+    0.628
+   ],
+   [
+    "keyboard_musical",
+    0.328
+   ],
+   [
+    "synthesizer",
+    0.285
+   ],
+   [
+    "percussion",
+    0.213
+   ],
+   [
+    "water",
+    0.156
+   ],
+   [
+    "whale_vocalization",
+    0.147
+   ],
+   [
+    "piano",
+    0.135
+   ]
+  ],
+  "lra_lu": 2.9,
+  "cuts_on_strong_onset_share": 0.091,
+  "chance_share": 0.06,
+  "strong_onsets_per_min": 16.6
+ },
+ "look": {
+  "luma": 239.4,
+  "contrast": 15.8,
+  "saturation": 0.008,
+  "bw_share": 0.67,
+  "warmth": 0
+ }
+}

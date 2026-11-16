@@ -1,0 +1,222 @@
+{
+ "id": "en0GuyhieQk",
+ "title": "Introducing Claude Dashboards and Claude Motion",
+ "uploader": "Claude",
+ "duration_s": 81.62,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 8,
+  "cuts_per_min": 5.88,
+  "cut_times_s": [
+   4.12,
+   5.71,
+   10.29,
+   42.08,
+   59.29,
+   61.75,
+   67.58,
+   72.33
+  ],
+  "median_shot_s": 4.75,
+  "mean_shot_s": 9.07,
+  "shots_over_10s": 2,
+  "first_cut_s": 4.12,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 10.29,
+   "end": 42.08,
+   "seconds": 31.79,
+   "share_of_runtime": 0.389
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 12,
+   "flash": 1,
+   "appear": 9,
+   "disappear": 17,
+   "change": 81,
+   "hold": 31
+  },
+  "holds_over_1s": 12,
+  "median_hold_s": 0.96,
+  "longest_hold_s": 4.5,
+  "windows": 53
+ },
+ "frames": {
+  "count": 41,
+  "not_evidence_frames": [],
+  "dark_share": 0.0,
+  "light_share": 0.976,
+  "median_contentful_cells": 0.325,
+  "intervals_new_composition_share": 0.15,
+  "intervals_static_share": 0.05,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 80,
+  "frame0": {
+   "meanLuminance": 0.7449,
+   "contentfulCells": 0.3063,
+   "blankCells": 0.0063,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0038.jpg",
+  "f0039.jpg",
+  "f0040.jpg",
+  "f0041.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -15.9,
+  "lufs_short_term_max": -13.9,
+  "true_peak_db": -1.2,
+  "bpm": 171.8,
+  "beats": {
+   "count": 228,
+   "confidence": 0.379,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 5.46,
+    "end": 5.73
+   },
+   {
+    "start": 78.805,
+    "end": 79.015
+   },
+   {
+    "start": 79.095,
+    "end": 79.54
+   },
+   {
+    "start": 79.62,
+    "end": 80.07
+   },
+   {
+    "start": 80.105,
+    "end": 80.595
+   },
+   {
+    "start": 80.63,
+    "end": 81.614
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 11.535,
+    "label": "A"
+   },
+   {
+    "start": 11.535,
+    "end": 23.385,
+    "label": "B"
+   },
+   {
+    "start": 23.385,
+    "end": 39.415,
+    "label": "C"
+   },
+   {
+    "start": 39.415,
+    "end": 47.455,
+    "label": "D"
+   },
+   {
+    "start": 47.455,
+    "end": 72.915,
+    "label": "E"
+   },
+   {
+    "start": 72.915,
+    "end": 81.614,
+    "label": "F"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.744
+   ],
+   [
+    "music",
+    0.678
+   ],
+   [
+    "keyboard_musical",
+    0.381
+   ],
+   [
+    "percussion",
+    0.357
+   ],
+   [
+    "synthesizer",
+    0.287
+   ],
+   [
+    "mallet_percussion",
+    0.249
+   ],
+   [
+    "glockenspiel",
+    0.2
+   ],
+   [
+    "piano",
+    0.198
+   ]
+  ],
+  "lra_lu": 3.7,
+  "cuts_on_strong_onset_share": 0.25,
+  "chance_share": 0.147,
+  "strong_onsets_per_min": 47.0
+ },
+ "look": {
+  "luma": 221.1,
+  "contrast": 28,
+  "saturation": 0.06,
+  "bw_share": 0.05,
+  "warmth": 3.3
+ }
+}

@@ -1,0 +1,273 @@
+{
+ "id": "fFQM0LHOGBc",
+ "title": "Build Your Own Legal AI Agents with Harvey Workflow Builder",
+ "uploader": "Harvey",
+ "duration_s": 176.76,
+ "fps": 60,
+ "rhythm": {
+  "hard_cuts": 24,
+  "cuts_per_min": 8.15,
+  "cut_times_s": [
+   1.4,
+   3.6,
+   9.83,
+   11.15,
+   19.53,
+   28.25,
+   28.35,
+   28.75,
+   28.78,
+   51.15,
+   59.35,
+   85.5,
+   138.6,
+   146.32,
+   154.57,
+   155.2,
+   155.93,
+   155.98,
+   161.32,
+   164.6,
+   168.25,
+   168.62,
+   169.47,
+   173.25
+  ],
+  "median_shot_s": 3.51,
+  "mean_shot_s": 7.07,
+  "shots_over_10s": 3,
+  "first_cut_s": 1.4,
+  "not_cuts": [
+   {
+    "t": 45.03,
+    "kind": "fast"
+   },
+   {
+    "t": 63.13,
+    "kind": "fast"
+   },
+   {
+    "t": 89.67,
+    "kind": "fast"
+   },
+   {
+    "t": 120.47,
+    "kind": "fast"
+   },
+   {
+    "t": 145.53,
+    "kind": "flash"
+   },
+   {
+    "t": 160.8,
+    "kind": "flash"
+   },
+   {
+    "t": 169.52,
+    "kind": "fast"
+   }
+  ],
+  "longest_shot": {
+   "start": 85.5,
+   "end": 138.6,
+   "seconds": 53.1,
+   "share_of_runtime": 0.3
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 17,
+   "flash": 2,
+   "appear": 49,
+   "disappear": 40,
+   "change": 254,
+   "hold": 101
+  },
+  "holds_over_1s": 51,
+  "median_hold_s": 1.19,
+  "longest_hold_s": 5.8,
+  "windows": 124
+ },
+ "frames": {
+  "count": 88,
+  "not_evidence_frames": [
+   "f0060.jpg",
+   "f0077.jpg",
+   "f0088.jpg"
+  ],
+  "dark_share": 0.057,
+  "light_share": 0.909,
+  "median_contentful_cells": 0.35,
+  "intervals_new_composition_share": 0.241,
+  "intervals_static_share": 0.333,
+  "longest_static_run_s": 14,
+  "longest_static_run_ends_at_s": 106,
+  "frame0": {
+   "meanLuminance": 0.0645,
+   "contentfulCells": 0.075,
+   "blankCells": 0.925,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0013.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0019.jpg",
+  "f0022.jpg",
+  "f0025.jpg",
+  "f0028.jpg",
+  "f0031.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0037.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0044.jpg",
+  "f0046.jpg",
+  "f0049.jpg",
+  "f0052.jpg",
+  "f0055.jpg",
+  "f0058.jpg",
+  "f0060.jpg",
+  "f0061.jpg",
+  "f0064.jpg",
+  "f0067.jpg",
+  "f0068.jpg",
+  "f0070.jpg",
+  "f0073.jpg",
+  "f0076.jpg",
+  "f0077.jpg",
+  "f0078.jpg",
+  "f0079.jpg",
+  "f0082.jpg",
+  "f0083.jpg",
+  "f0085.jpg",
+  "f0086.jpg",
+  "f0088.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -24.2,
+  "lufs_short_term_max": -22.1,
+  "true_peak_db": -5.4,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.13,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [],
+  "sections": [
+   {
+    "start": 0,
+    "end": 17.5,
+    "label": "A"
+   },
+   {
+    "start": 17.5,
+    "end": 25,
+    "label": "B"
+   },
+   {
+    "start": 25,
+    "end": 29.5,
+    "label": "C"
+   },
+   {
+    "start": 29.5,
+    "end": 56,
+    "label": "D"
+   },
+   {
+    "start": 56,
+    "end": 96.5,
+    "label": "E"
+   },
+   {
+    "start": 96.5,
+    "end": 108,
+    "label": "F"
+   },
+   {
+    "start": 108,
+    "end": 118,
+    "label": "G"
+   },
+   {
+    "start": 118,
+    "end": 139,
+    "label": "H"
+   },
+   {
+    "start": 139,
+    "end": 150,
+    "label": "I"
+   },
+   {
+    "start": 150,
+    "end": 161.5,
+    "label": "J"
+   },
+   {
+    "start": 161.5,
+    "end": 176.754,
+    "label": "K"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.835
+   ],
+   [
+    "music",
+    0.697
+   ],
+   [
+    "keyboard_musical",
+    0.397
+   ],
+   [
+    "synthesizer",
+    0.308
+   ],
+   [
+    "percussion",
+    0.194
+   ],
+   [
+    "piano",
+    0.19
+   ],
+   [
+    "electric_piano",
+    0.155
+   ],
+   [
+    "plucked_string_instrument",
+    0.148
+   ]
+  ],
+  "lra_lu": 2.8,
+  "cuts_on_strong_onset_share": 0.042,
+  "chance_share": 0.086,
+  "strong_onsets_per_min": 21.7
+ },
+ "look": {
+  "luma": 209.5,
+  "contrast": 55.5,
+  "saturation": 0.013,
+  "bw_share": 0.77,
+  "warmth": 0.3
+ }
+}

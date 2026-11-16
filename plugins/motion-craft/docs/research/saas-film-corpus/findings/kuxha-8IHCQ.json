@@ -1,0 +1,401 @@
+{
+ "id": "kuxha-8IHCQ",
+ "title": "Plan your big day, make a space.",
+ "brand": "Muse",
+ "duration_s": 60.7,
+ "status": "ok",
+ "format": "customer-or-user-story",
+ "format_note": "A customer, Beverly, talks to camera about her Muse wedding-planning space; a 28 s phone screen recording sits mid-film, with an interview frame and a store end card.",
+ "one_thing": "A real person shows one personal dashboard built in Muse, so the viewer sees that a space is something they could make for their own life.",
+ "transcript": {
+  "source": "auto-captions",
+  "voiceover": "customer-testimonial",
+  "words_total": 154,
+  "words_per_minute": 152.2,
+  "voice_style": "Warm, unscripted-sounding first person; short sentences with 'Here's\u2026' pointers; a smile in the delivery at t=14 and t=54 (f0007, f0029).",
+  "script_shape": "Intro (who, what), problem as a spoken list, 'I asked Muse', three 'Here's\u2026' demo pointers, a change-by-prompt claim, sidebar habit, emotional payoff, invitation line."
+ },
+ "structure": {
+  "frame0": "f0001.jpg: white studio ground, soft-fur mascot at left (about 60% of frame height), 'FEATURED SPACE / Wedding Planner / Built by Beverly with her Muse' at right. A poster with the subject in it.",
+  "first_3s": "Native strip window-01 shows the mascot gone at 0.125 s, walking in from the left by 0.2 s and settling by 0.7 s; the 'Mus' wordmark writes on near t=2 (f0002.jpg). Title text never moves.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 4.96,
+    "role": "hook",
+    "what": "Mascot title card: 'Wedding Planner, built by Beverly with her Muse'; wordmark writes on and mascot waves by 4.4 s (strips/window-05)."
+   },
+   {
+    "start_s": 4.96,
+    "end_s": 15.1,
+    "role": "setup",
+    "what": "Beverly on camera in four shots (cuts 4.96, 6.96, 9.97, 11.97): 'I'd like to show you a space I created in Muse.'"
+   },
+   {
+    "start_s": 15.1,
+    "end_s": 19.31,
+    "role": "problem",
+    "what": "Five cuts in 4.2 s while she lists 'RSVPs, vendors, invoices, emails, it's all everywhere.' The problem is spoken, not shown."
+   },
+   {
+    "start_s": 19.31,
+    "end_s": 23.9,
+    "role": "reveal",
+    "what": "Hard cut to a phone on a blue gradient: 'Beverly & Forrest', '319 days to go', four stat tiles; she asked Muse for a dashboard."
+   },
+   {
+    "start_s": 23.9,
+    "end_s": 30.3,
+    "role": "demo",
+    "what": "Tap on RSVP; the view lands with 24 / 43 / 27 / 3 tiles and a guest list with status chips (f0014, f0015)."
+   },
+   {
+    "start_s": 30.3,
+    "end_s": 33.9,
+    "role": "demo",
+    "what": "Tap on Vendors; budget page, $24,200 total cost, $17,825 still owed, line items (f0016, f0017)."
+   },
+   {
+    "start_s": 33.9,
+    "end_s": 38,
+    "role": "demo",
+    "what": "Tap on Recent email; email summaries with 'Needs reply' chips, '4 threads are waiting on a reply' (f0018-f0020)."
+   },
+   {
+    "start_s": 38,
+    "end_s": 43.5,
+    "role": "turn",
+    "what": "Dashboard scrolls back to the top while she says changes are made by telling Muse; no prompt interface appears."
+   },
+   {
+    "start_s": 43.5,
+    "end_s": 47.63,
+    "role": "proof",
+    "what": "Menu button tap; drawer slides in with the wedding tab highlighted, then closes back to the dashboard (strips/window-36)."
+   },
+   {
+    "start_s": 47.63,
+    "end_s": 56.22,
+    "role": "payoff",
+    "what": "Back to Beverly in six shots with a cut every 1.1-3 s: 'takes the stress out of something that should honestly be really fun.'"
+   },
+   {
+    "start_s": 56.22,
+    "end_s": 60.7,
+    "role": "cta",
+    "what": "Black end card: app icon, 'Muse', Google Play and App Store badges, Meta logo fading up (f0029, f0030)."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 19.31,
+   "share": 0.318,
+   "what": "The cut to the phone: dashboard with the magenta '319 days to go' tile, phone about 650 px tall in a 720 px frame (f0011.jpg)."
+  },
+  "ending": {
+   "cta_text": "Muse; Get it on Google Play; Download on the App Store",
+   "logo_hold_s": 4.5,
+   "what": "Centred app icon and wordmark on black above two store badges; Meta logo dim at 56 s, full at 58 s. The spoken invitation ends before the card."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 15,
+  "cuts_per_min": 14.83,
+  "median_shot_s": 1.88,
+  "how_change_is_paced": "Fast cuts in the interview halves (median shot 1.88 s) around one 28.32 s uninterrupted phone shot (46.7% of runtime). One burst of 5 cuts at 15.1-19.31 s, centred at 28% of runtime, lines up with the spoken list."
+ },
+ "look": {
+  "ground": "Three grounds: white studio with soft shadow for the title card, a warm dark bookshelf interview set, and a white-to-sky-blue gradient behind the phone; black for the end card.",
+  "palette": [
+   "white",
+   "sky blue gradient",
+   "Muse blue wordmark",
+   "magenta",
+   "pastel pink and mint chips",
+   "warm oak and cream sweater",
+   "black"
+  ],
+  "accent_use": "Magenta only on the ampersand in 'Beverly & Forrest', the '319' and the active filter; the Muse blue appears only on logos. The interface alternates pink and mint chips.",
+  "type": "Title card: neutral humanist sans, dark slate headline over a grey subline, small blue all-caps eyebrow. Phone UI: Roboto-like sans, bold names and numbers, grey secondary text.",
+  "title_height_pct": [
+   6.9,
+   8.5
+  ],
+  "title_measurements": [
+   {
+    "t_s": 1,
+    "text": "Wedding Planner",
+    "line_height_px": 61,
+    "frame_height_px": 720,
+    "pct": 8.5
+   },
+   {
+    "t_s": 1,
+    "text": "Built by Beverly with her Muse",
+    "line_height_px": 27,
+    "frame_height_px": 720,
+    "pct": 3.75
+   },
+   {
+    "t_s": 2,
+    "text": "Mus (wordmark writing on)",
+    "line_height_px": 70,
+    "frame_height_px": 720,
+    "pct": 9.7
+   },
+   {
+    "t_s": 57,
+    "text": "Muse",
+    "line_height_px": 50,
+    "frame_height_px": 720,
+    "pct": 6.9
+   }
+  ],
+  "max_words_per_title_line": 2,
+  "density": "sparse",
+  "depth": "Shallow depth of field on the interview set; the phone has a soft shadow on a flat gradient; the mascot has a floor shadow. Otherwise flat."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 46.7,
+  "shown_as": [
+   "device-mockup",
+   "real-ui-capture",
+   "live-action"
+  ],
+  "cursor": "stylised",
+  "camera_on_ui": "The phone is pushed in about 1.27x (phone width 316 px to 402 px) at each tap (f0013, f0016, f0017, f0022) and returns to full scale once the new page lands (f0014, f0015).",
+  "legible_at_phone_width": "partly",
+  "notes": "Headlines, stat numbers and chips read; body text, line items and email previews are about 11-14 px tall on a 720 px frame, too small for a phone. Sample data (names, amounts, example.com addresses) is detailed enough to read as lived-in. The drawer header reads 'Meep'."
+ },
+ "motion": {
+  "text_entry": "Title card text is already on screen at 0.125 s and does not animate; the wordmark writes on near t=2 (f0002.jpg). No captions or lower thirds on the interview.",
+  "ui_motion": "A grey translucent ripple about 100 px wide marks each tap (f0013, f0016, f0017, f0022); pages scroll or replace in under 0.2 s (strips/window-21); the menu drawer slides in over about 1 s (strips/window-36).",
+  "camera": "Slow push in and pull out on the phone around each tap; interview halves alternate wide and close framings of the same set.",
+  "eases": "Not measured numerically; the drawer and phone scale visibly decelerate into place in strips/window-36.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 15,
+    "example_t_s": 19.31,
+    "cause": "Phrase boundaries in the speech; the interview-to-phone cut lands on 'So I asked Muse to build me'."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 5,
+    "example_t_s": 25.57,
+    "cause": "A tap ripple on a section pill, then the new page appears."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 4,
+    "example_t_s": 24,
+    "cause": "Push in on the tapped pill, pull out when the page lands."
+   },
+   {
+    "type": "push-or-slide",
+    "count": 2,
+    "example_t_s": 43.6,
+    "cause": "Menu button tap opens the drawer, which later closes."
+   },
+   {
+    "type": "fade-through-colour",
+    "count": 1,
+    "example_t_s": 56.22,
+    "cause": "Last interview shot cuts to black, Meta logo fades up."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0.126s.jpg",
+   "strips/window-05-4.38s.jpg",
+   "strips/window-13-15.015s.jpg",
+   "strips/window-16-18.352s.jpg",
+   "strips/window-21-25.484s.jpg",
+   "strips/window-36-43.544s.jpg",
+   "strips/window-38-47.548s.jpg",
+   "strips/window-43-55.139s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "FEATURED SPACE",
+    "words": 2,
+    "hold_s": 4.96
+   },
+   {
+    "t_s": 0,
+    "text": "Wedding Planner",
+    "words": 2,
+    "hold_s": 4.96
+   },
+   {
+    "t_s": 0,
+    "text": "Built by Beverly with her Muse",
+    "words": 6,
+    "hold_s": 4.96
+   },
+   {
+    "t_s": 4.4,
+    "text": "Muse (wordmark)",
+    "words": 1,
+    "hold_s": 0.56
+   },
+   {
+    "t_s": 19.31,
+    "text": "Beverly & Forrest / 319 days to go",
+    "words": 6,
+    "hold_s": 2.2
+   },
+   {
+    "t_s": 25.6,
+    "text": "RSVP: The guest list and who's replied so far.",
+    "words": 8,
+    "hold_s": 2
+   },
+   {
+    "t_s": 34,
+    "text": "Recent email: A quick summary of the latest wedding threads.",
+    "words": 9,
+    "hold_s": 3
+   },
+   {
+    "t_s": 43.9,
+    "text": "Create a space",
+    "words": 3,
+    "hold_s": 2
+   },
+   {
+    "t_s": 56.22,
+    "text": "Muse",
+    "words": 1,
+    "hold_s": 4.5
+   },
+   {
+    "t_s": 56.22,
+    "text": "Get it on Google Play / Download on the App Store",
+    "words": 10,
+    "hold_s": 4.5
+   }
+  ],
+  "holds_vs_reading_rule": "Title card carries 10 words for 4.96 s against a 3.5 s rule. The end card carries a wordmark and badges for 4.5 s. UI copy is read by the voice, not the eye, and no caption repeats the speech."
+ },
+ "sound": {
+  "music": "measure/audio.json tags music 0.624 with keyboard_musical 0.289 and synthesizer 0.218; no steady beat (confidence 0.148). Section A covers 0-5 s, B 5-55.5 s, C 55.5-60.7 s.",
+  "sfx": "No sound-effect evidence in the tags or the transcript beyond [music] markers at t=1, 13, 29, 36.",
+  "vo_music_balance": "Speech tag 0.811 against music 0.624; integrated -16.3 LUFS, short-term max -13.8, loudness range 4.9 LU, true peak -2 dBTP. Silence only at 59.8-60.7 s.",
+  "energy_arc": "Music-only open to 5 s, speech-led middle with music under it, then a quieter close; the sections split at 5 s and 55.5 s.",
+  "sync_to_picture": "Cuts on strong onsets 0.333 against chance 0.193 (+0.14), so mildly locked; with 51.4 strong onsets a minute, mostly speech, the cuts follow the speech rather than a beat."
+ },
+ "good": [
+  {
+   "observation": "Frame 0 is a poster: mascot, eyebrow, title and credit are all on screen at t=0 and the mascot moves within 0.2 s.",
+   "evidence": "f0001.jpg; strips/window-01-0.126s.jpg"
+  },
+  {
+   "observation": "Every tap draws a ripple on the control, the camera pushes in about 1.27x, and the new page lands within a second, so the viewer follows cause and effect.",
+   "evidence": "f0013, f0016, f0017; strips/window-21"
+  },
+  {
+   "observation": "The UI changes on the narrated phrase: 'Here's the RSVP list' at 24 s has the RSVP tap, 'what we owe each vendor' at 30 s has the Vendors tap, 'emails' at 34 s has the email tap.",
+   "evidence": "transcript.md; f0013, f0016, f0017"
+  },
+  {
+   "observation": "The 5-cut burst falls on the spoken list 'RSVPs, vendors, invoices, emails', so the editing pace echoes the clutter being described.",
+   "evidence": "cut_times_s 15.1-19.31; rhythm.bursts"
+  },
+  {
+   "observation": "Accent restraint inside the UI: one magenta ampersand and one large '319' make the hero card read in a glance at phone width.",
+   "evidence": "crops/hero-countdown.png; f0011.jpg"
+  },
+  {
+   "observation": "Interview set alternates a wide and a close framing of the same take, so cuts feel natural without b-roll.",
+   "evidence": "f0003 vs f0005; strips/window-13"
+  },
+  {
+   "observation": "The end card is clean: icon, wordmark, two badges, 4.5 s hold, with the Meta logo fading up last.",
+   "evidence": "f0029.jpg, f0030.jpg; crops/endcard.png"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "The claim 'I just tell Muse and it makes the change' has no picture; the screen shows a dashboard scrolling back to the top and a menu, not a prompt being typed.",
+   "evidence": "f0021-f0023 at 40-44 s; transcript 38-42 s"
+  },
+  {
+   "observation": "The problem is only spoken over an interview; nothing on screen shows scattered RSVPs, invoices or emails.",
+   "evidence": "strips/window-13; f0010-f0011"
+  },
+  {
+   "observation": "Body text in the phone is about 11-14 px on a 720 px frame, and the phone is 24.7% of frame width, leaving two gradient flanks each about 37% wide empty for 28 s.",
+   "evidence": "f0011.jpg; crops/email-card.png"
+  },
+  {
+   "observation": "A 28.32 s single shot (46.7% of runtime) shows only pushes and scrolls; the voice carries the variety.",
+   "evidence": "metrics.json rhythm.longest_shot"
+  },
+  {
+   "observation": "The drawer header reads 'Meep' and the active tab label is cut to 'Wedding September 2\u2026', which muddles the brand name.",
+   "evidence": "crops/sidebar.png"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "For a person-led film, put the person on camera within 5 s, after a 5 s poster card whose subject is already in frame at t=0.",
+   "evidence": "f0001 poster, first interview cut at 4.96 s",
+   "relation": "extends",
+   "skill_rule": "Rule 1"
+  },
+  {
+   "rule": "Cut the problem list at the pace of the spoken words: one cut per list item, 5 cuts in about 4 s, even when the problem has no visual.",
+   "evidence": "cuts 15.1, 16.27, 17.1, 18.02, 19.31 on 'RSVPs, vendors, invoices, emails'",
+   "relation": "confirms",
+   "skill_rule": "Rule 8"
+  },
+  {
+   "rule": "An interview-led film may use hard cuts for every shot seam if each cut lands on a phrase boundary; it need not hold to a third hard cuts.",
+   "evidence": "all 15 shot seams are hard cuts; cuts on onset 0.333 vs chance 0.193",
+   "relation": "contradicts",
+   "skill_rule": "Rule 7"
+  },
+  {
+   "rule": "Mark each demo tap with a ripple about 100 px wide on a 720 px frame and push the camera in about 1.27x until the new page has landed.",
+   "evidence": "f0013, f0016, f0017: phone width 316 px to 402 px",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Start each demo tap on the phrase that names it; the UI follows the voice within 1 s.",
+   "evidence": "tap at 24 s on 'Here's the RSVP list', 30 s on vendors, 34 s on emails",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "A device mockup at 90% of frame height satisfies the hero size, but its side margins (about 37% of width each) fail the quarter-empty limit unless something fills them.",
+   "evidence": "f0011.jpg: phone 316 px wide in 1280 px",
+   "relation": "contradicts",
+   "skill_rule": "Rule 6"
+  },
+  {
+   "rule": "A voice-led film can sit at -16.3 LUFS integrated with true peak -2 dBTP and a short-term peak of -13.8; only the true-peak limit then constrains the mix.",
+   "evidence": "metrics.json sound.lufs_integrated -16.3, true_peak_db -2, lufs_short_term_max -13.8",
+   "relation": "extends",
+   "skill_rule": "Rule 9"
+  },
+  {
+   "rule": "If the voice claims a capability, the picture must show it; a claim with only an idle dashboard on screen leaves the must-carry fact unshown.",
+   "evidence": "'tell Muse and it makes the change' at 38-42 s versus f0021",
+   "relation": "confirms",
+   "skill_rule": "Rule 5"
+  }
+ ],
+ "frames_opened": 30,
+ "crops_made": 6,
+ "unchecked": [
+  "Whether the phone footage is a live capture or a rebuilt screen: not determinable from frames.",
+  "Easing curves and tap-ripple duration, not measured frame by frame.",
+  "Whether the Mus wordmark write-on is a drawn path or a mask: only f0002.jpg and strips/window-05 seen.",
+  "Title measurement of 'Beverly & Forrest' failed: ink measure returned a partial box at t=40.",
+  "Sound-effect presence: no SFX tags in audio.json; cannot hear the film."
+ ]
+}

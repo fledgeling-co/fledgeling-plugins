@@ -1,0 +1,435 @@
+{
+ "id": "4tlIHJqGiRc",
+ "title": "Introducing Memory",
+ "brand": "Harvey",
+ "duration_s": 80.74,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "Calm 81 s explainer for one feature: black title cards alternate with white redrawn-UI scenes, no voiceover, ends on a tagline and logo.",
+ "one_thing": "Harvey remembers what you tell it, and the film shows that by lighting memory cells in the colour of each highlighted phrase.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": -1,
+  "voice_style": "No speech. Whisper returned only 'Transcribed by' hallucinations, so the film is music plus on-screen text.",
+  "script_shape": "Three claims in on-screen text: Harvey Learns From Your Actions; And Uses its Memory to Improve its Answers; You Reason, Harvey Remembers. Tagline closes."
+ },
+ "structure": {
+  "frame0": "Per the strip (window-01) the frame is near-black until 0.4 s, then a lone white serif H centred; f0001.jpg shows the H alone. No product in frame.",
+  "first_3s": "H on black to 2.2 s, then a grey card with concentric rectangles and a small H slides in at the H's position, cut at 2.97 s to the full card on white.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 2.2,
+    "role": "logo",
+    "what": "Lone white H on near-black, silent for the first 0.4 s."
+   },
+   {
+    "start_s": 2.2,
+    "end_s": 4.0,
+    "role": "hook",
+    "what": "Card with concentric rectangles slides in over the H, then sits on white ground."
+   },
+   {
+    "start_s": 4.0,
+    "end_s": 7.45,
+    "role": "reveal",
+    "what": "Card flips apart into six letter tiles spelling MEMORY."
+   },
+   {
+    "start_s": 7.48,
+    "end_s": 9.38,
+    "role": "setup",
+    "what": "Black card: Harvey Learns From Your Actions, fading in word by word."
+   },
+   {
+    "start_s": 9.38,
+    "end_s": 14.9,
+    "role": "demo",
+    "what": "Empty Ask Harvey composer; a prompt is typed: Draft a letter requesting an extension on the due diligence review period."
+   },
+   {
+    "start_s": 14.9,
+    "end_s": 24,
+    "role": "demo",
+    "what": "Prompt slides left; concise and direct highlight teal; grid cells light; Memory Stored chip at 22 s."
+   },
+   {
+    "start_s": 24,
+    "end_s": 38,
+    "role": "demo",
+    "what": "Second prompt about the Acme stock purchase agreement; buyer and target facts highlight rose and store as cells."
+   },
+   {
+    "start_s": 39.57,
+    "end_s": 42.1,
+    "role": "turn",
+    "what": "Black card: And Uses its Memory to Improve its Answers."
+   },
+   {
+    "start_s": 42.1,
+    "end_s": 54,
+    "role": "proof",
+    "what": "New prompt; Searching Memory lists the stored preferences, highlights matching the grid colours; Memory Used chip at 52 s."
+   },
+   {
+    "start_s": 54,
+    "end_s": 70,
+    "role": "proof",
+    "what": "Two more prompts (Smith v. Johnson, liability cap) each pull stored facts; grid ends multicoloured."
+   },
+   {
+    "start_s": 72,
+    "end_s": 75.27,
+    "role": "payoff",
+    "what": "You Reason in black, Harvey Remembers in grey beneath."
+   },
+   {
+    "start_s": 75.27,
+    "end_s": 80.7,
+    "role": "cta",
+    "what": "Card flips back to MEMORY tiles; Never Start From Scratch Again. and H below."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 52,
+   "share": 0.644,
+   "what": "Memory Used chip appears while Searching Memory phrases highlight in the same teal and rose as the stored grid cells (f0027.jpg)."
+  },
+  "ending": {
+   "cta_text": "Never Start From Scratch Again.",
+   "logo_hold_s": 3.8,
+   "what": "MEMORY tiles with the tagline above and a small H below, held to the end; audio silent from 78.9 s."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 7,
+  "cuts_per_min": 5.2,
+  "median_shot_s": 3.52,
+  "how_change_is_paced": "Seven hard cuts, four of them black/white inversions at title cards. The longest shot runs 33.17 s (41% of runtime) with UI state changing about every 2 s (median_hold_s 2.15). No burst."
+ },
+ "look": {
+  "ground": "Near-white (#fafafa-ish) UI scenes against near-black title cards; 92.5% of sampled frames light, 7.5% dark (dark_share 0.075).",
+  "palette": [
+   "near-black",
+   "off-white",
+   "warm grey card",
+   "teal highlight",
+   "dusty rose highlight",
+   "lilac highlight"
+  ],
+  "accent_use": "Pastel teal, rose and lilac mark phrases and matching grid cells; the second line Harvey Remembers is set in grey as the only type accent.",
+  "type": "Title cards in a high-contrast serif, Title Case; UI in a clean grotesque, bold for user prompts, grey for agent steps.",
+  "title_height_pct": [
+   4.44,
+   10.69
+  ],
+  "title_measurements": [
+   {
+    "t_s": 6,
+    "text": "MEMORY (letter tiles)",
+    "line_height_px": 34,
+    "frame_height_px": 720,
+    "pct": 4.72
+   },
+   {
+    "t_s": 8,
+    "text": "Harvey Learns From Your Actions",
+    "line_height_px": 41,
+    "frame_height_px": 720,
+    "pct": 5.69
+   },
+   {
+    "t_s": 40,
+    "text": "And Uses its Memory to Improve its Answers",
+    "line_height_px": 43,
+    "frame_height_px": 720,
+    "pct": 5.97
+   },
+   {
+    "t_s": 74,
+    "text": "You Reason",
+    "line_height_px": 62,
+    "frame_height_px": 720,
+    "pct": 8.61
+   },
+   {
+    "t_s": 74,
+    "text": "Harvey Remembers",
+    "line_height_px": 77,
+    "frame_height_px": 720,
+    "pct": 10.69
+   },
+   {
+    "t_s": 78,
+    "text": "Never Start From Scratch Again.",
+    "line_height_px": 32,
+    "frame_height_px": 720,
+    "pct": 4.44
+   }
+  ],
+  "max_words_per_title_line": 8,
+  "density": "sparse",
+  "depth": "Flat. A slight 3D perspective tilt on the card and tiles during flips (strips window-03 and window-32); otherwise no shadows or depth."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 74,
+  "shown_as": [
+   "redrawn-simplified-ui",
+   "abstract-illustration"
+  ],
+  "cursor": "none",
+  "camera_on_ui": "Static, no zoom. The composer is centred, then the prompt panel shifts left to make room for a 6x6 grid of memory cells.",
+  "legible_at_phone_width": "partly",
+  "notes": "Prompt text at t=52 is 16-18 px ink height on 720 (about 2.2-2.5%), under the 2.6% floor. Chips Memory Stored and Memory Used are about 14 px. Colour highlights carry the meaning when text is too small."
+ },
+ "motion": {
+  "text_entry": "Title cards fade in word by word (window-05); prompts type with a caret (f0007); Searching Memory lines type, then highlight bars wipe in behind phrases.",
+  "ui_motion": "Highlight bars grow behind phrases, then matching grid cells tint; chips fade in and out at the top of the grid; the grid scatters and reforms at 36 s (f0019).",
+  "camera": "No camera moves. Card and tiles flip in 3D (window-03, window-32) for about 0.3 s.",
+  "eases": "Not measured. The card flip and slide read as smooth decelerations in the strips, but easing curves were not fitted.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 5,
+    "example_t_s": 7.48,
+    "cause": "Title card ends; scene polarity flips between black and white at 7.48, 9.38, 39.57, 42.1."
+   },
+   {
+    "type": "match-cut",
+    "count": 2,
+    "example_t_s": 2.23,
+    "cause": "H centred on black cuts to card corner with small H in the same spot."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 2,
+    "example_t_s": 4.17,
+    "cause": "Card flips apart into letter tiles that spell MEMORY."
+   },
+   {
+    "type": "push-or-slide",
+    "count": 2,
+    "example_t_s": 14.9,
+    "cause": "Prompt text slides left as the memory grid fades in on the right."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 3,
+    "example_t_s": 52,
+    "cause": "Memory Used chip and highlights appear when the agent searches memory."
+   }
+  ],
+  "strips_read": [
+   "window-01-0.367s.jpg",
+   "window-02-2.2s.jpg",
+   "window-03-3.984s.jpg",
+   "window-05-7.45s.jpg",
+   "window-06-9.35s.jpg",
+   "window-17-39.534s.jpg",
+   "window-18-42.067s.jpg",
+   "window-28-71.95s.jpg",
+   "window-31-74.85s.jpg",
+   "window-32-76.417s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 7.48,
+    "text": "Harvey Learns From Your Actions",
+    "words": 5,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 9.4,
+    "text": "Ask Harvey anything...",
+    "words": 3,
+    "hold_s": 0.1
+   },
+   {
+    "t_s": 10,
+    "text": "Draft a letter requesting an extension on the due diligence review period. Keep it concise and direct.",
+    "words": 16,
+    "hold_s": 7
+   },
+   {
+    "t_s": 22,
+    "text": "Memory Stored",
+    "words": 2,
+    "hold_s": 1
+   },
+   {
+    "t_s": 26,
+    "text": "What are the key considerations for a stock purchase agreement where the seller is retaining certain liabilities? For context, I'm representing the buyer...",
+    "words": 33,
+    "hold_s": 10
+   },
+   {
+    "t_s": 39.57,
+    "text": "And Uses its Memory to Improve its Answers",
+    "words": 8,
+    "hold_s": 2.5
+   },
+   {
+    "t_s": 46,
+    "text": "For the Acme stock purchase matter, draft a memo summarizing the top risks.",
+    "words": 12,
+    "hold_s": 2
+   },
+   {
+    "t_s": 50,
+    "text": "Searching Memory: User prefers concise and direct language; Acme is a Delaware C-Corp and you are representing the buyer",
+    "words": 21,
+    "hold_s": 4
+   },
+   {
+    "t_s": 52,
+    "text": "Memory Used",
+    "words": 2,
+    "hold_s": 1
+   },
+   {
+    "t_s": 56,
+    "text": "Draft interrogatory responses for the Smith v. Johnson case; Primary data custodians are in Sales and Finance; Time period for damages is 2019-2021",
+    "words": 23,
+    "hold_s": 5
+   },
+   {
+    "t_s": 64,
+    "text": "Draft talking points to push back on liability cap; Uncapped indemnity requires GC approval and previously negotiated 3x cap",
+    "words": 18,
+    "hold_s": 4
+   },
+   {
+    "t_s": 72,
+    "text": "You Reason",
+    "words": 2,
+    "hold_s": 1.3
+   },
+   {
+    "t_s": 73.5,
+    "text": "Harvey Remembers",
+    "words": 2,
+    "hold_s": 1.8
+   },
+   {
+    "t_s": 76.78,
+    "text": "Never Start From Scratch Again.",
+    "words": 5,
+    "hold_s": 3.9
+   }
+  ],
+  "holds_vs_reading_rule": "Harvey Learns From Your Actions holds about 1.5 s against 2.0 s by the rule; And Uses its Memory... about 2.5 s against 2.9 s. The tagline holds 3.9 s, over the 2 s minimum. Holds estimated from strips."
+ },
+ "sound": {
+  "music": "Music only. Describe tags: synthesizer 0.652, keyboard_musical 0.644, percussion 0.405, piano 0.321, electric_piano 0.277. No steady beat (confidence 0.103, bpm null). Six sections: 0, 11, 33, 40, 57.5, 72.5 s.",
+  "sfx": "None identified. Strong onsets run 47.6 a minute but none were tied to an on-screen event in the data.",
+  "vo_music_balance": "No voiceover, so music is the only sound. Integrated -14.1 LUFS, short-term max -10.7, LRA 4.0 LU.",
+  "energy_arc": "Silent 0-0.395 s and 78.9-80.7 s. Level range is narrow (LRA 4.0 LU); no loud peak section in the data beyond a -10.7 LUFS short-term max.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.0 against chance_share 0.125. The 39.57 s cut sits 0.43 s before the section C/D boundary at 40 s."
+ },
+ "good": [
+  {
+   "observation": "Highlight colours on prompt phrases match the tint of cells in the memory grid, so a viewer can see which phrase was stored without a caption.",
+   "evidence": "f0016.jpg, f0027.jpg, crops/composer.png"
+  },
+  {
+   "observation": "The same card-to-MEMORY flip opens and closes the film, so the ending reads as a return rather than a new scene.",
+   "evidence": "strips window-03 and window-32; f0004, f0039"
+  },
+  {
+   "observation": "Three claim cards on black separate the product scenes in time with cuts; the white UI scenes then show each claim happening.",
+   "evidence": "f0005, f0021, f0038; cuts at 7.48, 39.57"
+  },
+  {
+   "observation": "Proof repeats the same layout three times with a new prompt, so memory recall is seen to recur rather than asserted once.",
+   "evidence": "f0023-f0034, t=44 to 68"
+  },
+  {
+   "observation": "Tagline holds 3.9 s with MEMORY tiles and H, longer than the 2 s minimum.",
+   "evidence": "f0039.jpg, f0040.jpg; strip window-32"
+  },
+  {
+   "observation": "The legal prompts are specific (Acme, Delaware C-corp, 3x cap, 2019-2021), which makes the remembered facts credible.",
+   "evidence": "crops/composer.png, f0034.jpg"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Agent-step text and chips are small for a phone screen; the Searching Memory lines are the proof and they are the smallest type.",
+   "evidence": "f0026.jpg, f0034.jpg; 16-18 px ink at t=52"
+  },
+  {
+   "observation": "Frame 0 is a lone logo on black and the first 0.4 s is black and silent; the product subject arrives at 2.2 s.",
+   "evidence": "strips/window-01-0.367s.jpg; metrics frames.frame0"
+  },
+  {
+   "observation": "Cuts are not tied to the music; the score has no beat to land on.",
+   "evidence": "metrics sound.cuts_on_strong_onset_share 0.0 vs 0.125"
+  },
+  {
+   "observation": "Long stretches of near-identical UI (static share 0.667) give little visual change; the 33 s shot relies on small highlight changes.",
+   "evidence": "metrics frames.intervals_static_share, rhythm.longest_shot"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Colour-code the stored information: give each highlighted phrase a tint and light a matching cell in a persistent diagram, so cause and effect are visible without extra copy.",
+   "evidence": "f0016.jpg, f0027.jpg; teal, rose, lilac",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Between worlds, hard-cut on a polarity flip (white UI to black claim card) instead of dissolving; the film does this 4 times in 81 s.",
+   "evidence": "cuts 7.48, 9.38, 39.57, 42.1; no dissolves",
+   "relation": "confirms",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "A single-line claim card may exceed 6 words if it stays one line at 5-6% of frame height; the 8-word card read cleanly at 43 px on 720.",
+   "evidence": "f0021.jpg; title_measurements",
+   "relation": "contradicts",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "A calm explainer can run one continuous UI shot of 30 s or more if something visibly changes every 2 s; judge pacing by change events, not cuts.",
+   "evidence": "longest_shot 33.17 s; median_hold_s 2.15",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Prove a feature by repeating one scene layout three times with a new input each time; keep the layout fixed so only the content changes.",
+   "evidence": "prompts at t=44, 54, 62; f0024, f0028, f0032",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Open and close on the same object: a flip that turns the hero object into the title tiles at 4 s and again at 76.5 s, then hold the tagline 3.9 s.",
+   "evidence": "strips window-03, window-32",
+   "relation": "extends",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Keep agent-step text at or above 2.6% of the short side (19 px on 720); this film's 16-18 px lines in the proof beat fall below it.",
+   "evidence": "ink measure t=52: 16 and 18 px; f0026.jpg",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "A quiet beatless film does not need cuts on music; but state this and drop the sync check (share 0.0 vs chance 0.125) rather than force a hero on a score peak.",
+   "evidence": "metrics sound beats confidence 0.103",
+   "relation": "extends",
+   "skill_rule": "8"
+  }
+ ],
+ "frames_opened": 40,
+ "crops_made": 7,
+ "unchecked": [
+  "Easing curves and exact reveal times were not fitted from strips.",
+  "Whether the music has a build or drop was not heard; only tags and sections were read.",
+  "Phone-width legibility was judged from pixel heights, not on a phone-size render."
+ ]
+}

@@ -1,0 +1,360 @@
+{
+ "id": "idJQMJwHtyM",
+ "title": "Claude for Google Workspace™",
+ "brand": "Claude",
+ "duration_s": 60.02,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "Title card, then one 40.7 s screen-recorded walkthrough of Claude inside Docs, Sheets and Slides, ending on a tagline and logo. No voiceover.",
+ "one_thing": "Claude lives in the side panel of Docs, Sheets and Slides, and one typed request returns finished work in each.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No speech. The caption track holds only [music] tags and one stray '>> Mhm.' at 0:59, which is music, not a voice.",
+  "script_shape": "All copy is on screen: a 5-word title, three typed user prompts with Claude's replies in the panel, a 4-word tagline, then the logo."
+ },
+ "structure": {
+  "frame0": "Three Google app icons (Docs blue, Sheets green, Slides yellow) on a warm cream ground, with 'Introducing Claude for Google Workspace' under them. Subject and title are present at t=0.",
+  "first_3s": "Icons drift up and shrink slightly while the two-line title fades in from 0.8 s; by 1.3 s the title is fully set and holds until the cut at 4.54 s.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 4.54,
+    "role": "hook",
+    "what": "Title card: three app icons and 'Introducing Claude for Google Workspace'."
+   },
+   {
+    "start_s": 4.54,
+    "end_s": 10.08,
+    "role": "setup",
+    "what": "Docs window, then zoom to the Extensions menu and the Claude entry under it."
+   },
+   {
+    "start_s": 10.08,
+    "end_s": 18,
+    "role": "demo",
+    "what": "Docs panel slides in; prompt 'Tighten up the executive summary...' is answered and the document restyles."
+   },
+   {
+    "start_s": 18,
+    "end_s": 28,
+    "role": "demo",
+    "what": "Sheets: two CSVs are dragged in, the budget prompt is typed, 'Working on it...' shows."
+   },
+   {
+    "start_s": 28,
+    "end_s": 34,
+    "role": "reveal",
+    "what": "A coral gradient sweeps across the empty sheet and resolves into a finished budget-vs-actuals report with KPI tiles and status cells."
+   },
+   {
+    "start_s": 34,
+    "end_s": 42,
+    "role": "setup",
+    "what": "Slides: the plus menu opens, Connectors lists Salesforce and Google Drive, both toggled on."
+   },
+   {
+    "start_s": 42,
+    "end_s": 48,
+    "role": "demo",
+    "what": "'Build a QBR deck for Northfield...' is typed; Claude reports it found three call notes, a usage report and the Salesforce renewal."
+   },
+   {
+    "start_s": 48,
+    "end_s": 50.8,
+    "role": "payoff",
+    "what": "Finished six-slide Northfield QBR deck with a green title slide."
+   },
+   {
+    "start_s": 50.8,
+    "end_s": 53.7,
+    "role": "cta",
+    "what": "Browser window slides up and away; 'Claude wherever you work' fades in and out."
+   },
+   {
+    "start_s": 53.7,
+    "end_s": 60.02,
+    "role": "logo",
+    "what": "Coral sunburst and Claude wordmark on cream, held through to the end."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 30,
+   "share": 0.5,
+   "what": "The coral gradient sweep that turns an empty spreadsheet into a finished, formatted report (f0016.jpg); it is the film's only non-UI graphic motion."
+  },
+  "ending": {
+   "cta_text": "Claude wherever you work",
+   "logo_hold_s": 6.3,
+   "what": "Tagline holds about 2.6 s, fades to blank cream, then the Claude logo holds about 6.3 s with silence from 58.46 s."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 5,
+  "cuts_per_min": 5.0,
+  "median_shot_s": 3.27,
+  "how_change_is_paced": "Four cuts in the first 10 s, then one 40.7 s shot (68 % of runtime) where camera zooms and UI state changes carry all change. No burst. Interest comes from typing, zoom-ins and result reveals, not from cutting."
+ },
+ "look": {
+  "ground": "Warm off-white cream, light in every sampled frame (light_share 1.0, luma 239.1); the browser window floats on it with a soft shadow.",
+  "palette": [
+   "cream ground #F0EEE6-ish",
+   "near-black serif type",
+   "Docs blue / Sheets green / Slides yellow icons",
+   "Claude coral sunburst",
+   "forest green in generated documents",
+   "pale blue Google chrome"
+  ],
+  "accent_use": "Coral appears only on the Claude mark (working indicator, final logo) and the 28-30 s gradient sweep; Google's three colours appear only in the opening icons and app chrome.",
+  "type": "Warm bookish serif for the title, tagline and wordmark; the product UI keeps its own sans (Google Sans/Roboto in chrome, a geometric sans in Claude's panel, Poppins in generated output).",
+  "title_height_pct": [
+   6.7,
+   11
+  ],
+  "title_measurements": [
+   {
+    "t_s": 1.8,
+    "text": "Introducing Claude for",
+    "line_height_px": 54,
+    "frame_height_px": 720,
+    "pct": 7.5
+   },
+   {
+    "t_s": 1.8,
+    "text": "Google Workspace",
+    "line_height_px": 52,
+    "frame_height_px": 720,
+    "pct": 7.2
+   },
+   {
+    "t_s": 52,
+    "text": "Claude wherever you work",
+    "line_height_px": 55,
+    "frame_height_px": 720,
+    "pct": 7.6
+   },
+   {
+    "t_s": 55,
+    "text": "Claude logo lockup with sunburst",
+    "line_height_px": 79,
+    "frame_height_px": 720,
+    "pct": 11
+   },
+   {
+    "t_s": 48,
+    "text": "Northfield quarterly business review (slide title in generated deck)",
+    "line_height_px": 48,
+    "frame_height_px": 720,
+    "pct": 6.7
+   }
+  ],
+  "max_words_per_title_line": 4,
+  "density": "sparse",
+  "depth": "Flat. The only depth is the browser window's soft drop shadow and the panel card inside it; the cream ground stays untouched."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 77,
+  "shown_as": [
+   "real-ui-capture"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Scripted scale-ups on the Extensions menu (6.5-10 s), the side panel (12-14 s), the prompt box (20-28 s) and the plus menu (36-42 s), then pull-backs to the full window for each result.",
+  "legible_at_phone_width": "partly",
+  "notes": "Wide shots (f0003.jpg, f0017.jpg) show a full browser window with 10-14 px body text, unreadable on a phone. The zoomed shots (f0004.jpg, f0014.jpg, f0021.jpg) put the panel text at 25-35 px and read easily. Results are readable only as shape and colour, which is enough to sell them."
+ },
+ "motion": {
+  "text_entry": "The title fades in as two lines under settled icons (0.8-1.1 s). Tagline fades in at 51 s and out by 53.7 s. Prompts are typed character by character at about 88 characters a second (window-14-24.709s.jpg).",
+  "ui_motion": "The Claude panel slides in from the right (strip window-07-11.917s.jpg), toggles flip, a menu opens beneath a clicked button, and the document restyles in place. A coral gradient sweeps left to right over the sheet at 28-30 s.",
+  "camera": "Whole-window shots alternate with scale-ups of 3-4x on the area being used; the move is a continuous zoom, not a cut, inside the long shot. At 50.4-51 s the window rises out of frame.",
+  "eases": "Zooms and the panel slide ease out. The title and tagline fades are smooth with no overshoot. Exit of the tagline (53.5-53.7 s) is about 0.2 s against a 0.3 s entrance.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 4,
+    "example_t_s": 4.54,
+    "cause": "Title card to Docs window, then Docs wide to menu zoom (6.46), submenu (8.08) and wide Docs (10.08)."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 5,
+    "example_t_s": 12.2,
+    "cause": "Zoom on panel or prompt box, driven by where the user acts next."
+   },
+   {
+    "type": "mask-or-wipe",
+    "count": 1,
+    "example_t_s": 29,
+    "cause": "Coral gradient sweeps over the sheet as Claude finishes."
+   },
+   {
+    "type": "push-or-slide",
+    "count": 1,
+    "example_t_s": 50.6,
+    "cause": "Browser window slides up and away to clear the ground for the tagline."
+   },
+   {
+    "type": "fade-through-colour",
+    "count": 2,
+    "example_t_s": 53.7,
+    "cause": "Text fades to blank cream before the logo appears; icons fade into the title likewise."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 8,
+    "example_t_s": 36,
+    "cause": "Menu opens, toggle flips, panel fills, document restyles."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0s.jpg",
+   "strips/window-02-3.959s.jpg",
+   "strips/window-03-6.375s.jpg",
+   "strips/window-05-9.834s.jpg",
+   "strips/window-07-11.917s.jpg",
+   "strips/window-14-24.709s.jpg",
+   "strips/window-29-50.375s.jpg",
+   "strips/window-30-53.334s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 1.3,
+    "text": "Introducing Claude for Google Workspace",
+    "words": 5,
+    "hold_s": 3.2
+   },
+   {
+    "t_s": 12.7,
+    "text": "Tighten up the executive summary and lead with recommendation.",
+    "words": 9,
+    "hold_s": -1
+   },
+   {
+    "t_s": 24.7,
+    "text": "Pull together Q3 budget vs. actuals report: a tab for each team, plus a summary tab with a chart, and flag anything over budget.",
+    "words": 22,
+    "hold_s": -1
+   },
+   {
+    "t_s": 42,
+    "text": "Build a QBR deck for Northfield from our Salesforce data and recent call notes.",
+    "words": 14,
+    "hold_s": -1
+   },
+   {
+    "t_s": 51.1,
+    "text": "Claude wherever you work",
+    "words": 4,
+    "hold_s": 2.6
+   }
+  ],
+  "holds_vs_reading_rule": "Title: 5 words, held 3.2 s against a 2.0 s need. Tagline: 4 words, held 2.6 s against 1.7 s. User prompts are typed too fast to read in full at wide framing, but the zoom lets them be read."
+ },
+ "sound": {
+  "music": "Instrumental bed at 90.2 BPM (beat confidence only 0.217). Tags: music 0.819, keyboard_musical 0.52, piano 0.372, synthesizer 0.309, saxophone 0.209. Three sections: 0-3.99 s, 3.99-48.03 s, 48.03-60.01 s.",
+  "sfx": "None evidenced. Describe tags carry no click or UI sound above 0.2, and I could not hear the film.",
+  "vo_music_balance": "No voice. Music is the only sound.",
+  "energy_arc": "Short intro section, a 44 s middle section, and a closing section from 48 s. Silence from 58.46 s to the end. LRA 8.8 LU.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.0 against a chance share of 0.135. The first section boundary at 3.99 s sits 0.55 s before the first cut at 4.54 s."
+ },
+ "good": [
+  {
+   "observation": "The film shows one job per app, each as typed request then finished result, so a viewer sees what the product does without any narration.",
+   "evidence": "f0007.jpg, f0014.jpg, f0022.jpg; f0009.jpg, f0017.jpg, f0025.jpg"
+  },
+  {
+   "observation": "Frame 0 is already the title card with the subject (three app icons) and the name, so the hook needs no build-up.",
+   "evidence": "f0001.jpg; frames.frame0 isEvidence true"
+  },
+  {
+   "observation": "Zooming the camera onto the one control being used makes 12-14 px UI text read at 25-35 px without cutting away from the product.",
+   "evidence": "f0004.jpg, f0007.jpg, f0021.jpg"
+  },
+  {
+   "observation": "The generated outputs are designed (forest-green header, KPI tiles, status pills, a six-slide deck), so the payoff looks worth wanting.",
+   "evidence": "f0009.jpg, f0017.jpg, f0025.jpg"
+  },
+  {
+   "observation": "A single coral gradient sweep marks the result moment; it is the only graphic effect on top of the UI, so it reads as the film's peak.",
+   "evidence": "f0016.jpg; strips/window-14 context; t=28-30 s"
+  },
+  {
+   "observation": "The ending is calm: a 4-word tagline fades out to blank before the logo, which holds 6.3 s.",
+   "evidence": "strips/window-30-53.334s.jpg; f0027.jpg, f0028.jpg"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Three-quarters of the runtime is browser chrome that is unreadable at phone width in the wide shots; results are shape and colour only.",
+   "evidence": "f0017.jpg, f0025.jpg"
+  },
+  {
+   "observation": "Motion is slow and mostly one shot: 40.7 s without a cut, no burst, a static run of 6 s ending at 42 s.",
+   "evidence": "metrics rhythm.longest_shot; frames.longest_static_run_s"
+  },
+  {
+   "observation": "Sound is loud for the target and not tied to picture: -15.4 LUFS integrated, -0.6 dBTP, and cuts land on strong onsets 0 % of the time.",
+   "evidence": "metrics sound.lufs_integrated, true_peak_db, cuts_on_strong_onset_share"
+  },
+  {
+   "observation": "The film names no result number or customer proof; the value is shown but never stated in a line of copy.",
+   "evidence": "copy.on_screen_lines"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "In a demo film, show one typed request and one finished result per product surface; keep typing near 2 s and zoom onto the prompt box so it reads at 25 px or more.",
+   "evidence": "Prompts at f0007.jpg, f0014.jpg, f0022.jpg; typing at about 88 characters a second in window-14.",
+   "relation": "extends",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "A long uncut screen-recording shot (40 s, 68 % of runtime) is acceptable when change comes from zooms and state changes about every 2-6 s; hard cuts then cluster at the start, not spread.",
+   "evidence": "metrics rhythm: 5 hard cuts, 4 in the first 10 s, longest shot 40.71 s.",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Mark the film's reveal with one non-UI graphic sweep in the brand accent, once, covering about half the frame for about 2 s, and use no other overlay effect.",
+   "evidence": "Coral sweep at 28-30 s, f0016.jpg; accent otherwise only on the logo.",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "End on tagline then logo: a 4-word line held about 2.6 s, faded to blank ground, then the logo held 6 s or more; both sit at 7-8 % of frame height.",
+   "evidence": "Tagline 55 px = 7.6 %; logo hold t=54-60 s.",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Open on the subject plus the title in the first frame: icons and a two-line title, 7.2-7.5 % of frame height, with the first cut after 4.5 s.",
+   "evidence": "f0001.jpg; title lines 54 px and 52 px of 720; first_cut_s 4.54.",
+   "relation": "extends",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Cut on a narrative step, not a beat: four cuts in 5.5 s each follow one action (open the app, open the menu, choose the entry). Do not expect the cuts to lock to music.",
+   "evidence": "Cuts 4.54, 6.46, 8.08, 10.08 s; cuts_on_strong_onset_share 0.0 vs chance 0.135.",
+   "relation": "contradicts",
+   "skill_rule": "8"
+  },
+  {
+   "rule": "Keep music at -14 LUFS and under -1 dBTP; this film at -15.4 LUFS and -0.6 dBTP fails the second limit by 0.4 dB.",
+   "evidence": "metrics sound: lufs_integrated -15.4, true_peak_db -0.6.",
+   "relation": "confirms",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 30,
+ "crops_made": 6,
+ "unchecked": [
+  "Sound heard by no one: no click or UI effects could be confirmed from audio.json.",
+  "hold_s for typed prompts not measured; strips cover only the typing at 24.7-24.9 s.",
+  "Title measurement at 32 s (Sheets title) failed to isolate one line; it was dropped.",
+  "Three of six crops (docs-redesign, slides-chat, sheets-panel) missed their target region."
+ ]
+}

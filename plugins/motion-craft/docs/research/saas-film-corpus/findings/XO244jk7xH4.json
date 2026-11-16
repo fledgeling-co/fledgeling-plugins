@@ -1,0 +1,352 @@
+{
+ "id": "XO244jk7xH4",
+ "title": "Meet Muse: your personal AI agent",
+ "brand": "Muse",
+ "duration_s": 120.14,
+ "status": "ok",
+ "format": "customer-or-user-story",
+ "format_note": "Real users testify to a phone agent in interview and B-roll; interface appears only as brief handheld phone close-ups, with a lower-third naming each person and their Muse.",
+ "one_thing": "Muse is a personal agent that does the thing for you and asks before it buys, proven by real people describing life moments.",
+ "transcript": {
+  "source": "auto-captions",
+  "voiceover": "customer-testimonial",
+  "words_total": 382,
+  "words_per_minute": 190.8,
+  "voice_style": "Warm, conversational first-person testimony from several speakers; casual fillers; one founder-style definition line; no narrator.",
+  "script_shape": "Cold-open anecdote about mum, definition of Muse, capability claims, then a chain of personal stories (running, car lockout, purchase approval, tickets, credit score, weekend plan), closing on time with loved ones."
+ },
+ "structure": {
+  "frame0": "Sunlit foliage with a flare, handheld; the sampled f0001 shows blurred grass over a glass building. Cinematic and non-black, but no product or text in frame.",
+  "first_3s": "Foliage and flare, grass-framed building, close-up of a woman's face looking down at a phone, then two colleagues walking; a quiet voice tells a story about mum. Cuts at 0.63, 1.38, 2.34s.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 9.5,
+    "role": "hook",
+    "what": "Anecdote voiceover (\"let her buy that for a bit before telling her about Muse\") over lifestyle B-roll; Muse logo tag appears at 9.68s."
+   },
+   {
+    "start_s": 9.5,
+    "end_s": 17.5,
+    "role": "setup",
+    "what": "Man in lounge chair; first split-screen of face and Goals list; Muse defined as personal agent that is all yours."
+   },
+   {
+    "start_s": 17.5,
+    "end_s": 30,
+    "role": "demo",
+    "what": "Contrast with chatbots; phone close-ups show Stich activity feed, Salone Looks, ticket seat picker; first name lower-third, Christine, at 24.4s."
+   },
+   {
+    "start_s": 30,
+    "end_s": 45,
+    "role": "proof",
+    "what": "Muse has its own computer; works in background; route map and Adding to bag screens on phone; interview cutaways."
+   },
+   {
+    "start_s": 45,
+    "end_s": 58,
+    "role": "proof",
+    "what": "Lucas lower-third at 46.6s; running story; Your weekend 5K route map at t=54s."
+   },
+   {
+    "start_s": 58,
+    "end_s": 76,
+    "role": "proof",
+    "what": "Car lockout in Croatia; Tarek lower-third at 60.5s; purchase approval with price, shipping, delivery; Browser (Beta) card choice."
+   },
+   {
+    "start_s": 76,
+    "end_s": 105,
+    "role": "proof",
+    "what": "Control back to the person; Mets tickets, cable company credit score, planned weekend; Mona lower-third at 86s."
+   },
+   {
+    "start_s": 105,
+    "end_s": 115,
+    "role": "payoff",
+    "what": "Time with the people I love, over sunlit smiles and leaves."
+   },
+   {
+    "start_s": 115.2,
+    "end_s": 120.14,
+    "role": "logo",
+    "what": "Black end card: Muse icon, wordmark, Google Play and App Store badges, Meta logo."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 54,
+   "share": 0.45,
+   "what": "Your weekend 5K route map in the phone UI, the clearest on-screen proof of the agent finishing a task, mid-film inside a 11-cut burst."
+  },
+  "ending": {
+   "cta_text": "Muse; Google Play; App Store; Meta",
+   "logo_hold_s": 4.98,
+   "what": "Hard cut to black card with app icon, wordmark, two store badges and Meta logo; held about 5s, the film's longest shot."
+  }
+ },
+ "rhythm": {
+  "route": "montage",
+  "hard_cuts": 80,
+  "cuts_per_min": 39.95,
+  "median_shot_s": 1.38,
+  "how_change_is_paced": "Constant cutting at a 1.38s median with no shot over 10s; bursts of 18 cuts in the first 18s and 11 cuts at 55-67s; 91.5% of sampled intervals show a new composition; only the end card holds."
+ },
+ "look": {
+  "ground": "Natural-light live-action footage with shallow depth, graded warm; no designed background until the black end card.",
+  "palette": [
+   "warm skin and wood tones",
+   "teal and green armchair and foliage",
+   "saturated red wall",
+   "white",
+   "black end card",
+   "Muse blue"
+  ],
+  "accent_use": "Muse blue appears only in the app icon, the Meta logo and a few UI buttons; the rest is incidental colour from footage.",
+  "type": "Clean geometric sans lower-thirds in white: bold name over a lighter 'X is her Muse' line with a circular mascot avatar; end card uses the same sans for the wordmark.",
+  "title_height_pct": [
+   4.03,
+   6.8
+  ],
+  "title_measurements": [
+   {
+    "t_s": 24.8,
+    "text": "Christine",
+    "line_height_px": 45,
+    "frame_height_px": 720,
+    "pct": 6.25
+   },
+   {
+    "t_s": 61.0,
+    "text": "Tarek",
+    "line_height_px": 36,
+    "frame_height_px": 720,
+    "pct": 5.0
+   },
+   {
+    "t_s": 86.5,
+    "text": "Mona",
+    "line_height_px": 35,
+    "frame_height_px": 720,
+    "pct": 4.86
+   },
+   {
+    "t_s": 116,
+    "text": "Muse",
+    "line_height_px": 49,
+    "frame_height_px": 720,
+    "pct": 6.81
+   },
+   {
+    "t_s": 9.72,
+    "text": "Muse (small logo tag)",
+    "line_height_px": 29,
+    "frame_height_px": 720,
+    "pct": 4.03
+   }
+  ],
+  "max_words_per_title_line": 4,
+  "density": "sparse",
+  "depth": "Shallow-focus portraits, rack focus through foliage and fences; the phone UI sits as a sharp rectangle in a blurred hand-held scene."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 17,
+  "shown_as": [
+   "device-mockup",
+   "live-action",
+   "real-ui-capture"
+  ],
+  "cursor": "none",
+  "camera_on_ui": "Handheld close-ups over a thumb or shoulder, tilted and partly out of focus; UI readable for roughly 1-2s per shot; Goals list and Your weekend 5K are the clearest.",
+  "legible_at_phone_width": "partly",
+  "notes": "Real app screens (Goals, Stich feed, Salone Looks, ticket seat picker, Route Map, Browser Beta card prompt) appear only on a phone in a hand, often skewed and soft. Headings read; body text does not."
+ },
+ "motion": {
+  "text_entry": "Lower-thirds are already on screen at the first sampled frame after the cut; they ride across a following hard cut and stay put (Lucas label persists across two shots, strips window-42).",
+  "ui_motion": "No designed UI animation; the phone's own screen is captured as filmed, with one live typing frame ('What should m') at t=32s.",
+  "camera": "Handheld and slider moves, rack focus, whip blur at 8s, tilts; a push on faces; almost every shot has a small drift.",
+  "eases": "Not measurable from the footage; label placement is static so no eased text motion was observed.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 71,
+    "example_t_s": 2.34,
+    "cause": "New face, hand or phone angle follows the speaker's next phrase."
+   },
+   {
+    "type": "whip-pan",
+    "count": 1,
+    "example_t_s": 8,
+    "cause": "Motion blur at 8s into the lounge-chair wide."
+   },
+   {
+    "type": "mask-or-wipe",
+    "count": 3,
+    "example_t_s": 12.2,
+    "cause": "Split-screen panels open: wide, face and UI shown together."
+   },
+   {
+    "type": "match-cut",
+    "count": 4,
+    "example_t_s": 71.5,
+    "cause": "Face close-up cuts to the same speaker's wide shot, then to hands on phone."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0.126s.jpg opening foliage flare to building at 0.63s",
+   "strips/window-08-9.593s.jpg Muse logo tag pops in at 9.68s",
+   "strips/window-10-12.179s.jpg three-panel split screen",
+   "strips/window-13-14.348s.jpg split screen builds panel by panel",
+   "strips/window-22-24.275s.jpg Christine lower-third present from first frame",
+   "strips/window-26-28.028s.jpg phone UI hold after hard cut",
+   "strips/window-42-46.547s.jpg Lucas label persists across a cut",
+   "strips/window-52-60.519s.jpg Tarek label across two shots",
+   "strips/window-60-71.447s.jpg face, wide, then phone hands"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 9.68,
+    "text": "Muse",
+    "words": 1,
+    "hold_s": 0.5
+   },
+   {
+    "t_s": 24.4,
+    "text": "Christine; Avo is her Muse",
+    "words": 6,
+    "hold_s": 2.4
+   },
+   {
+    "t_s": 46.6,
+    "text": "Lucas; Gunther is his Muse",
+    "words": 6,
+    "hold_s": 1.8
+   },
+   {
+    "t_s": 60.5,
+    "text": "Tarek; Bean is his Muse",
+    "words": 6,
+    "hold_s": 0.9
+   },
+   {
+    "t_s": 86,
+    "text": "Mona; Veda is her Muse",
+    "words": 6,
+    "hold_s": 4
+   },
+   {
+    "t_s": 116,
+    "text": "Muse; GET IT ON Google Play; Download on the App Store; Meta",
+    "words": 12,
+    "hold_s": 4.98
+   }
+  ],
+  "holds_vs_reading_rule": "Name labels are short (3 words per line) and stay 1-4s; the end card holds about 5s, above the 2s rule. Most of the story is carried by voice, so almost no text is read."
+ },
+ "sound": {
+  "music": "Audio kind is music with speech: describe tags speech 0.839, music 0.649, keyboard_musical 0.276, plucked_string_instrument 0.164; no steady beat detected (confidence 0.092), so a soft ambient bed under voices.",
+  "sfx": "No sound effects identifiable from tags; captions carry [music] cues only.",
+  "vo_music_balance": "Voices dominate (speech 0.839 vs music 0.649); integrated -17.2 LUFS, short-term max -14.0, true peak -0.8 dBTP, LRA 5.4 LU.",
+  "energy_arc": "Even testimony level with ten sections A-J; silence only at 108.5s and the last 2.9s before the final fade.",
+  "sync_to_picture": "Cuts are not locked to the sound: 7.5% of cuts land on strong onsets against 8.4% by chance; cuts follow speech phrases instead."
+ },
+ "good": [
+  {
+   "observation": "Real people tell personal stories, so each claim lands as lived proof rather than a feature claim; a named lower-third ties each person to their own Muse.",
+   "evidence": "f0013, f0024, f0031, f0044 labels"
+  },
+  {
+   "observation": "Lower-thirds are one stable template: bold name, lighter line, round avatar; repeated four times so the audience learns the pattern.",
+   "evidence": "crops/christine.png, tarek.png, mona.png"
+  },
+  {
+   "observation": "The approval beat is shown and spoken together: price, shipping and delivery date, then 'it doesn't actually buy it until I approve it'.",
+   "evidence": "f0040 Browser (Beta) card prompt; transcript 1:09-1:17"
+  },
+  {
+   "observation": "The end card is plain: icon, wordmark, two badges, one parent logo on black, held about 5s.",
+   "evidence": "f0059, f0060; metrics longest_shot 4.98s"
+  },
+  {
+   "observation": "Frame 0 is a poster-like sunlit frame, then every shot after it is a new composition (91.5% of sampled intervals), so the film never sags.",
+   "evidence": "metrics frames.intervals_new_composition_share 0.915"
+  },
+  {
+   "observation": "Split screens at 12-15s combine wide, face and UI so the audience sees who, how they feel and what they see in one beat.",
+   "evidence": "f0007, strips/window-13-14.348s.jpg"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Phone screens are skewed, soft and brief; body text is unreadable at phone width, so the specifics spoken in voiceover are not confirmed on screen.",
+   "evidence": "f0016, f0040; crops/goals.png"
+  },
+  {
+   "observation": "The hook line is a mum anecdote with no product shown; frame 0 and the first 9s show no interface and no name until the 9.68s tag.",
+   "evidence": "f0001-f0005; strips/window-08-9.593s.jpg"
+  },
+  {
+   "observation": "Cuts are not locked to the music, 7.5% on strong onsets vs 8.4% chance.",
+   "evidence": "metrics sound.cuts_on_strong_onset_share"
+  },
+  {
+   "observation": "Loudness is -17.2 LUFS integrated with true peak -0.8 dBTP, quieter than the -14 target and above the -1 ceiling.",
+   "evidence": "metrics sound.lufs_integrated, true_peak_db"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Label each testimonial speaker with a two-line lower-third (name, then 'Muse name is their pronoun Muse') and keep the same template, type size and position across all speakers.",
+   "evidence": "Four labels measured 35-45px high at similar x (f0013, f0024, f0031, f0044).",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "A launch film built on testimony can sustain a 1.4s median shot for 2 minutes if every cut changes composition and follows a spoken phrase.",
+   "evidence": "median_shot_s 1.38; new-composition share 0.915; 80 cuts.",
+   "relation": "extends",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Phone UI shown through the user's hand must hold the screen steady for at least 1.5s with the headline text above 4% of frame height, or it reads as texture rather than proof.",
+   "evidence": "Goals and Route Map legible only in f0007, f0028; others soft.",
+   "relation": "extends",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "Shown consent beats claimed consent: for any agent action with cost, show price, delivery and an approve step on screen while the line is spoken.",
+   "evidence": "transcript 1:09-1:17 with f0040 prompt card.",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Open on a lived moment without product only when the product tag arrives by 10s; here the Muse tag lands at 9.68s, outside the 3s hook window.",
+   "evidence": "strips/window-08-9.593s.jpg; first cut 0.63s.",
+   "relation": "contradicts",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "End on a plain black card with icon, wordmark, store badges and parent brand, held about 5s with no motion.",
+   "evidence": "f0059, f0060; longest_shot 4.98s, 4.1% of runtime.",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Split-screen panels opening one by one (two or three) work as a build device in a 1.4s-shot film; use only between 12-15s, not throughout.",
+   "evidence": "f0007, f0008, strips/window-13-14.348s.jpg",
+   "relation": "extends",
+   "skill_rule": "7"
+  }
+ ],
+ "frames_opened": 60,
+ "crops_made": 8,
+ "unchecked": [
+  "Strips cover only 0-71s, so the closing cuts and end-card entrance have no native-rate strip.",
+  "Christine ink height of 45px may include fade; crop shows about 35px.",
+  "Lucas ink measure hit the ROI limit and is omitted.",
+  "Ease curves of any label motion were not measured.",
+  "Sound judged from tags and metrics only; nothing was heard."
+ ]
+}

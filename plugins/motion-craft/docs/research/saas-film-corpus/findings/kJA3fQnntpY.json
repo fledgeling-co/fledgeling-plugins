@@ -1,0 +1,399 @@
+{
+ "id": "kJA3fQnntpY",
+ "title": "Collaborate on artifacts in Claude",
+ "brand": "Claude",
+ "duration_s": 159.88,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "Narrated screen walkthrough of one shared-doc scenario, from prompt to share dialog to comments to tracker, with a short title card and Claude Academy end card.",
+ "one_thing": "Claude artifacts are now shared documents your team edits together, and teammates can @Claude from a comment to change them.",
+ "transcript": {
+  "source": "local-whisper",
+  "voiceover": "narrator-vo",
+  "words_total": 414,
+  "words_per_minute": 155.4,
+  "voice_style": "Calm instructional narrator, second person, present tense, reads prompts aloud as they are typed on screen.",
+  "script_shape": "Promise line over the finished UI, then a title card, then step-by-step: prompt, doc, share, comment, tracker, roles, link, comment-to-edit, library, summary question."
+ },
+ "structure": {
+  "frame0": "Poster of the product itself: four overlapping avatars (K, Z, J, S), a comment icon and a black Share button, centred on cream. Subject present at t=0 (f0001.jpg).",
+  "first_3s": "Avatar row fills in one by one, the comment button becomes a '2' counter by t=1.0s, then the frame zooms out into the doc while narration states the promise.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 15.5,
+    "role": "hook",
+    "what": "Promise over a live shared doc: avatar row, cursors with name flags, comment popover, narration says anyone can edit and ask Claude for updates."
+   },
+   {
+    "start_s": 15.56,
+    "end_s": 18.48,
+    "role": "other",
+    "what": "Blue title card 'Collaborating on Claude Artifacts' inside a selection box with a cursor; card shrinks away."
+   },
+   {
+    "start_s": 18.48,
+    "end_s": 25,
+    "role": "setup",
+    "what": "Artifact type chips Docs, Slides, Design, Motion, Dashboard stagger in; a coral starburst arcs across them and into the chat home."
+   },
+   {
+    "start_s": 25,
+    "end_s": 43,
+    "role": "setup",
+    "what": "Prompt typed into a 'Let's noodle, Sylvia' composer; connectors menu toggles Slack on; whole prompt visible at t=38s."
+   },
+   {
+    "start_s": 44,
+    "end_s": 62,
+    "role": "demo",
+    "what": "Doc appears beside chat; Share dialog adds Zoe, Josefina, Kyra and shows role menu Owner, Editor, Commenter, Viewer."
+   },
+   {
+    "start_s": 62,
+    "end_s": 76,
+    "role": "turn",
+    "what": "Teammate cursors edit live; @Claude comment 'schedule this with ENG' gets reply 'Booked for Wed, 10 AM in Room B.'"
+   },
+   {
+    "start_s": 76,
+    "end_s": 92,
+    "role": "demo",
+    "what": "Follow-up prompt typed: 'Build a tracker from this doc'; tracker artifact appears with checkboxes and progress bar."
+   },
+   {
+    "start_s": 92,
+    "end_s": 112,
+    "role": "demo",
+    "what": "Color-coded status labels Overdue and Slipping added by a second prompt; share dialog now shows Contributor role."
+   },
+   {
+    "start_s": 112,
+    "end_s": 126,
+    "role": "proof",
+    "what": "Tracker opened in a browser tab at claude.ai/artifact/team-priorities-tracker; checkbox ticked, progress 1 of 13."
+   },
+   {
+    "start_s": 126,
+    "end_s": 135.8,
+    "role": "payoff",
+    "what": "Kyra comments, Sylvia replies 'Good idea! Let's update.' and Claude changes the label, keeping owners and checks (7 of 13 done)."
+   },
+   {
+    "start_s": 135.8,
+    "end_s": 145.6,
+    "role": "other",
+    "what": "Artifacts tab with template row and recents."
+   },
+   {
+    "start_s": 145.6,
+    "end_s": 153.99,
+    "role": "payoff",
+    "what": "Prompt 'What did the team get done this week?' answered with a checked list per person."
+   },
+   {
+    "start_s": 153.99,
+    "end_s": 159.88,
+    "role": "cta",
+    "what": "Claude logo, then 'Claude Academy', then 'Claude.com/learn'."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 72.6,
+   "share": 0.454,
+   "what": "Claude answers a teammate's comment inside the doc with a booked room, shown with highlights on the affected lines (strips/window-38-72.615s.jpg)."
+  },
+  "ending": {
+   "cta_text": "Claude.com/learn",
+   "logo_hold_s": -1,
+   "what": "Three plain centred cards on cream: Claude logo, Claude Academy lockup, URL. No music swell or product shot."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 5,
+  "cuts_per_min": 1.88,
+  "median_shot_s": 9.09,
+  "how_change_is_paced": "One 117.3 s shot (73 % of runtime) carries the whole demo through zooms and typing; only 5 hard cuts exist, at 15.56, 18.48, 135.8, 145.6 and 153.99 s. Pace comes from typing and UI state changes, set by narration."
+ },
+ "look": {
+  "ground": "Cream (f0001.jpg) and near-white for UI; a flat mid blue (#6B9AC8-like) backdrop behind the app window for the whole demo section.",
+  "palette": [
+   "cream",
+   "near-white",
+   "slate blue backdrop",
+   "coral starburst",
+   "black",
+   "pale green tracker ground",
+   "avatar olive/teal/violet/magenta"
+  ],
+  "accent_use": "Coral is reserved for the Claude starburst and the send button; the blue backdrop is a constant frame, avatars carry the other colour.",
+  "type": "Serif display for titles and greeting, serif body in docs, grotesque sans for UI chrome; title card pairs regular and bold weights of the same serif.",
+  "title_height_pct": [
+   6.8,
+   12.6
+  ],
+  "title_measurements": [
+   {
+    "t_s": 17,
+    "text": "Collaborating on",
+    "line_height_px": 91,
+    "frame_height_px": 720,
+    "pct": 12.6
+   },
+   {
+    "t_s": 17,
+    "text": "Claude Artifacts",
+    "line_height_px": 71,
+    "frame_height_px": 720,
+    "pct": 9.9
+   },
+   {
+    "t_s": 28,
+    "text": "Let's noodle, Sylvia",
+    "line_height_px": 53,
+    "frame_height_px": 720,
+    "pct": 7.4
+   },
+   {
+    "t_s": 158,
+    "text": "Claude.com/learn",
+    "line_height_px": 49,
+    "frame_height_px": 720,
+    "pct": 6.8
+   }
+  ],
+  "max_words_per_title_line": 3,
+  "density": "medium",
+  "depth": "Flat. Soft drop shadow on the app window and popovers; no parallax or 3D."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 90,
+  "shown_as": [
+   "real-ui-capture",
+   "floating-ui-cards"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Zooms into the prompt box, share dialog and comment popover so the active region fills the frame, then pulls back out to the full window (f0004.jpg, f0028.jpg, f0067.jpg).",
+  "legible_at_phone_width": "partly",
+  "notes": "Zoomed states are legible; the full-window views at f0025.jpg and f0073.jpg carry 8-10 px body text at 720p, which is below phone legibility. Narration carries what the small text says."
+ },
+ "motion": {
+  "text_entry": "User prompts type out character by character with a caret (f0016.jpg to f0037.jpg); the title card is present on its first frame after a hard cut, with no typed entrance.",
+  "ui_motion": "Chips stagger in left to right with fade and slight vertical offset (f0010.jpg); a starburst arcs over them (strips/window-15-23.524s.jpg); name flags and comment popovers appear in place; checkbox ticks and progress fill.",
+  "camera": "Scale and pan zooms between full window and detail, with motion blur visible mid-move (f0073.jpg).",
+  "eases": "Not measured numerically; moves read as ease-out settles with no overshoot in strips/window-11-17.852s.jpg.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 5,
+    "example_t_s": 15.56,
+    "cause": "Chapter change: doc to title card, title card to chips, library, chat, end card."
+   },
+   {
+    "type": "zoom-through",
+    "count": 6,
+    "example_t_s": 1.67,
+    "cause": "Camera pulls out from avatar row into the doc, or in on the active control."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 1,
+    "example_t_s": 17.85,
+    "cause": "Title card box shrinks to a rounded tile and reveals the chips ground."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 12,
+    "example_t_s": 72.6,
+    "cause": "Comment, reply, checkbox, label or share action changes the doc on screen."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0.251s.jpg",
+   "strips/window-03-1.669s.jpg",
+   "strips/window-09-15.474s.jpg",
+   "strips/window-11-17.852s.jpg",
+   "strips/window-15-23.524s.jpg",
+   "strips/window-38-72.615s.jpg",
+   "strips/window-45-86.587s.jpg",
+   "strips/window-60-112.655s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "Share",
+    "words": 1,
+    "hold_s": -1
+   },
+   {
+    "t_s": 15.6,
+    "text": "Collaborating on Claude Artifacts",
+    "words": 4,
+    "hold_s": 2.9
+   },
+   {
+    "t_s": 19,
+    "text": "Docs Slides Design Motion Dashboard",
+    "words": 5,
+    "hold_s": -1
+   },
+   {
+    "t_s": 28,
+    "text": "Let's noodle, Sylvia",
+    "words": 3,
+    "hold_s": -1
+   },
+   {
+    "t_s": 72.6,
+    "text": "Booked for Wed, 10 AM in Room B.",
+    "words": 8,
+    "hold_s": -1
+   },
+   {
+    "t_s": 86,
+    "text": "Build a tracker from this doc with checkboxes for each priority.",
+    "words": 11,
+    "hold_s": -1
+   },
+   {
+    "t_s": 112,
+    "text": "Owner Editor Contributor Commenter Viewer",
+    "words": 5,
+    "hold_s": -1
+   },
+   {
+    "t_s": 130,
+    "text": "Can we swap 'overdue' for how many days overdue a task is?",
+    "words": 12,
+    "hold_s": -1
+   },
+   {
+    "t_s": 154,
+    "text": "Claude",
+    "words": 1,
+    "hold_s": -1
+   },
+   {
+    "t_s": 156,
+    "text": "Claude Academy",
+    "words": 2,
+    "hold_s": -1
+   },
+   {
+    "t_s": 158,
+    "text": "Claude.com/learn",
+    "words": 1,
+    "hold_s": -1
+   }
+  ],
+  "holds_vs_reading_rule": "The only designed title, 4 words, is visible about 2.9 s (cut 15.56 to 18.48), above the 0.5 s + 0.3 s a word rule (1.7 s). Prompt text is typed at narration speed, not held."
+ },
+ "sound": {
+  "music": "Classified as music at confidence 0.64 but the top describe tag is speech 0.773; music 0.6, keyboard_musical 0.229; no steady beat (confidence 0.113), no bpm.",
+  "sfx": "No sfx evidence beyond onsets; cannot name any sound effect.",
+  "vo_music_balance": "Voice dominates the mix (speech tag 0.773 against music 0.6); integrated -15.8 LUFS, short-term max -14.3, true peak -1.2 dBTP, LRA 10.8 LU.",
+  "energy_arc": "Seven sections A-G; one long section A to 63 s, then changes at 63, 72, 86, 91, 136, 150 s. Silence only at 159.5 to 159.87 s.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.0 against chance_share 0.089."
+ },
+ "good": [
+  {
+   "observation": "Frame 0 is the product, not a logo: avatars, comment and Share button already assembled, and the promise follows immediately.",
+   "evidence": "f0001.jpg; strips/window-01-0.251s.jpg"
+  },
+  {
+   "observation": "One continuous story with a single running example (the team priorities doc) so every feature is shown on data already seen; the tracker reuses the doc's rows.",
+   "evidence": "f0025.jpg to f0067.jpg"
+  },
+  {
+   "observation": "Zoom to the active control before each action keeps small UI readable, then pull-back restores context.",
+   "evidence": "f0028.jpg, f0049.jpg, f0067.jpg"
+  },
+  {
+   "observation": "Prompts are typed on screen while the narrator reads them, so voice and text carry the same words and the viewer reads nothing alone.",
+   "evidence": "f0016.jpg to f0037.jpg; transcript.md 26.96s"
+  },
+  {
+   "observation": "Palette discipline: coral only on the Claude mark and send button; a constant flat blue backdrop frames every app screen.",
+   "evidence": "f0023.jpg, f0025.jpg"
+  },
+  {
+   "observation": "Named cursors with colour flags (Sylvia, Kyra, Josefina, Zoe) show collaboration without any caption.",
+   "evidence": "f0004.jpg, f0007.jpg"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Pace is slow for social: 117 s in one shot and 12 s static runs, no burst of cuts, hero moment not marked by sound.",
+   "evidence": "metrics.rhythm.longest_shot; metrics.frames.longest_static_run_s 12"
+  },
+  {
+   "observation": "Full-window views carry text around 8-10 px at 720p, unreadable at phone width.",
+   "evidence": "f0025.jpg; f0073.jpg"
+  },
+  {
+   "observation": "Integrated loudness -15.8 LUFS is 1.8 LU below the -14 social target.",
+   "evidence": "metrics.sound.lufs_integrated -15.8"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "In a feature walkthrough, zoom until the active control fills at least half the frame width before it is used, then pull back; do not leave a full app window on screen for a read.",
+   "evidence": "f0028.jpg, f0067.jpg zoomed; f0025.jpg full window small",
+   "relation": "extends",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "Open on the finished, most recognisable fragment of the product (here avatar row plus Share button) assembled inside 1.3 s, instead of a title.",
+   "evidence": "f0001.jpg; strips/window-01-0.251s.jpg 1.3 s",
+   "relation": "confirms",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "A tutorial can run one shot for 70 percent or more of runtime if state changes in the UI occur at least every 2 s.",
+   "evidence": "metrics.rhythm.longest_shot 117.3 s, 73.4 %; median_hold_s 1.58",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Reuse one sample dataset across every demo step so each new feature builds on rows the viewer has already read.",
+   "evidence": "Team priorities doc becomes tracker f0025.jpg to f0067.jpg",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Type each prompt on screen at narration speed and let the voiceover read it; the line is never held after typing ends.",
+   "evidence": "f0016.jpg to f0037.jpg; transcript.md",
+   "relation": "extends",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Seed collaboration with named, colour-flagged cursors; each person gets one colour used for cursor flag, avatar and task owner.",
+   "evidence": "f0004.jpg Sylvia, Kyra, Josefina, Zoe; f0061.jpg",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "End on plain centred cards of logo, brand lockup and URL at 6.8 % of frame height, each on cream; no product shot.",
+   "evidence": "f0078.jpg to f0080.jpg; title_measurements t=158 6.8 %",
+   "relation": "confirms",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "Delivery in a chapter film: hard cuts only at chapter edges, 5 cuts in 160 s, with zoom and in-shot state changes covering the rest.",
+   "evidence": "metrics.rhythm.cut_times_s",
+   "relation": "contradicts",
+   "skill_rule": "7"
+  }
+ ],
+ "frames_opened": 31,
+ "crops_made": 5,
+ "unchecked": [
+  "Transcript tool was not found via ToolSearch; local whisper used.",
+  "Audio was not heard; sound described from measure/audio.json only.",
+  "Ease curves and exact hold of each copy line not measured.",
+  "Title-card hold counted from cut times, not frame-by-frame."
+ ]
+}

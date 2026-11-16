@@ -1,0 +1,421 @@
+{
+ "id": "B87ICNnr_GQ",
+ "title": "Harvey’s Legal AI Is Now Inside Microsoft 365",
+ "brand": "Harvey",
+ "duration_s": 151.08,
+ "status": "partial",
+ "format": "feature-explainer",
+ "format_note": "Narrated walkthrough of three Microsoft integrations (SharePoint, Outlook, Word) on screen recordings, bracketed by serif title cards and a Harvey / Microsoft lockup.",
+ "one_thing": "Harvey works inside the Microsoft tools lawyers already use: no switching apps, no copying files, no lost context.",
+ "transcript": {
+  "source": "auto-captions",
+  "voiceover": "narrator-vo",
+  "words_total": 335,
+  "words_per_minute": 135.8,
+  "voice_style": "Single calm corporate narrator; continuous speech with short pauses (silence spans of 0.2-1.5 s) at section changes.",
+  "script_shape": "Promise (0-20 s), one section per app (SharePoint 20 s, Outlook 34 s, Word 58 s), playbook feature, then a three-beat 'No switching apps / copying files / lost context' close and restated promise."
+ },
+ "structure": {
+  "frame0": "Near-white ground with the word 'Harvey' in black serif at centre; 3 % of cells contentful (frames.frame0). Brand is present, product is not.",
+  "first_3s": "Harvey wordmark holds alone on white from t=0 to about 3.4 s, then 'Microsoft' fades in beside it (strips/window-01-3.417s.jpg). No product UI until t=21.7 s.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 3.4,
+    "role": "hook",
+    "what": "Harvey wordmark alone on near-white."
+   },
+   {
+    "start_s": 3.4,
+    "end_s": 10,
+    "role": "setup",
+    "what": "Harvey / Microsoft lockup fades in; VO states the embedding promise."
+   },
+   {
+    "start_s": 10.3,
+    "end_s": 13,
+    "role": "setup",
+    "what": "Sharepoint, Outlook, Word icons and names stack at centre."
+   },
+   {
+    "start_s": 14,
+    "end_s": 21.2,
+    "role": "setup",
+    "what": "Three title cards: Quality at Speed, Work Without Interruption, Access Institutional Knowledge."
+   },
+   {
+    "start_s": 21.7,
+    "end_s": 32,
+    "role": "demo",
+    "what": "SharePoint: Pick files dialog, 300 files selected, Create project NDAs, upload progress."
+   },
+   {
+    "start_s": 33,
+    "end_s": 58,
+    "role": "demo",
+    "what": "Outlook: email thread, Summarize email, Send to Vault project, Save Email dialog, Files saved toast."
+   },
+   {
+    "start_s": 59,
+    "end_s": 82,
+    "role": "demo",
+    "what": "Word: prompt library, Terms That Differ Materially query, steps list, tracked redlines applied."
+   },
+   {
+    "start_s": 83,
+    "end_s": 107,
+    "role": "demo",
+    "what": "Word one-click workflows: fill NVCA term sheet (30 suggestions), Redact sensitive information."
+   },
+   {
+    "start_s": 108,
+    "end_s": 127,
+    "role": "proof",
+    "what": "Playbook run: 17 of 17 rules reviewed, redlines applied, standard positions accepted."
+   },
+   {
+    "start_s": 128,
+    "end_s": 140,
+    "role": "payoff",
+    "what": "Six single-phrase cards: No Switching Apps ... In Sync."
+   },
+   {
+    "start_s": 140,
+    "end_s": 151.08,
+    "role": "logo",
+    "what": "Harvey / Microsoft lockup, then Harvey wordmark alone."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 110,
+   "share": 0.728,
+   "what": "Playbook Summary panel shows 'Review complete 17 of 17 rules' with green, yellow, red bar as redlines land in the document margin."
+  },
+  "ending": {
+   "cta_text": "none",
+   "logo_hold_s": 11,
+   "what": "Harvey / Microsoft lockup from about 140 s, then Harvey wordmark alone to the end; no URL or call to action."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 10,
+  "cuts_per_min": 3.97,
+  "median_shot_s": 4.62,
+  "how_change_is_paced": "Long continuous screen-recording takes (longest shot 34.8 s, 23 % of runtime) with fast blur-to-sharp zooms inside them; hard cuts cluster at 21.7-27.7 s and 109-116 s. No burst of cuts; first cut at 21.7 s."
+ },
+ "look": {
+  "ground": "Near-white (luma 232, saturation 0.012) for title cards; UI sits on a warm grey ground with soft drop shadow and a small black H mark bottom right.",
+  "palette": [
+   "#FAFAFA near-white ground",
+   "near-black serif type",
+   "warm grey (~#D8D8D0) UI backdrop",
+   "Microsoft four-colour logo",
+   "Microsoft blue Outlook chrome",
+   "green/yellow/red rules bar"
+  ],
+  "accent_use": "No brand accent; colour comes only from third-party logos and product UI (blue Outlook bar, green-yellow-red rule bar, redline red).",
+  "type": "Title cards use a high-contrast serif (Title Case, centred, one to two lines); product UI is a clean grotesque. Cards carry no body copy.",
+  "title_height_pct": [
+   6.1,
+   7.8
+  ],
+  "title_measurements": [
+   {
+    "t_s": 0.5,
+    "text": "Harvey",
+    "line_height_px": 51,
+    "frame_height_px": 720,
+    "pct": 7.1
+   },
+   {
+    "t_s": 18,
+    "text": "Access Institutional",
+    "line_height_px": 47,
+    "frame_height_px": 720,
+    "pct": 6.5
+   },
+   {
+    "t_s": 18,
+    "text": "Knowledge",
+    "line_height_px": 56,
+    "frame_height_px": 720,
+    "pct": 7.8
+   },
+   {
+    "t_s": 132,
+    "text": "No Lost Context",
+    "line_height_px": 44,
+    "frame_height_px": 720,
+    "pct": 6.1
+   },
+   {
+    "t_s": 138,
+    "text": "In Sync",
+    "line_height_px": 44,
+    "frame_height_px": 720,
+    "pct": 6.1
+   }
+  ],
+  "max_words_per_title_line": 3,
+  "density": "sparse",
+  "depth": "Flat title cards; UI windows float on a grey ground with a soft shadow (f0013.jpg) and are cropped by zoom so the window edge often leaves frame."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 70,
+  "shown_as": [
+   "real-ui-capture"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Screen recordings are zoomed 1.5-3x onto the active panel; whole-window wide shots at 21.7, 33-40, 100 and 120-126 s alternate with tight pushes on dialogs, toasts and the side pane.",
+  "legible_at_phone_width": "partly",
+  "notes": "Zoomed shots (f0016, f0028, f0029) read well, e.g. toast 'Files saved'. Wide shots (f0040, f0061, f0064) show body text under 7 px glyph height. Real recorded Outlook, Word and Vault UI with a visible cursor and hand pointer."
+ },
+ "motion": {
+  "text_entry": "Cards fade in and out in place over about 0.3 s (strips/window-06-21.167s.jpg); the Microsoft logo fades in beside Harvey at 3.7-3.8 s; Sharepoint icon grows from a dot at 10.35 s then its label fades in.",
+  "ui_motion": "Real product animation: loading skeleton rows resolve to file list (f0012 to f0013), progress toast expands into a panel, streaming AI steps, redlines appear in the margin, suggestions apply one by one.",
+  "camera": "Digital zoom and pan across recordings, often with a motion-blur settle between views (f0031, strips/window-32-56.034s.jpg); the Word window drops back to a framed wide shot at 91.9 s.",
+  "eases": "Not measured. Zooms start with strong blur and settle sharp within about 0.3 s; no overshoot seen in strips.",
+  "transitions": [
+   {
+    "type": "cross-dissolve",
+    "count": 2,
+    "example_t_s": 21.2,
+    "cause": "Title card fades to white and the Vault dialog fades up from white."
+   },
+   {
+    "type": "hard-cut",
+    "count": 10,
+    "example_t_s": 25.4,
+    "cause": "Voice moves to the next UI step; cut lands on a new dialog."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 3,
+    "example_t_s": 10.35,
+    "cause": "Microsoft lockup collapses to a dot that grows into the Sharepoint icon."
+   },
+   {
+    "type": "push-or-slide",
+    "count": 6,
+    "example_t_s": 56.08,
+    "cause": "Zoom with motion blur travels from the Save dialog to the toast."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 8,
+    "example_t_s": 29.55,
+    "cause": "Upload toast expands into a panel on cursor click."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-3.417s.jpg",
+   "strips/window-02-10.284s.jpg",
+   "strips/window-06-21.167s.jpg",
+   "strips/window-09-25.3s.jpg",
+   "strips/window-13-29.334s.jpg",
+   "strips/window-32-56.034s.jpg",
+   "strips/window-53-82.117s.jpg",
+   "strips/window-60-91.317s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "Harvey",
+    "words": 1,
+    "hold_s": 3.4
+   },
+   {
+    "t_s": 3.8,
+    "text": "Harvey / Microsoft",
+    "words": 2,
+    "hold_s": 6
+   },
+   {
+    "t_s": 10.3,
+    "text": "Sharepoint Outlook Word",
+    "words": 3,
+    "hold_s": 3
+   },
+   {
+    "t_s": 14,
+    "text": "Quality at Speed",
+    "words": 3,
+    "hold_s": 2
+   },
+   {
+    "t_s": 16,
+    "text": "Work Without Interruption",
+    "words": 3,
+    "hold_s": 2
+   },
+   {
+    "t_s": 18,
+    "text": "Access Institutional Knowledge",
+    "words": 3,
+    "hold_s": 3.2
+   },
+   {
+    "t_s": 128,
+    "text": "No Switching Apps",
+    "words": 3,
+    "hold_s": 2
+   },
+   {
+    "t_s": 130,
+    "text": "No Copying Files",
+    "words": 3,
+    "hold_s": 2
+   },
+   {
+    "t_s": 132,
+    "text": "No Lost Context",
+    "words": 3,
+    "hold_s": 2
+   },
+   {
+    "t_s": 134,
+    "text": "One Connected Workflow",
+    "words": 3,
+    "hold_s": 2
+   },
+   {
+    "t_s": 136,
+    "text": "Drafts",
+    "words": 1,
+    "hold_s": 2
+   },
+   {
+    "t_s": 138,
+    "text": "In Sync",
+    "words": 2,
+    "hold_s": 2
+   },
+   {
+    "t_s": 140,
+    "text": "Harvey / Microsoft",
+    "words": 2,
+    "hold_s": 6
+   },
+   {
+    "t_s": 146,
+    "text": "Harvey",
+    "words": 1,
+    "hold_s": 5
+   }
+  ],
+  "holds_vs_reading_rule": "Holds are sampled at 2 s, so about 2 s per card; 2-4 word cards need 1.1-1.7 s under the rule, so they pass. The final Harvey holds about 5 s, over the 2 s minimum."
+ },
+ "sound": {
+  "music": "No music evidenced: describe tag music scores 0.078, no beat found (beats.count 0), no [music] tag in captions.",
+  "sfx": "None evidenced; click scores 0.082 and tick 0.059. An 'insect' tag at 0.203 is likely a speech artefact, not a design choice.",
+  "vo_music_balance": "Voice only: speech tag 0.915; integrated -14.7 LUFS, loudness range 4.4 LU, true peak +0.2 dBTP.",
+  "energy_arc": "Flat narration at about 136 words a minute with section labels A-J; short-term max -11.3 LUFS; no build or drop.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.10 against chance 0.098. Closing cards do follow the phrases in the VO (about 2:06-2:14)."
+ },
+ "good": [
+  {
+   "observation": "The film shows real recorded UI for 70 % of runtime, zoomed onto the one panel being narrated, so each claim is visible: 'Files saved' toast, 'Review complete 17 of 17 rules'.",
+   "evidence": "f0029.jpg, crops/rules.png, product_ui"
+  },
+  {
+   "observation": "A short phrase card is held for each voiced idea in the close, so the take-away is readable on its own: No Switching Apps, No Copying Files, No Lost Context.",
+   "evidence": "f0067.jpg, sheet-05.jpg t=128-138"
+  },
+  {
+   "observation": "Title type is a consistent serif at 6.1-7.8 % of frame height, centred, one or two lines, three words a line at most.",
+   "evidence": "title_measurements, crops/title-access.png"
+  },
+  {
+   "observation": "Each app gets its own chapter and a before-and-after flow (select files, create project, upload; summarize, save to Vault; prompt, edit, apply), so the viewer follows cause and effect.",
+   "evidence": "sheet-01.jpg, sheet-02.jpg"
+  },
+  {
+   "observation": "Microsoft lockup and app icons earn their place by naming the three integrations before any UI, then the UI follows in the same order.",
+   "evidence": "f0007.jpg, t=10.3-13 s"
+  },
+  {
+   "observation": "Motion blur on zooms hides the jump between views and keeps the cursor path continuous through a 34.8 s take.",
+   "evidence": "strips/window-32-56.034s.jpg, rhythm.longest_shot"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "The first 21.7 s show no product, only logos and three title cards, so the film opens on brand rather than on the thing being sold.",
+   "evidence": "frames.frame0, rhythm.first_cut_s 21.7"
+  },
+  {
+   "observation": "Wide whole-window shots set body text under 7 px glyph height, unreadable at phone width, and some last 4-8 s.",
+   "evidence": "f0061.jpg, f0064.jpg, sheet-04.jpg t=1:40-2:06"
+  },
+  {
+   "observation": "Audio is a flat voiceover with no music or detectable sfx, true peak +0.2 dBTP above the -1 limit, and cuts unrelated to sound.",
+   "evidence": "sound.true_peak_db, cuts_on_strong_onset_share 0.10"
+  },
+  {
+   "observation": "No call to action or URL at the end; the final 22 s are static cards (longest static run 22 s).",
+   "evidence": "frames.longest_static_run_s, sheet-05.jpg"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Name each integration with its logo on one card before showing any of its UI, then show the UI in the same order the card listed them.",
+   "evidence": "Sharepoint, Outlook, Word card at t=10.3-13 s; chapters follow at 21.7, 33, 59 s.",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Zoom a screen recording to 1.5-3x on the panel being narrated; return to a wide window only as a 2-4 s orientation shot.",
+   "evidence": "f0016, f0028 zoomed; f0040, f0061 wide.",
+   "relation": "extends",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "A wordmark-only frame 0 is acceptable for a partnership film only if the product appears within 3 s; this film waits 21.7 s and loses the hook.",
+   "evidence": "f0001.jpg, first_cut_s 21.7",
+   "relation": "contradicts",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Close with one phrase per card, 2-3 words each, held about 2 s, that restates the benefits in the voiceover's own words.",
+   "evidence": "t=128-138 s: six cards, each 2 s.",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Set title cards at 6-8 % of frame height; this film's serif titles measure 6.1-7.8 %.",
+   "evidence": "title_height_pct [6.1, 7.8]",
+   "relation": "confirms",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "A long narrated demo can run on 4-5 s median shots and only 4 cuts a minute if zooms and UI state changes supply movement; no burst is needed.",
+   "evidence": "cuts_per_min 3.97, median_shot_s 4.62, bursts []",
+   "relation": "contradicts",
+   "skill_rule": "8"
+  },
+  {
+   "rule": "Use blur-to-sharp zoom travel between two views of the same recording rather than a dissolve; reserve the white fade for the title-to-UI switch.",
+   "evidence": "strips/window-32-56.034s.jpg; window-06-21.167s.jpg",
+   "relation": "extends",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "Master voice-only films at -14 LUFS but cap true peak at -1 dBTP; this film reads +0.2 dBTP.",
+   "evidence": "lufs_integrated -14.7, true_peak_db 0.2",
+   "relation": "confirms",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 34,
+ "crops_made": 6,
+ "unchecked": [
+  "Ending frames after 91.3 s have no strip opened; ending read only from sheet-05.jpg and f0073-f0076.",
+  "Ease curves not measured; read only from strips.",
+  "Hold lengths are from 2 s samples, not native-rate strips.",
+  "Audio heard only through measure/audio.json; the 'insect' tag was not checked.",
+  "Frames-scan and events.json were not read in detail."
+ ]
+}

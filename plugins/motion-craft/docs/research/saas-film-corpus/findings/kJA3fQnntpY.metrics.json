@@ -1,0 +1,203 @@
+{
+ "id": "kJA3fQnntpY",
+ "title": "Collaborate on artifacts in Claude",
+ "uploader": "Claude",
+ "duration_s": 159.88,
+ "fps": 23.976,
+ "rhythm": {
+  "hard_cuts": 5,
+  "cuts_per_min": 1.88,
+  "cut_times_s": [
+   15.56,
+   18.48,
+   135.8,
+   145.6,
+   153.99
+  ],
+  "median_shot_s": 9.09,
+  "mean_shot_s": 26.64,
+  "shots_over_10s": 2,
+  "first_cut_s": 15.56,
+  "not_cuts": [
+   {
+    "t": 77.08,
+    "kind": "fast"
+   },
+   {
+    "t": 125.67,
+    "kind": "fast"
+   }
+  ],
+  "longest_shot": {
+   "start": 18.48,
+   "end": 135.8,
+   "seconds": 117.32,
+   "share_of_runtime": 0.734
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 6,
+   "flash": 0,
+   "appear": 45,
+   "disappear": 35,
+   "change": 127,
+   "hold": 69
+  },
+  "holds_over_1s": 41,
+  "median_hold_s": 1.58,
+  "longest_hold_s": 11.64,
+  "windows": 89
+ },
+ "frames": {
+  "count": 80,
+  "not_evidence_frames": [],
+  "dark_share": 0.0,
+  "light_share": 0.988,
+  "median_contentful_cells": 0.412,
+  "intervals_new_composition_share": 0.063,
+  "intervals_static_share": 0.456,
+  "longest_static_run_s": 12,
+  "longest_static_run_ends_at_s": 76,
+  "frame0": {
+   "meanLuminance": 0.9401,
+   "contentfulCells": 0.125,
+   "blankCells": 0.875,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0004.jpg",
+  "f0007.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0013.jpg",
+  "f0016.jpg",
+  "f0019.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0025.jpg",
+  "f0028.jpg",
+  "f0031.jpg",
+  "f0034.jpg",
+  "f0037.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0046.jpg",
+  "f0049.jpg",
+  "f0052.jpg",
+  "f0055.jpg",
+  "f0058.jpg",
+  "f0061.jpg",
+  "f0064.jpg",
+  "f0067.jpg",
+  "f0070.jpg",
+  "f0073.jpg",
+  "f0076.jpg",
+  "f0078.jpg",
+  "f0079.jpg",
+  "f0080.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -15.8,
+  "lufs_short_term_max": -14.3,
+  "true_peak_db": -1.2,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.113,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 159.5,
+    "end": 159.874
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 63,
+    "label": "A"
+   },
+   {
+    "start": 63,
+    "end": 72,
+    "label": "B"
+   },
+   {
+    "start": 72,
+    "end": 86,
+    "label": "C"
+   },
+   {
+    "start": 86,
+    "end": 91,
+    "label": "D"
+   },
+   {
+    "start": 91,
+    "end": 136,
+    "label": "E"
+   },
+   {
+    "start": 136,
+    "end": 150,
+    "label": "F"
+   },
+   {
+    "start": 150,
+    "end": 159.874,
+    "label": "G"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.773
+   ],
+   [
+    "music",
+    0.6
+   ],
+   [
+    "keyboard_musical",
+    0.229
+   ],
+   [
+    "percussion",
+    0.171
+   ],
+   [
+    "plucked_string_instrument",
+    0.146
+   ],
+   [
+    "synthesizer",
+    0.118
+   ],
+   [
+    "piano",
+    0.115
+   ],
+   [
+    "insect",
+    0.109
+   ]
+  ],
+  "lra_lu": 10.8,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.089,
+  "strong_onsets_per_min": 24.0
+ },
+ "look": {
+  "luma": 233.2,
+  "contrast": 32,
+  "saturation": 0.058,
+  "bw_share": 0.02,
+  "warmth": -9.3
+ }
+}

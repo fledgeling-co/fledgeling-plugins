@@ -1,0 +1,344 @@
+{
+ "id": "LrXnOKCr0mo",
+ "title": "Introducing Spaces in Muse",
+ "brand": "Muse",
+ "duration_s": 90.32,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "On-camera designer introduces one feature, with phone screen captures cut between presenter segments; mascot title card opens, app-store end card closes.",
+ "one_thing": "You can build your own spaces in Muse just by chatting, and rearrange the whole app around them.",
+ "transcript": {
+  "source": "auto-captions",
+  "voiceover": "on-camera-presenter",
+  "words_total": 254,
+  "words_per_minute": 169,
+  "voice_style": "Warm first-person designer, conversational, 'let me show you one of mine'; the VO runs over the screen captures.",
+  "script_shape": "Greeting, claim (a space is built by chatting), personal example (Jolly Mall), second claim (customisable navigation), weekday/weekend example, thanks and invitation to build."
+ },
+ "structure": {
+  "frame0": "Mascot (cream plush character) stands left, 'Introducing Spaces' and muse.ai right on white, Meta logo bottom left; poster-complete from t=0 (f0001.jpg), blue Muse wordmark appears by t=2s (f0002.jpg).",
+  "first_3s": "Mascot walks in from the left edge within 0.7s (window-01-0.126s.jpg) over an already-set title; wordmark fades in; mascot waves at about 3.4-4.4s (window-04-3.254s.jpg).",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 4.46,
+    "role": "hook",
+    "what": "Mascot title card: 'Introducing Spaces', mascot walks in and waves."
+   },
+   {
+    "start_s": 4.46,
+    "end_s": 13.14,
+    "role": "setup",
+    "what": "Presenter on camera with name lower third; introduces himself and Spaces."
+   },
+   {
+    "start_s": 13.14,
+    "end_s": 32.4,
+    "role": "demo",
+    "what": "Phone chat creates Family Dashboard, drawer opens, tap into dashboard, scroll events, lunchbox checklist, carpool."
+   },
+   {
+    "start_s": 32.45,
+    "end_s": 49.9,
+    "role": "reveal",
+    "what": "Jolly Mall space: saturated blue 90s catalogue feed, scroll, tap mug item for detail and BUY NOW."
+   },
+   {
+    "start_s": 49.92,
+    "end_s": 60.44,
+    "role": "turn",
+    "what": "Drawer reopens; Jolly Mall row dragged up into the Tabs section."
+   },
+   {
+    "start_s": 60.44,
+    "end_s": 82.6,
+    "role": "demo",
+    "what": "Chat: 'Weekend mode please', typing, reply, tab bar changes to chat, feed, dashboard, memory bank, trip planner."
+   },
+   {
+    "start_s": 82.62,
+    "end_s": 85.84,
+    "role": "payoff",
+    "what": "Presenter closing: 'We're really excited to see what you build.'"
+   },
+   {
+    "start_s": 85.84,
+    "end_s": 90.32,
+    "role": "logo",
+    "what": "Fade through black to Muse app icon, store badges, Meta logo."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 32.5,
+   "share": 0.36,
+   "what": "Hard cut from the white sidebar to the full-bleed blue Jolly Mall catalogue feed; the only saturated screen in a pale film (f0017.jpg)."
+  },
+  "ending": {
+   "cta_text": "Muse. Get it on Google Play. Download on the App Store.",
+   "logo_hold_s": 3.9,
+   "what": "Black card, app icon fades up from t=86.0s, store badges then Meta logo; icon, name and badges centred, held to the end."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 15,
+  "cuts_per_min": 9.96,
+  "median_shot_s": 4.47,
+  "how_change_is_paced": "Long phone shots (19.3s longest, 21% of runtime) carry the demo with in-shot scrolling and drawer slides; cuts are rare and fall at topic changes, with flicker pairs at 32.45/32.57 and 64.98/65.06/65.48. No burst."
+ },
+ "look": {
+  "ground": "Pale light-blue gradient behind the phone, near-white card for the mascot, dim grey-green room for the presenter, black for the end card.",
+  "palette": [
+   "white #FFFFFF",
+   "pale sky blue gradient",
+   "royal blue (Jolly Mall)",
+   "sage green chat bubbles",
+   "cream plush beige",
+   "black end card"
+  ],
+  "accent_use": "One saturated royal-blue screen (Jolly Mall) and the blue Muse wordmark; everything else stays pale, so the blue reads as the personalised space.",
+  "type": "Rounded humanist sans for the title, dark slate on white; bold name over regular role in the lower third; pixel font 'JOLLY MALL' and BUY NOW inside the space.",
+  "title_height_pct": [
+   4.9,
+   8.6
+  ],
+  "title_measurements": [
+   {
+    "t_s": 0.5,
+    "text": "Introducing",
+    "line_height_px": 62,
+    "frame_height_px": 720,
+    "pct": 8.6
+   },
+   {
+    "t_s": 0.5,
+    "text": "Spaces",
+    "line_height_px": 59,
+    "frame_height_px": 720,
+    "pct": 8.2
+   },
+   {
+    "t_s": 61.0,
+    "text": "JOLLY MALL",
+    "line_height_px": 35,
+    "frame_height_px": 720,
+    "pct": 4.9
+   },
+   {
+    "t_s": 86.8,
+    "text": "Muse",
+    "line_height_px": 49,
+    "frame_height_px": 720,
+    "pct": 6.8
+   }
+  ],
+  "max_words_per_title_line": 1,
+  "density": "medium",
+  "depth": "Phone has a soft drop shadow and rounded bezel on a gradient; mascot is a 3D render with soft floor shadow; presenter shot has shallow depth of field."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 77,
+  "shown_as": [
+   "real-ui-capture",
+   "device-mockup",
+   "live-action"
+  ],
+  "cursor": "stylised",
+  "camera_on_ui": "Phone is punched in (about 2x) on chat and drawer, then pulled back to full device around 32.5s and 60s; text-heavy screens are cropped so the phone fills the frame height.",
+  "legible_at_phone_width": "yes",
+  "notes": "Chat bubbles, drawer rows and Jolly Mall item text read at 1280px (f0007.jpg, f0021.jpg). Taps shown as a grey translucent circle that fades. The spaces are product-made content, so the demo shows the output, not a mock-up."
+ },
+ "motion": {
+  "text_entry": "Title is set before the mascot arrives and the wordmark fades in at about 2s; lower third fades in over about 2s from 4s (f0003.jpg to f0004.jpg).",
+  "ui_motion": "Drawer slides over the chat; tap ripple on Family Dashboard, Feed, Jolly Mall; a row lifts out and travels up the list (f0028.jpg); typing shown letter by letter; tab bar re-populates.",
+  "camera": "Presenter alternates wide and punched-in close (f0003.jpg vs f0005.jpg); phone content is scaled and panned in post, continuous zoom-out at about 32.5-33s (window-21-32.241s.jpg).",
+  "eases": "Smooth ease-out on drawer and scroll; mascot motion is fast in then settles (window-01-0.126s.jpg). Not measured numerically.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 15,
+    "example_t_s": 13.14,
+    "cause": "Presenter line ends and the VO moves to the screen; cut lands on the phone."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 8,
+    "example_t_s": 50,
+    "cause": "A tap opens the drawer, a drag moves a row, a send button triggers the reply."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 3,
+    "example_t_s": 33,
+    "cause": "Phone zooms out from detail crop to full device after the screen change."
+   },
+   {
+    "type": "fade-through-colour",
+    "count": 1,
+    "example_t_s": 85.84,
+    "cause": "Presenter fades to black, then the app icon fades up."
+   }
+  ],
+  "strips_read": [
+   "window-01-0.126s.jpg mascot walks in",
+   "window-04-3.254s.jpg wave then cut to presenter at 4.46s",
+   "window-11-13.055s.jpg cut presenter to chat",
+   "window-21-32.241s.jpg tap in drawer to Jolly Mall cut with zoom-out",
+   "window-25-41.25s.jpg mug item opens full-screen detail",
+   "window-32-56.265s.jpg Feed row lifted in drawer",
+   "window-37-64.607s.jpg Jolly Mall to chat with tab bar",
+   "window-45-82.541s.jpg chat to presenter",
+   "window-46-85.753s.jpg fade through black to logo"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "Introducing Spaces",
+    "words": 2,
+    "hold_s": 4.46
+   },
+   {
+    "t_s": 0,
+    "text": "muse.ai",
+    "words": 1,
+    "hold_s": 4.46
+   },
+   {
+    "t_s": 4.5,
+    "text": "Alex Cornell, Muse Product Design",
+    "words": 5,
+    "hold_s": -1
+   },
+   {
+    "t_s": 32.5,
+    "text": "JOLLY MALL",
+    "words": 2,
+    "hold_s": 16.9
+   },
+   {
+    "t_s": 41.3,
+    "text": "BUY NOW",
+    "words": 2,
+    "hold_s": 4
+   },
+   {
+    "t_s": 86.4,
+    "text": "Muse",
+    "words": 1,
+    "hold_s": 3.9
+   }
+  ],
+  "holds_vs_reading_rule": "Title holds 4.46s for two words, well over the 0.5s plus 0.3s a word rule; the closing card holds about 3.9s, over the 2s minimum. The film uses on-screen UI text as copy; the VO carries the message."
+ },
+ "sound": {
+  "music": "Music with speech: describe tags speech 0.808, music 0.64, percussion 0.27, keyboard_musical 0.259, synthesizer 0.214, drum 0.204; bpm 124.5 at confidence 0.309, so tempo is unreliable.",
+  "sfx": "Not determined from the measures; transcript carries only [music] tags, no effect tags.",
+  "vo_music_balance": "Presenter speech dominates (0.808 vs 0.64); integrated -19 LUFS, short-term max -16.9, loudness range 3.7 LU, so the bed sits under the voice.",
+  "energy_arc": "Sections A 0-4.5s, B 4.5-16.1s, C 16.1-84.9s (long steady body), D 84.9-90.3s; no build to the Jolly Mall reveal is visible in the section map.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.067 against chance 0.11."
+ },
+ "good": [
+  {
+   "observation": "Frame 0 is a finished poster: mascot, two-word title, URL and brand mark all present, so the film is legible with no build-up.",
+   "evidence": "f0001.jpg, f0002.jpg"
+  },
+  {
+   "observation": "The demo is a single user story told in chat: ask, see the result, ask again. Each phone shot answers the sentence the presenter is saying.",
+   "evidence": "transcript 0:13-1:21; f0007.jpg-f0010.jpg"
+  },
+  {
+   "observation": "One saturated screen in a pale film: the royal-blue Jolly Mall feed is the unmistakable hero, and it also shows the personalisation claim.",
+   "evidence": "f0017.jpg vs f0010.jpg; window-21-32.241s.jpg"
+  },
+  {
+   "observation": "Real product UI at phone-readable size: 14-18px chat and drawer text on 1280px frames stays legible because the phone is punched in.",
+   "evidence": "f0007.jpg, f0016.jpg, crops/lunchbox.png"
+  },
+  {
+   "observation": "Few cuts for 90s, each at a topic change; long takes (19.3s longest) let the scroll and drawer motion carry attention.",
+   "evidence": "metrics rhythm: 15 cuts, median_shot_s 4.47, longest_shot 19.31s"
+  },
+  {
+   "observation": "The ending reuses the opening's brand mark and gives store badges on black, held about 4s.",
+   "evidence": "f0044.jpg, f0045.jpg; window-46-85.753s.jpg"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "The film is slow to show the product: first phone screen at 13.14s, 14% into the runtime, after 8.7s of presenter talk.",
+   "evidence": "cut_times_s 4.46, 13.14"
+  },
+  {
+   "observation": "Loudness is well under social targets and cuts are unrelated to the beat.",
+   "evidence": "sound.lufs_integrated -19; cuts_on_strong_onset_share 0.067 vs chance 0.11"
+  },
+  {
+   "observation": "Presenter segments are static medium shots with a static lower third; the energy sits only in the phone segments.",
+   "evidence": "f0003.jpg-f0006.jpg, f0042.jpg"
+  },
+  {
+   "observation": "Fast taps and drag are shown as a faint grey circle that is easy to miss at 2s sampling.",
+   "evidence": "f0010.jpg, f0028.jpg"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Open on a complete title card (subject, two-word title, URL, brand mark) and let a character or object animate in over it within 0.7s; do not build the title.",
+   "evidence": "f0001.jpg; window-01-0.126s.jpg mascot enters by 0.7s",
+   "relation": "confirms",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "When the film has one personalised hero screen, make it the only saturated colour field in a pale film, and hard-cut to it at about one third of runtime.",
+   "evidence": "Jolly Mall blue at t=32.5s, share 0.36; f0017.jpg",
+   "relation": "extends",
+   "skill_rule": "6"
+  },
+  {
+   "rule": "A feature explainer with an on-camera presenter can run median shot 4.5s and 10 cuts a minute if the phone shots hold up to 19s with in-shot motion.",
+   "evidence": "metrics rhythm median_shot_s 4.47, longest_shot 19.31s",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Show product UI by punching the phone in about 2x on chat and drawer rows so text is at least 14px on a 720p frame, then pull back to the full device for a reveal.",
+   "evidence": "f0007.jpg, f0021.jpg; window-21-32.241s.jpg",
+   "relation": "confirms",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "A film with no energetic burst can still hold attention: change comes from one cause on screen per cut, with zero bursts across 90s.",
+   "evidence": "metrics rhythm bursts []",
+   "relation": "contradicts",
+   "skill_rule": "8"
+  },
+  {
+   "rule": "End on black with the icon fading up over about 0.4s after a fade-through-black from the last shot, then hold icon, name, badges 3.9s.",
+   "evidence": "window-46-85.753s.jpg; f0044.jpg",
+   "relation": "extends",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Show taps as a visible ripple at least 60px wide on a 1280px frame and hold for 0.3s so a viewer can follow the action between cuts.",
+   "evidence": "ripple in f0010.jpg, f0023.jpg; weak: faint on f0028.jpg",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Mix at -14 LUFS for social; this film at -19 LUFS with -1.8 dBTP is quieter than the target and is the failure to avoid.",
+   "evidence": "sound.lufs_integrated -19, true_peak_db -1.8",
+   "relation": "confirms",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 45,
+ "crops_made": 6,
+ "unchecked": [
+  "Lower-third hold time not measured; present at 4s and 6s samples, absent by 8s.",
+  "Frame timestamps on the sheets differ from strip timestamps by about 0.4s near t=32.",
+  "Sound effects and music instruments not determinable; tags are weak.",
+  "Pixel-level ease curves not measured."
+ ]
+}

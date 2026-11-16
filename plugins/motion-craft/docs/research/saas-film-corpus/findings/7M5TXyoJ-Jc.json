@@ -1,0 +1,158 @@
+{
+ "id": "7M5TXyoJ-Jc",
+ "title": "Create and Edit Files in Harvey",
+ "brand": "Harvey",
+ "duration_s": 53.92,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "One prompt, three outputs (Word memo, Excel model, PowerPoint deck) shown in a 54 s music-only film with a single hard cut before the end card.",
+ "one_thing": "One long legal prompt becomes three finished Office files without leaving Harvey.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No speech. Captions report only [music] tags and a stray '>> Mhm.' at 53 s.",
+  "script_shape": "All meaning is on-screen text: wordmark, feature title, typed prompt, three highlighted verbs, three product demos, recap, tagline, availability line, end card."
+ },
+ "structure": {
+  "frame0": "Plain white frame, no subject (frame0 contentful cells 0.05, blank 0.95); the serif 'Harvey' wordmark pops in at 0.33 s (strips/window-01-0.266s.jpg).",
+  "first_3s": "Wordmark at 0.33 s, then a white/grey split with the headline 'Create and Edit Files' and Word, Excel, PowerPoint icons sliding in from 2.1 s (strips/window-03-2.133s.jpg).",
+  "beats": [
+   {"start_s": 0, "end_s": 1.9, "role": "logo", "what": "Harvey wordmark on white, appears at 0.33 s."},
+   {"start_s": 2.0, "end_s": 3.8, "role": "hook", "what": "'Create and Edit Files' title with Word, Excel, PowerPoint icons in a grey right panel."},
+   {"start_s": 4.0, "end_s": 6.8, "role": "setup", "what": "Harvey prompt box: long multi-step request types out, cursor clicks send."},
+   {"start_s": 7.0, "end_s": 9.7, "role": "setup", "what": "Prompt text greys out, three action phrases stay black: update each memo, generate a spreadsheet, prepare a slide deck."},
+   {"start_s": 10.0, "end_s": 13.8, "role": "reveal", "what": "Phrases lift out; Documents, Spreadsheets, Presentations chips slide in on the left with hairline connectors."},
+   {"start_s": 14.0, "end_s": 24.5, "role": "demo", "what": "Documents chip spins; Answering log, memo skeleton, redlined Cascade memo, then three versioned .docx files."},
+   {"start_s": 25.0, "end_s": 33.5, "role": "demo", "what": "Spreadsheets chip; log, empty grid filling, finished fee model with TOTAL row."},
+   {"start_s": 34.0, "end_s": 41.8, "role": "demo", "what": "Presentations chip; log, 'Generating Deck...' thumbnails, navy title slide and agenda."},
+   {"start_s": 42.0, "end_s": 45.5, "role": "payoff", "what": "Right pane slides away, chips and three phrases return as a recap."},
+   {"start_s": 46.0, "end_s": 47.5, "role": "turn", "what": "'All in one place.' alone on grey."},
+   {"start_s": 47.6, "end_s": 49.4, "role": "cta", "what": "'Available in Early Access' in serif, words fade in one by one."},
+   {"start_s": 49.5, "end_s": 53.9, "role": "logo", "what": "Hard cut to near-black: 'AI Tailored for Law' with small Harvey wordmark below."}
+  ],
+  "hero_moment": {
+   "t_s": 32,
+   "share": 0.593,
+   "what": "Finished Excel fee model with the green/blue LP table and boxed TOTAL row, after the grid had been empty (f0017.jpg)."
+  },
+  "ending": {
+   "cta_text": "Available in Early Access",
+   "logo_hold_s": 4.4,
+   "what": "Hard cut at 49.47 s to a dark end card, tagline plus wordmark held 4.4 s with no further motion."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 1,
+  "cuts_per_min": 1.11,
+  "median_shot_s": 26.96,
+  "how_change_is_paced": "One shot runs 0 to 49.47 s (0.917 of runtime). Change comes from UI state: panels slide, logs type, chips tick. Median hold between changes 1.33 s, longest static run 4 s (metrics.json)."
+ },
+ "look": {
+  "ground": "White, then warm light grey (#f1f1ec-like) with a white right panel; one dark end card. Light share 0.926 of sampled frames.",
+  "palette": ["white", "warm grey", "near-black text", "Word blue", "Excel green", "PowerPoint red-orange", "navy deck slide"],
+  "accent_use": "No brand accent. Colour comes only from the three Office icons and the output files themselves; the check ticks are soft green.",
+  "type": "Serif wordmark and serif closing lines; geometric grotesque bold for 'Create and Edit Files' and chips; small sans for the Answering log.",
+  "title_height_pct": [4.9, 8.8],
+  "title_measurements": [
+   {"t_s": 1.0, "text": "Harvey", "line_height_px": 60, "frame_height_px": 720, "pct": 8.3},
+   {"t_s": 3.0, "text": "Create and Edit Files", "line_height_px": 40, "frame_height_px": 720, "pct": 5.6},
+   {"t_s": 46.0, "text": "All in one place.", "line_height_px": 35, "frame_height_px": 720, "pct": 4.9},
+   {"t_s": 48.5, "text": "Available in Early Access", "line_height_px": 63, "frame_height_px": 720, "pct": 8.8},
+   {"t_s": 51.0, "text": "AI Tailored for Law", "line_height_px": 50, "frame_height_px": 720, "pct": 6.9},
+   {"t_s": 11.5, "text": "Documents / Spreadsheets / Presentations chips", "line_height_px": 29, "frame_height_px": 720, "pct": 4}
+  ],
+  "max_words_per_title_line": 4,
+  "density": "sparse",
+  "depth": "Flat. Soft drop shadow on white chips and panels; no parallax or 3D; panels slide on one plane."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 72,
+  "shown_as": ["real-ui-capture", "floating-ui-cards"],
+  "cursor": "real",
+  "camera_on_ui": "No zoom or pan. The UI sits in a fixed right pane; the film cross-fades its content (log, skeleton, file) at one position.",
+  "legible_at_phone_width": "partly",
+  "notes": "Prompt text is about 1.9 % of frame height and the Answering log about 1.6 %, so both need the zoom-free eye of a desktop. File names and the spreadsheet title are legible. The three highlighted phrases carry the message."
+ },
+ "motion": {
+  "text_entry": "Prompt types at a cursor; end lines fade word by word over about 0.15 to 0.3 s per word; phrases sit at slightly different offsets, then lift into rows.",
+  "ui_motion": "Right pane content swaps: log lines fade in and scroll up, skeleton resolves to the real file, grid cells fill top to bottom, deck thumbnails scroll sideways as 'Generating Deck...'.",
+  "camera": "Static. All movement is panels and elements.",
+  "eases": "Soft ease-out slides and fades; no overshoot visible in strips. Exit of the right pane at 42.3 to 42.9 s is about 0.6 s against a longer build-in.",
+  "transitions": [
+   {"type": "ui-state-change", "count": 9, "example_t_s": 10.7, "cause": "Chip and file states change as each task runs (spinner to check)."},
+   {"type": "push-or-slide", "count": 4, "example_t_s": 2.5, "cause": "A grey panel slides in carrying the next element."},
+   {"type": "mask-or-wipe", "count": 1, "example_t_s": 42.6, "cause": "Right pane slides off to reveal the recap layout."},
+   {"type": "hard-cut", "count": 1, "example_t_s": 49.47, "cause": "Light pale end line to dark brand card."}
+  ],
+  "strips_read": [
+   "strips/window-01-0.266s.jpg",
+   "strips/window-03-2.133s.jpg",
+   "strips/window-06-7.1s.jpg",
+   "strips/window-08-10.1s.jpg",
+   "strips/window-13-20.033s.jpg",
+   "strips/window-22-37.7s.jpg",
+   "strips/window-24-42.333s.jpg",
+   "strips/window-26-47.533s.jpg",
+   "strips/window-27-49.4s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {"t_s": 0.33, "text": "Harvey", "words": 1, "hold_s": 1.7},
+   {"t_s": 2.13, "text": "Create and Edit Files", "words": 4, "hold_s": 1.6},
+   {"t_s": 4, "text": "I've uploaded 10 anchor LP comment memos and the corresponding Fund IV memos - update each memo for Fund V ...", "words": 25, "hold_s": 3},
+   {"t_s": 7.4, "text": "update each memo / generate a spreadsheet / prepare a slide deck", "words": 10, "hold_s": 2.6},
+   {"t_s": 10.7, "text": "Documents, Spreadsheets, Presentations", "words": 3, "hold_s": 3.3},
+   {"t_s": 10.5, "text": "Update Each Memo", "words": 3, "hold_s": 13},
+   {"t_s": 30, "text": "Generate a Spreadsheet", "words": 3, "hold_s": 4},
+   {"t_s": 38.5, "text": "Prepare a Slide Deck", "words": 4, "hold_s": 5},
+   {"t_s": 43, "text": "update each memo / generate a spreadsheet / prepare a slide deck", "words": 10, "hold_s": 2.2},
+   {"t_s": 46, "text": "All in one place.", "words": 4, "hold_s": 1.6},
+   {"t_s": 47.6, "text": "Available in Early Access", "words": 4, "hold_s": 1.8},
+   {"t_s": 49.47, "text": "AI Tailored for Law", "words": 4, "hold_s": 4.4}
+  ],
+  "holds_vs_reading_rule": "Closing: 'All in one place.' 1.6 s against 1.7 s needed, 'Available in Early Access' 1.8 s against 1.7 s, last line 4.4 s clears the 2 s floor. The roughly 60-word prompt cannot be read; highlights stand in."
+ },
+ "sound": {
+  "music": "Music only, 82 BPM (beat confidence 0.456); describe tags keyboard_musical 0.864, synthesizer 0.779, piano 0.539, electric_piano 0.533. Sections: A 0 to 18.6 s, B 18.6 to 45.4 s, C 45.4 to 53.9 s.",
+  "sfx": "Not established. Describe tags show no percussion above 0.142 and nothing names clicks or typing; no sound design is claimed.",
+  "vo_music_balance": "No voice. Integrated -14.0 LUFS, short-term max -11.6, loudness range 4.5 LU, true peak -0.6 dBTP.",
+  "energy_arc": "Even level (LRA 4.5 LU); start silence 0 to 0.27 s and tail silence 52.97 to 53.91 s. Section C begins at 45.4 s, where the closing lines start.",
+  "sync_to_picture": "Not locked: the single cut falls on a strong onset share of 0.0 against chance 0.173 (cuts_on_strong_onset_share). With one cut this is weak evidence."
+ },
+ "good": [
+  {"observation": "Three verbs from the prompt are highlighted black while the rest greys out, then lift into rows paired with app chips, so a 60-word prompt becomes three readable ideas.", "evidence": "f0005.jpg at 8 s, f0006.jpg at 10 s"},
+  {"observation": "One fixed left chip with a spinner turning into a green tick tells task state while the right pane runs log, skeleton, result; the same grammar repeats for all three apps.", "evidence": "f0008.jpg, f0012.jpg, f0016.jpg, f0020.jpg"},
+  {"observation": "The recap at 43 s reuses the exact chip-and-phrase layout from 11 s, closing the loop before the tagline.", "evidence": "f0006.jpg vs f0024.jpg; window-24-42.333s.jpg"},
+  {"observation": "Outputs are shown as real, specific files (Crestview V memos, a ten-LP fee table with TOTAL, a navy deck with 10/84/7/5 stats), which proves the claim better than a generic mock.", "evidence": "f0017.jpg, f0021.jpg crops/sheet.png, crops/deck.png"},
+  {"observation": "Large quiet end lines: serif 'Available in Early Access' at 8.8 % height with word-by-word fade, then a dark card with tagline held 4.4 s.", "evidence": "window-26-47.533s.jpg, f0026.jpg, title_measurements"},
+  {"observation": "Disciplined palette: white and warm grey, with colour supplied only by the three Office icons and the files themselves.", "evidence": "f0006.jpg, look.json saturation 0.024"}
+ ],
+ "weak": [
+  {"observation": "Typed prompt (about 1.9 % of frame height) and the Answering log (about 1.6 %) sit below the 2.6 % legibility floor, and memo body text is unreadable at 1280 px.", "evidence": "f0003.jpg, f0007.jpg, f0013.jpg"},
+  {"observation": "Left half of the frame holds only a small chip for 27 s (14 to 41 s), so the product pane is roughly 40 % of width and the pane's content is small.", "evidence": "f0008.jpg through f0021.jpg"},
+  {"observation": "No cut lands on a musical onset and the single hard cut sits at 49.47 s, so picture and music feel unconnected.", "evidence": "metrics.json cuts_on_strong_onset_share 0.0, chance 0.173"},
+  {"observation": "True peak -0.6 dBTP exceeds the -1 dBTP ceiling for social masters.", "evidence": "metrics.json sound.true_peak_db"}
+ ],
+ "rule_candidates": [
+  {"rule": "A film can open on a blank frame and a lone serif wordmark at 0.33 s if the feature title and product follow by 2.1 s; the film still landed its hook inside 3 s.", "evidence": "frame0 blank 0.95; window-01-0.266s.jpg; f0002.jpg", "relation": "contradicts", "skill_rule": "1"},
+  {"rule": "A single continuous shot (91.7 % of runtime, one hard cut) can carry a feature demo if UI state changes every 1 to 3 s; use it when the product is the subject.", "evidence": "metrics.json rhythm longest_shot 49.47 s, cuts_per_min 1.11", "relation": "contradicts", "skill_rule": "10"},
+  {"rule": "Hold a persistent status chip on one side (spinner, then tick) and swap the demo content on the other side; repeat the identical layout for each feature so state reads at a glance.", "evidence": "f0007.jpg, f0012.jpg, f0016.jpg, f0020.jpg", "relation": "new", "skill_rule": "none"},
+  {"rule": "Condense a long on-screen paragraph by greying it out and leaving 3 key phrases black for 2.6 s, then lift those phrases into the next layout.", "evidence": "f0005.jpg 8 s; window-06-7.1s.jpg", "relation": "extends", "skill_rule": "2"},
+  {"rule": "Repeat an early layout as a recap just before the tagline (here 10.7 s then 43 s) so the viewer re-reads the claim without new copy.", "evidence": "f0006.jpg vs f0024.jpg", "relation": "new", "skill_rule": "none"},
+  {"rule": "End on a last line held well beyond the floor: here 4.4 s, 2.2 times the 2 s minimum, after a 1.8 s availability line faded in word by word.", "evidence": "windows 26 and 27; findings copy holds", "relation": "confirms", "skill_rule": "2"},
+  {"rule": "Ship at -14 LUFS but check true peak: this film measures -14.0 LUFS and -0.6 dBTP, which breaks the -1 dBTP ceiling.", "evidence": "metrics.json sound.lufs_integrated, true_peak_db", "relation": "extends", "skill_rule": "9"},
+  {"rule": "Quiet monochrome ground with colour only from product icons and outputs; a pale background and no accent still reads as premium and keeps focus on the demo.", "evidence": "look.json saturation 0.024, light_share 0.926", "relation": "extends", "skill_rule": "6"}
+ ],
+ "frames_opened": 27,
+ "crops_made": 6,
+ "unchecked": [
+  "Sound effects (typing, clicks, whooshes): no audio evidence beyond describe tags, so none claimed.",
+  "Easing curves: only 30 fps strip thumbnails read, no curve measured.",
+  "Whether the dark end card tagline was typed or faded: strip shows word fade only at 49.47 to 49.53 s.",
+  "Text heights of chips measured as ink height including descenders."
+ ]
+}

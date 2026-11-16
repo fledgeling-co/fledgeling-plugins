@@ -1,0 +1,154 @@
+{
+ "id": "_f_rtbW_uFM",
+ "title": "Getting started with Claude Tag",
+ "brand": "Claude",
+ "duration_s": 179.04,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "Narrated tour of Claude inside Slack: one 83 s continuous screen-recording shot, then short feature chapters introduced by serif title cards on a sage ground.",
+ "one_thing": "Claude joins your team's Slack channel, works in view with progress steps and permission prompts, remembers instructions, and admins control its access.",
+ "transcript": {
+  "source": "human-captions",
+  "voiceover": "narrator-vo",
+  "words_total": 497,
+  "words_per_minute": 166.6,
+  "voice_style": "Calm, explanatory narrator; full sentences, second person, no hype words; reads the two sample prompts aloud.",
+  "script_shape": "Claim, then channel setup, sample task, tool access, collaboration, memory, availability and controls, then a one-line invitation to tag Claude in."
+ },
+ "structure": {
+  "frame0": "Sage-green ground with hand-drawn pale wavy lines; the kinetic title '@Claude works with your whole team' is already building (first word at 0.07 s, complete by 0.77 s).",
+  "first_3s": "Title completes within 0.77 s and holds still on sage until the cut at 4.71 s to the Slack window; narrator states the whole premise in the first 5 s.",
+  "beats": [
+   {"start_s": 0, "end_s": 4.71, "role": "hook", "what": "Title card '@Claude works with your whole team', accent underline under @Claude."},
+   {"start_s": 4.71, "end_s": 24, "role": "setup", "what": "Slack window opens on ticket-sales, cursor moves to event-prep; Claude's 'Just joined' message appears."},
+   {"start_s": 24, "end_s": 36.7, "role": "demo", "what": "User types a long prompt into the composer: compile outstanding action items from threads, Drive, Asana."},
+   {"start_s": 36.7, "end_s": 56, "role": "demo", "what": "Thread panel slides in; Claude's four-step checklist ticks off, then the outstanding-items report with links."},
+   {"start_s": 56, "end_s": 76, "role": "proof", "what": "Follow-up request, permission prompt with Allow / Don't allow, then calendar booked and Monday status update scheduled."},
+   {"start_s": 76, "end_s": 88.2, "role": "demo", "what": "Second thread: keynote speaker cancelled, Claude's five-step checklist runs under 'Claude is working...'."},
+   {"start_s": 88.22, "end_s": 97.18, "role": "turn", "what": "Hand-drawn phone outline draws on, lock-screen notification, then the Slack mobile thread with three speaker picks."},
+   {"start_s": 97.18, "end_s": 103.22, "role": "other", "what": "Chapter title 'Claude learns your team over time', words dissolve one by one before the cut."},
+   {"start_s": 103.22, "end_s": 139.61, "role": "demo", "what": "Memory: 'remember for this channel' message, saved-memory thread, waitlist alert request, event checklist saved."},
+   {"start_s": 139.61, "end_s": 144.46, "role": "other", "what": "'Claude Tag is available on' with Team and Enterprise plan cards."},
+   {"start_s": 144.46, "end_s": 166.62, "role": "proof", "what": "Configure Claude for #event-prep card beside titles about tool control, per-channel access and privacy."},
+   {"start_s": 166.62, "end_s": 172.94, "role": "cta", "what": "'Tag @Claude in on your team's next task' under a 'Let's go!' message card."},
+   {"start_s": 172.94, "end_s": 179.04, "role": "logo", "what": "Cream end cards: Claude logo, Claude Academy, claude.com/learn; silence from 174.1 s."}
+  ],
+  "hero_moment": {
+   "t_s": 44.98,
+   "share": 0.251,
+   "what": "Thread panel zoomed in, Claude's checklist completes and the outstanding-items report lands with a red flag line and two links (f0045-f0049)."
+  },
+  "ending": {
+   "cta_text": "Tag @Claude in on your team's next task; claude.com/learn",
+   "logo_hold_s": 6.1,
+   "what": "Three cream end cards (logo, Claude Academy, URL) over a silent final 5 s; the CTA line sits on the sage ground 6 s earlier."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 9,
+  "cuts_per_min": 3.02,
+  "median_shot_s": 6.09,
+  "how_change_is_paced": "One 83.5 s shot (46.6 % of runtime) carries the first demo through UI state changes and a virtual camera that zooms and pans; later chapters cut at 88, 91, 97, 103, 140, 144, 167 and 173 s. No burst."
+ },
+ "look": {
+  "ground": "Muted sage green with hand-drawn pale wavy lines for title and device scenes; cream (#faf8f3-like) for end cards; white Slack and settings windows float on the sage.",
+  "palette": ["sage green", "near-black ink", "cream", "terracotta Claude orange", "Slack white and grey", "Slack link blue", "dusk purple phone wallpaper", "green send button"],
+  "accent_use": "One terracotta hand-drawn underline under @Claude in the opening title; the Claude asterisk icon and logo carry the orange afterwards.",
+  "type": "Warm high-contrast serif in near-black for titles, sentence case, one to two lines; real Slack sans for UI; words in titles fade in one at a time and fade out in reading order.",
+  "title_height_pct": [4.4, 11.4],
+  "title_measurements": [
+   {"t_s": 1.5, "text": "@Claude works with / your whole team", "line_height_px": 82, "frame_height_px": 720, "pct": 11.4},
+   {"t_s": 100.5, "text": "Claude learns your / team over time", "line_height_px": 82, "frame_height_px": 720, "pct": 11.4},
+   {"t_s": 141, "text": "Claude Tag is available on", "line_height_px": 43, "frame_height_px": 720, "pct": 6.0},
+   {"t_s": 145, "text": "You control which tools / and data", "line_height_px": 32, "frame_height_px": 720, "pct": 4.4},
+   {"t_s": 169, "text": "Tag @Claude in on your team's next task", "line_height_px": 48, "frame_height_px": 720, "pct": 6.7}
+  ],
+  "max_words_per_title_line": 6,
+  "density": "sparse",
+  "depth": "Flat; the Slack window has a soft drop shadow on sage and the phone has a cream bezel. No parallax or 3D."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 80,
+  "shown_as": ["real-ui-capture", "device-mockup", "floating-ui-cards"],
+  "cursor": "real",
+  "camera_on_ui": "Virtual camera zooms 2-3x into the thread panel and composer for each reading moment, then pulls back to the full window; the zoom lands on the text being narrated (f0019-f0034).",
+  "legible_at_phone_width": "partly",
+  "notes": "Zoomed thread panels are large and legible (Claude's report text about 14-20 px at 1280 wide); full-window views have 8-10 px UI text, and the config card's helper text is under 7 px."
+ },
+ "motion": {
+  "text_entry": "Titles build word by word: each word fades from grey to black within about 0.1-0.2 s, next word starting before the last finishes (strips/window-01-0.034s.jpg); exit is the same word-by-word fade in reading order (window-48).",
+  "ui_motion": "Typing is simulated character by character with a caret; the thread panel slides in from the right; checklist items change from circle to check to asterisk in turn; buttons get cursor hover then click.",
+  "camera": "Smooth zoom and pan inside the UI (f0019 to f0022 pan to the thread); at 125.9 s the view blurs into motion blur between panes (strips/window-60-125.943s.jpg).",
+  "eases": "Soft ease in and out; the phone outline is drawn on with a hand-drawn stroke over about 0.8 s (strips/window-41-88.188s.jpg).",
+  "transitions": [
+   {"type": "hard-cut", "count": 9, "example_t_s": 4.71, "cause": "Title card ends, window appears; each chapter title cuts to its demo."},
+   {"type": "ui-state-change", "count": 40, "example_t_s": 36.4, "cause": "Sent message drops into the feed, panel opens, checklist advances."},
+   {"type": "morph-or-shared-element", "count": 1, "example_t_s": 88.8, "cause": "Drawn phone outline fills with the lock-screen, then notification cross-fades to the app thread."},
+   {"type": "continuous-camera-move", "count": 6, "example_t_s": 125.9, "cause": "Camera pans between thread panes with motion blur."}
+  ],
+  "strips_read": [
+   "strips/window-01-0.034s.jpg",
+   "strips/window-02-4.054s.jpg",
+   "strips/window-10-36.27s.jpg",
+   "strips/window-41-88.188s.jpg",
+   "strips/window-43-90.758s.jpg",
+   "strips/window-45-93.544s.jpg",
+   "strips/window-48-102.536s.jpg",
+   "strips/window-55-116.75s.jpg",
+   "strips/window-60-125.943s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {"t_s": 0.1, "text": "@Claude works with your whole team", "words": 6, "hold_s": 4.0},
+   {"t_s": 97.2, "text": "Claude learns your team over time", "words": 6, "hold_s": 5.4},
+   {"t_s": 139.7, "text": "Claude Tag is available on Team and Enterprise", "words": 8, "hold_s": 4.7},
+   {"t_s": 144.5, "text": "You control which tools and data it can use", "words": 9, "hold_s": 4.0},
+   {"t_s": 152, "text": "Set what it has access to in each channel", "words": 9, "hold_s": 5.0},
+   {"t_s": 160, "text": "DMs and private channels stay private", "words": 6, "hold_s": 6.0},
+   {"t_s": 166.7, "text": "Tag @Claude in on your team's next task", "words": 8, "hold_s": 6.0},
+   {"t_s": 174, "text": "claude.com/learn", "words": 1, "hold_s": 2.0}
+  ],
+  "holds_vs_reading_rule": "Title cards hold 4-6 s for 6-9 words, against the 3.2-3.5 s the 0.5 s + 0.3 s a word rule asks; the last line (URL) holds about 2 s, at the minimum."
+ },
+ "sound": {
+  "music": "Describe tags: speech 0.842, music 0.628, keyboard_musical 0.282, plucked_string_instrument 0.242; no steady beat (confidence 0.14), so a soft keyboard/plucked bed with no pulse.",
+  "sfx": "No sfx evidence in the measurements; onsets average 21.4 strong per minute but the tags name none.",
+  "vo_music_balance": "Narration is the dominant layer (speech 0.842 vs music 0.628); loudness range only 3.6 LU, so the mix is flat.",
+  "energy_arc": "Flat 3.6 LU range, short-term max -12.9 LUFS; 14 sections with no drop or build, then silence from 174.1 s to the end.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.0 against chance_share 0.079; picture is paced to the narration."
+ },
+ "good": [
+  {"observation": "The hook is the product claim itself: a 6-word title is complete by 0.77 s, and the narrator says the same promise at 0 s.", "evidence": "strips/window-01-0.034s.jpg; transcript [00:00]"},
+  {"observation": "Real Slack UI carries the film (about 80 % of runtime), so every narrated capability is shown as a message, thread or button rather than described.", "evidence": "f0013-f0037; f0073"},
+  {"observation": "The camera zooms to the exact panel being narrated, making UI text 14-20 px at 1280 wide while the full window stays in context.", "evidence": "f0019, f0022, f0034 vs f0004"},
+  {"observation": "Trust is shown as UI: Allow / Don't allow permission prompt and a 'Stop' button appear in the flow at the moment the narration says 'asking for permission every time'.", "evidence": "f0034, strips frames 1:04-1:10; transcript [01:00]"},
+  {"observation": "Chapter titles are plain sentence-case serif on one colour with the same word-by-word build, so each new chapter reads instantly and the film stays calm.", "evidence": "f0001, f0085; strips/window-48-102.536s.jpg"},
+  {"observation": "The mobile scene is introduced by a hand-drawn phone outline that fills in, a cause-and-effect handoff from desktop to phone.", "evidence": "strips/window-41-88.188s.jpg"}
+ ],
+ "weak": [
+  {"observation": "Peak is above ceiling and loudness is at the target: true peak +0.5 dBTP against the -1 dBTP limit.", "evidence": "metrics.json sound.true_peak_db 0.5, lufs_integrated -14"},
+  {"observation": "Fine UI text in full-window views is below 7 px of glyph height (config helper text, thread meta), which is unreadable on a phone.", "evidence": "f0076, f0079 crops/channel-instr.png"},
+  {"observation": "One 83.5 s shot is 46.6 % of runtime with no burst and few cuts; pace depends entirely on narration.", "evidence": "metrics.json rhythm.longest_shot, bursts []"},
+  {"observation": "Chapter title cards hold 4-6 s with 6 words, longer than the reading time, and the config scene shows a still card for about 22 s.", "evidence": "f0073-f0082; metrics longest_static_run_s 12"}
+ ],
+ "rule_candidates": [
+  {"rule": "In a walkthrough, zoom the camera 2-3x onto the panel being narrated so UI text reaches 14 px or more at 1280 wide, then pull back to the full window.", "evidence": "f0019/f0034 zoomed vs f0004 full-window text 8-10 px.", "relation": "extends", "skill_rule": "5"},
+  {"rule": "Build titles word by word, each word fading in 0.1-0.2 s with the next starting before the last settles, and fade them out in reading order.", "evidence": "strips/window-01-0.034s.jpg: 6 words in 0.77 s.", "relation": "confirms", "skill_rule": "4"},
+  {"rule": "A walkthrough may use one long continuous screen-recording shot of 80 s or more if UI state changes every 2-6 s; cut counts then measure chapters, not pacing.", "evidence": "4.71-88.22 s shot, 83.5 s, 46.6 % runtime, 3.02 cuts/min.", "relation": "contradicts", "skill_rule": "10"},
+  {"rule": "Show a permission prompt (Allow / Don't allow) inside the demo at the same second the narration names the trust control.", "evidence": "f0034 at 66 s; transcript [01:00] 'asking for permission every time'.", "relation": "new", "skill_rule": "none"},
+  {"rule": "Hand off between device scenes with a drawn outline that fills with the next screen instead of a cut or dissolve.", "evidence": "strips/window-41-88.188s.jpg: outline drawn 88.2-88.8 s, screen fills 88.96 s.", "relation": "confirms", "skill_rule": "7"},
+  {"rule": "Master loudness check must include true peak: this film sits at -14 LUFS but true peak is +0.5 dBTP.", "evidence": "metrics.json sound: lufs_integrated -14, true_peak_db 0.5.", "relation": "contradicts", "skill_rule": "9"},
+  {"rule": "A demo-led film can run chapter titles at 4.4-6 % of frame height beside a UI card, rather than 11 % hero titles.", "evidence": "title_measurements 32 px (4.4 %) at 145 s, 43 px (6.0 %) at 141 s.", "relation": "extends", "skill_rule": "3"},
+  {"rule": "End on silence: stop the music and narration, show the logo then URL on a plain cream ground for at least 5 s.", "evidence": "silence_spans from 174.1 s; logo f0088, URL f0090.", "relation": "extends", "skill_rule": "2"}
+ ],
+ "frames_opened": 33,
+ "crops_made": 6,
+ "unchecked": [
+  "Sound was judged from tags and loudness only; no listening, so music genre is unconfirmed.",
+  "Title ink heights are line ink extents (include ascenders/descenders), not cap height.",
+  "Cuts-per-minute counts hard cuts only; UI state changes inside shots are not counted.",
+  "Two of six crops (cta, thread-steps) landed on blank or wrong regions and add no evidence."
+ ]
+}

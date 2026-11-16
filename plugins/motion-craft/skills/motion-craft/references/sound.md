@@ -69,7 +69,7 @@ Record each track's source and licence in `materials.md`.
 
 ## 5. Loudness and delivery
 
-- Social and web masters: integrated −14 LUFS ±1, true peak ≤ −1 dBTP. The engine masters to −14 LUFS with the true peak at or under −2 dBFS, leaving room for AAC overshoot.
+- Social and web masters: integrated −14 LUFS ±1, true peak ≤ −1 dBTP. Shipped product films do not reliably meet this: of 48 measured on 2026-11-16, 15 sit within ±1 LU of −14, the median is −15.8 LUFS, and 18 exceed the true-peak ceiling (`saas-films.md` §9). Master to the spec rather than to a reference film. The engine masters to −14 LUFS with the true peak at or under −2 dBFS, leaving room for AAC overshoot.
 - A mix of mostly short hits with silence between cannot reach −14 LUFS without crushing; add sustained sound (a pad, longer tails) rather than forcing the gain. The engine says when it came out quieter.
 - Place the mastered WAV in the composition so the render carries it: `<audio id="score" class="clip" src="assets/sound.wav" data-start="0" data-duration="<film length>" data-volume="1"></audio>` inside the root of `index.html`. A voice file is a second `<audio>` with its own `id`. Check the rendered file has an audio stream (`ffprobe -v error -show_entries stream=codec_type -of csv=p=0 out/<name>.mp4` prints `audio`); a render whose `<audio>` tag is missing or malformed comes out silent with no error.
 

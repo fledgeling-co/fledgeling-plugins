@@ -1,0 +1,389 @@
+{
+  "id": "bVXiNb9RyyI",
+  "title": "How an Anthropic designer uses Claude Slides",
+  "brand": "Claude",
+  "duration_s": 104.14,
+  "status": "ok",
+  "format": "customer-or-user-story",
+  "format_note": "Employee-presenter walkthrough: on-camera designer voiceover over redrawn illustrated UI, then real product capture of one workflow from voice memo to shared deck.",
+  "one_thing": "You can talk through an idea on a walk, hand the transcript to Claude, and get a deck you steer with comments.",
+  "transcript": {
+    "source": "human-captions",
+    "voiceover": "presenter-and-vo",
+    "words_total": 290,
+    "words_per_minute": 167,
+    "voice_style": "Casual first-person designer, self-deprecating ('yap into the mic', 'it's usually a mess'), conversational pace with no sales language.",
+    "script_shape": "Pain (blank window, 0:09), alternative (walk, 0:16), intro (0:20), voice memo (0:29), prompt (0:54), result and edits (1:00-1:15), share (1:20), sign-off line (1:35)."
+  },
+  "structure": {
+    "frame0": "Title card poster: terracotta slide on a pink-beige ground with 'How an Anthropic designer uses Claude Slides' under an active text-edit toolbar, selection on 'Claude Slides' (f0001.jpg).",
+    "first_3s": "Cursor selects 'Claude Slides' and the toolbar bolds it by t=2 (f0002.jpg); the card then slides left to reveal an illustrated desktop room at t=3.7 (window-04-2.959s.jpg). No speech until 5 s.",
+    "beats": [
+      {
+        "start_s": 0,
+        "end_s": 3.7,
+        "role": "hook",
+        "what": "Title card edited live: bold applied to 'Claude Slides' with a drawn cursor and toolbar."
+      },
+      {
+        "start_s": 3.7,
+        "end_s": 12.3,
+        "role": "setup",
+        "what": "Illustrated desktop-as-room; cursor creates 'extremely interesting idea.txt'; the blank-window problem is shown, not named."
+      },
+      {
+        "start_s": 12.3,
+        "end_s": 18,
+        "role": "problem",
+        "what": "Blank slide in a drawn slide editor; typed 'My ideaaaa / The big one / Here it comes!' as procrastination gag."
+      },
+      {
+        "start_s": 18,
+        "end_s": 28.6,
+        "role": "turn",
+        "what": "nate.png dragged onto 'The Great Outdoors' folder cuts to the live-action presenter with an editable name card."
+      },
+      {
+        "start_s": 28.6,
+        "end_s": 53.6,
+        "role": "demo",
+        "what": "Illustrated phone records a voice memo while the presenter walks outside in a vertical clip; typed captions on the right."
+      },
+      {
+        "start_s": 53.6,
+        "end_s": 63.2,
+        "role": "demo",
+        "what": "Real Voice Memos transcript dragged into Claude; prompt typed ('turn my exact words into a presentation')."
+      },
+      {
+        "start_s": 63.2,
+        "end_s": 82.9,
+        "role": "reveal",
+        "what": "Generated deck opens; subtitle italicised, a word fixed, comment sent to Claude via @Claude."
+      },
+      {
+        "start_s": 82.9,
+        "end_s": 90,
+        "role": "payoff",
+        "what": "Share panel: access changed to 'Anyone at Today's Thing', Copy link."
+      },
+      {
+        "start_s": 90,
+        "end_s": 96,
+        "role": "other",
+        "what": "Illustrated files (nate.png, foot pngs, breeze.wav) shuffle as a closing gag."
+      },
+      {
+        "start_s": 96,
+        "end_s": 104.14,
+        "role": "logo",
+        "what": "'Claude makes it. You steer it.' then starburst, then Claude wordmark."
+      }
+    ],
+    "hero_moment": {
+      "t_s": 63.17,
+      "share": 0.607,
+      "what": "Hard cut (change 93.7) from chat into the generated black deck: 'You should be able to email Claude.' The product's output is finally on screen."
+    },
+    "ending": {
+      "cta_text": "Claude makes it. You steer it.",
+      "logo_hold_s": 2.1,
+      "what": "Sign-off line edited on screen with a selection highlight, a lone starburst, then the wordmark; audio is silent from 102.14 s."
+    }
+  },
+  "rhythm": {
+    "route": "hybrid",
+    "hard_cuts": 15,
+    "cuts_per_min": 8.64,
+    "median_shot_s": 3.25,
+    "how_change_is_paced": "Short opening shots (3.25 s median), one 24.96 s shot (28.6-53.6 s, 24% of runtime) held by voiceover with captions and a waveform changing every 2 s, then a six-cut run from 63 to 76 s. No burst detected."
+  },
+  "look": {
+    "ground": "Warm pink-beige (f0001.jpg), swapped for sage green during the phone section (f0014.jpg); real UI sections are off-white.",
+    "palette": [
+      "pink-beige ground",
+      "terracotta",
+      "sage green",
+      "lavender",
+      "off-white",
+      "near-black outline",
+      "near-black deck"
+    ],
+    "accent_use": "Terracotta is the dominant block colour (title card, record widget, async slide); lavender marks name card and caption boxes. Bold is the only emphasis in the title.",
+    "type": "Serif display (Anthropic Serif style) for titles and clock; sans for UI labels, file names and prompt. Small tracked uppercase terracotta kicker above slide titles ('HERE'S MY IDEA').",
+    "title_height_pct": [
+      6.0,
+      8.5
+    ],
+    "title_measurements": [
+      {
+        "t_s": 2,
+        "text": "How an Anthropic designer uses Claude Slides",
+        "line_height_px": 61.5,
+        "frame_height_px": 720,
+        "pct": 8.5
+      },
+      {
+        "t_s": 64,
+        "text": "You should be able to",
+        "line_height_px": 44,
+        "frame_height_px": 720,
+        "pct": 6.1
+      },
+      {
+        "t_s": 64,
+        "text": "email Claude.",
+        "line_height_px": 43,
+        "frame_height_px": 720,
+        "pct": 6.0
+      },
+      {
+        "t_s": 102,
+        "text": "Claude wordmark",
+        "line_height_px": 60,
+        "frame_height_px": 720,
+        "pct": 8.3
+      }
+    ],
+    "max_words_per_title_line": 5,
+    "density": "sparse",
+    "depth": "Flat illustration with heavy outlines and no shadows; real UI screenshots carry soft card shadows. Slide stack edges peek behind the editor (f0007.jpg)."
+  },
+  "product_ui": {
+    "presence_pct_runtime": 55,
+    "shown_as": [
+      "real-ui-capture",
+      "redrawn-simplified-ui",
+      "device-mockup",
+      "live-action"
+    ],
+    "cursor": "stylised",
+    "camera_on_ui": "Crops and pans into the interface rather than showing it whole: prompt box fills the frame at t=56, slide title at 64, share dialog at 82 (f0029.jpg, f0033.jpg, f0042.jpg). Scale changes at cuts.",
+    "legible_at_phone_width": "partly",
+    "notes": "Prompt text, slide titles and share dialog read well when cropped in. The whole-window shot at t=54 (f0028.jpg) has transcript text near 11 px, about 1.5% of frame height, unreadable on a phone."
+  },
+  "motion": {
+    "text_entry": "Typed character by character with a caret (prompt f0030-f0032, correction at 72 s in window-47-72.25s.jpg); captions grow inside a box; titles are edited by selecting, then bolding.",
+    "ui_motion": "Cursor-driven: drag, click, select, type. Waveform scrolls and a shared bar extends from the phone widget (f0024-f0027). Illustrated icons float and reshuffle at the end (f0045-f0047).",
+    "camera": "Pan right to reveal the room (window-04-2.959s.jpg), zoom into the room wall to a slide editor (window-11-10.542s.jpg), punch-in crops on real UI.",
+    "eases": "Not measured from motion curves. Strip frames show a quick decelerating slide for the title card exit and linear typing cadence.",
+    "transitions": [
+      {
+        "type": "continuous-camera-move",
+        "count": 3,
+        "example_t_s": 3.7,
+        "cause": "Title card slides out and the camera lands on the room it sits in."
+      },
+      {
+        "type": "zoom-through",
+        "count": 1,
+        "example_t_s": 10.5,
+        "cause": "Cursor opens a file; the room zooms to its slide-editor window."
+      },
+      {
+        "type": "match-cut",
+        "count": 2,
+        "example_t_s": 18.9,
+        "cause": "nate.png is dropped on a folder, then the portrait appears as live video."
+      },
+      {
+        "type": "hard-cut",
+        "count": 15,
+        "example_t_s": 63.17,
+        "cause": "Chat message sent, next state of the product appears."
+      },
+      {
+        "type": "ui-state-change",
+        "count": 6,
+        "example_t_s": 87.8,
+        "cause": "Cursor picks a dropdown option and the panel updates."
+      }
+    ],
+    "strips_read": [
+      "strips/window-01-0.25s.jpg",
+      "strips/window-04-2.959s.jpg",
+      "strips/window-11-10.542s.jpg",
+      "strips/window-17-18.25s.jpg",
+      "strips/window-24-27.042s.jpg",
+      "strips/window-36-53.292s.jpg",
+      "strips/window-42-65.5s.jpg",
+      "strips/window-47-72.25s.jpg",
+      "strips/window-54-82.792s.jpg",
+      "strips/window-60-87.75s.jpg"
+    ]
+  },
+  "copy": {
+    "on_screen_lines": [
+      {
+        "t_s": 0,
+        "text": "How an Anthropic designer uses Claude Slides",
+        "words": 7,
+        "hold_s": 3.7
+      },
+      {
+        "t_s": 16,
+        "text": "My ideaaaa / The big one / Here it comes!",
+        "words": 8,
+        "hold_s": 2
+      },
+      {
+        "t_s": 22,
+        "text": "Nate Parrott, Designer, Anthropic",
+        "words": 5,
+        "hold_s": 6.6
+      },
+      {
+        "t_s": 36,
+        "text": "It's usually a mess.",
+        "words": 4,
+        "hold_s": 4
+      },
+      {
+        "t_s": 56,
+        "text": "turn my exact words into a presentation using claude slides, but organize them in a way that makes sense. (prompt)",
+        "words": 30,
+        "hold_s": 6
+      },
+      {
+        "t_s": 64,
+        "text": "You should be able to email Claude.",
+        "words": 7,
+        "hold_s": 6
+      },
+      {
+        "t_s": 76,
+        "text": "@Claude This is the best line in the whole memo. Make it its own slide.",
+        "words": 14,
+        "hold_s": 4
+      },
+      {
+        "t_s": 82.9,
+        "text": "Forwarding.",
+        "words": 1,
+        "hold_s": 5
+      },
+      {
+        "t_s": 98,
+        "text": "Claude makes it. You steer it.",
+        "words": 6,
+        "hold_s": 2
+      },
+      {
+        "t_s": 102,
+        "text": "Claude",
+        "words": 1,
+        "hold_s": 2.1
+      }
+    ],
+    "holds_vs_reading_rule": "Titles hold past 0.5 s + 0.3 s a word (7 words needs 2.6 s, gets 3.7 s). The 30-word prompt needs 9.5 s, typed over 6 s. The sign-off holds 2 s against 2.3 s needed."
+  },
+  "sound": {
+    "music": "Audio kind is music with speech (describe: speech 0.701, music 0.583); no steady beat (confidence 0.092), no bpm. Eight sections A-H. No instrument named; keyboard_musical 0.26 is the top music tag.",
+    "sfx": "Describe tags click 0.248 and typing 0.224 suggest interface sounds under the typing and click beats. Not heard; inferred from tags.",
+    "vo_music_balance": "Presenter speech dominates; whole film is quiet at -25.7 LUFS integrated, short-term max -20.8, true peak -3.9 dBTP, LRA 8.8 LU.",
+    "energy_arc": "Flat and conversational; no louder section is identified. Silence from 102.14 s to the end (2.0 s) under the logo.",
+    "sync_to_picture": "cuts_on_strong_onset_share 0.40 against chance 0.121: cuts lean on sound onsets, but onsets are mostly speech and typing, not musical beats."
+  },
+  "good": [
+    {
+      "observation": "The title card is itself an edit: select 'Claude Slides', toolbar appears, bold lands by t=2. The film demonstrates the product in its first frame with no logo.",
+      "evidence": "f0001.jpg, f0002.jpg, window-01-0.25s.jpg"
+    },
+    {
+      "observation": "Pain is shown, not named: a blank slide and a typed 'My ideaaaa' gag cover 'staring at a blank window' before the narrator says it.",
+      "evidence": "f0007.jpg, f0008.jpg, f0009.jpg; transcript 0:12"
+    },
+    {
+      "observation": "Product UI is cropped to the one thing to read: prompt box, slide title, share dialog each fill most of the frame at the moment they matter.",
+      "evidence": "f0030.jpg, f0033.jpg, f0042.jpg"
+    },
+    {
+      "observation": "Every overlay is drawn as an editable object of the product, such as the name card with handles and the caption box, so graphics and subject share one visual language.",
+      "evidence": "f0011.jpg, f0012.jpg, f0019.jpg crops/name-card.png"
+    },
+    {
+      "observation": "A closed loop for the user: voice memo, transcript, prompt, deck, comment, share. Each step is a distinct visible screen, so the whole workflow reaches the screen.",
+      "evidence": "f0014.jpg, f0028.jpg, f0030.jpg, f0033.jpg, f0042.jpg"
+    },
+    {
+      "observation": "Ending is a three-step build with a silent last two seconds: sentence with selection highlight, lone starburst, wordmark.",
+      "evidence": "f0049.jpg, f0050.jpg, f0051.jpg, f0052.jpg; audio silence_spans 102.14-104.13"
+    }
+  ],
+  "weak": [
+    {
+      "observation": "Dense real-UI shot of the Voice Memos window over Claude is unreadable at phone width, and it carries the proof that the transcript is the user's own words.",
+      "evidence": "f0028.jpg (t=54)"
+    },
+    {
+      "observation": "Caption box stops at 'it's just for' and collapses before the voiceover finishes 'me and Claude', so the text and speech end out of step.",
+      "evidence": "f0019.jpg (t=36), f0020.jpg (t=38); transcript 0:37"
+    },
+    {
+      "observation": "Loudness is far below the social target: -25.7 LUFS integrated would play quietly beside feed content.",
+      "evidence": "metrics.json sound.lufs_integrated -25.7"
+    },
+    {
+      "observation": "No burst of cuts or musical hit supports the hero reveal; it arrives as one hard cut into a static deck.",
+      "evidence": "metrics.json rhythm.bursts empty; cuts.json t=63.167"
+    }
+  ],
+  "rule_candidates": [
+    {
+      "rule": "Open with the product doing a visible edit to the title itself (select, toolbar, bold) instead of a logo; make the hook an action reviewable in frames 0-2 s.",
+      "evidence": "f0001.jpg to f0002.jpg, window-01-0.25s.jpg: selection and bold within 0.4 s.",
+      "relation": "extends",
+      "skill_rule": "Rule 1"
+    },
+    {
+      "rule": "Keep titles at 6-8.5% of frame height with one bold accent phrase and at most 5 words per line.",
+      "evidence": "title_measurements: 61.5 px (8.5%) at t=2; 43-44 px (6%) at t=64.",
+      "relation": "confirms",
+      "skill_rule": "Rule 3"
+    },
+    {
+      "rule": "A voice-led story may hold one composition up to 25 s if some element changes at least every 2 s (caption growth, waveform, new clip) and shot median across the film stays near 3 s.",
+      "evidence": "28.6-53.6 s shot (24% of runtime); window-24-27.042s.jpg; median_shot_s 3.25.",
+      "relation": "extends",
+      "skill_rule": "Rule 10"
+    },
+    {
+      "rule": "Show the output of the product at 55-65% of runtime with one hard cut into a full-frame result, and let the preceding 60 s build the question it answers.",
+      "evidence": "hero cut at 63.17 s, share 0.607; f0033.jpg.",
+      "relation": "extends",
+      "skill_rule": "Rule 8"
+    },
+    {
+      "rule": "Do not force a burst of 5-8 cuts in 5 s on a calm explainer; six cuts spread over about 12 s from 63 to 76 s were enough here.",
+      "evidence": "cuts.json: 63.17, 65.83, 69.33, 72.5, 74.42, 75.58; metrics.json bursts [].",
+      "relation": "contradicts",
+      "skill_rule": "Rule 8"
+    },
+    {
+      "rule": "Where real UI follows illustration, crop the capture so the text that matters reaches 2.6% of frame height or more; whole-window shots belong only to orientation.",
+      "evidence": "f0028.jpg text about 1.5% vs f0030.jpg prompt text about 3.2%.",
+      "relation": "confirms",
+      "skill_rule": "Rule 5"
+    },
+    {
+      "rule": "Draw lower thirds and captions as editable objects of the product (handles, toolbar) that settle to clean text within 1-2 s, so graphics belong to the film's world.",
+      "evidence": "f0011.jpg handles and toolbar, f0012.jpg clean card; window-24-27.042s.jpg holds clean.",
+      "relation": "new",
+      "skill_rule": "none"
+    },
+    {
+      "rule": "Presenter-led brand films may sit near -25 LUFS with -4 dBTP; apply the -14 LUFS social master only when a feed spot is the destination.",
+      "evidence": "metrics.json sound: lufs_integrated -25.7, true_peak_db -3.9, lra_lu 8.8.",
+      "relation": "contradicts",
+      "skill_rule": "Rule 9"
+    }
+  ],
+  "frames_opened": 52,
+  "crops_made": 6,
+  "unchecked": [
+    "Audio was not heard; music genre and sfx are inferred from describe tags only.",
+    "Starburst entry lies between 100 s and 102 s, so logo_hold_s of 2.1 s is measured from the last sample.",
+    "Title ink measurement at t=96 and t=56 returned unusable boxes (cursor or toolbar in region); those lines are not in title_measurements.",
+    "Ease curves were not measured; only strip frames were read."
+  ]
+}

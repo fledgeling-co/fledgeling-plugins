@@ -1,0 +1,352 @@
+{
+ "id": "XO244jk7xH4",
+ "title": "Meet Muse: your personal AI agent",
+ "uploader": "Muse",
+ "duration_s": 120.14,
+ "fps": 23.976,
+ "rhythm": {
+  "hard_cuts": 80,
+  "cuts_per_min": 39.95,
+  "cut_times_s": [
+   0.63,
+   1.38,
+   2.34,
+   3.38,
+   4.71,
+   5.92,
+   6.71,
+   9.05,
+   9.68,
+   10.93,
+   11.6,
+   12.26,
+   13.64,
+   14.43,
+   14.97,
+   16.43,
+   17.6,
+   18.85,
+   20.23,
+   22.23,
+   24.36,
+   26.53,
+   28.11,
+   30.16,
+   31.86,
+   33.78,
+   35.28,
+   35.99,
+   37.33,
+   37.79,
+   38.83,
+   39.75,
+   42.12,
+   44.09,
+   45.71,
+   46.63,
+   48.3,
+   50.09,
+   51.51,
+   53.34,
+   55.1,
+   56.35,
+   57.93,
+   58.77,
+   60.02,
+   61.19,
+   62.48,
+   63.4,
+   64.98,
+   65.94,
+   66.94,
+   68.65,
+   71.53,
+   72.36,
+   76.24,
+   77.58,
+   79.12,
+   80.08,
+   81.04,
+   82.83,
+   84.29,
+   86.42,
+   87.96,
+   89.21,
+   90.92,
+   92.43,
+   93.51,
+   94.14,
+   95.39,
+   96.85,
+   98.43,
+   99.85,
+   101.73,
+   104.23,
+   105.52,
+   107.9,
+   109.23,
+   110.94,
+   113.07,
+   115.16
+  ],
+  "median_shot_s": 1.38,
+  "mean_shot_s": 1.48,
+  "shots_over_10s": 0,
+  "first_cut_s": 0.63,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 115.16,
+   "end": 120.14,
+   "seconds": 4.98,
+   "share_of_runtime": 0.041
+  },
+  "bursts": [
+   {
+    "start_s": 0.63,
+    "end_s": 18.85,
+    "cuts": 18,
+    "mid_share": 0.081
+   },
+   {
+    "start_s": 33.78,
+    "end_s": 42.12,
+    "cuts": 8,
+    "mid_share": 0.316
+   },
+   {
+    "start_s": 55.1,
+    "end_s": 66.94,
+    "cuts": 11,
+    "mid_share": 0.508
+   },
+   {
+    "start_s": 76.24,
+    "end_s": 81.04,
+    "cuts": 5,
+    "mid_share": 0.655
+   },
+   {
+    "start_s": 89.21,
+    "end_s": 98.43,
+    "cuts": 8,
+    "mid_share": 0.781
+   }
+  ]
+ },
+ "events": {
+  "counts": {
+   "cut": 71,
+   "flash": 0,
+   "appear": 5,
+   "disappear": 7,
+   "change": 152,
+   "hold": 20
+  },
+  "holds_over_1s": 3,
+  "median_hold_s": 0.79,
+  "longest_hold_s": 4.38,
+  "windows": 93
+ },
+ "frames": {
+  "count": 60,
+  "not_evidence_frames": [],
+  "dark_share": 0.517,
+  "light_share": 0.0,
+  "median_contentful_cells": 0.244,
+  "intervals_new_composition_share": 0.915,
+  "intervals_static_share": 0.017,
+  "longest_static_run_s": 2,
+  "longest_static_run_ends_at_s": 118,
+  "frame0": {
+   "meanLuminance": 0.4373,
+   "contentfulCells": 0.6687,
+   "blankCells": 0.0,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0038.jpg",
+  "f0039.jpg",
+  "f0040.jpg",
+  "f0041.jpg",
+  "f0042.jpg",
+  "f0043.jpg",
+  "f0044.jpg",
+  "f0045.jpg",
+  "f0046.jpg",
+  "f0047.jpg",
+  "f0048.jpg",
+  "f0049.jpg",
+  "f0050.jpg",
+  "f0051.jpg",
+  "f0052.jpg",
+  "f0053.jpg",
+  "f0054.jpg",
+  "f0055.jpg",
+  "f0056.jpg",
+  "f0057.jpg",
+  "f0058.jpg",
+  "f0059.jpg",
+  "f0060.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -17.2,
+  "lufs_short_term_max": -14,
+  "true_peak_db": -0.8,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.092,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 108.475,
+    "end": 108.81
+   },
+   {
+    "start": 117.24,
+    "end": 117.44
+   },
+   {
+    "start": 117.55,
+    "end": 120.134
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 9.5,
+    "label": "A"
+   },
+   {
+    "start": 9.5,
+    "end": 17.5,
+    "label": "B"
+   },
+   {
+    "start": 17.5,
+    "end": 45.5,
+    "label": "C"
+   },
+   {
+    "start": 45.5,
+    "end": 70,
+    "label": "D"
+   },
+   {
+    "start": 70,
+    "end": 79.5,
+    "label": "E"
+   },
+   {
+    "start": 79.5,
+    "end": 87.5,
+    "label": "F"
+   },
+   {
+    "start": 87.5,
+    "end": 93.5,
+    "label": "G"
+   },
+   {
+    "start": 93.5,
+    "end": 105.5,
+    "label": "H"
+   },
+   {
+    "start": 105.5,
+    "end": 114.5,
+    "label": "I"
+   },
+   {
+    "start": 114.5,
+    "end": 120.134,
+    "label": "J"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.839
+   ],
+   [
+    "music",
+    0.649
+   ],
+   [
+    "keyboard_musical",
+    0.276
+   ],
+   [
+    "plucked_string_instrument",
+    0.164
+   ],
+   [
+    "percussion",
+    0.147
+   ],
+   [
+    "piano",
+    0.138
+   ],
+   [
+    "synthesizer",
+    0.133
+   ],
+   [
+    "mallet_percussion",
+    0.121
+   ]
+  ],
+  "lra_lu": 5.4,
+  "cuts_on_strong_onset_share": 0.075,
+  "chance_share": 0.084,
+  "strong_onsets_per_min": 22.5
+ },
+ "look": {
+  "luma": 86.2,
+  "contrast": 49.6,
+  "saturation": 0.356,
+  "bw_share": 0,
+  "warmth": 18.7
+ }
+}

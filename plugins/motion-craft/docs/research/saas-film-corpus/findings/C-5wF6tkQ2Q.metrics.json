@@ -1,0 +1,162 @@
+{
+ "id": "C-5wF6tkQ2Q",
+ "title": "Claude Cowork is now your Chrome side panel",
+ "uploader": "Claude",
+ "duration_s": 41.24,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 6,
+  "cuts_per_min": 8.73,
+  "cut_times_s": [
+   3,
+   5.08,
+   5.96,
+   7.17,
+   14.5,
+   19.33
+  ],
+  "median_shot_s": 3,
+  "mean_shot_s": 5.89,
+  "shots_over_10s": 1,
+  "first_cut_s": 3,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 19.33,
+   "end": 41.24,
+   "seconds": 21.91,
+   "share_of_runtime": 0.531
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 5,
+   "flash": 0,
+   "appear": 11,
+   "disappear": 4,
+   "change": 46,
+   "hold": 20
+  },
+  "holds_over_1s": 8,
+  "median_hold_s": 1.33,
+  "longest_hold_s": 3.38,
+  "windows": 26
+ },
+ "frames": {
+  "count": 21,
+  "not_evidence_frames": [
+   "f0002.jpg"
+  ],
+  "dark_share": 0.0,
+  "light_share": 1.0,
+  "median_contentful_cells": 0.281,
+  "intervals_new_composition_share": 0.3,
+  "intervals_static_share": 0.2,
+  "longest_static_run_s": 6,
+  "longest_static_run_ends_at_s": 40,
+  "frame0": {
+   "meanLuminance": 0.9663,
+   "contentfulCells": 0.175,
+   "blankCells": 0.825,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -15.4,
+  "lufs_short_term_max": -13.4,
+  "true_peak_db": -1.5,
+  "bpm": 128.1,
+  "beats": {
+   "count": 80,
+   "confidence": 0.547,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 39.735,
+    "end": 41.234
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 5,
+    "label": "A"
+   },
+   {
+    "start": 5,
+    "end": 41.234,
+    "label": "B"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.787
+   ],
+   [
+    "brass_instrument",
+    0.59
+   ],
+   [
+    "trombone",
+    0.515
+   ],
+   [
+    "trumpet",
+    0.463
+   ],
+   [
+    "percussion",
+    0.388
+   ],
+   [
+    "orchestra",
+    0.381
+   ],
+   [
+    "drum",
+    0.377
+   ],
+   [
+    "drum_kit",
+    0.303
+   ]
+  ],
+  "lra_lu": 6.5,
+  "cuts_on_strong_onset_share": 0.167,
+  "chance_share": 0.057,
+  "strong_onsets_per_min": 18.9
+ },
+ "look": {
+  "luma": 228.7,
+  "contrast": 29.6,
+  "saturation": 0.05,
+  "bw_share": 0.44,
+  "warmth": -2.2
+ }
+}

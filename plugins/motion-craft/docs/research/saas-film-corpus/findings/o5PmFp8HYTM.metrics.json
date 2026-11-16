@@ -1,0 +1,178 @@
+{
+ "id": "o5PmFp8HYTM",
+ "title": "Stay in Flow From Document Intake to Final Deliverable",
+ "uploader": "Harvey",
+ "duration_s": 51.02,
+ "fps": 30,
+ "rhythm": {
+  "hard_cuts": 2,
+  "cuts_per_min": 2.35,
+  "cut_times_s": [
+   1.3,
+   46.97
+  ],
+  "median_shot_s": 4.05,
+  "mean_shot_s": 17.01,
+  "shots_over_10s": 1,
+  "first_cut_s": 1.3,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 1.3,
+   "end": 46.97,
+   "seconds": 45.67,
+   "share_of_runtime": 0.895
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 3,
+   "flash": 0,
+   "appear": 1,
+   "disappear": 3,
+   "change": 23,
+   "hold": 22
+  },
+  "holds_over_1s": 16,
+  "median_hold_s": 1.45,
+  "longest_hold_s": 3.97,
+  "windows": 23
+ },
+ "frames": {
+  "count": 26,
+  "not_evidence_frames": [
+   "f0002.jpg"
+  ],
+  "dark_share": 0.154,
+  "light_share": 0.846,
+  "median_contentful_cells": 0.263,
+  "intervals_new_composition_share": 0.08,
+  "intervals_static_share": 0.4,
+  "longest_static_run_s": 6,
+  "longest_static_run_ends_at_s": 8,
+  "frame0": {
+   "meanLuminance": 0.0589,
+   "contentfulCells": 0.05,
+   "blankCells": 0.95,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -14.4,
+  "lufs_short_term_max": -12.9,
+  "true_peak_db": -1.8,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.033,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [],
+  "sections": [
+   {
+    "start": 0,
+    "end": 9.5,
+    "label": "A"
+   },
+   {
+    "start": 9.5,
+    "end": 19,
+    "label": "B"
+   },
+   {
+    "start": 19,
+    "end": 28.5,
+    "label": "C"
+   },
+   {
+    "start": 28.5,
+    "end": 37.5,
+    "label": "D"
+   },
+   {
+    "start": 37.5,
+    "end": 47,
+    "label": "E"
+   },
+   {
+    "start": 47,
+    "end": 51.014,
+    "label": "F"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.727
+   ],
+   [
+    "keyboard_musical",
+    0.478
+   ],
+   [
+    "synthesizer",
+    0.359
+   ],
+   [
+    "gong",
+    0.259
+   ],
+   [
+    "organ",
+    0.258
+   ],
+   [
+    "singing_bowl",
+    0.234
+   ],
+   [
+    "foghorn",
+    0.223
+   ],
+   [
+    "percussion",
+    0.215
+   ]
+  ],
+  "lra_lu": 2.1,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.066,
+  "strong_onsets_per_min": 18.8
+ },
+ "look": {
+  "luma": 222.8,
+  "contrast": 14.3,
+  "saturation": 0.019,
+  "bw_share": 0.77,
+  "warmth": 0.5
+ }
+}

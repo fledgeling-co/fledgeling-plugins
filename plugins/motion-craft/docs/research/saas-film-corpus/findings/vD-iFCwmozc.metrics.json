@@ -1,0 +1,176 @@
+{
+ "id": "vD-iFCwmozc",
+ "title": "Harvey for Outlook: Draft, Summarize, and Respond with AI",
+ "uploader": "Harvey",
+ "duration_s": 40.1,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 1,
+  "cuts_per_min": 1.5,
+  "cut_times_s": [
+   3
+  ],
+  "median_shot_s": 20.05,
+  "mean_shot_s": 20.05,
+  "shots_over_10s": 1,
+  "first_cut_s": 3,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 3,
+   "end": 40.1,
+   "seconds": 37.1,
+   "share_of_runtime": 0.925
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 0,
+   "flash": 0,
+   "appear": 2,
+   "disappear": 3,
+   "change": 14,
+   "hold": 16
+  },
+  "holds_over_1s": 13,
+  "median_hold_s": 1.5,
+  "longest_hold_s": 4.75,
+  "windows": 16
+ },
+ "frames": {
+  "count": 20,
+  "not_evidence_frames": [
+   "f0004.jpg",
+   "f0015.jpg"
+  ],
+  "dark_share": 0.0,
+  "light_share": 1.0,
+  "median_contentful_cells": 0.116,
+  "intervals_new_composition_share": 0.0,
+  "intervals_static_share": 0.579,
+  "longest_static_run_s": 10,
+  "longest_static_run_ends_at_s": 14,
+  "frame0": {
+   "meanLuminance": 0.9784,
+   "contentfulCells": 0.0312,
+   "blankCells": 0.9688,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -13.6,
+  "lufs_short_term_max": -12.2,
+  "true_peak_db": 0.3,
+  "bpm": 94.1,
+  "beats": {
+   "count": 62,
+   "confidence": 0.201,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 38.6,
+    "end": 38.885
+   },
+   {
+    "start": 39.01,
+    "end": 40.094
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 6.315,
+    "label": "A"
+   },
+   {
+    "start": 6.315,
+    "end": 17.155,
+    "label": "B"
+   },
+   {
+    "start": 17.155,
+    "end": 24.795,
+    "label": "C"
+   },
+   {
+    "start": 24.795,
+    "end": 32.445,
+    "label": "D"
+   },
+   {
+    "start": 32.445,
+    "end": 40.094,
+    "label": "E"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.884
+   ],
+   [
+    "orchestra",
+    0.512
+   ],
+   [
+    "keyboard_musical",
+    0.478
+   ],
+   [
+    "plucked_string_instrument",
+    0.406
+   ],
+   [
+    "bowed_string_instrument",
+    0.402
+   ],
+   [
+    "piano",
+    0.316
+   ],
+   [
+    "zither",
+    0.309
+   ],
+   [
+    "mandolin",
+    0.3
+   ]
+  ],
+  "lra_lu": 4.4,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.048,
+  "strong_onsets_per_min": 12.0
+ },
+ "look": {
+  "luma": 244.9,
+  "contrast": 18.6,
+  "saturation": 0.01,
+  "bw_share": 0.5,
+  "warmth": -1.6
+ }
+}

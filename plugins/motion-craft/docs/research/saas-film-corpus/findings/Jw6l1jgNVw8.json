@@ -1,0 +1,153 @@
+{
+ "id": "Jw6l1jgNVw8",
+ "title": "Run End-to-End Legal Work with Harvey Agents",
+ "brand": "Harvey",
+ "duration_s": 67.3,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "Five-chapter walkthrough of one legal task, plan to review, on a light ground with a dark intro card and dark closing statement; no voice.",
+ "one_thing": "Agents handle the work end to end while the lawyer keeps the judgment, shown as one due-diligence request moving through five chapters.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No speech. Local whisper returned only the repeated word 'The'; the only caption track is Belarusian-tagged ('be'), not English.",
+  "script_shape": "All copy is on screen: Introducing line, a 01-05 chapter index, five 'Agents that ...' chapter titles, a two-line closing statement, then a wordmark."
+ },
+ "structure": {
+  "frame0": "Pure white with the serif wordmark 'Harvey' centred and small (f0001.jpg); first two frames blank, wordmark from 0.1s (strips/window-01-0.033s.jpg).",
+  "first_3s": "Wordmark becomes 'Harvey Agents' by 1.9s, then a prompt box types 'Hey, Harvey - Help me prepare a red flag report for Project Alpha's diligence review' from 2.3s (window-03).",
+  "beats": [
+   {"start_s": 0, "end_s": 2, "role": "logo", "what": "Wordmark 'Harvey' then 'Harvey Agents' on white."},
+   {"start_s": 2, "end_s": 5.1, "role": "hook", "what": "Prompt box types the red-flag report request; cursor clicks send at about 5s."},
+   {"start_s": 5.17, "end_s": 7.77, "role": "reveal", "what": "Dark card: 'Introducing Agents that work end-to-end'."},
+   {"start_s": 7.77, "end_s": 12, "role": "setup", "what": "Chapter index builds: 01 Plan to 05 Review."},
+   {"start_s": 12, "end_s": 21.7, "role": "demo", "what": "'Agents that plan': audience question with cursor pick, then a five-step Agent Plan checklist."},
+   {"start_s": 21.7, "end_s": 27.9, "role": "demo", "what": "'Agents that research': working log with case law and file sources."},
+   {"start_s": 27.9, "end_s": 35.5, "role": "demo", "what": "'Agents that work async': task table with status pills moving to Ready for review."},
+   {"start_s": 35.5, "end_s": 51, "role": "demo", "what": "'Agents that deliver': five files generated, cursor opens the Q4 Board Presentation slide."},
+   {"start_s": 51, "end_s": 57.7, "role": "proof", "what": "'Agents that work with you': redlined memo, Harvey edit card, cursor clicks Accept."},
+   {"start_s": 57.7, "end_s": 62, "role": "payoff", "what": "Dark: 'Delegate the Work.' then 'Delegate the Work. Own the Judgment.'"},
+   {"start_s": 62, "end_s": 67.3, "role": "cta", "what": "'Harvey Agents' wordmark held on dark."}
+  ],
+  "hero_moment": {
+   "t_s": 56,
+   "share": 0.832,
+   "what": "Cursor clicks Accept on the Harvey edit card over the redlined memo, the point where the human takes the judgment (f0028.jpg)."
+  },
+  "ending": {
+   "cta_text": "Harvey Agents",
+   "logo_hold_s": 5.3,
+   "what": "Two-line statement lands at about 60s, then wordmark holds on dark from 62s to the end; audio silence only the last 1.3s."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 5,
+  "cuts_per_min": 4.46,
+  "median_shot_s": 5.94,
+  "how_change_is_paced": "Three verified hard cuts (5.17, 7.77, 57.7s); one shot runs 40.4s (60% of runtime) and changes inside, a new title or UI card about every 6-8s. No burst. 60.6% of sampled intervals static."
+ },
+ "look": {
+  "ground": "Near-white (frame0 luminance 0.997) for the body, near-black warm (about #0e0e0a) for intro and closing; light share 0.765, dark 0.176.",
+  "palette": ["white", "near-black", "warm grey card #f6f5f2", "navy slide #1b2540", "amber status pill", "blue Ready-for-review pill", "magenta strike and lilac redline"],
+  "accent_use": "Colour appears only inside product UI (status pills, redline, slide gold headings); film chrome stays black on white. Saturation 0.042.",
+  "type": "Grotesque sans for chapter titles and UI, high-contrast serif for 'Harvey' and the closing statement; 'Harvey Agents' sets serif beside bold sans. Titles left-aligned at left rail once UI enters.",
+  "title_height_pct": [6.9, 9.7],
+  "title_measurements": [
+   {"t_s": 6, "text": "Agents that work end-to-end", "line_height_px": 50, "frame_height_px": 720, "pct": 6.9},
+   {"t_s": 13, "text": "Agents that plan", "line_height_px": 50, "frame_height_px": 720, "pct": 6.9},
+   {"t_s": 40, "text": "Agents that deliver", "line_height_px": 50, "frame_height_px": 720, "pct": 6.9},
+   {"t_s": 54, "text": "Agents that work with you (two lines, 102px total)", "line_height_px": 51, "frame_height_px": 720, "pct": 7.1},
+   {"t_s": 58.5, "text": "Delegate the Work.", "line_height_px": 69, "frame_height_px": 720, "pct": 9.6},
+   {"t_s": 65, "text": "Harvey Agents", "line_height_px": 60, "frame_height_px": 720, "pct": 8.3}
+  ],
+  "max_words_per_title_line": 5,
+  "density": "sparse",
+  "depth": "Flat. UI cards carry a faint soft shadow on white; no parallax or layering. Cards bleed off the right edge."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 70,
+  "shown_as": ["real-ui-capture", "floating-ui-cards"],
+  "cursor": "real",
+  "camera_on_ui": "No zoom or pan; cards are fixed-size and slide in from the right beside a left title. At 48s the file panel slides left and a document viewer fills the right.",
+  "legible_at_phone_width": "partly",
+  "notes": "Titles and the closing are legible. Task-table rows measure about 14px on a 720px frame (1.9%), research log about 9px; slide and memo text are readable only because they fill the right half."
+ },
+ "motion": {
+  "text_entry": "Prompt types character by character with a caret (window-03). Chapter index builds left to right (f0005, f0006). Titles swap in place at centre, then slide left when the UI arrives (window-08). Closing words fade in as a phrase.",
+  "ui_motion": "Cards enter from the right and fade up; rows appear in sequence; file names type ('Due Diligence Memo.do' to .docx, f0021); status pills change state; the cursor hovers rows and clicks.",
+  "camera": "Static. One push-or-slide at 48s (window-21: panel slides left, slide viewer fades up).",
+  "eases": "Not measured numerically; strips show soft settles on card entries and a fade-up on the slide viewer, no overshoot seen.",
+  "transitions": [
+   {"type": "hard-cut", "count": 3, "example_t_s": 5.17, "cause": "Cursor clicks send, then the screen cuts to the dark Introducing card."},
+   {"type": "ui-state-change", "count": 8, "example_t_s": 28, "cause": "Chapter title swap on a new beat, with a new UI card entering."},
+   {"type": "push-or-slide", "count": 1, "example_t_s": 48.2, "cause": "Cursor clicks the pptx row, panel slides left and the slide viewer opens."}
+  ],
+  "strips_read": [
+   "window-01-0.033s.jpg: two blank white frames, wordmark at 0.1s",
+   "window-03-1.933s.jpg: Harvey Agents to typed prompt, box scales down",
+   "window-04-5.1s.jpg: send click to dark Introducing, hard cut at 5.17s",
+   "window-06-7.7s.jpg: hard cut from dark title to white chapter index",
+   "window-08-13.6s.jpg: title slides left while question card enters",
+   "window-21-47.566s.jpg: click then panel slide into slide viewer",
+   "window-25-57.633s.jpg: hard cut at 57.7s, 'Delegate the' fades in"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {"t_s": 5.5, "text": "Introducing Agents that work end-to-end", "words": 5, "hold_s": 2.6},
+   {"t_s": 10, "text": "01 Plan 02 Research 03 Work 04 Deliver 05 Review", "words": 5, "hold_s": 2},
+   {"t_s": 12, "text": "Agents that plan", "words": 3, "hold_s": 9.7},
+   {"t_s": 22, "text": "Agents that research", "words": 3, "hold_s": 5.9},
+   {"t_s": 28, "text": "Agents that work async", "words": 4, "hold_s": 7.6},
+   {"t_s": 36, "text": "Agents that deliver", "words": 3, "hold_s": 15},
+   {"t_s": 52, "text": "Agents that work with you", "words": 5, "hold_s": 5.7},
+   {"t_s": 58.5, "text": "Delegate the Work.", "words": 3, "hold_s": 1.5},
+   {"t_s": 60, "text": "Delegate the Work. Own the Judgment.", "words": 6, "hold_s": 2},
+   {"t_s": 62, "text": "Harvey Agents", "words": 2, "hold_s": 5.3}
+  ],
+  "holds_vs_reading_rule": "Rule needs 1.4s for a 3-word title; chapter titles stay 5.7-15s because they sit beside moving UI. Closing two-line statement holds about 2s, near the minimum; the wordmark holds 5.3s."
+ },
+ "sound": {
+  "music": "Music only. Describe tags: bowed_string_instrument 0.797, violin_fiddle 0.796, cello 0.675, orchestra 0.62. No steady beat (confidence 0.051); seven sections A-G.",
+  "sfx": "Not established. Describe tags carry no click or UI sound above 0.2; strong onsets run 57.1 per minute.",
+  "vo_music_balance": "No voice, so music carries the whole track at -13.9 LUFS integrated, short-term max -10.2, true peak -2.2 dBTP, LRA 9.7 LU.",
+  "energy_arc": "Sections change at 5, 13.5, 30.5, 39.5, 45.5, 62s; loudness range 9.7 LU. Silence only from 66.0s to the end.",
+  "sync_to_picture": "cuts_on_strong_onset_share 0.40 against chance 0.149, 0.25 above chance; with only 5 cuts that is 2 hits, so a weak signal, not a locked track."
+ },
+ "good": [
+  {"observation": "One continuous task, a red-flag diligence report, carries all five chapters; each title is a verb the viewer just watched happen.", "evidence": "f0002-f0028; titles at 12, 22, 28, 36, 52s"},
+  {"observation": "The 01-05 chapter index previews the structure before chapters begin, so a long static-looking body reads as progress.", "evidence": "f0005.jpg, f0006.jpg, t=8-12s"},
+  {"observation": "Real-looking product screens with specific content (case names, file names, redline with percentages) read as credible legal work.", "evidence": "crops/research-log.png, crops/redline.png"},
+  {"observation": "Titles stay one line, 3-5 words, 6.9% of frame height, in the same position beat after beat, so the eye always knows where to look.", "evidence": "title_measurements; f0007, f0019"},
+  {"observation": "The ending states the thesis in two short sentences, then holds the wordmark 5.3s on dark, matching the opening ground flip.", "evidence": "f0029.jpg-f0034.jpg; crops/closing-lines.png"},
+  {"observation": "A real cursor clicks send, a file row and Accept, so each beat has a visible cause, including the hard cut at 5.17s.", "evidence": "window-04-5.1s.jpg; f0003, f0022, f0028"}
+ ],
+ "weak": [
+  {"observation": "Much UI text is small for a phone: task rows about 14px (1.9% of height), research log about 9px, with no zoom to compensate.", "evidence": "crops/async-table.png; f0013.jpg"},
+  {"observation": "The film is static 60.6% of sampled intervals and the longest shot is 40.4s; there is no burst or peak, so energy stays flat.", "evidence": "metrics intervals_static_share 0.606; longest_shot 40.4s"},
+  {"observation": "Cards bleed off the right edge, cutting off column text such as 'Merger agr' and 'Indemnifica'.", "evidence": "crops/async-table.png; f0014.jpg"},
+  {"observation": "Frame 0 is a small lone wordmark on white, with two blank frames first.", "evidence": "f0001.jpg; window-01-0.033s.jpg"}
+ ],
+ "rule_candidates": [
+  {"rule": "Keep a fixed title rail and let UI cards change around it: title lands once, slides to the left rail, then holds still while only the UI beside it moves.", "evidence": "'Agents that plan' holds about 9.7s while question and plan cards enter; window-08-13.6s.jpg", "relation": "extends", "skill_rule": "4"},
+  {"rule": "A calm explainer may run long shots: here 5 hard cuts, median shot 5.94s, one 40.4s shot, with a UI or title change about every 6-8s inside it.", "evidence": "metrics rhythm.longest_shot share 0.6; bursts empty", "relation": "contradicts", "skill_rule": "8"},
+  {"rule": "Preview the structure with a numbered chapter index (01-05, 5 items), then name each chapter with one parallel 3-5 word title.", "evidence": "f0006.jpg at 10s; titles 'Agents that plan/research/work async/deliver/work with you'", "relation": "new", "skill_rule": "none"},
+  {"rule": "Titles of 6.9% height on one line, at most 5 words, fit the band; a serif closing statement can reach 9.6%.", "evidence": "title_measurements 50px and 69px on 720px", "relation": "confirms", "skill_rule": "3"},
+  {"rule": "A frame-0 wordmark alone on white was used here, with the product prompt typing from 2.3s; the subject should be in frame by 1s instead.", "evidence": "f0001.jpg contentful cells 0.0375; window-03-1.933s.jpg", "relation": "contradicts", "skill_rule": "1"},
+  {"rule": "Flip the ground for brand bookends: dark intro (5.17-7.77s) and dark close (57.7-67.3s) around a white product body; each flip is a hard cut after a click.", "evidence": "look.json light_share 0.765, dark_share 0.176; window-04, window-25", "relation": "new", "skill_rule": "none"},
+  {"rule": "Scale UI so row text is at least 2.6% of frame height (19px at 720); this film's 14px task rows read as texture, not facts.", "evidence": "crops/async-table.png, row text about 14px (1.9%)", "relation": "confirms", "skill_rule": "2"},
+  {"rule": "Master music-only social films near -14 LUFS with true peak under -1 dBTP: this film sits at -13.9 LUFS and -2.2 dBTP.", "evidence": "metrics sound.lufs_integrated -13.9, true_peak_db -2.2", "relation": "confirms", "skill_rule": "9"}
+ ],
+ "frames_opened": 34,
+ "crops_made": 6,
+ "unchecked": [
+  "Strips window-22 (51s) and others not opened; the 48.17s and 51s detections are read as in-shot UI changes (48s verified), not hard cuts.",
+  "Ease curves not measured numerically.",
+  "No sound effects can be confirmed; no describe tag above 0.2 names one.",
+  "No speech: the only caption track is not English and whisper returned a single repeated word.",
+  "Phone-width legibility judged from pixel heights, not on a phone-sized render."
+ ]
+}

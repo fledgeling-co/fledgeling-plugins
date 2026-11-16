@@ -1,0 +1,142 @@
+{
+ "id": "vD-iFCwmozc",
+ "title": "Harvey for Outlook: Draft, Summarize, and Respond with AI",
+ "brand": "Harvey",
+ "duration_s": 40.1,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "Silent-narration music-only walkthrough: phone prompt, drafted email, then Outlook side panel, closing on a Microsoft partnership lockup and Coming Soon.",
+ "one_thing": "Harvey's AI drafts and edits a legal email inside Outlook, and it is coming soon.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No voice. Whisper output was the typed prompt text plus a hallucinated Thank you; the film is music only.",
+  "script_shape": "All copy is on screen: tagline, a typed user prompt, UI text, partner lockup, Coming Soon, closing line. Story told by product UI, not captions."
+ },
+ "structure": {
+  "frame0": "Near-white ground with the word Harvey in a serif, centred. A lone wordmark, but it is the brand subject; no product shown. contentfulCells 0.031.",
+  "first_3s": "Harvey wordmark morphs into the tagline Legal Work, On the Move. (words appear one by one from 1.5 s to 1.75 s), held about 1.3 s, then a hard cut to a phone at 3.0 s.",
+  "beats": [
+   {"start_s": 0, "end_s": 1.5, "role": "hook", "what": "Harvey wordmark centred on off-white."},
+   {"start_s": 1.5, "end_s": 3, "role": "setup", "what": "Tagline Legal Work, On the Move. types in word by word and holds."},
+   {"start_s": 3, "end_s": 5.8, "role": "setup", "what": "Phone with Harvey app home screen appears, then dissolves down to just its input bar."},
+   {"start_s": 5.8, "end_s": 9.5, "role": "demo", "what": "Attach menu: Scan document, Upload from Vault, Upload from phone files highlighted, Web search, Knowledge source."},
+   {"start_s": 9.5, "end_s": 15.5, "role": "demo", "what": "Prompt card with attached 24 Sept 2025 Meeting Notes; voice waveform and typed prompt Draft an email summarizing the attached meeting notes."},
+   {"start_s": 15.5, "end_s": 19, "role": "reveal", "what": "Card morphs into a phone; the drafted email Post-Meeting Summary and Required Next Steps streams in."},
+   {"start_s": 19, "end_s": 28, "role": "demo", "what": "Phone grows into the Outlook window with Harvey for Outlook panel; Make this email more concise; email text rewrites shorter."},
+   {"start_s": 28, "end_s": 30.3, "role": "turn", "what": "Everything clears to a single Send button, which morphs into the lockup."},
+   {"start_s": 30.3, "end_s": 33.5, "role": "proof", "what": "Harvey / Microsoft lockup, then Outlook, SharePoint and Word icons."},
+   {"start_s": 33.5, "end_s": 40.1, "role": "cta", "what": "Coming Soon, then AI Tailored for Law with Harvey wordmark below."}
+  ],
+  "hero_moment": {"t_s": 26, "share": 0.648, "what": "Outlook window with the email visibly rewriting itself shorter after Make this email more concise, text fading in and out mid-edit."},
+  "ending": {"cta_text": "Coming Soon; AI Tailored for Law", "logo_hold_s": 4.1, "what": "Serif line AI Tailored for Law centred with a small Harvey wordmark underneath, held static to the end."}
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 1,
+  "cuts_per_min": 1.5,
+  "median_shot_s": 20.05,
+  "how_change_is_paced": "One hard cut at 3.0 s, then one 37 s shot in which a single UI object resizes, dissolves and morphs into the next scene. Scene changes land about every 3 to 8 s, with static stretches up to 10 s (intervals_static_share 0.579)."
+ },
+ "look": {
+  "ground": "Flat off-white (mean luminance 0.978, light_share 1.0), no gradients; UI sits on it as white cards with faint shadows.",
+  "palette": ["off-white #FAFAFA", "black text", "Harvey purple accent on buttons", "Outlook blue chrome", "Microsoft logo colours at the end"],
+  "accent_use": "Purple used only on send/stop buttons and waveform in the Harvey app; the black send arrow in the Outlook panel; blue Outlook title bar is the only large colour area.",
+  "type": "Centred high-contrast serif for brand and titles (Legal Work, On the Move.; Coming Soon; AI Tailored for Law); small sans for UI. Titles are sentence-weight, no bold, no accent word.",
+  "title_height_pct": [6.9, 8.9],
+  "title_measurements": [
+   {"t_s": 1, "text": "Harvey", "line_height_px": 50, "frame_height_px": 720, "pct": 6.9},
+   {"t_s": 2.5, "text": "Legal Work, On the Move.", "line_height_px": 64, "frame_height_px": 720, "pct": 8.9},
+   {"t_s": 34, "text": "Coming Soon", "line_height_px": 51, "frame_height_px": 720, "pct": 7.1},
+   {"t_s": 37, "text": "AI Tailored for Law", "line_height_px": 51, "frame_height_px": 720, "pct": 7.1},
+   {"t_s": 38, "text": "Harvey (closing wordmark)", "line_height_px": 38, "frame_height_px": 720, "pct": 5.3}
+  ],
+  "max_words_per_title_line": 5,
+  "density": "sparse",
+  "depth": "Flat; cards carry soft shadows and the phone has a bezel, but there is no parallax or layering."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 68,
+  "shown_as": ["redrawn-simplified-ui", "device-mockup"],
+  "cursor": "real",
+  "camera_on_ui": "Scale changes act as the camera: the prompt card is shown large, the phone is shrunk to an object, the Outlook window zooms in on the sidebar at 22 to 24 s and pulls back to full at 26 s.",
+  "legible_at_phone_width": "partly",
+  "notes": "Prompt card, attach menu and sidebar read well (crops/prompt.png, menu.png, sidebar.png). The full Outlook window at t=20 and t=26 has body text about 9 px high, below phone legibility; the email body is only readable at the zoom."
+ },
+ "motion": {
+  "text_entry": "Tagline appears word by word, each word fading from grey to black over about 1 frame step (strips/window-01-1.459s.jpg, 1.54 to 1.75 s). The typed prompt and email text fade in progressively word by word.",
+  "ui_motion": "Prompt card, phone and Outlook window are one object that scales and cross-fades into the next view. Waveform dots animate while typing; the send button turns into a spinner at 14 s.",
+  "camera": "Zoom into the Outlook sidebar at 22 to 24 s and a pull-back at 26 s; the rest is scale-and-fade, no pans.",
+  "eases": "Not measured directly. Strips show soft dissolves of about 0.3 to 1 s and a very fast hard cut at 3.0 s.",
+  "transitions": [
+   {"type": "hard-cut", "count": 1, "example_t_s": 3, "cause": "Tagline cut to phone with dark screen and H logo."},
+   {"type": "cross-dissolve", "count": 3, "example_t_s": 5.4, "cause": "Phone fades to bare input bar (strips/window-04); same family at 19 s to Outlook."},
+   {"type": "morph-or-shared-element", "count": 3, "example_t_s": 30.2, "cause": "Send button morphs into Harvey / Microsoft lockup (strips/window-12)."},
+   {"type": "ui-state-change", "count": 4, "example_t_s": 14, "cause": "Prompt sent, send button spins, next scene shows result."},
+   {"type": "continuous-camera-move", "count": 1, "example_t_s": 22, "cause": "Zoom to Harvey for Outlook panel where the prompt is typed."}
+  ],
+  "strips_read": [
+   "strips/window-01-1.459s.jpg: Harvey becomes Legal Work, On the Move. word by word",
+   "strips/window-02-2.75s.jpg: hard cut at 3.0 s to dark phone with H",
+   "strips/window-04-4.959s.jpg: phone fades, input bar remains by 5.6 s",
+   "strips/window-07-15.417s.jpg: prompt card morphs to phone 16.1 to 16.8 s",
+   "strips/window-08-18.459s.jpg: phone scales and becomes Outlook 18.9 to 19.6 s",
+   "strips/window-12-30.042s.jpg: Send button morphs to Harvey / Microsoft",
+   "strips/window-13-31.459s.jpg: lockup swaps to three app icons at 31.7 s",
+   "strips/window-16-35.25s.jpg: Coming Soon to AI Tailored for Law, Harvey fades in"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {"t_s": 1.75, "text": "Legal Work, On the Move.", "words": 5, "hold_s": 1.25},
+   {"t_s": 9.5, "text": "24 Sept 2025 Meeting Notes", "words": 5, "hold_s": 5.5},
+   {"t_s": 14, "text": "Draft an email summarizing the attached meeting notes", "words": 8, "hold_s": 1.5},
+   {"t_s": 18, "text": "Post-Meeting Summary and Required Next Steps", "words": 6, "hold_s": 1},
+   {"t_s": 22, "text": "Make this email more concise", "words": 5, "hold_s": 4},
+   {"t_s": 30.4, "text": "Harvey / Microsoft", "words": 2, "hold_s": 1.3},
+   {"t_s": 34, "text": "Coming Soon", "words": 2, "hold_s": 1.9},
+   {"t_s": 36, "text": "AI Tailored for Law", "words": 4, "hold_s": 4.1}
+  ],
+  "holds_vs_reading_rule": "The tagline held about 1.25 s against 2.0 s by rule 2 (0.5 + 0.3 x 5). Coming Soon (1.9 s) is fine. The last line held about 4.1 s, above the 2 s minimum."
+ },
+ "sound": {
+  "music": "Music only (kind music, describe tag music 0.884). Tags: orchestra 0.512, keyboard_musical 0.478, plucked_string_instrument 0.406, bowed_string_instrument 0.402, piano 0.316. About 94 BPM but beat confidence only 0.201.",
+  "sfx": "No sound effects evidenced; audio.json reports music only. Cannot confirm UI clicks or typing sounds.",
+  "vo_music_balance": "No voice; music alone, integrated -13.6 LUFS, short-term max -12.2, LRA 4.4 LU.",
+  "energy_arc": "Five sections (A 0-6.3 s, B to 17.2 s, C to 24.8 s, D to 32.4 s, E to 40.1 s), roughly even; music ends in silence from 38.6 s.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.0 against chance_share 0.048, and there is only one cut."
+ },
+ "good": [
+  {"observation": "The product story is one continuous object transformation (card to phone to Outlook window to Send button to logo lockup), so one scene hands off to the next with no hard cuts after 3 s.", "evidence": "metrics rhythm hard_cuts 1; strips window-07, 08, 12"},
+  {"observation": "The film is calm and sparse: one subject at a time on a flat off-white ground, with only the product's purple and Outlook blue as colour.", "evidence": "look.json bw_share 0.5; frames f0008, f0011"},
+  {"observation": "The typed prompt is real copy a lawyer would write, and the Make this email more concise follow-up shows a second action, so the capability is demonstrated rather than named.", "evidence": "crops/prompt.png, crops/sidebar.png"},
+  {"observation": "The Send button becomes the Harvey / Microsoft lockup, giving a causal, on-screen reason for the partner reveal.", "evidence": "strips/window-12-30.042s.jpg"},
+  {"observation": "Closing hold is long and still: AI Tailored for Law sits unchanged for about 4 s.", "evidence": "f0019.jpg, f0020.jpg; titles at 7.1% of height"}
+ ],
+ "weak": [
+  {"observation": "Full Outlook window at 20 s and 26 s has body text about 9 px high; at phone width the email body and folder list are unreadable until the zoom.", "evidence": "f0011.jpg, f0014.jpg"},
+  {"observation": "Tagline Legal Work, On the Move. holds only about 1.25 s before a hard cut, shorter than the 2.0 s the reading rule allows.", "evidence": "strips/window-01, window-02; measure/cuts.json cut at 3 s"},
+  {"observation": "Peak is above ceiling: true peak +0.3 dBTP, and the sound is not tied to any cut or on-screen event.", "evidence": "metrics sound true_peak_db 0.3, cuts_on_strong_onset_share 0.0"},
+  {"observation": "Frame 0 is only a wordmark and the actual product does not appear until 3 s; the Outlook product, the subject of the title, is not shown until 19 s.", "evidence": "f0001.jpg; f0011.jpg"}
+ ],
+ "rule_candidates": [
+  {"rule": "A single UI object can carry the whole film: scale, dissolve or morph it into the next view instead of cutting. The film has one hard cut in 40 s and still reads as paced.", "evidence": "hard_cuts 1; median_shot_s 20.05; strips window-07, 08", "relation": "contradicts", "skill_rule": "7"},
+  {"rule": "For a minimal calm film the median shot may exceed 3.5 s if something on screen changes at least every 8 s; a 20 s shot works when the object keeps transforming.", "evidence": "longest_shot 37.1 s; longest_static_run_s 10", "relation": "contradicts", "skill_rule": "10"},
+  {"rule": "Show the product's real action in two steps: a typed prompt and a follow-up edit prompt, so the viewer sees what the tool does rather than a label.", "evidence": "f0008.jpg, f0012.jpg", "relation": "confirms", "skill_rule": "10"},
+  {"rule": "Make the brand or partner lockup an effect of the last UI action, for example a Send button that morphs into the logo, rather than a new slide.", "evidence": "strips/window-12-30.042s.jpg, t=30.0 to 30.4 s", "relation": "new", "skill_rule": "none"},
+  {"rule": "Titles in a sparse serif film can sit at 7 to 9 % of frame height centred on a flat ground; measured 6.9, 8.9, 7.1, 7.1 %.", "evidence": "title_measurements at t=1, 2.5, 34, 37", "relation": "confirms", "skill_rule": "3"},
+  {"rule": "After a wide window shot, zoom to the panel in use within 2 s so text exceeds 2.6 % of height; full-window text was about 1.3 %.", "evidence": "f0011.jpg vs f0012.jpg", "relation": "extends", "skill_rule": "2"},
+  {"rule": "Close with the status line as a static hold of about 4 s: Coming Soon then AI Tailored for Law; measured hold 4.1 s on the last title.", "evidence": "f0019.jpg, f0020.jpg", "relation": "confirms", "skill_rule": "2"},
+  {"rule": "Do not rely on a music bed unlocked from picture for a sync claim: with one cut and 0.0 share on onsets, measure the music peak against the hero moment before adding sound.", "evidence": "cuts_on_strong_onset_share 0.0; chance_share 0.048", "relation": "extends", "skill_rule": "8"}
+ ],
+ "frames_opened": 20,
+ "crops_made": 5,
+ "unchecked": [
+  "Transcript tool was not found in ToolSearch; used local whisper, which returned prompt text and a hallucinated Thank you, so source is none.",
+  "No audio listening: SFX and music sync to the hero moment unverified.",
+  "Ease curves not measured; durations come from strips only.",
+  "Ink heights at t=1 and t=2.5 include descenders and were clipped by the ROI width, so they are upper-bound estimates."
+ ]
+}

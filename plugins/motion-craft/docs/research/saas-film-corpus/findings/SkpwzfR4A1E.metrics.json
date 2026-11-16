@@ -1,0 +1,488 @@
+{
+ "id": "SkpwzfR4A1E",
+ "title": "Claude's new mobile app updates are here",
+ "uploader": "Claude",
+ "duration_s": 152.06,
+ "fps": 30,
+ "rhythm": {
+  "hard_cuts": 16,
+  "cuts_per_min": 6.31,
+  "cut_times_s": [
+   2.97,
+   11.57,
+   22.8,
+   29.77,
+   44.23,
+   69.87,
+   70.73,
+   71.13,
+   83,
+   98.73,
+   106.93,
+   107.23,
+   109.77,
+   127,
+   144,
+   147.2
+  ],
+  "median_shot_s": 8.2,
+  "mean_shot_s": 8.94,
+  "shots_over_10s": 7,
+  "first_cut_s": 2.97,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 44.23,
+   "end": 69.87,
+   "seconds": 25.63,
+   "share_of_runtime": 0.169
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 3,
+   "flash": 0,
+   "appear": 30,
+   "disappear": 30,
+   "change": 135,
+   "hold": 55
+  },
+  "holds_over_1s": 17,
+  "median_hold_s": 0.97,
+  "longest_hold_s": 10.07,
+  "windows": 97
+ },
+ "frames": {
+  "count": 76,
+  "not_evidence_frames": [],
+  "dark_share": 0.013,
+  "light_share": 0.461,
+  "median_contentful_cells": 0.356,
+  "intervals_new_composition_share": 0.267,
+  "intervals_static_share": 0.293,
+  "longest_static_run_s": 10,
+  "longest_static_run_ends_at_s": 122,
+  "frame0": {
+   "meanLuminance": 0.5751,
+   "contentfulCells": 0.425,
+   "blankCells": 0.1125,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0007.jpg",
+  "f0010.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0019.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0025.jpg",
+  "f0028.jpg",
+  "f0031.jpg",
+  "f0034.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0044.jpg",
+  "f0046.jpg",
+  "f0049.jpg",
+  "f0050.jpg",
+  "f0052.jpg",
+  "f0054.jpg",
+  "f0055.jpg",
+  "f0056.jpg",
+  "f0058.jpg",
+  "f0061.jpg",
+  "f0064.jpg",
+  "f0065.jpg",
+  "f0067.jpg",
+  "f0070.jpg",
+  "f0073.jpg",
+  "f0075.jpg",
+  "f0076.jpg"
+ ],
+ "sound": {
+  "kind": "voice",
+  "lufs_integrated": -13.2,
+  "lufs_short_term_max": -11.8,
+  "true_peak_db": -0.9,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.028,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 5.58,
+    "end": 6.15
+   },
+   {
+    "start": 9.535,
+    "end": 9.92
+   },
+   {
+    "start": 10.975,
+    "end": 11.35
+   },
+   {
+    "start": 11.805,
+    "end": 12.075
+   },
+   {
+    "start": 14.885,
+    "end": 15.105
+   },
+   {
+    "start": 17.19,
+    "end": 17.59
+   },
+   {
+    "start": 20.08,
+    "end": 20.455
+   },
+   {
+    "start": 21.82,
+    "end": 22.3
+   },
+   {
+    "start": 23.4,
+    "end": 23.76
+   },
+   {
+    "start": 26.995,
+    "end": 27.435
+   },
+   {
+    "start": 30.215,
+    "end": 30.65
+   },
+   {
+    "start": 31.285,
+    "end": 31.54
+   },
+   {
+    "start": 37.36,
+    "end": 37.695
+   },
+   {
+    "start": 39.175,
+    "end": 39.44
+   },
+   {
+    "start": 40.5,
+    "end": 40.7
+   },
+   {
+    "start": 42.13,
+    "end": 42.505
+   },
+   {
+    "start": 43.885,
+    "end": 44.155
+   },
+   {
+    "start": 45.325,
+    "end": 45.6
+   },
+   {
+    "start": 47.155,
+    "end": 47.41
+   },
+   {
+    "start": 49.31,
+    "end": 49.635
+   },
+   {
+    "start": 50.905,
+    "end": 51.13
+   },
+   {
+    "start": 53.755,
+    "end": 54.605
+   },
+   {
+    "start": 55.11,
+    "end": 55.485
+   },
+   {
+    "start": 57.475,
+    "end": 57.79
+   },
+   {
+    "start": 58.67,
+    "end": 58.945
+   },
+   {
+    "start": 61.37,
+    "end": 61.68
+   },
+   {
+    "start": 63.02,
+    "end": 63.365
+   },
+   {
+    "start": 64.345,
+    "end": 64.8
+   },
+   {
+    "start": 65.52,
+    "end": 65.86
+   },
+   {
+    "start": 67.315,
+    "end": 67.67
+   },
+   {
+    "start": 68.92,
+    "end": 69.635
+   },
+   {
+    "start": 70.245,
+    "end": 70.555
+   },
+   {
+    "start": 72.67,
+    "end": 73.01
+   },
+   {
+    "start": 75.15,
+    "end": 75.66
+   },
+   {
+    "start": 79.015,
+    "end": 79.41
+   },
+   {
+    "start": 79.715,
+    "end": 80.045
+   },
+   {
+    "start": 81.25,
+    "end": 81.525
+   },
+   {
+    "start": 84.64,
+    "end": 85.01
+   },
+   {
+    "start": 85.725,
+    "end": 86.59
+   },
+   {
+    "start": 87.18,
+    "end": 87.425
+   },
+   {
+    "start": 88.78,
+    "end": 89.27
+   },
+   {
+    "start": 91.71,
+    "end": 92.08
+   },
+   {
+    "start": 95.41,
+    "end": 96.15
+   },
+   {
+    "start": 99.54,
+    "end": 99.9
+   },
+   {
+    "start": 101.89,
+    "end": 102.195
+   },
+   {
+    "start": 103.86,
+    "end": 104.18
+   },
+   {
+    "start": 104.49,
+    "end": 104.81
+   },
+   {
+    "start": 105.61,
+    "end": 106.475
+   },
+   {
+    "start": 110.88,
+    "end": 111.215
+   },
+   {
+    "start": 114.79,
+    "end": 115.065
+   },
+   {
+    "start": 116.04,
+    "end": 116.44
+   },
+   {
+    "start": 119.085,
+    "end": 119.935
+   },
+   {
+    "start": 122.525,
+    "end": 122.965
+   },
+   {
+    "start": 124.01,
+    "end": 124.285
+   },
+   {
+    "start": 126.065,
+    "end": 126.475
+   },
+   {
+    "start": 130.775,
+    "end": 131.06
+   },
+   {
+    "start": 132.94,
+    "end": 133.22
+   },
+   {
+    "start": 138.015,
+    "end": 138.525
+   },
+   {
+    "start": 139.07,
+    "end": 139.335
+   },
+   {
+    "start": 141.095,
+    "end": 141.38
+   },
+   {
+    "start": 141.855,
+    "end": 142.25
+   },
+   {
+    "start": 143.09,
+    "end": 143.85
+   },
+   {
+    "start": 146.11,
+    "end": 146.33
+   },
+   {
+    "start": 147.01,
+    "end": 147.625
+   },
+   {
+    "start": 148.77,
+    "end": 152.054
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 38.5,
+    "label": "A"
+   },
+   {
+    "start": 38.5,
+    "end": 58.5,
+    "label": "B"
+   },
+   {
+    "start": 58.5,
+    "end": 63,
+    "label": "C"
+   },
+   {
+    "start": 63,
+    "end": 75.5,
+    "label": "D"
+   },
+   {
+    "start": 75.5,
+    "end": 84,
+    "label": "E"
+   },
+   {
+    "start": 84,
+    "end": 90,
+    "label": "F"
+   },
+   {
+    "start": 90,
+    "end": 106.5,
+    "label": "G"
+   },
+   {
+    "start": 106.5,
+    "end": 114.5,
+    "label": "H"
+   },
+   {
+    "start": 114.5,
+    "end": 127,
+    "label": "I"
+   },
+   {
+    "start": 127,
+    "end": 147,
+    "label": "J"
+   },
+   {
+    "start": 147,
+    "end": 152.054,
+    "label": "K"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.891
+   ],
+   [
+    "click",
+    0.183
+   ],
+   [
+    "typing",
+    0.11
+   ],
+   [
+    "music",
+    0.105
+   ],
+   [
+    "mosquito_buzz",
+    0.097
+   ],
+   [
+    "typewriter",
+    0.085
+   ],
+   [
+    "insect",
+    0.078
+   ],
+   [
+    "writing",
+    0.071
+   ]
+  ],
+  "lra_lu": 2.4,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.094,
+  "strong_onsets_per_min": 25.3
+ },
+ "look": {
+  "luma": 182.1,
+  "contrast": 56.1,
+  "saturation": 0.107,
+  "bw_share": 0.23,
+  "warmth": 11.4
+ }
+}

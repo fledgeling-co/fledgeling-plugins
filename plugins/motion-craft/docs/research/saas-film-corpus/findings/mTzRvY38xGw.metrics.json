@@ -1,0 +1,165 @@
+{
+ "id": "mTzRvY38xGw",
+ "title": "Visualize Legal Data on Demand in Harvey",
+ "uploader": "Harvey",
+ "duration_s": 31.56,
+ "fps": 30,
+ "rhythm": {
+  "hard_cuts": 9,
+  "cuts_per_min": 17.11,
+  "cut_times_s": [
+   1.93,
+   2.77,
+   3.13,
+   3.47,
+   3.83,
+   4.2,
+   4.53,
+   4.83,
+   9.03
+  ],
+  "median_shot_s": 0.37,
+  "mean_shot_s": 3.16,
+  "shots_over_10s": 1,
+  "first_cut_s": 1.93,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 9.03,
+   "end": 31.56,
+   "seconds": 22.53,
+   "share_of_runtime": 0.714
+  },
+  "bursts": [
+   {
+    "start_s": 1.93,
+    "end_s": 4.83,
+    "cuts": 8,
+    "mid_share": 0.107
+   }
+  ]
+ },
+ "events": {
+  "counts": {
+   "cut": 3,
+   "flash": 0,
+   "appear": 9,
+   "disappear": 6,
+   "change": 30,
+   "hold": 27
+  },
+  "holds_over_1s": 4,
+  "median_hold_s": 0.7,
+  "longest_hold_s": 2.83,
+  "windows": 21
+ },
+ "frames": {
+  "count": 16,
+  "not_evidence_frames": [],
+  "dark_share": 0.0,
+  "light_share": 1.0,
+  "median_contentful_cells": 0.162,
+  "intervals_new_composition_share": 0.0,
+  "intervals_static_share": 0.2,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 22,
+  "frame0": {
+   "meanLuminance": 0.9452,
+   "contentfulCells": 0.1812,
+   "blankCells": 0.6937,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -12.3,
+  "lufs_short_term_max": -10,
+  "true_peak_db": 0.7,
+  "bpm": 136.3,
+  "beats": {
+   "count": 68,
+   "confidence": 0.506,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 31.11,
+    "end": 31.554
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 14.635,
+    "label": "A"
+   },
+   {
+    "start": 14.635,
+    "end": 31.554,
+    "label": "B"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.689
+   ],
+   [
+    "percussion",
+    0.355
+   ],
+   [
+    "tabla",
+    0.311
+   ],
+   [
+    "drum",
+    0.282
+   ],
+   [
+    "mallet_percussion",
+    0.235
+   ],
+   [
+    "marimba_xylophone",
+    0.197
+   ],
+   [
+    "bowed_string_instrument",
+    0.195
+   ],
+   [
+    "keyboard_musical",
+    0.187
+   ]
+  ],
+  "lra_lu": 4.0,
+  "cuts_on_strong_onset_share": 0.222,
+  "chance_share": 0.061,
+  "strong_onsets_per_min": 15.2
+ },
+ "look": {
+  "luma": 245.1,
+  "contrast": 23.9,
+  "saturation": 0.004,
+  "bw_share": 0.65,
+  "warmth": 0.4
+ }
+}

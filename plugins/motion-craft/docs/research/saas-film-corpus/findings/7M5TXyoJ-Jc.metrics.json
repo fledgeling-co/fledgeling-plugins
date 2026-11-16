@@ -1,0 +1,170 @@
+{
+ "id": "7M5TXyoJ-Jc",
+ "title": "Create and Edit Files in Harvey",
+ "uploader": "Harvey",
+ "duration_s": 53.92,
+ "fps": 30,
+ "rhythm": {
+  "hard_cuts": 1,
+  "cuts_per_min": 1.11,
+  "cut_times_s": [
+   49.47
+  ],
+  "median_shot_s": 26.96,
+  "mean_shot_s": 26.96,
+  "shots_over_10s": 1,
+  "first_cut_s": 49.47,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 0,
+   "end": 49.47,
+   "seconds": 49.47,
+   "share_of_runtime": 0.917
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 1,
+   "flash": 0,
+   "appear": 2,
+   "disappear": 3,
+   "change": 33,
+   "hold": 29
+  },
+  "holds_over_1s": 14,
+  "median_hold_s": 1.33,
+  "longest_hold_s": 3.03,
+  "windows": 28
+ },
+ "frames": {
+  "count": 27,
+  "not_evidence_frames": [],
+  "dark_share": 0.074,
+  "light_share": 0.926,
+  "median_contentful_cells": 0.144,
+  "intervals_new_composition_share": 0.038,
+  "intervals_static_share": 0.192,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 48,
+  "frame0": {
+   "meanLuminance": 0.9975,
+   "contentfulCells": 0.05,
+   "blankCells": 0.95,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -14,
+  "lufs_short_term_max": -11.6,
+  "true_peak_db": -0.6,
+  "bpm": 82.1,
+  "beats": {
+   "count": 68,
+   "confidence": 0.456,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 0,
+    "end": 0.27
+   },
+   {
+    "start": 52.965,
+    "end": 53.914
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 18.565,
+    "label": "A"
+   },
+   {
+    "start": 18.565,
+    "end": 45.425,
+    "label": "B"
+   },
+   {
+    "start": 45.425,
+    "end": 53.914,
+    "label": "C"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.874
+   ],
+   [
+    "keyboard_musical",
+    0.864
+   ],
+   [
+    "synthesizer",
+    0.779
+   ],
+   [
+    "piano",
+    0.539
+   ],
+   [
+    "electric_piano",
+    0.533
+   ],
+   [
+    "electronic_organ",
+    0.206
+   ],
+   [
+    "organ",
+    0.189
+   ],
+   [
+    "percussion",
+    0.142
+   ]
+  ],
+  "lra_lu": 4.5,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.173,
+  "strong_onsets_per_min": 53.4
+ },
+ "look": {
+  "luma": 222.5,
+  "contrast": 15.6,
+  "saturation": 0.024,
+  "bw_share": 0.4,
+  "warmth": 0.8
+ }
+}

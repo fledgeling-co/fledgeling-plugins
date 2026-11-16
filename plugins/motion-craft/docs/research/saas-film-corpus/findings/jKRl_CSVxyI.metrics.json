@@ -1,0 +1,289 @@
+{
+ "id": "jKRl_CSVxyI",
+ "title": "Using Claude Opus 5.5 as your daily driver",
+ "uploader": "Claude",
+ "duration_s": 212.5,
+ "fps": 30,
+ "rhythm": {
+  "hard_cuts": 20,
+  "cuts_per_min": 5.65,
+  "cut_times_s": [
+   22.87,
+   28.43,
+   34.63,
+   66.8,
+   68.9,
+   78,
+   86.47,
+   98.1,
+   99.97,
+   116.3,
+   122.87,
+   130.87,
+   135.07,
+   137.63,
+   151.87,
+   173.13,
+   184.73,
+   189.53,
+   196.1,
+   205.4
+  ],
+  "median_shot_s": 8,
+  "mean_shot_s": 10.12,
+  "shots_over_10s": 7,
+  "first_cut_s": 22.87,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 34.63,
+   "end": 66.8,
+   "seconds": 32.17,
+   "share_of_runtime": 0.151
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 21,
+   "flash": 2,
+   "appear": 27,
+   "disappear": 40,
+   "change": 142,
+   "hold": 59
+  },
+  "holds_over_1s": 36,
+  "median_hold_s": 1.44,
+  "longest_hold_s": 7.53,
+  "windows": 107
+ },
+ "frames": {
+  "count": 106,
+  "not_evidence_frames": [
+   "f0104.jpg"
+  ],
+  "dark_share": 0.887,
+  "light_share": 0.038,
+  "median_contentful_cells": 0.359,
+  "intervals_new_composition_share": 0.343,
+  "intervals_static_share": 0.286,
+  "longest_static_run_s": 6,
+  "longest_static_run_ends_at_s": 96,
+  "frame0": {
+   "meanLuminance": 0.1878,
+   "contentfulCells": 0.1562,
+   "blankCells": 0.1812,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0004.jpg",
+  "f0007.jpg",
+  "f0010.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0016.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0037.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0044.jpg",
+  "f0045.jpg",
+  "f0046.jpg",
+  "f0049.jpg",
+  "f0050.jpg",
+  "f0051.jpg",
+  "f0052.jpg",
+  "f0054.jpg",
+  "f0055.jpg",
+  "f0058.jpg",
+  "f0059.jpg",
+  "f0061.jpg",
+  "f0062.jpg",
+  "f0063.jpg",
+  "f0064.jpg",
+  "f0066.jpg",
+  "f0067.jpg",
+  "f0069.jpg",
+  "f0070.jpg",
+  "f0073.jpg",
+  "f0075.jpg",
+  "f0076.jpg",
+  "f0077.jpg",
+  "f0078.jpg",
+  "f0079.jpg",
+  "f0082.jpg",
+  "f0085.jpg",
+  "f0088.jpg",
+  "f0091.jpg",
+  "f0093.jpg",
+  "f0094.jpg",
+  "f0096.jpg",
+  "f0097.jpg",
+  "f0099.jpg",
+  "f0100.jpg",
+  "f0103.jpg",
+  "f0104.jpg",
+  "f0106.jpg"
+ ],
+ "sound": {
+  "kind": "voice",
+  "lufs_integrated": -16,
+  "lufs_short_term_max": -14,
+  "true_peak_db": -3.5,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.015,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 207.495,
+    "end": 208.42
+   },
+   {
+    "start": 209.915,
+    "end": 211.585
+   },
+   {
+    "start": 212.075,
+    "end": 212.494
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 7.5,
+    "label": "A"
+   },
+   {
+    "start": 7.5,
+    "end": 26,
+    "label": "B"
+   },
+   {
+    "start": 26,
+    "end": 45.5,
+    "label": "C"
+   },
+   {
+    "start": 45.5,
+    "end": 50.5,
+    "label": "D"
+   },
+   {
+    "start": 50.5,
+    "end": 67.5,
+    "label": "E"
+   },
+   {
+    "start": 67.5,
+    "end": 75.5,
+    "label": "F"
+   },
+   {
+    "start": 75.5,
+    "end": 83.5,
+    "label": "G"
+   },
+   {
+    "start": 83.5,
+    "end": 101,
+    "label": "H"
+   },
+   {
+    "start": 101,
+    "end": 122.5,
+    "label": "I"
+   },
+   {
+    "start": 122.5,
+    "end": 144.5,
+    "label": "J"
+   },
+   {
+    "start": 144.5,
+    "end": 153,
+    "label": "K"
+   },
+   {
+    "start": 153,
+    "end": 164,
+    "label": "L"
+   },
+   {
+    "start": 164,
+    "end": 182,
+    "label": "M"
+   },
+   {
+    "start": 182,
+    "end": 207,
+    "label": "N"
+   },
+   {
+    "start": 207,
+    "end": 212.494,
+    "label": "O"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.864
+   ],
+   [
+    "music",
+    0.47
+   ],
+   [
+    "plucked_string_instrument",
+    0.242
+   ],
+   [
+    "keyboard_musical",
+    0.202
+   ],
+   [
+    "typing",
+    0.169
+   ],
+   [
+    "guitar",
+    0.167
+   ],
+   [
+    "typewriter",
+    0.143
+   ],
+   [
+    "piano",
+    0.125
+   ]
+  ],
+  "lra_lu": 2.6,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.067,
+  "strong_onsets_per_min": 18.1
+ },
+ "look": {
+  "luma": 64.8,
+  "contrast": 51.9,
+  "saturation": 0.215,
+  "bw_share": 0.37,
+  "warmth": 16.1
+ }
+}

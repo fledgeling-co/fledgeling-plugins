@@ -1,0 +1,147 @@
+{
+ "id": "Bn9Vv8e_WPk",
+ "title": "Harvey Mobile with Voice for iOS and Android",
+ "uploader": "Harvey",
+ "duration_s": 19.08,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 1,
+  "cuts_per_min": 3.14,
+  "cut_times_s": [
+   2.5
+  ],
+  "median_shot_s": 9.54,
+  "mean_shot_s": 9.54,
+  "shots_over_10s": 1,
+  "first_cut_s": 2.5,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 2.5,
+   "end": 19.08,
+   "seconds": 16.58,
+   "share_of_runtime": 0.869
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 0,
+   "flash": 0,
+   "appear": 3,
+   "disappear": 3,
+   "change": 10,
+   "hold": 9
+  },
+  "holds_over_1s": 7,
+  "median_hold_s": 1.08,
+  "longest_hold_s": 5.71,
+  "windows": 9
+ },
+ "frames": {
+  "count": 10,
+  "not_evidence_frames": [
+   "f0001.jpg",
+   "f0009.jpg"
+  ],
+  "dark_share": 0.0,
+  "light_share": 1.0,
+  "median_contentful_cells": 0.116,
+  "intervals_new_composition_share": 0.0,
+  "intervals_static_share": 0.444,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 8,
+  "frame0": {
+   "meanLuminance": 0.98,
+   "contentfulCells": 0.0,
+   "blankCells": 0.9625,
+   "isEvidence": false
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -13.3,
+  "lufs_short_term_max": -12.5,
+  "true_peak_db": -0.1,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.114,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [],
+  "sections": [
+   {
+    "start": 0,
+    "end": 6.5,
+    "label": "A"
+   },
+   {
+    "start": 6.5,
+    "end": 11.5,
+    "label": "B"
+   },
+   {
+    "start": 11.5,
+    "end": 19.074,
+    "label": "C"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.87
+   ],
+   [
+    "orchestra",
+    0.526
+   ],
+   [
+    "bowed_string_instrument",
+    0.46
+   ],
+   [
+    "plucked_string_instrument",
+    0.451
+   ],
+   [
+    "keyboard_musical",
+    0.409
+   ],
+   [
+    "mandolin",
+    0.403
+   ],
+   [
+    "zither",
+    0.349
+   ],
+   [
+    "violin_fiddle",
+    0.318
+   ]
+  ],
+  "lra_lu": 2.7,
+  "cuts_on_strong_onset_share": 1.0,
+  "chance_share": 0.158,
+  "strong_onsets_per_min": 40.9
+ },
+ "look": {
+  "luma": 246.2,
+  "contrast": 15.7,
+  "saturation": 0.001,
+  "bw_share": 0.68,
+  "warmth": 0
+ }
+}

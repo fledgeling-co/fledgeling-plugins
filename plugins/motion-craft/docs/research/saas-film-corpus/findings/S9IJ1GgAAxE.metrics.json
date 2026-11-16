@@ -1,0 +1,198 @@
+{
+ "id": "S9IJ1GgAAxE",
+ "title": "Claude Fable 5.1 runs the forecast overnight",
+ "uploader": "Claude",
+ "duration_s": 74.36,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 7,
+  "cuts_per_min": 5.65,
+  "cut_times_s": [
+   8.42,
+   8.5,
+   8.58,
+   8.92,
+   12.08,
+   16.12,
+   65.83
+  ],
+  "median_shot_s": 3.6,
+  "mean_shot_s": 9.29,
+  "shots_over_10s": 1,
+  "first_cut_s": 8.42,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 16.12,
+   "end": 65.83,
+   "seconds": 49.71,
+   "share_of_runtime": 0.668
+  },
+  "bursts": [
+   {
+    "start_s": 8.42,
+    "end_s": 12.08,
+    "cuts": 5,
+    "mid_share": 0.138
+   }
+  ]
+ },
+ "events": {
+  "counts": {
+   "cut": 5,
+   "flash": 0,
+   "appear": 8,
+   "disappear": 7,
+   "change": 38,
+   "hold": 17
+  },
+  "holds_over_1s": 9,
+  "median_hold_s": 1.25,
+  "longest_hold_s": 5.38,
+  "windows": 38
+ },
+ "frames": {
+  "count": 37,
+  "not_evidence_frames": [],
+  "dark_share": 0.541,
+  "light_share": 0.432,
+  "median_contentful_cells": 0.225,
+  "intervals_new_composition_share": 0.083,
+  "intervals_static_share": 0.111,
+  "longest_static_run_s": 6,
+  "longest_static_run_ends_at_s": 72,
+  "frame0": {
+   "meanLuminance": 0.1551,
+   "contentfulCells": 0.1688,
+   "blankCells": 0.4688,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0036.jpg",
+  "f0037.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -16.1,
+  "lufs_short_term_max": -12.2,
+  "true_peak_db": -1.2,
+  "bpm": 117.9,
+  "beats": {
+   "count": 132,
+   "confidence": 0.449,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 72.495,
+    "end": 72.83
+   },
+   {
+    "start": 72.87,
+    "end": 74.354
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 11.835,
+    "label": "A"
+   },
+   {
+    "start": 11.835,
+    "end": 25.835,
+    "label": "B"
+   },
+   {
+    "start": 25.835,
+    "end": 44.705,
+    "label": "C"
+   },
+   {
+    "start": 44.705,
+    "end": 74.354,
+    "label": "D"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.82
+   ],
+   [
+    "percussion",
+    0.465
+   ],
+   [
+    "keyboard_musical",
+    0.393
+   ],
+   [
+    "drum",
+    0.376
+   ],
+   [
+    "synthesizer",
+    0.331
+   ],
+   [
+    "drum_kit",
+    0.257
+   ],
+   [
+    "bass_drum",
+    0.242
+   ],
+   [
+    "snare_drum",
+    0.211
+   ]
+  ],
+  "lra_lu": 8.4,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.039,
+  "strong_onsets_per_min": 11.3
+ },
+ "look": {
+  "luma": 115.2,
+  "contrast": 26.9,
+  "saturation": 0.056,
+  "bw_share": 0.11,
+  "warmth": -0.3
+ }
+}

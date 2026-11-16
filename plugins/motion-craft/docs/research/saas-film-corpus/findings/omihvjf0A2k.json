@@ -1,0 +1,431 @@
+{
+ "id": "omihvjf0A2k",
+ "title": "Getting started with Claude Code Projects",
+ "brand": "Claude",
+ "duration_s": 272.66,
+ "status": "ok",
+ "format": "tutorial",
+ "format_note": "On-camera presenter alternates with real product screen recordings; a worked example (site performance) is followed end to end, then three tips and a docs link.",
+ "one_thing": "Give Claude one big goal and it splits the work into parallel threads that you check in on.",
+ "transcript": {
+  "source": "local-whisper",
+  "voiceover": "on-camera-presenter",
+  "words_total": 863,
+  "words_per_minute": 190,
+  "voice_style": "Conversational, friendly, direct address; a quick pitch up front, then walkthrough narration synced to the screen recording.",
+  "script_shape": "Cold-open demo line, definition, when to use it, one running example through six chapters, three tips, beta notice and docs link."
+ },
+ "structure": {
+  "frame0": "Presenter in a warm wood-panelled room, on camera from 0.0 to 0.62 s (ffmpeg luma 47 at t=0, 249 at t=0.7). The sampled f0001.jpg shows the empty prompt box instead.",
+  "first_3s": "Cut at 0.62 s to a prompt box where the cursor types the goal (f0006.jpg); voice says 'Watch this. I'm going to brain dump a large goal for Claude.'",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 0.62,
+    "role": "hook",
+    "what": "Presenter on camera for a half second before the cut."
+   },
+   {
+    "start_s": 0.62,
+    "end_s": 5.46,
+    "role": "demo",
+    "what": "Prompt box fills with the performance goal: p75 LCP 4.1s, CLS 0.28."
+   },
+   {
+    "start_s": 5.46,
+    "end_s": 9.38,
+    "role": "setup",
+    "what": "Presenter with name lower third 'Delba de Oliveira / Claude Code'."
+   },
+   {
+    "start_s": 9.38,
+    "end_s": 20.54,
+    "role": "reveal",
+    "what": "Claude answers and eight named threads appear; 'Projects Beta' lockup at 18 s."
+   },
+   {
+    "start_s": 20.54,
+    "end_s": 25.17,
+    "role": "setup",
+    "what": "Presenter defines a project: one conversation coordinating work."
+   },
+   {
+    "start_s": 25.17,
+    "end_s": 47.62,
+    "role": "setup",
+    "what": "Diagram: You, Coordinator, eight threads on cloud branches, then a second 'Your computer' group."
+   },
+   {
+    "start_s": 47.62,
+    "end_s": 53.46,
+    "role": "setup",
+    "what": "Text card 'When to reach for a project' with three bullets arriving two seconds apart."
+   },
+   {
+    "start_s": 53.46,
+    "end_s": 83.2,
+    "role": "setup",
+    "what": "Chapter 'Setting up a new project' lower third at 58.5 s; presenter explains the steps."
+   },
+   {
+    "start_s": 83.21,
+    "end_s": 107.96,
+    "role": "demo",
+    "what": "Longest shot, 24.75 s: New project dialog filled, repos added, project created, prompt typed."
+   },
+   {
+    "start_s": 107.96,
+    "end_s": 170,
+    "role": "demo",
+    "what": "Threads panel, thread view, CI monitoring popover, Merge it button, Pull requests tab."
+   },
+   {
+    "start_s": 171.46,
+    "end_s": 216,
+    "role": "proof",
+    "what": "Post-mortem artifact with before/after bar charts (LCP 4.1s to 2.2s, CLS 0.28 to 0.06)."
+   },
+   {
+    "start_s": 178,
+    "end_s": 212,
+    "role": "demo",
+    "what": "Connectors search for Sentry, then a daily 5pm routine typed and confirmed."
+   },
+   {
+    "start_s": 213.21,
+    "end_s": 258,
+    "role": "other",
+    "what": "Tips: Managing cost, Tell Claude how you want to work, Use project memory, each with settings screens."
+   },
+   {
+    "start_s": 258.46,
+    "end_s": 264.75,
+    "role": "payoff",
+    "what": "Recap card 'Start a project' with three lines."
+   },
+   {
+    "start_s": 264.75,
+    "end_s": 272.54,
+    "role": "cta",
+    "what": "Presenter sign-off; 'Projects Beta' pill then docs URL pill."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 18.1,
+   "share": 0.066,
+   "what": "Eight named threads stack up under the single prompt, with the 'Projects Beta' lockup appearing over them (window-14-18.084s.jpg)."
+  },
+  "ending": {
+   "cta_text": "code.claude.com/docs/en/claude-projects",
+   "logo_hold_s": -1,
+   "what": "Presenter smiles over a 7.8 s final shot; docs URL pill is visible at t=270 (f0136.jpg). No logo end card."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 42,
+  "cuts_per_min": 9.24,
+  "median_shot_s": 3.83,
+  "how_change_is_paced": "Presenter shots alternate with screen recordings. Presenter-led stretches are short; screen shots run long (longest 24.75 s, 8 shots over 10 s). Cuts follow speech, not sound onsets. No burst of 5-8 cuts in 5 s."
+ },
+ "look": {
+  "ground": "Warm off-white (#F5F4ED-like) for UI and cards; dark brown wood room for presenter. Dark share 0.287, light share 0.691.",
+  "palette": [
+   "warm off-white",
+   "near-black",
+   "terracotta coral (Coordinator box)",
+   "maroon sweater / wood brown",
+   "muted green (Passed, After bars)",
+   "grey-blue (Before bars)"
+  ],
+  "accent_use": "One terracotta Coordinator block carries the diagram (f0013.jpg); green appears only as success states and the After bars.",
+  "type": "Serif display for titles and lower thirds, white on dark gradient at lower left; grotesque sans for card bullets and UI; monospace for the URL pill.",
+  "title_height_pct": [
+   5.1,
+   7.4
+  ],
+  "title_measurements": [
+   {
+    "t_s": 7,
+    "text": "Delba de Oliveira",
+    "line_height_px": 41,
+    "frame_height_px": 720,
+    "pct": 5.7
+   },
+   {
+    "t_s": 48.5,
+    "text": "When to reach for a project",
+    "line_height_px": 38,
+    "frame_height_px": 720,
+    "pct": 5.3
+   },
+   {
+    "t_s": 178.5,
+    "text": "Connecting to",
+    "line_height_px": 53,
+    "frame_height_px": 720,
+    "pct": 7.4
+   },
+   {
+    "t_s": 178.5,
+    "text": "external services",
+    "line_height_px": 42,
+    "frame_height_px": 720,
+    "pct": 5.8
+   },
+   {
+    "t_s": 258.5,
+    "text": "Start a project",
+    "line_height_px": 37,
+    "frame_height_px": 720,
+    "pct": 5.1
+   }
+  ],
+  "max_words_per_title_line": 5,
+  "density": "sparse",
+  "depth": "Presenter shot has shallow depth with warm practical lights; UI windows float on a beige ground with a soft shadow and faint line pattern (f0036.jpg)."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 59,
+  "shown_as": [
+   "real-ui-capture",
+   "redrawn-simplified-ui",
+   "live-action"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Screen recordings punch in to crop the working area (f0049.jpg, f0073.jpg) then pull back to the full window (f0036.jpg); dialogs zoom as they open.",
+  "legible_at_phone_width": "partly",
+  "notes": "Full-window shots set UI text near 12 px of 720 (f0010.jpg); punched-in crops are readable. Settings and connectors need the zoom. Presence: light share 0.691 minus about 26 s of diagram and cards."
+ },
+ "motion": {
+  "text_entry": "Lower thirds fade up from low opacity (window-36-58.5s.jpg, about 0.4 s); card bullets appear one line at a time about 2 s apart (sheet-02.jpg, 48-52 s). Typed prompts type out live.",
+  "ui_motion": "Real cursor clicks, typing and thread chips appear with counters ticking. Diagram branches draw from the Coordinator and a second group fades in below (f0023.jpg).",
+  "camera": "Digital punch-ins on screen recordings; the presenter shot is static with only a small drift.",
+  "eases": "Not measured beyond the strips; fades are short and linear-looking over a single mixed frame.",
+  "transitions": [
+   {
+    "type": "cross-dissolve",
+    "count": 5,
+    "example_t_s": 5.46,
+    "cause": "Switch between presenter and screen recording, one mixed frame (window-06-5.375s.jpg)."
+   },
+   {
+    "type": "hard-cut",
+    "count": 36,
+    "example_t_s": 20.54,
+    "cause": "Cut on speech turns between presenter and diagram or UI shots."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 1,
+    "example_t_s": 83.2,
+    "cause": "Dialog closes into the new project window after the Create click (window-56)."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 1,
+    "example_t_s": 18.1,
+    "cause": "Full-width thread list shrinks into the windowed app view (window-14-18.084s.jpg)."
+   }
+  ],
+  "strips_read": [
+   "window-01-0s.jpg: presenter holds still 0-0.25 s",
+   "window-06-5.375s.jpg: UI dissolves to presenter, name lower third fades in",
+   "window-09-9.292s.jpg: presenter dissolves to prompt box",
+   "window-14-18.084s.jpg: thread list zooms out as Projects Beta lockup appears",
+   "window-19-25.084s.jpg: presenter dissolves to You / Coordinator diagram",
+   "window-23-34.375s.jpg: diagram dissolves back to presenter",
+   "window-36-58.5s.jpg: lower third 'Setting up a new project' fades in",
+   "window-46-69.834s.jpg: presenter dissolves to app, cursor clicks Projects",
+   "window-56-82.875s.jpg: dialog click then cut and zoom out to app"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 6,
+    "text": "Delba de Oliveira / Claude Code",
+    "words": 5,
+    "hold_s": 3.5
+   },
+   {
+    "t_s": 48,
+    "text": "When to reach for a project",
+    "words": 6,
+    "hold_s": -1
+   },
+   {
+    "t_s": 50,
+    "text": "Work that spans several repos",
+    "words": 5,
+    "hold_s": -1
+   },
+   {
+    "t_s": 52,
+    "text": "Many tasks that can run in parallel",
+    "words": 7,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 58.9,
+    "text": "Setting up a new project",
+    "words": 5,
+    "hold_s": -1
+   },
+   {
+    "t_s": 112,
+    "text": "Working with threads",
+    "words": 3,
+    "hold_s": -1
+   },
+   {
+    "t_s": 178,
+    "text": "Connecting to external services",
+    "words": 4,
+    "hold_s": -1
+   },
+   {
+    "t_s": 186,
+    "text": "Routines Research preview",
+    "words": 3,
+    "hold_s": -1
+   },
+   {
+    "t_s": 236,
+    "text": "Tell Claude how you want to work",
+    "words": 6,
+    "hold_s": -1
+   },
+   {
+    "t_s": 258.5,
+    "text": "Start a project",
+    "words": 3,
+    "hold_s": -1
+   },
+   {
+    "t_s": 262,
+    "text": "Check in when it needs you",
+    "words": 6,
+    "hold_s": 2.7
+   },
+   {
+    "t_s": 270,
+    "text": "code.claude.com/docs/en/claude-projects",
+    "words": 1,
+    "hold_s": 2.5
+   }
+  ],
+  "holds_vs_reading_rule": "Chapter titles are short (3-6 words) and read at once. The last card bullet (6 words) holds about 2.7 s against the 2.3 s the rule needs; the 52 s card ends at a cut by 53.46 s."
+ },
+ "sound": {
+  "music": "No music evidence: describe tag 'music' scores 0.101, below 0.2, and beat detection finds no steady beat (confidence 0.003).",
+  "sfx": "None identified; 'click' scores 0.076 and 'writing' 0.163, both below 0.2.",
+  "vo_music_balance": "Voice only: 'speech' scores 0.908. Integrated -23.7 LUFS, short-term max -21.3, true peak -3.7 dBTP, loudness range 3.0 LU.",
+  "energy_arc": "Flat: one steady delivery throughout. Silence spans are short, about 0.3 to 1.3 s, between sentences.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.048 against chance_share 0.053. Cuts follow the sentence."
+ },
+ "good": [
+  {
+   "observation": "The opening shows the product doing the job: a typed goal and eight threads spawning within 20 s, before any explanation.",
+   "evidence": "f0006.jpg, f0010.jpg, strips window-14"
+  },
+  {
+   "observation": "The You, Coordinator, threads diagram explains the architecture with one terracotta accent and plain labels, redrawn simpler than the real app.",
+   "evidence": "f0021.jpg, f0023.jpg"
+  },
+  {
+   "observation": "One example runs through the whole tutorial, so each chapter lands on the same screen and numbers: 4.1s LCP, eight threads, PR #482.",
+   "evidence": "f0067.jpg, f0088.jpg, f0120.jpg"
+  },
+  {
+   "observation": "The before/after bar chart gives a payoff in numbers: LCP 4.1 s to 2.2 s, CLS 0.28 to 0.06.",
+   "evidence": "f0088.jpg"
+  },
+  {
+   "observation": "Chapter titles in a serif lower third give a clear map; each title is 5-7 % of frame height and fades in over the presenter.",
+   "evidence": "title_measurements; window-36-58.5s.jpg"
+  },
+  {
+   "observation": "Restrained, consistent palette and type from presenter graphics to UI; one recap card and a docs URL close the film.",
+   "evidence": "f0130.jpg, f0136.jpg"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Long static settings and dialog stretches hold the screen with no change: the longest static run is 18 s, ending at 234 s.",
+   "evidence": "metrics frames.longest_static_run_s=18"
+  },
+  {
+   "observation": "UI text at full-window framing is small (about 12 px of 720) and relies on later punch-ins; at phone width much of it would be unreadable.",
+   "evidence": "f0010.jpg, f0036.jpg"
+  },
+  {
+   "observation": "The cuts are not tied to the sound, and no burst or energy build exists; the pace is set by the script alone.",
+   "evidence": "cuts_on_strong_onset_share 0.048 vs 0.053"
+  },
+  {
+   "observation": "Loudness is -23.7 LUFS, about 9 LU below the -14 social target the skill uses.",
+   "evidence": "metrics sound.lufs_integrated"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "In a tutorial, open on the product doing the task: type the goal and show the result within 20 s, then bring the presenter in.",
+   "evidence": "Goal typed 0.62-5.46 s; eight threads appear by 13-18 s (f0011.jpg).",
+   "relation": "extends",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "A film may open on a presenter for under 1 s before cutting to the product; the real hook is the product line spoken at 3 s.",
+   "evidence": "Presenter 0-0.62 s then prompt box; ffmpeg luma 47 to 249.",
+   "relation": "confirms",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Explain a system with a redrawn diagram: three node types, one accent colour, branches drawn from a single hub, 9-13 s total.",
+   "evidence": "Diagram shots 25.17-34.46 s and 40.88-44.88 s (f0023.jpg).",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Short cross-dissolves, a single mixed frame (about 0.04 s), between a presenter and a screen recording can be acceptable where the voiceover continues across the seam.",
+   "evidence": "Five seams at 5.46, 9.375, 25.167, 34.458, 69.917 s (strips).",
+   "relation": "contradicts",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "Chapter titles: 3-6 words, 5-7.4 % of frame height, lower-left on a dark gradient, fading up over about 0.4 s.",
+   "evidence": "title_measurements 5.1-7.4 %; window-36-58.5s.jpg.",
+   "relation": "confirms",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "In a bullet card, reveal one line every 2 s and hold the last at least 0.5 s plus 0.3 s a word.",
+   "evidence": "Card at 48/50/52 s; last bullet 6 words held about 2.7 s.",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Shorten the screen static: cut or zoom any UI shot that shows no change for more than 8 s; the longest here was 18 s.",
+   "evidence": "metrics longest_static_run_s=18; sheet-06.jpg settings dialog.",
+   "relation": "extends",
+   "skill_rule": "6"
+  },
+  {
+   "rule": "When no music is present, still master the voice for social: this film sits at -23.7 LUFS, 9.7 LU under the -14 target.",
+   "evidence": "metrics sound.lufs_integrated -23.7, true_peak -3.7.",
+   "relation": "confirms",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 68,
+ "crops_made": 6,
+ "unchecked": [
+  "Transcript tool was not in ToolSearch; used local whisper, so word count is approximate.",
+  "Strips cover only the first 92 s; later transitions come from the sheets.",
+  "f0001.jpg and sheet-01 show the prompt box at t=0 while ffmpeg and window-01 show the presenter.",
+  "Dissolve duration measured from single strips; seams elsewhere not counted.",
+  "Cut classification beyond the five dissolves seen is assumed from metrics hard_cuts=42.",
+  "Hold times marked -1 were not measurable from 2 s samples."
+ ]
+}

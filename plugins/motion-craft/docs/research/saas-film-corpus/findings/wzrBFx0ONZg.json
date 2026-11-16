@@ -1,0 +1,162 @@
+{
+ "id": "wzrBFx0ONZg",
+ "title": "Create Tailored Legal Agents with Agent Builder",
+ "brand": "Harvey",
+ "duration_s": 40.22,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "Text-led feature film for Agent Builder: one serif headline per feature beat on the left, a simplified product panel on the right, closing on a black brand card.",
+ "one_thing": "Harvey's Agent Builder lets legal teams run off-the-shelf or custom agents on a schedule, get notified, deploy them in chat and step in when asked.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No speech. youtube_transcript found no caption track and local whisper returned only 'Music' for every segment.",
+  "script_shape": "Eight on-screen headlines carry the whole script: name change, three feature claims, a notification beat, a deploy claim, a control claim, a quality claim, then a tagline."
+ },
+ "structure": {
+  "frame0": "f0001.jpg shows the 'Harvey' wordmark centred on an off-white ground; strip window-01 shows the ground blank until t=0.40s and the wordmark by 0.44s.",
+  "first_3s": "Wordmark at 0.44s, then 'Workflow Builder' with 'Workflow' struck through at t=2s (f0002.jpg), then 'Agent Builder' by t=4s (f0003.jpg). The product name arrives in under 5s.",
+  "beats": [
+   {"start_s": 0.4, "end_s": 2, "role": "hook", "what": "Harvey wordmark on blank off-white ground."},
+   {"start_s": 2, "end_s": 6, "role": "setup", "what": "'Workflow Builder' is struck through and replaced by 'Agent Builder'."},
+   {"start_s": 6.5, "end_s": 7, "role": "setup", "what": "'Your Workflows, Now Agents' appears briefly (strips/window-05-6.56s.jpg)."},
+   {"start_s": 7, "end_s": 10, "role": "demo", "what": "'Scale Work With Off The Shelf Agents' beside a grid of template cards sliding in from the right."},
+   {"start_s": 10, "end_s": 14, "role": "demo", "what": "'Or Create Your Own' beside a 'Create New Agent' button, then a stack of File upload step cards."},
+   {"start_s": 14, "end_s": 17, "role": "demo", "what": "'Keep Work Running in the Background' beside a 'Scheduled run' form; cadence changes to 'Every 2 weeks' then 'Daily'."},
+   {"start_s": 17, "end_s": 19.1, "role": "demo", "what": "'And Get Notified When Work Product is Done' beside the Scheduled run panel."},
+   {"start_s": 19.1, "end_s": 22, "role": "turn", "what": "Hard cut to a full-frame dark banner: 'Your Harvey Workflow Agent has finished'."},
+   {"start_s": 22, "end_s": 25, "role": "proof", "what": "Full-frame 'Privacy Regulatory Update Summary' table, then a chat paragraph typed out."},
+   {"start_s": 25, "end_s": 30, "role": "demo", "what": "'Deploy the Right Agent, Exactly When You Need It' beside a 'Policy Gap Analysis agent' chip being clicked."},
+   {"start_s": 30, "end_s": 34.5, "role": "demo", "what": "'Stay in Control When it Matters Most' beside an agent asking 'Which jurisdiction is relevant for the compliance analysis?'; the user answers 'California'."},
+   {"start_s": 34.6, "end_s": 36.88, "role": "payoff", "what": "'Build Agents that Deliver Quality, Without Sacrificing Speed' full-frame on white."},
+   {"start_s": 36.88, "end_s": 40.2, "role": "logo", "what": "Hard cut to black: 'AI Tailored for Law' builds word by word, Harvey wordmark below."}
+  ],
+  "hero_moment": {
+   "t_s": 20,
+   "share": 0.497,
+   "what": "The dark 'Your Harvey Workflow Agent has finished' banner, centred and alone on the frame, straight after the first hard cut (f0011.jpg)."
+  },
+  "ending": {
+   "cta_text": "AI Tailored for Law",
+   "logo_hold_s": 3.3,
+   "what": "Black card after a hard cut at 36.88s; the tagline builds over about 0.3s, the wordmark fades in below, and the card holds to 40.2s."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 2,
+  "cuts_per_min": 2.98,
+  "median_shot_s": 17.76,
+  "how_change_is_paced": "Two hard cuts (19.12s, 36.88s) frame three long shots. Inside shots a new headline or UI state arrives about every 3-4s (23 change events, median hold 1.36s). No bursts (metrics rhythm.bursts is empty)."
+ },
+ "look": {
+  "ground": "Off-white (luminance 0.978 at frame 0), split from t=7 to 34 into a text half and a warm grey or white UI half; black only for the last 3.3s.",
+  "palette": ["off-white #FAFAFA", "warm grey panel", "near-black text", "white UI cards", "mid-grey second-line text", "near-black end card"],
+  "accent_use": "No colour accent. Second headline lines start pale grey and darken to black (f0004.jpg, strip window-20); tiny teal, purple and green icons appear only inside UI.",
+  "type": "One high-contrast serif for every headline, centred in its half, sentence-style title case; UI set in a small neutral sans. Look block: saturation 0.015, black-and-white share 0.94.",
+  "title_height_pct": [5.3, 8.2],
+  "title_measurements": [
+   {"t_s": 1, "text": "Harvey", "line_height_px": 55, "frame_height_px": 720, "pct": 7.6},
+   {"t_s": 4.5, "text": "Agent Builder", "line_height_px": 59, "frame_height_px": 720, "pct": 8.2},
+   {"t_s": 9, "text": "Scale Work With (line 1)", "line_height_px": 38, "frame_height_px": 720, "pct": 5.3},
+   {"t_s": 9, "text": "Off The Shelf Agents (line 2, with descender)", "line_height_px": 49, "frame_height_px": 720, "pct": 6.8},
+   {"t_s": 26.8, "text": "Deploy the Right Agent, Exactly When You Need It", "line_height_px": 48, "frame_height_px": 720, "pct": 6.7},
+   {"t_s": 35.5, "text": "Build Agents that Deliver Quality, Without Sacrificing Speed", "line_height_px": 48, "frame_height_px": 720, "pct": 6.7},
+   {"t_s": 38, "text": "AI Tailored for Law", "line_height_px": 51, "frame_height_px": 720, "pct": 7.1}
+  ],
+  "max_words_per_title_line": 5,
+  "density": "sparse",
+  "depth": "Flat. UI cards carry a faint soft shadow on a grey panel; no parallax or 3D. Depth comes only from card overlap and blur-in of stacked step cards (crops/modal.png)."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 66,
+  "shown_as": ["redrawn-simplified-ui", "floating-ui-cards"],
+  "cursor": "real",
+  "camera_on_ui": "Static. The panel does not zoom; the cursor clicks 'Create New Agent' (f0006.jpg), the cadence field (f0009.jpg) and the agent chip (f0014.jpg). The scheduled-run panel drifts up about 40px between 16s and 18s.",
+  "legible_at_phone_width": "partly",
+  "notes": "Cards, button, form and the notification banner read clearly in the 1280 px frames (crops/cards.png, crops/notification.png). The result table and agent chat text is about 10 px tall at native size (crops/table.png) and would not read at phone width."
+ },
+ "motion": {
+  "text_entry": "Headlines fade in as a line; two-line titles show line 1 in black and line 2 pale grey, then line 2 darkens (f0004.jpg, strip window-20). The end card builds word by word at 36.88, 36.92, 37.04, 37.20s (strip window-21).",
+  "ui_motion": "Template cards slide in from the right behind a new grey half-panel at 8.1-8.4s; step cards fade up from blur (f0007.jpg); form values change in place; chat lines type on and the agent steps list grows downward (f0017.jpg).",
+  "camera": "No camera move. Compositions re-centre when a title goes from one line to two (f0009.jpg vs f0008.jpg).",
+  "eases": "Soft ease-out on fades and slides, no overshoot seen in strips window-05, window-07, window-15. Exact curves not measured.",
+  "transitions": [
+   {"type": "hard-cut", "count": 2, "example_t_s": 19.12, "cause": "Panel layout to full-frame banner; white to black end card."},
+   {"type": "mask-or-wipe", "count": 1, "example_t_s": 8.2, "cause": "Grey panel slides in from the right edge when the first UI appears."},
+   {"type": "ui-state-change", "count": 6, "example_t_s": 16.5, "cause": "Cursor click changes a field or chip, then the next card or line appears."},
+   {"type": "cross-dissolve", "count": 1, "example_t_s": 21.76, "cause": "Banner fades into the result table on the same white ground."}
+  ],
+  "strips_read": [
+   "strips/window-01-0.36s.jpg",
+   "strips/window-05-6.56s.jpg",
+   "strips/window-07-9.52s.jpg",
+   "strips/window-11-18.68s.jpg",
+   "strips/window-13-20.84s.jpg",
+   "strips/window-15-25.4s.jpg",
+   "strips/window-20-34.16s.jpg",
+   "strips/window-21-36.8s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {"t_s": 0.44, "text": "Harvey", "words": 1, "hold_s": 1.6},
+   {"t_s": 2, "text": "Workflow Builder (Workflow struck through)", "words": 2, "hold_s": 2},
+   {"t_s": 4, "text": "Agent Builder", "words": 2, "hold_s": 2.5},
+   {"t_s": 6.56, "text": "Your Workflows, Now Agents", "words": 4, "hold_s": 0.5},
+   {"t_s": 7, "text": "Scale Work With Off The Shelf Agents", "words": 7, "hold_s": 3},
+   {"t_s": 10.16, "text": "Or Create Your Own", "words": 4, "hold_s": 3.8},
+   {"t_s": 14, "text": "Keep Work Running in the Background", "words": 6, "hold_s": 3},
+   {"t_s": 17, "text": "And Get Notified When Work Product is Done", "words": 9, "hold_s": 2.1},
+   {"t_s": 19.3, "text": "Your Harvey Workflow Agent has finished. Check out the results, and let me know if there's anything you'd like me to change.", "words": 22, "hold_s": 2.5},
+   {"t_s": 26.2, "text": "Deploy the Right Agent, Exactly When You Need It", "words": 9, "hold_s": 3.7},
+   {"t_s": 30, "text": "Stay in Control When it Matters Most", "words": 7, "hold_s": 4.5},
+   {"t_s": 34.6, "text": "Build Agents that Deliver Quality, Without Sacrificing Speed", "words": 8, "hold_s": 2.3},
+   {"t_s": 36.88, "text": "AI Tailored for Law", "words": 4, "hold_s": 3.3}
+  ],
+  "holds_vs_reading_rule": "Hold times are read off 2s samples and strips, so about plus or minus 0.5s. 'And Get Notified' (9 words, ~2.1s) falls short of the 3.2s the 0.5+0.3/word rule asks; the last line holds 3.3s and passes the 2s minimum."
+ },
+ "sound": {
+  "music": "Music only (audio kind: music). Describe tags: music 0.924, percussion 0.67, synthesizer 0.585, keyboard 0.559, gong 0.508, singing_bowl 0.364, drum 0.293, cymbal 0.235. About 97.8 bpm at beat confidence 0.4. Sections A 0-22.4s, B 22.4-34.5s, C 34.5-40.2s.",
+  "sfx": "No sound effect is identifiable from the evidence; I could not hear the film.",
+  "vo_music_balance": "No voiceover; whisper returned only 'Music'. Silence only in the first 0.475s and the last 0.28s.",
+  "energy_arc": "Short-term loudness peaks at -11.3 LUFS; integrated -13.9 LUFS with a 6.4 LU range. Section boundaries at 22.4 and 34.5s sit near the table (22s) and end-run (34.6s) beats.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share is 0.0 against chance_share 0.28, from two cuts at 19.12s and 36.88s."
+ },
+ "good": [
+  {"observation": "Each beat is one headline plus one UI moment, so a viewer reads a four-word claim while a cursor proves it. The pairing repeats six times with the same layout.", "evidence": "f0006.jpg, f0007.jpg, f0009.jpg, f0014.jpg, f0017.jpg"},
+  {"observation": "The Workflow Builder to Agent Builder rename is shown by striking one word through, not by explaining it. The change reads in under 2s.", "evidence": "f0002.jpg, f0003.jpg"},
+  {"observation": "The film names the product and gives the frame its subject inside the first 5s, with the wordmark on frame 0.", "evidence": "f0001.jpg, f0003.jpg, strips/window-01-0.36s.jpg"},
+  {"observation": "A full-frame banner, centred and alone, gives a single focal point right after the first hard cut and breaks a long run of split-screen beats.", "evidence": "f0011.jpg at t=20s"},
+  {"observation": "The fade of line 2 from pale grey to black stages the headline in two reads without adding an accent colour or extra motion.", "evidence": "f0004.jpg, strips/window-20-34.16s.jpg"},
+  {"observation": "The closing inversion from white to black with a word-by-word tagline marks the end clearly and holds 3.3s.", "evidence": "strips/window-21-36.8s.jpg, metrics.json cut_times_s"},
+  {"observation": "Headline size stays in a narrow band across the film, 5.3-8.2% of frame height, so type reads as one system.", "evidence": "title_measurements, 7 lines measured"}
+ ],
+ "weak": [
+  {"observation": "Result table and agent chat text are about 10 px tall at 1280 px wide, below the 2.6% type floor; the proof beats cannot be read at phone width.", "evidence": "crops/table.png, f0012.jpg"},
+  {"observation": "'And Get Notified When Work Product is Done' has nine words and holds roughly 2.1s before the cut, under the reading rule.", "evidence": "f0010.jpg, strips/window-11-18.68s.jpg"},
+  {"observation": "Long stretches look static: 42% of sampled intervals are static and the longest static run is 6s, with no burst or climax in the cut rhythm.", "evidence": "metrics.json intervals_static_share 0.421, bursts []"},
+  {"observation": "True peak is -0.9 dBTP, 0.1 dB over the -1 dBTP ceiling, with integrated loudness at -13.9 LUFS.", "evidence": "metrics.json sound.true_peak_db"}
+ ],
+ "rule_candidates": [
+  {"rule": "A calm explainer can run on in-shot change instead of cuts: two hard cuts in 40s, median shot 17.76s, but a new headline or UI state every 3-4s.", "evidence": "metrics.json hard_cuts 2, median_shot_s 17.76, events change 23", "relation": "contradicts", "skill_rule": "10"},
+  {"rule": "A burst of 5-8 cuts is not needed for a feature explainer; this film has no burst and lands its hero moment at 50% of runtime with a single hard cut.", "evidence": "metrics.json bursts []; hero t=20s, share 0.497", "relation": "contradicts", "skill_rule": "8"},
+  {"rule": "Set a two-line headline with line 1 in full black and line 2 in pale grey that darkens to black over about 0.5s, as the second-line accent instead of one accent word.", "evidence": "f0004.jpg, strips/window-20-34.16s.jpg", "relation": "extends", "skill_rule": "3"},
+  {"rule": "Show a product rename as a strikethrough on the old word followed by the new name, within 2s, so the problem is shown and not captioned.", "evidence": "f0002.jpg at t=2s, f0003.jpg at t=4s", "relation": "extends", "skill_rule": "10"},
+  {"rule": "Keep the headline fixed while the right-hand UI changes: the title on the left stays still across 3-5s holds while cards, form values and chat lines update.", "evidence": "strips/window-07-9.52s.jpg, strips/window-15-25.4s.jpg", "relation": "confirms", "skill_rule": "4"},
+  {"rule": "Any UI line the viewer must read should be at least 19 px tall on a 720 px frame (2.6%); crop or zoom the UI rather than showing a full table at about 10 px.", "evidence": "crops/table.png, crops/agent-chat.png", "relation": "confirms", "skill_rule": "2"},
+  {"rule": "End a light film with a hard cut to a black card and build the tagline word by word at about 0.12-0.16s a word, then hold the finished line and logo about 3s.", "evidence": "strips/window-21-36.8s.jpg, cut at 36.88s", "relation": "new", "skill_rule": "none"},
+  {"rule": "A light film with grey UI panels uses a single full-frame dark element as its hero, placed at the middle of the runtime, to break the split-screen pattern.", "evidence": "f0011.jpg, t=20s, share 0.497", "relation": "new", "skill_rule": "none"}
+ ],
+ "frames_opened": 20,
+ "crops_made": 6,
+ "unchecked": [
+  "Sound was not heard; sound claims come from audio.json tags and metrics.json only.",
+  "frame 0 itself: f0001.jpg shows the wordmark but strip window-01 shows blank until 0.40s; I did not resolve which is t=0.",
+  "Hold times are read from 2s samples and strips, accurate to about 0.5s.",
+  "UI text height in crops/table.png was judged from the 2x crop, not measured with hf measure ink.",
+  "strips/window-10-16.96s.jpg was not opened; the 17s start of 'And Get Notified' is inferred from the 16s and 18s samples."
+ ]
+}

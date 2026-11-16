@@ -1,0 +1,49 @@
+id	brand	title	seconds	format	voice	cuts_per_min	median_shot_s	longest_shot_s	lufs	true_peak_dbtp	transcript
+-OH1y7CjIew	Claude	Coding on the go with Claude Code	242	feature-explainer	on-camera-presenter	7.93	5.54	26.71	-14.2	-1.4	human-captions
+5qt_aGyAsKk	Claude	Projects are now a conversation with Claude	83	feature-explainer	none-music-only	8.7	4.17	34.08	-15.5	-0.8	auto-captions
+7-1tNo8HAwk	Claude	New agents for legal professionals | Claude Cowork	25	short-announcement	none-music-only	0.0	25.24	25.24	-17.1	-4.3	none
+C-5wF6tkQ2Q	Claude	Claude Cowork is now your Chrome side panel	41	product-demo-walkthrough	none-music-only	8.73	3	21.91	-15.4	-1.5	none
+COJAZQM1aeQ	Claude	Build an App With Claude Design	102	product-demo-walkthrough	on-camera-presenter	13.5	2.31	19.75	-24.5	-7	human-captions
+G3vwVsh9RtU	Claude	Claude Fable 5.1 builds the ops review in Slack	86	product-demo-walkthrough	none-music-only	13.33	0.83	29.33	-19.3	-0.2	none
+S9IJ1GgAAxE	Claude	Claude Fable 5.1 runs the forecast overnight	74	product-demo-walkthrough	none-music-only	5.65	3.6	49.71	-16.1	-1.2	none
+SkFmiMHDN38	Claude	How an Anthropic engineer uses Claude Docs	83	product-demo-walkthrough	on-camera-presenter	9.4	4.56	23	-17	0.4	auto-captions
+SkpwzfR4A1E	Claude	Claude's new mobile app updates are here	152	feature-explainer	on-camera-presenter	6.31	8.2	25.63	-13.2	-0.9	local-whisper
+To5nrYqvR44	Claude	Meet Claude Slides, Claude Design and Claude Docs	95	product-demo-walkthrough	none-music-only	11.41	2.54	20.58	-15	0.1	none
+XNbc2HhL7J4	Claude	Claude Cowork: coming to mobile and web	81	launch-film	none-music-only	8.92	2.79	15.96	-12	1	auto-captions
+YUYeHMsqbmY	Claude	Introducing Claude Meetings	63	launch-film	on-camera-presenter	11.51	2.71	15.19	-15.4	-1.4	auto-captions
+YewAJPawE7I	Claude	Introducing Claude Whiteboards, Sheets, and Data	58	feature-explainer	none-music-only	1.04	28.89	45.79	-15.5	-1.1	none
+_f_rtbW_uFM	Claude	Getting started with Claude Tag	179	product-demo-walkthrough	narrator-vo	3.02	6.09	83.52	-14	0.5	human-captions
+bVXiNb9RyyI	Claude	How an Anthropic designer uses Claude Slides	104	customer-or-user-story	presenter-and-vo	8.64	3.25	24.96	-25.7	-3.9	human-captions
+en0GuyhieQk	Claude	Introducing Claude Dashboards and Claude Motion	82	feature-explainer	on-camera-presenter	5.88	4.75	31.79	-15.9	-1.2	auto-captions
+idJQMJwHtyM	Claude	Claude for Google Workspace™	60	product-demo-walkthrough	none-music-only	5.0	3.27	40.71	-15.4	-0.6	none
+jKRl_CSVxyI	Claude	Using Claude Opus 5.5 as your daily driver	212	feature-explainer	on-camera-presenter	5.65	8	32.17	-16	-3.5	human-captions
+kJA3fQnntpY	Claude	Collaborate on artifacts in Claude	160	feature-explainer	narrator-vo	1.88	9.09	117.32	-15.8	-1.2	local-whisper
+lCR9epzSNGc	Claude	Claude Opus 5.5 builds daydreams that hold together	86	product-demo-walkthrough	none-music-only	8.34	4.3	34.08	-19.8	-3.6	auto-captions
+mQZB0l-rhxE	Claude	Building verification loops in Claude Code	188	tutorial	on-camera-presenter	8.64	4.81	42.5	-23.9	-4.6	human-captions
+omihvjf0A2k	Claude	Getting started with Claude Code Projects	273	tutorial	on-camera-presenter	9.24	3.83	24.75	-23.7	-3.7	local-whisper
+tYOI-WoLS_o	Claude	Delegate and schedule tasks in Claude Cowork	257	tutorial	narrator-vo	4.2	4.71	111.78	-16.5	0.3	human-captions
+yUuFvL1lK4k	Claude	Mods in Claude Code: change how Claude Code works	201	tutorial	on-camera-presenter	0.9	40.71	116.02	-15.8	-2.7	human-captions
+4tlIHJqGiRc	Harvey	Introducing Memory	81	feature-explainer	none-music-only	5.2	3.52	33.17	-14.1	-1	none
+7M5TXyoJ-Jc	Harvey	Create and Edit Files in Harvey	54	feature-explainer	none-music-only	1.11	26.96	49.47	-14	-0.6	none
+B87ICNnr_GQ	Harvey	Harvey’s Legal AI Is Now Inside Microsoft 365	151	feature-explainer	narrator-vo	3.97	4.62	34.83	-14.7	0.2	auto-captions
+Bn9Vv8e_WPk	Harvey	Harvey Mobile with Voice for iOS and Android	19	short-announcement	none-music-only	3.14	9.54	16.58	-13.3	-0.1	local-whisper
+Jw6l1jgNVw8	Harvey	Run End-to-End Legal Work with Harvey Agents	67	product-demo-walkthrough	none-music-only	4.46	5.94	40.4	-13.9	-2.2	none
+KLMl0ug_oK0	Harvey	Introducing Command Center	79	product-demo-walkthrough	none-music-only	4.57	4.17	36.5	-11.2	0.2	local-whisper
+TVbOAMAxC4Y	Harvey	How Harvey Graph Helps Deliver More Accurate Legal Work	290	feature-explainer	narrator-vo	0.62	9.88	269.5	-22.8	-4.7	auto-captions
+_Qxh2NZcWuY	Harvey	Harvey’s Partnership with ElevenLabs	23	partnership-sting	narrator-vo	0.0	23.44	23.44	-13.5	-1.2	local-whisper
+arDCe_F8vfk	Harvey	Harvey for Innovation Teams: Lead Firmwide AI Transformation	109	feature-explainer	none-music-only	3.85	5.8	43.96	-13.9	-4.5	none
+bOeWJRfYWWY	Harvey	Introducing Contract Intelligence	50	launch-film	none-music-only	7.21	5.36	15.02	-19.1	-5.2	none
+dUIuvfP2j2c	Harvey	Email Harvey and Get Answers On the Go	26	product-demo-walkthrough	none-music-only	18.39	1.58	9.33	-22.7	-3.5	none
+fFQM0LHOGBc	Harvey	Build Your Own Legal AI Agents with Harvey Workflow Builder	177	product-demo-walkthrough	narrator-vo	8.15	3.51	53.1	-24.2	-5.4	auto-captions
+mTzRvY38xGw	Harvey	Visualize Legal Data on Demand in Harvey	32	feature-explainer	none-music-only	17.11	0.37	22.53	-12.3	0.7	none
+o5PmFp8HYTM	Harvey	Stay in Flow From Document Intake to Final Deliverable	51	product-demo-walkthrough	none-music-only	2.35	4.05	45.67	-14.4	-1.8	none
+vD-iFCwmozc	Harvey	Harvey for Outlook: Draft, Summarize, and Respond with AI	40	product-demo-walkthrough	none-music-only	1.5	20.05	37.1	-13.6	0.3	none
+vlwlzyBqgvc	Harvey	Introducing Command Center	55	launch-film	none-music-only	9.74	4.52	9.5	-20.7	-3.5	none
+wzrBFx0ONZg	Harvey	Create Tailored Legal Agents with Agent Builder	40	feature-explainer	none-music-only	2.98	17.76	19.12	-13.9	-0.9	none
+xDiG-MN7GzU	Harvey	Memory Is Now In Harvey	68	feature-explainer	none-music-only	3.54	7.24	39.54	-16	-2.4	none
+ydIT4EdLK54	Harvey	Harvey Platform Overview	232	feature-explainer	narrator-vo	2.85	8.95	77.83	-14.1	-0.2	auto-captions
+LrXnOKCr0mo	Muse	Introducing Spaces in Muse	90	feature-explainer	on-camera-presenter	9.96	4.47	19.31	-19	-1.8	auto-captions
+We8BTITLvb4	Muse	Introducing Muse: your personal AI agent	83	launch-film	none-music-only	5.81	4.75	27.67	-16	-3.1	none
+XO244jk7xH4	Muse	Meet Muse: your personal AI agent	120	customer-or-user-story	customer-testimonial	39.95	1.38	4.98	-17.2	-0.8	auto-captions
+_E9c5P4EyhU	Muse	How people are using Muse	38	customer-or-user-story	customer-testimonial	3.17	6.84	30.37	-16.2	-5.1	auto-captions
+kuxha-8IHCQ	Muse	Plan your big day, make a space.	61	customer-or-user-story	customer-testimonial	14.83	1.88	28.32	-16.3	-2	auto-captions

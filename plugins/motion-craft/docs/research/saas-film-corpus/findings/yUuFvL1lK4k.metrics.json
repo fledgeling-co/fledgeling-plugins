@@ -1,0 +1,243 @@
+{
+ "id": "yUuFvL1lK4k",
+ "title": "Mods in Claude Code: change how Claude Code works",
+ "uploader": "Claude",
+ "duration_s": 200.64,
+ "fps": 29.97,
+ "rhythm": {
+  "hard_cuts": 3,
+  "cuts_per_min": 0.9,
+  "cut_times_s": [
+   5.71,
+   121.72,
+   197.43
+  ],
+  "median_shot_s": 40.71,
+  "mean_shot_s": 50.16,
+  "shots_over_10s": 2,
+  "first_cut_s": 5.71,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 5.71,
+   "end": 121.72,
+   "seconds": 116.02,
+   "share_of_runtime": 0.578
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 8,
+   "flash": 0,
+   "appear": 29,
+   "disappear": 17,
+   "change": 122,
+   "hold": 61
+  },
+  "holds_over_1s": 43,
+  "median_hold_s": 2.5,
+  "longest_hold_s": 22.59,
+  "windows": 79
+ },
+ "frames": {
+  "count": 100,
+  "not_evidence_frames": [],
+  "dark_share": 0.99,
+  "light_share": 0.01,
+  "median_contentful_cells": 0.484,
+  "intervals_new_composition_share": 0.02,
+  "intervals_static_share": 0.636,
+  "longest_static_run_s": 28,
+  "longest_static_run_ends_at_s": 102,
+  "frame0": {
+   "meanLuminance": 0.3004,
+   "contentfulCells": 0.2,
+   "blankCells": 0.05,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0004.jpg",
+  "f0007.jpg",
+  "f0010.jpg",
+  "f0013.jpg",
+  "f0016.jpg",
+  "f0019.jpg",
+  "f0022.jpg",
+  "f0025.jpg",
+  "f0028.jpg",
+  "f0031.jpg",
+  "f0034.jpg",
+  "f0037.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0046.jpg",
+  "f0049.jpg",
+  "f0052.jpg",
+  "f0055.jpg",
+  "f0058.jpg",
+  "f0061.jpg",
+  "f0064.jpg",
+  "f0067.jpg",
+  "f0070.jpg",
+  "f0073.jpg",
+  "f0076.jpg",
+  "f0079.jpg",
+  "f0082.jpg",
+  "f0085.jpg",
+  "f0088.jpg",
+  "f0091.jpg",
+  "f0094.jpg",
+  "f0097.jpg",
+  "f0100.jpg"
+ ],
+ "sound": {
+  "kind": "voice",
+  "lufs_integrated": -15.8,
+  "lufs_short_term_max": -14.4,
+  "true_peak_db": -2.7,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.003,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 103.36,
+    "end": 103.635
+   },
+   {
+    "start": 182.45,
+    "end": 182.77
+   },
+   {
+    "start": 199.58,
+    "end": 200.634
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 11,
+    "label": "A"
+   },
+   {
+    "start": 11,
+    "end": 49.5,
+    "label": "B"
+   },
+   {
+    "start": 49.5,
+    "end": 65.5,
+    "label": "C"
+   },
+   {
+    "start": 65.5,
+    "end": 75.5,
+    "label": "D"
+   },
+   {
+    "start": 75.5,
+    "end": 100.5,
+    "label": "E"
+   },
+   {
+    "start": 100.5,
+    "end": 113,
+    "label": "F"
+   },
+   {
+    "start": 113,
+    "end": 124,
+    "label": "G"
+   },
+   {
+    "start": 124,
+    "end": 138,
+    "label": "H"
+   },
+   {
+    "start": 138,
+    "end": 148.5,
+    "label": "I"
+   },
+   {
+    "start": 148.5,
+    "end": 157,
+    "label": "J"
+   },
+   {
+    "start": 157,
+    "end": 168,
+    "label": "K"
+   },
+   {
+    "start": 168,
+    "end": 174.5,
+    "label": "L"
+   },
+   {
+    "start": 174.5,
+    "end": 182,
+    "label": "M"
+   },
+   {
+    "start": 182,
+    "end": 196.5,
+    "label": "N"
+   },
+   {
+    "start": 196.5,
+    "end": 200.634,
+    "label": "O"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.873
+   ],
+   [
+    "music",
+    0.489
+   ],
+   [
+    "plucked_string_instrument",
+    0.232
+   ],
+   [
+    "keyboard_musical",
+    0.205
+   ],
+   [
+    "guitar",
+    0.178
+   ],
+   [
+    "typing",
+    0.161
+   ],
+   [
+    "percussion",
+    0.16
+   ],
+   [
+    "synthesizer",
+    0.129
+   ]
+  ],
+  "lra_lu": 1.9,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.072,
+  "strong_onsets_per_min": 19.1
+ },
+ "look": {
+  "luma": 46.2,
+  "contrast": 34.3,
+  "saturation": 0.179,
+  "bw_share": 0.11,
+  "warmth": -3.8
+ }
+}

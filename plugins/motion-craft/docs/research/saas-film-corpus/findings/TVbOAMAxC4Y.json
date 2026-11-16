@@ -1,0 +1,408 @@
+{
+ "id": "TVbOAMAxC4Y",
+ "title": "How Harvey Graph Helps Deliver More Accurate Legal Work",
+ "brand": "Harvey",
+ "duration_s": 290.06,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "Narrated slide-style research explainer: animated data graphics on a light ground, bookended by a dark title card, with burned-in captions of the voiceover.",
+ "one_thing": "A knowledge graph over legal documents lets the same agent answer with fewer turns and about half the cost per criterion met.",
+ "transcript": {
+  "source": "auto-captions",
+  "voiceover": "narrator-vo",
+  "words_total": 650,
+  "words_per_minute": 134.5,
+  "voice_style": "Calm, even narrator at a measured pace; speech tag 0.895; loudness range 2.7 LU, so delivery stays level throughout.",
+  "script_shape": "Claim, context, three-part definition, three scaled examples, benchmark method, one worked question, aggregate quality and cost charts, one-line payback argument, sign-off."
+ },
+ "structure": {
+  "frame0": "Dark textured ground, grey 'Harvey Graph' title left, about ten white nodes scattered right and a caption line at the bottom; the subject is on screen at t=0 (f0001.jpg).",
+  "first_3s": "Title brightens to full white, a subtitle 'Overview and early results' appears, and node edges draw in until a connected graph forms by t=2-4s (f0004.jpg, sheet-01).",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 12,
+    "role": "hook",
+    "what": "Dark title card with a graph assembling; caption states this is an experiment on Harvey's Legal Agent Benchmark."
+   },
+   {
+    "start_s": 12,
+    "end_s": 37,
+    "role": "problem",
+    "what": "Three example cards (case overruled, contract replaced, side letters) then three 'Affects' labels: answer quality, steps, cost."
+   },
+   {
+    "start_s": 37,
+    "end_s": 64,
+    "role": "setup",
+    "what": "Three numbered cards Organize, Understand, Use data; middle card highlighted with a 'Simulated with synthetic benchmark data' tag."
+   },
+   {
+    "start_s": 64,
+    "end_s": 92,
+    "role": "setup",
+    "what": "Diagram of nodes, edges and provenance quote on a credit agreement and amendment; ends with 'Controlling, as amended' badge."
+   },
+   {
+    "start_s": 92,
+    "end_s": 116,
+    "role": "demo",
+    "what": "Fund side-letter graph: 8 documents, 302 facts, 72 entities, 7 MFN clauses highlighted with one query."
+   },
+   {
+    "start_s": 116,
+    "end_s": 144,
+    "role": "demo",
+    "what": "M&A data room: dot grid becomes 21 folder circles; counters reach 4,061 documents, 81,790 nodes, 153,820 relationships."
+   },
+   {
+    "start_s": 144,
+    "end_s": 166,
+    "role": "demo",
+    "what": "Law-firm scale: practice-area clusters, zoom into one antitrust matter with matter card, then 402,772 links across matters."
+   },
+   {
+    "start_s": 166,
+    "end_s": 190,
+    "role": "setup",
+    "what": "Evaluation method: eleven use-case tags and two parallel pipelines, without and with graph, graded by two model judges."
+   },
+   {
+    "start_s": 190,
+    "end_s": 226,
+    "role": "proof",
+    "what": "One question: without graph 23 turns, 19 documents, 0% criteria; with graph 10 turns, 6 documents, 75%."
+   },
+   {
+    "start_s": 226,
+    "end_s": 242,
+    "role": "proof",
+    "what": "Quality bars: 65 to 80%, 67 to 80%, 53 to 83% across three question types."
+   },
+   {
+    "start_s": 242,
+    "end_s": 282,
+    "role": "payoff",
+    "what": "Cost per result bars ($3.27 to $1.70, $2.31 to $1.34, $63.93 to $33.88), then cumulative-cost chart with break-even and savings."
+   },
+   {
+    "start_s": 282,
+    "end_s": 290,
+    "role": "logo",
+    "what": "Fade back to the dark title card; closing caption 'This has been an overview of the Harvey Graph vision' and its impact."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 124,
+   "share": 0.427,
+   "what": "Dot grid of 4,061 documents morphs into 21 packed folder circles with cross-folder links (strip window-20); the scale claim lands here."
+  },
+  "ending": {
+   "cta_text": "None; closing caption only: overview of the Harvey Graph vision and its impact on agent quality and efficiency.",
+   "logo_hold_s": 8,
+   "what": "Cover card returns with graph drawn in; held with caption to the end, no call to action or URL."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 3,
+  "cuts_per_min": 0.62,
+  "median_shot_s": 9.88,
+  "how_change_is_paced": "One long shot of 269.5 s (92.9% of runtime) holds a light slide; content changes by in-slide builds, with whole slides fading out and in every 10-40 s. 86.1% of sampled intervals are static (metrics.json)."
+ },
+ "look": {
+  "ground": "Warm off-white (luma 230) for 93.1% of frames; dark textured charcoal only for the cover and sign-off.",
+  "palette": [
+   "warm off-white",
+   "near-black text",
+   "charcoal dark card",
+   "mid grey bars",
+   "rust red nodes",
+   "steel blue clause squares"
+  ],
+  "accent_use": "Rust red marks organizations and people, blue marks clauses; saturation is 0.015 overall, so colour appears only in node legends (f0052.jpg).",
+  "type": "High-contrast serif for titles and card headlines, small grotesque sans for labels, captions and numbers; running header 'Harvey Graph' with a hairline rule under it.",
+  "title_height_pct": [
+   2.8,
+   9.4
+  ],
+  "title_measurements": [
+   {
+    "t_s": 7,
+    "text": "Harvey Graph (cover)",
+    "line_height_px": 68,
+    "frame_height_px": 720,
+    "pct": 9.4
+   },
+   {
+    "t_s": 20,
+    "text": "Harvey Graph (running header)",
+    "line_height_px": 30,
+    "frame_height_px": 720,
+    "pct": 4.2
+   },
+   {
+    "t_s": 70,
+    "text": "What's in the Knowledge Graph",
+    "line_height_px": 31,
+    "frame_height_px": 720,
+    "pct": 4.3
+   },
+   {
+    "t_s": 130,
+    "text": "M&A Diligence (section title)",
+    "line_height_px": 31,
+    "frame_height_px": 720,
+    "pct": 4.3
+   },
+   {
+    "t_s": 13,
+    "text": "Legal work depends on how documents relate to one another",
+    "line_height_px": 21,
+    "frame_height_px": 720,
+    "pct": 2.9
+   },
+   {
+    "t_s": 130,
+    "text": "Bottom caption, first line (second line 16 px)",
+    "line_height_px": 20,
+    "frame_height_px": 720,
+    "pct": 2.8
+   }
+  ],
+  "max_words_per_title_line": 6,
+  "density": "medium",
+  "depth": "Flat 2D with soft card shadows and film grain on the dark cards; no parallax or perspective."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 0,
+  "shown_as": [
+   "abstract-illustration"
+  ],
+  "cursor": "none",
+  "camera_on_ui": "No product UI capture; the nearest thing is a redrawn matter card and graph explorers. Zoom into one matter circle (t=132-142) is the only camera-like move.",
+  "legible_at_phone_width": "partly",
+  "notes": "Bottom captions and headlines read at phone width; node labels, chart axis text and the matter card timeline (about 10-14 px high) would not. Graphs are simulated on synthetic data and say so on screen (f0028.jpg)."
+ },
+ "motion": {
+  "text_entry": "Titles and captions swap by fade at the 2-4 s caption cadence; cards build left to right about 2 s apart (f0010, f0013); headings fade up from lower opacity (f0007.jpg).",
+  "ui_motion": "Graph nodes draw in with edges, dots re-sort from grid into circle packs in about 1.3 s (strip window-20), counters tick up one stat at a time, bars grow from zero in about 1 s (window-40).",
+  "camera": "Static frame except a zoom from practice-area clusters into a single matter circle at about t=132-142 s.",
+  "eases": "Bar growth and circle-packing read as ease-out settling; not measured numerically.",
+  "transitions": [
+   {
+    "type": "fade-through-colour",
+    "count": 2,
+    "example_t_s": 11.2,
+    "cause": "Dark cover card fades through mid grey to light slide at 11.2-12.4 s; mirrored at 281.2-282.6 s."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 3,
+    "example_t_s": 123,
+    "cause": "Dot grid becomes folder circles; clusters zoom into one matter circle; matter circle shrinks into wider graph."
+   },
+   {
+    "type": "cross-dissolve",
+    "count": 11,
+    "example_t_s": 142.5,
+    "cause": "Slide fades to near-blank before the next section title appears (strip window-23); same worlds, not unrelated scenes."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 30,
+    "example_t_s": 55.1,
+    "cause": "Highlight moves between cards, caption swaps, counters and bars change on narration cue."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-5.166s.jpg",
+   "strips/window-02-10.933s.jpg",
+   "strips/window-03-15.766s.jpg",
+   "strips/window-09-55.133s.jpg",
+   "strips/window-20-122.866s.jpg",
+   "strips/window-23-142.5s.jpg",
+   "strips/window-40-227.933s.jpg",
+   "strips/window-48-281.166s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "This video covers an experiment on Harvey's Legal Agent Benchmark.",
+    "words": 10,
+    "hold_s": 5
+   },
+   {
+    "t_s": 12,
+    "text": "Legal work depends on how documents relate to one another.",
+    "words": 10,
+    "hold_s": 3
+   },
+   {
+    "t_s": 16,
+    "text": "For example, a lawyer may need to know which case overruled another, which contract replaced an earlier version, or which side letters belong\u2026",
+    "words": 23,
+    "hold_s": 10
+   },
+   {
+    "t_s": 56,
+    "text": "We evaluated the Harvey Graph on synthetic document sets from Legal Agent Bench, which stand in for real firm data.",
+    "words": 20,
+    "hold_s": 8
+   },
+   {
+    "t_s": 72,
+    "text": "Edges record how two nodes relate: a draft is a version of an executed agreement, or an amendment changes a covenant.",
+    "words": 21,
+    "hold_s": 10
+   },
+   {
+    "t_s": 82,
+    "text": "Every fact also stores a verbatim quote from its source document.",
+    "words": 11,
+    "hold_s": 4
+   },
+   {
+    "t_s": 110,
+    "text": "Every most-favored-nation clause in the file can then be found with one query.",
+    "words": 13,
+    "hold_s": 6
+   },
+   {
+    "t_s": 168,
+    "text": "To measure what the graph changes, we ran tasks from Harvey's Legal Agent Benchmark in eleven use cases, with three agent models.",
+    "words": 22,
+    "hold_s": 10
+   },
+   {
+    "t_s": 222,
+    "text": "It finished in fewer than half the turns, and its answer met most of the criteria.",
+    "words": 16,
+    "hold_s": 4
+   },
+   {
+    "t_s": 242,
+    "text": "The chart shows the agent's cost per rubric criterion met; on aggregate, count and M&A diligence questions, it fell by close to half.",
+    "words": 23,
+    "hold_s": 14
+   },
+   {
+    "t_s": 282,
+    "text": "This has been an overview of the Harvey Graph vision and its impact on agent quality and efficiency.",
+    "words": 18,
+    "hold_s": 8
+   }
+  ],
+  "holds_vs_reading_rule": "Captions are the spoken script, so they hold as long as it takes to say it: about 3-15 s for 8-27 words, well above 0.5 s plus 0.3 s a word; the last caption holds 8 s."
+ },
+ "sound": {
+  "music": "None identified: music tag scores 0.126, below the 0.2 floor, and no beat found (confidence 0.018, bpm null); sections A-M follow narration changes.",
+  "sfx": "None identified; click tag scores 0.052, below the 0.2 floor.",
+  "vo_music_balance": "Voice only: speech 0.895; integrated -22.8 LUFS, short-term max -21.7, true peak -4.7 dBTP, loudness range 2.7 LU.",
+  "energy_arc": "Flat; no build or drop. Loudness range 2.7 LU and 13.2 strong onsets a minute come from speech phrasing.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.0 against chance_share 0.051. Visual builds follow the narration's sentences, checked by matching caption swaps to transcript times."
+ },
+ "good": [
+  {
+   "observation": "Every spoken sentence has a matching on-screen caption and a visual that builds on that sentence, so ear and eye carry the same fact.",
+   "evidence": "f0052.jpg caption vs transcript 01:32-01:50"
+  },
+  {
+   "observation": "Real figures reach the screen as large numerals with labels: 8 documents, 302 facts, 4,061 documents, 81,790 nodes, 153,820 relationships.",
+   "evidence": "f0052.jpg, sheet-05 t=2:08-2:20"
+  },
+  {
+   "observation": "One question is shown in a side-by-side before-and-after card (23 vs 10 turns, 19 vs 6 documents, 0% vs 75%) that carries the argument in one frame.",
+   "evidence": "f0109.jpg"
+  },
+  {
+   "observation": "Restrained system: one off-white ground, serif titles, grey vs black bars, red/blue only for node type; nothing competes with the data.",
+   "evidence": "look.json saturation 0.015; f0121.jpg"
+  },
+  {
+   "observation": "A visible disclaimer, 'Simulated with synthetic benchmark data', is placed on the highlighted card exactly when the narration says so.",
+   "evidence": "f0028.jpg, t=54-62 s"
+  },
+  {
+   "observation": "Payback chart draws the one-time build step first, then both lines, then break-even and shaded Savings, in the order the narration argues.",
+   "evidence": "sheet-09 t=4:14-4:40"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "86% of sampled intervals are static and the longest static run is 26 s; the film is one 269.5 s shot with no burst or rhythm change.",
+   "evidence": "metrics.json frames.intervals_static_share 0.861"
+  },
+  {
+   "observation": "Labels inside graphs, chart axes and the matter card timeline are about 10-14 px high on a 720 px frame, unreadable on a phone.",
+   "evidence": "f0067.jpg, crops/matter-card.png"
+  },
+  {
+   "observation": "Loudness is -22.8 LUFS, 8.8 LU under the social target, and there is no music bed to give an energy arc.",
+   "evidence": "metrics.json sound.lufs_integrated"
+  },
+  {
+   "observation": "The film ends on the title card with a caption and no call to action, link or result recap.",
+   "evidence": "f0145.jpg"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "For an explainer, put each spoken sentence's caption and the visual that proves it on screen together, and change the visual on the sentence boundary.",
+   "evidence": "Caption swaps match transcript boundaries, e.g. 01:50 and 01:56 (sheet-04).",
+   "relation": "extends",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "Reveal large stat numerals one at a time, about 6 s apart, beside the diagram they describe, rather than as a table.",
+   "evidence": "Documents, Nodes, Relationships appear at t=2:08, 2:14, 2:20 (sheet-05).",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Pair a before-and-after result card (same question, same model) with the narration of it; use one figure per row.",
+   "evidence": "f0109.jpg: turns 23/10, documents 19/6, criteria 0%/75%.",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "A film of mostly static data slides should still change something visible on screen about every 4 s, such as a caption swap, a card build or a counter.",
+   "evidence": "Median hold 5.65 s, longest 21.77 s (metrics.json events); only 3 hard cuts in 290 s.",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Bookend with the opening title card: fade through grey from dark to light content, then return to the same card to close, making the end a visual rhyme of frame 0.",
+   "evidence": "Strips window-02 (11.2-12.1 s) and window-48 (281.2-282.6 s); f0145 repeats f0004.",
+   "relation": "extends",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "Keep slide titles at 4-5% of frame height with a 2.8-3% body line; the cover title may reach about 9%.",
+   "evidence": "Ink heights: cover 68 px (9.4%), headers 30-31 px (4.2-4.3%), body headline 21 px (2.9%).",
+   "relation": "confirms",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "Mark simulated or synthetic data with a small label on screen at the moment the narration says so.",
+   "evidence": "'Simulated with synthetic benchmark data' tag at t=54-62 s (f0028.jpg).",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "For narrated explainers, hold the final caption at least 2 s and close on a clear last line; this film's 8 s hold is enough but lacks a next step.",
+   "evidence": "Final caption from 281.2 s to 290 s (f0145.jpg).",
+   "relation": "confirms",
+   "skill_rule": "2"
+  }
+ ],
+ "frames_opened": 49,
+ "crops_made": 6,
+ "unchecked": [
+  "Audio beyond the tags and loudness numbers: I cannot hear the voice or confirm the absence of music.",
+  "Ease curves, not measured numerically.",
+  "Phone-width legibility judged from pixel heights, not a phone render."
+ ]
+}

@@ -1,0 +1,218 @@
+{
+ "id": "SkFmiMHDN38",
+ "title": "How an Anthropic engineer uses Claude Docs",
+ "uploader": "Claude",
+ "duration_s": 83.02,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 13,
+  "cuts_per_min": 9.4,
+  "cut_times_s": [
+   0.04,
+   5.75,
+   12.46,
+   14.54,
+   16.88,
+   18.25,
+   27.29,
+   37.17,
+   60.17,
+   62.46,
+   67.33,
+   69.38,
+   73.62
+  ],
+  "median_shot_s": 4.56,
+  "mean_shot_s": 5.93,
+  "shots_over_10s": 1,
+  "first_cut_s": 0.04,
+  "not_cuts": [
+   {
+    "t": 7.79,
+    "kind": "fast"
+   }
+  ],
+  "longest_shot": {
+   "start": 37.17,
+   "end": 60.17,
+   "seconds": 23,
+   "share_of_runtime": 0.277
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 10,
+   "flash": 0,
+   "appear": 20,
+   "disappear": 12,
+   "change": 62,
+   "hold": 40
+  },
+  "holds_over_1s": 21,
+  "median_hold_s": 1.17,
+  "longest_hold_s": 4.54,
+  "windows": 60
+ },
+ "frames": {
+  "count": 42,
+  "not_evidence_frames": [],
+  "dark_share": 0.0,
+  "light_share": 0.881,
+  "median_contentful_cells": 0.3,
+  "intervals_new_composition_share": 0.195,
+  "intervals_static_share": 0.195,
+  "longest_static_run_s": 8,
+  "longest_static_run_ends_at_s": 82,
+  "frame0": {
+   "meanLuminance": 0.7677,
+   "contentfulCells": 0.175,
+   "blankCells": 0.4813,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0038.jpg",
+  "f0039.jpg",
+  "f0040.jpg",
+  "f0041.jpg",
+  "f0042.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -17,
+  "lufs_short_term_max": -13.6,
+  "true_peak_db": 0.4,
+  "bpm": 129.9,
+  "beats": {
+   "count": 170,
+   "confidence": 0.353,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 78.835,
+    "end": 83.014
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 7.005,
+    "label": "A"
+   },
+   {
+    "start": 7.005,
+    "end": 33.275,
+    "label": "B"
+   },
+   {
+    "start": 33.275,
+    "end": 48.985,
+    "label": "C"
+   },
+   {
+    "start": 48.985,
+    "end": 54.475,
+    "label": "D"
+   },
+   {
+    "start": 54.475,
+    "end": 72.975,
+    "label": "E"
+   },
+   {
+    "start": 72.975,
+    "end": 78.5,
+    "label": "F"
+   },
+   {
+    "start": 78.5,
+    "end": 83.014,
+    "label": "G"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.659
+   ],
+   [
+    "music",
+    0.617
+   ],
+   [
+    "keyboard_musical",
+    0.405
+   ],
+   [
+    "typing",
+    0.376
+   ],
+   [
+    "synthesizer",
+    0.301
+   ],
+   [
+    "click",
+    0.27
+   ],
+   [
+    "typing_computer_keyboard",
+    0.223
+   ],
+   [
+    "piano",
+    0.213
+   ]
+  ],
+  "lra_lu": 11.0,
+  "cuts_on_strong_onset_share": 0.077,
+  "chance_share": 0.158,
+  "strong_onsets_per_min": 46.3
+ },
+ "look": {
+  "luma": 229.5,
+  "contrast": 29.3,
+  "saturation": 0.072,
+  "bw_share": 0.25,
+  "warmth": -9.2
+ }
+}

@@ -1,0 +1,418 @@
+{
+ "id": "S9IJ1GgAAxE",
+ "title": "Claude Fable 5.1 runs the forecast overnight",
+ "brand": "Claude",
+ "duration_s": 74.36,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "Narrative demo: a dashboard's overnight job is dramatised as abstract data animation, then the morning report and a chat follow-up. No speech, on-screen captions only.",
+ "one_thing": "Claude does the night shift on 50,412 accounts and the human wakes to a report, asks one follow-up and clicks Mark as reviewed.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No voice. Meaning is carried by serif title cards, mono captions and UI text.",
+  "script_shape": "Setup (job scheduled), thesis card, what Claude reads and sorts overnight, forecast result, human follow-up in chat, sign-off tagline, product name, logo."
+ },
+ "structure": {
+  "frame0": "Dark Goodcast Forecast dashboard on a slate-blue ground, a counter already rolling (48,37x) at 0 s; subject present, though text is small (f0001.jpg, strips/window-01-0s.jpg).",
+  "first_3s": "Account counter climbs to 50,412 by 0.29 s while KPIs fill in, then a push-in on the 'Claude \u00b7 nightly forecast' pill: 'Scheduled 3:00 AM' (f0002.jpg, t=2s).",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 1,
+    "role": "hook",
+    "what": "Dashboard counter rolls to 50,412 with glow, KPIs and chart fade up."
+   },
+   {
+    "start_s": 1,
+    "end_s": 5.8,
+    "role": "setup",
+    "what": "Camera pushes to the Claude nightly-forecast pill; it turns orange and reads 'running nightly forecast', est 3h 10m."
+   },
+   {
+    "start_s": 5.9,
+    "end_s": 8.4,
+    "role": "turn",
+    "what": "Black card: 'Your team needs a forecast every morning. You trust Claude with the night shift.'"
+   },
+   {
+    "start_s": 8.42,
+    "end_s": 12.08,
+    "role": "reveal",
+    "what": "Circular lens over a collage of invoice, spreadsheet and contract; red marks overages. Caption: 'Overages four months running \u2014 and accelerating'."
+   },
+   {
+    "start_s": 12.08,
+    "end_s": 16.1,
+    "role": "demo",
+    "what": "Lens shrinks to an icon; grey and coloured circles with mono labels classify one account as LINEAR, ERRATIC, SEASONAL."
+   },
+   {
+    "start_s": 16.12,
+    "end_s": 30,
+    "role": "demo",
+    "what": "One orange stroke sweeps through hundreds of dots; a gate sorts them into five colour lanes: 'Sorting 50,412 accounts by consumption pattern'."
+   },
+   {
+    "start_s": 30,
+    "end_s": 40,
+    "role": "proof",
+    "what": "Lanes become five forecast curves with $ totals; 'Running 10,000 scenarios per cohort\u2026' then weighting by revenue share."
+   },
+   {
+    "start_s": 40,
+    "end_s": 46.5,
+    "role": "turn",
+    "what": "Orange line wipes the ground from black to cream and becomes the dashed P50 forecast with P10/P90 band."
+   },
+   {
+    "start_s": 46.5,
+    "end_s": 50,
+    "role": "payoff",
+    "what": "Light dashboard resolves: 50,412 accounts, Q3 P50 $64,232,806, spread 8.8%, locked in $35.3M."
+   },
+   {
+    "start_s": 50,
+    "end_s": 65.8,
+    "role": "demo",
+    "what": "Report 'Q3: how much is locked in vs modeled?', Claude Fable 5.1 chat answers a CFO backtest request, chart added, cursor clicks Mark as reviewed."
+   },
+   {
+    "start_s": 65.83,
+    "end_s": 68.6,
+    "role": "cta",
+    "what": "Cream card: 'Run by Claude.' then 'Led by you.'"
+   },
+   {
+    "start_s": 68.6,
+    "end_s": 71.5,
+    "role": "other",
+    "what": "Cream card with the product name 'Fable 5.1', which drifts up slightly."
+   },
+   {
+    "start_s": 71.5,
+    "end_s": 74.36,
+    "role": "logo",
+    "what": "Claude starburst and wordmark on cream; audio silent from 72.5 s."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 10.0,
+   "share": 0.134,
+   "what": "Lens fully open on the document collage with red overage circle and '105,838.42' (f0006.jpg); final cut of the film's only burst."
+  },
+  "ending": {
+   "cta_text": "Run by Claude. Led by you.",
+   "logo_hold_s": 2.8,
+   "what": "Tagline, product name and logo on separate cream cards, each in the same centred serif, no URL or button."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 7,
+  "cuts_per_min": 5.65,
+  "median_shot_s": 3.6,
+  "how_change_is_paced": "One burst of five cuts in 3.7 s at 8.4-12.1 s, then a single 49.7 s shot (66.8% of runtime, 16.12-65.83 s) in which dots, curves, ground colour and UI morph into each other without cuts."
+ },
+ "look": {
+  "ground": "Black or near-black for the first 41 s, then warm cream (#faf8f3 area) with a teal-to-peach gradient behind the light UI; end cards cream.",
+  "palette": [
+   "near-black",
+   "cream",
+   "terracotta orange",
+   "sage green",
+   "dusty pink",
+   "lavender",
+   "amber",
+   "soft blue"
+  ],
+  "accent_use": "Terracotta orange is the single actor: the stroke, gate, forecast line and highlighted words; five muted category colours appear only as data.",
+  "type": "Warm serif for titles and end cards; grotesk sans for UI and captions; small italic sans caption with starburst; monospace for data captions with one orange word.",
+  "title_height_pct": [
+   7.22,
+   9.31
+  ],
+  "title_measurements": [
+   {
+    "t_s": 6,
+    "text": "Your team needs a forecast every morning. You trust Claude with the night shift.",
+    "line_height_px": 55,
+    "frame_height_px": 720,
+    "pct": 7.64
+   },
+   {
+    "t_s": 66.6,
+    "text": "Run by Claude. Led by you.",
+    "line_height_px": 67,
+    "frame_height_px": 720,
+    "pct": 9.31
+   },
+   {
+    "t_s": 70,
+    "text": "Fable 5.1",
+    "line_height_px": 52,
+    "frame_height_px": 720,
+    "pct": 7.22
+   }
+  ],
+  "max_words_per_title_line": 7,
+  "density": "sparse",
+  "depth": "Flat graphic layers plus soft drop shadow on the app window; one lens mask; background circles at differing opacity give mild parallax in the 12-16 s section."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 34,
+  "shown_as": [
+   "redrawn-simplified-ui",
+   "abstract-illustration",
+   "floating-ui-cards"
+  ],
+  "cursor": "stylised",
+  "camera_on_ui": "Push-in on the status pill (1-5 s), then a slow drift and zoom through the report and chat panel (46-66 s); window crops off-screen while the camera follows the action.",
+  "legible_at_phone_width": "partly",
+  "notes": "Invented Goodcast app, not Claude's product. Body text in the report is about 15 px of 720 (2.1%) and chat text about 14 px; the drift keeps the active region large. Mono captions measure 17 px (2.4%), below the 2.6% rule."
+ },
+ "motion": {
+  "text_entry": "Counter digits roll with glow at 0 s; serif card appears whole, exits by a horizontal stretch at 8.42 s (strips/window-05-8.417s.jpg); end card words fade and the tagline narrows to 'Led by you.' then letters of 'Fable' type on (strips/window-36-68.167s.jpg).",
+  "ui_motion": "Chat reply types out ('Anything' at t=56 becomes the full question with three chips at t=60); stroke-drawn cursor moves along the chart and presses the button; KPI numbers count up.",
+  "camera": "Constant slow pushes and drifts on the UI; the abstract middle uses lateral travel with the dot field. Camera never stops except on cards.",
+  "eases": "Not measured from curves; strips show smooth deceleration on push-ins and an abrupt hard stretch on the title exit.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 4,
+    "example_t_s": 8.42,
+    "cause": "Title card stretches out, then a lens appears; three further cuts inside 0.5 s."
+   },
+   {
+    "type": "hard-cut",
+    "count": 3,
+    "example_t_s": 65.83,
+    "cause": "Click on Mark as reviewed becomes Marked as reviewed, then straight to the cream tagline."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 4,
+    "example_t_s": 16.12,
+    "cause": "The orange stroke carries from circles to dots to gate to curves to P50 line."
+   },
+   {
+    "type": "mask-or-wipe",
+    "count": 2,
+    "example_t_s": 12.08,
+    "cause": "Lens circle shrinks to an icon; circular mask opens at 8.5 s."
+   },
+   {
+    "type": "fade-through-colour",
+    "count": 1,
+    "example_t_s": 41.5,
+    "cause": "Black ground turns cream as the orange line crosses (f0021.jpg to f0022.jpg)."
+   },
+   {
+    "type": "zoom-through",
+    "count": 2,
+    "example_t_s": 1.0,
+    "cause": "Camera pushes onto the status pill; later pulls back from the P50 label to the full dashboard (strips/window-20-46.584s.jpg)."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0s.jpg",
+   "strips/window-05-8.417s.jpg",
+   "strips/window-08-11.417s.jpg",
+   "strips/window-11-16.042s.jpg",
+   "strips/window-18-42.792s.jpg",
+   "strips/window-20-46.584s.jpg",
+   "strips/window-34-65.75s.jpg",
+   "strips/window-36-68.167s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 2,
+    "text": "Claude \u00b7 nightly forecast. Scheduled 3:00 AM \u00b7 est 3h 10m",
+    "words": 9,
+    "hold_s": 2.0
+   },
+   {
+    "t_s": 4,
+    "text": "Claude \u00b7 running nightly forecast. Est time remaining: 3h 10m",
+    "words": 9,
+    "hold_s": 1.7
+   },
+   {
+    "t_s": 6,
+    "text": "Your team needs a forecast every morning. You trust Claude with the night shift.",
+    "words": 14,
+    "hold_s": 3.0
+   },
+   {
+    "t_s": 10,
+    "text": "Overages four months running \u2014 and accelerating",
+    "words": 7,
+    "hold_s": 2.5
+   },
+   {
+    "t_s": 12.3,
+    "text": "The old label no longer fits the behavior",
+    "words": 8,
+    "hold_s": 1.6
+   },
+   {
+    "t_s": 14,
+    "text": "Steady growth, month over month \u2014 LINEAR",
+    "words": 6,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 26,
+    "text": "Sorting 50,412 accounts by consumption pattern",
+    "words": 6,
+    "hold_s": 3.0
+   },
+   {
+    "t_s": 28,
+    "text": "Modeling five behaviors for tonight's simulations",
+    "words": 6,
+    "hold_s": 3.0
+   },
+   {
+    "t_s": 32,
+    "text": "Running 10,000 scenarios per cohort\u2026",
+    "words": 5,
+    "hold_s": 4.0
+   },
+   {
+    "t_s": 38,
+    "text": "Weighting each behavior by revenue share\u2026",
+    "words": 6,
+    "hold_s": 2.0
+   },
+   {
+    "t_s": 54,
+    "text": "CFO wants to know how accurate we've been so far, can you add a backtest?",
+    "words": 14,
+    "hold_s": 4.0
+   },
+   {
+    "t_s": 66.6,
+    "text": "Run by Claude. Led by you.",
+    "words": 6,
+    "hold_s": 2.7
+   },
+   {
+    "t_s": 68.7,
+    "text": "Fable 5.1",
+    "words": 2,
+    "hold_s": 2.9
+   }
+  ],
+  "holds_vs_reading_rule": "The opening title (14 words) holds roughly 3 s against 4.7 s the rule asks for; mono captions run 5-6 words at 2-4 s and pass on time but fail on size at 2.4% of height."
+ },
+ "sound": {
+  "music": "Music-only bed, estimated 117.9 bpm (beat confidence 0.449); describe tags: music 0.82, percussion 0.465, keyboard 0.393, drum 0.376, synthesizer 0.331; four sections change at 11.8, 25.8, 44.7 s.",
+  "sfx": "No sound effects evidenced; the describe tags show only music and instruments.",
+  "vo_music_balance": "No voice, so music is the only layer.",
+  "energy_arc": "Sections change at 11.8, 25.8 and 44.7 s; short-term loudness peaks at -12.2 LUFS; the final 1.9 s is silent (72.495-74.354 s).",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.0 against chance_share 0.039. Two section starts (11.8 s, 44.7 s) land near the 12.08 cut and the cream wipe at 41-46 s."
+ },
+ "good": [
+  {
+   "observation": "A single orange stroke is the continuous actor from 16 s to 46 s, turning into each metaphor in turn and linking black abstraction to the cream UI.",
+   "evidence": "f0011.jpg, f0012.jpg, f0021.jpg, f0023.jpg"
+  },
+  {
+   "observation": "The abstract section proves the one capability: 50,412 dots sorted into five behaviours that become five forecast curves, with the numbers on screen.",
+   "evidence": "f0013.jpg, f0014.jpg, f0017.jpg"
+  },
+  {
+   "observation": "A restrained sentence structure ends the film: three centred serif cards (tagline, product, logo) each take its own beat on one cream ground.",
+   "evidence": "f0034.jpg, f0035.jpg, f0037.jpg"
+  },
+  {
+   "observation": "The follow-up exchange is concrete: a CFO request, a numeric answer (6.6%, 8.9% to 5.4%) and the chart added under the forecast, finishing on a click.",
+   "evidence": "f0031.jpg, f0032.jpg, strips/window-34-65.75s.jpg"
+  },
+  {
+   "observation": "The first frame already shows the product subject with a counter in motion, and 0.3 s later reads 50,412.",
+   "evidence": "strips/window-01-0s.jpg, f0001.jpg"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Mono data captions are 17 px (2.4%) and small labels 12-15 px (1.7-2.1%), under the 2.6% type floor, and they carry the explanation.",
+   "evidence": "measure ink t=30 and t=12.3; f0014.jpg"
+  },
+  {
+   "observation": "The 14-word opening title holds about 3 s, short of the 4.7 s the reading rule asks for, then exits by a stretch.",
+   "evidence": "f0004.jpg, strips/window-05-8.417s.jpg"
+  },
+  {
+   "observation": "Cuts are not locked to the music: 0.0 share on strong onsets, and the only burst sits at 11-17% of runtime instead of 30-60%.",
+   "evidence": "metrics.json sound, rhythm.bursts mid_share 0.138"
+  },
+  {
+   "observation": "Loudness integrated -16.1 LUFS, 2.1 LU below the -14 social target.",
+   "evidence": "metrics.json sound.lufs_integrated"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Carry one accent-coloured object from scene to scene (stroke becomes gate, then forecast line) so a 30 s abstract section reads as one gesture without cuts.",
+   "evidence": "orange stroke at f0011-f0023; longest shot 49.7 s, 66.8% of runtime",
+   "relation": "extends",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "A film can run without cuts for two thirds of its runtime if something on screen morphs every 2-4 s; cuts-per-minute is then 5.7, not 17-33.",
+   "evidence": "cuts_per_min 5.65; longest_shot 49.71 s",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "When the product is shown, change the ground from dark to light at the moment the result arrives (black to cream at 41-46 s).",
+   "evidence": "f0021.jpg, f0022.jpg, f0025.jpg",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Put the burst of cuts early (8.4-12.1 s, 11-16% of length) when the film spends its second half on one long shot; the hero sits at its end.",
+   "evidence": "rhythm.bursts mid_share 0.138; f0006.jpg",
+   "relation": "contradicts",
+   "skill_rule": "8"
+  },
+  {
+   "rule": "End on three separate centred serif cards (tagline 2.7 s, product 2.9 s, logo about 2.8 s) rather than one stacked lockup; logo hold at least 2.8 s.",
+   "evidence": "f0034-f0037; silence_spans 72.495-74.354",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "A mono caption that explains a data animation stays at 2.6% of height or more; at 2.4% the captions in this film are the weakest legible element.",
+   "evidence": "measure ink t=30: 17 px of 720",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Put one concrete user request and a numeric answer inside the UI chat (CFO asks for a backtest; answer 6.6%) so the product proves itself in one exchange.",
+   "evidence": "f0031.jpg, f0032.jpg",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Open on a product screen with a rolling counter so frame 0 holds the subject and the key number lands by 0.3 s.",
+   "evidence": "strips/window-01-0s.jpg: 50,412 at 0.292 s",
+   "relation": "confirms",
+   "skill_rule": "1"
+  }
+ ],
+ "frames_opened": 37,
+ "crops_made": 7,
+ "unchecked": [
+  "Exact start of the opening title card between 4.6 and 6.0 s, so its hold is a range (2.4-3.8 s).",
+  "Eases of individual moves, not measured beyond strips.",
+  "Whether the hero moment falls on the strongest musical point; section starts only, not onset times, were compared.",
+  "Transcript tool returned no caption track and local whisper gave only a placeholder line, so there is no speech; saved as source none."
+ ]
+}

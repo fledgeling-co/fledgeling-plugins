@@ -1,0 +1,201 @@
+{
+ "id": "KLMl0ug_oK0",
+ "title": "Introducing Command Center",
+ "uploader": "Harvey",
+ "duration_s": 78.74,
+ "fps": 30,
+ "rhythm": {
+  "hard_cuts": 6,
+  "cuts_per_min": 4.57,
+  "cut_times_s": [
+   2.97,
+   29.13,
+   65.63,
+   68,
+   73.57,
+   74.57
+  ],
+  "median_shot_s": 4.17,
+  "mean_shot_s": 11.25,
+  "shots_over_10s": 2,
+  "first_cut_s": 2.97,
+  "not_cuts": [
+   {
+    "t": 23.03,
+    "kind": "fast"
+   }
+  ],
+  "longest_shot": {
+   "start": 29.13,
+   "end": 65.63,
+   "seconds": 36.5,
+   "share_of_runtime": 0.464
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 2,
+   "flash": 0,
+   "appear": 15,
+   "disappear": 14,
+   "change": 35,
+   "hold": 30
+  },
+  "holds_over_1s": 22,
+  "median_hold_s": 1.44,
+  "longest_hold_s": 5.8,
+  "windows": 34
+ },
+ "frames": {
+  "count": 39,
+  "not_evidence_frames": [
+   "f0002.jpg",
+   "f0038.jpg"
+  ],
+  "dark_share": 0.026,
+  "light_share": 0.154,
+  "median_contentful_cells": 0.412,
+  "intervals_new_composition_share": 0.395,
+  "intervals_static_share": 0.237,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 18,
+  "frame0": {
+   "meanLuminance": 0.9224,
+   "contentfulCells": 0.3375,
+   "blankCells": 0.3563,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0038.jpg",
+  "f0039.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -11.2,
+  "lufs_short_term_max": -9,
+  "true_peak_db": 0.2,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.01,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [],
+  "sections": [
+   {
+    "start": 0,
+    "end": 20,
+    "label": "A"
+   },
+   {
+    "start": 20,
+    "end": 27,
+    "label": "B"
+   },
+   {
+    "start": 27,
+    "end": 33.5,
+    "label": "C"
+   },
+   {
+    "start": 33.5,
+    "end": 45,
+    "label": "D"
+   },
+   {
+    "start": 45,
+    "end": 53.5,
+    "label": "E"
+   },
+   {
+    "start": 53.5,
+    "end": 78.734,
+    "label": "F"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.919
+   ],
+   [
+    "bowed_string_instrument",
+    0.514
+   ],
+   [
+    "keyboard_musical",
+    0.507
+   ],
+   [
+    "orchestra",
+    0.482
+   ],
+   [
+    "cello",
+    0.446
+   ],
+   [
+    "violin_fiddle",
+    0.397
+   ],
+   [
+    "piano",
+    0.301
+   ],
+   [
+    "organ",
+    0.289
+   ]
+  ],
+  "lra_lu": 4.5,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.003,
+  "strong_onsets_per_min": 0.8
+ },
+ "look": {
+  "luma": 148.1,
+  "contrast": 87.8,
+  "saturation": 0.099,
+  "bw_share": 0.92,
+  "warmth": 2.8
+ }
+}

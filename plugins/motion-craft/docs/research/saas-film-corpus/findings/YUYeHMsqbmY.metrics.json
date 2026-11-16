@@ -1,0 +1,211 @@
+{
+ "id": "YUYeHMsqbmY",
+ "title": "Introducing Claude Meetings",
+ "uploader": "Claude",
+ "duration_s": 62.56,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 12,
+  "cuts_per_min": 11.51,
+  "cut_times_s": [
+   0.04,
+   7.46,
+   9.42,
+   12.75,
+   14.79,
+   17.08,
+   25.83,
+   26.83,
+   29.54,
+   31.54,
+   39.21,
+   47.38
+  ],
+  "median_shot_s": 2.71,
+  "mean_shot_s": 4.81,
+  "shots_over_10s": 1,
+  "first_cut_s": 0.04,
+  "not_cuts": [
+   {
+    "t": 4.71,
+    "kind": "fast"
+   }
+  ],
+  "longest_shot": {
+   "start": 47.38,
+   "end": 62.56,
+   "seconds": 15.19,
+   "share_of_runtime": 0.243
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 9,
+   "flash": 0,
+   "appear": 21,
+   "disappear": 12,
+   "change": 66,
+   "hold": 30
+  },
+  "holds_over_1s": 8,
+  "median_hold_s": 0.83,
+  "longest_hold_s": 2.88,
+  "windows": 49
+ },
+ "frames": {
+  "count": 31,
+  "not_evidence_frames": [
+   "f0030.jpg"
+  ],
+  "dark_share": 0.387,
+  "light_share": 0.613,
+  "median_contentful_cells": 0.244,
+  "intervals_new_composition_share": 0.333,
+  "intervals_static_share": 0.067,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 60,
+  "frame0": {
+   "meanLuminance": 0.0972,
+   "contentfulCells": 0.3,
+   "blankCells": 0.4688,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -15.4,
+  "lufs_short_term_max": -13.6,
+  "true_peak_db": -1.4,
+  "bpm": 130.1,
+  "beats": {
+   "count": 129,
+   "confidence": 0.542,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 4.64,
+    "end": 4.84
+   },
+   {
+    "start": 13.54,
+    "end": 14.27
+   },
+   {
+    "start": 60.01,
+    "end": 62.554
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 14.325,
+    "label": "A"
+   },
+   {
+    "start": 14.325,
+    "end": 27.695,
+    "label": "B"
+   },
+   {
+    "start": 27.695,
+    "end": 33.695,
+    "label": "C"
+   },
+   {
+    "start": 33.695,
+    "end": 40.615,
+    "label": "B"
+   },
+   {
+    "start": 40.615,
+    "end": 53.535,
+    "label": "D"
+   },
+   {
+    "start": 53.535,
+    "end": 62.554,
+    "label": "E"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.856
+   ],
+   [
+    "keyboard_musical",
+    0.782
+   ],
+   [
+    "piano",
+    0.661
+   ],
+   [
+    "synthesizer",
+    0.634
+   ],
+   [
+    "electric_piano",
+    0.48
+   ],
+   [
+    "percussion",
+    0.377
+   ],
+   [
+    "mallet_percussion",
+    0.357
+   ],
+   [
+    "glockenspiel",
+    0.351
+   ]
+  ],
+  "lra_lu": 6.5,
+  "cuts_on_strong_onset_share": 0.083,
+  "chance_share": 0.22,
+  "strong_onsets_per_min": 61.4
+ },
+ "look": {
+  "luma": 158.8,
+  "contrast": 40,
+  "saturation": 0.047,
+  "bw_share": 0.14,
+  "warmth": 6.1
+ }
+}

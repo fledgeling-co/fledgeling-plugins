@@ -1,0 +1,191 @@
+{
+ "id": "bOeWJRfYWWY",
+ "title": "Introducing Contract Intelligence",
+ "uploader": "Harvey",
+ "duration_s": 49.96,
+ "fps": 60,
+ "rhythm": {
+  "hard_cuts": 6,
+  "cuts_per_min": 7.21,
+  "cut_times_s": [
+   11.8,
+   12.65,
+   13.67,
+   28.68,
+   39.6,
+   44.6
+  ],
+  "median_shot_s": 5.36,
+  "mean_shot_s": 7.14,
+  "shots_over_10s": 3,
+  "first_cut_s": 11.8,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 13.67,
+   "end": 28.68,
+   "seconds": 15.02,
+   "share_of_runtime": 0.301
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 3,
+   "flash": 0,
+   "appear": 4,
+   "disappear": 4,
+   "change": 22,
+   "hold": 20
+  },
+  "holds_over_1s": 7,
+  "median_hold_s": 0.8,
+  "longest_hold_s": 6.88,
+  "windows": 24
+ },
+ "frames": {
+  "count": 25,
+  "not_evidence_frames": [
+   "f0015.jpg"
+  ],
+  "dark_share": 0.6,
+  "light_share": 0.4,
+  "median_contentful_cells": 0.131,
+  "intervals_new_composition_share": 0.167,
+  "intervals_static_share": 0.417,
+  "longest_static_run_s": 10,
+  "longest_static_run_ends_at_s": 38,
+  "frame0": {
+   "meanLuminance": 0.058,
+   "contentfulCells": 0.15,
+   "blankCells": 0.6937,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -19.1,
+  "lufs_short_term_max": -16.8,
+  "true_peak_db": -5.2,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.099,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 0,
+    "end": 0.425
+   },
+   {
+    "start": 41.61,
+    "end": 42.06
+   },
+   {
+    "start": 43.75,
+    "end": 44.155
+   },
+   {
+    "start": 45.745,
+    "end": 46.185
+   },
+   {
+    "start": 47.825,
+    "end": 48.23
+   },
+   {
+    "start": 49.695,
+    "end": 49.954
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 13,
+    "label": "A"
+   },
+   {
+    "start": 13,
+    "end": 40,
+    "label": "B"
+   },
+   {
+    "start": 40,
+    "end": 49.954,
+    "label": "C"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.887
+   ],
+   [
+    "bowed_string_instrument",
+    0.768
+   ],
+   [
+    "violin_fiddle",
+    0.768
+   ],
+   [
+    "orchestra",
+    0.649
+   ],
+   [
+    "cello",
+    0.629
+   ],
+   [
+    "keyboard_musical",
+    0.207
+   ],
+   [
+    "double_bass",
+    0.198
+   ],
+   [
+    "wind_instrument",
+    0.187
+   ]
+  ],
+  "lra_lu": 16.8,
+  "cuts_on_strong_onset_share": 0.333,
+  "chance_share": 0.158,
+  "strong_onsets_per_min": 76.9
+ },
+ "look": {
+  "luma": 107.5,
+  "contrast": 36.6,
+  "saturation": 0.098,
+  "bw_share": 1,
+  "warmth": 1.2
+ }
+}

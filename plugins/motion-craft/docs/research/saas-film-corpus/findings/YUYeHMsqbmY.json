@@ -1,0 +1,245 @@
+{
+  "id": "YUYeHMsqbmY",
+  "title": "Introducing Claude Meetings",
+  "brand": "Claude",
+  "duration_s": 62.56,
+  "status": "ok",
+  "format": "launch-film",
+  "format_note": "Product story told as a team video call that moves to a shared whiteboard, chat and a notes document, with Claude acting as a participant.",
+  "one_thing": "Claude joins a team call as a participant and, from spoken requests, builds and sorts the whiteboard and writes the next-steps plan before the meeting ends.",
+  "transcript": {
+    "source": "auto-captions",
+    "voiceover": "on-camera-presenter",
+    "words_total": 22,
+    "words_per_minute": 21.1,
+    "voice_style": "Casual overlapping office greetings from six teammates, then one short spoken request to Claude; the caption track shows no speech after 14 s.",
+    "script_shape": "Greetings, a spoken request, Claude's typed replies; a second request at 26 s; a chat thread settles the pie choice; a Sync/Sort/Work tagline swap and the wordmark close it."
+  },
+  "structure": {
+    "frame0": "Black ground, one smiling webcam tile and a call toolbar (Mute, Off, Share, Chat, Settings, red End); more tiles join within 0.4 s (strips/window-01-0s.jpg).",
+    "first_3s": "Tiles fill to six faces and avatars (f0002.jpg at 2 s) while teammates say good morning; no title, caption or logo until 9.4 s.",
+    "beats": [
+      { "start_s": 0, "end_s": 7.46, "role": "hook", "what": "Video call grid fills with six teammates greeting each other; Claude's tile joins at about 6 s." },
+      { "start_s": 7.46, "end_s": 9.42, "role": "setup", "what": "Close on Claude's tile: sunrise doodle and the words Hey team." },
+      { "start_s": 9.42, "end_s": 12.75, "role": "reveal", "what": "Cream title card Claude Meetings with a voice bubble: Hey Claude, can you start a whiteboard please? Claude replies in a card." },
+      { "start_s": 12.75, "end_s": 17.08, "role": "setup", "what": "Claude's tile shows Taking notes... then Starting whiteboard as the blob morphs into a doodle." },
+      { "start_s": 17.08, "end_s": 25.83, "role": "demo", "what": "Whiteboard with Claude's labelled cursor; Claude joins your call and builds alongside you; stickies from five teammates fill the canvas." },
+      { "start_s": 25.83, "end_s": 29.54, "role": "turn", "what": "Card: So the work starts before the meeting ends; second voice command asks Claude to sort the notes." },
+      { "start_s": 29.54, "end_s": 31.54, "role": "setup", "what": "Claude's tile reads Organizing ideas." },
+      { "start_s": 31.54, "end_s": 39.21, "role": "payoff", "what": "Stickies sort into Easiest, Medium and Hardest columns; teammates add emoji reactions and votes." },
+      { "start_s": 39.21, "end_s": 47.38, "role": "proof", "what": "Chat thread: Teo declares Huckleberry the winner, Claude adds Berry good choice, You ask Claude to organize next steps, Claude says On it." },
+      { "start_s": 47.38, "end_s": 52, "role": "demo", "what": "Meeting notes document gets a Next steps heading and a Huckleberry Hootenanny launch plan Gantt chart." },
+      { "start_s": 52, "end_s": 59.3, "role": "turn", "what": "Tagline typed by a Claude cursor: Sync, then Sort, then Work at the speed of thought." },
+      { "start_s": 59.3, "end_s": 62.56, "role": "logo", "what": "Coral star grows, then types the Claude wordmark on cream; held silent." }
+    ],
+    "hero_moment": {
+      "t_s": 34.54,
+      "share": 0.552,
+      "what": "The sorted board in three labelled columns with reaction stickers arriving, the visible result of the spoken sort request."
+    },
+    "ending": {
+      "cta_text": "None; the Claude wordmark only.",
+      "logo_hold_s": 2.8,
+      "what": "Star grows into the Claude wordmark letter by letter between 59.33 s and 59.75 s, then holds on cream while the audio is silent."
+    }
+  },
+  "rhythm": {
+    "route": "hybrid",
+    "hard_cuts": 12,
+    "cuts_per_min": 11.51,
+    "median_shot_s": 2.71,
+    "how_change_is_paced": "Hard cuts at the call start, then shots of 8-15 s (17.08-25.83, 31.54-39.21, 39.21-47.38, 47.38-62.56) in which the interface keeps changing; median hold 0.83 s; no burst; metrics bursts is empty."
+  },
+  "look": {
+    "ground": "Two worlds: near-black call and chat screens, and warm cream canvas with a faint grid for whiteboard, cards and ending; 61% of sampled frames are light.",
+    "palette": [
+      "near-black",
+      "warm cream",
+      "coral (Claude)",
+      "pastel sticky pink, blue, yellow, green, lilac, peach",
+      "deep green (plan chart and pie brand)",
+      "red End button"
+    ],
+    "accent_use": "Coral is reserved for Claude: blob, star, name tag, cursor label and the word Claude in the Hey Claude bubble (f0006.jpg).",
+    "type": "High-contrast serif for titles, tagline and the document; clean geometric sans for call, chat and sticky text; heavy grotesque for the board heading and plan title.",
+    "title_height_pct": [6.53, 9.58],
+    "title_measurements": [
+      { "t_s": 10.5, "text": "Claude Meetings", "line_height_px": 69, "frame_height_px": 720, "pct": 9.58 },
+      { "t_s": 19, "text": "and builds alongside you", "line_height_px": 49, "frame_height_px": 720, "pct": 6.81 },
+      { "t_s": 27, "text": "before the meeting ends", "line_height_px": 47, "frame_height_px": 720, "pct": 6.53 },
+      { "t_s": 55, "text": "Work at the speed of thought", "line_height_px": 68, "frame_height_px": 720, "pct": 9.44 }
+    ],
+    "max_words_per_title_line": 6,
+    "density": "medium",
+    "depth": "Flat cards with soft drop shadows (f0006.jpg) and a coral glow around the plan card at 48 s (f0024.jpg); no perspective or 3D."
+  },
+  "product_ui": {
+    "presence_pct_runtime": 85,
+    "shown_as": ["redrawn-simplified-ui", "floating-ui-cards", "live-action"],
+    "cursor": "labelled-cursors",
+    "camera_on_ui": "Cuts between full-frame call, whiteboard, chat and document; inside a shot the board pans sideways (34-38 s), the chat scrolls up (39-47 s) and the plan card scales from the page to full frame (48 to 50 s).",
+    "legible_at_phone_width": "partly",
+    "notes": "Chat and tile-status text is large (f0021.jpg crop); sticky text, call buttons and Gantt row labels are about 14 px on a 720 px frame, under the 2.6% floor. The UI is invented but one coherent pie-company story."
+  },
+  "motion": {
+    "text_entry": "Words fade from grey to ink one at a time; the 9-word command completes in about 0.4 s (strips/window-25-27.792s.jpg); tagline is typed with a caret and a coral Claude name tag.",
+    "ui_motion": "Stickies drop onto the board with moving name-tagged cursors; the sort slides notes into columns; emoji reactions pop on notes; the coral blob morphs into a doodle; the plan card scales up from the page.",
+    "camera": "Mostly locked frames; sideways pan on the board (f0019.jpg to f0020.jpg), vertical chat scroll, and one zoom into the plan card.",
+    "eases": "Reveals look eased-out and settle without bounce; the sun doodle grows over about 1.2 s (strips/window-09-8.209s.jpg). Curves not measured.",
+    "transitions": [
+      { "type": "hard-cut", "count": 11, "example_t_s": 9.42, "cause": "Call to cream title card as the spoken request begins; a command or status line precedes most cuts." },
+      { "type": "ui-state-change", "count": 6, "example_t_s": 35.9, "cause": "Voice command resolves into sorted columns, the doodle swap or a new sticky layout." },
+      { "type": "morph-or-shared-element", "count": 2, "example_t_s": 59.5, "cause": "Coral star grows into the wordmark; blob turns into the notes doodle." },
+      { "type": "continuous-camera-move", "count": 3, "example_t_s": 36, "cause": "Board pan, chat scroll and plan-card zoom reveal more of the same surface." }
+    ],
+    "strips_read": [
+      "strips/window-01-0s.jpg: tiles join one by one within 0.4 s; frame 0 has a single webcam tile and a toolbar.",
+      "strips/window-09-8.209s.jpg: sun doodle grows from a dot to full rays over about 1.2 s, then hard cut to cream card at 9.42 s.",
+      "strips/window-17-17.542s.jpg: coral dot, line one fades in, line two follows, small call widget pops in top right at 18.4 s.",
+      "strips/window-25-27.792s.jpg: command words fade in grey to white across 0.4 s while the title card stays still.",
+      "strips/window-30-34.542s.jpg: columns hold, a call widget appears at 35.1 s and reaction stickers start landing.",
+      "strips/window-33-39.667s.jpg: chat arrives blurred and sharpens within 0.2 s after the cut at 39.21 s.",
+      "strips/window-39-47.042s.jpg: chat holds, Claude card shrinks and the cut to the document lands at 47.38 s.",
+      "strips/window-45-55.334s.jpg: highlighted word flips from Sort to Work in one frame under the Claude tag.",
+      "strips/window-49-59.334s.jpg: star grows then letters C-l-a-u-d-e fade in, finished by 59.7 s."
+    ]
+  },
+  "copy": {
+    "on_screen_lines": [
+      { "t_s": 7.5, "text": "Hey team", "words": 2, "hold_s": 1.96 },
+      { "t_s": 9.6, "text": "Claude Meetings", "words": 2, "hold_s": 3.3 },
+      { "t_s": 12, "text": "Hey Claude, can you start a whiteboard please?", "words": 8, "hold_s": 0.8 },
+      { "t_s": 12.75, "text": "Taking notes...", "words": 2, "hold_s": 2.04 },
+      { "t_s": 14.79, "text": "Starting whiteboard", "words": 2, "hold_s": 2.29 },
+      { "t_s": 17.8, "text": "Claude joins your call and builds alongside you", "words": 8, "hold_s": 8 },
+      { "t_s": 21, "text": "What's our special pie this year?", "words": 6, "hold_s": 14 },
+      { "t_s": 25.83, "text": "So the work starts before the meeting ends", "words": 8, "hold_s": 3.7 },
+      { "t_s": 28.17, "text": "Claude, sort these from easiest to hardest to produce.", "words": 9, "hold_s": 1.37 },
+      { "t_s": 29.54, "text": "Organizing ideas", "words": 2, "hold_s": 2 },
+      { "t_s": 34.5, "text": "1 Easiest  2 Medium  3 Hardest", "words": 5, "hold_s": 4 },
+      { "t_s": 39.7, "text": "Looks like we have a winner. Huckleberry it is!", "words": 9, "hold_s": 2.3 },
+      { "t_s": 44, "text": "Berry good choice", "words": 3, "hold_s": 1.8 },
+      { "t_s": 47, "text": "Ok Claude, organize next steps to get this launched by the holidays", "words": 11, "hold_s": -1 },
+      { "t_s": 50, "text": "Huckleberry Hootenanny Launch Plan", "words": 4, "hold_s": 2.4 },
+      { "t_s": 52, "text": "Sync at the speed of thought", "words": 6, "hold_s": 2 },
+      { "t_s": 54, "text": "Sort at the speed of thought", "words": 6, "hold_s": 1.4 },
+      { "t_s": 56, "text": "Work at the speed of thought", "words": 6, "hold_s": 2 },
+      { "t_s": 59.7, "text": "Claude", "words": 1, "hold_s": 2.8 }
+    ],
+    "holds_vs_reading_rule": "Titles and tagline hold 2.0-8 s and clear 0.5 s + 0.3 s a word; the 9-word sort command is complete for 1.37 s against 3.2 s required, so it reads as a spoken line."
+  },
+  "sound": {
+    "music": "Music throughout (describe tag music 0.856); keyboard_musical 0.782, piano 0.661, synthesizer 0.634, electric_piano 0.48, mallet_percussion 0.357, glockenspiel 0.351; tempo about 130 bpm at beat confidence 0.54.",
+    "sfx": "Captions mark two [snorts] at 6 s and 14 s and [music] cues; no other effect is evidenced; silence spans 4.64-4.84 s and 13.54-14.27 s.",
+    "vo_music_balance": "Speech sits only in the first 11 s of the caption track; after 14 s the track shows music only. Balance not measurable.",
+    "energy_arc": "Sections A 0-14 s, B 14-28 s, C 28-34 s, B 34-41 s, D 41-54 s, E 54-62.6 s; short-term loudness peaks at -13.6 LUFS; film ends in 2.5 s of silence from 60.01 s.",
+    "sync_to_picture": "Not locked: cuts_on_strong_onset_share 0.083 against chance_share 0.22; strong onsets run 61.4 a minute."
+  },
+  "good": [
+    {
+      "observation": "One invented story (a pie company choosing a flavour) runs through call, board, chat, document and chart, so each surface reads as the next step of the same work.",
+      "evidence": "f0011.jpg, f0021.jpg, f0025.jpg: Huckleberry named throughout"
+    },
+    {
+      "observation": "Claude acts as a named participant: own tile, own coral cursor tag, and status lines (Taking notes..., Starting whiteboard, Organizing ideas) that narrate the work without a voiceover.",
+      "evidence": "f0008.jpg, f0009.jpg, f0015.jpg; cursor tags in f0011.jpg"
+    },
+    {
+      "observation": "Each request is shown as a typed card, then a status tile, then the result; this order gives every cut a visible cause.",
+      "evidence": "cuts at 9.42, 12.75, 14.79, 25.83, 29.54, 31.54 s in metrics.json"
+    },
+    {
+      "observation": "The payoff board turns 17 loose stickies into three labelled columns with reactions arriving, so the sort is legible at a glance.",
+      "evidence": "f0018.jpg, f0019.jpg (34-36 s)"
+    },
+    {
+      "observation": "The tagline is typed by Claude's cursor and a highlighted verb swaps Sync, Sort, Work, so the closing line demonstrates the product.",
+      "evidence": "f0027.jpg, f0028.jpg, strips/window-45-55.334s.jpg"
+    },
+    {
+      "observation": "The last concrete deliverable, a dated Gantt plan with owners, is readable at full frame and shows the work reaching a finished artifact.",
+      "evidence": "f0025.jpg (50 s)"
+    },
+    {
+      "observation": "The ending is quiet: a star grows into the wordmark in 0.4 s and holds 2.8 s on empty cream with the audio silent.",
+      "evidence": "strips/window-49-59.334s.jpg; silence 60.01-62.554 s"
+    }
+  ],
+  "weak": [
+    {
+      "observation": "Sticky text, call-widget buttons and Gantt row labels are about 14 px on a 720 px frame, under 2.6% of the short side, so they are unreadable at phone width.",
+      "evidence": "crops/gantt-head.png, crops/call-widget.png, f0013.jpg"
+    },
+    {
+      "observation": "The product name arrives at 9.4 s, 15% into the film; the first 9 s show a generic video call with no caption or logo.",
+      "evidence": "f0001.jpg to f0005.jpg; title at f0006.jpg"
+    },
+    {
+      "observation": "Cuts are not locked to the music, and the final 2.5 s are silent, so the film's loudness sits at -15.4 LUFS.",
+      "evidence": "metrics.json sound: share 0.083 vs chance 0.22; lufs_integrated -15.4"
+    },
+    {
+      "observation": "The sort command is fully on screen for 1.37 s though nine words need 3.2 s to read.",
+      "evidence": "strips/window-25-27.792s.jpg; cut at 29.54 s"
+    }
+  ],
+  "rule_candidates": [
+    {
+      "rule": "Put the product name in a two-word serif title at 9-10% of frame height, held at least 3 s, once the premise has been seen, not at frame 0.",
+      "evidence": "Claude Meetings at 9.6-12.75 s, 69 px of 720 px (9.58%); frames 0-9 s show the call only.",
+      "relation": "extends",
+      "skill_rule": "3"
+    },
+    {
+      "rule": "Shots of 8-15 s are acceptable when the interface inside them changes at least every 1 s; keep a hold under 3 s only for status tiles.",
+      "evidence": "Shots 8.75, 7.67, 8.16 and 15.19 s; median hold 0.83 s; median shot 2.71 s in metrics.json.",
+      "relation": "extends",
+      "skill_rule": "10"
+    },
+    {
+      "rule": "Show each assistant action as three beats in order: a typed request card, a 2-second status tile naming the work, then the result on screen.",
+      "evidence": "9.42, 12.75-17.08 s and 25.83, 29.54-31.54 s repeat request, status tile, result.",
+      "relation": "new",
+      "skill_rule": "none"
+    },
+    {
+      "rule": "A film built from one continuous interface can use hard cuts for every shot change when each cut swaps a dark world for a cream one and follows an on-screen request; zero dissolves.",
+      "evidence": "12 hard cuts, no dissolves in cuts.json; cuts at 9.42, 25.83, 31.54 s switch ground colour.",
+      "relation": "contradicts",
+      "skill_rule": "7"
+    },
+    {
+      "rule": "A calm film can replace a cut burst with in-shot density: 10 or more new objects and 4 or more labelled cursors landing within 4 s.",
+      "evidence": "f0011.jpg to f0013.jpg (20-24 s): 6 to 15 stickies, 5 name-tagged cursors; bursts empty in metrics.json.",
+      "relation": "extends",
+      "skill_rule": "8"
+    },
+    {
+      "rule": "Hold the true peak at or below -1 dBTP, but check integrated loudness after a silent logo tail; a 2.5 s silence pulls a -13.6 short-term peak down to -15.4 LUFS integrated.",
+      "evidence": "true_peak_db -1.4, lufs_integrated -15.4, lufs_short_term_max -13.6, silence 60.01-62.554 s.",
+      "relation": "extends",
+      "skill_rule": "9"
+    },
+    {
+      "rule": "End on a wordmark held at least 2.5 s after it finishes forming, preceded by a tagline of 6 words or fewer held about 2 s.",
+      "evidence": "Logo complete 59.75 s, ends 62.56 s (2.8 s); tagline Work at the speed of thought, 6 words.",
+      "relation": "confirms",
+      "skill_rule": "2"
+    },
+    {
+      "rule": "Invented UI is acceptable when one story with named people, dates and a brand runs through every screen; reuse the same names and object on at least 4 surfaces.",
+      "evidence": "Huckleberry and Teo, June, Vinny recur on tiles, board, chat and Gantt (f0011, f0021, f0025).",
+      "relation": "extends",
+      "skill_rule": "10"
+    }
+  ],
+  "frames_opened": 31,
+  "crops_made": 5,
+  "unchecked": [
+    "Sound heard by no one: sfx and music structure come only from captions, tags and onsets in metrics.json.",
+    "Caption track covers speech only to 14 s; no whisper run, so later speech cannot be ruled out.",
+    "Exit durations and ease curves were not measured; strips show entrances only.",
+    "Hold times for 12 s, 44 s and 50 s lines estimated from sheet and strip frames, not frame-exact.",
+    "Sticky and Gantt glyph height of about 14 px was estimated from crops, not measured with hf."
+  ]
+}

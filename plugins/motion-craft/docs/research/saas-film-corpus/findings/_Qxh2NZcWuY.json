@@ -1,0 +1,326 @@
+{
+ "id": "_Qxh2NZcWuY",
+ "title": "Harvey’s Partnership with ElevenLabs",
+ "brand": "Harvey",
+ "duration_s": 23.44,
+ "status": "ok",
+ "format": "partnership-sting",
+ "format_note": "23 s single-shot motion graphic: logo lockup, voice waveform, rotating globe, two stat titles, logo lockup. No product UI, no cuts.",
+ "one_thing": "Harvey and ElevenLabs partner so law has a global voice: 7000 voices across 32 languages.",
+ "transcript": {
+  "source": "local-whisper",
+  "voiceover": "narrator-vo",
+  "words_total": 20,
+  "words_per_minute": 51,
+  "voice_style": "Slow, single narrator; three spoken lines across 21 s. Inferred from whisper timing and a speech tag of 0.743, not heard.",
+  "script_shape": "Announcement line, then the two numbers, then a two-word sign-off. On-screen captions add two lines whisper did not transcribe (t=8 s and t=12 s)."
+ },
+ "structure": {
+  "frame0": "Dark ground, centred Harvey (serif) / ElevenLabs (bold sans) lockup, nothing else. Subject is the partnership itself (f0001.jpg).",
+  "first_3s": "Lockup holds until about 2.25 s, tightens and widens at 0.67-0.96 s, then gives way to a particle waveform and the caption at 2.29 s (strips/window-02-2.125s.jpg).",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 2.25,
+    "role": "hook",
+    "what": "Harvey / ElevenLabs lockup centred on near-black, spacing animates at 0.67-0.96 s."
+   },
+   {
+    "start_s": 2.29,
+    "end_s": 5.0,
+    "role": "setup",
+    "what": "Particle waveform breathes while caption reads 'Harvey and ElevenLabs now partner to give law a global voice'."
+   },
+   {
+    "start_s": 5.0,
+    "end_s": 14.0,
+    "role": "demo",
+    "what": "Waveform collapses into a dotted globe; flag chips English, Spanish, Japanese appear on glowing voice points; captions on legal access."
+   },
+   {
+    "start_s": 14.08,
+    "end_s": 16.0,
+    "role": "proof",
+    "what": "'7000 Voices' enters left of the globe, 'Supporting 7000 voices across 32 languages' caption below."
+   },
+   {
+    "start_s": 16.0,
+    "end_s": 17.8,
+    "role": "reveal",
+    "what": "'32 Languages' enters right; the globe is flanked by both numbers, the fullest frame (f0009.jpg)."
+   },
+   {
+    "start_s": 17.83,
+    "end_s": 20.8,
+    "role": "payoff",
+    "what": "Globe and titles dissolve into the waveform; caption 'Heard worldwide'."
+   },
+   {
+    "start_s": 20.88,
+    "end_s": 23.44,
+    "role": "logo",
+    "what": "Lockup returns, tight then widened, holds to the end."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 16.0,
+   "share": 0.683,
+   "what": "Globe flanked by '7000 Voices' and '32 Languages' at once (f0009.jpg); the only frame with both facts."
+  },
+  "ending": {
+   "cta_text": "none",
+   "logo_hold_s": 2.5,
+   "what": "Harvey / ElevenLabs lockup on the dark ground, no tagline or URL (f0011.jpg, f0012.jpg)."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 0,
+  "cuts_per_min": 0,
+  "median_shot_s": 23.44,
+  "how_change_is_paced": "One unbroken shot. Visuals change by morphing particles (wave to globe at 5 s, globe to wave at 17.8 s) and by captions swapping every 2-4 s. 90.9 % of sampled intervals are static (metrics frames.intervals_static_share)."
+ },
+ "look": {
+  "ground": "Flat near-black with a faint warm green cast (mean luminance 0.062), no gradient or texture; 100 % of sampled frames dark (dark_share 1.0).",
+  "palette": [
+   "near-black ground",
+   "white type",
+   "light-grey particles",
+   "soft white glow on voice points",
+   "tiny flag colours (red, orange, white)"
+  ],
+  "accent_use": "No accent colour. The only colour is the 3 flag chips (UK, Spain, Japan), each about 30 px wide, visible 1-3 s.",
+  "type": "Serif for Harvey wordmark and the two stat titles; neutral sans for captions and flag labels; bold grotesque for the ElevenLabs wordmark. All white.",
+  "title_height_pct": [
+   3.6,
+   7.2
+  ],
+  "title_measurements": [
+   {
+    "t_s": 1.5,
+    "text": "Harvey / ElevenLabs",
+    "line_height_px": 52,
+    "frame_height_px": 720,
+    "pct": 7.2
+   },
+   {
+    "t_s": 2.8,
+    "text": "Harvey and ElevenLabs now partner to give law a global voice",
+    "line_height_px": 26,
+    "frame_height_px": 720,
+    "pct": 3.6
+   },
+   {
+    "t_s": 15.0,
+    "text": "7000 Voices",
+    "line_height_px": 42,
+    "frame_height_px": 720,
+    "pct": 5.8
+   },
+   {
+    "t_s": 17.0,
+    "text": "32 Languages",
+    "line_height_px": 52,
+    "frame_height_px": 720,
+    "pct": 7.2
+   }
+  ],
+  "max_words_per_title_line": 2,
+  "density": "sparse",
+  "depth": "Glow on voice points and a soft halo around the globe; flat otherwise. Globe rotates, giving parallax-like depth on a flat ground."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 0,
+  "shown_as": [
+   "abstract-illustration"
+  ],
+  "cursor": "none",
+  "camera_on_ui": "No product UI and no camera move; the globe rotates in place at a fixed size of about 320 px (44 % of frame height).",
+  "legible_at_phone_width": "partly",
+  "notes": "Captions are 3.6 % of height and read at phone width; flag labels such as 'English' are about 15 px tall (2 %) and would not read on a phone (crops/flag.png)."
+ },
+ "motion": {
+  "text_entry": "Stat titles slide in from the sides over about 0.4 s (strips/window-09-13.584s.jpg frames 10-12, window-10 frames 1-3); captions swap in place with a short gap.",
+  "ui_motion": "Flag chips attach to a glowing voice point, hold, and shrink away at 10.6-10.7 s; points drift and re-cluster as the globe turns.",
+  "camera": "Static. No push, pan or zoom.",
+  "eases": "Not measured numerically; waveform and chip motion look smooth and damped in the strips.",
+  "transitions": [
+   {
+    "type": "morph-or-shared-element",
+    "count": 2,
+    "example_t_s": 5.0,
+    "cause": "Waveform particles collapse into the globe; at 17.8 s the globe disperses back into the waveform."
+   },
+   {
+    "type": "other",
+    "count": 2,
+    "example_t_s": 2.29,
+    "cause": "Lockup disappears and waveform plus caption appear within 0.04 s; at 20.8 s waveform fades to lockup."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 5,
+    "example_t_s": 10.7,
+    "cause": "Caption and flag chip change as the voice point changes."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0.667s.jpg",
+   "strips/window-02-2.125s.jpg",
+   "strips/window-03-3.709s.jpg",
+   "strips/window-07-10.5s.jpg",
+   "strips/window-09-13.584s.jpg",
+   "strips/window-10-16.084s.jpg",
+   "strips/window-12-18.5s.jpg",
+   "strips/window-14-20.5s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 2.29,
+    "text": "Harvey and ElevenLabs now partner to give law a global voice",
+    "words": 11,
+    "hold_s": 3.5
+   },
+   {
+    "t_s": 8.0,
+    "text": "Making legal knowledge more accessible",
+    "words": 5,
+    "hold_s": 2.7
+   },
+   {
+    "t_s": 11.04,
+    "text": "Giving a voice to the intelligence of law",
+    "words": 8,
+    "hold_s": 2.5
+   },
+   {
+    "t_s": 14.08,
+    "text": "Supporting 7000 voices across 32 languages",
+    "words": 6,
+    "hold_s": 3.9
+   },
+   {
+    "t_s": 14.5,
+    "text": "7000 Voices",
+    "words": 2,
+    "hold_s": 3.3
+   },
+   {
+    "t_s": 16.0,
+    "text": "32 Languages",
+    "words": 2,
+    "hold_s": 1.8
+   },
+   {
+    "t_s": 18.58,
+    "text": "Heard worldwide",
+    "words": 2,
+    "hold_s": 2.2
+   }
+  ],
+  "holds_vs_reading_rule": "Holds are read from strips, accurate to about 0.2 s. The 11-word opener (3.5 s vs 3.8 s required) and the 8-word line at 11.04 s (2.5 s vs 2.9 s) fall short; the rest pass."
+ },
+ "sound": {
+  "music": "Kind 'music' with speech over it. Tags: keyboard_musical 0.362, organ 0.228, synthesizer 0.202. No steady beat (confidence 0.037), one section A, so a soft pad-like bed at most.",
+  "sfx": "None established; no describe tag points to effects.",
+  "vo_music_balance": "Speech tag 0.743 against music 0.668: voice and bed close in level. Integrated -13.5 LUFS, true peak -1.2 dBTP, LRA 4.8 LU.",
+  "energy_arc": "Flat: loudness range 4.8 LU, short-term max -11.3 LUFS, silence only in the first 0.34 s and last 0.6 s.",
+  "sync_to_picture": "No cuts exist, so cut-to-sound alignment cannot be measured. Whisper puts speech at 0-7 s, 7-18 s and 18-21 s, loosely matching the caption changes at 2.3 s, 14 s and 18.6 s."
+ },
+ "good": [
+  {
+   "observation": "One visual idea (a particle waveform that becomes a globe and back) carries the whole message, so the film needs no cuts and stays calm.",
+   "evidence": "strips/window-04-5s.jpg; window-10-16.084s.jpg frames 10-12"
+  },
+  {
+   "observation": "The two proof numbers are set large in serif on either side of the globe, so the hero frame is also the fact frame.",
+   "evidence": "f0009.jpg, crops/voices.png, crops/languages.png"
+  },
+  {
+   "observation": "Brand lockup is the first and last frame, with the same tight-to-wide spacing move both times, so the film is bookended.",
+   "evidence": "f0001.jpg, f0011.jpg, f0012.jpg; strips/window-14-20.5s.jpg"
+  },
+  {
+   "observation": "Captions sit at one fixed bottom position at 3.6 % of height, so the eye never searches for the line.",
+   "evidence": "f0002.jpg, f0005.jpg, f0010.jpg; ink 26 px at t=2.8 s"
+  },
+  {
+   "observation": "Loudness meets the social target: -13.5 LUFS, true peak -1.2 dBTP.",
+   "evidence": "metrics.json sound.lufs_integrated, true_peak_db"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Roughly 91 % of intervals are static and the frame is mostly empty ground; on a feed this reads slow, and the hook at 0-2 s is only a lockup.",
+   "evidence": "metrics.json frames.intervals_static_share 0.909; f0001.jpg"
+  },
+  {
+   "observation": "Flag chips are small (about 15 px label text) and vanish within 1-3 s, so the language idea is hard to read at phone width.",
+   "evidence": "crops/flag.png; f0004.jpg"
+  },
+  {
+   "observation": "Two captions are not in the spoken track, and '7000' loses its thousands comma on screen (whisper wrote '7,000').",
+   "evidence": "transcript.md; crops/voices.png"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "A partnership sting may open on the two-brand lockup alone if it re-animates within 1 s (spacing change at 0.67-0.96 s) and the subject of the film is the pairing.",
+   "evidence": "f0001.jpg; strips/window-01-0.667s.jpg; frame0 contentfulCells 0.075",
+   "relation": "contradicts",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "A 23 s sting can run as one continuous shot with 0 hard cuts if change comes from a morphing hero object and caption swaps every 2-4 s.",
+   "evidence": "metrics.json rhythm.hard_cuts 0; median_shot_s 23.44",
+   "relation": "extends",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Put each proof number in its own title (5.8-7.2 % of frame height, two words) beside the hero, so the hero frame carries every fact.",
+   "evidence": "ink 42 px and 52 px of 720; f0009.jpg",
+   "relation": "confirms",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "Keep running captions at a fixed bottom position and about 3.6 % of height (26 px of 720); hold the last caption at least 2 s.",
+   "evidence": "ink at t=2.8 s; 'Heard worldwide' 18.58-20.8 s",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Allow a dark minimal frame to leave over a quarter of the frame empty when the single hero object stays centred and at least 40 % tall; here the globe is about 44 % tall.",
+   "evidence": "f0004.jpg, f0009.jpg; frames.longest_static_run_s 16",
+   "relation": "contradicts",
+   "skill_rule": "6"
+  },
+  {
+   "rule": "Close on the opening lockup for at least 2.5 s with the same spacing animation, so start and end match.",
+   "evidence": "f0011.jpg, f0012.jpg; lockup 20.88-23.44 s",
+   "relation": "extends",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "When the product is sound or voice, visualise it as a particle waveform that opens and closes the film around the concept visual; no product UI is needed.",
+   "evidence": "f0002.jpg, f0010.jpg; product_ui presence 0 %",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Master at -13.5 LUFS with true peak of -1.2 dBTP for social, as here.",
+   "evidence": "metrics.json sound",
+   "relation": "confirms",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 12,
+ "crops_made": 5,
+ "unchecked": [
+  "Transcript tool absent from ToolSearch; local whisper used. Whisper missed two on-screen caption lines, so the voiceover content is uncertain.",
+  "Caption hold times are read from 2 s samples and strips, accurate to about 0.2-0.5 s.",
+  "Easing curves and music instrument could not be established beyond describe tags.",
+  "Frame f0006 (t=10 s) shows no caption while strip window-07 at 10.5 s shows one; caption timing near 10 s not reconciled."
+ ]
+}

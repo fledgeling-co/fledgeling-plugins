@@ -1,0 +1,551 @@
+{
+ "id": "mQZB0l-rhxE",
+ "title": "Building verification loops in Claude Code",
+ "uploader": "Claude",
+ "duration_s": 187.5,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 27,
+  "cuts_per_min": 8.64,
+  "cut_times_s": [
+   2.58,
+   8.42,
+   11.04,
+   12.88,
+   14.67,
+   17.5,
+   19.5,
+   21.04,
+   34.12,
+   37.42,
+   49.88,
+   56.17,
+   61.25,
+   63.54,
+   63.79,
+   75.62,
+   88.88,
+   94.29,
+   97.62,
+   104.79,
+   109.33,
+   113.21,
+   155.71,
+   158.54,
+   167.46,
+   174.12,
+   182.29
+  ],
+  "median_shot_s": 4.81,
+  "mean_shot_s": 6.7,
+  "shots_over_10s": 5,
+  "first_cut_s": 2.58,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 113.21,
+   "end": 155.71,
+   "seconds": 42.5,
+   "share_of_runtime": 0.227
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 23,
+   "flash": 0,
+   "appear": 26,
+   "disappear": 22,
+   "change": 107,
+   "hold": 74
+  },
+  "holds_over_1s": 37,
+  "median_hold_s": 1.58,
+  "longest_hold_s": 12.33,
+  "windows": 92
+ },
+ "frames": {
+  "count": 94,
+  "not_evidence_frames": [
+   "f0011.jpg",
+   "f0057.jpg"
+  ],
+  "dark_share": 0.287,
+  "light_share": 0.713,
+  "median_contentful_cells": 0.134,
+  "intervals_new_composition_share": 0.226,
+  "intervals_static_share": 0.495,
+  "longest_static_run_s": 10,
+  "longest_static_run_ends_at_s": 48,
+  "frame0": {
+   "meanLuminance": 0.1825,
+   "contentfulCells": 0.1313,
+   "blankCells": 0.0375,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0013.jpg",
+  "f0016.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0022.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0031.jpg",
+  "f0034.jpg",
+  "f0037.jpg",
+  "f0039.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0045.jpg",
+  "f0046.jpg",
+  "f0048.jpg",
+  "f0049.jpg",
+  "f0050.jpg",
+  "f0052.jpg",
+  "f0053.jpg",
+  "f0055.jpg",
+  "f0056.jpg",
+  "f0058.jpg",
+  "f0061.jpg",
+  "f0064.jpg",
+  "f0067.jpg",
+  "f0070.jpg",
+  "f0073.jpg",
+  "f0076.jpg",
+  "f0079.jpg",
+  "f0080.jpg",
+  "f0082.jpg",
+  "f0085.jpg",
+  "f0088.jpg",
+  "f0091.jpg",
+  "f0092.jpg",
+  "f0094.jpg"
+ ],
+ "sound": {
+  "kind": "voice",
+  "lufs_integrated": -23.9,
+  "lufs_short_term_max": -21.2,
+  "true_peak_db": -4.6,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 2.71,
+    "end": 3.41
+   },
+   {
+    "start": 5.405,
+    "end": 5.78
+   },
+   {
+    "start": 7.73,
+    "end": 8.24
+   },
+   {
+    "start": 8.685,
+    "end": 8.905
+   },
+   {
+    "start": 10.125,
+    "end": 10.325
+   },
+   {
+    "start": 10.645,
+    "end": 11.11
+   },
+   {
+    "start": 11.705,
+    "end": 12.07
+   },
+   {
+    "start": 12.865,
+    "end": 13.265
+   },
+   {
+    "start": 14.23,
+    "end": 14.63
+   },
+   {
+    "start": 16.71,
+    "end": 17.315
+   },
+   {
+    "start": 19.445,
+    "end": 19.775
+   },
+   {
+    "start": 23.91,
+    "end": 24.56
+   },
+   {
+    "start": 25.71,
+    "end": 25.925
+   },
+   {
+    "start": 27.365,
+    "end": 27.72
+   },
+   {
+    "start": 29.155,
+    "end": 29.97
+   },
+   {
+    "start": 33.105,
+    "end": 33.92
+   },
+   {
+    "start": 36.465,
+    "end": 36.665
+   },
+   {
+    "start": 37.27,
+    "end": 37.83
+   },
+   {
+    "start": 41.625,
+    "end": 42.235
+   },
+   {
+    "start": 45.635,
+    "end": 46.095
+   },
+   {
+    "start": 49.025,
+    "end": 49.66
+   },
+   {
+    "start": 51.62,
+    "end": 51.9
+   },
+   {
+    "start": 53.29,
+    "end": 53.62
+   },
+   {
+    "start": 54.905,
+    "end": 55.28
+   },
+   {
+    "start": 57.63,
+    "end": 58.205
+   },
+   {
+    "start": 60.675,
+    "end": 61.275
+   },
+   {
+    "start": 64.83,
+    "end": 65.23
+   },
+   {
+    "start": 69.685,
+    "end": 70.445
+   },
+   {
+    "start": 72.55,
+    "end": 72.92
+   },
+   {
+    "start": 74.485,
+    "end": 75.455
+   },
+   {
+    "start": 78.655,
+    "end": 79.16
+   },
+   {
+    "start": 80.47,
+    "end": 81.04
+   },
+   {
+    "start": 82.445,
+    "end": 82.68
+   },
+   {
+    "start": 85.285,
+    "end": 85.73
+   },
+   {
+    "start": 88.24,
+    "end": 88.99
+   },
+   {
+    "start": 93.33,
+    "end": 94.12
+   },
+   {
+    "start": 96.965,
+    "end": 97.775
+   },
+   {
+    "start": 98.385,
+    "end": 98.595
+   },
+   {
+    "start": 100.28,
+    "end": 100.76
+   },
+   {
+    "start": 102.21,
+    "end": 102.705
+   },
+   {
+    "start": 109.15,
+    "end": 109.92
+   },
+   {
+    "start": 112.315,
+    "end": 113.115
+   },
+   {
+    "start": 116.82,
+    "end": 117.58
+   },
+   {
+    "start": 120.38,
+    "end": 121.315
+   },
+   {
+    "start": 124.325,
+    "end": 124.67
+   },
+   {
+    "start": 126.09,
+    "end": 127.055
+   },
+   {
+    "start": 130.56,
+    "end": 130.915
+   },
+   {
+    "start": 133.235,
+    "end": 134.255
+   },
+   {
+    "start": 134.585,
+    "end": 134.93
+   },
+   {
+    "start": 136.14,
+    "end": 136.51
+   },
+   {
+    "start": 137.855,
+    "end": 138.8
+   },
+   {
+    "start": 141.07,
+    "end": 141.39
+   },
+   {
+    "start": 142.51,
+    "end": 143.17
+   },
+   {
+    "start": 145.345,
+    "end": 145.875
+   },
+   {
+    "start": 147.905,
+    "end": 148.365
+   },
+   {
+    "start": 150.42,
+    "end": 150.98
+   },
+   {
+    "start": 152.965,
+    "end": 153.63
+   },
+   {
+    "start": 155.455,
+    "end": 155.905
+   },
+   {
+    "start": 156.195,
+    "end": 156.465
+   },
+   {
+    "start": 157.755,
+    "end": 158.54
+   },
+   {
+    "start": 160.905,
+    "end": 161.295
+   },
+   {
+    "start": 162.81,
+    "end": 163.39
+   },
+   {
+    "start": 164.44,
+    "end": 164.73
+   },
+   {
+    "start": 167.2,
+    "end": 167.66
+   },
+   {
+    "start": 170.62,
+    "end": 170.985
+   },
+   {
+    "start": 172.58,
+    "end": 173.215
+   },
+   {
+    "start": 176.225,
+    "end": 176.76
+   },
+   {
+    "start": 180.415,
+    "end": 180.7
+   },
+   {
+    "start": 182.025,
+    "end": 182.82
+   },
+   {
+    "start": 183.925,
+    "end": 184.205
+   },
+   {
+    "start": 186.995,
+    "end": 187.494
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 8,
+    "label": "A"
+   },
+   {
+    "start": 8,
+    "end": 15,
+    "label": "B"
+   },
+   {
+    "start": 15,
+    "end": 21,
+    "label": "C"
+   },
+   {
+    "start": 21,
+    "end": 36.5,
+    "label": "D"
+   },
+   {
+    "start": 36.5,
+    "end": 61,
+    "label": "E"
+   },
+   {
+    "start": 61,
+    "end": 69.5,
+    "label": "F"
+   },
+   {
+    "start": 69.5,
+    "end": 79.5,
+    "label": "G"
+   },
+   {
+    "start": 79.5,
+    "end": 89,
+    "label": "H"
+   },
+   {
+    "start": 89,
+    "end": 107,
+    "label": "I"
+   },
+   {
+    "start": 107,
+    "end": 118.5,
+    "label": "J"
+   },
+   {
+    "start": 118.5,
+    "end": 130,
+    "label": "K"
+   },
+   {
+    "start": 130,
+    "end": 140,
+    "label": "L"
+   },
+   {
+    "start": 140,
+    "end": 182,
+    "label": "M"
+   },
+   {
+    "start": 182,
+    "end": 187.494,
+    "label": "N"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.916
+   ],
+   [
+    "writing",
+    0.155
+   ],
+   [
+    "click",
+    0.113
+   ],
+   [
+    "music",
+    0.105
+   ],
+   [
+    "sigh",
+    0.083
+   ],
+   [
+    "typing",
+    0.077
+   ],
+   [
+    "whoosh_swoosh_swish",
+    0.057
+   ],
+   [
+    "insect",
+    0.057
+   ]
+  ],
+  "lra_lu": 3.5,
+  "cuts_on_strong_onset_share": 0.111,
+  "chance_share": 0.077,
+  "strong_onsets_per_min": 20.5
+ },
+ "look": {
+  "luma": 181.4,
+  "contrast": 28.1,
+  "saturation": 0.181,
+  "bw_share": 0.27,
+  "warmth": 8.4
+ }
+}

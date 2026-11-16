@@ -1,0 +1,241 @@
+{
+ "id": "_f_rtbW_uFM",
+ "title": "Getting started with Claude Tag",
+ "uploader": "Claude",
+ "duration_s": 179.04,
+ "fps": 59.94,
+ "rhythm": {
+  "hard_cuts": 9,
+  "cuts_per_min": 3.02,
+  "cut_times_s": [
+   4.71,
+   88.22,
+   91.09,
+   97.18,
+   103.22,
+   139.61,
+   144.46,
+   166.62,
+   172.94
+  ],
+  "median_shot_s": 6.09,
+  "mean_shot_s": 17.91,
+  "shots_over_10s": 3,
+  "first_cut_s": 4.71,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 4.71,
+   "end": 88.22,
+   "seconds": 83.52,
+   "share_of_runtime": 0.466
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 9,
+   "flash": 0,
+   "appear": 30,
+   "disappear": 30,
+   "change": 224,
+   "hold": 70
+  },
+  "holds_over_1s": 42,
+  "median_hold_s": 1.37,
+  "longest_hold_s": 21.49,
+  "windows": 79
+ },
+ "frames": {
+  "count": 90,
+  "not_evidence_frames": [
+   "f0087.jpg"
+  ],
+  "dark_share": 0.0,
+  "light_share": 0.978,
+  "median_contentful_cells": 0.341,
+  "intervals_new_composition_share": 0.034,
+  "intervals_static_share": 0.393,
+  "longest_static_run_s": 12,
+  "longest_static_run_ends_at_s": 164,
+  "frame0": {
+   "meanLuminance": 0.7918,
+   "contentfulCells": 0.2062,
+   "blankCells": 0.3937,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0004.jpg",
+  "f0007.jpg",
+  "f0010.jpg",
+  "f0013.jpg",
+  "f0016.jpg",
+  "f0019.jpg",
+  "f0022.jpg",
+  "f0025.jpg",
+  "f0028.jpg",
+  "f0031.jpg",
+  "f0034.jpg",
+  "f0037.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0045.jpg",
+  "f0046.jpg",
+  "f0047.jpg",
+  "f0049.jpg",
+  "f0052.jpg",
+  "f0055.jpg",
+  "f0058.jpg",
+  "f0061.jpg",
+  "f0064.jpg",
+  "f0067.jpg",
+  "f0070.jpg",
+  "f0073.jpg",
+  "f0076.jpg",
+  "f0079.jpg",
+  "f0082.jpg",
+  "f0085.jpg",
+  "f0088.jpg",
+  "f0090.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -14,
+  "lufs_short_term_max": -12.9,
+  "true_peak_db": 0.5,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.14,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 174.105,
+    "end": 177.555
+   },
+   {
+    "start": 177.915,
+    "end": 179.034
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 17,
+    "label": "A"
+   },
+   {
+    "start": 17,
+    "end": 22,
+    "label": "B"
+   },
+   {
+    "start": 22,
+    "end": 34,
+    "label": "C"
+   },
+   {
+    "start": 34,
+    "end": 66.5,
+    "label": "D"
+   },
+   {
+    "start": 66.5,
+    "end": 84,
+    "label": "E"
+   },
+   {
+    "start": 84,
+    "end": 93.5,
+    "label": "F"
+   },
+   {
+    "start": 93.5,
+    "end": 98,
+    "label": "G"
+   },
+   {
+    "start": 98,
+    "end": 104.5,
+    "label": "H"
+   },
+   {
+    "start": 104.5,
+    "end": 130,
+    "label": "I"
+   },
+   {
+    "start": 130,
+    "end": 137.5,
+    "label": "J"
+   },
+   {
+    "start": 137.5,
+    "end": 144.5,
+    "label": "K"
+   },
+   {
+    "start": 144.5,
+    "end": 164.5,
+    "label": "L"
+   },
+   {
+    "start": 164.5,
+    "end": 171.5,
+    "label": "M"
+   },
+   {
+    "start": 171.5,
+    "end": 179.034,
+    "label": "N"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.842
+   ],
+   [
+    "music",
+    0.628
+   ],
+   [
+    "keyboard_musical",
+    0.282
+   ],
+   [
+    "plucked_string_instrument",
+    0.242
+   ],
+   [
+    "guitar",
+    0.193
+   ],
+   [
+    "synthesizer",
+    0.168
+   ],
+   [
+    "percussion",
+    0.136
+   ],
+   [
+    "piano",
+    0.129
+   ]
+  ],
+  "lra_lu": 3.6,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.079,
+  "strong_onsets_per_min": 21.4
+ },
+ "look": {
+  "luma": 224.9,
+  "contrast": 28.5,
+  "saturation": 0.044,
+  "bw_share": 0.32,
+  "warmth": -4.3
+ }
+}

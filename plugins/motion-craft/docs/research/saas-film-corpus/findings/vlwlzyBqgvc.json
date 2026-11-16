@@ -1,0 +1,412 @@
+{
+ "id": "vlwlzyBqgvc",
+ "title": "Introducing Command Center",
+ "brand": "Harvey",
+ "duration_s": 55.42,
+ "status": "ok",
+ "format": "launch-film",
+ "format_note": "Silent-to-viewer text-and-UI film: claim cards on black alternate with white product screens; no speech, orchestral-string music bed, ends on a product-name lockup.",
+ "one_thing": "Legal AI moves fast, you feel out of control, and Command Center lets you steer, benchmark against peers and act on it.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No voice. Copy is carried by large serif cards and typed UI text.",
+  "script_shape": "Problem in three typed cards (fast, new, out of control), then a claim, then three feature demos each introduced by a one-line black card, then a two-line payoff and lockup."
+ },
+ "structure": {
+  "frame0": "Off-white ground; the headline 'Legal AI moves fast' types in letter by letter from t=0.017s and is complete by 0.4s (strips/window-01). The product is not yet on screen.",
+  "first_3s": "Claim line lands at 0.4s, then at 2.0s a left-aligned 'New models / New tools / New questions' list types while email notification cards stack in at top right (f0002, f0003).",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 2,
+    "role": "hook",
+    "what": "'Legal AI moves fast' typed centred on off-white."
+   },
+   {
+    "start_s": 2,
+    "end_s": 7.15,
+    "role": "problem",
+    "what": "Typed lists of new models, tools, questions while email cards pile up to eight rows; 'It's hard to feel like you're in control'."
+   },
+   {
+    "start_s": 7.15,
+    "end_s": 11.37,
+    "role": "setup",
+    "what": "Brief Harvey Command Center flash, then black card 'Steer your AI transformation with confidence' typed in."
+   },
+   {
+    "start_s": 11.37,
+    "end_s": 14.78,
+    "role": "reveal",
+    "what": "Dashboard assembles from fragments; KPI numbers tick up (39% to 56%) into Whitford Lane's Command Center."
+   },
+   {
+    "start_s": 14.78,
+    "end_s": 23.03,
+    "role": "demo",
+    "what": "Zoom into prompt box, query typed, send clicked, answer card 'Top power users' with five bars."
+   },
+   {
+    "start_s": 23.03,
+    "end_s": 25.8,
+    "role": "turn",
+    "what": "Black card 'See where you're leading or lagging'."
+   },
+   {
+    "start_s": 25.8,
+    "end_s": 29.17,
+    "role": "demo",
+    "what": "Your firm versus Peer firms legend, dotted peer line and striped firm bars draw on, 305 weekly active users."
+   },
+   {
+    "start_s": 29.17,
+    "end_s": 32.28,
+    "role": "turn",
+    "what": "Black card 'Stay current on every release — and act on it fast'."
+   },
+   {
+    "start_s": 32.28,
+    "end_s": 37.1,
+    "role": "demo",
+    "what": "New releases checklist with cursor, Shared Spaces suggestion types in beside it."
+   },
+   {
+    "start_s": 37.1,
+    "end_s": 46.6,
+    "role": "proof",
+    "what": "Dashboard with Explore analytics chat; prompt creates an M&A deck and the slides render in the side panel."
+   },
+   {
+    "start_s": 46.6,
+    "end_s": 49.7,
+    "role": "payoff",
+    "what": "'You're not just keeping up' then 'You're setting the pace' with italic accent on 'setting'."
+   },
+   {
+    "start_s": 49.7,
+    "end_s": 55.42,
+    "role": "logo",
+    "what": "'Harvey / Command Center' lockup holds on black."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 41.97,
+   "share": 0.757,
+   "what": "Generated M&A deck slide fills the side panel next to the finished chat answer (f0022, f0023), just after music section E starts at 40.5s."
+  },
+  "ending": {
+   "cta_text": "none; product-name lockup 'Harvey Command Center' only",
+   "logo_hold_s": 5.4,
+   "what": "Payoff lines on black, then a two-line lockup (serif Harvey over bold sans Command Center) static to the last frame (f0026 to f0028)."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 9,
+  "cuts_per_min": 9.74,
+  "median_shot_s": 4.52,
+  "how_change_is_paced": "Nine hard cuts, none inside a burst, longest shot 9.5s (37.1 to 46.6). Inside shots the pace comes from typing, list stacking, counters ticking and camera zooms, so something changes about every 1.5s (median hold 1.5s)."
+ },
+ "look": {
+  "ground": "Alternates near-white (0.679 of sampled frames) and pure black (0.321). Black carries claims; white carries product.",
+  "palette": [
+   "off-white #FAFAFA",
+   "black",
+   "charcoal grey bars",
+   "dark teal slide",
+   "sage-teal email icons",
+   "muted mauve 'needs attention' bars",
+   "green delta arrows"
+  ],
+  "accent_use": "Almost none: green +5% deltas and one italic word ('setting') at 48s. Colour is saved for the generated slide's teal.",
+  "type": "Elegant serif for every claim and KPI number, clean grotesque for UI text, bold grotesque for 'Command Center'. Sentence case, centred on black cards, left-aligned beside UI.",
+  "title_height_pct": [
+   6.1,
+   10.3
+  ],
+  "title_measurements": [
+   {
+    "t_s": 1,
+    "text": "Legal AI moves fast",
+    "line_height_px": 59,
+    "frame_height_px": 720,
+    "pct": 8.2
+   },
+   {
+    "t_s": 24,
+    "text": "See where you're leading or lagging",
+    "line_height_px": 56,
+    "frame_height_px": 720,
+    "pct": 7.8
+   },
+   {
+    "t_s": 30,
+    "text": "Stay current on every release — (line 1)",
+    "line_height_px": 55,
+    "frame_height_px": 720,
+    "pct": 7.6
+   },
+   {
+    "t_s": 30,
+    "text": "and act on it fast (line 2)",
+    "line_height_px": 44,
+    "frame_height_px": 720,
+    "pct": 6.1
+   },
+   {
+    "t_s": 51,
+    "text": "Harvey",
+    "line_height_px": 74,
+    "frame_height_px": 720,
+    "pct": 10.3
+   },
+   {
+    "t_s": 51,
+    "text": "Command Center",
+    "line_height_px": 60,
+    "frame_height_px": 720,
+    "pct": 8.3
+   }
+  ],
+  "max_words_per_title_line": 6,
+  "density": "sparse",
+  "depth": "Flat. Soft card shadows on UI, no parallax or 3D; the UI window has a faint drop shadow on the pale ground."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 66,
+  "shown_as": [
+   "redrawn-simplified-ui",
+   "floating-ui-cards"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Hard zoom into a component until it fills the frame (prompt box f0009, Top power users card f0011, checklist f0016), then cut back to a full-window shot with the side panel.",
+  "legible_at_phone_width": "partly",
+  "notes": "Zoomed cards are readable (Top power users title ~34px high, f0011); full-dashboard shots (f0007, f0022) carry 8-12px labels that would not survive a phone. Fictional firm 'Whitford Lane' with consistent numbers (304/305 users)."
+ },
+ "motion": {
+  "text_entry": "Letter-by-letter typing with a per-letter fade, about 0.4s for 19 characters (strips/window-01, window-13). Lists type line by line; exits fade out top line first over about 0.4s (strips/window-04).",
+  "ui_motion": "KPI percentages count up while panels slide in (strips/window-07); chat answers type in; a slide image loads from grey placeholder to teal title slide in about 2s (f0021 to f0023).",
+  "camera": "Scale zooms into UI components and a slow push on the main window; no pans or whip moves seen.",
+  "eases": "Not measured by curve. Typing is linear and fast; fades on exit are quick and short; the dotted line and bars draw on at a steady rate (strips/window-14).",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 9,
+    "example_t_s": 23.03,
+    "cause": "A typed claim card completes and holds; the cut lands on a new screen or card."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 3,
+    "example_t_s": 42,
+    "cause": "Prompt submitted, answer types, slide appears in the side panel."
+   },
+   {
+    "type": "match-cut",
+    "count": 1,
+    "example_t_s": 25.8,
+    "cause": "Black text card to a white chart whose legend echoes the claim."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0.017s.jpg: headline types in over 0.35s, no fade-in of the card itself",
+   "strips/window-04-4.967s.jpg: list lines fade top first, next headline types while the last line still shows",
+   "strips/window-05-7.117s.jpg: hard cut at 7.15 from white to black lockup that fades up in 0.1s",
+   "strips/window-07-11.334s.jpg: black card to a dashboard whose KPI numbers count up while parts slide in",
+   "strips/window-13-23s.jpg: hard cut from chart card to black with new line typing at once",
+   "strips/window-14-25.767s.jpg: hard cut to white, legend appears, dotted peer line draws left to right",
+   "strips/window-19-37.067s.jpg: hard cut from checklist to full dashboard with chat panel",
+   "strips/window-26-46.3s.jpg: slide deck builds then hard cut to black 'You're not just keeping up'"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0.4,
+    "text": "Legal AI moves fast",
+    "words": 4,
+    "hold_s": 1.6
+   },
+   {
+    "t_s": 3.4,
+    "text": "New models / New tools / New questions",
+    "words": 6,
+    "hold_s": 1.6
+   },
+   {
+    "t_s": 5.45,
+    "text": "It's hard to feel like you're in control",
+    "words": 8,
+    "hold_s": 1.7
+   },
+   {
+    "t_s": 7.15,
+    "text": "Harvey Command Center",
+    "words": 3,
+    "hold_s": -1
+   },
+   {
+    "t_s": 8.9,
+    "text": "Steer your AI transformation with confidence",
+    "words": 6,
+    "hold_s": 2.4
+   },
+   {
+    "t_s": 17.5,
+    "text": "Who are the top Harvey users in the last 30 days?",
+    "words": 11,
+    "hold_s": -1
+   },
+   {
+    "t_s": 23.5,
+    "text": "See where you're leading or lagging",
+    "words": 6,
+    "hold_s": 2.3
+   },
+   {
+    "t_s": 29.9,
+    "text": "Stay current on every release — and act on it fast",
+    "words": 10,
+    "hold_s": 2.4
+   },
+   {
+    "t_s": 33.5,
+    "text": "Now that you have Shared Spaces configured, set up your first shared space to get started using the product with your firm.",
+    "words": 22,
+    "hold_s": 3.5
+   },
+   {
+    "t_s": 46.7,
+    "text": "You're not just keeping up",
+    "words": 5,
+    "hold_s": 1.3
+   },
+   {
+    "t_s": 48,
+    "text": "You're setting the pace",
+    "words": 4,
+    "hold_s": 1.7
+   },
+   {
+    "t_s": 49.7,
+    "text": "Harvey Command Center",
+    "words": 3,
+    "hold_s": 5.4
+   }
+  ],
+  "holds_vs_reading_rule": "Claim cards hold 1.3-2.4s; the 0.5s + 0.3s per word rule needs 1.7-3.1s, so 'It's hard to feel like you're in control' (8 words, ~1.7s, rule 2.9s) and 'You're not just keeping up' fall short. Typing builds reading time in."
+ },
+ "sound": {
+  "music": "Music only. audio.json describe tags: bowed_string_instrument 0.77, violin_fiddle 0.744, cello 0.671, orchestra 0.559; no steady beat (confidence 0.127). Five sections A-E at 0, 4, 17, 34.5 and 40.5s.",
+  "sfx": "Not identified; audio.json gives kind music and no sfx tag. Typing sounds, if any, were not verified.",
+  "vo_music_balance": "No voice. Music is the only layer; integrated -20.7 LUFS, true peak -3.5 dBTP, loudness range 10.2 LU.",
+  "energy_arc": "Quiet open (silence 0.08-0.395s), sections change at 4s, 17s, 34.5s and 40.5s; short-term max -17.2 LUFS. Section E runs 14.9s through the deck reveal and lockup.",
+  "sync_to_picture": "Not locked: cuts_on_strong_onset_share 0.222 against chance 0.192, a gap of 0.03. The one clear match is music section E starting at 40.5s just before the deck slide appears at about 42s."
+ },
+ "good": [
+  {
+   "observation": "Claim cards on black alternate with product screens on white, so every cut changes ground as well as content and the story beat is readable without sound.",
+   "evidence": "dark_share 0.321; f0005, f0007, f0013, f0014"
+  },
+  {
+   "observation": "Zooming a single component to fill the frame makes small dashboard data legible and gives one focal point: the Top power users card is 68% of frame width.",
+   "evidence": "f0011, f0009"
+  },
+  {
+   "observation": "Typed text is used for both claims and the user's prompt, so the film teaches 'type a question, get an answer' with the same motion as its headlines.",
+   "evidence": "strips/window-01, f0010, f0020"
+  },
+  {
+   "observation": "Data stays consistent across shots (304 to 305 users, +5%, Whitford Lane, Top power users names) so the UI reads as one real product.",
+   "evidence": "f0007, f0015, f0021"
+  },
+  {
+   "observation": "The hard, flat cut on a completed card feels intentional because each cut follows a finished typed line; no effects needed.",
+   "evidence": "cuts.json 9 hard cuts; strips/window-13"
+  },
+  {
+   "observation": "The ending holds a bare two-line lockup for over five seconds, about a tenth of the film, which gives the product name time to register.",
+   "evidence": "f0026 to f0028; longest static run to 54s"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Several claim cards are shorter than the reading rule: 'It's hard to feel like you're in control' holds ~1.7s for 8 words, and 'You're not just keeping up' ~1.3s.",
+   "evidence": "f0004 to 7.15 cut; f0023 to f0025"
+  },
+  {
+   "observation": "Full-window dashboard shots rely on 8-12px labels and a 22-word suggestion paragraph; none would read on a phone without the zooms.",
+   "evidence": "f0007, f0018, f0022"
+  },
+  {
+   "observation": "The Harvey Command Center flash at 7.15s is visible only for a fraction of a second before the next claim types in, so the first name reveal is easy to miss.",
+   "evidence": "strips/window-05-7.117s.jpg; f0005"
+  },
+  {
+   "observation": "Loudness is -20.7 LUFS integrated, six LU under a social master, and the cuts do not follow the music.",
+   "evidence": "metrics.json sound.lufs_integrated; cuts share 0.222 vs 0.192"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Use a typed claim line as the hook: start the headline typing at frame 0 and finish it within 0.5s (19 characters in 0.4s); the product can wait until after 2s.",
+   "evidence": "strips/window-01-0.017s.jpg; f0001 headline only, product first at 2.0s",
+   "relation": "extends",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Put statements on black and product screens on near-white, and cut between them; about a third of runtime on black (0.321) made each change of beat obvious.",
+   "evidence": "metrics.json frames.dark_share 0.321; f0013, f0014",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "A film with a median shot of 4.5s and nine hard cuts (9.74 cuts per minute, no burst) can still read as energetic if motion inside each shot (typing, counters, draw-on lines) changes every ~1.5s.",
+   "evidence": "metrics.json rhythm median_shot_s 4.52, bursts []; events median_hold_s 1.5",
+   "relation": "contradicts",
+   "skill_rule": "8 and 10"
+  },
+  {
+   "rule": "Hard cuts are fine as the main seam when each follows a completed typed line and alternates ground colour; all nine seams here were hard cuts.",
+   "evidence": "metrics.json rhythm.hard_cuts 9; strips/window-05, 13, 14, 19, 26",
+   "relation": "contradicts",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "Count numbers up while a dashboard assembles (39% to 56% in about 0.7s) so the first full UI shot shows the product working, not a static screenshot.",
+   "evidence": "strips/window-07-11.334s.jpg; f0007",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Zoom a UI component to at least 60% of frame width (Top power users card ~68%) for the data beat, then step back to the full window for context.",
+   "evidence": "f0011 card spans about 870 of 1280px; f0007 full window",
+   "relation": "confirms",
+   "skill_rule": "6"
+  },
+  {
+   "rule": "Hold the closing name lockup for at least 5s (about 10% of runtime) with no CTA text; the lockup titles measure 8.3-10.3% of frame height.",
+   "evidence": "f0026 to f0028; title_measurements t=51s",
+   "relation": "extends",
+   "skill_rule": "2 and 3"
+  },
+  {
+   "rule": "Master quieter than -14 LUFS is a weakness: this film sits at -20.7 LUFS integrated with a -3.5 dBTP peak, leaving 6.7 LU of headroom.",
+   "evidence": "metrics.json sound.lufs_integrated -20.7, true_peak_db -3.5",
+   "relation": "confirms",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 28,
+ "crops_made": 6,
+ "unchecked": [
+  "Transcript tool returned only a ru track; local whisper heard no speech, so voiceover is none-music-only.",
+  "Hard cuts at 14.78, 29.17 and 32.28s were not opened as strips; only their count (metrics.json) is cited.",
+  "Exact end of the 7.15s Harvey Command Center flash and the true hold of each card were read from 2s samples and strips.",
+  "No sfx or typing sound could be verified; audio tags support music only.",
+  "Eases were not measured as curves."
+ ]
+}

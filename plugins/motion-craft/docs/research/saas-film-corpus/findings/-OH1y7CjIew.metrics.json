@@ -1,0 +1,644 @@
+{
+ "id": "-OH1y7CjIew",
+ "title": "Coding on the go with Claude Code",
+ "uploader": "Claude",
+ "duration_s": 242.1,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 32,
+  "cuts_per_min": 7.93,
+  "cut_times_s": [
+   0.96,
+   3.62,
+   7.88,
+   14.83,
+   16.54,
+   18.96,
+   20.96,
+   26.79,
+   33.25,
+   41.04,
+   43.04,
+   69.67,
+   77,
+   81.04,
+   85.17,
+   99.25,
+   103.42,
+   110.79,
+   120.25,
+   127.67,
+   129.29,
+   144.33,
+   152.38,
+   171.25,
+   173.25,
+   180.88,
+   199.38,
+   201.38,
+   228.08,
+   233.21,
+   238.75,
+   241.88
+  ],
+  "median_shot_s": 5.54,
+  "mean_shot_s": 7.34,
+  "shots_over_10s": 6,
+  "first_cut_s": 0.96,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 201.38,
+   "end": 228.08,
+   "seconds": 26.71,
+   "share_of_runtime": 0.11
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 33,
+   "flash": 2,
+   "appear": 47,
+   "disappear": 34,
+   "change": 168,
+   "hold": 98
+  },
+  "holds_over_1s": 57,
+  "median_hold_s": 1.79,
+  "longest_hold_s": 10.96,
+  "windows": 135
+ },
+ "frames": {
+  "count": 121,
+  "not_evidence_frames": [
+   "f0001.jpg",
+   "f0011.jpg"
+  ],
+  "dark_share": 0.207,
+  "light_share": 0.76,
+  "median_contentful_cells": 0.225,
+  "intervals_new_composition_share": 0.233,
+  "intervals_static_share": 0.325,
+  "longest_static_run_s": 10,
+  "longest_static_run_ends_at_s": 170,
+  "frame0": {
+   "meanLuminance": 0.5802,
+   "contentfulCells": 0.0063,
+   "blankCells": 0.025,
+   "isEvidence": false
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0016.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0025.jpg",
+  "f0028.jpg",
+  "f0031.jpg",
+  "f0034.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0046.jpg",
+  "f0049.jpg",
+  "f0051.jpg",
+  "f0052.jpg",
+  "f0053.jpg",
+  "f0055.jpg",
+  "f0056.jpg",
+  "f0058.jpg",
+  "f0061.jpg",
+  "f0064.jpg",
+  "f0065.jpg",
+  "f0066.jpg",
+  "f0067.jpg",
+  "f0070.jpg",
+  "f0073.jpg",
+  "f0076.jpg",
+  "f0077.jpg",
+  "f0079.jpg",
+  "f0082.jpg",
+  "f0085.jpg",
+  "f0087.jpg",
+  "f0088.jpg",
+  "f0091.jpg",
+  "f0094.jpg",
+  "f0097.jpg",
+  "f0100.jpg",
+  "f0101.jpg",
+  "f0102.jpg",
+  "f0103.jpg",
+  "f0106.jpg",
+  "f0109.jpg",
+  "f0112.jpg",
+  "f0115.jpg",
+  "f0118.jpg",
+  "f0120.jpg",
+  "f0121.jpg"
+ ],
+ "sound": {
+  "kind": "voice",
+  "lufs_integrated": -14.2,
+  "lufs_short_term_max": -12.4,
+  "true_peak_db": -1.4,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.018,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 0,
+    "end": 0.415
+   },
+   {
+    "start": 1.01,
+    "end": 1.29
+   },
+   {
+    "start": 4.715,
+    "end": 5.335
+   },
+   {
+    "start": 7.395,
+    "end": 7.715
+   },
+   {
+    "start": 11.35,
+    "end": 11.92
+   },
+   {
+    "start": 13.725,
+    "end": 14.11
+   },
+   {
+    "start": 16.41,
+    "end": 17
+   },
+   {
+    "start": 18.365,
+    "end": 18.92
+   },
+   {
+    "start": 23.535,
+    "end": 24.105
+   },
+   {
+    "start": 25.61,
+    "end": 26.09
+   },
+   {
+    "start": 28.485,
+    "end": 28.69
+   },
+   {
+    "start": 30.42,
+    "end": 30.79
+   },
+   {
+    "start": 33.14,
+    "end": 33.705
+   },
+   {
+    "start": 38.54,
+    "end": 38.79
+   },
+   {
+    "start": 39.42,
+    "end": 39.785
+   },
+   {
+    "start": 40.405,
+    "end": 40.995
+   },
+   {
+    "start": 44.94,
+    "end": 45.575
+   },
+   {
+    "start": 48.3,
+    "end": 48.69
+   },
+   {
+    "start": 52.185,
+    "end": 52.54
+   },
+   {
+    "start": 54.215,
+    "end": 54.59
+   },
+   {
+    "start": 56.4,
+    "end": 56.945
+   },
+   {
+    "start": 61.68,
+    "end": 62.23
+   },
+   {
+    "start": 69.085,
+    "end": 69.67
+   },
+   {
+    "start": 76.755,
+    "end": 77.28
+   },
+   {
+    "start": 79.58,
+    "end": 79.945
+   },
+   {
+    "start": 82.19,
+    "end": 82.6
+   },
+   {
+    "start": 83.995,
+    "end": 84.39
+   },
+   {
+    "start": 85.835,
+    "end": 86.295
+   },
+   {
+    "start": 90.795,
+    "end": 91.275
+   },
+   {
+    "start": 95.085,
+    "end": 95.47
+   },
+   {
+    "start": 98.66,
+    "end": 99.235
+   },
+   {
+    "start": 105.02,
+    "end": 105.435
+   },
+   {
+    "start": 107.315,
+    "end": 107.91
+   },
+   {
+    "start": 109.695,
+    "end": 110.01
+   },
+   {
+    "start": 111.88,
+    "end": 112.42
+   },
+   {
+    "start": 114.355,
+    "end": 114.745
+   },
+   {
+    "start": 116.06,
+    "end": 116.38
+   },
+   {
+    "start": 120.05,
+    "end": 120.605
+   },
+   {
+    "start": 122.915,
+    "end": 123.25
+   },
+   {
+    "start": 127.18,
+    "end": 127.695
+   },
+   {
+    "start": 130.65,
+    "end": 130.95
+   },
+   {
+    "start": 134.54,
+    "end": 134.945
+   },
+   {
+    "start": 139.555,
+    "end": 139.915
+   },
+   {
+    "start": 140.365,
+    "end": 140.71
+   },
+   {
+    "start": 143.67,
+    "end": 144.21
+   },
+   {
+    "start": 147.995,
+    "end": 148.365
+   },
+   {
+    "start": 150.995,
+    "end": 151.58
+   },
+   {
+    "start": 156.55,
+    "end": 156.825
+   },
+   {
+    "start": 157.77,
+    "end": 158
+   },
+   {
+    "start": 160.5,
+    "end": 160.93
+   },
+   {
+    "start": 164.385,
+    "end": 164.675
+   },
+   {
+    "start": 168.655,
+    "end": 169.01
+   },
+   {
+    "start": 170.65,
+    "end": 171.21
+   },
+   {
+    "start": 175.095,
+    "end": 175.65
+   },
+   {
+    "start": 177.92,
+    "end": 178.25
+   },
+   {
+    "start": 180.585,
+    "end": 181.205
+   },
+   {
+    "start": 182.175,
+    "end": 182.675
+   },
+   {
+    "start": 186,
+    "end": 186.245
+   },
+   {
+    "start": 186.25,
+    "end": 186.485
+   },
+   {
+    "start": 187.825,
+    "end": 188.36
+   },
+   {
+    "start": 191.16,
+    "end": 191.585
+   },
+   {
+    "start": 194.125,
+    "end": 194.555
+   },
+   {
+    "start": 198.77,
+    "end": 199.33
+   },
+   {
+    "start": 202.305,
+    "end": 202.665
+   },
+   {
+    "start": 206.165,
+    "end": 206.71
+   },
+   {
+    "start": 211.42,
+    "end": 211.975
+   },
+   {
+    "start": 217.205,
+    "end": 217.8
+   },
+   {
+    "start": 224.285,
+    "end": 224.505
+   },
+   {
+    "start": 225.46,
+    "end": 225.74
+   },
+   {
+    "start": 226.97,
+    "end": 227.505
+   },
+   {
+    "start": 233.08,
+    "end": 233.385
+   },
+   {
+    "start": 234.47,
+    "end": 234.89
+   },
+   {
+    "start": 237.095,
+    "end": 237.345
+   },
+   {
+    "start": 238.475,
+    "end": 238.985
+   },
+   {
+    "start": 239.75,
+    "end": 240.055
+   },
+   {
+    "start": 241.54,
+    "end": 242.094
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 19.5,
+    "label": "A"
+   },
+   {
+    "start": 19.5,
+    "end": 25.5,
+    "label": "B"
+   },
+   {
+    "start": 25.5,
+    "end": 31.5,
+    "label": "C"
+   },
+   {
+    "start": 31.5,
+    "end": 41,
+    "label": "D"
+   },
+   {
+    "start": 41,
+    "end": 52,
+    "label": "E"
+   },
+   {
+    "start": 52,
+    "end": 57,
+    "label": "F"
+   },
+   {
+    "start": 57,
+    "end": 76.5,
+    "label": "G"
+   },
+   {
+    "start": 76.5,
+    "end": 90.5,
+    "label": "H"
+   },
+   {
+    "start": 90.5,
+    "end": 99.5,
+    "label": "I"
+   },
+   {
+    "start": 99.5,
+    "end": 109,
+    "label": "J"
+   },
+   {
+    "start": 109,
+    "end": 117,
+    "label": "K"
+   },
+   {
+    "start": 117,
+    "end": 123.5,
+    "label": "L"
+   },
+   {
+    "start": 123.5,
+    "end": 136.5,
+    "label": "M"
+   },
+   {
+    "start": 136.5,
+    "end": 144.5,
+    "label": "N"
+   },
+   {
+    "start": 144.5,
+    "end": 150.5,
+    "label": "O"
+   },
+   {
+    "start": 150.5,
+    "end": 155.5,
+    "label": "P"
+   },
+   {
+    "start": 155.5,
+    "end": 162.5,
+    "label": "Q"
+   },
+   {
+    "start": 162.5,
+    "end": 178,
+    "label": "R"
+   },
+   {
+    "start": 178,
+    "end": 185,
+    "label": "S"
+   },
+   {
+    "start": 185,
+    "end": 203.5,
+    "label": "T"
+   },
+   {
+    "start": 203.5,
+    "end": 212,
+    "label": "U"
+   },
+   {
+    "start": 212,
+    "end": 221,
+    "label": "V"
+   },
+   {
+    "start": 221,
+    "end": 231.5,
+    "label": "W"
+   },
+   {
+    "start": 231.5,
+    "end": 238,
+    "label": "X"
+   },
+   {
+    "start": 238,
+    "end": 242.094,
+    "label": "Y"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.922
+   ],
+   [
+    "writing",
+    0.123
+   ],
+   [
+    "music",
+    0.106
+   ],
+   [
+    "insect",
+    0.091
+   ],
+   [
+    "mosquito_buzz",
+    0.074
+   ],
+   [
+    "click",
+    0.074
+   ],
+   [
+    "sigh",
+    0.064
+   ],
+   [
+    "typing",
+    0.061
+   ]
+  ],
+  "lra_lu": 2.1,
+  "cuts_on_strong_onset_share": 0.094,
+  "chance_share": 0.06,
+  "strong_onsets_per_min": 15.9
+ },
+ "look": {
+  "luma": 199.4,
+  "contrast": 26,
+  "saturation": 0.114,
+  "bw_share": 0.29,
+  "warmth": 10.3
+ }
+}

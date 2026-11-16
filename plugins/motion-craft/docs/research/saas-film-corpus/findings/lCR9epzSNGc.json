@@ -1,0 +1,403 @@
+{
+ "id": "lCR9epzSNGc",
+ "title": "Claude Opus 5.5 builds daydreams that hold together",
+ "brand": "Claude",
+ "duration_s": 86.3,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "Screen-captured web app (brick-model builder) alternating with cream-ground infographic cutaways; no voiceover, captions or headline; a typed prompt is the only story copy.",
+ "one_thing": "Claude designs a 2,874-piece brick model, proves every part connects, then rebuilds a castle from a typed request and writes the manual.",
+ "transcript": {
+  "source": "auto-captions",
+  "voiceover": "none-music-only",
+  "words_total": 1,
+  "words_per_minute": 0.7,
+  "voice_style": "No voice. Captions hold only [music] tags and a single '>> Ah!' at 00:22.",
+  "script_shape": "Silent story told by UI: finished model, verification cutaway, empty-canvas build timelapse, user prompt, revision, manual, library, Claude logo."
+ },
+ "structure": {
+  "frame0": "Whole app window on a sage-green ground, finished Canal Clock Square model centred, library list left, red Download button; the subject is present (f0001.jpg).",
+  "first_3s": "Hard switch at ~1.9s from app window to bare cream stage; model reduced to a clock tower and houses with an orange bounding frame that sweeps over it (strips/window-01-1.75s.jpg).",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 1.9,
+    "role": "hook",
+    "what": "App window with finished 2,874-piece Canal Clock Square model."
+   },
+   {
+    "start_s": 1.9,
+    "end_s": 4,
+    "role": "setup",
+    "what": "Cream stage, orange frame scans the model."
+   },
+   {
+    "start_s": 4,
+    "end_s": 5.58,
+    "role": "reveal",
+    "what": "Model explodes into layers beside 38.4 x 38.4 x 50.9 cm size readout."
+   },
+   {
+    "start_s": 5.58,
+    "end_s": 11.6,
+    "role": "proof",
+    "what": "Wireframe of joints: counters run to 17,452 and 15,880 stud joints, 4,393 and 4 flags."
+   },
+   {
+    "start_s": 11.6,
+    "end_s": 15,
+    "role": "proof",
+    "what": "Single stacked column shows one weak joint; fixed column and six models show 0 warnings with ticks."
+   },
+   {
+    "start_s": 15,
+    "end_s": 19.3,
+    "role": "demo",
+    "what": "Parts-tree of 113 unique pieces, 53 sub-builds, then assembled model."
+   },
+   {
+    "start_s": 19.3,
+    "end_s": 25.7,
+    "role": "proof",
+    "what": "Parts laid out, then stat row 2,874 pieces, 487 steps, 498 pages, 0.80 s compile, 0 errors, 0 warnings."
+   },
+   {
+    "start_s": 25.7,
+    "end_s": 34.4,
+    "role": "demo",
+    "what": "Back in the app: Alpine Chalet builds from an empty baseplate, step 1/60 to 48/60, to finished roof."
+   },
+   {
+    "start_s": 34.4,
+    "end_s": 42,
+    "role": "setup",
+    "what": "Camera pushes into chat box; 'Create a medieval castle' typed, Claude saves final version at 47 s."
+   },
+   {
+    "start_s": 42,
+    "end_s": 56,
+    "role": "turn",
+    "what": "Stone Castle appears; user types watch-tower, drawbridge and moat request in the box."
+   },
+   {
+    "start_s": 56,
+    "end_s": 60.8,
+    "role": "turn",
+    "what": "Blurred zoom out; 'Planning the shape' spinner, 1 min 21 s."
+   },
+   {
+    "start_s": 60.8,
+    "end_s": 68.9,
+    "role": "payoff",
+    "what": "Updated 2,057-piece castle with moat, drawbridge, blue-spire watchtower; orbit and front view."
+   },
+   {
+    "start_s": 68.9,
+    "end_s": 77.6,
+    "role": "demo",
+    "what": "Manual tab: page 1 baseplate, page 4 blue plates, watchtower sub-build pages 138 and 161 of 326."
+   },
+   {
+    "start_s": 77.6,
+    "end_s": 82,
+    "role": "proof",
+    "what": "Library tab: Friendly Robot and Canal Clock Square manual covers, returns to model."
+   },
+   {
+    "start_s": 82,
+    "end_s": 86.3,
+    "role": "logo",
+    "what": "UI fades to cream; star mark appears, letters type on to read 'Claude'."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 60.8,
+   "share": 0.705,
+   "what": "Castle swaps to the revised build: moat, plank drawbridge and tall blue-roofed watchtower appear at once after the prompt wait."
+  },
+  "ending": {
+   "cta_text": "none; Claude wordmark only",
+   "logo_hold_s": 2.1,
+   "what": "Star mark pops at 83.9s, wordmark typed letter by letter by 84.3s, held on plain off-white to the end."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 12,
+  "cuts_per_min": 8.34,
+  "median_shot_s": 4.3,
+  "how_change_is_paced": "Fast 1-6 s shots with counters ticking in the first 26 s, then one 34 s continuous screen recording (26.7-60.8 s, 39.5% of runtime) carried by camera pushes and UI states, then 1-6 s shots again. No burst of cuts."
+ },
+ "look": {
+  "ground": "Two grounds: sage-green desktop around a floating app window, and warm cream gradient with vignette for infographic cutaways; final logo on off-white.",
+  "palette": [
+   "cream #F3EFE6-like",
+   "sage green",
+   "near-black type",
+   "orange-red #D9441F-like accent",
+   "brick blue",
+   "brick red",
+   "stone grey",
+   "teal"
+  ],
+  "accent_use": "Orange marks measurement and action: scan frame, joint wireframe, weak-joint ring, Download and Send buttons, progress bars, thin underline under stats.",
+  "type": "Heavy grotesque sans numerals with small uppercase tracked labels (PIECES, STEPS, WEAK JOINT); light grey captions; Claude serif wordmark at the end.",
+  "title_height_pct": [
+   5.1,
+   6.9
+  ],
+  "title_measurements": [
+   {
+    "t_s": 5,
+    "text": "38.4 x 38.4 x 50.9 cm",
+    "line_height_px": 37,
+    "frame_height_px": 720,
+    "pct": 5.1
+   },
+   {
+    "t_s": 8,
+    "text": "15,880 stud joints counter",
+    "line_height_px": 44,
+    "frame_height_px": 720,
+    "pct": 6.1
+   },
+   {
+    "t_s": 21,
+    "text": "2,874 pieces / 487 steps stat row",
+    "line_height_px": 50,
+    "frame_height_px": 720,
+    "pct": 6.9
+   }
+  ],
+  "max_words_per_title_line": 3,
+  "density": "sparse",
+  "depth": "Soft contact shadows under isometric models, wireframe-to-solid crossfades, exploded layers; UI windows sit as flat cards with a drop shadow on green."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 68,
+  "shown_as": [
+   "real-ui-capture",
+   "abstract-illustration"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Digital zoom and blur-push into the chat box at 34.4-36 s and again near 55.9 s; the window is otherwise shown whole with the model filling the right pane.",
+  "legible_at_phone_width": "partly",
+  "notes": "Whole-window shots keep chat and tab text at about 7-10 px, unreadable on a phone; zoomed chat box text reaches about 20 px. The 'Some sections of demo are accelerated' disclaimer sits bottom right throughout (crops/disclaimer.png)."
+ },
+ "motion": {
+  "text_entry": "Counters tick up numerically with an icon at left, new rows stack beneath; chat prompts type character by character with a caret; the logo letters type on.",
+  "ui_motion": "Model assembles piece by piece with a scrubbing progress bar, step counter and 4x speed; tabs switch Model to Manual to Library; manual thumbnails scroll; cursor clicks real controls.",
+  "camera": "Orbit and spin on the model; exploded-layer rise; digital push into the input box with motion blur; later pull back; dolly across wireframe.",
+  "eases": "Not measured numerically; counters decelerate near their final value (13,786 held twice at 5.77-5.78 s), pushes ease out with blur at 34.6 s.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 10,
+    "example_t_s": 5.58,
+    "cause": "Layer-explosion readout ends and wireframe counter scene begins."
+   },
+   {
+    "type": "match-cut",
+    "count": 2,
+    "example_t_s": 25.67,
+    "cause": "Same model silhouette in cutaway cuts to the app page it came from."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 2,
+    "example_t_s": 34.6,
+    "cause": "Push into chat box leads into typing the prompt."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 6,
+    "example_t_s": 42,
+    "cause": "Claude replies, model swaps, tab or library item clicked."
+   },
+   {
+    "type": "cross-dissolve",
+    "count": 1,
+    "example_t_s": 82,
+    "cause": "App fades to plain ground before the logo."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-1.75s.jpg (opening, hard cut to cutaway)",
+   "strips/window-03-5.067s.jpg (explode to wireframe counter, cut at 5.58 s)",
+   "strips/window-08-11.934s.jpg (weak-joint ring and counters stack in)",
+   "strips/window-14-20.2s.jpg (parts layout labels settle)",
+   "strips/window-16-25.634s.jpg (cut from cutaway to app)",
+   "strips/window-22-34.417s.jpg (blur push into chat box)",
+   "strips/window-40-60.734s.jpg (castle revision swap)",
+   "strips/window-56-83.9s.jpg (logo type-on)"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 4,
+    "text": "38.4 x 38.4 x 50.9 cm",
+    "words": 4,
+    "hold_s": 1.6
+   },
+   {
+    "t_s": 8,
+    "text": "15,880 STUD JOINTS",
+    "words": 3,
+    "hold_s": 1.3
+   },
+   {
+    "t_s": 12,
+    "text": "WEAK JOINT",
+    "words": 2,
+    "hold_s": 2.7
+   },
+   {
+    "t_s": 22,
+    "text": "2,874 PIECES 487 STEPS 498 PAGES 0.80 s COMPILE 0 ERRORS 0 WARNINGS",
+    "words": 12,
+    "hold_s": 3.7
+   },
+   {
+    "t_s": 26,
+    "text": "What should we build?",
+    "words": 4,
+    "hold_s": 8
+   },
+   {
+    "t_s": 38,
+    "text": "Create a medieval castle",
+    "words": 4,
+    "hold_s": 4
+   },
+   {
+    "t_s": 54,
+    "text": "Pretty cool, can you make one of the corners more of a watch tower? Also can you add a drawbridge? Maybe a giant moat...",
+    "words": 25,
+    "hold_s": 2
+   },
+   {
+    "t_s": 62,
+    "text": "Updated to a 2,057-piece Stone Castle with 11 sub-builds",
+    "words": 9,
+    "hold_s": 8
+   },
+   {
+    "t_s": 84,
+    "text": "Claude",
+    "words": 1,
+    "hold_s": 2.1
+   }
+  ],
+  "holds_vs_reading_rule": "Stat captions of 2-3 words hold 1.3-2.7 s, enough. The 33-word prompt types over about 8 s then is covered; the rule asks 10.4 s. Chat reply text is unreadable at full-window size."
+ },
+ "sound": {
+  "music": "Music-only track, 83.1 bpm with beat confidence 0.361; describe tags: keyboard_musical 0.611, synthesizer 0.529, plucked_string_instrument 0.399, guitar 0.395, piano 0.392. Five sections A-E at 0, 10.5, 21.7, 42.7, 67.3 s.",
+  "sfx": "Captions give only '>> Ah!' at 00:22; no other effects are evidenced.",
+  "vo_music_balance": "No voice; music carries the whole film at -19.8 LUFS integrated.",
+  "energy_arc": "Short-term loudness peaks at -16.1 LUFS; loudness range 5.6 LU; five sections, with silence gaps at 0.47, 3.7, 6.4, 9.5 and 22.0 s.",
+  "sync_to_picture": "Not locked: cuts_on_strong_onset_share 0.167 against chance_share 0.084, a gap of 0.083, under the 0.10 threshold."
+ },
+ "good": [
+  {
+   "observation": "Frame 0 is the finished product in its app, so the subject is visible before any motion; the first cutaway follows within 2 s.",
+   "evidence": "f0001.jpg; first cut region t=1.9 s"
+  },
+  {
+   "observation": "Every stat row is a few bold numerals with a tiny label, so the proof claims (0 errors, 0 warnings, 4 to 0 weak joints) read in under 2 s each.",
+   "evidence": "f0012.jpg, f0007.jpg, crops/weakjoint.png"
+  },
+  {
+   "observation": "The problem is shown, not captioned: a five-brick column gets an orange ring on its weak joint, then turns blue with ticks.",
+   "evidence": "f0007.jpg, f0008.jpg, strips/window-08-11.934s.jpg"
+  },
+  {
+   "observation": "A real typed prompt and a real reply with specific edits makes the revision believable; the model change at 60.8 s matches the reply text.",
+   "evidence": "f0032.jpg, crops/claudereply.png"
+  },
+  {
+   "observation": "Honest disclosure: a small fixed caption says some sections are accelerated, and a visible 47 s and 1 min 21 s spinner shows true waiting.",
+   "evidence": "crops/disclaimer.png; f0021.jpg; f0030.jpg"
+  },
+  {
+   "observation": "Restrained palette: one orange accent, two grounds, near-black numerals; the models supply all the colour.",
+   "evidence": "metrics.json look.saturation 0.067; f0010.jpg"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Whole-window UI shots put chat and tab text at roughly 7-10 px on a 720 p frame, unreadable on a phone; only the zoomed box is legible.",
+   "evidence": "f0001.jpg, crops/chatcopy.png"
+  },
+  {
+   "observation": "One 34 s unbroken screen recording (39.5% of runtime) has no cut, and much of it is a spinner and typing, so the pace drops against the first 26 s.",
+   "evidence": "metrics.json rhythm.longest_shot"
+  },
+  {
+   "observation": "No headline, voice or end line says what the product is; viewers learn it only from small chat copy and the closing wordmark.",
+   "evidence": "transcript.md; f0043.jpg"
+  },
+  {
+   "observation": "Audio is -19.8 LUFS integrated and not locked to cuts, so the music neither lifts the hero swap nor meets a social loudness target.",
+   "evidence": "metrics.json sound.lufs_integrated; cuts_on_strong_onset_share"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Prove a claim with a before/after of one tiny object (one flagged joint, then ticks) before showing the large result with the same counters.",
+   "evidence": "f0007.jpg then f0008.jpg then f0012.jpg at 12-22 s",
+   "relation": "extends",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "Stat captions of 1-3 words with an icon and an uppercase label, numerals at 5-7% of frame height, hold at least 1.3 s each.",
+   "evidence": "title_measurements 37, 44, 50 px of 720; holds 1.3-3.7 s",
+   "relation": "confirms",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "A long screen recording can carry up to 40% of runtime if it contains a visible user action and a visible outcome (typed prompt, spinner, revised model).",
+   "evidence": "26.68-60.77 s shot, 0.395 of runtime",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Switch between whole-window shots and cream-ground cutaways about 1.9 s into the film, so the product frame at 0 s is followed by a graphic proof frame inside 2 s.",
+   "evidence": "f0001.jpg; strips/window-01-1.75s.jpg",
+   "relation": "extends",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Push the camera 2x or more into the input box before typing, so the long prompt reaches about 20 px glyph height at 1280 px wide.",
+   "evidence": "f0019.jpg compared with f0017.jpg",
+   "relation": "extends",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Place the revision payoff after a visible wait of about 5 s and swap the whole model in a single frame at a section boundary of the music.",
+   "evidence": "cut at 60.77 s; strips/window-40-60.734s.jpg; section D 42.7-67.3 s",
+   "relation": "extends",
+   "skill_rule": "8"
+  },
+  {
+   "rule": "Keep a bold counter in one corner and the subject on the opposite side, using the empty cream third for the numbers.",
+   "evidence": "f0005.jpg, f0006.jpg, f0007.jpg",
+   "relation": "confirms",
+   "skill_rule": "6"
+  },
+  {
+   "rule": "Close on the logo in a plain ground with the mark first, then the wordmark typed on within 0.4 s, and hold it at least 2 s.",
+   "evidence": "strips/window-56-83.9s.jpg; f0043.jpg",
+   "relation": "confirms",
+   "skill_rule": "2"
+  }
+ ],
+ "frames_opened": 43,
+ "crops_made": 6,
+ "unchecked": [
+  "Audio was not heard; sound read only from audio.json tags and metrics.json.",
+  "Beat of the music against the 60.8 s swap not checked beyond section boundaries.",
+  "Ease curves not measured; only visually described from strips.",
+  "Stat-row title height at 21 s is ROI-clipped (50 px); true height may be smaller."
+ ]
+}

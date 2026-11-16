@@ -1,0 +1,485 @@
+{
+  "id": "We8BTITLvb4",
+  "title": "Introducing Muse: your personal AI agent",
+  "brand": "Muse",
+  "duration_s": 82.58,
+  "status": "ok",
+  "format": "launch-film",
+  "format_note": "Music-only launch film: five short product vignettes (email, shopping, race sign-up, flight delay, calendar) joined by repeated 'AI that ... for you' title cards.",
+  "one_thing": "Muse is an AI agent that does errands for you and still asks permission, so you stay in control.",
+  "transcript": {
+    "source": "none",
+    "voiceover": "none-music-only",
+    "words_total": 0,
+    "words_per_minute": 0,
+    "voice_style": "No narration. Local whisper returned only sung lyrics from the music bed; all meaning is carried by on-screen text and chat bubbles.",
+    "script_shape": "Title card, then user prompt, then agent chat bubbles plus a status chip, then a result; the 'AI that ... for you' card repeats between vignettes and 'Your Muse gets it done' pays off at 68 s."
+  },
+  "structure": {
+    "frame0": "Muse app icon centred on pale grey (about 21 % of frame height) with the edge of a yellow sticky note entering at left; f0001.jpg. Subject present but nearly empty (blankCells 0.919).",
+    "first_3s": "Icon sits still at 0.96 s while 3D objects (note, envelope, mug, pen, calendar) fly in until a full grid of about 40 objects fills the frame by 1.7 s; 'Introducing' appears at 2 s.",
+    "beats": [
+      {
+        "start_s": 0,
+        "end_s": 3.5,
+        "role": "hook",
+        "what": "App icon, then a grid of tiny 3D everyday objects fills the frame; strips/window-01-0.959s.jpg."
+      },
+      {
+        "start_s": 3.8,
+        "end_s": 9.5,
+        "role": "setup",
+        "what": "Title builds word by word: 'Introducing Muse', 'Muse is your personal AI agent', then 'A new kind of AI'."
+      },
+      {
+        "start_s": 9.5,
+        "end_s": 17.5,
+        "role": "setup",
+        "what": "Muse avatar chip, chat bubbles type in, then a prompt bar: 'Help me stay on top of school emails'."
+      },
+      {
+        "start_s": 17.5,
+        "end_s": 30,
+        "role": "demo",
+        "what": "Inbox, supply-list email, shopping list, order review, Allow/Deny permission card at 28 s."
+      },
+      {
+        "start_s": 30,
+        "end_s": 34,
+        "role": "payoff",
+        "what": "'Done!' with check icon at 30 s, then title 'AI that books meetings for you' at 32 s."
+      },
+      {
+        "start_s": 34,
+        "end_s": 47,
+        "role": "demo",
+        "what": "Sleep data adjusts a training plan; Muse finds a 10k, opens a sign-up form, fills it; 'Take control of the browser' button."
+      },
+      {
+        "start_s": 47,
+        "end_s": 52,
+        "role": "turn",
+        "what": "Chat reply 'You're in.' then titles 'AI that tracks your goals' and 'AI that fills out forms for you'."
+      },
+      {
+        "start_s": 52,
+        "end_s": 67,
+        "role": "demo",
+        "what": "Muse checks weather and schedule, flight delayed card SFO to DEN, user replies 'Yes, please!', calendar tile 19 becomes 'Updated flight SFO to DEN'."
+      },
+      {
+        "start_s": 67,
+        "end_s": 74,
+        "role": "payoff",
+        "what": "Confetti title 'Your Muse gets it done' at 68 s, then 'AI that books trips for you' and 'AI that looks out for you'."
+      },
+      {
+        "start_s": 74,
+        "end_s": 78,
+        "role": "proof",
+        "what": "'All in one' pill with check marks and third-party app logos (Shopify, Instagram, Messenger, others), then 'It's your Muse'."
+      },
+      {
+        "start_s": 78,
+        "end_s": 81.67,
+        "role": "cta",
+        "what": "'AI that keeps you in control' above the app icon on light ground."
+      },
+      {
+        "start_s": 81.67,
+        "end_s": 82.58,
+        "role": "logo",
+        "what": "Hard cut to black end card: icon, 'Muse', Google Play and App Store badges, Meta wordmark."
+      }
+    ],
+    "hero_moment": {
+      "t_s": 68,
+      "share": 0.823,
+      "what": "Confetti falls over 'Your Muse gets it done' with the avatar in a party hat (f0035.jpg); the only full-colour frame in a pale film."
+    },
+    "ending": {
+      "cta_text": "AI that keeps you in control",
+      "logo_hold_s": 0.91,
+      "what": "Light card with the claim and icon, then a 0.91 s black end card with store badges and Meta; no URL or button copy."
+    }
+  },
+  "rhythm": {
+    "route": "hybrid",
+    "hard_cuts": 8,
+    "cuts_per_min": 5.81,
+    "median_shot_s": 4.75,
+    "how_change_is_paced": "Few cuts: the longest shot runs 27.67 s (17.5 to 45.17 s, 33.5 % of runtime). Pace comes from in-shot change: only 10 % of 2 s sample intervals are static and no burst of cuts exists (bursts is empty)."
+  },
+  "look": {
+    "ground": "Near-white to pale-blue gradient on title cards; light grey gradient behind chat scenes; black only inside the browser frame and the final end card.",
+    "palette": [
+      "off-white #F3F3F5",
+      "pale blue gradient",
+      "Muse blue (buttons, accent word)",
+      "light-blue user bubble",
+      "grey agent bubble",
+      "yellow banner",
+      "red 'Delayed' banner",
+      "black"
+    ],
+    "accent_use": "Blue marks 'Muse' in 'Introducing Muse' (strips/window-03-3.834s.jpg), the Allow and Submit buttons and the check icons; colour appears otherwise only in 3D emoji and confetti.",
+    "type": "Medium-weight geometric sans, black, centred; titles 2 to 3 lines with a smaller middle line carrying an inline 3D emoji in place of an icon; UI text in a lighter grotesque.",
+    "title_height_pct": [
+      7.9,
+      12.6
+    ],
+    "title_measurements": [
+      {
+        "t_s": 2.5,
+        "text": "Introducing",
+        "line_height_px": 91,
+        "frame_height_px": 720,
+        "pct": 12.6
+      },
+      {
+        "t_s": 32,
+        "text": "AI that",
+        "line_height_px": 75,
+        "frame_height_px": 720,
+        "pct": 10.4
+      },
+      {
+        "t_s": 78,
+        "text": "AI that",
+        "line_height_px": 57,
+        "frame_height_px": 720,
+        "pct": 7.9
+      },
+      {
+        "t_s": 78,
+        "text": "keeps you in control",
+        "line_height_px": 58,
+        "frame_height_px": 720,
+        "pct": 8.1
+      }
+    ],
+    "max_words_per_title_line": 3,
+    "density": "sparse",
+    "depth": "Soft drop shadows lift the avatar chip, prompt bar and cards off the ground; no parallax or 3D camera, only flat zooms and pans."
+  },
+  "product_ui": {
+    "presence_pct_runtime": 52,
+    "shown_as": [
+      "redrawn-simplified-ui",
+      "floating-ui-cards",
+      "abstract-illustration"
+    ],
+    "cursor": "none",
+    "camera_on_ui": "Push-ins crop the UI so the active line fills the frame: Submit button grows full width at 45 to 46 s, flight card and a chat bubble fill the frame at 58 to 62 s, calendar tile at 65 s.",
+    "legible_at_phone_width": "partly",
+    "notes": "Chat bubbles, status chip, Allow/Deny and the flight card read easily. The email body at t=20 (f0011.jpg) and form labels at t=42 are about 1.5 % of frame height and serve as texture, not as read copy."
+  },
+  "motion": {
+    "text_entry": "Titles build word by word ('Introducing' to 'Muse' to 'Muse is' over about 1.3 s, strips/window-03); letters in 'Done!' step down a slant (f0016.jpg); chat bubbles type in and the 'W' bubble appears before its sentence (f0007.jpg).",
+    "ui_motion": "A status chip under the Muse avatar swaps its verb label ('working', 'Creating shopping list', 'Waiting for permission', 'Signing you up', 'is checking weather') every 2 to 3 s; cards slide and blur into each other.",
+    "camera": "Constant push-ins and pans over flat UI; no cuts inside the 27.67 s middle shot, which includes zooms at 17.5 s and 44.96 s.",
+    "eases": "Not measured numerically. At 17.417 to 17.5 s the prompt bar collapses to a sliver in two frames, so exits are very fast; settles on bubbles look soft.",
+    "transitions": [
+      {
+        "type": "hard-cut",
+        "count": 8,
+        "example_t_s": 81.67,
+        "cause": "Light claim card ends, then cut to black end card with store badges."
+      },
+      {
+        "type": "zoom-through",
+        "count": 2,
+        "example_t_s": 17.5,
+        "cause": "Prompt bar squeezes to a point, inbox appears behind it; Submit button swells at 45 s."
+      },
+      {
+        "type": "continuous-camera-move",
+        "count": 2,
+        "example_t_s": 58.8,
+        "cause": "Flight card scrolls up and the camera pushes into text, then into a chat bubble."
+      },
+      {
+        "type": "morph-or-shared-element",
+        "count": 1,
+        "example_t_s": 65.8,
+        "cause": "Calendar tile 19 empties and becomes the Muse 'Updated flight' card."
+      },
+      {
+        "type": "ui-state-change",
+        "count": 4,
+        "example_t_s": 28,
+        "cause": "Status chip changes label as the task moves on."
+      }
+    ],
+    "strips_read": [
+      "strips/window-01-0.959s.jpg: icon holds still while sticky note, envelope and objects fly in until a grid of about 40 fills the frame by 1.7 s.",
+      "strips/window-03-3.834s.jpg: 'Introducing / Muse (blue)' collapses to 'Muse', then 'Muse is', then the avatar pops into the gap by 5.33 s.",
+      "strips/window-09-17.417s.jpg: prompt bar warps to a sliver over 2 frames; inbox panel is there at 17.5 s (hard cut).",
+      "strips/window-29-44.959s.jpg: form frame zooms down to the Submit button by 45.58 s; black frame edge stays until 46 s.",
+      "strips/window-39-58.375s.jpg: flight card with red 'Delayed' banner scrolls up and zooms to the SFO to DEN row.",
+      "strips/window-42-62.542s.jpg: 'Yes, please!' bubble drifts up and left while the previous bubble leaves.",
+      "strips/window-44-65.709s.jpg: tile 19 empties, the avatar fades in, then 'Updated flight' text builds to 'SFO to DEN' over 1.4 s.",
+      "strips/window-50-76.834s.jpg: 'All in one' shrinks away; 'It's your Muse' appears huge, shrinks, and 3D objects fill around it by 77.9 s.",
+      "strips/window-54-81.584s.jpg: icon on light ground to black at 81.667 s, then 'Muse', Google Play badge, App Store badge and Meta wordmark fade up one by one."
+    ]
+  },
+  "copy": {
+    "on_screen_lines": [
+      {
+        "t_s": 2,
+        "text": "Introducing",
+        "words": 1,
+        "hold_s": -1
+      },
+      {
+        "t_s": 4,
+        "text": "Muse is",
+        "words": 2,
+        "hold_s": -1
+      },
+      {
+        "t_s": 6,
+        "text": "Muse is your personal AI agent",
+        "words": 6,
+        "hold_s": -1
+      },
+      {
+        "t_s": 8,
+        "text": "A new kind of AI",
+        "words": 4,
+        "hold_s": -1
+      },
+      {
+        "t_s": 16,
+        "text": "Help me stay on top of school emails",
+        "words": 7,
+        "hold_s": 4
+      },
+      {
+        "t_s": 22,
+        "text": "I found a list of school supplies that need to be ordered based on Joan's email.",
+        "words": 16,
+        "hold_s": -1
+      },
+      {
+        "t_s": 28,
+        "text": "Waiting for permission",
+        "words": 3,
+        "hold_s": -1
+      },
+      {
+        "t_s": 30,
+        "text": "Done!",
+        "words": 1,
+        "hold_s": -1
+      },
+      {
+        "t_s": 32,
+        "text": "AI that books meetings for you",
+        "words": 6,
+        "hold_s": -1
+      },
+      {
+        "t_s": 38,
+        "text": "Hey! I see you've been doing great with your training. I found a local 10k in November.",
+        "words": 17,
+        "hold_s": -1
+      },
+      {
+        "t_s": 40,
+        "text": "Yes, sign me up!",
+        "words": 4,
+        "hold_s": -1
+      },
+      {
+        "t_s": 44,
+        "text": "Take control of the browser / Stop the task",
+        "words": 8,
+        "hold_s": -1
+      },
+      {
+        "t_s": 46,
+        "text": "You're in. / Let's gooo!!",
+        "words": 4,
+        "hold_s": -1
+      },
+      {
+        "t_s": 48,
+        "text": "AI that tracks your goals",
+        "words": 5,
+        "hold_s": -1
+      },
+      {
+        "t_s": 50,
+        "text": "AI that fills out forms for you",
+        "words": 7,
+        "hold_s": -1
+      },
+      {
+        "t_s": 56,
+        "text": "Your flight is delayed 2hrs due to storms in Denver...",
+        "words": 10,
+        "hold_s": -1
+      },
+      {
+        "t_s": 62,
+        "text": "Yes, please!",
+        "words": 2,
+        "hold_s": -1
+      },
+      {
+        "t_s": 66,
+        "text": "Updated flight SFO to DEN",
+        "words": 5,
+        "hold_s": -1
+      },
+      {
+        "t_s": 68,
+        "text": "Your Muse gets it done",
+        "words": 5,
+        "hold_s": -1
+      },
+      {
+        "t_s": 70,
+        "text": "AI that books trips for you",
+        "words": 6,
+        "hold_s": -1
+      },
+      {
+        "t_s": 72,
+        "text": "AI that looks out for you",
+        "words": 6,
+        "hold_s": -1
+      },
+      {
+        "t_s": 74,
+        "text": "All in one",
+        "words": 3,
+        "hold_s": -1
+      },
+      {
+        "t_s": 76,
+        "text": "It's your Muse",
+        "words": 3,
+        "hold_s": -1
+      },
+      {
+        "t_s": 80,
+        "text": "AI that keeps you in control",
+        "words": 6,
+        "hold_s": -1
+      }
+    ],
+    "holds_vs_reading_rule": "Title holds were not timed from 2 s samples. 'AI that keeps you in control' (6 words, needs 2.3 s) is visible at t=80 and cut to black at 81.67 s, so its hold is under 3.7 s."
+  },
+  "sound": {
+    "music": "Music bed at 115.2 bpm (beat confidence 0.502). Describe tags: music 0.713, disc_scratching 0.518, keyboard_musical 0.383, rapping 0.371, synthesizer 0.362, singing 0.331, percussion 0.322. Whisper heard sung lines such as 'I got the sauce to make you go'.",
+    "sfx": "No sound effects evidenced in the measurements; I could not hear the film.",
+    "vo_music_balance": "No voiceover; music is the only sound (kind: music).",
+    "energy_arc": "Six sections: A 0 to 4.7 s, B to 13.1 s, C to 18.8 s, D to 27.2 s, E to 35.5 s, then F for the last 47 s. Integrated -16 LUFS, loudness range 5.7 LU.",
+    "sync_to_picture": "Cuts are not locked to the sound: 0.125 of cuts land on strong onsets against 0.17 by chance (cuts_on_strong_onset_share vs chance_share)."
+  },
+  "good": [
+    {
+      "observation": "One repeated title formula, 'AI that [verb phrase] for you', closes each vignette; an inline 3D emoji replaces the icon and the middle line is smaller, giving the film a chorus without voiceover.",
+      "evidence": "f0017.jpg, f0026.jpg, f0036.jpg, f0037.jpg, f0041.jpg; six cards"
+    },
+    {
+      "observation": "Concrete invented data makes each task checkable on sight: $47.80 total, SFO to DEN 2h 30m, 2:15 PM to 5:45 PM, 'Autumn Trail 10K Entry Form'.",
+      "evidence": "f0014.jpg, f0030.jpg, f0022.jpg"
+    },
+    {
+      "observation": "Permission is shown on screen before the 'in control' claim is made: Deny/Allow at 28 s and 'Take control of the browser / Stop the task' at 44 s, so the closing line is already proved.",
+      "evidence": "f0015.jpg, f0023.jpg, crops/take-control.png"
+    },
+    {
+      "observation": "A small avatar chip with a changing verb label gives the viewer a single anchor across all vignettes, and the label acts as narration.",
+      "evidence": "f0012.jpg, f0013.jpg, f0028.jpg, f0029.jpg"
+    },
+    {
+      "observation": "Push-in transitions are caused by content: prompt bar collapses into the inbox, form zooms to the Submit button, calendar tile becomes the result card.",
+      "evidence": "strips/window-09-17.417s.jpg, window-29-44.959s.jpg, window-44-65.709s.jpg"
+    },
+    {
+      "observation": "Colour is held back for the payoff: confetti and the party-hat avatar are the only saturated full-frame moment, at 82 % of runtime.",
+      "evidence": "f0035.jpg at t=68; look.saturation 0.039"
+    }
+  ],
+  "weak": [
+    {
+      "observation": "The email body and form labels are about 1.5 % of frame height, unreadable at phone width, so the supply-list payload is not actually read.",
+      "evidence": "f0011.jpg (t=20), f0022.jpg labels"
+    },
+    {
+      "observation": "The end card is on screen 0.91 s with store badges about 20 px wide; the call to action is too short and small to act on.",
+      "evidence": "strips/window-54-81.584s.jpg; cuts.json 81.67 s"
+    },
+    {
+      "observation": "Frame 0 is a lone app icon on a nearly blank field (blankCells 0.919); the subject does not do anything until objects arrive at 1.1 s.",
+      "evidence": "f0001.jpg; metrics frames.frame0"
+    },
+    {
+      "observation": "Cuts are not tied to the music: 12.5 % of cuts sit on strong onsets against 17 % chance.",
+      "evidence": "metrics sound.cuts_on_strong_onset_share 0.125"
+    }
+  ],
+  "rule_candidates": [
+    {
+      "rule": "Without voiceover, repeat one title template ('AI that ___ for you') between product vignettes, with an inline emoji standing in for the key noun; six repeats gave the film its structure.",
+      "evidence": "f0017.jpg, f0026.jpg, f0036.jpg, f0041.jpg; titles at 32, 48, 50, 70, 72, 80 s",
+      "relation": "extends",
+      "skill_rule": "3"
+    },
+    {
+      "rule": "A film can run 8 hard cuts in 82.6 s (median shot 4.75 s) if something on screen changes in at least 90 % of 2 s intervals through camera push-ins and UI state changes.",
+      "evidence": "metrics rhythm.median_shot_s 4.75; frames.intervals_static_share 0.1",
+      "relation": "contradicts",
+      "skill_rule": "10"
+    },
+    {
+      "rule": "Show consent controls (Allow/Deny, 'Take control', 'Stop the task') on screen before a trust claim is made, then state the claim as the closing line.",
+      "evidence": "f0015.jpg (28 s), f0023.jpg (44 s), f0041.jpg (80 s)",
+      "relation": "new",
+      "skill_rule": "none"
+    },
+    {
+      "rule": "Label the agent's current action in a chip that changes every 2 to 3 s, using one present-tense verb phrase each, to narrate a silent product film.",
+      "evidence": "f0012.jpg 'working', f0013.jpg 'Creating shopping list', f0022.jpg 'Signing you up'",
+      "relation": "new",
+      "skill_rule": "none"
+    },
+    {
+      "rule": "An energetic music film need not have a cut burst: this one has none (bursts empty) and puts its hero at 0.82 of runtime, with colour as the peak instead of cut density.",
+      "evidence": "metrics rhythm.bursts []; f0035.jpg at 68 s",
+      "relation": "contradicts",
+      "skill_rule": "8"
+    },
+    {
+      "rule": "UI used only as texture may fall below 2.6 % type height if the same fact returns as large chat text within 2 s; a 1.5 % email body precedes a restating bubble.",
+      "evidence": "f0011.jpg then f0012.jpg (t=20 to 22)",
+      "relation": "extends",
+      "skill_rule": "2"
+    },
+    {
+      "rule": "A -16 LUFS integrated mix with -14.3 LUFS short-term peak and -3.1 dBTP stays within the true-peak limit but sits 2 LU under the social loudness target; master to -14 explicitly.",
+      "evidence": "metrics sound.lufs_integrated -16, lufs_short_term_max -14.3, true_peak_db -3.1",
+      "relation": "extends",
+      "skill_rule": "9"
+    },
+    {
+      "rule": "Close on the claim card for at least 2 s before any end card; here the badge card lasts 0.91 s and its badges are about 20 px wide.",
+      "evidence": "strips/window-54-81.584s.jpg; cut at 81.67 s",
+      "relation": "confirms",
+      "skill_rule": "2"
+    }
+  ],
+  "frames_opened": 41,
+  "crops_made": 6,
+  "unchecked": [
+    "Sound was not heard; instruments and lyrics are inferred from audio.json tags and whisper output only.",
+    "Native-rate holds for title cards were not timed; 2 s samples only, so most hold_s are -1.",
+    "Ink measure at t=76 and t=8 returned the whole ROI (grey gradient counted as ink), so 'It's your Muse' and 'A new' sizes are unmeasured.",
+    "Title heights include ascenders and descenders; 'Introducing' (12.6 %) includes the descender of 'g'.",
+    "Product UI presence share (52 %) is estimated from the sheets' 2 s samples."
+  ]
+}

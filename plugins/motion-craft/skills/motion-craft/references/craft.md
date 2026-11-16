@@ -72,6 +72,9 @@ Use 3-5 kinds of transition in a film, each caused by something on screen. Hard 
 | Dip cut | the outgoing frame darkens about 40 % for 3 frames before a hard cut, so the cut reads as meant |
 | Blur swap on one stage | out: opacity → 0 with about 8 px blur in 0.13-0.2 s; in: blur → 0 in 0.13 s; the ground never cuts |
 | Match cut | one shape holds while everything around it changes: a circle becomes a lens, a wheel, a logo |
+| Ground flip | a hard cut that inverts the ground (white interface to a black claim card, and back) to mark a change of world; four flips in 81 s in Harvey's "Introducing Memory" (`saas-films.md` §7) |
+| Zoom travel inside one recording | the camera pushes from one panel of a captured screen to another with a blur that peaks mid-move and sharpens on arrival, so a long take changes focus without a cut |
+| Outline fill | a drawn outline of the next device or panel appears over the current shot and fills with its screen, handing the eye from one surface to the next |
 
 Cut at the fastest frame of a move, with matching direction and speed on both sides; mirror the eases across the seam (`power3.in` out, `power3.out` in). A click into a new screen is a match cut on the click's rebound: the new screen comes in slightly large and settles.
 
@@ -103,4 +106,6 @@ Check every render against this list as well as the BANNED line in `SPEC.md`:
 - a film about the logo instead of the product: the mark performs an idea while the product's work, output and evidence never appear;
 - a must-carry fact missing, or on screen too small or too briefly to read;
 - a camera move that crops the labels at the frame edge partway through (an axis label cut to "RS"), so check the range of every pan, not just its ends;
-- a transition frame where the incoming element blurs or scales behind content that is still on screen, so the two collide mid-seam.
+- a transition frame where the incoming element blurs or scales behind content that is still on screen, so the two collide mid-seam;
+- a wide shot of the whole interface that the voice depends on, with its text under 2.6 % of the short side (the commonest fault in 48 shipped product films, `saas-films.md` §5);
+- the voice making a claim with no picture of it on screen.

@@ -1,0 +1,152 @@
+{
+  "id": "xDiG-MN7GzU",
+  "title": "Memory Is Now In Harvey",
+  "brand": "Harvey",
+  "duration_s": 67.78,
+  "status": "ok",
+  "format": "feature-explainer",
+  "format_note": "Music-only feature announcement: a preference question, a real-UI memory demo, personas each carrying their own remembered preferences, then a four-line brand sign-off.",
+  "one_thing": "Harvey now remembers each lawyer's working preferences and applies them across every place they work.",
+  "transcript": {
+    "source": "none",
+    "voiceover": "none-music-only",
+    "words_total": 0,
+    "words_per_minute": -1,
+    "voice_style": "No speech. Caption track absent; local whisper returned only '.' segments. All meaning is carried by on-screen text.",
+    "script_shape": "Question card, answer chips, product name, UI proof, 'Applied everywhere you work', four persona orbits, then 'Your Preferences. Your Work. Your Harvey. Harvey'."
+  },
+  "structure": {
+    "frame0": "Empty paper-texture ground with the question card 'When you send me a contract, how do you want the review back?' on screen from the first sampled frame (f0001.jpg), centred and 43% of frame width.",
+    "first_3s": "The card drifts up about 14 px, then at 2.9-4 s it grows a menu of four review formats and 'Type something else...' (f0003.jpg). The subject is present throughout.",
+    "beats": [
+      { "start_s": 0, "end_s": 6, "role": "hook", "what": "Question card asks how the lawyer wants contract review back; four options unfold." },
+      { "start_s": 6, "end_s": 11, "role": "setup", "what": "Cursor picks 'Short summary the business can read'; the menu slides left and a chip splits off." },
+      { "start_s": 11, "end_s": 18, "role": "reveal", "what": "Menu leaves, dashed rings appear, a planet labelled Maya, Commercial Counsel arrives with three preference chips." },
+      { "start_s": 18, "end_s": 21, "role": "logo", "what": "Hard cut to 'Introducing' then 'Harvey Memory' on a bare paper ground." },
+      { "start_s": 21, "end_s": 33, "role": "demo", "what": "Real Harvey chat: user states a colour-coding preference, 'Memories saved' card types out, then a second thread opens a memo." },
+      { "start_s": 33, "end_s": 44, "role": "proof", "what": "Memory tab lists three memories; the memo scrolls with chips beside it and the matching headings highlighted." },
+      { "start_s": 44, "end_s": 52, "role": "turn", "what": "'Applied everywhere you work' with the chips' icons swapping to Outlook and Word." },
+      { "start_s": 52, "end_s": 60.5, "role": "proof", "what": "Persona orbits for Omar, Eleanor, Rob and Priya, each with their own preference chips." },
+      { "start_s": 60.5, "end_s": 67.78, "role": "cta", "what": "Four centred lines swap one word at a time: Your Preferences. Your Work. Your Harvey. Harvey." }
+    ],
+    "hero_moment": {
+      "t_s": 38,
+      "share": 0.56,
+      "what": "Memo with 'Executive Summary' highlighted while the chip 'My GC prefers numbered lists' sits beside it, connecting a stored preference to its visible effect (f0019.jpg)."
+    },
+    "ending": {
+      "cta_text": "Your Preferences. Your Work. Your Harvey. Harvey",
+      "logo_hold_s": 2,
+      "what": "Plain serif wordmark centred on the paper ground; no button, no URL. Hold under 2.6 s is inferred from a 6 s static run ending at 66 s, so approximate."
+    }
+  },
+  "rhythm": {
+    "route": "continuous",
+    "hard_cuts": 4,
+    "cuts_per_min": 3.54,
+    "median_shot_s": 7.24,
+    "how_change_is_paced": "Almost nothing is cut. The 39.5 s shot from 21 s to 60.54 s holds 58% of runtime. Interest comes from internal motion: menu unfold, card slides, chip fly-ins, scroll, persona swaps every 1-2 s."
+  },
+  "look": {
+    "ground": "Off-white paper with soft grey painted blocks that shift position from scene to scene; light share 1.0, luma 238.7 in look.json.",
+    "palette": ["off-white #FAFAF8", "grey paper wash", "near-black type", "white cards", "dark violet planet", "teal memory icon", "pale teal highlight"],
+    "accent_use": "Teal appears only on the memory icon and the memo highlights, so colour means 'memory'. Planets are the only dark mass.",
+    "type": "Large serif display for titles ('Harvey Memory' pairs light serif with bold sans-like 'Memory'); small grotesque for UI chips and labels; role lines in grey.",
+    "title_height_pct": [5.8, 8.2],
+    "title_measurements": [
+      { "t_s": 20, "text": "Harvey Memory", "line_height_px": 59, "frame_height_px": 720, "pct": 8.2 },
+      { "t_s": 61, "text": "Your Preferences.", "line_height_px": 42, "frame_height_px": 720, "pct": 5.8 },
+      { "t_s": 62, "text": "Your Work.", "line_height_px": 42, "frame_height_px": 720, "pct": 5.8 },
+      { "t_s": 66, "text": "Harvey", "line_height_px": 50, "frame_height_px": 720, "pct": 6.9 }
+    ],
+    "max_words_per_title_line": 4,
+    "density": "sparse",
+    "depth": "Soft drop shadows lift cards off the paper; planets are shaded spheres; dashed concentric rings give an orbit. UI is a flat window with a shadow."
+  },
+  "product_ui": {
+    "presence_pct_runtime": 85,
+    "shown_as": ["real-ui-capture", "floating-ui-cards"],
+    "cursor": "real",
+    "camera_on_ui": "At 21-33 s the window is shown whole, then punched in so the chat fills the frame (f0013.jpg), then pulled out. At 36-44 s the view pans to the Memory panel and memo.",
+    "legible_at_phone_width": "partly",
+    "notes": "Chip and card text is about 20 px on 720 p and reads. Memo body and sidebar text is about 9 px and does not; the message survives because enlarged chips and highlights repeat it beside the document."
+  },
+  "motion": {
+    "text_entry": "Titles fade in and settle in place; 'Introducing' appears first and 'Harvey Memory' arrives about 0.33 s later (strips/window-09-17.417s.jpg). Closing lines swap words in place.",
+    "ui_motion": "Menu unfolds, then slides off left while the chosen chip detaches and stays; chips pop in around the planet; 'Memories saved' text types out; memory list rows append.",
+    "camera": "Slow zoom-out as rings arrive; zoom-in on the chat; pan across the memo. Planet counts drift slightly with rotation of the surface.",
+    "eases": "Soft ease-out on card slides, about 0.4 s; chips drift continuously; no overshoot visible in the strips I opened.",
+    "transitions": [
+      { "type": "hard-cut", "count": 4, "example_t_s": 21, "cause": "Title card to product window; scene change under the title." },
+      { "type": "push-or-slide", "count": 2, "example_t_s": 11, "cause": "Menu slides off after the cursor picks an option, leaving the chosen chip." },
+      { "type": "ui-state-change", "count": 3, "example_t_s": 24.5, "cause": "Reply appears, memory card types out, panel tab fills." },
+      { "type": "continuous-camera-move", "count": 2, "example_t_s": 12.9, "cause": "Rings and planet arrive as the camera pulls back." },
+      { "type": "morph-or-shared-element", "count": 2, "example_t_s": 59.3, "cause": "Persona planet, name and chips swap in place on the same orbit template." }
+    ],
+    "strips_read": [
+      "strips/window-01-0s.jpg: card rises ~14 px in 0.58 s, the poster stays stable",
+      "strips/window-05-10.709s.jpg: menu slides out left over 0.9 s, chip stays",
+      "strips/window-06-12.875s.jpg: rings arrive, planet appears at 13.67 s",
+      "strips/window-09-17.417s.jpg: orbit shrinks, cut to 'Introducing' at 18.04 s, wordmark at 18.375 s",
+      "strips/window-10-20.917s.jpg: hard cut at 21 s to a white window that builds up in 0.5 s",
+      "strips/window-12-24s.jpg: punch-in to chat, memory card text types out",
+      "strips/window-28-58.375s.jpg: Rob to Priya swap at 59.29 s, planet and chips replaced together",
+      "strips/window-29-59.917s.jpg: cut at 60.54 s to 'Your Preferences.'"
+    ]
+  },
+  "copy": {
+    "on_screen_lines": [
+      { "t_s": 0, "text": "When you send me a contract, how do you want the review back?", "words": 12, "hold_s": 4 },
+      { "t_s": 4, "text": "Issues list ranked by risk / Short summary the business can read / Clause-by-clause table of key terms / Redline with margin comments", "words": 24, "hold_s": 4 },
+      { "t_s": 14, "text": "Maya, Commercial Counsel", "words": 3, "hold_s": 4 },
+      { "t_s": 18.2, "text": "Introducing Harvey Memory", "words": 3, "hold_s": 2.8 },
+      { "t_s": 38, "text": "My GC prefers numbered lists", "words": 5, "hold_s": 7 },
+      { "t_s": 44.5, "text": "Applied everywhere you work", "words": 4, "hold_s": 6 },
+      { "t_s": 54, "text": "Short paragraphs, no footnotes in memos / No \"we believe\" in filings", "words": 11, "hold_s": 2 },
+      { "t_s": 58, "text": "Economic terms in a table, not prose", "words": 7, "hold_s": 2 },
+      { "t_s": 60.54, "text": "Your Preferences.", "words": 2, "hold_s": -1 },
+      { "t_s": 62, "text": "Your Work.", "words": 2, "hold_s": -1 },
+      { "t_s": 64, "text": "Your Harvey.", "words": 2, "hold_s": -1 },
+      { "t_s": 66, "text": "Harvey", "words": 1, "hold_s": -1 }
+    ],
+    "holds_vs_reading_rule": "Chip text of 5-7 words held 1.4-2 s during persona swaps, short of 0.5 s + 0.3 s a word (2.6-2.9 s). Titles of 4 words held about 6 s, well above the rule."
+  },
+  "sound": {
+    "music": "Music only, no speech. Describe tags: bowed_string_instrument 0.797, cello 0.721, violin_fiddle 0.715, orchestra 0.568. No steady beat (beats confidence 0.099).",
+    "sfx": "audio.json reports kind music; no sound-effect evidence in the measurements, so none is claimed.",
+    "vo_music_balance": "No voice. Integrated -16 LUFS, short-term max -11.8, true peak -2.4 dBTP, loudness range 5.8 LU.",
+    "energy_arc": "Sections A 0-5.5 s, B 5.5-14 s, C 14-58 s (long), D 58-67.8 s; strong onsets only 6.2 per minute, so the arc is slow rather than building to peaks.",
+    "sync_to_picture": "cuts_on_strong_onset_share 0.25 against chance_share 0.023, a margin of 0.227, so the four cuts are locked to the sound."
+  },
+  "good": [
+    { "observation": "The film opens on the question the product answers, shown as a real-looking interface card on a calm ground. The viewer is asked something before being told anything.", "evidence": "f0001.jpg, crops/q.png" },
+    { "observation": "Interaction explains the feature: the cursor picks an option and the chosen chip survives while the menu leaves. Choice becomes memory without a word of narration.", "evidence": "strips/window-05-10.709s.jpg, f0005.jpg" },
+    { "observation": "A single reusable orbit template (planet, name, role, three chips) carries four personas, so the idea of 'everyone's own preferences' is shown by repetition and swap.", "evidence": "f0028-f0030.jpg, strips/window-28-58.375s.jpg" },
+    { "observation": "Real product UI shows the preference landing in an output: chip beside the memo, matching headings highlighted in teal.", "evidence": "f0019.jpg, f0020.jpg" },
+    { "observation": "Restraint: one ground, one accent colour, no cross-dissolves; only 4 hard cuts in 67.8 s and a 39.5 s continuous shot.", "evidence": "metrics.json rhythm.hard_cuts 4, longest_shot 39.54 s" },
+    { "observation": "The sign-off swaps one word per line, ending on the brand name alone, which compresses the message into a rhythm the viewer can finish.", "evidence": "f0031-f0034.jpg" }
+  ],
+  "weak": [
+    { "observation": "Memo body, sidebar and memory-panel text is about 9 px on a 720 p frame and unreadable at phone width; the proof relies on the chips beside it.", "evidence": "f0017.jpg, crops/ctx.png" },
+    { "observation": "No call to action, URL or availability line at the end; the film ends on the wordmark only.", "evidence": "f0034.jpg" },
+    { "observation": "Persona chips are held 1.4-2 s and several are truncated with an ellipsis ('Refer US state privacy to Ba...'), so the specifics are not readable in time.", "evidence": "f0029.jpg, strips/window-28-58.375s.jpg" }
+  ],
+  "rule_candidates": [
+    { "rule": "A calm explainer can open with the subject already on screen as a single centred card at 40-45% of frame width and hold it 4 s before expanding it.", "evidence": "f0001.jpg card 553 of 1280 px wide; menu opens at 2.9 s", "relation": "confirms", "skill_rule": "1" },
+    { "rule": "A feature film can run with a median shot of 7 s and one 39 s shot if something on screen changes every 1-2 s; judge pace by on-screen change rather than cut count.", "evidence": "metrics.json median_shot_s 7.24, longest_shot 39.54 s; strips 12 and 28", "relation": "contradicts", "skill_rule": "10" },
+    { "rule": "Show a product capability through a cause on screen: cursor picks an option, the menu slides off, the chosen chip stays and becomes the next scene's subject.", "evidence": "strips/window-05-10.709s.jpg, 10.7-11.7 s", "relation": "extends", "skill_rule": "7" },
+    { "rule": "When real UI text is under 10 px, repeat its fact as a chip at 20 px or more beside it and highlight the matching spot in the UI.", "evidence": "f0019.jpg chip text ~21 px, memo text ~9 px", "relation": "extends", "skill_rule": "5" },
+    { "rule": "Build one repeatable template (hero object, name, role, three chips) and swap its content every 1.4-2 s to show variety without new layouts.", "evidence": "f0028-f0030.jpg, strip 28: Rob to Priya at 59.29 s", "relation": "new", "skill_rule": "none" },
+    { "rule": "A quiet launch film needs no cut burst: 0 bursts, 4 cuts in 67.8 s worked when motion lived inside shots.", "evidence": "metrics.json rhythm.bursts empty", "relation": "contradicts", "skill_rule": "8" },
+    { "rule": "Close with 3-4 two-word lines that change one word each time, the last being the brand name alone, each at 5.8-8% of frame height.", "evidence": "title_measurements t=61-66 s, 42-59 px of 720 px", "relation": "extends", "skill_rule": "3" }
+  ],
+  "frames_opened": 34,
+  "crops_made": 6,
+  "unchecked": [
+    "Hold times of the four closing lines (60.54-67.78 s): strips for 62-66 s not opened.",
+    "No ear check; sound described from audio.json and metrics.json only.",
+    "Ink measure of 'Introducing' failed, region returned no ink or noisy bounds.",
+    "Sampled frame f0031.jpg at t=60 already shows type though the cut is at 60.54 s; offset not resolved.",
+    "Phone-width legibility judged from 720 p frames, not a phone-size render."
+  ]
+}

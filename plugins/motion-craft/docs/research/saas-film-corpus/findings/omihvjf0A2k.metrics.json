@@ -1,0 +1,721 @@
+{
+ "id": "omihvjf0A2k",
+ "title": "Getting started with Claude Code Projects",
+ "uploader": "Claude",
+ "duration_s": 272.66,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 42,
+  "cuts_per_min": 9.24,
+  "cut_times_s": [
+   0.62,
+   5.46,
+   9.38,
+   20.54,
+   25.17,
+   34.46,
+   40.88,
+   44.88,
+   47.62,
+   53.46,
+   69.92,
+   73.46,
+   83.21,
+   107.96,
+   111.33,
+   113.46,
+   121.29,
+   124.5,
+   126.79,
+   148.79,
+   150.96,
+   171.46,
+   171.79,
+   177.17,
+   179.38,
+   180.62,
+   181.96,
+   185.12,
+   187.21,
+   197.54,
+   213.21,
+   214.54,
+   235.83,
+   238.12,
+   246.54,
+   248.58,
+   249.62,
+   252.62,
+   254.62,
+   258.46,
+   264.75,
+   272.54
+  ],
+  "median_shot_s": 3.83,
+  "mean_shot_s": 6.34,
+  "shots_over_10s": 8,
+  "first_cut_s": 0.62,
+  "not_cuts": [
+   {
+    "t": 95.54,
+    "kind": "fast"
+   },
+   {
+    "t": 214.83,
+    "kind": "fast"
+   }
+  ],
+  "longest_shot": {
+   "start": 83.21,
+   "end": 107.96,
+   "seconds": 24.75,
+   "share_of_runtime": 0.091
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 39,
+   "flash": 0,
+   "appear": 52,
+   "disappear": 37,
+   "change": 208,
+   "hold": 125
+  },
+  "holds_over_1s": 64,
+  "median_hold_s": 1.33,
+  "longest_hold_s": 15.25,
+  "windows": 162
+ },
+ "frames": {
+  "count": 136,
+  "not_evidence_frames": [
+   "f0076.jpg"
+  ],
+  "dark_share": 0.287,
+  "light_share": 0.691,
+  "median_contentful_cells": 0.372,
+  "intervals_new_composition_share": 0.267,
+  "intervals_static_share": 0.348,
+  "longest_static_run_s": 18,
+  "longest_static_run_ends_at_s": 234,
+  "frame0": {
+   "meanLuminance": 0.9852,
+   "contentfulCells": 0.0938,
+   "blankCells": 0.85,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0004.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0016.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0025.jpg",
+  "f0028.jpg",
+  "f0031.jpg",
+  "f0034.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0038.jpg",
+  "f0039.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0046.jpg",
+  "f0049.jpg",
+  "f0052.jpg",
+  "f0055.jpg",
+  "f0057.jpg",
+  "f0058.jpg",
+  "f0061.jpg",
+  "f0063.jpg",
+  "f0064.jpg",
+  "f0067.jpg",
+  "f0070.jpg",
+  "f0073.jpg",
+  "f0075.jpg",
+  "f0076.jpg",
+  "f0077.jpg",
+  "f0079.jpg",
+  "f0082.jpg",
+  "f0085.jpg",
+  "f0088.jpg",
+  "f0090.jpg",
+  "f0091.jpg",
+  "f0092.jpg",
+  "f0094.jpg",
+  "f0095.jpg",
+  "f0097.jpg",
+  "f0100.jpg",
+  "f0103.jpg",
+  "f0106.jpg",
+  "f0108.jpg",
+  "f0109.jpg",
+  "f0112.jpg",
+  "f0115.jpg",
+  "f0118.jpg",
+  "f0119.jpg",
+  "f0120.jpg",
+  "f0121.jpg",
+  "f0124.jpg",
+  "f0125.jpg",
+  "f0126.jpg",
+  "f0127.jpg",
+  "f0128.jpg",
+  "f0130.jpg",
+  "f0133.jpg",
+  "f0136.jpg"
+ ],
+ "sound": {
+  "kind": "voice",
+  "lufs_integrated": -23.7,
+  "lufs_short_term_max": -21.3,
+  "true_peak_db": -3.7,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.003,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 3.415,
+    "end": 3.985
+   },
+   {
+    "start": 8.105,
+    "end": 8.53
+   },
+   {
+    "start": 11.385,
+    "end": 11.84
+   },
+   {
+    "start": 17.325,
+    "end": 17.66
+   },
+   {
+    "start": 17.68,
+    "end": 18.04
+   },
+   {
+    "start": 24.745,
+    "end": 25.05
+   },
+   {
+    "start": 25.06,
+    "end": 25.425
+   },
+   {
+    "start": 29.515,
+    "end": 29.925
+   },
+   {
+    "start": 33.41,
+    "end": 33.9
+   },
+   {
+    "start": 36.245,
+    "end": 36.725
+   },
+   {
+    "start": 38.03,
+    "end": 38.68
+   },
+   {
+    "start": 44.025,
+    "end": 44.65
+   },
+   {
+    "start": 48.77,
+    "end": 49.25
+   },
+   {
+    "start": 50.59,
+    "end": 51.06
+   },
+   {
+    "start": 54.135,
+    "end": 54.495
+   },
+   {
+    "start": 58.44,
+    "end": 58.76
+   },
+   {
+    "start": 62.72,
+    "end": 63.045
+   },
+   {
+    "start": 65.095,
+    "end": 65.61
+   },
+   {
+    "start": 68.12,
+    "end": 68.415
+   },
+   {
+    "start": 69.285,
+    "end": 69.895
+   },
+   {
+    "start": 72.93,
+    "end": 73.43
+   },
+   {
+    "start": 75.005,
+    "end": 75.47
+   },
+   {
+    "start": 76.27,
+    "end": 76.705
+   },
+   {
+    "start": 78.62,
+    "end": 78.95
+   },
+   {
+    "start": 78.96,
+    "end": 79.16
+   },
+   {
+    "start": 81.005,
+    "end": 82.315
+   },
+   {
+    "start": 85.17,
+    "end": 85.84
+   },
+   {
+    "start": 89.265,
+    "end": 90.025
+   },
+   {
+    "start": 95,
+    "end": 95.37
+   },
+   {
+    "start": 97.765,
+    "end": 98.335
+   },
+   {
+    "start": 102.45,
+    "end": 102.92
+   },
+   {
+    "start": 106.05,
+    "end": 106.44
+   },
+   {
+    "start": 108.195,
+    "end": 108.57
+   },
+   {
+    "start": 110.555,
+    "end": 111.285
+   },
+   {
+    "start": 113.38,
+    "end": 113.655
+   },
+   {
+    "start": 118.855,
+    "end": 119.08
+   },
+   {
+    "start": 119.81,
+    "end": 120.49
+   },
+   {
+    "start": 123.735,
+    "end": 124.485
+   },
+   {
+    "start": 127.285,
+    "end": 127.69
+   },
+   {
+    "start": 129.18,
+    "end": 129.4
+   },
+   {
+    "start": 130.47,
+    "end": 131.115
+   },
+   {
+    "start": 132.79,
+    "end": 133.43
+   },
+   {
+    "start": 136.76,
+    "end": 137.505
+   },
+   {
+    "start": 139.695,
+    "end": 140.045
+   },
+   {
+    "start": 141.06,
+    "end": 141.695
+   },
+   {
+    "start": 143.58,
+    "end": 143.845
+   },
+   {
+    "start": 145.76,
+    "end": 146.52
+   },
+   {
+    "start": 148.285,
+    "end": 148.82
+   },
+   {
+    "start": 150.865,
+    "end": 151.48
+   },
+   {
+    "start": 154.655,
+    "end": 154.945
+   },
+   {
+    "start": 157.075,
+    "end": 157.34
+   },
+   {
+    "start": 158.75,
+    "end": 159.495
+   },
+   {
+    "start": 161.505,
+    "end": 162.175
+   },
+   {
+    "start": 164.41,
+    "end": 165.01
+   },
+   {
+    "start": 168.7,
+    "end": 168.9
+   },
+   {
+    "start": 170.69,
+    "end": 171.405
+   },
+   {
+    "start": 174.56,
+    "end": 174.85
+   },
+   {
+    "start": 176.45,
+    "end": 177.135
+   },
+   {
+    "start": 181.01,
+    "end": 181.395
+   },
+   {
+    "start": 183.76,
+    "end": 184.45
+   },
+   {
+    "start": 184.46,
+    "end": 184.855
+   },
+   {
+    "start": 190.33,
+    "end": 191.045
+   },
+   {
+    "start": 193.94,
+    "end": 194.34
+   },
+   {
+    "start": 197.045,
+    "end": 197.54
+   },
+   {
+    "start": 197.78,
+    "end": 198.015
+   },
+   {
+    "start": 199.765,
+    "end": 200.335
+   },
+   {
+    "start": 203.865,
+    "end": 204.615
+   },
+   {
+    "start": 207.42,
+    "end": 207.98
+   },
+   {
+    "start": 210.105,
+    "end": 210.455
+   },
+   {
+    "start": 213.5,
+    "end": 213.72
+   },
+   {
+    "start": 218.43,
+    "end": 219.075
+   },
+   {
+    "start": 221.01,
+    "end": 221.49
+   },
+   {
+    "start": 222.675,
+    "end": 223.01
+   },
+   {
+    "start": 225.86,
+    "end": 226.265
+   },
+   {
+    "start": 229.44,
+    "end": 229.865
+   },
+   {
+    "start": 235.05,
+    "end": 235.75
+   },
+   {
+    "start": 238.22,
+    "end": 238.68
+   },
+   {
+    "start": 241.405,
+    "end": 241.78
+   },
+   {
+    "start": 243.16,
+    "end": 243.5
+   },
+   {
+    "start": 245.85,
+    "end": 246.545
+   },
+   {
+    "start": 248.185,
+    "end": 248.645
+   },
+   {
+    "start": 251.775,
+    "end": 252.125
+   },
+   {
+    "start": 253.96,
+    "end": 254.575
+   },
+   {
+    "start": 257.74,
+    "end": 258.05
+   },
+   {
+    "start": 259.335,
+    "end": 259.735
+   },
+   {
+    "start": 263.92,
+    "end": 264.585
+   },
+   {
+    "start": 266.71,
+    "end": 267.085
+   },
+   {
+    "start": 269.4,
+    "end": 269.885
+   },
+   {
+    "start": 272.01,
+    "end": 272.654
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 12.5,
+    "label": "A"
+   },
+   {
+    "start": 12.5,
+    "end": 27,
+    "label": "B"
+   },
+   {
+    "start": 27,
+    "end": 33,
+    "label": "C"
+   },
+   {
+    "start": 33,
+    "end": 44,
+    "label": "D"
+   },
+   {
+    "start": 44,
+    "end": 51,
+    "label": "E"
+   },
+   {
+    "start": 51,
+    "end": 60,
+    "label": "F"
+   },
+   {
+    "start": 60,
+    "end": 70.5,
+    "label": "G"
+   },
+   {
+    "start": 70.5,
+    "end": 75,
+    "label": "H"
+   },
+   {
+    "start": 75,
+    "end": 80,
+    "label": "I"
+   },
+   {
+    "start": 80,
+    "end": 88,
+    "label": "J"
+   },
+   {
+    "start": 88,
+    "end": 96,
+    "label": "K"
+   },
+   {
+    "start": 96,
+    "end": 102,
+    "label": "L"
+   },
+   {
+    "start": 102,
+    "end": 109.5,
+    "label": "M"
+   },
+   {
+    "start": 109.5,
+    "end": 123,
+    "label": "N"
+   },
+   {
+    "start": 123,
+    "end": 144.5,
+    "label": "O"
+   },
+   {
+    "start": 144.5,
+    "end": 159.5,
+    "label": "P"
+   },
+   {
+    "start": 159.5,
+    "end": 173,
+    "label": "Q"
+   },
+   {
+    "start": 173,
+    "end": 178,
+    "label": "R"
+   },
+   {
+    "start": 178,
+    "end": 185.5,
+    "label": "S"
+   },
+   {
+    "start": 185.5,
+    "end": 194,
+    "label": "T"
+   },
+   {
+    "start": 194,
+    "end": 216.5,
+    "label": "U"
+   },
+   {
+    "start": 216.5,
+    "end": 226.5,
+    "label": "V"
+   },
+   {
+    "start": 226.5,
+    "end": 236,
+    "label": "W"
+   },
+   {
+    "start": 236,
+    "end": 260,
+    "label": "X"
+   },
+   {
+    "start": 260,
+    "end": 272.654,
+    "label": "Y"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.908
+   ],
+   [
+    "writing",
+    0.163
+   ],
+   [
+    "music",
+    0.101
+   ],
+   [
+    "sigh",
+    0.079
+   ],
+   [
+    "click",
+    0.076
+   ],
+   [
+    "insect",
+    0.074
+   ],
+   [
+    "whispering",
+    0.071
+   ],
+   [
+    "mosquito_buzz",
+    0.063
+   ]
+  ],
+  "lra_lu": 3.0,
+  "cuts_on_strong_onset_share": 0.048,
+  "chance_share": 0.053,
+  "strong_onsets_per_min": 14.1
+ },
+ "look": {
+  "luma": 180.8,
+  "contrast": 26.5,
+  "saturation": 0.149,
+  "bw_share": 0.57,
+  "warmth": 11.7
+ }
+}

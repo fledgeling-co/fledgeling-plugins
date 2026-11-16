@@ -1,0 +1,324 @@
+{
+ "id": "tYOI-WoLS_o",
+ "title": "Delegate and schedule tasks in Claude Cowork",
+ "uploader": "Claude",
+ "duration_s": 257.08,
+ "fps": 23.976,
+ "rhythm": {
+  "hard_cuts": 18,
+  "cuts_per_min": 4.2,
+  "cut_times_s": [
+   5.38,
+   10.09,
+   13.97,
+   17.06,
+   25.48,
+   25.57,
+   27.74,
+   139.51,
+   141.97,
+   205.54,
+   212.92,
+   221.39,
+   225.06,
+   232.36,
+   236.65,
+   237.36,
+   243.08,
+   246.16
+  ],
+  "median_shot_s": 4.71,
+  "mean_shot_s": 13.53,
+  "shots_over_10s": 3,
+  "first_cut_s": 5.38,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 27.74,
+   "end": 139.51,
+   "seconds": 111.78,
+   "share_of_runtime": 0.435
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 14,
+   "flash": 0,
+   "appear": 46,
+   "disappear": 28,
+   "change": 165,
+   "hold": 97
+  },
+  "holds_over_1s": 69,
+  "median_hold_s": 1.54,
+  "longest_hold_s": 15.81,
+  "windows": 118
+ },
+ "frames": {
+  "count": 129,
+  "not_evidence_frames": [
+   "f0009.jpg"
+  ],
+  "dark_share": 0.0,
+  "light_share": 0.953,
+  "median_contentful_cells": 0.569,
+  "intervals_new_composition_share": 0.094,
+  "intervals_static_share": 0.484,
+  "longest_static_run_s": 22,
+  "longest_static_run_ends_at_s": 164,
+  "frame0": {
+   "meanLuminance": 0.4937,
+   "contentfulCells": 0.2562,
+   "blankCells": 0.7375,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0004.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0010.jpg",
+  "f0013.jpg",
+  "f0016.jpg",
+  "f0019.jpg",
+  "f0022.jpg",
+  "f0025.jpg",
+  "f0028.jpg",
+  "f0031.jpg",
+  "f0034.jpg",
+  "f0037.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0046.jpg",
+  "f0049.jpg",
+  "f0052.jpg",
+  "f0055.jpg",
+  "f0058.jpg",
+  "f0061.jpg",
+  "f0064.jpg",
+  "f0067.jpg",
+  "f0070.jpg",
+  "f0071.jpg",
+  "f0072.jpg",
+  "f0073.jpg",
+  "f0076.jpg",
+  "f0079.jpg",
+  "f0082.jpg",
+  "f0085.jpg",
+  "f0088.jpg",
+  "f0091.jpg",
+  "f0094.jpg",
+  "f0097.jpg",
+  "f0100.jpg",
+  "f0103.jpg",
+  "f0104.jpg",
+  "f0106.jpg",
+  "f0107.jpg",
+  "f0109.jpg",
+  "f0112.jpg",
+  "f0114.jpg",
+  "f0115.jpg",
+  "f0117.jpg",
+  "f0118.jpg",
+  "f0119.jpg",
+  "f0121.jpg",
+  "f0124.jpg",
+  "f0127.jpg",
+  "f0129.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -16.5,
+  "lufs_short_term_max": -14.4,
+  "true_peak_db": 0.3,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.011,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 0,
+    "end": 0.405
+   },
+   {
+    "start": 0.44,
+    "end": 0.91
+   },
+   {
+    "start": 0.98,
+    "end": 1.395
+   },
+   {
+    "start": 2.09,
+    "end": 2.38
+   },
+   {
+    "start": 2.5,
+    "end": 2.85
+   },
+   {
+    "start": 2.895,
+    "end": 3.14
+   },
+   {
+    "start": 3.98,
+    "end": 4.625
+   },
+   {
+    "start": 4.735,
+    "end": 4.995
+   },
+   {
+    "start": 12.765,
+    "end": 13.23
+   },
+   {
+    "start": 66.985,
+    "end": 67.26
+   },
+   {
+    "start": 122.14,
+    "end": 122.37
+   },
+   {
+    "start": 127.025,
+    "end": 127.64
+   },
+   {
+    "start": 135.435,
+    "end": 135.785
+   },
+   {
+    "start": 138.6,
+    "end": 139.11
+   },
+   {
+    "start": 192.605,
+    "end": 192.91
+   },
+   {
+    "start": 192.985,
+    "end": 193.26
+   },
+   {
+    "start": 251.12,
+    "end": 251.375
+   },
+   {
+    "start": 255.515,
+    "end": 257.074
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 5,
+    "label": "A"
+   },
+   {
+    "start": 5,
+    "end": 55,
+    "label": "B"
+   },
+   {
+    "start": 55,
+    "end": 73,
+    "label": "C"
+   },
+   {
+    "start": 73,
+    "end": 78.5,
+    "label": "D"
+   },
+   {
+    "start": 78.5,
+    "end": 120.5,
+    "label": "B"
+   },
+   {
+    "start": 120.5,
+    "end": 136,
+    "label": "E"
+   },
+   {
+    "start": 136,
+    "end": 141,
+    "label": "F"
+   },
+   {
+    "start": 141,
+    "end": 146.5,
+    "label": "G"
+   },
+   {
+    "start": 146.5,
+    "end": 168.5,
+    "label": "B"
+   },
+   {
+    "start": 168.5,
+    "end": 179,
+    "label": "H"
+   },
+   {
+    "start": 179,
+    "end": 251,
+    "label": "I"
+   },
+   {
+    "start": 251,
+    "end": 257.074,
+    "label": "J"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.856
+   ],
+   [
+    "music",
+    0.613
+   ],
+   [
+    "keyboard_musical",
+    0.271
+   ],
+   [
+    "percussion",
+    0.188
+   ],
+   [
+    "synthesizer",
+    0.165
+   ],
+   [
+    "drum",
+    0.121
+   ],
+   [
+    "brass_instrument",
+    0.118
+   ],
+   [
+    "piano",
+    0.117
+   ]
+  ],
+  "lra_lu": 3.5,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.056,
+  "strong_onsets_per_min": 14.9
+ },
+ "look": {
+  "luma": 213.1,
+  "contrast": 44.4,
+  "saturation": 0.168,
+  "bw_share": 0.03,
+  "warmth": 33.4
+ }
+}

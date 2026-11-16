@@ -1,0 +1,164 @@
+{
+ "id": "wzrBFx0ONZg",
+ "title": "Create Tailored Legal Agents with Agent Builder",
+ "uploader": "Harvey",
+ "duration_s": 40.22,
+ "fps": 25,
+ "rhythm": {
+  "hard_cuts": 2,
+  "cuts_per_min": 2.98,
+  "cut_times_s": [
+   19.12,
+   36.88
+  ],
+  "median_shot_s": 17.76,
+  "mean_shot_s": 13.41,
+  "shots_over_10s": 2,
+  "first_cut_s": 19.12,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 0,
+   "end": 19.12,
+   "seconds": 19.12,
+   "share_of_runtime": 0.475
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 1,
+   "flash": 0,
+   "appear": 1,
+   "disappear": 5,
+   "change": 23,
+   "hold": 19
+  },
+  "holds_over_1s": 12,
+  "median_hold_s": 1.36,
+  "longest_hold_s": 3.6,
+  "windows": 21
+ },
+ "frames": {
+  "count": 20,
+  "not_evidence_frames": [],
+  "dark_share": 0.1,
+  "light_share": 0.9,
+  "median_contentful_cells": 0.119,
+  "intervals_new_composition_share": 0.053,
+  "intervals_static_share": 0.421,
+  "longest_static_run_s": 6,
+  "longest_static_run_ends_at_s": 6,
+  "frame0": {
+   "meanLuminance": 0.9784,
+   "contentfulCells": 0.0437,
+   "blankCells": 0.9563,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -13.9,
+  "lufs_short_term_max": -11.3,
+  "true_peak_db": -0.9,
+  "bpm": 97.8,
+  "beats": {
+   "count": 55,
+   "confidence": 0.4,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 0,
+    "end": 0.475
+   },
+   {
+    "start": 39.935,
+    "end": 40.214
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 22.395,
+    "label": "A"
+   },
+   {
+    "start": 22.395,
+    "end": 34.5,
+    "label": "B"
+   },
+   {
+    "start": 34.5,
+    "end": 40.214,
+    "label": "C"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.924
+   ],
+   [
+    "percussion",
+    0.67
+   ],
+   [
+    "synthesizer",
+    0.585
+   ],
+   [
+    "keyboard_musical",
+    0.559
+   ],
+   [
+    "gong",
+    0.508
+   ],
+   [
+    "singing_bowl",
+    0.364
+   ],
+   [
+    "drum",
+    0.293
+   ],
+   [
+    "cymbal",
+    0.235
+   ]
+  ],
+  "lra_lu": 6.4,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.28,
+  "strong_onsets_per_min": 95.5
+ },
+ "look": {
+  "luma": 226.7,
+  "contrast": 14.8,
+  "saturation": 0.015,
+  "bw_share": 0.94,
+  "warmth": 0.6
+ }
+}

@@ -1,0 +1,31 @@
+# Claude Fable 5.1 runs the forecast overnight (S9IJ1GgAAxE, 74.4 s)
+
+## Hook and structure
+Frame 0 is the product, not a logo: a dark Goodcast Forecast dashboard on a slate-blue ground with the account counter already rolling at 48,37x (`strips/window-01-0s.jpg`, `f0001.jpg`). It reads 50,412 by 0.29 s. By t=2 s the camera has pushed onto a pill reading "Claude · nightly forecast / Scheduled 3:00 AM · est 3h 10m" (`f0002.jpg`), and by t=4 s it turns orange: "Claude · running nightly forecast" (`f0003.jpg`). The thesis card follows at t=6 s: "Your team needs a forecast every morning. You trust Claude with the night shift." (`crops/title-open.png`). The film is then a long dark abstract passage (8.4-41 s), a light result (41-66 s) and three end cards (65.8-74.4 s). The hero moment I picked is t=10.0 s, the open lens over invoice, spreadsheet and contract, with "105,838.42" and a red circle on the overages (`f0006.jpg`), at 0.134 of runtime. There is no voice and no transcript (`transcript.md`).
+
+## Rhythm
+`metrics.json` gives 7 hard cuts, 5.65 cuts per minute, a median shot of 3.6 s and a mean of 9.29 s. Five of the cuts cluster at 8.42-12.08 s (`rhythm.bursts`, `mid_share` 0.138), and one shot runs from 16.12 to 65.83 s: 49.71 s, 66.8 % of the film. So it is two modes: a short montage burst, then one continuous take in which dots, curves and the ground colour morph with no cut. Static stretches are brief; the longest is 6 s, ending at 72 s (the end cards). The burst sits early (11-16 % of length), not at 30-60 %, and the tail has a single cut at 65.83 s from the UI to the tagline (`strips/window-34-65.75s.jpg`).
+
+## Look and type
+The ground is near-black until about t=41 s, then warm cream; the light dashboard sits on a teal-to-peach gradient with a soft shadow (`f0025.jpg`). The accent is a terracotta stroke that doubles as gate, forecast line and highlighted word; five muted category colours (green, pink, lavender, amber, blue) appear only as data dots and curves (`f0014.jpg`, `f0017.jpg`). Titles are a warm serif. Measured ink heights with `hf measure ink` against 720 px: the two-line opening title is 55 px per line, 7.64 % (t=6 s); "Run by Claude. Led by you." is 67 px, 9.31 % (t=66.6 s); "Fable 5.1" is 52 px, 7.22 % (t=70 s). Title range 7.22-9.31 %, at most 7 words per line. Captions are a different story: the mono caption "Modeling five behaviors for tonight's simulations" is 17 px, 2.4 % (t=30 s), and labels near the circles are 12-15 px, 1.7-2.1 % (t=12.3 s, `f0007.jpg`). Density is sparse: median contentful cells 0.225 (`metrics.json frames`).
+
+## Product interface
+Real-looking product UI is on screen from 0-5.5 s and 46-66 s, about 34 % of runtime. It is an invented app (Goodcast TURBO "built on Claude"), shown as redrawn simplified UI plus abstract data art. The report's headline "Q3: how much is locked in vs modeled?" and its bullets use bold figures ($64.2M, $35.3M, 8.8 %) (`f0027.jpg`). The Claude Fable 5.1 panel is "Grounded in run #471 · 50,412 accounts" (`crops/chat-panel.png` area, `f0031.jpg`). A stylised hand-drawn cursor clicks "Mark as reviewed" (`f0034.jpg`) and the button flips to "✓ Sent to CFO · Marked as reviewed" (`strips/window-34-65.75s.jpg`). Body text in the report is roughly 15 px of 720, so the camera drift and zoom do the work; I rate phone-width legibility partly.
+
+## Motion and transitions
+The opening is a counter roll with glow and a push-in. The first hard cut at 8.42 s stretches the title card out sideways and opens a circular lens (`strips/window-05-8.417s.jpg`); at 12.0 s the lens blurs and shrinks into a small ringed icon (`strips/window-08-11.417s.jpg`). From 16.12 s the orange stroke travels through circles and an orb to a gate (`strips/window-11-16.042s.jpg`, `f0013.jpg`); at 28 s dots become five curves (`f0015.jpg`, `f0016.jpg`). At 42.8-43.8 s the stroke becomes the dashed P50 line on cream (`strips/window-18-42.792s.jpg`) and the P90/P50/P10 labels pull back into the dashboard at 46.6-48.6 s (`strips/window-20-46.584s.jpg`). Transition types counted: hard cut 7, morph through the stroke 4, mask/lens 2, colour-ground change 1, zoom 2. Most seams have a cause on screen (the stroke, the cursor click).
+
+## Copy on screen
+Verbatim lines from crops and frames: "Overages four months running — and accelerating" (`crops/caption-lowerleft.png`), "The old label no longer fits the behavior", "Sorting 50,412 accounts by consumption pattern" (`f0013.jpg`), "Running 10,000 scenarios per cohort…" (`f0017.jpg`), "CFO wants to know how accurate we've been so far, can you add a backtest?" (`f0030.jpg`), "Anything else before you mark it reviewed?" (`f0031.jpg`), "Run by Claude. Led by you." (`f0035.jpg`). One orange word per mono caption. The 14-word opening title holds about 3 s (start sits between 4.6 and 6.0 s), against 4.7 s from the reading rule. The tagline holds 2.7 s and the product name 2.9 s.
+
+## Sound
+No speech; whisper returned a placeholder, so source `none`. `audio.json` kind is music; describe tags: music 0.82, percussion 0.465, keyboard 0.393, drum 0.376, synthesizer 0.331. Tempo estimate 117.9 bpm at beat confidence 0.449, with four sections at 0, 11.8, 25.8 and 44.7 s. Loudness is -16.1 LUFS integrated, short-term max -12.2, true peak -1.2 dBTP, loudness range 8.4 LU (`metrics.json sound`): peak passes, integrated is 2.1 LU under the -14 target. The cuts are not locked to the sound: `cuts_on_strong_onset_share` is 0.0 against `chance_share` 0.039. Silence runs 72.495-74.354 s under the logo. I cannot tell whether the hero lands on the strongest musical point.
+
+## What to steal
+- Carry one accent object across scenes so a long abstract run needs no cuts (stroke, `f0011.jpg` to `f0023.jpg`).
+- Open on the product with a counter in motion so frame 0 and 0.3 s both carry the key number.
+- Flip the ground from dark to light when the result arrives (41-46 s).
+- Put one concrete user request and a numeric answer in the chat panel (6.6 %, 8.9 % to 5.4 %).
+- End on three cards (tagline, product, logo), each about 2.7-2.9 s.
+- Keep mono captions at or above 2.6 % of height; this film's sit at 2.4 %.
+- Do not copy the early burst position or the unlocked cuts.

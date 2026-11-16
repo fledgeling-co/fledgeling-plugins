@@ -1,0 +1,384 @@
+{
+ "id": "yUuFvL1lK4k",
+ "title": "Mods in Claude Code: change how Claude Code works",
+ "brand": "Claude",
+ "duration_s": 200.64,
+ "status": "ok",
+ "format": "tutorial",
+ "format_note": "Presenter intro for 5.7s, then a 115s continuous screen recording of a desktop app that is zoomed and dimmed to follow the narration, then 3s logo card.",
+ "one_thing": "A mod is just a plugin with one extra key, and it can change what Claude Code renders; hiding emails until hover proves it in one worked example.",
+ "transcript": {
+  "source": "human-captions",
+  "voiceover": "on-camera-presenter",
+  "words_total": 734,
+  "words_per_minute": 219.5,
+  "voice_style": "Fast, friendly first-person explainer; plain verbs, concrete wants ('I always wanted more visibility'), analogies to Express middleware.",
+  "script_shape": "Claim, three one-line examples, how it works (plugin, hook, three arguments), how to load, build one live, share it. Each beat is narrated over the exact code or UI it names."
+ },
+ "structure": {
+  "frame0": "Presenter face fills frame, mid-word, warm interior background; subject present, not black or a logo (f0001.jpg). Mean luminance 0.30, contentfulCells 0.2.",
+  "first_3s": "Presenter says 'We just added mods to Claude Code' and states the promise: change how Claude Code works. Hands move at 0.3-0.7s (strips/window-01-0.1s.jpg). No title card or caption.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 5.7,
+    "role": "hook",
+    "what": "On-camera presenter announces mods and the promise to change how Claude Code works."
+   },
+   {
+    "start_s": 5.7,
+    "end_s": 11,
+    "role": "setup",
+    "what": "Hard cut to app: tool timeline in chat beside code with comments naming what a mod can change."
+   },
+   {
+    "start_s": 11,
+    "end_s": 25,
+    "role": "demo",
+    "what": "Context bar mod: 'context measuring...' then a live token breakdown above the prompt (f0013.jpg)."
+   },
+   {
+    "start_s": 25,
+    "end_s": 32,
+    "role": "demo",
+    "what": "Agents panel: /agents-panel opens a side pane listing seven agents with run buttons (f0016.jpg)."
+   },
+   {
+    "start_s": 32,
+    "end_s": 36,
+    "role": "demo",
+    "what": "Email mod: customers.csv answer shows the email masked; the hover reveal is said, not shown."
+   },
+   {
+    "start_s": 36,
+    "end_s": 62,
+    "role": "reveal",
+    "what": "Anatomy: plugin.json, hooks.json 'modules' key, register.tsx opened; camera zooms to the on(...) line."
+   },
+   {
+    "start_s": 62,
+    "end_s": 122,
+    "role": "setup",
+    "what": "Walk through the three arguments $, e, next with selection highlights, zoom and dimming of other lines."
+   },
+   {
+    "start_s": 122,
+    "end_s": 136,
+    "role": "setup",
+    "what": "Loading: blurred terminal with claude --plugin-dir flag, then settings.json env lines for the desktop app; context bar reloads."
+   },
+   {
+    "start_s": 136,
+    "end_s": 166,
+    "role": "demo",
+    "what": "Build the hide-email mod: EMAIL regex, masked and shown styles, ui.render on AssistantMessage."
+   },
+   {
+    "start_s": 166,
+    "end_s": 190,
+    "role": "proof",
+    "what": "Ask for Sam's email: masked block; ask for a thank-you: command uses the real address (f0088.jpg, f0091.jpg)."
+   },
+   {
+    "start_s": 190,
+    "end_s": 197.4,
+    "role": "cta",
+    "what": "marketplace.json lists three mods (f0097.jpg); /plugin install hide-email@my-mods typed in terminal."
+   },
+   {
+    "start_s": 197.4,
+    "end_s": 200.6,
+    "role": "logo",
+    "what": "Cut to warm off-white card with Claude Code starburst and wordmark."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 174,
+   "share": 0.867,
+   "what": "Sam's email shown as a dark redacted block, then a follow-up prompt typed; the command that follows uses the real address, proving render-only change (f0088.jpg, f0091.jpg)."
+  },
+  "ending": {
+   "cta_text": "/plugin install hide-email@my-mods",
+   "logo_hold_s": 3.2,
+   "what": "Install command typed in a terminal over the marketplace file, then a hard cut to the centred Claude Code logo on cream with a 3.2s hold."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 3,
+  "cuts_per_min": 0.9,
+  "median_shot_s": 40.71,
+  "how_change_is_paced": "Three hard cuts only (5.71s, 121.72s, 197.43s). The longest shot is 116s, 57.8% of runtime. Change comes from in-frame zoom and dim moves roughly every 2-6s, and 63.6% of 2s intervals are static (metrics.json)."
+ },
+ "look": {
+  "ground": "Near-black editor and chat window floating on a warm cream desktop with soft shadow; dark_share 0.99. Presenter shot is warm brown; logo card is cream.",
+  "palette": [
+   "#141414 chat",
+   "#1E2126 editor",
+   "#EDEAE1 cream",
+   "#D97757 coral accent",
+   "#7BC47F green strings",
+   "#8B6CF0 violet bar",
+   "#E0B85B amber"
+  ],
+  "accent_use": "Coral diamond and starburst, green 9% pill, segmented context bar in six hues; syntax colours mark the line being discussed while the rest dims.",
+  "type": "Grotesque sans for UI and chat, monospace for code, serif wordmark in the logo only. Code is zoomed to 27px lines; chat text is 10-14px at 1280 wide.",
+  "title_height_pct": [
+   1.39,
+   11.39
+  ],
+  "title_measurements": [
+   {
+    "t_s": 199,
+    "text": "Claude Code",
+    "line_height_px": 82,
+    "frame_height_px": 720,
+    "pct": 11.39
+   },
+   {
+    "t_s": 62,
+    "text": "on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {",
+    "line_height_px": 27,
+    "frame_height_px": 720,
+    "pct": 3.75
+   },
+   {
+    "t_s": 6.5,
+    "text": "Tool timeline",
+    "line_height_px": 10,
+    "frame_height_px": 720,
+    "pct": 1.39
+   }
+  ],
+  "max_words_per_title_line": 2,
+  "density": "medium",
+  "depth": "Flat window with drop shadow on a cream ground; a blur-and-dim layer pushes the terminal and non-focused code lines back."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 93,
+  "shown_as": [
+   "real-ui-capture",
+   "live-action"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Zoom in on the line being explained, up to about 3x, with the rest of the code dimmed; zoom back out to the full window to change topic.",
+  "legible_at_phone_width": "partly",
+  "notes": "Full-window views carry 8-10px text (Tool timeline label 10px, f0004.jpg); legible only after zoom. The zoomed code frames are readable. The email mask is a dark block, so the product is plainly shown working."
+ },
+ "motion": {
+  "text_entry": "No titles. Text enters by typing in the prompt box ('/agents-', f0013.jpg) and by the chat appending lines; a lone logo card ends it.",
+  "ui_motion": "Real-time UI: context bar goes from 'measuring...' to a filled breakdown, agents panel slides in, email block redacts, spinner on release-notes ('running 2s'). Fades at about 12.7-13.1s clear the window to a blank dark prompt.",
+  "camera": "Smooth virtual camera zooms and pans over a flat screen recording, with selection highlights; dim and blur on non-focus lines. Terminal appears on a blurred background (t=121.7s strip).",
+  "eases": "Not measured numerically; moves read as eased zoom in/out with soft settles (strips/window-44-121.421s.jpg); the 12.7s clear is a 0.4s fade (strips/window-09-12.646s.jpg).",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 3,
+    "example_t_s": 5.71,
+    "cause": "Presenter to screen at the narration's first demo; screen to logo at the end."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 12,
+    "example_t_s": 53,
+    "cause": "Zoom to the code line being named in narration."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 6,
+    "example_t_s": 12.65,
+    "cause": "Chat clears; mod output appears; panel opens; tab switches."
+   },
+   {
+    "type": "zoom-through",
+    "count": 1,
+    "example_t_s": 121.7,
+    "cause": "Zoomed code blurs to a terminal when the load method is introduced."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0.1s.jpg: presenter opening, hand gesture at 0.3-0.7s",
+   "strips/window-04-5.639s.jpg: hard cut presenter to app at 5.706s",
+   "strips/window-09-12.646s.jpg: UI fades to blank dark over 0.47s",
+   "strips/window-13-24.291s.jpg: slash-command typed under context bar, command menu appears",
+   "strips/window-39-103.537s.jpg: camera zooms from code to the return block",
+   "strips/window-44-121.421s.jpg: zoomed code blurs into terminal",
+   "strips/window-52-131.398s.jpg: settings tab to register tab, context bar re-measures",
+   "strips/window-60-156.957s.jpg: static code, selection of e.props.text, small scroll"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 6,
+    "text": "clean up the old build and rerun the tests",
+    "words": 8,
+    "hold_s": 6
+   },
+   {
+    "t_s": 6,
+    "text": "Cleared the old build output and reran the suite. All 42 tests pass.",
+    "words": 12,
+    "hold_s": 6
+   },
+   {
+    "t_s": 24,
+    "text": "Open or close the agents panel",
+    "words": 6,
+    "hold_s": 2
+   },
+   {
+    "t_s": 26,
+    "text": "click run to start one \u00b7 /agents-panel to hide",
+    "words": 8,
+    "hold_s": 6
+   },
+   {
+    "t_s": 36,
+    "text": "A live breakdown of the context window, right above the prompt",
+    "words": 11,
+    "hold_s": 4
+   },
+   {
+    "t_s": 42,
+    "text": "modules: ['./register.tsx']",
+    "words": 2,
+    "hold_s": 6
+   },
+   {
+    "t_s": 134,
+    "text": "hide-email: reloaded (1 hook: ui.render)",
+    "words": 6,
+    "hold_s": 4
+   },
+   {
+    "t_s": 170,
+    "text": "write Sam a short thank-you message",
+    "words": 6,
+    "hold_s": 12
+   },
+   {
+    "t_s": 178,
+    "text": "Opened a draft to Sam in Mail with a short thank-you for joining the beta. Want me to change anything before you send it?",
+    "words": 24,
+    "hold_s": 10
+   },
+   {
+    "t_s": 198,
+    "text": "Claude Code",
+    "words": 2,
+    "hold_s": 3.2
+   }
+  ],
+  "holds_vs_reading_rule": "No lines are written to be read; on-screen text is real product text held while narration refers to it, 4-12s, far past 0.5s + 0.3s a word. The last line (logo) holds 3.2s, above the 2s floor."
+ },
+ "sound": {
+  "music": "No dedicated music track is evidenced: describe tags put speech at 0.873 and music at 0.489, with plucked_string_instrument 0.232 and keyboard_musical 0.205, so a quiet bed is possible but uncertain. bpm null, no steady beat (confidence 0.003).",
+  "sfx": "None evidenced beyond a 'typing' tag at 0.161, below the 0.2 threshold for naming.",
+  "vo_music_balance": "Voice dominates: kind 'voice', integrated -15.8 LUFS, short-term max -14.4, true peak -2.7 dBTP, loudness range 1.9 LU.",
+  "energy_arc": "Flat and conversational. Loudness range is 1.9 LU; the audio sections run A-O with short silences at 103.4s, 182.5s and a 1s tail at 199.6s.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.0 against chance_share 0.072. Picture follows narration by meaning (zoom to the named line), not by onset."
+ },
+ "good": [
+  {
+   "observation": "Frame 0 is the presenter already speaking, so the hook claim lands inside the first 2.1s and no logo card delays it.",
+   "evidence": "f0001.jpg; transcript 00:00-00:02"
+  },
+  {
+   "observation": "The same examples are announced early and then built later. The email mod is shown at 0:32 and rebuilt at 2:16, which makes the explanation feel earned.",
+   "evidence": "transcript 00:29-00:36, 02:16-02:20"
+  },
+  {
+   "observation": "Camera zoom plus dimming isolates the exact token the narrator names ($, e, next), one focal point per frame at 3x size.",
+   "evidence": "f0040.jpg, f0043.jpg, f0049.jpg"
+  },
+  {
+   "observation": "Proof is shown inside the product: redacted email in the answer, real address in the command that follows.",
+   "evidence": "f0088.jpg, f0091.jpg; transcript 02:53-03:00"
+  },
+  {
+   "observation": "Real product text is on screen, legible after zoom: the context bar shows exact token counts and percentages.",
+   "evidence": "crops/context-bar.png"
+  },
+  {
+   "observation": "Quiet restrained end: install command, then a 3.2s cream logo card, with no slogan.",
+   "evidence": "f0097.jpg, f0100.jpg; cuts.json 197.43s"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Window-level views carry 8-10px text, so at phone width the chat and sidebar are unreadable until zoomed.",
+   "evidence": "f0004.jpg; title_measurements 10px = 1.39%"
+  },
+  {
+   "observation": "Long static stretches: 63.6% of 2s intervals have no change, with a 28s static run ending at 102s.",
+   "evidence": "metrics.json frames.intervals_static_share, longest_static_run_s"
+  },
+  {
+   "observation": "The hover reveal, the claimed payoff of the email mod, is never shown on screen; only the masked state is.",
+   "evidence": "f0088.jpg; transcript 02:50"
+  },
+  {
+   "observation": "Narration runs about 220 words a minute with no visible text support for the terms $send, next and event.",
+   "evidence": "metrics: 734 words over 200.6s; transcript 01:10-01:59"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "In a tutorial, hold one frame composition for as long as its narrated line runs and let a zoom or dim change the focus; do not cut. Used here for 116s between cuts.",
+   "evidence": "rhythm.longest_shot 116.02s, 57.8% of runtime; 3 hard cuts in 200.6s",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Open a tutorial with the presenter speaking on frame 0 and state the promise within 2.5s; no card, no caption.",
+   "evidence": "f0001.jpg; transcript 00:00-00:02",
+   "relation": "confirms",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Zoom to roughly 3x on the exact token being named and dim the rest to about a quarter contrast so the viewer sees one thing at a time.",
+   "evidence": "f0043.jpg, f0049.jpg; code line 27px = 3.75% of height",
+   "relation": "extends",
+   "skill_rule": "6"
+  },
+  {
+   "rule": "Show a claim working inside the product before explaining it, then prove its limit with a second action. Here the masked email is followed by a command using the real one.",
+   "evidence": "f0088.jpg, f0091.jpg",
+   "relation": "extends",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Use a presenter-to-screen hard cut at the first demonstrable noun, within 6s of start, and make it the only cut for the first 120s.",
+   "evidence": "cut_times_s 5.71, 121.72",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Screen-recording text under 12px at 1280 wide fails at phone width; give each such region a zoom of at least 2x before the narration depends on it.",
+   "evidence": "f0004.jpg 10px label; crops/timeline.png needed 2x",
+   "relation": "extends",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Introduce the on-screen product with a state that has its own motion (a measuring bar, a spinner, a typing prompt) so a static screen still shows change every 2-3s.",
+   "evidence": "f0013.jpg 'measuring...'; strips/window-13-24.291s.jpg",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "End with a quiet logo card held at least 3s after the final action, with no line of copy.",
+   "evidence": "f0100.jpg; logo hold 3.2s",
+   "relation": "confirms",
+   "skill_rule": "2"
+  }
+ ],
+ "frames_opened": 34,
+ "crops_made": 6,
+ "unchecked": [
+  "No audio listened to; music presence rests on describe tags only (music 0.489, below naming threshold for genre).",
+  "Terminal install frame (t=194-196s) fell between 2s samples; read only from the contact sheet at 3:14-3:16.",
+  "Eases not measured numerically; read from strips only.",
+  "Strips after window-60 (157s onward) were not opened; the 197.43s cut has no strip."
+ ]
+}

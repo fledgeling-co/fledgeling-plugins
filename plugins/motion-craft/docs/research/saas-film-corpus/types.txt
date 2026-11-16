@@ -1,0 +1,130 @@
+| type | n | length s | cuts/min | median shot s | longest shot share | static 2s share | UI % runtime | LUFS |
+|---|---|---|---|---|---|---|---|---|
+| ALL | 48 | 82 (55-151) | 5.7 (3.1-8.9) | 4.7 (3.5-8.0) | 0.41 (0.24-0.67) | 0.28 (0.16-0.42) | 70 (55-80) | -15.8 (-17.2--14.1) |
+| narrated explainer or tutorial | 19 | 177 (90-232) | 5.9 (2.9-9.2) | 4.8 (4.5-8.9) | 0.28 (0.19-0.47) | 0.33 (0.27-0.48) | 75 (48-88) | -15.9 (-22.8--14.2) |
+| music-led feature film | 18 | 77 (58-83) | 5.4 (3.9-8.7) | 4.2 (3.5-5.8) | 0.41 (0.34-0.67) | 0.21 (0.13-0.36) | 69 (52-77) | -15.4 (-16.1--14.0) |
+| short announcement (<=45 s) | 7 | 32 (26-40) | 3.1 (3.0-8.7) | 9.5 (3.0-17.8) | 0.71 (0.53-0.87) | 0.42 (0.20-0.42) | 68 (66-72) | -13.9 (-15.4--13.6) |
+| customer story | 4 | 82 (61-104) | 11.7 (8.6-14.8) | 2.6 (1.9-3.2) | 0.35 (0.24-0.47) | 0.09 (0.02-0.17) | 51 (47-55) | -16.8 (-17.2--16.3) |
+
+brand counts: Counter({'Claude': 24, 'Harvey': 19, 'Muse': 5})
+bursts: 7 films; [('5qt_aGyAsKk', [(5, 0.755)]), ('COJAZQM1aeQ', [(7, 0.754)]), ('G3vwVsh9RtU', [(13, 0.464)]), ('S9IJ1GgAAxE', [(5, 0.138)]), ('XO244jk7xH4', [(18, 0.081), (8, 0.316), (11, 0.508), (5, 0.655), (8, 0.781)]), ('kuxha-8IHCQ', [(5, 0.283)]), ('mTzRvY38xGw', [(8, 0.107)])]
+median hold s: 1.32 (0.97-1.50)
+longest static run s: 6 (4-10)
+first cut s: 4.8 (2.2-8.4)
+longest shot s: 31.1 (22.5-42.5)
+hero share: 0.56 (0.35-0.71)
+logo hold: 3.5 (2.5-5.0)
+title pct pooled: 7.3 (5.7-9.4)
+words/title line: 5 (4-6)
+UI legible: Counter({'partly': 47, 'yes': 1})
+shown as: Counter({'real-ui-capture': 29, 'floating-ui-cards': 21, 'redrawn-simplified-ui': 20, 'device-mockup': 13, 'live-action': 12, 'abstract-illustration': 11})
+cursor: Counter({'real': 25, 'stylised': 12, 'none': 9, 'labelled-cursors': 2})
+voiceover: Counter({'none-music-only': 25, 'on-camera-presenter': 11, 'narrator-vo': 8, 'customer-testimonial': 3, 'presenter-and-vo': 1})
+wpm VO: 167 (151-178)
+LUFS n=48 median -15.8; within -15..-13: 15; quieter than -16: 19; range -25.7..-11.2
+TP n=48 median -1.2999999999999998; above -1: 18; above 0: 9
+onset lock: n=46, >chance+0.10: 10
+films ending in >=1 s silence: 23
+transition kinds per film: 4 (4-5)
+transitions (films, count): [('hard-cut', 46, 489), ('ui-state-change', 46, 404), ('morph-or-shared-element', 25, 62), ('continuous-camera-move', 25, 95), ('push-or-slide', 16, 44), ('fade-through-colour', 15, 32), ('zoom-through', 13, 33), ('cross-dissolve', 10, 59), ('mask-or-wipe', 7, 16), ('match-cut', 6, 13), ('other', 3, 16), ('whip-pan', 2, 4)]
+Claude n 24 light share 0.85 (0.68-0.98) sat 0.070 (0.056-0.114) warm 6.2 (-2.2-10.3) cuts/min 8.1 (5.0-8.9) logo hold 3.0 (2.1-4.6)
+Harvey n 19 light share 0.91 (0.77-1.00) sat 0.015 (0.008-0.040) warm 0.5 (0.0-0.9) cuts/min 3.9 (2.4-7.2) logo hold 4.1 (3.0-5.4)
+Muse n 5 light share 0.80 (0.53-1.00) sat 0.195 (0.082-0.242) warm -12.1 (-13.1--7.1) cuts/min 10.0 (5.8-14.8) logo hold 3.9 (0.9-4.5)
+frame0 texts:
+  -OH1y7CjIew Claude | Presenter smiling at a desk, half-faded under a ghost of the task-input UI mid-dissolve (f0001.jpg); a person is the subject, not black or a
+  4tlIHJqGiRc Harvey | Per the strip (window-01) the frame is near-black until 0.4 s, then a lone white serif H centred; f0001.jpg shows the H alone. No product in
+  5qt_aGyAsKk Claude | Dark ground with two grey chat bubbles in the middle, one tilted: 'click-through on the pricing page CTA has cratered…' and 'cold start is 4
+  7-1tNo8HAwk Claude | Full headline 'Claude works where lawyers work' already on screen, dark serif, centred on cream. Subject present from the first frame (f0001
+  7M5TXyoJ-Jc Harvey | Plain white frame, no subject (frame0 contentful cells 0.05, blank 0.95); the serif 'Harvey' wordmark pops in at 0.33 s (strips/window-01-0.
+  B87ICNnr_GQ Harvey | Near-white ground with the word 'Harvey' in black serif at centre; 3 % of cells contentful (frames.frame0). Brand is present, product is not
+  Bn9Vv8e_WPk Harvey | Off-white ground with a pale grey 'Harvey' wordmark mid-fade, left of centre; nothing else (f0001.jpg). Metrics flag it not-evidence.
+  C-5wF6tkQ2Q Claude | Cream ground, one line of near-black serif: 'Claude Cowork is now your Chrome side panel', 6 words, about 6.7% of frame height, centred (f00
+  COJAZQM1aeQ Claude | Presenter video in a framed box with a filename label 'Claude-Design-Demo.mov', selection handles and a cursor on a light dotted canvas; sub
+  G3vwVsh9RtU Claude | f0001.jpg: beige desktop with blue folders ('Q3 Materials', 'Past Reviews'), a faded Slack toast from Fabian fading in and a cursor. Subject
+  Jw6l1jgNVw8 Harvey | Pure white with the serif wordmark 'Harvey' centred and small (f0001.jpg); first two frames blank, wordmark from 0.1s (strips/window-01-0.03
+  KLMl0ug_oK0 Harvey | Pale grey poster: 'Command Center' in heavy sans centred, four floating dashboard cards (bar charts, a 305 active-users area chart, a releas
+  LrXnOKCr0mo Muse | Mascot (cream plush character) stands left, 'Introducing Spaces' and muse.ai right on white, Meta logo bottom left; poster-complete from t=0
+  S9IJ1GgAAxE Claude | Dark Goodcast Forecast dashboard on a slate-blue ground, a counter already rolling (48,37x) at 0 s; subject present, though text is small (f
+  SkFmiMHDN38 Claude | f0001.jpg: cream document page on a flat blue ground, serif title 'How an Anthropic engineer uses Claude Docs', grey placeholder lines, a ha
+  SkpwzfR4A1E Claude | Presenter mid-sentence in a warm window-lit room, a foldable-phone card with a '4,406' chart already floating at right from t=0.57s. Subject
+  TVbOAMAxC4Y Harvey | Dark textured ground, grey 'Harvey Graph' title left, about ten white nodes scattered right and a caption line at the bottom; the subject is
+  To5nrYqvR44 Claude | Warm off-white poster. At t=0 the 'Now in beta' pill and 'Create docs,' are already typing in (strips/window-01-0s.jpg); the full three-line
+  We8BTITLvb4 Muse | Muse app icon centred on pale grey (about 21 % of frame height) with the edge of a yellow sticky note entering at left; f0001.jpg. Subject p
+  XNbc2HhL7J4 Claude | Mid-blue ground with faint white line pattern; the white serif words 'Claude keeps working,' are on screen by 0.25 s and centred (window-01)
+  XO244jk7xH4 Muse | Sunlit foliage with a flare, handheld; the sampled f0001 shows blurred grass over a glass building. Cinematic and non-black, but no product 
+  YUYeHMsqbmY Claude | Black ground, one smiling webcam tile and a call toolbar (Mute, Off, Share, Chat, Settings, red End); more tiles join within 0.4 s (strips/w
+  YewAJPawE7I Claude | Off-white ground with a small grey 'New in' chip alone mid-frame (f0 in strips/window-01-0s.jpg); contentful cells 6%, so frame 0 is near-em
+  _E9c5P4EyhU Muse | Light white-to-blue gradient with one phone-shaped video card of a woman mid-sentence on the left and a caption pill reading 'My Muse's name
+  _Qxh2NZcWuY Harvey | Dark ground, centred Harvey (serif) / ElevenLabs (bold sans) lockup, nothing else. Subject is the partnership itself (f0001.jpg).
+  _f_rtbW_uFM Claude | Sage-green ground with hand-drawn pale wavy lines; the kinetic title '@Claude works with your whole team' is already building (first word at
+  arDCe_F8vfk Harvey | Harvey wordmark, white serif, centred on near-black (mean luminance 0.059, contentfulCells 0.05). A lone logo, not a subject poster.
+  bOeWJRfYWWY Harvey | Near-black ground with a ring of white dots tilted like an orbit, filling about 70% of frame height; no logo, no text. A motif poster rather
+  bVXiNb9RyyI Claude | Title card poster: terracotta slide on a pink-beige ground with 'How an Anthropic designer uses Claude Slides' under an active text-edit too
+  dUIuvfP2j2c Harvey | Black frame with a small white serif 'Harvey' wordmark centred (f0001.jpg); ink 59 px tall at t=0.8; frame0 contentful cells 0.05, so mostly
+  en0GuyhieQk Claude | Full-frame 3D isometric city map, 6:10 am clock chip top-left, two white station labels (Fernhill 21 bikes, Canal Street 6 bikes). Subject p
+  fFQM0LHOGBc Harvey | Near-black ground with the serif word 'Harvey' fading in (f0001.jpg); at t=0.15-0.2s the strip shows empty dark, the word appears by 0.2s. T
+  idJQMJwHtyM Claude | Three Google app icons (Docs blue, Sheets green, Slides yellow) on a warm cream ground, with 'Introducing Claude for Google Workspace' under
+  jKRl_CSVxyI Claude | Presenter mid-smile in a warm dark home-office set; no title in the first frame, wordmark 'Claude Opus 5.5' appears by 1.17 s (strips/window
+  kJA3fQnntpY Claude | Poster of the product itself: four overlapping avatars (K, Z, J, S), a comment icon and a black Share button, centred on cream. Subject pres
+  kuxha-8IHCQ Muse | f0001.jpg: white studio ground, soft-fur mascot at left (about 60% of frame height), 'FEATURED SPACE / Wedding Planner / Built by Beverly wi
+  lCR9epzSNGc Claude | Whole app window on a sage-green ground, finished Canal Clock Square model centred, library list left, red Download button; the subject is p
+  mQZB0l-rhxE Claude | Presenter at a desk in a warm room with a lower-third 'Delba de Oliveira / Claude Code'; subject and speaker are present at t=0, not black o
+  mTzRvY38xGw Harvey | Cropped, zoomed prompt box on a light grey ground: placeholder 'Ask Harvey anything' with caret, Files and Sources buttons. Product and bran
+  o5PmFp8HYTM Harvey | Near-black card with the white serif wordmark 'Harvey' centred (f0001.jpg), 59 px tall. Brand only, no product; mean luminance 0.059 and 95%
+  omihvjf0A2k Claude | Presenter in a warm wood-panelled room, on camera from 0.0 to 0.62 s (ffmpeg luma 47 at t=0, 249 at t=0.7). The sampled f0001.jpg shows the 
+  tYOI-WoLS_o Claude | Terracotta field with the full two-line title 'Delegate and schedule tasks in Claude Cowork' in black serif, centred; the subject is the pos
+  vD-iFCwmozc Harvey | Near-white ground with the word Harvey in a serif, centred. A lone wordmark, but it is the brand subject; no product shown. contentfulCells 
+  vlwlzyBqgvc Harvey | Off-white ground; the headline 'Legal AI moves fast' types in letter by letter from t=0.017s and is complete by 0.4s (strips/window-01). The
+  wzrBFx0ONZg Harvey | f0001.jpg shows the 'Harvey' wordmark centred on an off-white ground; strip window-01 shows the ground blank until t=0.40s and the wordmark 
+  xDiG-MN7GzU Harvey | Empty paper-texture ground with the question card 'When you send me a contract, how do you want the review back?' on screen from the first s
+  yUuFvL1lK4k Claude | Presenter face fills frame, mid-word, warm interior background; subject present, not black or a logo (f0001.jpg). Mean luminance 0.30, conte
+  ydIT4EdLK54 Harvey | Centered black serif 'Harvey' wordmark on near-white; contentfulCells 0.031, so almost empty. No product in frame.
+CTA texts:
+  -OH1y7CjIew | code.claude.com/docs/en/claude-code-on-the-web
+  4tlIHJqGiRc | Never Start From Scratch Again.
+  5qt_aGyAsKk | Claude runs the sessions. You make the calls.
+  7-1tNo8HAwk | none; Claude wordmark only
+  7M5TXyoJ-Jc | Available in Early Access
+  B87ICNnr_GQ | none
+  Bn9Vv8e_WPk | Coming Soon (App Store, Google Play badges); AI Tailored for Law
+  C-5wF6tkQ2Q | Try it now: claude.com/chrome
+  COJAZQM1aeQ | Claude makes it.
+  G3vwVsh9RtU | Fable 5.1 runs bigger projects. You still run the show.
+  Jw6l1jgNVw8 | Harvey Agents
+  KLMl0ug_oK0 | AI Tailored for Law
+  LrXnOKCr0mo | Muse. Get it on Google Play. Download on the App Store.
+  S9IJ1GgAAxE | Run by Claude. Led by you.
+  SkFmiMHDN38 | Next time your team works on a doc together, consider asking Claude.
+  SkpwzfR4A1E | What would you like to see next?
+  TVbOAMAxC4Y | None; closing caption only: overview of the Harvey Graph vision and its impact on agent quality and efficiency.
+  To5nrYqvR44 | Claude makes it. You steer it.
+  We8BTITLvb4 | AI that keeps you in control
+  XNbc2HhL7J4 | Your thinking sets the direction. Claude keeps it moving.
+  XO244jk7xH4 | Muse; Google Play; App Store; Meta
+  YUYeHMsqbmY | None; the Claude wordmark only.
+  YewAJPawE7I | Work at the speed of thought
+  _E9c5P4EyhU | And we are just getting started.
+  _Qxh2NZcWuY | none
+  _f_rtbW_uFM | Tag @Claude in on your team's next task; claude.com/learn
+  arDCe_F8vfk | Lead your firm's transformation.
+  bOeWJRfYWWY | Contract Intelligence
+  bVXiNb9RyyI | Claude makes it. You steer it.
+  dUIuvfP2j2c | AI Tailored for Law
+  en0GuyhieQk | Claude makes it. You steer it.
+  fFQM0LHOGBc | none on screen; narration says 'If you can define the process, you can build the workflow.'
+  idJQMJwHtyM | Claude wherever you work
+  jKRl_CSVxyI | Spoken only: 'go try out Opus 5.5 and let me know what you think.' No on-screen CTA.
+  kJA3fQnntpY | Claude.com/learn
+  kuxha-8IHCQ | Muse; Get it on Google Play; Download on the App Store
+  lCR9epzSNGc | none; Claude wordmark only
+  mQZB0l-rhxE | none
+  mTzRvY38xGw | Harvey
+  o5PmFp8HYTM | AI Tailored for Law
+  omihvjf0A2k | code.claude.com/docs/en/claude-projects
+  tYOI-WoLS_o | none
+  vD-iFCwmozc | Coming Soon; AI Tailored for Law
+  vlwlzyBqgvc | none; product-name lockup 'Harvey Command Center' only
+  wzrBFx0ONZg | AI Tailored for Law
+  xDiG-MN7GzU | Your Preferences. Your Work. Your Harvey. Harvey
+  yUuFvL1lK4k | /plugin install hide-email@my-mods
+  ydIT4EdLK54 | AI Tailored for Law

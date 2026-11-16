@@ -1,0 +1,436 @@
+{
+ "id": "-OH1y7CjIew",
+ "title": "Coding on the go with Claude Code",
+ "brand": "Claude",
+ "duration_s": 242.1,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "Presenter-led tutorial intercutting on-camera talk with animated diagrams and scripted screen recordings of a fictional Acme bug fix.",
+ "one_thing": "A cloud session keeps working after you close the laptop, so you can hand off a task, answer Claude from your phone and review it later.",
+ "transcript": {
+  "source": "human-captions",
+  "voiceover": "on-camera-presenter",
+  "words_total": 697,
+  "words_per_minute": 172.7,
+  "voice_style": "Calm, conversational on-camera presenter; short declarative sentences; second-person instructions; no hype words.",
+  "script_shape": "Promise demo in 15 s, define the term, when to use it, setup steps, environments, limits, worked bug-fix example, handoff variants, docs pointer."
+ },
+ "structure": {
+  "frame0": "Presenter smiling at a desk, half-faded under a ghost of the task-input UI mid-dissolve (f0001.jpg); a person is the subject, not black or a logo.",
+  "first_3s": "'Watch this.' then the task typed into the desktop app (t=1.0-3.6), then presenter closes laptop; the promise is spoken at t=1-5 and shown on screen.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 1,
+    "role": "hook",
+    "what": "Presenter says 'Watch this.' over a faded desktop UI ghost."
+   },
+   {
+    "start_s": 1,
+    "end_s": 3.6,
+    "role": "setup",
+    "what": "Task text typed into desktop app; 'Setting up a cloud container' appears (f0002.jpg)."
+   },
+   {
+    "start_s": 3.6,
+    "end_s": 7.9,
+    "role": "setup",
+    "what": "Presenter closes laptop, lifts phone (f0003.jpg, f0004.jpg)."
+   },
+   {
+    "start_s": 7.9,
+    "end_s": 14.8,
+    "role": "reveal",
+    "what": "Phone shows Claude's question 'Should I fix both?'; presenter answers, laptop panel greys out (f0010.jpg)."
+   },
+   {
+    "start_s": 14.8,
+    "end_s": 19,
+    "role": "setup",
+    "what": "Diagram of laptop, cloud Claude and phone; diff counters tick up (f0016.jpg)."
+   },
+   {
+    "start_s": 19,
+    "end_s": 21,
+    "role": "setup",
+    "what": "Presenter with lower third 'What is a cloud session?'."
+   },
+   {
+    "start_s": 21,
+    "end_s": 41,
+    "role": "demo",
+    "what": "Diagram builds: cloud clones acme/marketing-site, new branch, then desktop, browser, terminal, phone, Slack as entry points."
+   },
+   {
+    "start_s": 43,
+    "end_s": 70,
+    "role": "other",
+    "what": "'When to use a cloud session' title stays while three chips appear: Long tasks, Away from your computer, Several at once."
+   },
+   {
+    "start_s": 70,
+    "end_s": 100,
+    "role": "demo",
+    "what": "'Connecting GitHub': screen recording of two-step banner, Authorize, repo install, repo picker."
+   },
+   {
+    "start_s": 100,
+    "end_s": 126,
+    "role": "demo",
+    "what": "'How environments work': runtimes list, then Add cloud environment form and 'On Team and Enterprise plans' diagram."
+   },
+   {
+    "start_s": 126,
+    "end_s": 152,
+    "role": "other",
+    "what": "Fresh-clone diagram: project settings, skills and CLAUDE.md come along; personal settings do not."
+   },
+   {
+    "start_s": 152,
+    "end_s": 172,
+    "role": "demo",
+    "what": "Desktop app Cloud picker, then Acme newsletter page accepting 'ada@example' and showing an error."
+   },
+   {
+    "start_s": 172,
+    "end_s": 200,
+    "role": "turn",
+    "what": "Phone Session list, question card, answer; Cloud session versus Remote Control diagram (f0087.jpg, f0094.jpg)."
+   },
+   {
+    "start_s": 200,
+    "end_s": 228,
+    "role": "proof",
+    "what": "'Reviewing the work': diff with line comment 'Trim the value first.', Done, PR #128, watch request."
+   },
+   {
+    "start_s": 228,
+    "end_s": 238,
+    "role": "other",
+    "what": "Terminal 'claude --teleport session_\u2026' resumes the session; presenter recaps."
+   },
+   {
+    "start_s": 238,
+    "end_s": 242.1,
+    "role": "cta",
+    "what": "Presenter smiles; chip 'code.claude.com/docs/en/claude-code-on-the-web' (f0121.jpg)."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 10,
+   "share": 0.041,
+   "what": "Phone shows Claude's question 'The footer has a second sign-up form with the same check. Should I fix both?' while the laptop is asleep (f0005.jpg-f0007.jpg)."
+  },
+  "ending": {
+   "cta_text": "code.claude.com/docs/en/claude-code-on-the-web",
+   "logo_hold_s": -1,
+   "what": "Presenter closes with a smile and the docs URL chip over the last 4 s; no logo or end card."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 32,
+  "cuts_per_min": 7.93,
+  "median_shot_s": 5.54,
+  "how_change_is_paced": "Cuts follow spoken sentences; presenter and graphic shots alternate. Diagram cards add one per spoken item inside a shot; one 26.7 s phone shot holds (t=201-228). No burst."
+ },
+ "look": {
+  "ground": "Warm cream (#F5F4ED-like) for diagrams and UI; presenter shot is a dark wood-panelled room. Light share 0.76, dark share 0.21 of sampled frames.",
+  "palette": [
+   "cream ground",
+   "near-black text and chips",
+   "warm grey card fill",
+   "Claude coral-orange",
+   "green diff add",
+   "crimson diff remove",
+   "GitHub-style blue banner"
+  ],
+  "accent_use": "Coral marks Claude only: the asterisk glyph, send button and status dots; blue appears only inside the recorded GitHub banner (f0040.jpg).",
+  "type": "Serif display for titles and chapter labels, geometric sans for diagram cards and UI, monospace for code and diff lines; titles are sentence case.",
+  "title_height_pct": [
+   3.06,
+   6.94
+  ],
+  "title_measurements": [
+   {
+    "t_s": 44.5,
+    "text": "When to use a cloud session",
+    "line_height_px": 29,
+    "frame_height_px": 720,
+    "pct": 4.03
+   },
+   {
+    "t_s": 126,
+    "text": "On Team and Enterprise plans",
+    "line_height_px": 32,
+    "frame_height_px": 720,
+    "pct": 4.44
+   },
+   {
+    "t_s": 168,
+    "text": "The Acme newsletter",
+    "line_height_px": 50,
+    "frame_height_px": 720,
+    "pct": 6.94
+   },
+   {
+    "t_s": 190,
+    "text": "Cloud session",
+    "line_height_px": 22,
+    "frame_height_px": 720,
+    "pct": 3.06
+   }
+  ],
+  "max_words_per_title_line": 6,
+  "density": "sparse",
+  "depth": "Flat 2D cards with soft shadow and 1 px borders; layered grey panels behind white cards; no 3D or parallax."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 44,
+  "shown_as": [
+   "real-ui-capture",
+   "redrawn-simplified-ui",
+   "device-mockup",
+   "abstract-illustration"
+  ],
+  "cursor": "stylised",
+  "camera_on_ui": "Screen recordings are cropped and scaled to the active region (f0085.jpg crop larger than f0005.jpg), with soft zooms; phone frame fills the height in later shots.",
+  "legible_at_phone_width": "partly",
+  "notes": "Product screens are scripted with a fictional Acme repo and dummy data. Zoomed phone and form frames read clearly; whole-phone shots at t=8 and GitHub install pages at t=86-92 have 8-14 px text."
+ },
+ "motion": {
+  "text_entry": "Titles appear on a presenter shot via dissolve, then persist across the cut to the diagram; chips append to the same line, one per spoken point (t=56, 58, 64).",
+  "ui_motion": "Diagram cards slide to new positions as items are added (strips/window-13-20.875s.jpg), connector lines draw after the card lands, counters tick +50 -10 to +270 -80, and the greyed laptop shows it can be off.",
+  "camera": "Presenter shots are locked-off with small cuts of framing; screen recordings zoom softly to the active control.",
+  "eases": "Decelerating settles on card slides over about 0.8 s (strips/window-13-20.875s.jpg); no overshoot visible. Cursor eases with motion blur.",
+  "transitions": [
+   {
+    "type": "cross-dissolve",
+    "count": 20,
+    "example_t_s": 18.875,
+    "cause": "Presenter-to-diagram seams; about 3 frames (0.125 s) long (strips/window-12-18.875s.jpg)."
+   },
+   {
+    "type": "hard-cut",
+    "count": 6,
+    "example_t_s": -1,
+    "cause": "Estimate: seams inside screen recordings; no blend frame confirmed, none read in a strip."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 12,
+    "example_t_s": 21.0,
+    "cause": "Diagram cards slide and regroup when a new item is spoken."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 10,
+    "example_t_s": 50.75,
+    "cause": "Laptop panel dims to grey to show 'away' (strips/window-29-50.75s.jpg)."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0.375s.jpg",
+   "strips/window-02-1.625s.jpg",
+   "strips/window-06-7.792s.jpg",
+   "strips/window-12-18.875s.jpg",
+   "strips/window-13-20.875s.jpg",
+   "strips/window-28-42.959s.jpg",
+   "strips/window-29-50.75s.jpg",
+   "strips/window-41-77.459s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 19.2,
+    "text": "What is a cloud session?",
+    "words": 5,
+    "hold_s": 1.8
+   },
+   {
+    "t_s": 43,
+    "text": "When to use a cloud session",
+    "words": 6,
+    "hold_s": 27
+   },
+   {
+    "t_s": 44,
+    "text": "Long tasks",
+    "words": 2,
+    "hold_s": 26
+   },
+   {
+    "t_s": 56,
+    "text": "Away from your computer",
+    "words": 4,
+    "hold_s": 14
+   },
+   {
+    "t_s": 64,
+    "text": "Several at once",
+    "words": 3,
+    "hold_s": 6
+   },
+   {
+    "t_s": 70,
+    "text": "Connecting GitHub",
+    "words": 2,
+    "hold_s": 6
+   },
+   {
+    "t_s": 100,
+    "text": "How environments work",
+    "words": 3,
+    "hold_s": 4
+   },
+   {
+    "t_s": 120,
+    "text": "On Team and Enterprise plans",
+    "words": 5,
+    "hold_s": 10
+   },
+   {
+    "t_s": 172,
+    "text": "From your phone",
+    "words": 3,
+    "hold_s": 4
+   },
+   {
+    "t_s": 188,
+    "text": "Cloud session",
+    "words": 2,
+    "hold_s": 12
+   },
+   {
+    "t_s": 194,
+    "text": "Remote Control",
+    "words": 2,
+    "hold_s": 6
+   },
+   {
+    "t_s": 200,
+    "text": "Reviewing the work",
+    "words": 3,
+    "hold_s": 4
+   },
+   {
+    "t_s": 238,
+    "text": "code.claude.com/docs/en/claude-code-on-the-web",
+    "words": 1,
+    "hold_s": 4
+   }
+  ],
+  "holds_vs_reading_rule": "'What is a cloud session?' holds about 1.8 s against 1.7 s needed (confirmed by strip window-12). Section labels hold far longer than the rule. The URL chip holds about 4 s, over the 2 s minimum."
+ },
+ "sound": {
+  "music": "No music evidence: describe tag music scores 0.106, below 0.2, and beats.count is 0 with no steady beat. Sound is presenter speech (speech 0.922).",
+  "sfx": "None evidenced; click 0.074 and typing 0.061 are far below 0.2.",
+  "vo_music_balance": "Voice only; integrated -14.2 LUFS, short-term max -12.4, loudness range 2.1 LU, true peak -1.4 dBTP.",
+  "energy_arc": "Flat: speech pauses of 0.3-0.6 s mark sentence ends; loudness range 2.1 LU shows no dynamic arc.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.094 against chance_share 0.06, a gap of 0.034, but they follow sentence boundaries by caption timing."
+ },
+ "good": [
+  {
+   "observation": "The film shows its own promise first: task typed, laptop closed, phone question, all inside 15 s, matching the spoken 'Watch this.'",
+   "evidence": "t=0-14.8; f0004.jpg-f0007.jpg"
+  },
+  {
+   "observation": "Diagrams add one card per spoken item, so the picture and the sentence arrive together and the same labels return across scenes.",
+   "evidence": "t=21-41; f0016.jpg-f0019.jpg"
+  },
+  {
+   "observation": "One consistent visual system: cream ground, coral only for Claude, serif titles, sans cards. It reads as one brand across 4 minutes.",
+   "evidence": "f0022.jpg, f0058.jpg, f0085.jpg"
+  },
+  {
+   "observation": "A single worked example (newsletter form accepts 'ada@example') threads the desktop, phone, diff and PR steps, so every feature is shown on one story.",
+   "evidence": "t=160-228; f0085.jpg, f0102.jpg"
+  },
+  {
+   "observation": "Chapter labels in the lower third mark each topic change in 3-5 words, six times, so a scrubber can navigate the film.",
+   "evidence": "t=19, 42, 70, 100, 172, 200; crops/lowerthird.png"
+  },
+  {
+   "observation": "Loudness is on the social target with headroom: -14.2 LUFS and -1.4 dBTP on a voice-only mix.",
+   "evidence": "metrics.json sound.lufs_integrated"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Whole-screen product shots are too small to read: GitHub install page text is about 12 px and the t=8 phone mock text about 12 px, under 2.6% of height.",
+   "evidence": "f0046.jpg, f0005.jpg"
+  },
+  {
+   "observation": "The error message after Subscribe is a muted pink on cream, easy to miss at the one moment the bug is shown.",
+   "evidence": "crops/acme-error.png; f0085.jpg"
+  },
+  {
+   "observation": "Static stretches are long: 32.5% of sampled intervals are static and the longest static run is 10 s ending t=170, with a 26.7 s single shot at t=201-228.",
+   "evidence": "metrics.json frames.intervals_static_share"
+  },
+  {
+   "observation": "Frame 0 is a mid-dissolve of presenter over UI ghost, flagged not-evidence by the prescan, so the first frame is murky rather than a clean poster.",
+   "evidence": "f0001.jpg; metrics.json frames.frame0"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "In a talk-led explainer, build the diagram one card per spoken item and keep a landed title static while chips append beneath it.",
+   "evidence": "t=43-70: title static 27 s while 3 chips add at about 56, 58, 64 s.",
+   "relation": "confirms",
+   "skill_rule": "4"
+  },
+  {
+   "rule": "For tutorials and feature explainers, allow shots of 5-6 s median and cuts near 8 per minute; the 1.8-3.5 s launch cadence does not apply when narration carries the content.",
+   "evidence": "median_shot_s 5.54; cuts_per_min 7.93; 6 shots over 10 s.",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "A 3-frame (0.125 s) cross-dissolve is acceptable between on-camera footage and graphics when the topic changes; keep it under 0.2 s so it reads as a cut.",
+   "evidence": "strips/window-12-18.875s.jpg: blend only at f455; 20 of 32 seams.",
+   "relation": "contradicts",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "Crop screen recordings to the active control so UI text is above 2.6% of frame height; show the whole device only as an establishing shot of 2 s or less.",
+   "evidence": "f0087.jpg question text about 5% height versus f0005.jpg about 1.7%.",
+   "relation": "extends",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "Label each topic change on presenter shots with a 2-5 word serif lower third at about 4% of frame height, one per 20-40 s.",
+   "evidence": "6 labels at t=19, 42, 70, 100, 172, 200; measured 29 px of 720 on the title.",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Run one fictional worked example through every UI scene (same repo, same bug, same PR) so each feature appears as a step in one story.",
+   "evidence": "Acme newsletter bug t=1-228; PR #128 at t=204.",
+   "relation": "extends",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Voice-only explainers hit -14 LUFS with true peak at -1.4 dBTP and a 2 LU range; no music bed is needed when speech carries the pace.",
+   "evidence": "metrics.json sound: -14.2 LUFS, -1.4 dBTP, LRA 2.1.",
+   "relation": "confirms",
+   "skill_rule": "9"
+  },
+  {
+   "rule": "Make a stylised cursor with a tap ripple and motion blur the single actor in recorded UI, and move it only on the word it illustrates.",
+   "evidence": "f0040.jpg blurred hand; f0102.jpg grey tap circle on close button.",
+   "relation": "new",
+   "skill_rule": "none"
+  }
+ ],
+ "frames_opened": 61,
+ "crops_made": 6,
+ "unchecked": [
+  "Lower-third 'Connecting GitHub' height: ink measure failed over photo background.",
+  "Exact reading holds for lower thirds not timed; only the 1.8 s card was read from a strip.",
+  "Strips cover only t=0-107 s; later transitions come from sheets.",
+  "Presence of product UI is a frame-count estimate.",
+  "Transition counts per type and hold times other than the 1.8 s card are estimates from sheets."
+ ]
+}

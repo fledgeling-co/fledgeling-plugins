@@ -1,0 +1,163 @@
+{
+  "id": "XNbc2HhL7J4",
+  "title": "Claude Cowork: coming to mobile and web",
+  "brand": "Claude",
+  "duration_s": 80.7,
+  "status": "ok",
+  "format": "launch-film",
+  "format_note": "Feature launch told as one worked scenario (Acme QBR prep) moving from laptop to phone, with no voiceover and a music bed.",
+  "one_thing": "Brief Claude once, and Cowork keeps working while you are away, then reaches you on your phone and in the browser with the finished brief.",
+  "transcript": {
+    "source": "auto-captions",
+    "voiceover": "none-music-only",
+    "words_total": 0,
+    "words_per_minute": 0,
+    "voice_style": "No speech. The caption track holds only [music] tags and two stray 'Heat.' lines that are caption errors over an instrumental bed.",
+    "script_shape": "Story carried entirely by on-screen type: a headline, a typed user prompt, a typed assistant reply, status pills, a phone notification, a closing tagline and a logo."
+  },
+  "structure": {
+    "frame0": "Mid-blue ground with faint white line pattern; the white serif words 'Claude keeps working,' are on screen by 0.25 s and centred (window-01). Not black, not empty.",
+    "first_3s": "Headline assembles word by word in 0.25 s, 'even when you're not' arrives 1.29-1.7 s, an empty white card appears at 2.0 s (f0002) and a Cowork composer starts typing by 2.6 s.",
+    "beats": [
+      {"start_s": 0, "end_s": 5, "role": "hook", "what": "Headline 'Claude keeps working, even when you're not' on blue ground."},
+      {"start_s": 2.6, "end_s": 12.6, "role": "setup", "what": "Composer types a long Acme QBR brief; four zoom reframes between macro text and the full box."},
+      {"start_s": 12.6, "end_s": 24.9, "role": "demo", "what": "'Got it.' reply, integration checks, Progress card, two Schedule task cards, cursor clicks Schedule."},
+      {"start_s": 24.9, "end_s": 26.3, "role": "reveal", "what": "Pull-back to the Cowork window inside a laptop frame, showing it is the web or desktop app."},
+      {"start_s": 26.3, "end_s": 35.8, "role": "turn", "what": "Halftone coral cloud with floating status pills ('Search email files', 'Finishing up your ta...') while the user is away."},
+      {"start_s": 35.8, "end_s": 49.7, "role": "payoff", "what": "Phone lock screen 'Your Acme brief is ready', opens to the brief with Needs your attention card."},
+      {"start_s": 49.7, "end_s": 57.7, "role": "demo", "what": "Phone email draft, three punch-in cuts; highlighted sentence is replaced by the user's edit."},
+      {"start_s": 57.7, "end_s": 67.4, "role": "turn", "what": "Phone drops out, cloud returns with 'Running your recap' and a four-item checklist."},
+      {"start_s": 67.4, "end_s": 73.9, "role": "proof", "what": "Laptop shows the finished recap; user types 'Amazing! Let's do this for every client meeting...'."},
+      {"start_s": 74, "end_s": 77.7, "role": "cta", "what": "Chat scrolls away; tagline 'Your thinking sets the direction. Claude keeps it moving.' over the dot field."},
+      {"start_s": 77.7, "end_s": 80.7, "role": "logo", "what": "Coral star grows, then 'Claude' types in beside it on cream; music falls silent at 78.2 s."}
+    ],
+    "hero_moment": {
+      "t_s": 36,
+      "share": 0.446,
+      "what": "Phone lock screen at 8:14 with the notification 'Your Acme brief is ready. One thing needs your attention.' as the music returns to section B at 35.8 s."
+    },
+    "ending": {
+      "cta_text": "Your thinking sets the direction. Claude keeps it moving.",
+      "logo_hold_s": 2.6,
+      "what": "No URL or button; tagline then a centred Claude logo on cream, silent for the last 2.46 s."
+    }
+  },
+  "rhythm": {
+    "route": "hybrid",
+    "hard_cuts": 12,
+    "cuts_per_min": 8.92,
+    "median_shot_s": 2.79,
+    "how_change_is_paced": "Hard cuts cluster at 5.0-12.6 s (typing reframes) and 49.7-51.5 s (three punch-ins); the longest shot is 15.96 s (51.46-67.42) carried by scrolling and element moves. No burst per metrics.json."
+  },
+  "look": {
+    "ground": "Mid blue with faint white organic lines for hero scenes, pale grey-blue for phone scenes, cream for chat UI and the end card.",
+    "palette": ["mid blue ground", "pale grey-blue", "cream off-white", "coral accent", "near-black text", "white cards", "dusk orange phone wallpaper", "pale sage panel"],
+    "accent_use": "One coral colour carries the Claude star, send button, status pills, halftone cloud and numbered markers; nothing else competes.",
+    "type": "Serif display for headline, tagline and logo; grotesque sans for composer and UI labels; serif for assistant replies; monospace small caps for section labels such as NEEDS YOUR ATTENTION.",
+    "title_height_pct": [5.4, 10.8],
+    "title_measurements": [
+      {"t_s": 0.6, "text": "Claude keeps working,", "line_height_px": 54, "frame_height_px": 720, "pct": 7.5},
+      {"t_s": 13, "text": "Got it.", "line_height_px": 48, "frame_height_px": 720, "pct": 6.7},
+      {"t_s": 60, "text": "Running your recap", "line_height_px": 51, "frame_height_px": 720, "pct": 7.1},
+      {"t_s": 74, "text": "Your thinking sets the direction. (line 1 of 2)", "line_height_px": 39, "frame_height_px": 720, "pct": 5.4},
+      {"t_s": 79.5, "text": "Claude (logo with star)", "line_height_px": 78, "frame_height_px": 720, "pct": 10.8}
+    ],
+    "max_words_per_title_line": 7,
+    "density": "medium",
+    "depth": "Flat cards with soft shadows over a patterned ground; blurred pills at the cloud edge (f0017) give shallow depth; devices drawn as flat bezels."
+  },
+  "product_ui": {
+    "presence_pct_runtime": 65,
+    "shown_as": ["device-mockup", "floating-ui-cards"],
+    "cursor": "stylised",
+    "camera_on_ui": "Macro punch-ins on typed text (5.0-9.8 s, 49.7-51.5 s), vertical scrolling inside the phone, and pull-backs into laptop and phone frames at 24.9 s and 67.4 s.",
+    "legible_at_phone_width": "partly",
+    "notes": "Macro and phone shots read well (f0021, f0026, body text above 7 px at 720p). Laptop-framed shots at f0014 and f0013 carry about 9 px text and the Schedule task details at f0011 are faded; those are not legible on a phone."
+  },
+  "motion": {
+    "text_entry": "Headline fades in word by word within 0.25 s (window-01), second clause 1.29-1.7 s (window-02); prompts type with a caret and coral highlight on the newest clause (f0005); pills type letter by letter (f0016, f0017).",
+    "ui_motion": "Progress rings fill to ticks, step rows appear in sequence, a hand cursor presses Schedule (f0012), pills float and blur around a central pill, the phone scrolls vertically.",
+    "camera": "Hard-cut zoom reframes while typing; continuous scroll on the phone; the phone sliding out while the star pill rises (window-35, 58.67-59.04 s).",
+    "eases": "Not fitted numerically. The phone drops out in about 0.25 s (window-35 frames 58.67-58.92) and the chat scrolls off before the tagline in about 0.3 s (window-43).",
+    "transitions": [
+      {"type": "hard-cut", "count": 12, "example_t_s": 5, "cause": "Zoom reframe on typing, or pull-back from full-bleed UI to a device frame."},
+      {"type": "continuous-camera-move", "count": 3, "example_t_s": 58.7, "cause": "Phone slides down as the star pill rises from the cloud."},
+      {"type": "push-or-slide", "count": 1, "example_t_s": 74, "cause": "Chat scrolls up and off, exposing the tagline below it."},
+      {"type": "cross-dissolve", "count": 1, "example_t_s": 37.5, "cause": "Tap on the lock-screen notification opens the app on the same phone."},
+      {"type": "ui-state-change", "count": 3, "example_t_s": 22, "cause": "Cursor presses Schedule; progress rings turn to ticks; pills tick to checks."}
+    ],
+    "strips_read": [
+      "window-01-0.042s: headline words assemble over 0.25 s",
+      "window-02-1.042s: second clause arrives 1.29-1.7 s",
+      "window-06-5.334s: zoomed typing with coral highlight growing behind new words",
+      "window-18-24.834s: full-bleed UI to laptop frame in 0.04 s",
+      "window-24-37.084s: lock screen dissolves into the opened app 37.42-37.54 s",
+      "window-30-49.625s: pull-back to phone then punch-in to email text at 49.71 s",
+      "window-35-58.667s: phone slides down, star pill rises, 'Acme QBR ended' types",
+      "window-41-67.334s: laptop frame to full-screen recap at 67.42 s, list items fade in",
+      "window-43-72.375s: user reply types, chat scrolls away, tagline appears by 74.04 s",
+      "window-47-77.667s: coral star grows then 'Claude' types in letter by letter"
+    ]
+  },
+  "copy": {
+    "on_screen_lines": [
+      {"t_s": 0, "text": "Claude keeps working, even when you're not", "words": 7, "hold_s": 3.3},
+      {"t_s": 2.6, "text": "My Acme QBR is tomorrow at 11am and the renewal is shaky.", "words": 11, "hold_s": -1},
+      {"t_s": 12, "text": "Got it.", "words": 2, "hold_s": -1},
+      {"t_s": 18, "text": "Schedule morning Acme research + prep doc task", "words": 7, "hold_s": -1},
+      {"t_s": 30, "text": "Search email files", "words": 3, "hold_s": -1},
+      {"t_s": 32, "text": "Finishing up your ta", "words": 4, "hold_s": -1},
+      {"t_s": 36, "text": "Your Acme brief is ready. One thing needs your attention.", "words": 10, "hold_s": -1},
+      {"t_s": 42, "text": "NEEDS YOUR ATTENTION", "words": 3, "hold_s": -1},
+      {"t_s": 59.3, "text": "Acme QBR ended", "words": 3, "hold_s": -1},
+      {"t_s": 60, "text": "Running your recap", "words": 3, "hold_s": -1},
+      {"t_s": 64, "text": "Action items — 2 yours, 1 theirs", "words": 6, "hold_s": -1},
+      {"t_s": 72.4, "text": "Amazing! Let's do this for every client meeting on my calendar moving forward.", "words": 13, "hold_s": -1},
+      {"t_s": 74, "text": "Your thinking sets the direction. Claude keeps it moving.", "words": 9, "hold_s": -1},
+      {"t_s": 78, "text": "Claude", "words": 1, "hold_s": 2.6}
+    ],
+    "holds_vs_reading_rule": "Opening line 7 words held 3.3 s against 2.6 s required; logo held 2.6 s against 2 s. Tagline exit not sampled (needs 3.2 s). Long UI text is shown by scroll, not meant to be read whole."
+  },
+  "sound": {
+    "music": "Instrumental bed at 96 bpm (beat confidence 0.415, weak). Tags: keyboard_musical 0.564, synthesizer 0.491, percussion 0.353, theremin 0.281, drum 0.277.",
+    "sfx": "Cannot be judged: captions list only [music] and the describe tags name no effect sounds.",
+    "vo_music_balance": "No voiceover; music is the whole track, integrated -12 LUFS, true peak +1 dBTP, loudness range 7.7 LU.",
+    "energy_arc": "Sections A 0-5.1 s, B 5.1-26.4, C 26.4-35.8, B 35.8-76.3, D 76.3-80.7; silence from 78.2 s to the end under the logo.",
+    "sync_to_picture": "Cuts on strong onsets 0.083 against chance 0.072, so cuts are not locked to the sound. Cuts at 5.0 and 26.25 s sit within 0.15 s of section starts 5.135 and 26.395."
+  },
+  "good": [
+    {"observation": "The film opens on its own thesis as large type that is complete within 0.25 s, so the hook reads before the first cut at 5.0 s.", "evidence": "window-01-0.042s.jpg; f0001.jpg; title 54 px, 7.5%"},
+    {"observation": "One concrete scenario (Acme QBR, named people, $240K ARR, ticket counts) runs the whole film, which proves the feature without any narration.", "evidence": "f0021.jpg, f0022.jpg, f0033.jpg crops/attention-card.png"},
+    {"observation": "Abstract halftone field with floating status pills stands for the work happening while the user is away, showing absence instead of naming it.", "evidence": "f0015.jpg-f0018.jpg; f0031.jpg-f0033.jpg"},
+    {"observation": "Laptop frame and phone frame on the same patterned ground say 'web and mobile' without a caption.", "evidence": "f0014.jpg; f0020.jpg; f0034.jpg"},
+    {"observation": "Macro punch-ins make long typed text readable: line pitch 118 px at the macro frame against about 35 px in the wide composer.", "evidence": "f0004.jpg; f0005.jpg; f0026.jpg; strips/window-30-49.625s.jpg"},
+    {"observation": "A visible human edit (highlighted sentence replaced by the user's version) makes the draft feel under the user's control.", "evidence": "f0028.jpg to f0029.jpg, t=54 to 56 s"},
+    {"observation": "Restrained palette: one coral accent over blue and cream; look.json saturation 0.111.", "evidence": "measure/metrics.json look; f0036.jpg"},
+    {"observation": "End holds a tagline then a silent 2.6 s logo; the star grows first and the word types in.", "evidence": "f0038.jpg; strips/window-47-77.667s.jpg; silence_spans 78.235-80.694"}
+  ],
+  "weak": [
+    {"observation": "Master is hot: true peak +1 dBTP and -12 LUFS integrated, above the -1 dBTP ceiling and -14 LUFS target.", "evidence": "metrics.json sound.true_peak_db 1, lufs_integrated -12"},
+    {"observation": "Laptop-framed UI at 25-27 s and 66-67 s shows about 9 px text and cannot be read at phone width.", "evidence": "f0013.jpg; f0014.jpg; crops/laptop-ui.png"},
+    {"observation": "Cuts are not placed on musical onsets; they follow section boundaries only loosely.", "evidence": "cuts_on_strong_onset_share 0.083 vs chance_share 0.072"},
+    {"observation": "The longest shot runs 15.96 s (19.8% of runtime) with no cut, and 36-48 s is dense phone text that mostly scrolls.", "evidence": "metrics.json rhythm.longest_shot; f0021.jpg-f0024.jpg"}
+  ],
+  "rule_candidates": [
+    {"rule": "Show off-screen or waiting work as an abstract field with 2-4 blurred pills and one centred pill that types its status, instead of captioning that time has passed.", "evidence": "f0015.jpg-f0018.jpg (26.3-35.8 s) and f0031.jpg-f0033.jpg (60-66 s), about 9 s each.", "relation": "new", "skill_rule": "none"},
+    {"rule": "A calm productivity film can have no burst at all; use one three-cut punch-in cluster (here 49.71, 50.88, 51.46 s) on the reveal and let the rest breathe.", "evidence": "metrics.json rhythm.bursts is empty; cuts 49.71, 50.88, 51.46; median shot 2.79 s.", "relation": "contradicts", "skill_rule": "8"},
+    {"rule": "Place the hero reveal on a music section return: the lock-screen notification is up by 36 s as section B returns at 35.775 s (share 0.446).", "evidence": "f0019.jpg; audio sections B from 35.775 s; hero_moment share 0.446.", "relation": "extends", "skill_rule": "8"},
+    {"rule": "A one-line headline can run 7 words if it is the only element and 7.5% of frame height; build it word by word in 0.25 s so frame 0 already carries the subject.", "evidence": "title 54 px of 720; window-01-0.042s.jpg shows words in by 0.25 s.", "relation": "extends", "skill_rule": "3"},
+    {"rule": "Join scenes with a moving element, not a dissolve: slide the old device out (0.25 s) as the next icon rises, or scroll the chat away to expose the tagline.", "evidence": "strips/window-35-58.667s.jpg 58.67-58.92 s; strips/window-43-72.375s.jpg 74.04 s.", "relation": "confirms", "skill_rule": "7"},
+    {"rule": "When copy is too long to read, zoom until line pitch is above 10% of frame height (118 px of 720 at f0004) and cut back to the wide shot to show the whole box.", "evidence": "f0004.jpg macro versus f0006.jpg wide, cuts 5.0, 6.75, 8.29, 9.79 s.", "relation": "extends", "skill_rule": "5"},
+    {"rule": "Tell the proof with a named scenario carrying specific numbers and show the user's own edit to the output; specifics replace claims.", "evidence": "f0022.jpg ('Open tickets went from 4-5 to 14'); f0028.jpg-f0029.jpg edit.", "relation": "new", "skill_rule": "none"},
+    {"rule": "Keep median shot between 1.8 and 3.5 s even when single shots run long: this film's median is 2.79 s while the longest is 15.96 s.", "evidence": "metrics.json rhythm.median_shot_s 2.79, longest_shot 15.96.", "relation": "confirms", "skill_rule": "10"}
+  ],
+  "frames_opened": 40,
+  "crops_made": 7,
+  "unchecked": [
+    "Hold times of most on-screen lines were not measured: they were read from 2 s samples, not strips.",
+    "Tagline exit time between 74.6 s and 76 s was not sampled, so its hold is unknown.",
+    "Cut-to-cut transition type at 26.25 s was seen only in samples f0014 and f0015, not in a strip.",
+    "Sound effects cannot be heard; no sfx are claimed.",
+    "Product UI presence of 65% is an estimate from sampled frames, not measured."
+  ]
+}

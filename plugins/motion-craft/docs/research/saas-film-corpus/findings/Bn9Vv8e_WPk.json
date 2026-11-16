@@ -1,0 +1,143 @@
+{
+ "id": "Bn9Vv8e_WPk",
+ "title": "Harvey Mobile with Voice for iOS and Android",
+ "brand": "Harvey",
+ "duration_s": 19.08,
+ "status": "ok",
+ "format": "short-announcement",
+ "format_note": "19 s mobile-app teaser: tagline, phone opens, one dictated legal question and its answer, 'Coming Soon' with store badges, brand line.",
+ "one_thing": "You can ask Harvey a legal question by voice on your phone and get a cited answer; the apps are coming soon.",
+ "transcript": {
+  "source": "local-whisper",
+  "voiceover": "none-music-only",
+  "words_total": 13,
+  "words_per_minute": 40.9,
+  "voice_style": "No narrator. The only speech is the product's dictated user query, a neutral spoken question, one segment at 0-10.2 s per whisper.",
+  "script_shape": "Tagline, then a single question typed as it is spoken, then the answer, then two short claim lines and a brand line. All meaning is carried by on-screen text."
+ },
+ "structure": {
+  "frame0": "Off-white ground with a pale grey 'Harvey' wordmark mid-fade, left of centre; nothing else (f0001.jpg). Metrics flag it not-evidence.",
+  "first_3s": "Wordmark at 0-1.0 s; 'Legal Work, On the Move.' assembles word by word 1.04-1.25 s and holds to ~2.3 s; fades out and a grey phone appears at 2.5 s (strips/window-01, window-02).",
+  "beats": [
+   {"start_s": 0, "end_s": 1.0, "role": "logo", "what": "Pale 'Harvey' wordmark fades in on off-white ground."},
+   {"start_s": 1.0, "end_s": 2.4, "role": "hook", "what": "'Legal Work, On the Move.' appears word by word, then fades."},
+   {"start_s": 2.5, "end_s": 4.3, "role": "setup", "what": "Black phone with serif H splash, wakes to a white Harvey home screen between 3.3 and 3.7 s."},
+   {"start_s": 4.3, "end_s": 5.0, "role": "reveal", "what": "Camera pushes into the 'Ask Harvey anything' bar with plus, wand and mic icons."},
+   {"start_s": 5.0, "end_s": 10.2, "role": "demo", "what": "Voice dictation: purple stop button and waveform dots, question typed word by word, grey word trailing."},
+   {"start_s": 10.5, "end_s": 11.3, "role": "turn", "what": "Card zooms back out into a phone as the question is sent; spinner on the purple button."},
+   {"start_s": 11.3, "end_s": 13.4, "role": "proof", "what": "Answer screen: 13 Australian Privacy Principles listed, cited to Schedule 1 of the Privacy Act 1988."},
+   {"start_s": 13.8, "end_s": 15.3, "role": "payoff", "what": "'Work Without Boundaries' in large serif."},
+   {"start_s": 15.4, "end_s": 16.9, "role": "cta", "what": "'Coming Soon' with App Store and Google Play badges."},
+   {"start_s": 17.0, "end_s": 19.08, "role": "logo", "what": "'AI Tailored for Law' with small 'Harvey' wordmark below."}
+  ],
+  "hero_moment": {
+   "t_s": 12.0,
+   "share": 0.629,
+   "what": "The answer screen fills the phone: bold '13 Australian Privacy Principles' and a numbered list, the film's one concrete fact (f0007.jpg)."
+  },
+  "ending": {
+   "cta_text": "Coming Soon (App Store, Google Play badges); AI Tailored for Law",
+   "logo_hold_s": 1.8,
+   "what": "Availability line with two store badges, then a final brand line with the wordmark, held to the last frame."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 1,
+  "cuts_per_min": 3.14,
+  "median_shot_s": 9.54,
+  "how_change_is_paced": "One hard cut at 2.5 s; every other seam is a fade or a scale move. A 5.71 s hold (t=4.875) carries the dictation; later holds run 1.08-2.29 s (events.json holds). No burst."
+ },
+ "look": {
+  "ground": "Flat off-white (luma 246.2, saturation 0.001) filling every frame; no gradient or texture.",
+  "palette": ["off-white #FAFAFA ground", "near-black text", "pale grey placeholder text", "phone black bezel", "single purple #5B3FA6-ish accent on the stop button and waveform"],
+  "accent_use": "Purple appears only on the recording stop button and waveform dots (f0004, f0005) and the send spinner (f0006); everything else is monochrome.",
+  "type": "Large high-contrast serif for all headlines and the wordmark; neutral grotesque inside the app UI. One size per card, centred, no bold or colour changes in headlines.",
+  "title_height_pct": [6.9, 8.9],
+  "title_measurements": [
+   {"t_s": 2.0, "text": "Legal Work, On the Move.", "line_height_px": 64, "frame_height_px": 720, "pct": 8.9},
+   {"t_s": 14.5, "text": "Work Without Boundaries", "line_height_px": 50, "frame_height_px": 720, "pct": 6.9},
+   {"t_s": 16.1, "text": "Coming Soon", "line_height_px": 61, "frame_height_px": 720, "pct": 8.5},
+   {"t_s": 18.0, "text": "AI Tailored for Law", "line_height_px": 51, "frame_height_px": 720, "pct": 7.1},
+   {"t_s": 17.5, "text": "Harvey", "line_height_px": 25, "frame_height_px": 720, "pct": 3.5}
+  ],
+  "max_words_per_title_line": 5,
+  "density": "sparse",
+  "depth": "Flat; the phone has a soft drop shadow and a faint ghost outline while zooming (strips/window-04), otherwise no layers or parallax."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 60,
+  "shown_as": ["device-mockup", "redrawn-simplified-ui"],
+  "cursor": "none",
+  "camera_on_ui": "Push-in from phone to the input bar at 4.3-5.0 s, a flat card for the dictation 5-10 s, then a pull-back to the full phone at 10.5-11.2 s.",
+  "legible_at_phone_width": "partly",
+  "notes": "Input card and its icons read cleanly (crops/askbar.png, crops/voice.png). The answer screen, with the phone only 210 px wide, is legible at 1280 px but body text is about 1 % of frame height (crops/phone-answer.png)."
+ },
+ "motion": {
+  "text_entry": "Headline words fade in one after another within ~0.2 s (1.04-1.25 s); later titles fade up from pale grey to black over ~0.3 s (13.8-14.17 s); the typed query grows word by word with the newest word grey.",
+  "ui_motion": "Phone screen fades black to white in 0.5 s (3.2-3.7 s); waveform dots swell into bars during speech; purple button becomes a spinner on send.",
+  "camera": "Scale moves only: push into the input bar at 4.7-4.96 s, pull back to the phone at 10.6-11.2 s, phone shrinks and fades at 13.5-13.9 s.",
+  "eases": "Soft ease-in-out on all fades and scales; no overshoot or bounce seen in strips.",
+  "transitions": [
+   {"type": "fade-through-colour", "count": 3, "example_t_s": 2.4, "cause": "Title fades to the empty ground, next subject fades in; also 13.5-13.9 s and 15.1-15.5 s."},
+   {"type": "ui-state-change", "count": 1, "example_t_s": 3.4, "cause": "Phone wakes from splash to home screen."},
+   {"type": "continuous-camera-move", "count": 2, "example_t_s": 4.7, "cause": "Push into the input bar; pull back after send at 10.6 s."},
+   {"type": "hard-cut", "count": 1, "example_t_s": 2.5, "cause": "Title gone, phone present (metrics cut_times_s)."}
+  ],
+  "strips_read": [
+   "strips/window-01-1s.jpg", "strips/window-02-2.25s.jpg", "strips/window-03-3.209s.jpg", "strips/window-04-4.334s.jpg",
+   "strips/window-06-10.5s.jpg", "strips/window-07-13.375s.jpg", "strips/window-08-15.042s.jpg", "strips/window-09-16.667s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {"t_s": 1.3, "text": "Legal Work, On the Move.", "words": 5, "hold_s": 1.08},
+   {"t_s": 4.0, "text": "Ask Harvey anything", "words": 3, "hold_s": 0.6},
+   {"t_s": 8.0, "text": "Where are the Australian Privacy Principles set out, and how many are there?", "words": 13, "hold_s": 5.71},
+   {"t_s": 12.0, "text": "Location of the Australian Privacy Principles (APPs)", "words": 7, "hold_s": 2.29},
+   {"t_s": 14.1, "text": "Work Without Boundaries", "words": 3, "hold_s": 1.08},
+   {"t_s": 15.7, "text": "Coming Soon", "words": 2, "hold_s": 1.17},
+   {"t_s": 17.3, "text": "AI Tailored for Law", "words": 4, "hold_s": 1.83}
+  ],
+  "holds_vs_reading_rule": "Tagline: 1.08 s held against 2.0 s required. Work Without Boundaries: 1.08 against 1.4. Coming Soon: 1.17 against 1.1, met. Last line: 1.83 against the 2 s minimum, short."
+ },
+ "sound": {
+  "music": "Describe tags: music 0.87, orchestra 0.526, bowed_string_instrument 0.46, plucked_string_instrument 0.451, keyboard_musical 0.409. No steady beat (confidence 0.114, bpm null).",
+  "sfx": "Not identified; 121 onsets detected but no describe tag names an effect.",
+  "vo_music_balance": "No narrator. Speech heard by whisper in one 0-10.2 s segment; balance not measured.",
+  "energy_arc": "Three sections A 0-6.5 s, B 6.5-11.5 s, C 11.5-19.07 s. Loudness range 2.7 LU; integrated -13.3 LUFS, short-term max -12.5.",
+  "sync_to_picture": "cuts_on_strong_onset_share 1.0 against chance 0.158, but the film has one cut, so this does not show locking. Strong onsets fall at 2.445 s and 13.615 s, near a fade and a fade-out."
+ },
+ "good": [
+  {"observation": "One idea per card, centred on a flat ground, with a single accent colour reserved for the recording state. The eye never has to choose.", "evidence": "f0004.jpg, f0007.jpg; look.saturation 0.001"},
+  {"observation": "The feature is shown working with a real-sounding legal question: dictation, send, answer. The viewer sees the outcome, not a claim.", "evidence": "f0004-f0007; strips/window-06-10.5s.jpg"},
+  {"observation": "Headline type is large and consistent, 6.9-8.9 % of frame height, one line, at most 5 words.", "evidence": "title_measurements at t=2.0, 14.5, 16.1, 18.0"},
+  {"observation": "Scale moves, not cuts, join the phone and the input card: push in at 4.7 s and pull back at 10.6 s keep the same object on screen.", "evidence": "strips/window-04-4.334s.jpg, window-06-10.5s.jpg"},
+  {"observation": "The ending stacks three short statements in the same place and size: claim, availability with store badges, brand line.", "evidence": "f0008.jpg, strips/window-08-15.042s.jpg, f0010.jpg"},
+  {"observation": "The dictation card shows input state clearly: mic icon becomes purple stop button, dotted bar becomes a waveform, grey trailing word.", "evidence": "crops/askbar.png vs crops/voice.png"}
+ ],
+ "weak": [
+  {"observation": "The tagline is held about 1.1 s for five words, below the 2 s the reading rule asks for, and it then fades with no time to re-read.", "evidence": "events.json hold t=1.25 1.08 s; strips/window-01-1s.jpg"},
+  {"observation": "The answer screen is a 210 px-wide phone on a 1280 px frame, so list text is about 1 % of frame height; on a phone playback it would not be readable.", "evidence": "crops/phone-answer.png; f0007.jpg"},
+  {"observation": "Large empty ground on both sides of the phone for 2.5-14 s; the phone is 16 % of frame width.", "evidence": "f0002.jpg, f0007.jpg"},
+  {"observation": "Peak level is -0.1 dBTP, above the -1 dBTP ceiling, at -13.3 LUFS.", "evidence": "metrics.json sound.true_peak_db, lufs_integrated"}
+ ],
+ "rule_candidates": [
+  {"rule": "A faint lone wordmark at frame 0 can work if the claim headline is fully legible by 1.3 s and the first product frame arrives by 2.5 s.", "evidence": "f0001.jpg wordmark; strip window-01 headline complete at 1.25 s; phone at 2.5 s.", "relation": "contradicts", "skill_rule": "1"},
+  {"rule": "Show the feature end to end in one held take: input, state change, send, answer, with the answer's key fact (a number or named source) readable on screen.", "evidence": "Typed question 5-10 s, answer with '13 Australian Privacy Principles' at 12 s (f0007.jpg, crops/phone-answer.png).", "relation": "extends", "skill_rule": "10"},
+  {"rule": "In a sparse product teaser, link scenes with scale moves of one object (push-in, pull-back, 0.3-0.7 s) rather than cuts; one hard cut in 19 s is enough.", "evidence": "metrics hard_cuts 1; strips window-04 (4.7-4.96 s), window-06 (10.6-11.2 s).", "relation": "contradicts", "skill_rule": "10"},
+  {"rule": "Reserve one accent colour for the live-interaction state (record, send); keep all else monochrome so the state change is the loudest thing in the frame.", "evidence": "Purple only at crops/voice.png stop button and waveform; saturation 0.001.", "relation": "new", "skill_rule": "none"},
+  {"rule": "A soft film may use equal-length fades for headline entrance and exit (~0.3 s each) when each headline sits alone on an empty ground.", "evidence": "'Work Without Boundaries' in 13.83-14.17 s, out 15.08-15.4 s (strips window-07, window-08).", "relation": "contradicts", "skill_rule": "4"},
+  {"rule": "End with three stacked cards at the same centre and size: benefit line, availability plus store badges, brand line; give each 1.1-1.8 s and the last at least 2 s.", "evidence": "Cards at 14.1, 15.7, 17.3 s; heights 6.9-8.9 % (title_measurements); last held 1.83 s.", "relation": "extends", "skill_rule": "2"},
+  {"rule": "A product film can run on a near-empty off-white ground with the subject filling 60-68 % of frame height and nothing else on screen.", "evidence": "Phone 92-582 px of 720 in f0006.jpg; whitespace both sides across 2.5-14 s.", "relation": "contradicts", "skill_rule": "6"},
+  {"rule": "Keep true peak at or below -1 dBTP; this reference reaches -0.1 dBTP at -13.3 LUFS, which is a clipping risk after lossy encoding.", "evidence": "metrics.json sound.true_peak_db -0.1, lufs_integrated -13.3.", "relation": "contradicts", "skill_rule": "9"}
+ ],
+ "frames_opened": 10,
+ "crops_made": 6,
+ "unchecked": [
+  "Sound effects and whether the speech is audible: no listening possible; only tags, onsets and whisper.",
+  "f0009.jpg at t=16 shows blank ground while a separate decode at 16.0 s showed 'Coming Soon'; the 2 s sample is unreliable there.",
+  "Exact accent hex value is estimated by eye, not sampled.",
+  "Transcript tool was absent from ToolSearch; local whisper used."
+ ]
+}

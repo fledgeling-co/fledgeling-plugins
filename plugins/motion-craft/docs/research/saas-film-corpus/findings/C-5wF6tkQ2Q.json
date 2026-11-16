@@ -1,0 +1,347 @@
+{
+  "id": "C-5wF6tkQ2Q",
+  "title": "Claude Cowork is now your Chrome side panel",
+  "brand": "Claude",
+  "duration_s": 41.24,
+  "status": "ok",
+  "format": "product-demo-walkthrough",
+  "format_note": "One task told as a single scripted screen story: click the extension, type a prompt, watch tabs get worked through, receive a spreadsheet. No voice, music bed only.",
+  "one_thing": "Claude in Chrome's side panel can take one plain-English instruction and carry it across ten open tabs into a finished spreadsheet.",
+  "transcript": {
+    "source": "none",
+    "voiceover": "none-music-only",
+    "words_total": 0,
+    "words_per_minute": 0,
+    "voice_style": "No speech. YouTube had no caption track; local whisper returned only 'Music' cues at 0-2 s and 30-38 s.",
+    "script_shape": "All meaning is carried by 10 words of title and CTA copy plus the product's own UI text: prompt, status lines, reply and spreadsheet."
+  },
+  "structure": {
+    "frame0": "Cream ground, one line of near-black serif: 'Claude Cowork is now your Chrome side panel', 6 words, about 6.7% of frame height, centred (f0001.jpg). Subject named, product not yet shown.",
+    "first_3s": "Title holds about 2.25 s, then dissolves word by word left to right over about 0.7 s (strips/window-02-2.125s.jpg), blank at 2.96 s, hard cut at 3.0 s to a browser window on sage green.",
+    "beats": [
+      {
+        "start_s": 0,
+        "end_s": 3,
+        "role": "hook",
+        "what": "Title card states the news: Cowork is now a Chrome side panel."
+      },
+      {
+        "start_s": 3,
+        "end_s": 5.08,
+        "role": "setup",
+        "what": "Browser window on sage plate, ten tabs, a rent statement; cursor drifts to the top right."
+      },
+      {
+        "start_s": 5.08,
+        "end_s": 7.17,
+        "role": "reveal",
+        "what": "Cut to a crop of the toolbar; cursor clicks the Claude asterisk; the Claude tab group lights up orange."
+      },
+      {
+        "start_s": 7.17,
+        "end_s": 10,
+        "role": "reveal",
+        "what": "Side panel slides in beside the page; camera pushes down into its message box."
+      },
+      {
+        "start_s": 10,
+        "end_s": 14.5,
+        "role": "demo",
+        "what": "Prompt types in: 'Run my month-end close on these tabs...'; cursor clicks send at 14.4 s."
+      },
+      {
+        "start_s": 14.5,
+        "end_s": 19.33,
+        "role": "demo",
+        "what": "Panel shows the user bubble and 'Writing.'; camera pulls back to the full window."
+      },
+      {
+        "start_s": 19.33,
+        "end_s": 24,
+        "role": "demo",
+        "what": "Claude hops tab to tab (utility, courier, waste invoices) under a pale red edge glow and a Stop Claude pill."
+      },
+      {
+        "start_s": 24,
+        "end_s": 28,
+        "role": "turn",
+        "what": "Scene moves to the Cowork desktop window with Progress, Outputs, Claude in Chrome rows; text 'Running command...'."
+      },
+      {
+        "start_s": 28,
+        "end_s": 33,
+        "role": "proof",
+        "what": "Reply lists July total $10,017.80 and four flags; an Invoice Log spreadsheet panel slides in with status pills."
+      },
+      {
+        "start_s": 33,
+        "end_s": 37,
+        "role": "cta",
+        "what": "'Try it now: claude.com/chrome' alone on cream, drifts up and out."
+      },
+      {
+        "start_s": 37,
+        "end_s": 41.24,
+        "role": "logo",
+        "what": "Asterisk grows from a dot, the word 'Claude' types in beside it, holds, music stops at 39.7 s."
+      }
+    ],
+    "hero_moment": {
+      "t_s": 30,
+      "share": 0.727,
+      "what": "The finished Invoice Log spreadsheet beside Claude's reply: totals, ten vendors, coloured status pills (f0016.jpg). It is the payoff of the instruction typed at 10 s."
+    },
+    "ending": {
+      "cta_text": "Try it now: claude.com/chrome",
+      "logo_hold_s": 3.3,
+      "what": "CTA card of 4 words at about 6.8% height, then a typed-in Claude wordmark on cream held to the last frame."
+    }
+  },
+  "rhythm": {
+    "route": "hybrid",
+    "hard_cuts": 6,
+    "cuts_per_min": 8.73,
+    "median_shot_s": 3,
+    "how_change_is_paced": "Four cuts in the first 4.2 s (3.0, 5.08, 5.96, 7.17) set up the story, then one at 14.5 and one at 19.33. After that camera moves and UI changes carry it; the last detected shot is 21.9 s (53% of runtime). No burst."
+  },
+  "look": {
+    "ground": "Warm cream on title and end cards; muted sage green with faint wavy lines behind every product scene. Light throughout (light_share 1.0).",
+    "palette": [
+      "warm cream ground",
+      "near-black text",
+      "muted sage green plate",
+      "Claude coral asterisk and send button",
+      "orange tab-group outline",
+      "navy header on the rent portal",
+      "pale red glow on the working tab"
+    ],
+    "accent_use": "Coral is reserved for Claude: the toolbar asterisk, the send button, the working spinner and the logo mark (f0006.jpg, f0020.jpg). Orange outlines mark the Claude tab group.",
+    "type": "High-contrast serif for title, CTA and wordmark, sentence case, single line, no accent word. Product UI is set in its own sans and serif. Frame is 16:9.",
+    "title_height_pct": [
+      6.67,
+      6.81
+    ],
+    "title_measurements": [
+      {
+        "t_s": 0.5,
+        "text": "Claude Cowork is now your Chrome side panel",
+        "line_height_px": 48,
+        "frame_height_px": 720,
+        "pct": 6.67
+      },
+      {
+        "t_s": 35,
+        "text": "Try it now: claude.com/chrome",
+        "line_height_px": 49,
+        "frame_height_px": 720,
+        "pct": 6.81
+      },
+      {
+        "t_s": 39,
+        "text": "Claude wordmark with asterisk",
+        "line_height_px": 78,
+        "frame_height_px": 720,
+        "pct": 10.83
+      }
+    ],
+    "max_words_per_title_line": 7,
+    "density": "sparse",
+    "depth": "Flat window cards with soft shadow and rounded corners on a flat sage plate; layers slide and zoom, no 3D."
+  },
+  "product_ui": {
+    "presence_pct_runtime": 72,
+    "shown_as": [
+      "redrawn-simplified-ui",
+      "device-mockup"
+    ],
+    "cursor": "real",
+    "camera_on_ui": "Scripted crops and pushes: whole window at 3 s, toolbar crop at 5-7 s, message-box crop at 10-14 s, pull-back at 18 s, then the desktop window and spreadsheet panel with the reply filling the left half.",
+    "legible_at_phone_width": "partly",
+    "notes": "Fictional vendors and .example domains, so the UI is staged. Toolbar, prompt and status pills are large in crop; the reply paragraph and invoice rows are about 1.8% of frame height and would not read on a phone."
+  },
+  "motion": {
+    "text_entry": "Title is already on screen at frame 0. The wordmark types letter by letter in about 0.25 s (strips/window-26-37.5s.jpg). The prompt types live at 10-12 s.",
+    "ui_motion": "Side panel slides in from the right at 7.1-8 s; tab content swaps with a brief white wash; a pale red glow frames the page Claude is working on; the spreadsheet panel slides in at about 29-30 s.",
+    "camera": "Push-ins and pull-backs within shots: from window to toolbar, from panel down to message box, back out at 14.5 s. Stacked top and bottom crops at 6-8 s.",
+    "eases": "Not measured numerically. In the strips, title words fade out in order over about 0.7 s and the CTA lifts about 22 px while exiting at 36.75-37.0 s.",
+    "transitions": [
+      {
+        "type": "hard-cut",
+        "count": 6,
+        "example_t_s": 5.08,
+        "cause": "Cursor reaches the toolbar, cut to a close crop of the icon it will click."
+      },
+      {
+        "type": "continuous-camera-move",
+        "count": 3,
+        "example_t_s": 8.2,
+        "cause": "Panel opens, camera pushes down to the message box where the user types."
+      },
+      {
+        "type": "push-or-slide",
+        "count": 2,
+        "example_t_s": 7.1,
+        "cause": "Side panel and spreadsheet panel slide in from the right as the product acts."
+      },
+      {
+        "type": "ui-state-change",
+        "count": 4,
+        "example_t_s": 19.7,
+        "cause": "Claude switches tab; page content swaps under the red glow."
+      },
+      {
+        "type": "morph-or-shared-element",
+        "count": 1,
+        "example_t_s": 37.04,
+        "cause": "CTA gives way to a coral dot that grows into the asterisk."
+      }
+    ],
+    "strips_read": [
+      "strips/window-01-0s.jpg",
+      "strips/window-02-2.125s.jpg",
+      "strips/window-04-4.292s.jpg",
+      "strips/window-05-5.875s.jpg",
+      "strips/window-06-7s.jpg",
+      "strips/window-07-8.167s.jpg",
+      "strips/window-11-14.417s.jpg",
+      "strips/window-15-19.25s.jpg",
+      "strips/window-25-36.75s.jpg",
+      "strips/window-26-37.5s.jpg"
+    ]
+  },
+  "copy": {
+    "on_screen_lines": [
+      {
+        "t_s": 0,
+        "text": "Claude Cowork is now your Chrome side panel",
+        "words": 7,
+        "hold_s": 2.3
+      },
+      {
+        "t_s": 12,
+        "text": "Run my month-end close on these tabs. Pull each invoice and get it into the monthly report.",
+        "words": 17,
+        "hold_s": 2.4
+      },
+      {
+        "t_s": 16,
+        "text": "I'll start by seeing what tabs are open and what's needed for the spreadsheet.",
+        "words": 13,
+        "hold_s": 3
+      },
+      {
+        "t_s": 34,
+        "text": "Try it now: claude.com/chrome",
+        "words": 4,
+        "hold_s": 2.8
+      },
+      {
+        "t_s": 37.9,
+        "text": "Claude",
+        "words": 1,
+        "hold_s": 3.3
+      }
+    ],
+    "holds_vs_reading_rule": "Title: 7 words held about 2.3 s against 2.6 s by rule. CTA: 4 words held 2.8 s or more against 1.7 s. The 17-word prompt is held 2.4 s but stays in the chat bubble 10 s or more."
+  },
+  "sound": {
+    "music": "Music only, about 128 bpm (beat confidence 0.547), two sections: A 0-5 s, B 5 s to end. Describe tags: brass_instrument 0.59, trombone 0.515, trumpet 0.463, percussion 0.388.",
+    "sfx": "None evidenced. Audio kind reads as music and no sound-effect tags appear in the describe list.",
+    "vo_music_balance": "No voice. Integrated -15.4 LUFS, short-term max -13.4, true peak -1.5 dBTP, loudness range 6.5 LU.",
+    "energy_arc": "Constant bed from 0 to 39.7 s, then silence for the last 1.5 s (silence span 39.735-41.234) under the held logo.",
+    "sync_to_picture": "1 of 6 cuts lands on a strong onset (0.167 against 0.057 by chance, 0.11 above): a faint lock at best. Not heard by me."
+  },
+  "good": [
+    {
+      "observation": "Frame 0 is a finished poster: the news in one 6.7%-high serif line, centred, no logo or black. The title leaves in reading order, then the cut to the product follows at once.",
+      "evidence": "f0001.jpg; strips/window-02-2.125s.jpg; ink 48 px"
+    },
+    {
+      "observation": "Cuts follow the cursor: it heads to the toolbar and the film cuts to a close crop of the target; the click at 14.4 s cuts to the working panel at 14.5 s.",
+      "evidence": "strips/window-04-4.292s.jpg; strips/window-11-14.417s.jpg"
+    },
+    {
+      "observation": "The prompt is shown in a large crop and typed live, so the one fact the viewer needs is readable at phone size before the camera pulls back.",
+      "evidence": "f0006.jpg, f0007.jpg; crops/panel-small.png"
+    },
+    {
+      "observation": "Autonomy is shown without words: a pale red edge glow, a Stop Claude pill and tab-to-tab hops make 'it is working across your tabs' visible.",
+      "evidence": "f0010.jpg, f0011.jpg, f0012.jpg"
+    },
+    {
+      "observation": "The proof is a concrete artifact: a ten-row invoice log with Pending, Overdue, Paid pills beside a reply quoting dollar figures.",
+      "evidence": "f0016.jpg; crops/table-status.png"
+    },
+    {
+      "observation": "The ending is quiet and complete: a 4-word CTA, then the mark builds from a dot and holds 3.3 s, with music out at 39.7 s.",
+      "evidence": "f0018.jpg, f0020.jpg; metrics.json sound.silence_spans"
+    },
+    {
+      "observation": "Two grounds and one accent colour: cream for statements, sage for product, coral only on Claude elements. Scenes feel like one object.",
+      "evidence": "f0001.jpg, f0003.jpg, f0010.jpg"
+    }
+  ],
+  "weak": [
+    {
+      "observation": "The reply paragraph and invoice rows are about 13 px, 1.8% of frame height, held for 6 s or more; they cannot be read on a phone and carry the proof by texture alone.",
+      "evidence": "f0015.jpg; crops/reply.png"
+    },
+    {
+      "observation": "The promised panel does not appear until about 7.2 s; the first 7 s are title, a rent statement and a cursor, so product payoff is late for a 41 s film.",
+      "evidence": "strips/window-06-7s.jpg; f0003.jpg"
+    }
+  ],
+  "rule_candidates": [
+    {
+      "rule": "When the title card is finished, dissolve its words in reading order over about 0.7 s and cut to the first product frame within 0.05 s of the last word leaving.",
+      "evidence": "strips/window-02-2.125s.jpg: words leave 2.25-2.96 s, product at 3.0 s",
+      "relation": "extends",
+      "skill_rule": "4"
+    },
+    {
+      "rule": "When the action target is under about 2% of frame width, cut to a crop that makes it about 5% wide, with the cursor in shot, so the click is visible.",
+      "evidence": "f0003.jpg icon about 14 px vs f0004.jpg about 60 px",
+      "relation": "extends",
+      "skill_rule": "6"
+    },
+    {
+      "rule": "Cause every cut with a cursor move or click: cuts at 5.08, 5.96 and 14.5 s each follow cursor arrival or a click on the previous shot.",
+      "evidence": "strips/window-04-4.292s.jpg, window-11-14.417s.jpg",
+      "relation": "confirms",
+      "skill_rule": "7"
+    },
+    {
+      "rule": "Let ambient UI text sit under 2.6% of frame height only when a large crop in the same sequence has already shown the key words at readable size.",
+      "evidence": "reply text 1.8% in f0015.jpg; prompt readable in f0007.jpg",
+      "relation": "contradicts",
+      "skill_rule": "2"
+    },
+    {
+      "rule": "Show an agent working with visible state, not words: edge glow, a stop control and tab hops for 4-5 s of runtime.",
+      "evidence": "f0010.jpg-f0012.jpg, strips/window-15-19.25s.jpg at 19.25-20.3 s",
+      "relation": "new",
+      "skill_rule": "none"
+    },
+    {
+      "rule": "End on a 4-word CTA held at least 2.5 s, then build the logo from a dot over about 0.6 s, type the wordmark in 0.25 s and hold 3 s or more.",
+      "evidence": "f0018.jpg; strips/window-25-36.75s.jpg, window-26-37.5s.jpg; hold 37.9-41.24 s",
+      "relation": "confirms",
+      "skill_rule": "2"
+    },
+    {
+      "rule": "A calm walkthrough can run without a cut burst: 6 cuts in 41 s, median shot 3.0 s, no burst, hero at 73% of runtime as a finished artifact.",
+      "evidence": "metrics.json rhythm.bursts empty, median_shot_s 3",
+      "relation": "contradicts",
+      "skill_rule": "8"
+    }
+  ],
+  "frames_opened": 21,
+  "crops_made": 5,
+  "unchecked": [
+    "Audio not heard; sound read from audio.json tags and metrics only.",
+    "f0002.jpg (t=2 s) is blank cream while strips/window-02 shows the title at 2.125 s; cause not resolved.",
+    "Mechanism of the 22-24 s switch to the Cowork desktop window and the 29-30 s spreadsheet slide-in: strips not opened.",
+    "Hard-cut share of all seams not computed; soft seams after 19.33 s not catalogued.",
+    "Hero moment on the strongest musical point: not checked beyond the cut-share metric."
+  ]
+}

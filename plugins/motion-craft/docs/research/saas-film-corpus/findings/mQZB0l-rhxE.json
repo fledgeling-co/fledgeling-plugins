@@ -1,0 +1,427 @@
+{
+ "id": "mQZB0l-rhxE",
+ "title": "Building verification loops in Claude Code",
+ "brand": "Claude",
+ "duration_s": 187.5,
+ "status": "ok",
+ "format": "tutorial",
+ "format_note": "Presenter-led how-to: on-camera talk cut with typographic cards, a loop diagram and real app screen recordings; no music, no logo end card.",
+ "one_thing": "Checks you do by hand can be codified so Claude verifies its own work in a loop.",
+ "transcript": {
+  "source": "human-captions",
+  "voiceover": "on-camera-presenter",
+  "words_total": 555,
+  "words_per_minute": 177.6,
+  "voice_style": "Calm, conversational, unhurried; steady explanatory pace with pauses at most cuts; no hype or sales language.",
+  "script_shape": "Loop explained, manual QA named per platform, verify skill shown, extended with a layout-shift trace, demoed on a Like button, closed by a rule of thumb."
+ },
+ "structure": {
+  "frame0": "Presenter at a desk in a warm room with a lower-third 'Delba de Oliveira / Claude Code'; subject and speaker are present at t=0, not black or logo.",
+  "first_3s": "Talking head speaks the first line, then at 2.58 a short dissolve to a cream card with one 'Prompt' box that starts the loop diagram.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 2.58,
+    "role": "hook",
+    "what": "Presenter opens: 'For every prompt you send, Claude Code runs a loop', lower-third naming her."
+   },
+   {
+    "start_s": 2.58,
+    "end_s": 8.42,
+    "role": "setup",
+    "what": "Diagram builds box by box: Prompt, Gather context, Take action, Verify results, with a return arrow."
+   },
+   {
+    "start_s": 8.42,
+    "end_s": 19.5,
+    "role": "problem",
+    "what": "Presenter and real browser and chat screens show the verify step being you clicking around the page."
+   },
+   {
+    "start_s": 19.5,
+    "end_s": 34.12,
+    "role": "setup",
+    "what": "Card 'Hand off your manual checks' then 'Verifying a change': grid of tests, type checks, linters turns green."
+   },
+   {
+    "start_s": 34.12,
+    "end_s": 56.17,
+    "role": "turn",
+    "what": "Manual QA table adds Web app, Back end, Mobile app rows, voice says passing checks does not prove intent."
+   },
+   {
+    "start_s": 56.17,
+    "end_s": 61.25,
+    "role": "proof",
+    "what": "iOS Simulator inside the app window: quantity 2 yet total $4.50, Claude edits, total $9.00."
+   },
+   {
+    "start_s": 61.25,
+    "end_s": 113.21,
+    "role": "demo",
+    "what": "'Codify your checks', then /verify creates SKILL.md; presenter interleaves; a step is added to the skill; 'The verification loop' card."
+   },
+   {
+    "start_s": 113.21,
+    "end_s": 155.71,
+    "role": "demo",
+    "what": "One 42.5 s screen shot: Like button task, CLS 0.19 found, banner fix, CLS 0.00, cursor tracks the summary."
+   },
+   {
+    "start_s": 155.71,
+    "end_s": 182.29,
+    "role": "payoff",
+    "what": "Presenter then cards 'When Claude can verify its own work' with three lines and 'What to codify next' with three examples."
+   },
+   {
+    "start_s": 182.29,
+    "end_s": 187.5,
+    "role": "cta",
+    "what": "Presenter closes on camera with the rule of thumb; no logo or URL card."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 142,
+   "share": 0.757,
+   "what": "Chat shows 'CLS went from 0.19 to 0.00' and the verified summary; the failing-then-passing check is the proof the film exists to show."
+  },
+  "ending": {
+   "cta_text": "none",
+   "logo_hold_s": 0,
+   "what": "Last 5.2 s is the presenter speaking to camera after the 'What to codify next' card; no logo, URL or end card."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 27,
+  "cuts_per_min": 8.64,
+  "median_shot_s": 4.81,
+  "how_change_is_paced": "Alternates presenter shots of 2-13 s with cream or tan cards; cuts at 8.64 a minute with no burst; one 42.5 s screen shot (22.7% of runtime) carries the demo; card lists build a row per spoken item."
+ },
+ "look": {
+  "ground": "Warm cream (#F5F4ED-like) and tan cards for graphics; screen recordings sit in a window on a mid blue ground; presenter shot is warm and dark.",
+  "palette": [
+   "cream card",
+   "tan card",
+   "sage green box",
+   "pale blue box",
+   "terracotta accent",
+   "mid blue window ground",
+   "near-black text"
+  ],
+  "accent_use": "Terracotta only for the product's own UI (ACME COFFEE label, Liked pill, spinner); sage, pink and blue tint boxes encode pass, fail and verify.",
+  "type": "High-contrast serif for card titles and the lower-third name; grotesque sans for lists and UI; titles sit left-aligned at an indented margin, list rows in two columns.",
+  "title_height_pct": [
+   5.0,
+   9.0
+  ],
+  "title_measurements": [
+   {
+    "t_s": 24,
+    "text": "Verifying a change",
+    "line_height_px": 39,
+    "frame_height_px": 720,
+    "pct": 5.4
+   },
+   {
+    "t_s": 40,
+    "text": "Manual QA",
+    "line_height_px": 36,
+    "frame_height_px": 720,
+    "pct": 5.0
+   },
+   {
+    "t_s": 110,
+    "text": "The verification loop",
+    "line_height_px": 65,
+    "frame_height_px": 720,
+    "pct": 9.0
+   },
+   {
+    "t_s": 166.5,
+    "text": "What to codify next",
+    "line_height_px": 38,
+    "frame_height_px": 720,
+    "pct": 5.3
+   }
+  ],
+  "max_words_per_title_line": 7,
+  "density": "sparse",
+  "depth": "Flat: cards are plain colour with no shadow or texture; the only depth is the app window floating on the blue ground and the phone bezel."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 42,
+  "shown_as": [
+   "real-ui-capture",
+   "device-mockup"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Screen shots are static crops of the app window with scrolling text; a cropped-in browser view at t=12 and the simulator at t=58; no zoom or pan moves.",
+  "legible_at_phone_width": "partly",
+  "notes": "Chat text is about 17 px tall on a 720 px frame and code lines smaller, so only the bold result lines read at phone width. Key lines like 'CLS went from 0.19 to 0.00' are small; the film relies on voice to carry them."
+ },
+ "motion": {
+  "text_entry": "Card titles fade in softly with a brief blur; list rows are added one at a time and held; exits fade word by word left to right in about 0.35 s (strips/window-14-20.5s.jpg).",
+  "ui_motion": "Chat messages type in, tool rows stack, old lines fade to grey as new ones arrive, and the spinner runs; a real cursor moves over the result text in the long shot.",
+  "camera": "No camera moves on cards or UI; the presenter shot is locked off and the only movement is hand gesture.",
+  "eases": "Soft opacity fades; arrow and box appear in sequence in the diagram (strips/window-03-5.709s.jpg); no bounce or overshoot seen.",
+  "transitions": [
+   {
+    "type": "cross-dissolve",
+    "count": 14,
+    "example_t_s": 2.58,
+    "cause": "Presenter to card, a one-to-two frame dissolve as she finishes a sentence."
+   },
+   {
+    "type": "fade-through-colour",
+    "count": 6,
+    "example_t_s": 21.04,
+    "cause": "Text fades out on tan, card changes to cream and next title blurs in."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 12,
+    "example_t_s": 63.75,
+    "cause": "Typed text in the chat box changes the UI; slash menu opens."
+   },
+   {
+    "type": "hard-cut",
+    "count": 4,
+    "example_t_s": 75.62,
+    "cause": "Presenter picks up after screen demo."
+   },
+   {
+    "type": "other",
+    "count": 1,
+    "example_t_s": 63.54,
+    "cause": "Blurred app window sharpens into place after the card."
+   }
+  ],
+  "strips_read": [
+   "strips/window-02-1.417s.jpg",
+   "strips/window-03-5.709s.jpg",
+   "strips/window-07-10.834s.jpg",
+   "strips/window-14-20.5s.jpg",
+   "strips/window-22-37.334s.jpg",
+   "strips/window-26-53.292s.jpg",
+   "strips/window-33-63s.jpg",
+   "strips/window-60-112.667s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "Delba de Oliveira / Claude Code",
+    "words": 5,
+    "hold_s": 2.6
+   },
+   {
+    "t_s": 19.5,
+    "text": "Hand off your manual checks",
+    "words": 5,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 21.5,
+    "text": "Verifying a change",
+    "words": 3,
+    "hold_s": 12.6
+   },
+   {
+    "t_s": 37.5,
+    "text": "Manual QA",
+    "words": 2,
+    "hold_s": 12.4
+   },
+   {
+    "t_s": 39,
+    "text": "Web app: Open the page, click around, watch the console",
+    "words": 11,
+    "hold_s": 10.8
+   },
+   {
+    "t_s": 42,
+    "text": "Back end: Call an endpoint, read the response",
+    "words": 8,
+    "hold_s": 7.8
+   },
+   {
+    "t_s": 45,
+    "text": "Mobile app: Tap through the screens in a simulator",
+    "words": 9,
+    "hold_s": 4.9
+   },
+   {
+    "t_s": 61.25,
+    "text": "Codify your checks",
+    "words": 3,
+    "hold_s": 2.3
+   },
+   {
+    "t_s": 109.33,
+    "text": "The verification loop",
+    "words": 3,
+    "hold_s": 3.1
+   },
+   {
+    "t_s": 158.54,
+    "text": "When Claude can verify its own work",
+    "words": 7,
+    "hold_s": 8.9
+   },
+   {
+    "t_s": 160.5,
+    "text": "It gets further on its own",
+    "words": 6,
+    "hold_s": 7
+   },
+   {
+    "t_s": 162.5,
+    "text": "The result is better",
+    "words": 4,
+    "hold_s": 5
+   },
+   {
+    "t_s": 164.5,
+    "text": "It takes fewer rounds of back and forth",
+    "words": 8,
+    "hold_s": 3
+   },
+   {
+    "t_s": 174.12,
+    "text": "What to codify next",
+    "words": 4,
+    "hold_s": 8.2
+   },
+   {
+    "t_s": 176.5,
+    "text": "A performance budget",
+    "words": 3,
+    "hold_s": 5.8
+   },
+   {
+    "t_s": 178.5,
+    "text": "An accessibility checklist",
+    "words": 3,
+    "hold_s": 3.8
+   },
+   {
+    "t_s": 180.5,
+    "text": "Your design system's rules",
+    "words": 4,
+    "hold_s": 1.8
+   }
+  ],
+  "holds_vs_reading_rule": "Card lines hold far longer than 0.5 s + 0.3 s a word because they trail the voice; the last list line holds about 1.8 s, under the 2 s floor."
+ },
+ "sound": {
+  "music": "No music evidenced: describe tags give speech 0.916 and music 0.105, below the 0.2 floor, and there is no steady beat (bpm null).",
+  "sfx": "No sfx evidenced; describe tags show only click 0.113 and writing 0.155, both below 0.2.",
+  "vo_music_balance": "Voice only; integrated loudness -23.9 LUFS, short-term max -21.2, true peak -4.6 dBTP, loudness range 3.5 LU.",
+  "energy_arc": "Flat and conversational throughout; strong onsets about 20.5 a minute come from speech; silence gaps of 0.3-1 s fall near most cuts.",
+  "sync_to_picture": "cuts_on_strong_onset_share 0.111 against chance 0.077 is a 0.034 gap, so cuts are not locked to the sound; they follow sentence ends in the speech."
+ },
+ "good": [
+  {
+   "observation": "The diagram builds one box per spoken phrase, so voice and picture state the same loop; the return arrow lands as the verify step is named.",
+   "evidence": "f0004.jpg; strips/window-03-5.709s.jpg; transcript 00:03"
+  },
+  {
+   "observation": "The proof is shown as a failing then passing state in real UI: total $4.50 with quantity 2, then $9.00 after the fix.",
+   "evidence": "sheet-02.jpg 58 s, f0031.jpg; crops/simulator.png"
+  },
+  {
+   "observation": "Card lists add one row per spoken item and keep earlier rows, so the viewer reads along and the full list is on screen at the end.",
+   "evidence": "f0020.jpg to f0025.jpg sequence; f0091.jpg"
+  },
+  {
+   "observation": "A single long uncut screen shot of 42.5 s carries the demo, with greyed-out old lines and a cursor showing where to read.",
+   "evidence": "metrics rhythm.longest_shot 113.21-155.71; f0067.jpg, f0073.jpg"
+  },
+  {
+   "observation": "Restrained palette and a single serif and sans pairing make the cards and the product windows feel like one house style.",
+   "evidence": "f0013.jpg, f0056.jpg, f0034.jpg"
+  },
+  {
+   "observation": "Presenter returns at sentence ends, so the human voice frames each card, with a lower-third on frame 0.",
+   "evidence": "f0001.jpg; cut_times_s in metrics"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Chat and code text in screen shots is small; at phone width only the bold result lines would read.",
+   "evidence": "crops/skillmd.png; f0067.jpg"
+  },
+  {
+   "observation": "Loudness is -23.9 LUFS with a -4.6 dBTP peak, well below a social master's -14 LUFS.",
+   "evidence": "metrics sound.lufs_integrated"
+  },
+  {
+   "observation": "No end card, URL or logo; the film ends on the presenter's last sentence.",
+   "evidence": "f0094.jpg; sheet-06.jpg"
+  },
+  {
+   "observation": "'When Claude can verify its own work' runs 7 words on a line and the last list line holds under 2 s.",
+   "evidence": "f0080.jpg; f0091.jpg"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "When a spoken list has three parts, show a card that adds one row per item and leaves earlier rows on screen until the card ends.",
+   "evidence": "f0020.jpg, f0022 sequence 40-48 s; Manual QA rows at 39, 42, 45 s",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Show a verify step as a fail state then a pass state in the same real UI with one changed number.",
+   "evidence": "$4.50 with quantity 2 at 58 s (sheet-02.jpg), $9.00 at 60 s (f0031.jpg); CLS 0.19 to 0.00",
+   "relation": "confirms",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "A tutorial may cut every 4.8 s median, not 1.8-3.5 s, when voice carries the content and shots change at sentence ends.",
+   "evidence": "median_shot_s 4.81; 27 cuts; longest shot 42.5 s",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Brief 1-2 frame dissolves are tolerable between a presenter and a card when voice continues across them.",
+   "evidence": "strips/window-02-1.417s.jpg f63 blend at 2.625 s",
+   "relation": "extends",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "Fade card text out word by word left to right in about 0.35 s; exits shorter than the 0.5 s title entrance.",
+   "evidence": "strips/window-14-20.5s.jpg 20.5-20.9 s",
+   "relation": "confirms",
+   "skill_rule": "4"
+  },
+  {
+   "rule": "Voice-only tutorials need no music, but loudness should still reach -14 LUFS for social; this film sits at -23.9.",
+   "evidence": "lufs_integrated -23.9; true_peak_db -4.6; music tag 0.105",
+   "relation": "extends",
+   "skill_rule": "9"
+  },
+  {
+   "rule": "Open a presenter film on frame 0 with the speaker and a lower-third name, then reach the first graphic within 3 s.",
+   "evidence": "f0001.jpg; first_cut_s 2.58",
+   "relation": "confirms",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Keep card titles to 5-9 % of frame height with at most 6 words; a 7-word line read at 5.4 % feels long.",
+   "evidence": "title_measurements 5.0-9.0 %; f0080.jpg 7 words",
+   "relation": "confirms",
+   "skill_rule": "3"
+  }
+ ],
+ "frames_opened": 48,
+ "crops_made": 6,
+ "unchecked": [
+  "Sound was not heard: only transcript, audio.json and metrics.",
+  "Title height of 'When Claude can verify its own work' not measured; ink region clipped.",
+  "Exact dissolve length between presenter and card judged from three strip frames only.",
+  "Strips for 113-188 s not provided, so the Like-button shot's internal motion is read from sheets."
+ ]
+}

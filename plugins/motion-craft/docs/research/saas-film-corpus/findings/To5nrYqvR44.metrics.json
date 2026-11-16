@@ -1,0 +1,250 @@
+{
+ "id": "To5nrYqvR44",
+ "title": "Meet Claude Slides, Claude Design and Claude Docs",
+ "uploader": "Claude",
+ "duration_s": 94.64,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 18,
+  "cuts_per_min": 11.41,
+  "cut_times_s": [
+   20.58,
+   24.46,
+   27,
+   28.17,
+   29.5,
+   31.46,
+   33.42,
+   34.79,
+   36.67,
+   42.08,
+   46.71,
+   50.38,
+   55.33,
+   56,
+   57.62,
+   74.04,
+   76.17,
+   81.38
+  ],
+  "median_shot_s": 2.54,
+  "mean_shot_s": 4.98,
+  "shots_over_10s": 3,
+  "first_cut_s": 20.58,
+  "not_cuts": [
+   {
+    "t": 31.38,
+    "kind": "fast"
+   },
+   {
+    "t": 44.54,
+    "kind": "fast"
+   },
+   {
+    "t": 44.62,
+    "kind": "fast"
+   },
+   {
+    "t": 52.92,
+    "kind": "fast"
+   }
+  ],
+  "longest_shot": {
+   "start": 0,
+   "end": 20.58,
+   "seconds": 20.58,
+   "share_of_runtime": 0.217
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 11,
+   "flash": 0,
+   "appear": 18,
+   "disappear": 16,
+   "change": 88,
+   "hold": 42
+  },
+  "holds_over_1s": 9,
+  "median_hold_s": 0.85,
+  "longest_hold_s": 4,
+  "windows": 64
+ },
+ "frames": {
+  "count": 47,
+  "not_evidence_frames": [],
+  "dark_share": 0.17,
+  "light_share": 0.681,
+  "median_contentful_cells": 0.306,
+  "intervals_new_composition_share": 0.37,
+  "intervals_static_share": 0.13,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 8,
+  "frame0": {
+   "meanLuminance": 0.9439,
+   "contentfulCells": 0.25,
+   "blankCells": 0.7312,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0038.jpg",
+  "f0039.jpg",
+  "f0040.jpg",
+  "f0041.jpg",
+  "f0042.jpg",
+  "f0043.jpg",
+  "f0044.jpg",
+  "f0045.jpg",
+  "f0046.jpg",
+  "f0047.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -15,
+  "lufs_short_term_max": -11.6,
+  "true_peak_db": 0.1,
+  "bpm": 115.5,
+  "beats": {
+   "count": 170,
+   "confidence": 0.293,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 91.01,
+    "end": 94.634
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 5.485,
+    "label": "A"
+   },
+   {
+    "start": 5.485,
+    "end": 16.315,
+    "label": "B"
+   },
+   {
+    "start": 16.315,
+    "end": 27.985,
+    "label": "C"
+   },
+   {
+    "start": 27.985,
+    "end": 44.995,
+    "label": "D"
+   },
+   {
+    "start": 44.995,
+    "end": 50.315,
+    "label": "E"
+   },
+   {
+    "start": 50.315,
+    "end": 66.885,
+    "label": "F"
+   },
+   {
+    "start": 66.885,
+    "end": 77.895,
+    "label": "C"
+   },
+   {
+    "start": 77.895,
+    "end": 89.905,
+    "label": "G"
+   },
+   {
+    "start": 89.905,
+    "end": 94.634,
+    "label": "H"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.781
+   ],
+   [
+    "keyboard_musical",
+    0.509
+   ],
+   [
+    "percussion",
+    0.448
+   ],
+   [
+    "piano",
+    0.39
+   ],
+   [
+    "drum",
+    0.345
+   ],
+   [
+    "synthesizer",
+    0.339
+   ],
+   [
+    "mallet_percussion",
+    0.304
+   ],
+   [
+    "plucked_string_instrument",
+    0.264
+   ]
+  ],
+  "lra_lu": 5.5,
+  "cuts_on_strong_onset_share": 0.167,
+  "chance_share": 0.128,
+  "strong_onsets_per_min": 40.6
+ },
+ "look": {
+  "luma": 197.1,
+  "contrast": 44.1,
+  "saturation": 0.108,
+  "bw_share": 0.19,
+  "warmth": -5.2
+ }
+}

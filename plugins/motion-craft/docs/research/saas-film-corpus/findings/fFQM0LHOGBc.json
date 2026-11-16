@@ -1,0 +1,367 @@
+{
+ "id": "fFQM0LHOGBc",
+ "title": "Build Your Own Legal AI Agents with Harvey Workflow Builder",
+ "brand": "Harvey",
+ "duration_s": 176.76,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "Narrated screen recording of building and running one workflow in Harvey, with digital zooms and serif title cards at both ends.",
+ "one_thing": "Build one two-branch buyer/supplier workflow live, step by step, then run both branches and publish it, so 'if you can define the process, you can build it' is shown.",
+ "transcript": {
+  "source": "auto-captions",
+  "voiceover": "narrator-vo",
+  "words_total": 535,
+  "words_per_minute": 181.6,
+  "voice_style": "Calm, even, instructional narrator; second-person imperatives ('Click add step'), no hype, no music-led emphasis.",
+  "script_shape": "One-sentence pitch, then a worked example narrated action by action in build order, a test run of both branches, access and publish, and a one-line close at about 2:50."
+ },
+ "structure": {
+  "frame0": "Near-black ground with the serif word 'Harvey' fading in (f0001.jpg); at t=0.15-0.2s the strip shows empty dark, the word appears by 0.2s. The subject is the brand, not the product.",
+  "first_3s": "Harvey wordmark (0.2-1.4s) hard-cuts to a white 'Workflow Builder' title (1.4-3.6s), then fades through grey into the finished workflow canvas (strips/window-03-3.55s.jpg).",
+  "beats": [
+   {
+    "start_s": 0.2,
+    "end_s": 1.4,
+    "role": "logo",
+    "what": "Harvey wordmark, white serif on near-black."
+   },
+   {
+    "start_s": 1.4,
+    "end_s": 3.6,
+    "role": "hook",
+    "what": "'Workflow Builder' title card, black serif on white."
+   },
+   {
+    "start_s": 3.6,
+    "end_s": 9.8,
+    "role": "reveal",
+    "what": "Finished Supply Agreement Analysis canvas shown whole inside a framed window over a textured grey backdrop."
+   },
+   {
+    "start_s": 9.8,
+    "end_s": 11.1,
+    "role": "setup",
+    "what": "Black card with the single word 'Build'."
+   },
+   {
+    "start_s": 11.1,
+    "end_s": 19.5,
+    "role": "setup",
+    "what": "Empty canvas, one 'Add step' button, cursor drifts in."
+   },
+   {
+    "start_s": 19.5,
+    "end_s": 28.3,
+    "role": "demo",
+    "what": "Zoom into Edit workflow details modal: name, practice areas, description typed."
+   },
+   {
+    "start_s": 28.3,
+    "end_s": 51,
+    "role": "demo",
+    "what": "Add step menu, then File upload block configured: message, one file, accepted types, label."
+   },
+   {
+    "start_s": 51,
+    "end_s": 60,
+    "role": "demo",
+    "what": "Selection list asks buyer or supplier; Conditional block added with Buyer and Supplier conditions."
+   },
+   {
+    "start_s": 60,
+    "end_s": 91,
+    "role": "demo",
+    "what": "Buyer branch: Prompt typed char by char to 413/4000, model dropdown, context supply_agreement, output buyer_analysis, Response block."
+   },
+   {
+    "start_s": 91,
+    "end_s": 115,
+    "role": "demo",
+    "what": "Supplier branch: second Prompt typed, context set, output supplier_analysis, Response block."
+   },
+   {
+    "start_s": 115,
+    "end_s": 118,
+    "role": "turn",
+    "what": "Zoomed-out canvas, then a black frame at t=118 before the test."
+   },
+   {
+    "start_s": 120,
+    "end_s": 154,
+    "role": "proof",
+    "what": "Test run: upload Humacyte Supply Agreement.pdf, choose Buyer, then Supplier; cited red flags, then clause language and a comparison table."
+   },
+   {
+    "start_s": 154.6,
+    "end_s": 161,
+    "role": "demo",
+    "what": "Manage build access dialog: add blake@harvey.ai, set Can view."
+   },
+   {
+    "start_s": 161,
+    "end_s": 168.5,
+    "role": "payoff",
+    "what": "Publish click, 'Workflow published' dialog with run-access list."
+   },
+   {
+    "start_s": 168.5,
+    "end_s": 173.2,
+    "role": "proof",
+    "what": "Workflows library grid of prebuilt cards; detail dialog for one."
+   },
+   {
+    "start_s": 173.3,
+    "end_s": 176.8,
+    "role": "logo",
+    "what": "Fade to black with Harvey wordmark returning."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 150,
+   "share": 0.849,
+   "what": "Supplier run output at full width with the Raw Materials-to-Indemnity comparison table and citation numbers (f0076.jpg), the payoff of the branch logic."
+  },
+  "ending": {
+   "cta_text": "none on screen; narration says 'If you can define the process, you can build the workflow.'",
+   "logo_hold_s": 3.5,
+   "what": "Workflows library, then fade to black; f0088.jpg shows the Harvey wordmark nearly faded into near-black at t=174."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 24,
+  "cuts_per_min": 8.15,
+  "median_shot_s": 3.51,
+  "how_change_is_paced": "Long continuous screen-recording takes (longest 53.1s, 30% of runtime, t=85.5-138.6) paced by narration; digital zooms with motion blur re-frame at 19.5, 28.2, 51.1 and 59.3s. Hard cuts cluster at title cards and the 154-156s access section. No burst (bursts: [])."
+ },
+ "look": {
+  "ground": "Near-black title cards at both ends with one white-ground card between; product sits in a framed window over a desaturated, textured grey foliage backdrop.",
+  "palette": [
+   "near-black #0e0e0e",
+   "off-white #fafafa",
+   "warm grey UI",
+   "black buttons",
+   "pale blue, purple, amber, green block icons"
+  ],
+  "accent_use": "No brand accent colour. Only small pastel block icons and a green tick on the published dialog (f0082.jpg); the black Publish button is the strongest UI mark.",
+  "type": "Title cards in a high-contrast serif (Harvey wordmark, 'Workflow Builder', 'Build'); all other text is the product's own grotesque UI type, 13-18 px tall in the 720p frame before zoom.",
+  "title_height_pct": [
+   11.5,
+   15.8
+  ],
+  "title_measurements": [
+   {
+    "t_s": 0.5,
+    "text": "Harvey",
+    "line_height_px": 114,
+    "frame_height_px": 720,
+    "pct": 15.8
+   },
+   {
+    "t_s": 2.5,
+    "text": "Workflow Builder",
+    "line_height_px": 83,
+    "frame_height_px": 720,
+    "pct": 11.5
+   },
+   {
+    "t_s": 10.6,
+    "text": "Build",
+    "line_height_px": 83,
+    "frame_height_px": 720,
+    "pct": 11.5
+   }
+  ],
+  "max_words_per_title_line": 2,
+  "density": "medium",
+  "depth": "A rounded window floats over a blurred, desaturated plant-texture backdrop in the framed shots (f0003.jpg); zoomed shots lose the frame and fill the canvas."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 95,
+  "shown_as": [
+   "real-ui-capture"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Digital zoom and pan into the active panel (modal, right-hand block editor, chat), with motion-blur whip between framings; zoomed-out full-window shots only at 3.6s, 118s, 156s, 168s.",
+  "legible_at_phone_width": "partly",
+  "notes": "Zoomed frames are readable (prompt text, table rows in crops/prompt-typing.png, crops/summary-table.png). The full-window shot at f0003.jpg has node labels about 9-12 px, too small at phone width. A real hand cursor and typing caret show what is being done."
+ },
+ "motion": {
+  "text_entry": "Title cards appear by fade (Harvey fades in by 0.2s) and cut away after 1.2-2.2s; body text is typed live character by character in the UI.",
+  "ui_motion": "Real product behaviour: dropdowns open, blocks drop onto the canvas, branches connect, chat answer streams in, dialogs fade over a greyed page.",
+  "camera": "Virtual zoom/pan over a recorded screen, blurred in motion (strips/window-06-19.517s.jpg, window-13-28.167s.jpg, window-27-51.084s.jpg).",
+  "eases": "Zooms accelerate then settle in about 0.3-0.5s with directional blur; the title-to-UI change is a 0.45s fade through grey (strips/window-03-3.55s.jpg).",
+  "transitions": [
+   {
+    "type": "ui-state-change",
+    "count": 40,
+    "example_t_s": 46,
+    "cause": "Next narrated action opens the next menu, panel or dialog."
+   },
+   {
+    "type": "zoom-through",
+    "count": 5,
+    "example_t_s": 19.5,
+    "cause": "Camera pushes into the control the narrator names."
+   },
+   {
+    "type": "fade-through-colour",
+    "count": 3,
+    "example_t_s": 3.6,
+    "cause": "Title card dissolves through grey into the product."
+   },
+   {
+    "type": "hard-cut",
+    "count": 24,
+    "example_t_s": 9.83,
+    "cause": "Switch to or from a black or white title card, or between recorded takes."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0.15s.jpg",
+   "strips/window-03-3.55s.jpg",
+   "strips/window-04-9.8s.jpg",
+   "strips/window-06-19.517s.jpg",
+   "strips/window-13-28.167s.jpg",
+   "strips/window-27-51.084s.jpg",
+   "strips/window-34-59.117s.jpg",
+   "strips/window-59-98.134s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0.2,
+    "text": "Harvey",
+    "words": 1,
+    "hold_s": 1.2
+   },
+   {
+    "t_s": 1.4,
+    "text": "Workflow Builder",
+    "words": 2,
+    "hold_s": 2.2
+   },
+   {
+    "t_s": 9.83,
+    "text": "Build",
+    "words": 1,
+    "hold_s": 1.3
+   }
+  ],
+  "holds_vs_reading_rule": "The three title cards meet the 0.5s + 0.3s per word reading rule (1.2s for 1 word, 2.2s for 2). Product text is not meant to be read and is carried by narration. No closing line or CTA card."
+ },
+ "sound": {
+  "music": "audio.json kind=music (0.565 confidence) with describe tags speech 0.835, music 0.697, keyboard_musical 0.397, synthesizer 0.308; no steady beat (confidence 0.13). A soft keyboard/synth bed under narration.",
+  "sfx": "Not established from the evidence; no tag above 0.2 names clicks or UI sounds (percussion 0.194 is below the bar).",
+  "vo_music_balance": "Narration leads (speech 0.835 vs music 0.697); integrated -24.2 LUFS, short-term max -22.1, LRA 2.8 LU, so level is flat.",
+  "energy_arc": "Flat: eleven sections A-K from signal analysis, loudness range only 2.8 LU, no drop or build tied to the demo.",
+  "sync_to_picture": "Not locked: cuts_on_strong_onset_share 0.042 against chance_share 0.086."
+ },
+ "good": [
+  {
+   "observation": "The whole product is the story: one concrete workflow (supply agreement, buyer vs supplier) is built, run down both branches and published in 177s, so nothing is abstract.",
+   "evidence": "beats 19.5-168.5s; transcript 0:11-0:52"
+  },
+  {
+   "observation": "Opens with the finished canvas for 6s before building it, so the viewer knows the destination.",
+   "evidence": "f0003.jpg, strips/window-03-3.55s.jpg"
+  },
+  {
+   "observation": "Digital zoom makes small UI legible: prompt text and table rows read clearly in zoomed frames.",
+   "evidence": "crops/prompt-typing.png, crops/summary-table.png"
+  },
+  {
+   "observation": "Live typing of the prompt and a real cursor make each step verifiable and easy to follow against the voiceover.",
+   "evidence": "f0034.jpg to f0037.jpg; counter 66, 194, 413/4000"
+  },
+  {
+   "observation": "Restrained serif title cards on flat black or white give a premium bookend without competing with the UI.",
+   "evidence": "f0001.jpg, f0002.jpg, f0006.jpg"
+  },
+  {
+   "observation": "The test run shows both branches' different output, with citations and a comparison table, which proves the conditional logic.",
+   "evidence": "f0068.jpg, f0073.jpg; t=130-150s"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Frame 0 is a near-black frame where the wordmark fades in at 0.2s; the product first appears at 3.6s.",
+   "evidence": "strips/window-01-0.15s.jpg; metrics frame0 contentfulCells 0.075"
+  },
+  {
+   "observation": "Sound is flat at -24.2 LUFS and -5.4 dBTP, about 10 LU under the -14 LUFS social target.",
+   "evidence": "metrics sound.lufs_integrated"
+  },
+  {
+   "observation": "Cuts ignore the music (4.2% on strong onsets vs 8.6% chance) and the film has no energy burst.",
+   "evidence": "metrics sound, rhythm.bursts empty"
+  },
+  {
+   "observation": "Static or near-static stretches of up to 14s (33% of intervals static) while typing, with the only change a caret.",
+   "evidence": "metrics frames.longest_static_run_s 14"
+  },
+  {
+   "observation": "No closing CTA card; the film ends on a faded logo after the Workflows grid.",
+   "evidence": "f0085.jpg, f0088.jpg"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "In a product walkthrough, zoom the camera into the active panel so its text exceeds about 2.6% of frame height, and return to the full window only to orient.",
+   "evidence": "Zoomed text legible in crops/prompt-typing.png; full window f0003.jpg labels about 9-12px.",
+   "relation": "extends",
+   "skill_rule": "Rule 2 and rule 5"
+  },
+  {
+   "rule": "Show the finished result for 5-6s before building it from empty, so the viewer holds the goal during a long build.",
+   "evidence": "3.6-9.8s finished canvas, then 11.1s empty canvas",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "A narrated demo can run single takes of 30-50s if the camera re-frames every 8-10s to follow the action.",
+   "evidence": "longest shot 53.1s; zooms at 19.5, 28.2, 51.1, 59.3s",
+   "relation": "contradicts",
+   "skill_rule": "Rule 10 (cuts every 1.8-3.5s)"
+  },
+  {
+   "rule": "Bookend a demo with 1-3 word serif title cards of 11-16% frame height, each held at least 1.2s.",
+   "evidence": "title_measurements 15.8%, 11.5%, 11.5%; holds 1.2-2.2s",
+   "relation": "contradicts",
+   "skill_rule": "Rule 3 (titles 4-9%)"
+  },
+  {
+   "rule": "Type prompt text live at human speed in the UI with a visible caret and character counter rather than pasting finished text.",
+   "evidence": "counter 66/4000, 194/4000, 413/4000 at 1:04-1:12",
+   "relation": "confirms",
+   "skill_rule": "Rule 10 (real product UI beats invented UI)"
+  },
+  {
+   "rule": "Prove branching logic by running each branch on camera and showing a different output for each.",
+   "evidence": "t=126-150s buyer list vs supplier table",
+   "relation": "confirms",
+   "skill_rule": "Rule 5"
+  },
+  {
+   "rule": "Fade through grey or black between a flat title card and the UI over about 0.45s; this reads as intentional where a dissolve between two UIs would not.",
+   "evidence": "strips/window-03-3.55s.jpg",
+   "relation": "extends",
+   "skill_rule": "Rule 7"
+  },
+  {
+   "rule": "A narrated tutorial may be quiet (-24 LUFS) but a social master still needs -14 LUFS; normalise before export.",
+   "evidence": "lufs_integrated -24.2, true_peak -5.4",
+   "relation": "confirms",
+   "skill_rule": "Rule 9"
+  }
+ ],
+ "frames_opened": 43,
+ "crops_made": 6,
+ "unchecked": [
+  "Sound effects and the instrument identity: only signal tags available, no listening.",
+  "Whether the Harvey wordmark animates in over 0.2-1.4s: only strip window-01 covers it.",
+  "Strips for 100-177s were not generated, so transitions after 100s rest on 2s samples.",
+  "Exact transition counts per type are estimates from cuts.json and sheets."
+ ]
+}

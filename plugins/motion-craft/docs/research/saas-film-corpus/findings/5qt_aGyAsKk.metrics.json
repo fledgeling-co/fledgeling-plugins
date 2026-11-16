@@ -1,0 +1,221 @@
+{
+ "id": "5qt_aGyAsKk",
+ "title": "Projects are now a conversation with Claude",
+ "uploader": "Claude",
+ "duration_s": 82.72,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 12,
+  "cuts_per_min": 8.7,
+  "cut_times_s": [
+   5.33,
+   7.25,
+   41.33,
+   43.12,
+   47.29,
+   51.5,
+   60.08,
+   60.17,
+   61.75,
+   61.83,
+   64.79,
+   76.83
+  ],
+  "median_shot_s": 4.17,
+  "mean_shot_s": 6.36,
+  "shots_over_10s": 2,
+  "first_cut_s": 5.33,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 7.25,
+   "end": 41.33,
+   "seconds": 34.08,
+   "share_of_runtime": 0.412
+  },
+  "bursts": [
+   {
+    "start_s": 60.08,
+    "end_s": 64.79,
+    "cuts": 5,
+    "mid_share": 0.755
+   }
+  ]
+ },
+ "events": {
+  "counts": {
+   "cut": 17,
+   "flash": 0,
+   "appear": 11,
+   "disappear": 10,
+   "change": 58,
+   "hold": 33
+  },
+  "holds_over_1s": 19,
+  "median_hold_s": 1.25,
+  "longest_hold_s": 4.29,
+  "windows": 51
+ },
+ "frames": {
+  "count": 41,
+  "not_evidence_frames": [
+   "f0039.jpg"
+  ],
+  "dark_share": 1.0,
+  "light_share": 0.0,
+  "median_contentful_cells": 0.338,
+  "intervals_new_composition_share": 0.0,
+  "intervals_static_share": 0.15,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 80,
+  "frame0": {
+   "meanLuminance": 0.0622,
+   "contentfulCells": 0.0938,
+   "blankCells": 0.8625,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0038.jpg",
+  "f0039.jpg",
+  "f0040.jpg",
+  "f0041.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -15.5,
+  "lufs_short_term_max": -11.9,
+  "true_peak_db": -0.8,
+  "bpm": 120.2,
+  "beats": {
+   "count": 160,
+   "confidence": 0.357,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 0,
+    "end": 0.255
+   },
+   {
+    "start": 1.115,
+    "end": 1.465
+   },
+   {
+    "start": 2.3,
+    "end": 2.535
+   },
+   {
+    "start": 2.81,
+    "end": 3.35
+   },
+   {
+    "start": 78.605,
+    "end": 82.714
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 22.165,
+    "label": "A"
+   },
+   {
+    "start": 22.165,
+    "end": 35.645,
+    "label": "B"
+   },
+   {
+    "start": 35.645,
+    "end": 73.255,
+    "label": "C"
+   },
+   {
+    "start": 73.255,
+    "end": 82.714,
+    "label": "D"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.851
+   ],
+   [
+    "keyboard_musical",
+    0.671
+   ],
+   [
+    "synthesizer",
+    0.608
+   ],
+   [
+    "percussion",
+    0.389
+   ],
+   [
+    "drum",
+    0.377
+   ],
+   [
+    "piano",
+    0.375
+   ],
+   [
+    "drum_kit",
+    0.261
+   ],
+   [
+    "electric_piano",
+    0.25
+   ]
+  ],
+  "lra_lu": 5.9,
+  "cuts_on_strong_onset_share": 0.083,
+  "chance_share": 0.114,
+  "strong_onsets_per_min": 31.2
+ },
+ "look": {
+  "luma": 19.2,
+  "contrast": 16.7,
+  "saturation": 0.005,
+  "bw_share": 0.51,
+  "warmth": 0.1
+ }
+}

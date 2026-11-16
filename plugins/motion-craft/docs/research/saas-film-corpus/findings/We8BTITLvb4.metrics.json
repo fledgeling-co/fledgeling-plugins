@@ -1,0 +1,207 @@
+{
+ "id": "We8BTITLvb4",
+ "title": "Introducing Muse: your personal AI agent",
+ "uploader": "Muse",
+ "duration_s": 82.58,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 8,
+  "cuts_per_min": 5.81,
+  "cut_times_s": [
+   17.5,
+   45.17,
+   46.33,
+   58.83,
+   62.58,
+   64.58,
+   76.92,
+   81.67
+  ],
+  "median_shot_s": 4.75,
+  "mean_shot_s": 9.18,
+  "shots_over_10s": 4,
+  "first_cut_s": 17.5,
+  "not_cuts": [
+   {
+    "t": 27.54,
+    "kind": "fast"
+   }
+  ],
+  "longest_shot": {
+   "start": 17.5,
+   "end": 45.17,
+   "seconds": 27.67,
+   "share_of_runtime": 0.335
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 6,
+   "flash": 2,
+   "appear": 20,
+   "disappear": 20,
+   "change": 62,
+   "hold": 33
+  },
+  "holds_over_1s": 4,
+  "median_hold_s": 0.73,
+  "longest_hold_s": 5,
+  "windows": 54
+ },
+ "frames": {
+  "count": 41,
+  "not_evidence_frames": [],
+  "dark_share": 0.0,
+  "light_share": 1.0,
+  "median_contentful_cells": 0.138,
+  "intervals_new_composition_share": 0.0,
+  "intervals_static_share": 0.1,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 16,
+  "frame0": {
+   "meanLuminance": 0.9575,
+   "contentfulCells": 0.025,
+   "blankCells": 0.9187,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0038.jpg",
+  "f0039.jpg",
+  "f0040.jpg",
+  "f0041.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -16,
+  "lufs_short_term_max": -14.3,
+  "true_peak_db": -3.1,
+  "bpm": 115.2,
+  "beats": {
+   "count": 159,
+   "confidence": 0.502,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 82.26,
+    "end": 82.574
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 4.665,
+    "label": "A"
+   },
+   {
+    "start": 4.665,
+    "end": 13.065,
+    "label": "B"
+   },
+   {
+    "start": 13.065,
+    "end": 18.815,
+    "label": "C"
+   },
+   {
+    "start": 18.815,
+    "end": 27.155,
+    "label": "D"
+   },
+   {
+    "start": 27.155,
+    "end": 35.515,
+    "label": "E"
+   },
+   {
+    "start": 35.515,
+    "end": 82.574,
+    "label": "F"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.713
+   ],
+   [
+    "disc_scratching",
+    0.518
+   ],
+   [
+    "keyboard_musical",
+    0.383
+   ],
+   [
+    "rapping",
+    0.371
+   ],
+   [
+    "synthesizer",
+    0.362
+   ],
+   [
+    "singing",
+    0.331
+   ],
+   [
+    "percussion",
+    0.322
+   ],
+   [
+    "person_shuffling",
+    0.287
+   ]
+  ],
+  "lra_lu": 5.7,
+  "cuts_on_strong_onset_share": 0.125,
+  "chance_share": 0.17,
+  "strong_onsets_per_min": 46.5
+ },
+ "look": {
+  "luma": 233.2,
+  "contrast": 28,
+  "saturation": 0.039,
+  "bw_share": 0.07,
+  "warmth": -7.1
+ }
+}

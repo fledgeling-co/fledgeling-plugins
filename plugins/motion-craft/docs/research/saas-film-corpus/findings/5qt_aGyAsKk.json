@@ -1,0 +1,454 @@
+{
+ "id": "5qt_aGyAsKk",
+ "title": "Projects are now a conversation with Claude",
+ "brand": "Claude",
+ "duration_s": 82.72,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "Silent-on-voice, music-only walkthrough of one feature: messy requests become parallel threads, the user makes one design call, PRs land.",
+ "one_thing": "You send scattered messages; Claude sorts them into parallel sessions and only asks you for the decisions.",
+ "transcript": {
+  "source": "auto-captions",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No speech. Captions hold only [music] tags and a few 'Woo!' lines (t=2, 5, 16, 25, 73) that cannot be confirmed as vocal.",
+  "script_shape": "All meaning is on screen: five typed messages, a plan checklist, one choice thread, one feedback turn, a status list, a two-line tagline, then the product name."
+ },
+ "structure": {
+  "frame0": "Dark ground with two grey chat bubbles in the middle, one tilted: 'click-through on the pricing page CTA has cratered…' and 'cold start is 4s??'. Subject present, nothing else.",
+  "first_3s": "Bubbles multiply to five, drift and tilt (t=0.2-3.5, window-01/02), then an orange asterisk and 'Untangling…' appear at t=4 (f0003).",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 3.5,
+    "role": "hook",
+    "what": "Five casual, typo-ridden requests pile up on black, tilting and shifting."
+   },
+   {
+    "start_s": 3.5,
+    "end_s": 5.33,
+    "role": "problem",
+    "what": "Asterisk and 'Untangling…' appear among the bubbles; the mess is named by a status label."
+   },
+   {
+    "start_s": 5.33,
+    "end_s": 7.25,
+    "role": "setup",
+    "what": "Serif title 'Start your next big project with one little conversation' types in on pure black."
+   },
+   {
+    "start_s": 7.25,
+    "end_s": 12,
+    "role": "setup",
+    "what": "Zoomed sidebar; cursor lands on Projects (New); window pulls back to the Projects grid."
+   },
+   {
+    "start_s": 12,
+    "end_s": 17.5,
+    "role": "demo",
+    "what": "Opens '2.0 audit' project; user types five messages into the chat; Overview panel shows one working thread."
+   },
+   {
+    "start_s": 17.5,
+    "end_s": 22,
+    "role": "turn",
+    "what": "Pixel-dither dissolve into a dot field with 'Claude is working…'."
+   },
+   {
+    "start_s": 22,
+    "end_s": 36,
+    "role": "reveal",
+    "what": "Monospace plan ticks [x] parse messages, interpret into 3 tasks, then spawns three boxed sessions //cta //perf //checkout."
+   },
+   {
+    "start_s": 36,
+    "end_s": 41.3,
+    "role": "setup",
+    "what": "Dot field clears into the chat UI with Claude's reply and three thread cards."
+   },
+   {
+    "start_s": 41.3,
+    "end_s": 47,
+    "role": "proof",
+    "what": "Wide UI: Overview shows 'Needs your eye: pick a CTA variant', two PRs ready; thread opens."
+   },
+   {
+    "start_s": 47,
+    "end_s": 52,
+    "role": "demo",
+    "what": "Thread lists variants A Ink, B Glow, C Card with a recommendation and preview URL parameter."
+   },
+   {
+    "start_s": 52,
+    "end_s": 60,
+    "role": "turn",
+    "what": "User types 'less might be more here. try a simpler version'; Claude adds D Outline; user: 'i like D'."
+   },
+   {
+    "start_s": 60,
+    "end_s": 64.8,
+    "role": "payoff",
+    "what": "Five zoom-blur cuts reach 'Welcome back, Casey. Nothing is waiting on you.' and PR #9 open."
+   },
+   {
+    "start_s": 64.8,
+    "end_s": 71,
+    "role": "payoff",
+    "what": "Wide chat reads each thread as landed; user asks to merge and keep updated; ASCII boxes and tree build."
+   },
+   {
+    "start_s": 71,
+    "end_s": 76.8,
+    "role": "cta",
+    "what": "Pixel creature plus 'Claude', then tagline 'Claude runs the sessions. You make the calls.'"
+   },
+   {
+    "start_s": 76.8,
+    "end_s": 82.7,
+    "role": "logo",
+    "what": "Orange dot grows to asterisk, wordmark types 'Claude Code', holds in silence."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 62,
+   "share": 0.75,
+   "what": "Overview resets to 'Welcome back, Casey. Nothing is waiting on you.' with PR #9 and PR #4 ready for review (f0032)."
+  },
+  "ending": {
+   "cta_text": "Claude runs the sessions. You make the calls.",
+   "logo_hold_s": 4.2,
+   "what": "Tagline over pixel mascot (t=74-76.8), then a dot becomes the asterisk and 'Claude Code' types in, held 4.2 s with audio silent from 78.6 s."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 12,
+  "cuts_per_min": 8.7,
+  "median_shot_s": 4.17,
+  "how_change_is_paced": "Two long camera-move shots (7.25-41.33 s, 34 s, 41% of runtime) carry the story; cuts cluster as a 5-cut zoom burst at 60.08-64.79 s. Most change is on-screen state: bubbles, ticks, panels."
+ },
+ "look": {
+  "ground": "Near-black (luma 19.2) throughout; UI in dark mode; title cards pure black, end card slightly lighter grey-black.",
+  "palette": [
+   "near-black #0a0a0a",
+   "UI grey #161616",
+   "off-white text",
+   "terracotta asterisk",
+   "link blue",
+   "traffic-light dots",
+   "pixel-art coral and green"
+  ],
+  "accent_use": "Terracotta marks only Claude: asterisk, 'working' status, inline code; blue marks thread links; saturation share 0.005 so colour is rare.",
+  "type": "Serif display for titles and 'Welcome back, Casey.'; grotesque sans in bubbles and UI; monospace for the plan diagram and code chips. Bold on one word, 'big'.",
+  "title_height_pct": [
+   5.4,
+   10.8
+  ],
+  "title_measurements": [
+   {
+    "t_s": 6.5,
+    "text": "Start your next big project",
+    "line_height_px": 52,
+    "frame_height_px": 720,
+    "pct": 7.2
+   },
+   {
+    "t_s": 6.5,
+    "text": "with one little conversation",
+    "line_height_px": 39,
+    "frame_height_px": 720,
+    "pct": 5.4
+   },
+   {
+    "t_s": 76,
+    "text": "Claude runs the sessions. / You make the calls.",
+    "line_height_px": 39,
+    "frame_height_px": 720,
+    "pct": 5.4
+   },
+   {
+    "t_s": 78.7,
+    "text": "Claude Code lockup",
+    "line_height_px": 78,
+    "frame_height_px": 720,
+    "pct": 10.8
+   }
+  ],
+  "max_words_per_title_line": 5,
+  "density": "medium",
+  "depth": "Flat. Depth comes from the dot-matrix field with bright dots at varied sizes, and from window shadow against black."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 46,
+  "shown_as": [
+   "real-ui-capture",
+   "abstract-illustration"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Starts zoomed on the sidebar (t=7), pulls back to the full window (t=12), then punches into chat and panels at 41-62 s with motion blur between zooms.",
+  "legible_at_phone_width": "partly",
+  "notes": "Wide shots (f0007, f0009) carry 9-12 px text that is unreadable on a phone; the zooms at f0022-f0031 are large and legible. The cursor is a big white arrow. The plan diagram (18-36 s) is invented, in monospace, 22 px glyph height at t=15."
+ },
+ "motion": {
+  "text_entry": "Bubbles pop in staggered with small tilts and drift; title types line by line; plan lines tick in monospace; end wordmark types letter by letter after a dot becomes the asterisk.",
+  "ui_motion": "Chat messages arrive in sequence; cursor glides to targets; threads move between Waiting on you and Ready for review; the blue sparkline in the panel steps up when work lands.",
+  "camera": "Continuous push, pull and pan over a flat UI plane; zoom-blur at 60 s; whole shot held 34 s from 7.25 to 41.33 s.",
+  "eases": "Not measured numerically. Window-01 shows settled bubbles by 1.3 s; zoom-blur frames at 60.08-60.2 s show a fast start into a soft landing.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 12,
+    "example_t_s": 5.33,
+    "cause": "Bubbles to title card; shot ends as 'Untangling…' appears."
+   },
+   {
+    "type": "zoom-through",
+    "count": 5,
+    "example_t_s": 60.08,
+    "cause": "Camera punches into the checklist, driven by the user's reply."
+   },
+   {
+    "type": "fade-through-colour",
+    "count": 2,
+    "example_t_s": 18,
+    "cause": "Chat UI dithers to dots as Claude starts working."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 1,
+    "example_t_s": 77.4,
+    "cause": "Orange dot grows into the asterisk of the wordmark."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 6,
+    "example_t_s": 42,
+    "cause": "Overview panel regroups when threads complete."
+   }
+  ],
+  "strips_read": [
+   "window-01-0.209s.jpg",
+   "window-04-5.25s.jpg",
+   "window-06-7.167s.jpg",
+   "window-17-22.625s.jpg",
+   "window-28-41.792s.jpg",
+   "window-40-60s.jpg",
+   "window-50-76.75s.jpg",
+   "window-51-77.417s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "click-through on the pricing page CTA has cratered. add an experiment with a few new styles before the 2.0 launch.",
+    "words": 20,
+    "hold_s": 5.3
+   },
+   {
+    "t_s": 0.3,
+    "text": "cold start is 4s?? was under 1 last week",
+    "words": 9,
+    "hold_s": 5
+   },
+   {
+    "t_s": 4,
+    "text": "Untangling…",
+    "words": 1,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 5.33,
+    "text": "Start your next big project with one little conversation",
+    "words": 9,
+    "hold_s": 1.9
+   },
+   {
+    "t_s": 8,
+    "text": "Projects New",
+    "words": 2,
+    "hold_s": 3
+   },
+   {
+    "t_s": 20,
+    "text": "Claude is working…",
+    "words": 3,
+    "hold_s": 4
+   },
+   {
+    "t_s": 24,
+    "text": "[x] parse messages 5 intents / [x] interpret 3 tasks / [~] spawn sessions",
+    "words": 12,
+    "hold_s": 6
+   },
+   {
+    "t_s": 32,
+    "text": "//cta //perf //checkout: runs on local or remote, uses skills, memory, tools",
+    "words": 11,
+    "hold_s": 4
+   },
+   {
+    "t_s": 44,
+    "text": "Needs your eye: pick a CTA variant",
+    "words": 7,
+    "hold_s": 8
+   },
+   {
+    "t_s": 50,
+    "text": "less might be more here. try a simpler version",
+    "words": 9,
+    "hold_s": 2.5
+   },
+   {
+    "t_s": 58,
+    "text": "i like D, the sweep fill is gorgeous!",
+    "words": 8,
+    "hold_s": 2.5
+   },
+   {
+    "t_s": 62,
+    "text": "Welcome back, Casey. Nothing is waiting on you.",
+    "words": 8,
+    "hold_s": 2
+   },
+   {
+    "t_s": 66,
+    "text": "amazing! let's merge these PRs and keep me updated with new pings from support",
+    "words": 14,
+    "hold_s": 2
+   },
+   {
+    "t_s": 68.5,
+    "text": "not a bug / key is wrong / 31 matches / at import time / changed two things / smallest change",
+    "words": 17,
+    "hold_s": 3
+   },
+   {
+    "t_s": 72,
+    "text": "Claude",
+    "words": 1,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 74,
+    "text": "Claude runs the sessions. You make the calls.",
+    "words": 8,
+    "hold_s": 2.8
+   },
+   {
+    "t_s": 78.5,
+    "text": "Claude Code",
+    "words": 2,
+    "hold_s": 4.2
+   }
+  ],
+  "holds_vs_reading_rule": "The nine-word title shows about 1.9 s against the 3.2 s the rule asks; the eight-word tagline holds at least 2.8 s against 2.9 s; the last line holds 4.2 s. Dense UI text is zoomed to be read."
+ },
+ "sound": {
+  "music": "Describe tags: music 0.851, keyboard_musical 0.671, synthesizer 0.608, percussion 0.389, drum 0.377, piano 0.375. Estimated 120.2 BPM at beat confidence 0.357, low. Sections A 0-22 s, B 22-35.6, C 35.6-73.3, D 73.3-82.7.",
+  "sfx": "No separate sfx evidence. Onsets are 31.2 per minute; I cannot tell music hits from effects.",
+  "vo_music_balance": "No voiceover; music only. Integrated -15.5 LUFS, short-term max -11.9, loudness range 5.9 LU.",
+  "energy_arc": "Four sections; the longest, C, spans the UI proof and the burst. Audio is silent from 78.6 s, so the logo holds over 4.1 s of silence.",
+  "sync_to_picture": "Not locked: cuts on strong onsets 0.083 against chance 0.114 (cuts_on_strong_onset_share). True peak -0.8 dBTP, above the -1 limit."
+ },
+ "good": [
+  {
+   "observation": "The opening is the user's own messy words: five typed requests with typos, so the pain is shown rather than named, and the product's job reads before any UI.",
+   "evidence": "f0001, f0002, f0003"
+  },
+  {
+   "observation": "One feature story is told as a loop: messages, plan, parallel threads, a design question, a one-line reply, PR landed. The user's role shrinks to decisions.",
+   "evidence": "f0004-f0033; strips 28, 40"
+  },
+  {
+   "observation": "Real-looking UI is zoomed until text is large, so the key facts (A Ink, B Glow, C Card, option D, 'Nothing is waiting on you') are legible.",
+   "evidence": "f0024, f0027, f0032"
+  },
+  {
+   "observation": "Abstract monospace diagram explains the architecture (three sessions, local vs remote) in one calm pass, with ticks as progress.",
+   "evidence": "f0015-f0017"
+  },
+  {
+   "observation": "The ending is plain: a two-line tagline, then dot to asterisk to typed wordmark held 4.2 s in silence.",
+   "evidence": "f0038, f0040, strips 50-51"
+  },
+  {
+   "observation": "Colour is held back: near-black ground, one terracotta accent, saturation share 0.005, so each coloured item reads as Claude.",
+   "evidence": "metrics.look; f0003"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Nine-word opening title is visible about 1.9 s before a cut, too short to read comfortably and then the UI zoom replaces it.",
+   "evidence": "f0004; strips 04, 06"
+  },
+  {
+   "observation": "Wide UI shots carry 9-12 px text that is unreadable on a phone, and the 'working' stretches repeat (24-36 s, 41 s of one chat).",
+   "evidence": "f0007, f0009; frames 18-36 s"
+  },
+  {
+   "observation": "Loudness misses the social targets: -15.5 LUFS and -0.8 dBTP, and cuts are not locked to the music.",
+   "evidence": "metrics.sound"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Open with the user's real words as the problem: 2-5 typed messages with typos on a dark ground at frame 0, then add more by 3 s.",
+   "evidence": "f0001 holds 2 bubbles; f0003 holds 5 by t=4",
+   "relation": "confirms",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "A film may run one continuous camera move over UI and diagram for over 30 s when on-screen state changes every 2-3 s; cut length is not the only pace.",
+   "evidence": "7.25-41.33 s shot, 34 s, 41% runtime; median shot 4.17 s",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "A cut burst can land late: 5 cuts in 4.7 s at 75% of runtime, built from zoom-blur punches into the same UI, then the payoff screen.",
+   "evidence": "metrics.bursts 60.08-64.79 s, mid_share 0.755",
+   "relation": "contradicts",
+   "skill_rule": "8"
+  },
+  {
+   "rule": "Hold a 9-word title at least 3.2 s; this film shows its title about 1.9 s, which is too brief to read.",
+   "evidence": "f0004 at 6 s, cut at 7.25 s",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Explain the mechanism with a monospace checklist of [ ] [~] [x] ticks and boxed sessions for 15-20 s when the real UI hides it; accept less real UI.",
+   "evidence": "f0013-f0017, 18-36 s, 22% of runtime",
+   "relation": "extends",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Show the user's role as one short typed reply that changes the outcome: feedback 'less might be more here' leads to a new option within 8 s.",
+   "evidence": "f0025-f0030, t=50-58",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "End on a morph: a dot becomes the logo mark, the wordmark types on, and the last 4 s hold still; the audio may fall silent for those 4 s.",
+   "evidence": "strip 51 t=77.4-78.7; audio silence 78.6-82.7 s",
+   "relation": "extends",
+   "skill_rule": "9"
+  },
+  {
+   "rule": "Keep the master at or below -14 LUFS and -1 dBTP; this film measures -15.5 LUFS and -0.8 dBTP, so check the final mix.",
+   "evidence": "metrics.sound lufs_integrated -15.5, true_peak_db -0.8",
+   "relation": "confirms",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 41,
+ "crops_made": 6,
+ "unchecked": [
+  "Sound heard by no one: 'Woo!' captions are unverified as vocals or effects.",
+  "Easing curves not measured numerically.",
+  "Real product versus mock UI not confirmed.",
+  "Phone-width legibility judged from 1280 px frames only.",
+  "Text hold times for UI messages estimated from 2 s samples."
+ ]
+}

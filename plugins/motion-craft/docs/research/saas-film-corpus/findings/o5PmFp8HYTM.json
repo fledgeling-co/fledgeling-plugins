@@ -1,0 +1,377 @@
+{
+ "id": "o5PmFp8HYTM",
+ "title": "Stay in Flow From Document Intake to Final Deliverable",
+ "brand": "Harvey",
+ "duration_s": 51.02,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "One continuous screen recording of a legal workflow (prompt, review table, drafted memo, export) between a dark logo card and a dark tagline card.",
+ "one_thing": "A lawyer goes from one prompt to an exported, tracked-changes memo without leaving Harvey, shown as an uncut real-UI recording with one camera.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": -1,
+  "voice_style": "No voice. Whisper returned only a repeated 'The' on music, so it was discarded; the YouTube video has no caption track.",
+  "script_shape": "Everything is carried by the user's typed prompt, the assistant's reply text and four title cards: 'Move Faster with Legal Agents', 'Stay in the Flow from Start to Finish', 'AI Tailored for Law', Harvey."
+ },
+ "structure": {
+  "frame0": "Near-black card with the white serif wordmark 'Harvey' centred (f0001.jpg), 59 px tall. Brand only, no product; mean luminance 0.059 and 95% blank cells per metrics frame0.",
+  "first_3s": "Wordmark fades to 1.27 s, hard cut to white card 'Move Faster with Legal Agents' (strips/window-01-1.233s.jpg), then the Harvey home screen with the prompt box appears by t=2-4 s.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 1.3,
+    "role": "logo",
+    "what": "Dark card, Harvey wordmark fading out."
+   },
+   {
+    "start_s": 1.3,
+    "end_s": 2.2,
+    "role": "hook",
+    "what": "White card: Move Faster with Legal Agents."
+   },
+   {
+    "start_s": 2.2,
+    "end_s": 9.5,
+    "role": "setup",
+    "what": "Harvey home: prompt typed, Project Sandbar attached, cursor presses send."
+   },
+   {
+    "start_s": 9.5,
+    "end_s": 16,
+    "role": "turn",
+    "what": "Chat reply recommends a review table; proposed table appears; cursor reaches 'Yes, build a Review table'."
+   },
+   {
+    "start_s": 16,
+    "end_s": 24.5,
+    "role": "reveal",
+    "what": "Workspace scales up: chat left, 47-row review table right; camera pushes in on rows."
+   },
+   {
+    "start_s": 24.5,
+    "end_s": 29.5,
+    "role": "demo",
+    "what": "Second prompt drafts a memo; assistant reasoning steps stream on a full-screen text view."
+   },
+   {
+    "start_s": 29.5,
+    "end_s": 41,
+    "role": "payoff",
+    "what": "Memo opens with 35 tracked changes; edits resolve to a clean draft."
+   },
+   {
+    "start_s": 41,
+    "end_s": 43.5,
+    "role": "cta",
+    "what": "Camera zooms to Export; cursor lands on it."
+   },
+   {
+    "start_s": 43.5,
+    "end_s": 47,
+    "role": "other",
+    "what": "White card: Stay in the Flow from Start to Finish."
+   },
+   {
+    "start_s": 47,
+    "end_s": 51,
+    "role": "logo",
+    "what": "Dark card: AI Tailored for Law, Harvey wordmark below."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 18.0,
+   "share": 0.353,
+   "what": "The workspace pops from a tiny thumbnail to full size with the 47-row review table filling the right half (strips/window-08-18s.jpg, 18.0-18.97 s)."
+  },
+  "ending": {
+   "cta_text": "AI Tailored for Law",
+   "logo_hold_s": 3.0,
+   "what": "Tagline on dark from 46.97 s, wordmark added by 48 s (f0025.jpg), held to 51 s. No URL or button."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 2,
+  "cuts_per_min": 2.35,
+  "median_shot_s": 4.05,
+  "how_change_is_paced": "One shot runs 45.67 s (89.5% of runtime). Change comes from typing, cursor moves, scale-ups and camera pushes inside it; only hard cuts are at 1.3 s and 46.97 s. No bursts."
+ },
+ "look": {
+  "ground": "White (84.6% of sampled frames light) for the whole product section; near-black #0f100c-like cards for open and close. Luma 222.8, saturation 0.019.",
+  "palette": [
+   "white",
+   "near-black",
+   "warm off-white panel",
+   "grey text",
+   "black button",
+   "redline red (tracked changes)"
+  ],
+  "accent_use": "No brand accent. The only strong colour is the red tracked-change text in the memo (f0017.jpg) and tiny blue/red source icons.",
+  "type": "Serif display (Harvey wordmark and titles, one size per card) over a grotesque UI sans. Titles sentence-case, centred, single line, no accent word.",
+  "title_height_pct": [
+   3.9,
+   8.9
+  ],
+  "title_measurements": [
+   {
+    "t_s": 1.0,
+    "text": "Harvey (wordmark, opening)",
+    "line_height_px": 59,
+    "frame_height_px": 720,
+    "pct": 8.2
+   },
+   {
+    "t_s": 1.35,
+    "text": "Move Faster with Legal Agents",
+    "line_height_px": 64,
+    "frame_height_px": 720,
+    "pct": 8.9
+   },
+   {
+    "t_s": 4.0,
+    "text": "Harvey (home screen wordmark)",
+    "line_height_px": 28,
+    "frame_height_px": 720,
+    "pct": 3.9
+   },
+   {
+    "t_s": 44.5,
+    "text": "Stay in the Flow",
+    "line_height_px": 64,
+    "frame_height_px": 720,
+    "pct": 8.9
+   },
+   {
+    "t_s": 46.0,
+    "text": "AI Tailored for Law",
+    "line_height_px": 51,
+    "frame_height_px": 720,
+    "pct": 7.1
+   },
+   {
+    "t_s": 50.0,
+    "text": "Harvey (closing wordmark)",
+    "line_height_px": 42,
+    "frame_height_px": 720,
+    "pct": 5.8
+   }
+  ],
+  "max_words_per_title_line": 5,
+  "density": "sparse",
+  "depth": "Flat. UI sits on a faint card with a hairline shadow on white; no parallax, 3D or backgrounds."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 0.87,
+  "shown_as": [
+   "real-ui-capture"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Scale-up from thumbnail at 18 s, slow push and pan on the table 20-24 s, zoom into the top-right corner to Export at 41-43 s. Typing and cursor stay in view.",
+  "legible_at_phone_width": "partly",
+  "notes": "Home and reply views are large (prompt text about 14 px at 720p, reply type 19 px). Workspace views at t=18, 32-40 s show 5-7 px table and memo text; legible only in the pushed-in frames f0011-f0013 and f0022."
+ },
+ "motion": {
+  "text_entry": "Title cards switch by hard cut or fade-in; UI text types character by character (f0003 'contracts fro' to f0004) and streams word by word in the reply (strips/window-04-9.866s.jpg).",
+  "ui_motion": "Panels reflow: prompt box rises as the file chip appears; reply collapses into a smaller thread; 'Yes, build a Review table' pill isolated on white at 16 s; redlines resolve into clean text 34-38 s.",
+  "camera": "Virtual camera pushes in and out on the recorded UI: 4 s idle, then zoom to full-width text at 10 s, thumbnail-to-full at 18 s, push at 20-24 s, zoom to Export at 41-43 s.",
+  "eases": "Smooth settles on scale-ups (strips/window-08-18s.jpg); text arrival is linear typing. Exact easing not measured.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 2,
+    "example_t_s": 1.3,
+    "cause": "Logo card to title card, and title card to closing card; no on-screen cause."
+   },
+   {
+    "type": "zoom-through",
+    "count": 3,
+    "example_t_s": 18.0,
+    "cause": "Cursor press on send or 'Yes, build' triggers the next view scaling up."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 6,
+    "example_t_s": 30.2,
+    "cause": "Product event: reply completes, memo opens, edits accepted."
+   },
+   {
+    "type": "fade-through-colour",
+    "count": 2,
+    "example_t_s": 2.0,
+    "cause": "Title card to white UI and white UI to white title card."
+   }
+  ],
+  "strips_read": [
+   "window-01-1.233s.jpg",
+   "window-04-9.866s.jpg",
+   "window-06-13.2s.jpg",
+   "window-08-18s.jpg",
+   "window-12-22.566s.jpg",
+   "window-16-28.966s.jpg",
+   "window-20-41.166s.jpg",
+   "window-23-46.9s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 1.3,
+    "text": "Move Faster with Legal Agents",
+    "words": 5,
+    "hold_s": 0.7
+   },
+   {
+    "t_s": 4,
+    "text": "Extract each of the key terms and run a comprehensive change of control analysis over each of the attached material contracts from the data room.",
+    "words": 25,
+    "hold_s": 4.0
+   },
+   {
+    "t_s": 10.5,
+    "text": "This query would work best with a review table. It lets you run multiple questions across several documents...",
+    "words": 35,
+    "hold_s": 3.5
+   },
+   {
+    "t_s": 16,
+    "text": "Yes, build a Review table",
+    "words": 5,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 26,
+    "text": "Draft the Material Contracts section of my deal HVY Services, Inc. - LPS Inc. - Diligence Memo.docx based only on the provisions and insights...",
+    "words": 22,
+    "hold_s": 2.0
+   },
+   {
+    "t_s": 44,
+    "text": "Stay in the Flow from Start to Finish",
+    "words": 7,
+    "hold_s": 3.0
+   },
+   {
+    "t_s": 47,
+    "text": "AI Tailored for Law",
+    "words": 4,
+    "hold_s": 4.0
+   }
+  ],
+  "holds_vs_reading_rule": "Title cards: 'Move Faster with Legal Agents' holds about 0.7 s against the 2.0 s the rule asks; the closing line holds 4.0 s. UI prose is shown to be seen, not read; the long reply holds about 3.5 s."
+ },
+ "sound": {
+  "music": "Sustained music with no steady beat (beats confidence 0.033, bpm null). Describe tags: music 0.727, keyboard_musical 0.478, synthesizer 0.359; gong 0.259 and organ 0.258 are weaker. Sections change at 9.5, 19, 28.5, 37.5, 47 s.",
+  "sfx": "No sound effects identified; strong onsets at 17.25 s (0.92) and 36.485 s (1.0) are the largest, with no matching picture event at 36.5 s.",
+  "vo_music_balance": "No voice. Music only; sustain 0.97, voiced 0.012.",
+  "energy_arc": "Flat: LRA 2.1 LU, short-term max -12.9 LUFS; no silence span and no built climax.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.0 against chance_share 0.066 (2 cuts)."
+ },
+ "good": [
+  {
+   "observation": "One uncut recording shows the whole job. A reader sees intake, analysis, drafting and export as one thread, which is the claim in the title.",
+   "evidence": "longest_shot 45.67 s, 89.5% of runtime; hard_cuts 2"
+  },
+  {
+   "observation": "The camera moves to the thing that matters: thumbnail scale-up on the table, then a push to the Export button, so the final action is unmistakable.",
+   "evidence": "strips/window-08-18s.jpg; strips/window-20-41.166s.jpg"
+  },
+  {
+   "observation": "Real product UI with a real cursor and typed text, plausible legal content (Project Sandbar, 47 files, 35 tracked changes) makes it credible.",
+   "evidence": "f0003.jpg, f0017.jpg, crops/review-toolbar.png"
+  },
+  {
+   "observation": "Strong restraint: white ground, one serif for titles, no accent colour, centred single-line titles at 7-9% height; it reads as the brand.",
+   "evidence": "title_measurements 51-64 px of 720; look.saturation 0.019"
+  },
+  {
+   "observation": "Isolated pill 'Yes, build a Review table' on empty white gives the click a clean beat before the big reveal.",
+   "evidence": "f0009.jpg"
+  },
+  {
+   "observation": "Loudness lands on spec for social: -14.4 LUFS integrated, -1.8 dBTP.",
+   "evidence": "metrics.sound lufs_integrated, true_peak_db"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Workspace views are too small for a phone: table and memo text is about 5-7 px tall at 720p across 18-40 s, so the content that proves the product cannot be read.",
+   "evidence": "f0010.jpg, f0018.jpg, f0021.jpg"
+  },
+  {
+   "observation": "Opening title 'Move Faster with Legal Agents' holds about 0.7 s before the UI replaces it, too short to read five words.",
+   "evidence": "strips/window-01-1.233s.jpg; f0002.jpg"
+  },
+  {
+   "observation": "Static for long stretches: 40% of sampled intervals static, one run of 6 s ending at 8 s; 32-40 s shows small edits on an unchanged page.",
+   "evidence": "metrics.frames intervals_static_share 0.4; longest_static_run_s 6"
+  },
+  {
+   "observation": "Music has no pulse and no peak, and the two cuts and the hero scale-up at 18 s are not on its strongest onsets.",
+   "evidence": "beats confidence 0.033; cuts_on_strong_onset_share 0.0"
+  },
+  {
+   "observation": "Ends on a tagline and wordmark with no action line or URL.",
+   "evidence": "f0025.jpg, f0026.jpg"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "A walkthrough can run as one uncut shot for 85-90% of the film if the camera moves (scale-up, push, zoom) every 3-6 s; hard cuts only join title cards to the product.",
+   "evidence": "89.5% one shot; 2 cuts at 1.3 and 46.97 s; camera moves at 10, 18, 20-24, 41 s",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "When the product is a dense UI, zoom until working text is at least 12 px at 720p; show the full workspace under 2 s as an establishing view.",
+   "evidence": "workspace text 5-7 px at 18-40 s; pushed-in f0022 about 12-16 px",
+   "relation": "extends",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "Open on a brand card (wordmark on near-black) when the next shot is a clearly branded, light product screen; the wordmark must be 7-9% of frame height and gone by 1.3 s.",
+   "evidence": "f0001.jpg, 59 px = 8.2%; cut at 1.3 s",
+   "relation": "contradicts",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Isolate a decisive click: show the button label alone on an empty ground for about 1.5 s, then scale the result into the frame.",
+   "evidence": "f0009.jpg at 16 s; scale-up 18.0-18.97 s",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Close with a dark title card of 4 s and a smaller wordmark added about 1 s later; swap light for dark at the cut so the end reads as an end.",
+   "evidence": "cut at 46.97 s; f0024-f0026; logo hold 3 s",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Hold a title line at least 0.5 s plus 0.3 s a word; five words need 2.0 s, yet the opener gets about 0.7 s.",
+   "evidence": "strips/window-01-1.233s.jpg; closing title holds 4.0 s",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Show product state changes as the transitions (reply completes, memo opens, redlines accepted) instead of added effects; 6 or more cause-driven changes carry a 51 s film.",
+   "evidence": "strips/window-16-28.966s.jpg, window-12; events.change 23",
+   "relation": "confirms",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "Music-only film may run without beats or a climax, but then give the hero scale-up a sound hit within 0.1 s; here the 17.25 s onset precedes the 18.0 s scale-up by 0.75 s.",
+   "evidence": "onsets 17.25 s strength 0.92; cut share 0.0 vs chance 0.066",
+   "relation": "extends",
+   "skill_rule": "8"
+  }
+ ],
+ "frames_opened": 26,
+ "crops_made": 5,
+ "unchecked": [
+  "Easing curves and exact durations of scale-ups were read from strips, not measured.",
+  "Titles at 2.0 s and 43.8 s were not opened at native rate; hold times are estimates.",
+  "Sound read from tags only; instrument names are tag scores, not heard.",
+  "Whether the 36.5 s peak matches any on-screen event was not verified."
+ ]
+}

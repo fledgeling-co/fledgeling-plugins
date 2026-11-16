@@ -31,6 +31,9 @@ Then go through the sheets once per question:
 | Tells | items from `craft.md` §8 and the BANNED list on screen |
 | The pictures alone | with the words covered, do the beat frames still tell the storyline? |
 | The phone sheet | can every line meant to be read be read at 360 px? |
+| The interface | every wide shot of a product screen that the voice or a caption depends on is zoomed until its working text reaches 2.6 % of the short side; a whole-window shot lasts 2-4 s and carries nothing the viewer must read |
+| Claims and pictures | each claim the voice or a title makes has the picture that proves it on screen at the same time |
+| The end card | the ask is on screen as text (a URL, a command or store badges), the last line holds at least 2 s, and the mark holds still for 3-5 s |
 | Frame 0 and the last frame | frame 0 is a poster with the subject in it; the last frame can hold indefinitely |
 
 ## 3. Notes and fixes

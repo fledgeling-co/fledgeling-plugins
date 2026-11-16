@@ -1,0 +1,190 @@
+{
+ "id": "kuxha-8IHCQ",
+ "title": "Plan your big day, make a space.",
+ "uploader": "Muse",
+ "duration_s": 60.7,
+ "fps": 23.976,
+ "rhythm": {
+  "hard_cuts": 15,
+  "cuts_per_min": 14.83,
+  "cut_times_s": [
+   4.96,
+   6.96,
+   9.97,
+   11.97,
+   15.1,
+   16.27,
+   17.1,
+   18.02,
+   19.31,
+   47.63,
+   49.09,
+   50.84,
+   53.84,
+   54.89,
+   56.22
+  ],
+  "median_shot_s": 1.88,
+  "mean_shot_s": 3.79,
+  "shots_over_10s": 1,
+  "first_cut_s": 4.96,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 19.31,
+   "end": 47.63,
+   "seconds": 28.32,
+   "share_of_runtime": 0.467
+  },
+  "bursts": [
+   {
+    "start_s": 15.1,
+    "end_s": 19.31,
+    "cuts": 5,
+    "mid_share": 0.283
+   }
+  ]
+ },
+ "events": {
+  "counts": {
+   "cut": 15,
+   "flash": 0,
+   "appear": 15,
+   "disappear": 16,
+   "change": 46,
+   "hold": 38
+  },
+  "holds_over_1s": 12,
+  "median_hold_s": 0.75,
+  "longest_hold_s": 3.84,
+  "windows": 44
+ },
+ "frames": {
+  "count": 30,
+  "not_evidence_frames": [],
+  "dark_share": 0.467,
+  "light_share": 0.533,
+  "median_contentful_cells": 0.231,
+  "intervals_new_composition_share": 0.138,
+  "intervals_static_share": 0.172,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 40,
+  "frame0": {
+   "meanLuminance": 0.9043,
+   "contentfulCells": 0.1437,
+   "blankCells": 0.5687,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -16.3,
+  "lufs_short_term_max": -13.8,
+  "true_peak_db": -2,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.148,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 59.795,
+    "end": 60.694
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 5,
+    "label": "A"
+   },
+   {
+    "start": 5,
+    "end": 55.5,
+    "label": "B"
+   },
+   {
+    "start": 55.5,
+    "end": 60.694,
+    "label": "C"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.811
+   ],
+   [
+    "music",
+    0.624
+   ],
+   [
+    "keyboard_musical",
+    0.289
+   ],
+   [
+    "synthesizer",
+    0.218
+   ],
+   [
+    "percussion",
+    0.154
+   ],
+   [
+    "plucked_string_instrument",
+    0.123
+   ],
+   [
+    "piano",
+    0.118
+   ],
+   [
+    "mallet_percussion",
+    0.104
+   ]
+  ],
+  "lra_lu": 4.9,
+  "cuts_on_strong_onset_share": 0.333,
+  "chance_share": 0.193,
+  "strong_onsets_per_min": 51.4
+ },
+ "look": {
+  "luma": 139.8,
+  "contrast": 38.2,
+  "saturation": 0.242,
+  "bw_share": 0.01,
+  "warmth": -13.1
+ }
+}

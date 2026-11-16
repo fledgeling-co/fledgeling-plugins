@@ -1,0 +1,197 @@
+{
+ "id": "Jw6l1jgNVw8",
+ "title": "Run End-to-End Legal Work with Harvey Agents",
+ "uploader": "Harvey",
+ "duration_s": 67.3,
+ "fps": 30,
+ "rhythm": {
+  "hard_cuts": 5,
+  "cuts_per_min": 4.46,
+  "cut_times_s": [
+   5.17,
+   7.77,
+   48.17,
+   51,
+   57.7
+  ],
+  "median_shot_s": 5.94,
+  "mean_shot_s": 11.22,
+  "shots_over_10s": 1,
+  "first_cut_s": 5.17,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 7.77,
+   "end": 48.17,
+   "seconds": 40.4,
+   "share_of_runtime": 0.6
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 3,
+   "flash": 0,
+   "appear": 4,
+   "disappear": 3,
+   "change": 28,
+   "hold": 25
+  },
+  "holds_over_1s": 16,
+  "median_hold_s": 1.74,
+  "longest_hold_s": 6.03,
+  "windows": 28
+ },
+ "frames": {
+  "count": 34,
+  "not_evidence_frames": [],
+  "dark_share": 0.176,
+  "light_share": 0.765,
+  "median_contentful_cells": 0.128,
+  "intervals_new_composition_share": 0.152,
+  "intervals_static_share": 0.606,
+  "longest_static_run_s": 12,
+  "longest_static_run_ends_at_s": 20,
+  "frame0": {
+   "meanLuminance": 0.9974,
+   "contentfulCells": 0.0375,
+   "blankCells": 0.9563,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -13.9,
+  "lufs_short_term_max": -10.2,
+  "true_peak_db": -2.2,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.051,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 65.995,
+    "end": 67.294
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 5,
+    "label": "A"
+   },
+   {
+    "start": 5,
+    "end": 13.5,
+    "label": "B"
+   },
+   {
+    "start": 13.5,
+    "end": 30.5,
+    "label": "C"
+   },
+   {
+    "start": 30.5,
+    "end": 39.5,
+    "label": "D"
+   },
+   {
+    "start": 39.5,
+    "end": 45.5,
+    "label": "E"
+   },
+   {
+    "start": 45.5,
+    "end": 62,
+    "label": "F"
+   },
+   {
+    "start": 62,
+    "end": 67.294,
+    "label": "G"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.892
+   ],
+   [
+    "bowed_string_instrument",
+    0.797
+   ],
+   [
+    "violin_fiddle",
+    0.796
+   ],
+   [
+    "cello",
+    0.675
+   ],
+   [
+    "orchestra",
+    0.62
+   ],
+   [
+    "wind_instrument",
+    0.206
+   ],
+   [
+    "double_bass",
+    0.193
+   ],
+   [
+    "keyboard_musical",
+    0.183
+   ]
+  ],
+  "lra_lu": 9.7,
+  "cuts_on_strong_onset_share": 0.4,
+  "chance_share": 0.149,
+  "strong_onsets_per_min": 57.1
+ },
+ "look": {
+  "luma": 200.8,
+  "contrast": 20,
+  "saturation": 0.042,
+  "bw_share": 0.66,
+  "warmth": -0.3
+ }
+}

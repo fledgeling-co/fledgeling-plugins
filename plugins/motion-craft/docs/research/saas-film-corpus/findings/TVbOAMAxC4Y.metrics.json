@@ -1,0 +1,548 @@
+{
+ "id": "TVbOAMAxC4Y",
+ "title": "How Harvey Graph Helps Deliver More Accurate Legal Work",
+ "uploader": "Harvey",
+ "duration_s": 290.06,
+ "fps": 30,
+ "rhythm": {
+  "hard_cuts": 3,
+  "cuts_per_min": 0.62,
+  "cut_times_s": [
+   12.03,
+   281.53,
+   282.33
+  ],
+  "median_shot_s": 9.88,
+  "mean_shot_s": 72.52,
+  "shots_over_10s": 2,
+  "first_cut_s": 12.03,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 12.03,
+   "end": 281.53,
+   "seconds": 269.5,
+   "share_of_runtime": 0.929
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 0,
+   "flash": 0,
+   "appear": 16,
+   "disappear": 18,
+   "change": 31,
+   "hold": 44
+  },
+  "holds_over_1s": 42,
+  "median_hold_s": 5.65,
+  "longest_hold_s": 21.77,
+  "windows": 48
+ },
+ "frames": {
+  "count": 145,
+  "not_evidence_frames": [
+   "f0072.jpg",
+   "f0085.jpg",
+   "f0096.jpg",
+   "f0114.jpg"
+  ],
+  "dark_share": 0.069,
+  "light_share": 0.931,
+  "median_contentful_cells": 0.3,
+  "intervals_new_composition_share": 0.014,
+  "intervals_static_share": 0.861,
+  "longest_static_run_s": 26,
+  "longest_static_run_ends_at_s": 90,
+  "frame0": {
+   "meanLuminance": 0.121,
+   "contentfulCells": 0.125,
+   "blankCells": 0.0,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0004.jpg",
+  "f0007.jpg",
+  "f0010.jpg",
+  "f0013.jpg",
+  "f0016.jpg",
+  "f0019.jpg",
+  "f0022.jpg",
+  "f0025.jpg",
+  "f0028.jpg",
+  "f0031.jpg",
+  "f0034.jpg",
+  "f0037.jpg",
+  "f0040.jpg",
+  "f0043.jpg",
+  "f0046.jpg",
+  "f0049.jpg",
+  "f0052.jpg",
+  "f0055.jpg",
+  "f0058.jpg",
+  "f0061.jpg",
+  "f0064.jpg",
+  "f0067.jpg",
+  "f0070.jpg",
+  "f0073.jpg",
+  "f0076.jpg",
+  "f0079.jpg",
+  "f0082.jpg",
+  "f0085.jpg",
+  "f0088.jpg",
+  "f0091.jpg",
+  "f0094.jpg",
+  "f0097.jpg",
+  "f0100.jpg",
+  "f0103.jpg",
+  "f0106.jpg",
+  "f0109.jpg",
+  "f0112.jpg",
+  "f0115.jpg",
+  "f0118.jpg",
+  "f0121.jpg",
+  "f0124.jpg",
+  "f0127.jpg",
+  "f0130.jpg",
+  "f0133.jpg",
+  "f0136.jpg",
+  "f0139.jpg",
+  "f0142.jpg",
+  "f0145.jpg"
+ ],
+ "sound": {
+  "kind": "voice",
+  "lufs_integrated": -22.8,
+  "lufs_short_term_max": -21.7,
+  "true_peak_db": -4.7,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.018,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 0,
+    "end": 0.705
+   },
+   {
+    "start": 5.005,
+    "end": 5.275
+   },
+   {
+    "start": 10.305,
+    "end": 12.275
+   },
+   {
+    "start": 15.65,
+    "end": 15.87
+   },
+   {
+    "start": 22.405,
+    "end": 22.615
+   },
+   {
+    "start": 25.91,
+    "end": 26.31
+   },
+   {
+    "start": 37.32,
+    "end": 37.96
+   },
+   {
+    "start": 39.3,
+    "end": 39.575
+   },
+   {
+    "start": 41.74,
+    "end": 42.21
+   },
+   {
+    "start": 47.05,
+    "end": 47.405
+   },
+   {
+    "start": 51.29,
+    "end": 51.905
+   },
+   {
+    "start": 54.78,
+    "end": 54.99
+   },
+   {
+    "start": 55,
+    "end": 55.225
+   },
+   {
+    "start": 58.86,
+    "end": 59.085
+   },
+   {
+    "start": 62.93,
+    "end": 64.975
+   },
+   {
+    "start": 71.935,
+    "end": 72.26
+   },
+   {
+    "start": 74.86,
+    "end": 75.07
+   },
+   {
+    "start": 78.23,
+    "end": 78.57
+   },
+   {
+    "start": 80.44,
+    "end": 80.835
+   },
+   {
+    "start": 80.89,
+    "end": 81.09
+   },
+   {
+    "start": 85.505,
+    "end": 85.8
+   },
+   {
+    "start": 90.18,
+    "end": 92.16
+   },
+   {
+    "start": 97.19,
+    "end": 97.41
+   },
+   {
+    "start": 102.73,
+    "end": 103.16
+   },
+   {
+    "start": 109.865,
+    "end": 110.075
+   },
+   {
+    "start": 110.165,
+    "end": 110.485
+   },
+   {
+    "start": 114.985,
+    "end": 116.895
+   },
+   {
+    "start": 120.155,
+    "end": 120.565
+   },
+   {
+    "start": 123.98,
+    "end": 124.305
+   },
+   {
+    "start": 128.11,
+    "end": 128.38
+   },
+   {
+    "start": 133.73,
+    "end": 133.995
+   },
+   {
+    "start": 137.97,
+    "end": 138.215
+   },
+   {
+    "start": 141.765,
+    "end": 143.755
+   },
+   {
+    "start": 147.44,
+    "end": 147.725
+   },
+   {
+    "start": 153.04,
+    "end": 153.77
+   },
+   {
+    "start": 156.595,
+    "end": 156.885
+   },
+   {
+    "start": 160.27,
+    "end": 160.575
+   },
+   {
+    "start": 162.23,
+    "end": 162.615
+   },
+   {
+    "start": 167.285,
+    "end": 169.29
+   },
+   {
+    "start": 170.97,
+    "end": 171.255
+   },
+   {
+    "start": 175.975,
+    "end": 176.24
+   },
+   {
+    "start": 177.815,
+    "end": 178.4
+   },
+   {
+    "start": 180.835,
+    "end": 181.32
+   },
+   {
+    "start": 182.83,
+    "end": 183.135
+   },
+   {
+    "start": 184.76,
+    "end": 185.4
+   },
+   {
+    "start": 189.405,
+    "end": 191.4
+   },
+   {
+    "start": 194.36,
+    "end": 194.64
+   },
+   {
+    "start": 201.355,
+    "end": 201.72
+   },
+   {
+    "start": 203.51,
+    "end": 203.72
+   },
+   {
+    "start": 207.675,
+    "end": 207.875
+   },
+   {
+    "start": 210.835,
+    "end": 212.85
+   },
+   {
+    "start": 217.635,
+    "end": 217.96
+   },
+   {
+    "start": 220.43,
+    "end": 221.08
+   },
+   {
+    "start": 223.325,
+    "end": 223.645
+   },
+   {
+    "start": 225.905,
+    "end": 227.88
+   },
+   {
+    "start": 229.585,
+    "end": 229.785
+   },
+   {
+    "start": 234.335,
+    "end": 234.66
+   },
+   {
+    "start": 236.815,
+    "end": 238.86
+   },
+   {
+    "start": 242.23,
+    "end": 242.5
+   },
+   {
+    "start": 246.34,
+    "end": 246.56
+   },
+   {
+    "start": 250.85,
+    "end": 251.075
+   },
+   {
+    "start": 252.79,
+    "end": 254.755
+   },
+   {
+    "start": 256.46,
+    "end": 256.695
+   },
+   {
+    "start": 258.85,
+    "end": 259.155
+   },
+   {
+    "start": 264.32,
+    "end": 264.58
+   },
+   {
+    "start": 266.62,
+    "end": 267.03
+   },
+   {
+    "start": 267.04,
+    "end": 267.24
+   },
+   {
+    "start": 268.25,
+    "end": 268.505
+   },
+   {
+    "start": 271.595,
+    "end": 271.875
+   },
+   {
+    "start": 273.615,
+    "end": 274.215
+   },
+   {
+    "start": 277.53,
+    "end": 277.765
+   },
+   {
+    "start": 280.555,
+    "end": 282.61
+   },
+   {
+    "start": 288.665,
+    "end": 290.054
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 12.5,
+    "label": "A"
+   },
+   {
+    "start": 12.5,
+    "end": 36,
+    "label": "B"
+   },
+   {
+    "start": 36,
+    "end": 65,
+    "label": "C"
+   },
+   {
+    "start": 65,
+    "end": 88.5,
+    "label": "D"
+   },
+   {
+    "start": 88.5,
+    "end": 94,
+    "label": "E"
+   },
+   {
+    "start": 94,
+    "end": 112.5,
+    "label": "F"
+   },
+   {
+    "start": 112.5,
+    "end": 144,
+    "label": "G"
+   },
+   {
+    "start": 144,
+    "end": 165.5,
+    "label": "F"
+   },
+   {
+    "start": 165.5,
+    "end": 192,
+    "label": "H"
+   },
+   {
+    "start": 192,
+    "end": 211,
+    "label": "F"
+   },
+   {
+    "start": 211,
+    "end": 226,
+    "label": "I"
+   },
+   {
+    "start": 226,
+    "end": 236.5,
+    "label": "J"
+   },
+   {
+    "start": 236.5,
+    "end": 255,
+    "label": "K"
+   },
+   {
+    "start": 255,
+    "end": 266.5,
+    "label": "B"
+   },
+   {
+    "start": 266.5,
+    "end": 280.5,
+    "label": "L"
+   },
+   {
+    "start": 280.5,
+    "end": 290.054,
+    "label": "M"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.895
+   ],
+   [
+    "sigh",
+    0.237
+   ],
+   [
+    "music",
+    0.126
+   ],
+   [
+    "mosquito_buzz",
+    0.118
+   ],
+   [
+    "insect",
+    0.109
+   ],
+   [
+    "breathing",
+    0.107
+   ],
+   [
+    "gasp",
+    0.076
+   ],
+   [
+    "click",
+    0.052
+   ]
+  ],
+  "lra_lu": 2.7,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.051,
+  "strong_onsets_per_min": 13.2
+ },
+ "look": {
+  "luma": 230,
+  "contrast": 15.5,
+  "saturation": 0.015,
+  "bw_share": 0.83,
+  "warmth": 1.8
+ }
+}

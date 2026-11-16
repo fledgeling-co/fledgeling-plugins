@@ -1,0 +1,487 @@
+{
+ "id": "SkpwzfR4A1E",
+ "title": "Claude's new mobile app updates are here",
+ "brand": "Claude",
+ "duration_s": 152.06,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "On-camera presenter narrates a release roundup; cream UI cards float over his shoulder or take the full frame, one card per feature.",
+ "one_thing": "Claude's mobile apps got a batch of upgrades (Duo/iPad artifact column, Android laptop mode, faster voice, 24 more languages), with search still to come.",
+ "transcript": {
+  "source": "local-whisper",
+  "voiceover": "on-camera-presenter",
+  "words_total": 518,
+  "words_per_minute": 204.4,
+  "voice_style": "Warm, quick, conversational first-person; casual asides ('like myself', 'for me has been great'); about 200 words a minute with short pauses.",
+  "script_shape": "Opens on a demo sentence, says 'plus one more still on the way', walks platforms in order, saves the unshipped search for last, then a Command-K tip and a comment request."
+ },
+ "structure": {
+  "frame0": "Presenter mid-sentence in a warm window-lit room, a foldable-phone card with a '4,406' chart already floating at right from t=0.57s. Subject is present, not black.",
+  "first_3s": "Presenter says the chart line while the Duo card slides in at 0.57s, then a cream panel grows from the card to full frame at 2.8-3.0s.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 3,
+    "role": "hook",
+    "what": "Presenter opens on the Duo chart; the device card appears beside him."
+   },
+   {
+    "start_s": 3,
+    "end_s": 11.6,
+    "role": "setup",
+    "what": "Duo unfolds into a full-frame tablet; then a 'Upgrades across the Claude apps' card with six topic chips."
+   },
+   {
+    "start_s": 11.6,
+    "end_s": 22.8,
+    "role": "demo",
+    "what": "Presenter plus 'Stay signed in to both' card: Work and Personal accounts, both marked Signed in."
+   },
+   {
+    "start_s": 22.8,
+    "end_s": 29.8,
+    "role": "demo",
+    "what": "Full-frame 'Photos show up right away': three thumbnails appear above the composer, a question types in."
+   },
+   {
+    "start_s": 29.8,
+    "end_s": 44.2,
+    "role": "demo",
+    "what": "Tablet with chat left and chart right; typed 'Drop week 12. Trade show.' changes 4,406 to 3,886."
+   },
+   {
+    "start_s": 44.2,
+    "end_s": 69.9,
+    "role": "demo",
+    "what": "Presenter with iPad and Duo overlays: poster artifact, then two chats side by side."
+   },
+   {
+    "start_s": 69.9,
+    "end_s": 83,
+    "role": "demo",
+    "what": "Laptop draws on from a dot; 'Works like a laptop app' with three feature rows."
+   },
+   {
+    "start_s": 83,
+    "end_s": 98.7,
+    "role": "demo",
+    "what": "Presenter plus dark 'Answers sooner. Hears you better.' card with waveforms and three sub-captions."
+   },
+   {
+    "start_s": 98.7,
+    "end_s": 106.9,
+    "role": "demo",
+    "what": "Dark full frame: CarPlay screen with Listening and a starburst, caption 'Voice mode works with Apple CarPlay'."
+   },
+   {
+    "start_s": 106.9,
+    "end_s": 127,
+    "role": "proof",
+    "what": "'24 more languages' with a changing welcome card in Vietnamese, Gujarati, Turkish, Telugu; '33 in total'."
+   },
+   {
+    "start_s": 127,
+    "end_s": 138,
+    "role": "turn",
+    "what": "Presenter and iPhone search screen with 'Coming soon' tag; typing 'kyoto' shows results."
+   },
+   {
+    "start_s": 138,
+    "end_s": 144,
+    "role": "payoff",
+    "what": "'Pro tip: Already on web and desktop' with Command + K keycaps."
+   },
+   {
+    "start_s": 144,
+    "end_s": 147.2,
+    "role": "cta",
+    "what": "Presenter plus 'What would you like to see next?' comment box."
+   },
+   {
+    "start_s": 147.2,
+    "end_s": 152.06,
+    "role": "logo",
+    "what": "Claude starburst and wordmark on cream."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 3.7,
+   "share": 0.024,
+   "what": "The Duo hinge opens in 3D to reveal chat beside the chart (strips/window-03-2.666s.jpg, t=3.37-4.43s)."
+  },
+  "ending": {
+   "cta_text": "What would you like to see next?",
+   "logo_hold_s": 4.8,
+   "what": "Comment-box card for about 3s, then a hard cut to the centred logo held to the end."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 16,
+  "cuts_per_min": 6.31,
+  "median_shot_s": 8.2,
+  "how_change_is_paced": "Slow cuts (median 8.2s, longest 25.6s at 44.2-69.9s); movement comes from overlays, 30 appear events, card swaps and device draw-ons, plus the presenter's delivery. Cream card, presenter, cream card alternate."
+ },
+ "look": {
+  "ground": "Warm off-white cream cards (luma 182) over a golden-hour presenter shot; dark charcoal ground for the voice and CarPlay section.",
+  "palette": [
+   "cream #FAF9F5",
+   "near-black ink",
+   "terracotta #C96B50",
+   "pale grey-lilac chips",
+   "golden yellow bar",
+   "charcoal #141414"
+  ],
+  "accent_use": "Terracotta dot before each eyebrow label, the starburst, the underline on 'most requested', and the large '24'; one yellow bar marks the data point.",
+  "type": "High-contrast serif display for titles, grotesque sans for labels, chips and UI; two-line titles, centred or left aligned on the card.",
+  "title_height_pct": [
+   5.7,
+   17.6
+  ],
+  "title_measurements": [
+   {
+    "t_s": 9,
+    "text": "Upgrades across the Claude apps",
+    "line_height_px": 58,
+    "frame_height_px": 720,
+    "pct": 8.1
+   },
+   {
+    "t_s": 24,
+    "text": "Photos show up right away",
+    "line_height_px": 62,
+    "frame_height_px": 720,
+    "pct": 8.6
+   },
+   {
+    "t_s": 16,
+    "text": "Stay signed in to both",
+    "line_height_px": 41,
+    "frame_height_px": 720,
+    "pct": 5.7
+   },
+   {
+    "t_s": 90,
+    "text": "Answers sooner. Hears you better.",
+    "line_height_px": 41,
+    "frame_height_px": 720,
+    "pct": 5.7
+   },
+   {
+    "t_s": 78,
+    "text": "Works like a laptop app",
+    "line_height_px": 41,
+    "frame_height_px": 720,
+    "pct": 5.7
+   },
+   {
+    "t_s": 118,
+    "text": "24 more languages (numeral)",
+    "line_height_px": 127,
+    "frame_height_px": 720,
+    "pct": 17.6
+   }
+  ],
+  "max_words_per_title_line": 3,
+  "density": "sparse",
+  "depth": "Flat cards with soft shadows float over blurred live footage; the devices have light 3D hinge and shadow, nothing else has depth."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 85,
+  "shown_as": [
+   "floating-ui-cards",
+   "device-mockup",
+   "redrawn-simplified-ui",
+   "live-action"
+  ],
+  "cursor": "stylised",
+  "camera_on_ui": "No camera moves. The Duo hinge unfolds in 3D (3.4-4.4s), a card grows to full frame, and a dark panel zooms from a dot; otherwise UI is static.",
+  "legible_at_phone_width": "partly",
+  "notes": "Full-frame cards and titles read well; UI inside the small shoulder cards (f0001.jpg chart rows about 10px tall) and device screens at t=70-83s are too small. Product screens are designed, plausible mock UI with sample data, not captures."
+ },
+ "motion": {
+  "text_entry": "Eyebrow, title and rows fade or rise in staggered; chips pop in one by one (f0004.jpg shows the fifth chip mid-fade); the Answers sooner. line fills in word by word.",
+  "ui_motion": "Typed input into the composer, chart bar changing 4,406 to 3,886 with a dashed ghost bar, waveforms animating, welcome card cycling languages, red outline highlight on the part being discussed.",
+  "camera": "Presenter shot is static; no push or pan on UI. Only the Duo hinge swing and the card-to-full-screen growth act as camera moves.",
+  "eases": "Soft ease-out on cards and a quick, snappy panel expansion in 0.2s (strip window-03); the device draw-on from dot to bar to screen takes about 0.8s.",
+  "transitions": [
+   {
+    "type": "mask-or-wipe",
+    "count": 6,
+    "example_t_s": 2.9,
+    "cause": "The cream card widens from the floating card to fill the frame, then the next scene sits inside it."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 3,
+    "example_t_s": 70.5,
+    "cause": "A dot grows into a bar, then a device screen, then the laptop that carries the content."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 1,
+    "example_t_s": 3.7,
+    "cause": "Foldable hinge opens to show the two-pane view being described."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 2,
+    "example_t_s": 37,
+    "cause": "Typed request alters the chart from 4,406 to 3,886."
+   },
+   {
+    "type": "hard-cut",
+    "count": 16,
+    "example_t_s": 11.57,
+    "cause": "Measured cuts, mostly between presenter shot and full-frame cream card as the topic changes."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0s.jpg",
+   "strips/window-03-2.666s.jpg",
+   "strips/window-04-3.866s.jpg",
+   "strips/window-16-22.5s.jpg",
+   "strips/window-32-44.433s.jpg",
+   "strips/window-52-70.533s.jpg",
+   "strips/window-57-82.7s.jpg",
+   "strips/window-60-86.266s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 6,
+    "text": "Upgrades across the Claude apps",
+    "words": 5,
+    "hold_s": 5.5
+   },
+   {
+    "t_s": 12,
+    "text": "Stay signed in to both",
+    "words": 5,
+    "hold_s": 10
+   },
+   {
+    "t_s": 14,
+    "text": "One of the most requested things on mobile",
+    "words": 8,
+    "hold_s": 7
+   },
+   {
+    "t_s": 24,
+    "text": "Photos show up right away",
+    "words": 5,
+    "hold_s": 6
+   },
+   {
+    "t_s": 34,
+    "text": "Its own column",
+    "words": 3,
+    "hold_s": 2
+   },
+   {
+    "t_s": 36,
+    "text": "Ask for changes",
+    "words": 3,
+    "hold_s": 6
+   },
+   {
+    "t_s": 48,
+    "text": "iPad",
+    "words": 1,
+    "hold_s": 6
+   },
+   {
+    "t_s": 66,
+    "text": "Works like a laptop app",
+    "words": 5,
+    "hold_s": 16
+   },
+   {
+    "t_s": 76,
+    "text": "Resizable sidebar",
+    "words": 2,
+    "hold_s": 6
+   },
+   {
+    "t_s": 78,
+    "text": "Mouse and trackpad, with right-click",
+    "words": 5,
+    "hold_s": 4
+   },
+   {
+    "t_s": 80,
+    "text": "Same keyboard shortcuts as Claude Desktop",
+    "words": 6,
+    "hold_s": 3
+   },
+   {
+    "t_s": 88,
+    "text": "Answers sooner. Hears you better.",
+    "words": 5,
+    "hold_s": 12
+   },
+   {
+    "t_s": 90,
+    "text": "Hears you in a noisy room",
+    "words": 6,
+    "hold_s": 2
+   },
+   {
+    "t_s": 96,
+    "text": "On more Android phones",
+    "words": 4,
+    "hold_s": 2
+   },
+   {
+    "t_s": 102,
+    "text": "Voice mode works with Apple CarPlay",
+    "words": 6,
+    "hold_s": 6
+   },
+   {
+    "t_s": 108,
+    "text": "Voice mode sounds more natural in other languages",
+    "words": 8,
+    "hold_s": 2
+   },
+   {
+    "t_s": 112,
+    "text": "24 more languages",
+    "words": 3,
+    "hold_s": 12
+   },
+   {
+    "t_s": 120,
+    "text": "33 in total",
+    "words": 3,
+    "hold_s": 6
+   },
+   {
+    "t_s": 128,
+    "text": "Coming soon",
+    "words": 2,
+    "hold_s": 10
+   },
+   {
+    "t_s": 138,
+    "text": "Already on web and desktop",
+    "words": 5,
+    "hold_s": 6
+   },
+   {
+    "t_s": 144,
+    "text": "What would you like to see next?",
+    "words": 7,
+    "hold_s": 3
+   }
+  ],
+  "holds_vs_reading_rule": "Titles of 3-8 words are held 5-16s, far above 0.5s plus 0.3s a word; the final comment line holds about 3s (minimum 2s met); small pills like 'Hears you in a noisy room' hold about 2s."
+ },
+ "sound": {
+  "music": "No music shown by the data: describe tags put speech at 0.891 and music at 0.105, beats confidence 0.028. Nothing to name an instrument or genre.",
+  "sfx": "No sfx evidenced; tags 'click' 0.183 and 'typing' 0.11 are below 0.2, so none claimed.",
+  "vo_music_balance": "Voice only; kind=voice (0.763), integrated -13.2 LUFS, short-term max -11.8, true peak -0.9 dBTP, loudness range 2.4 LU.",
+  "energy_arc": "Flat delivery at about 204 words per minute; 65 silence spans (longest 3.3s, the closing gap) mark the phrasing, with no music build.",
+  "sync_to_picture": "Cuts not locked to sound: cuts_on_strong_onset_share 0.0 against chance_share 0.094. Overlay entrances follow spoken phrases (listed from transcript and frames)."
+ },
+ "good": [
+  {
+   "observation": "Every feature gets one card: eyebrow label, two-line serif title, one proof UI. Viewers can map the voice line to the card at a glance.",
+   "evidence": "f0007.jpg, f0013.jpg, f0040.jpg, f0049.jpg"
+  },
+  {
+   "observation": "The opening shows the finished chart on a foldable at 0.57s and unfolds it by 4.4s, so the first 5s say what the update is.",
+   "evidence": "strips/window-01-0s.jpg, window-03-2.666s.jpg"
+  },
+  {
+   "observation": "Demo UI carries a story, not lorem ipsum: 'Drop week 12. Trade show.' changes 4,406 to 3,886 and the chart shows a dashed ghost bar.",
+   "evidence": "f0019.jpg, f0022.jpg"
+  },
+  {
+   "observation": "A strict system keeps 21 on-screen lines consistent: cream cards, terracotta dots, serif title, sans caption, charcoal for audio features.",
+   "evidence": "sheets 1-5; measure/look.json warmth 11.4"
+  },
+  {
+   "observation": "The big numeral '24' at 17.6% of frame height plus '33 in total' makes the statistic the picture.",
+   "evidence": "f0058.jpg, f0061.jpg; title_measurements 127px"
+  },
+  {
+   "observation": "Ending lands cleanly: comment prompt for about 3s, then the logo held 4.8s on plain cream.",
+   "evidence": "f0073.jpg, f0075.jpg, cuts 144, 147.2"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "A 25.6s shot (44.2-69.9s) is presenter with small overlays; the iPad/Duo UI inside is tiny and hard to read at phone width.",
+   "evidence": "metrics rhythm.longest_shot; f0025.jpg"
+  },
+  {
+   "observation": "Several cream or grey blank panels hang for 0.3-1s between scenes before content arrives, which reads as an empty frame.",
+   "evidence": "f0012.jpg, f0050.jpg, f0064.jpg"
+  },
+  {
+   "observation": "Device UI inside shoulder cards is about 10px tall, under the 2.6% floor, so the proof is mostly unreadable on a phone.",
+   "evidence": "f0001.jpg"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "For a presenter film, put the proof card in the free right third from 0.5s and size it to at least 40% of frame height so the face and the product both read.",
+   "evidence": "f0001.jpg card 370px tall of 720 at t=0.57s; f0007.jpg card 440px (61%).",
+   "relation": "confirms",
+   "skill_rule": "1 and 6"
+  },
+  {
+   "rule": "In a presenter-led explainer, cut about every 8s and carry pace with overlay changes (about 30 appear events in 152s); a median shot of 1.8-3.5s is not needed for this format.",
+   "evidence": "metrics rhythm.median_shot_s 8.2, cuts_per_min 6.31, events.counts.appear 30.",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Title cards use a label line plus a title of at most 3 words per line over 2 lines, with a title line height of 5.7-8.6% of frame height.",
+   "evidence": "title_measurements: 58px (8.1%) at t=9s, 41px (5.7%) at t=16s.",
+   "relation": "confirms",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "Cause every scene change by the object on screen: grow the floating card to full frame, or draw the device from a dot-bar-screen in under 1s, so the cut never reads as a dissolve.",
+   "evidence": "strips/window-03-2.666s.jpg (2.7-3.0s), window-52-70.533s.jpg (70.5-71.4s).",
+   "relation": "extends",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "Close with a one-line prompt held at least 2s (here about 3s), then the logo on plain ground held about 5s.",
+   "evidence": "f0073.jpg t=144s; logo 147.2-152.06s.",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Switch ground colour with the topic: dark charcoal cards for audio features, cream for visual ones, so a section change is readable without any caption.",
+   "evidence": "f0044.jpg, f0050.jpg versus f0040.jpg; section break at 83s and 106.9s.",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Mix a speech-only soundtrack to -13 to -14 LUFS but keep true peak at or below -1 dBTP; this one peaks at -0.9, 0.1 dB over.",
+   "evidence": "metrics sound.lufs_integrated -13.2, true_peak_db -0.9.",
+   "relation": "extends",
+   "skill_rule": "9"
+  },
+  {
+   "rule": "When a number is the claim, make the numeral the largest element (about 17% of frame height) and add a plain qualifier line beneath it.",
+   "evidence": "f0058.jpg '24 more languages', numeral 127px of 720; f0061.jpg '33 in total'.",
+   "relation": "new",
+   "skill_rule": "none"
+  }
+ ],
+ "frames_opened": 38,
+ "crops_made": 6,
+ "unchecked": [
+  "Transcript tool not found via ToolSearch; used local whisper.",
+  "Hold durations are from 2s frame samples, so +/-2s.",
+  "product_ui presence_pct_runtime 85 is estimated from sheets, not measured.",
+  "Sound could not be heard; no music evidence beyond tags.",
+  "Strips cover 8 of 60 windows."
+ ]
+}

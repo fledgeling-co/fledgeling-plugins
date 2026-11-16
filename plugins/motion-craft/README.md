@@ -5,9 +5,9 @@
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> motion-craft</h1>
 
 <p align="center">
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
+  <img alt="Version 0.2.0" src="https://img.shields.io/badge/version-0.2.0-D33C21">
   <img alt="Making: video" src="https://img.shields.io/badge/making-video-434A55">
-  <img alt="References: 9" src="https://img.shields.io/badge/references-9-756E60">
+  <img alt="References: 10" src="https://img.shields.io/badge/references-10-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
 
@@ -40,7 +40,10 @@ A few of the defaults, each with its source in `references/evidence.md`:
 | Type floor | 2.6 % of the frame's short side; cut words before shrinking type |
 | Exits | 40-50 % shorter than entrances |
 | Transitions | 3-5 kinds a film, each caused by something on screen; at most a third hard cuts |
-| Burst | 5-8 cuts in five seconds at 30-60 % of the length, for an energetic film |
+| Pace | something on screen changes every 1-3 s; a walkthrough can hold one shot 20 s or more on that basis |
+| Burst | 5-8 cuts in five seconds at 30-60 % of the length, for an energetic launch or feed film only |
+| Interface | zoomed 1.5-3x until working text reaches 2.6 % of the short side; whole-window shots only to orient |
+| End card | the ask on screen as text, the mark held still for 3-5 s |
 | Loudness | −14 LUFS, true peak at or below −1 dBTP |
 
 ## What it won't do without asking
@@ -68,6 +71,7 @@ Needs Node (for `npx hyperframes`), ffmpeg and Python 3. The first render downlo
 | `story-and-rhythm.md` | Scenes arrive at the same pace and the payoff lands on nothing |
 | `craft.md` | Every element shares one ease, titles get shrunk instead of cut, transitions happen for no reason |
 | `formats.md` | A vertical clip gets laid out like a 16:9 film with the sides cropped off |
+| `saas-films.md` | A product walkthrough gets cut like a trailer, and its interface is too small to read on a phone |
 | `engine.md` | A render comes out differently twice, or silent with no error |
 | `sound.md` | Sound gets judged by ear, which the agent doesn't have |
 | `review.md` | "Looks good" is reported off a contact sheet that can't show a jump |
@@ -76,4 +80,4 @@ Needs Node (for `npx hyperframes`), ffmpeg and Python 3. The first render downlo
 
 ## Credit
 
-The sound engine is vendored from [claude-motion](https://github.com/whaleyxbt/claude-motion) (MIT), with its licence alongside. Craft numbers draw on HyperFrames' own motion-graphics guidance (Apache-2.0), the huashu motion repos, and roughly twenty creator walkthroughs whose transcripts and measured cut timings are recorded in `references/evidence.md`. The engine choice and the testing plan were each settled by a four-family decision panel; both records are in [`docs/decisions/`](../../docs/decisions/) at the repo root.
+The sound engine is vendored from [claude-motion](https://github.com/whaleyxbt/claude-motion) (MIT), with its licence alongside. Craft numbers draw on HyperFrames' own motion-graphics guidance (Apache-2.0), the huashu motion repos, and roughly twenty creator walkthroughs whose transcripts and measured cut timings are recorded in `references/evidence.md`. The SaaS film guidance comes from 48 shipped product films by Claude, Harvey and Muse, each one transcribed, sampled frame by frame and measured; the method and every film's findings are in [`docs/research/saas-film-corpus/`](docs/research/saas-film-corpus/). The engine choice and the testing plan were each settled by a four-family decision panel; both records are in [`docs/decisions/`](../../docs/decisions/) at the repo root.

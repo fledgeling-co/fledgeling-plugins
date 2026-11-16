@@ -1,0 +1,176 @@
+{
+ "id": "xDiG-MN7GzU",
+ "title": "Memory Is Now In Harvey",
+ "uploader": "Harvey",
+ "duration_s": 67.78,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 4,
+  "cuts_per_min": 3.54,
+  "cut_times_s": [
+   18.04,
+   18.21,
+   21,
+   60.54
+  ],
+  "median_shot_s": 7.24,
+  "mean_shot_s": 13.56,
+  "shots_over_10s": 2,
+  "first_cut_s": 18.04,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 21,
+   "end": 60.54,
+   "seconds": 39.54,
+   "share_of_runtime": 0.583
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 6,
+   "flash": 0,
+   "appear": 6,
+   "disappear": 14,
+   "change": 69,
+   "hold": 25
+  },
+  "holds_over_1s": 16,
+  "median_hold_s": 1.79,
+  "longest_hold_s": 5,
+  "windows": 32
+ },
+ "frames": {
+  "count": 34,
+  "not_evidence_frames": [],
+  "dark_share": 0.0,
+  "light_share": 1.0,
+  "median_contentful_cells": 0.188,
+  "intervals_new_composition_share": 0.0,
+  "intervals_static_share": 0.364,
+  "longest_static_run_s": 6,
+  "longest_static_run_ends_at_s": 66,
+  "frame0": {
+   "meanLuminance": 0.9397,
+   "contentfulCells": 0.0938,
+   "blankCells": 0.65,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -16,
+  "lufs_short_term_max": -11.8,
+  "true_peak_db": -2.4,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.099,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [],
+  "sections": [
+   {
+    "start": 0,
+    "end": 5.5,
+    "label": "A"
+   },
+   {
+    "start": 5.5,
+    "end": 14,
+    "label": "B"
+   },
+   {
+    "start": 14,
+    "end": 58,
+    "label": "C"
+   },
+   {
+    "start": 58,
+    "end": 67.774,
+    "label": "D"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.905
+   ],
+   [
+    "bowed_string_instrument",
+    0.797
+   ],
+   [
+    "cello",
+    0.721
+   ],
+   [
+    "violin_fiddle",
+    0.715
+   ],
+   [
+    "orchestra",
+    0.568
+   ],
+   [
+    "wind_instrument",
+    0.394
+   ],
+   [
+    "double_bass",
+    0.33
+   ],
+   [
+    "brass_instrument",
+    0.205
+   ]
+  ],
+  "lra_lu": 5.8,
+  "cuts_on_strong_onset_share": 0.25,
+  "chance_share": 0.023,
+  "strong_onsets_per_min": 6.2
+ },
+ "look": {
+  "luma": 238.7,
+  "contrast": 21.3,
+  "saturation": 0.006,
+  "bw_share": 0.72,
+  "warmth": 0.6
+ }
+}

@@ -1,0 +1,426 @@
+{
+ "id": "bOeWJRfYWWY",
+ "title": "Introducing Contract Intelligence",
+ "brand": "Harvey",
+ "duration_s": 49.96,
+ "status": "ok",
+ "format": "launch-film",
+ "format_note": "Abstract motion-graphic announcement: document metaphors on alternating dark and light grounds, real product UI shown only in the last ten seconds, no voiceover.",
+ "one_thing": "Contract review becomes automatic approval: documents stream through an Approve line, Harvey's intelligence orbits them, and the product screen proves it with 'Sign faster. Sign smarter.'",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No voice. Meaning is carried by on-screen words, typed in and out, over a string-led music bed.",
+  "script_shape": "Metaphor first (documents funnel past an Approve line), then an intelligence sphere with five verbs, then a two-line promise, then the product name."
+ },
+ "structure": {
+  "frame0": "Near-black ground with a ring of white dots tilted like an orbit, filling about 70% of frame height; no logo, no text. A motif poster rather than the product.",
+  "first_3s": "The dotted orbit rotates and collapses to a point; an H badge appears at t=2.0s and the name starts to type beside it. No product UI, no claim yet.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 2.4,
+    "role": "hook",
+    "what": "Dotted orbit spins down into the Harvey H badge, with the wordmark starting to type in (f0001, f0002)."
+   },
+   {
+    "start_s": 2.4,
+    "end_s": 11.8,
+    "role": "setup",
+    "what": "White documents fall past a thin line with an Approve button; each lands dark with a check, then a funnel of pages builds (f0003-f0006)."
+   },
+   {
+    "start_s": 11.8,
+    "end_s": 12.6,
+    "role": "turn",
+    "what": "Hard cut to a toggle that flips on, dark ground fading to light (strip window-10)."
+   },
+   {
+    "start_s": 12.65,
+    "end_s": 13.67,
+    "role": "reveal",
+    "what": "Light ground, toggle labelled 'Contract Intelligence' (f0007)."
+   },
+   {
+    "start_s": 13.67,
+    "end_s": 16,
+    "role": "setup",
+    "what": "Funnel of black documents on white; a few show small spheres, which converge on one document (f0008, f0009)."
+   },
+   {
+    "start_s": 16,
+    "end_s": 22,
+    "role": "demo",
+    "what": "One document is orbited by dots while labels read Extracting, Scoring risk, Comparing terms, Drafting redlines (f0010-f0012)."
+   },
+   {
+    "start_s": 22,
+    "end_s": 28.68,
+    "role": "payoff",
+    "what": "H document becomes a column of H documents that drop through the Approve line and come out signed (f0013-f0015)."
+   },
+   {
+    "start_s": 28.68,
+    "end_s": 39.6,
+    "role": "turn",
+    "what": "Hard cut to dark; a small ring grows into a dotted sphere beside 'Upgrading Intelligence.', then five verbs appear around it (f0016-f0019)."
+   },
+   {
+    "start_s": 39.6,
+    "end_s": 44.6,
+    "role": "proof",
+    "what": "Light ground; 'Sign faster' then 'Sign smarter' on the left, real product screens on the right (f0020, f0021)."
+   },
+   {
+    "start_s": 44.6,
+    "end_s": 49.96,
+    "role": "logo",
+    "what": "H badge fades from light to dark and 'Contract Intelligence' types in; held 5.4 s (f0022-f0025)."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 12.7,
+   "share": 0.254,
+   "what": "The toggle flips and the whole frame inverts from dark to light in about 0.4 s, naming the product (strips/window-10-12.584s.jpg)."
+  },
+  "ending": {
+   "cta_text": "Contract Intelligence",
+   "logo_hold_s": 5.4,
+   "what": "H badge plus 'Contract Intelligence' on near-black, held from 44.6 s to the end; no URL or call to action."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 6,
+  "cuts_per_min": 7.21,
+  "median_shot_s": 5.36,
+  "how_change_is_paced": "Long animated scenes (15.0 s, 10.9 s, 9.8 s) joined by six hard cuts, three of them inside one 2 s span at 11.8-13.67 s. Change inside a scene comes from motion, not cuts. No burst."
+ },
+ "look": {
+  "ground": "Two grounds, near-black (about #0e0f0b) and off-white (about #fafafa), swapped five times; the toggle frame uses a warm grey (f0007).",
+  "palette": [
+   "near-black",
+   "off-white",
+   "warm grey",
+   "slate blue-grey (UI banner)",
+   "muted mauve (UI charts)",
+   "blue (UI status text)",
+   "green (UI status text)"
+  ],
+  "accent_use": "No accent colour in the motion layer; the only colour is inside the product UI at t=40-44 (blue 'Needs your judgment', green 'Ready for approval').",
+  "type": "Serif wordmark and caption in a book serif; headline 'Sign faster' in a large italic serif, black on off-white; tiny sans labels with a round white dot beside them.",
+  "title_height_pct": [
+   3.75,
+   11.7
+  ],
+  "title_measurements": [
+   {
+    "t_s": 40.5,
+    "text": "Sign faster",
+    "line_height_px": 84,
+    "frame_height_px": 720,
+    "pct": 11.7
+   },
+   {
+    "t_s": 42,
+    "text": "Sign smarter",
+    "line_height_px": 80,
+    "frame_height_px": 720,
+    "pct": 11.1
+   },
+   {
+    "t_s": 46,
+    "text": "Contract Intelligence (end card)",
+    "line_height_px": 80,
+    "frame_height_px": 720,
+    "pct": 11.1
+   },
+   {
+    "t_s": 32,
+    "text": "Upgrading Intelligence.",
+    "line_height_px": 36,
+    "frame_height_px": 720,
+    "pct": 5.0
+   },
+   {
+    "t_s": 12.9,
+    "text": "Contract Intelligence (toggle caption)",
+    "line_height_px": 27,
+    "frame_height_px": 720,
+    "pct": 3.75
+   }
+  ],
+  "max_words_per_title_line": 2,
+  "density": "sparse",
+  "depth": "Flat, with soft reflections of documents below the Approve line (f0004, f0005) and a UI card with a faint shadow; the dotted sphere gives the only 3D."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 9,
+  "shown_as": [
+   "real-ui-capture",
+   "redrawn-simplified-ui",
+   "abstract-illustration"
+  ],
+  "cursor": "none",
+  "camera_on_ui": "Panel sits in the right half and bleeds off the right edge; it slides in about t=40.2 s and swaps to a second screen by t=42 s. No zoom into it.",
+  "legible_at_phone_width": "partly",
+  "notes": "Real screens appear only at 40.2-44.6 s. Row text such as 'Nova Corp \u00b7 MSA', 'Ready for approval', 'Needs your judgment' is crisp at 720p (crops/ui-table.png) but about 1.5% of frame height, so it will not read at phone width. Right-hand columns are cut off."
+ },
+ "motion": {
+  "text_entry": "Type-on, one letter at a time: 'faster' at 40.17-40.65 s, 'Contract Intelligence' at 44.6-45.1 s. Small labels scramble before settling ('vfweighing risks' to 'reweighing risks', 'hsafting amendments' to 'drafting amendments').",
+  "ui_motion": "Documents fall in a column at constant spacing, cross the Approve line and darken with a check, and the funnel builds row by row; UI panels slide in from the right.",
+  "camera": "Locked-off frame throughout; all movement is on the objects. The sphere rotates continuously.",
+  "eases": "Strips show a soft ease-out on the type-on and the toggle; the toggle flips in about 0.4 s. Exits are quick (dark to light in under 0.5 s). Not measured beyond that.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 6,
+    "example_t_s": 28.68,
+    "cause": "Light scene ends on a signed document; dark scene opens on a small ring."
+   },
+   {
+    "type": "fade-through-colour",
+    "count": 2,
+    "example_t_s": 12.6,
+    "cause": "Toggle flips and the ground inverts from dark to light."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 1,
+    "example_t_s": 12.58,
+    "cause": "The toggle switch itself changes state."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 2,
+    "example_t_s": 24,
+    "cause": "Documents keep falling past the fixed Approve line across scenes."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 2,
+    "example_t_s": 2.0,
+    "cause": "Orbit shrinks into the H badge; H document becomes the column of H pages."
+   }
+  ],
+  "strips_read": [
+   "window-01-1.384s: orbit rotates and shrinks into the H badge by 2.3 s",
+   "window-08-9.9s: funnel of documents changes shape slowly over 2 s",
+   "window-10-12.584s: toggle flip, dark to light in 0.4 s",
+   "window-11-13.634s: hard cut from toggle to black-document funnel at 13.67 s",
+   "window-17-28.65s: hard cut from signed document to dark ring at 28.68 s",
+   "window-20-39.484s: scene fades to black over 0.1 s then hard cut to 'Sign' on white at 39.6 s",
+   "window-21-39.95s: 'Sign' holds 0.4 s, then 'faster' types in over 0.65 s as the UI slides in",
+   "window-24-44.384s: H badge holds on white, fades to dark, wordmark types in"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 2.2,
+    "text": "Harvey",
+    "words": 1,
+    "hold_s": -1
+   },
+   {
+    "t_s": 3.5,
+    "text": "Approve",
+    "words": 1,
+    "hold_s": 8.3
+   },
+   {
+    "t_s": 12.9,
+    "text": "Contract Intelligence",
+    "words": 2,
+    "hold_s": 1.1
+   },
+   {
+    "t_s": 18,
+    "text": "Extracting",
+    "words": 1,
+    "hold_s": -1
+   },
+   {
+    "t_s": 18.5,
+    "text": "Scoring risk",
+    "words": 2,
+    "hold_s": -1
+   },
+   {
+    "t_s": 20,
+    "text": "Comparing terms",
+    "words": 2,
+    "hold_s": -1
+   },
+   {
+    "t_s": 20.2,
+    "text": "Drafting redlines",
+    "words": 2,
+    "hold_s": -1
+   },
+   {
+    "t_s": 30,
+    "text": "Upgrading Intelligence.",
+    "words": 2,
+    "hold_s": -1
+   },
+   {
+    "t_s": 34,
+    "text": "rewriting playbooks",
+    "words": 2,
+    "hold_s": 5.6
+   },
+   {
+    "t_s": 36,
+    "text": "learning counterparty",
+    "words": 2,
+    "hold_s": 3.6
+   },
+   {
+    "t_s": 38,
+    "text": "appending exclusivity",
+    "words": 2,
+    "hold_s": 1.6
+   },
+   {
+    "t_s": 40.65,
+    "text": "Sign faster",
+    "words": 2,
+    "hold_s": -1
+   },
+   {
+    "t_s": 42,
+    "text": "Sign smarter",
+    "words": 2,
+    "hold_s": -1
+   },
+   {
+    "t_s": 45.1,
+    "text": "Contract Intelligence",
+    "words": 2,
+    "hold_s": 4.9
+   }
+  ],
+  "holds_vs_reading_rule": "The two-word headlines meet 0.5 s plus 0.3 s a word; the end card holds 4.9 s against the 2 s minimum. The verb labels around the sphere are small, but the last one holds only 1.6 s."
+ },
+ "sound": {
+  "music": "Music only. Describe tags: music 0.887, bowed_string_instrument 0.768, violin_fiddle 0.768, orchestra 0.649, cello 0.629. No steady beat (confidence 0.099).",
+  "sfx": "No effects identified. Silence_spans show four 0.4 s gaps at 41.6, 43.75, 45.75 and 47.8 s, but what causes them is not known.",
+  "vo_music_balance": "No voiceover; music is the whole track.",
+  "energy_arc": "Three sections: 0-13 s, 13-40 s, 40-50 s. Loudness range 16.8 LU, so the film gets markedly louder or quieter; short-term max -16.8 LUFS.",
+  "sync_to_picture": "cuts_on_strong_onset_share 0.333 against chance_share 0.158, so cuts sit 0.175 above chance, moderately locked; only six cuts, so the sample is small."
+ },
+ "good": [
+  {
+   "observation": "One visual idea carries the film: documents stream past an Approve line, and the same line returns at 3 s, 24 s and 26 s, so the claim 'review then approve' is shown, not said.",
+   "evidence": "f0003, f0004, f0013, f0014"
+  },
+  {
+   "observation": "Dark and light grounds alternate five times, giving each chapter a different mood with no extra graphics.",
+   "evidence": "f0006, f0007, f0016, f0020, f0022"
+  },
+  {
+   "observation": "The dotted orbit is a single recurring motif: frame 0, around the document at 18 s and as the 28-39 s sphere, so the film reads as one object.",
+   "evidence": "f0001, f0010, f0018"
+  },
+  {
+   "observation": "The toggle flip names the product and changes the ground in one 0.4 s gesture.",
+   "evidence": "strips/window-10-12.584s.jpg"
+  },
+  {
+   "observation": "Headline is two words in a big italic serif at 11% of frame height, with the second word swapped (faster to smarter); it is readable instantly.",
+   "evidence": "title_measurements 11.7% and 11.1%"
+  },
+  {
+   "observation": "The only UI shown has believable rows (named contracts, risk counts, 92% aligned), so the promise is backed by specifics.",
+   "evidence": "crops/ui-table.png, f0021"
+  },
+  {
+   "observation": "End card holds the name 5.4 s with nothing else, giving the film a calm landing.",
+   "evidence": "f0023-f0025, metrics rhythm.cut_times_s 44.6"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "The product is not on screen until 40.2 s, 80% through the film, and the screens fill only 9% of runtime; a viewer who leaves at 30 s has seen metaphor only.",
+   "evidence": "structure beats; f0020 first UI"
+  },
+  {
+   "observation": "Verb labels around the sphere are about 10-12 px tall in the 720p frame and scramble on entry ('hsafting amendments', 'vfweighing risks'), so they read as typos at a glance.",
+   "evidence": "crops/labels-sphere.png, f0017, f0018"
+  },
+  {
+   "observation": "UI panel is cropped by the right edge; the columns that carry the proof (status, notes) are cut, and the rows are about 1.5% of frame height.",
+   "evidence": "f0020, f0021"
+  },
+  {
+   "observation": "Loudness is -19.1 LUFS integrated with a 16.8 LU range, well below a social master target.",
+   "evidence": "metrics sound.lufs_integrated"
+  },
+  {
+   "observation": "Ten seconds of dark documents (2.4-11.8 s) show no label or claim, so what the film is about is unclear until the toggle at 12.6 s.",
+   "evidence": "f0003-f0006"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Put the product screen in the first half; here real UI first appears at 40.2 s (80%) and fills 9% of runtime, so the abstract opening needs a screen glimpse by 12 s.",
+   "evidence": "f0020 at 40.2 s; presence_pct_runtime 9",
+   "relation": "extends",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Hold a shot 10-15 s when one object keeps changing (documents, orbit, labels); this film runs 15.0 s, median shot 5.36 s, 7.2 cuts a minute and still keeps attention.",
+   "evidence": "metrics.rhythm.longest_shot 15.02 s, cuts_per_min 7.21",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Switch between a dark and a light ground at each chapter, at a hard cut or a 0.4 s fade-through; five switches in 50 s.",
+   "evidence": "f0006/f0007 at 12.6 s; cuts at 28.68, 39.6, 44.6",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Keep a single recurring motif (a dotted orbit here) in frame 0, the middle and the end so a metaphor film reads as one idea.",
+   "evidence": "f0001, f0010, f0018",
+   "relation": "extends",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Type the headline's second word in after the first has held 0.4-0.5 s, then swap that word for the pair line; both lines are about 11% of frame height.",
+   "evidence": "strips/window-21-39.95s.jpg; title_measurements",
+   "relation": "extends",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "Never label with scrambled glyphs or text under 2.6% of frame height; here labels about 10-12 px (1.5%) with scrambled starts read as typos.",
+   "evidence": "crops/labels-sphere.png; f0011 'Eomparing terms'",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Close on a wordmark held at least 5 s with nothing added; here 44.6-49.96 s.",
+   "evidence": "f0023-f0025; ending.logo_hold_s 5.4",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "A quiet orchestral bed at -19.1 LUFS misses the -14 LUFS social target by 5.1 LU; normalise even when the music is soft and string-led.",
+   "evidence": "metrics sound.lufs_integrated -19.1, true_peak -5.2",
+   "relation": "contradicts",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 25,
+ "crops_made": 5,
+ "unchecked": [
+  "Whether the music has a hit on the toggle flip: not measured, no beat grid (beats confidence 0.099).",
+  "Hold times for 'Sign faster', 'Sign smarter' and the 18-30 s labels: strips cover only part of each, so set to -1.",
+  "What causes the four 0.4 s silences at 41.6-48.2 s: audio.json lists them, no source identified.",
+  "Whether the UI screens are real captures or redrawn: judged only from rendered frames.",
+  "Label glyph heights were estimated from crops, not ink-measured."
+ ]
+}

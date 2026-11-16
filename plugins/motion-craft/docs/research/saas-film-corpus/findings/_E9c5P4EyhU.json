@@ -1,0 +1,386 @@
+{
+ "id": "_E9c5P4EyhU",
+ "title": "How people are using Muse",
+ "brand": "Muse",
+ "duration_s": 37.84,
+ "status": "ok",
+ "format": "customer-or-user-story",
+ "format_note": "Real users on camera introduce their named AI companions; a title card and a drifting field of testimonial clips carry the proof.",
+ "one_thing": "Real people name their Muse and describe what it did for them, so the product is proven by customers before any feature is shown.",
+ "transcript": {
+  "source": "auto-captions",
+  "voiceover": "customer-testimonial",
+  "words_total": 104,
+  "words_per_minute": 164.9,
+  "voice_style": "Casual first-person customer clips, one speaker per line, cut together mid-sentence; names read as a quick roll call.",
+  "script_shape": "Roll call of nicknames, then a specific job (website, flights, trip), a parenting result with a number, a creator story, and a feeling line."
+ },
+ "structure": {
+  "frame0": "Light white-to-blue gradient with one phone-shaped video card of a woman mid-sentence on the left and a caption pill reading 'My Muse's name is Lizzie.'; right half empty (f0001.jpg).",
+  "first_3s": "A person speaks, then portrait cards slide in from the edges with nickname captions (Chippy, Noodles), a cream plush mascot enters at t=2.5s (f0002.jpg, strips/window-05-2.536s.jpg).",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 2,
+    "role": "hook",
+    "what": "Customer says her Muse's name is Lizzie; nickname roll call begins."
+   },
+   {
+    "start_s": 2,
+    "end_s": 6.84,
+    "role": "setup",
+    "what": "Portraits and plush mascots with chat chips (Shopping your items, Spa day booked, Workout ready) pass by."
+   },
+   {
+    "start_s": 6.84,
+    "end_s": 7.47,
+    "role": "turn",
+    "what": "Hard cut back to the three-mascot composition, then a second cut to blank white."
+   },
+   {
+    "start_s": 7.5,
+    "end_s": 9.5,
+    "role": "reveal",
+    "what": "Words of 'In the last few weeks you've had your Muse hard at work.' build in on white."
+   },
+   {
+    "start_s": 9.5,
+    "end_s": 31.7,
+    "role": "proof",
+    "what": "Testimonial cards drift through a blurred depth field with artifact cards, clocks, camera, map, notebook."
+   },
+   {
+    "start_s": 31.7,
+    "end_s": 34.2,
+    "role": "payoff",
+    "what": "Last customer card grows to fill the frame with 'Here's themes for your ideas.' chip."
+   },
+   {
+    "start_s": 34.2,
+    "end_s": 37.84,
+    "role": "cta",
+    "what": "'And we are just getting started.' builds word by word; small print 'Muse for 18+, N. America only'."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 8.7,
+   "share": 0.23,
+   "what": "Title card 'In the last few weeks you've had your [mascot] Muse hard at work.' lands on empty white after the cut, the only moment with no imagery."
+  },
+  "ending": {
+   "cta_text": "And we are just getting started.",
+   "logo_hold_s": 0,
+   "what": "Closing line completes at about 36.2s and holds about 1.6s over the age and region note; no logo or URL."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 2,
+  "cuts_per_min": 3.17,
+  "median_shot_s": 6.84,
+  "how_change_is_paced": "One 30.37 s shot (80% of runtime) from 7.47s with continuous camera drift and card swaps; change comes from cards entering and leaving, about every 2 s, not from cuts. Two cuts at 6.84s and 7.47s."
+ },
+ "look": {
+  "ground": "White fading to pale blue at the bottom edge on every frame; mean luminance 0.915 at frame 0, light share 1.0.",
+  "palette": [
+   "white",
+   "pale sky blue",
+   "near-black text",
+   "cream plush",
+   "coral red accents",
+   "royal blue clock"
+  ],
+  "accent_use": "No colour accent in the type; 'Muse' picks up a blue tint only while the title is building (strips/window-08-7.407s.jpg), then turns black.",
+  "type": "Geometric humanist sans in black, medium weight, centred; captions in a condensed white sans on a grey pill; small print in dark navy.",
+  "title_height_pct": [
+   7.6,
+   10.4
+  ],
+  "title_measurements": [
+   {
+    "t_s": 8.7,
+    "text": "In the last few weeks",
+    "line_height_px": 55,
+    "frame_height_px": 720,
+    "pct": 7.6
+   },
+   {
+    "t_s": 36.5,
+    "text": "And we are",
+    "line_height_px": 59,
+    "frame_height_px": 720,
+    "pct": 8.2
+   },
+   {
+    "t_s": 36.5,
+    "text": "just getting started.",
+    "line_height_px": 75,
+    "frame_height_px": 720,
+    "pct": 10.4
+   },
+   {
+    "t_s": 36.5,
+    "text": "Muse for 18+, N. America only",
+    "line_height_px": 18,
+    "frame_height_px": 720,
+    "pct": 2.5
+   }
+  ],
+  "max_words_per_title_line": 5,
+  "density": "sparse",
+  "depth": "Blurred far cards and sharp near cards on one plane of white; foreground cards scale up to 40-50% of frame height before leaving (f0012.jpg, f0018.jpg)."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 70,
+  "shown_as": [
+   "floating-ui-cards",
+   "abstract-illustration",
+   "live-action"
+  ],
+  "cursor": "none",
+  "camera_on_ui": "UI cards are small chips and artifact cards beside speakers; foreground cards scale up as they approach and blur when far, with no zoom into a screen.",
+  "legible_at_phone_width": "partly",
+  "notes": "Chat chips like 'Your flights dropped from $350 to $270' and artifact cards 'Baby Sleeping Plan' and '20-Day Content Calendar' are readable only when near; far ones are blurred decoration (f0007.jpg, f0009.jpg). No full app screen appears; presence share is an estimate."
+ },
+ "motion": {
+  "text_entry": "Title words fade in one at a time with small vertical offsets over about 1.2 s (strips/window-08-7.407s.jpg); closing line builds the same way over about 1 s (strips/window-14-35.368s.jpg).",
+  "ui_motion": "Chips and cards slide in from edges, swap depth from blurred to sharp, and grow as they pass the camera; artifact label cards slide up to the speaker card.",
+  "camera": "Constant lateral drift through a depth field, with scale-up of the nearest card; no shake.",
+  "eases": "Cards decelerate into place; title words ease out with a short fade. Exact curves not measured.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 2,
+    "example_t_s": 6.84,
+    "cause": "Cut from the testimonial stream back to the three-mascot composition, then to blank white."
+   },
+   {
+    "type": "push-or-slide",
+    "count": 10,
+    "example_t_s": 5.9,
+    "cause": "A new customer card enters from the edge as the previous one leaves."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 8,
+    "example_t_s": 31.7,
+    "cause": "A blurred background card sharpens into the next foreground card."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 6,
+    "example_t_s": 6.2,
+    "cause": "A chip fades in, e.g. 'Booking ticket', beside the mascot it describes."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0s.jpg",
+   "strips/window-05-2.536s.jpg",
+   "strips/window-06-5.872s.jpg",
+   "strips/window-07-6.773s.jpg",
+   "strips/window-08-7.407s.jpg",
+   "strips/window-10-17.05s.jpg",
+   "strips/window-13-31.698s.jpg",
+   "strips/window-14-35.368s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "My Muse's name is Lizzie.",
+    "words": 5,
+    "hold_s": 2.0
+   },
+   {
+    "t_s": 2,
+    "text": "Chippy.",
+    "words": 1,
+    "hold_s": 1.0
+   },
+   {
+    "t_s": 4,
+    "text": "Noodles.",
+    "words": 1,
+    "hold_s": 1.0
+   },
+   {
+    "t_s": 2.5,
+    "text": "Spa day booked",
+    "words": 3,
+    "hold_s": -1
+   },
+   {
+    "t_s": 5.9,
+    "text": "Shopping your items",
+    "words": 3,
+    "hold_s": -1
+   },
+   {
+    "t_s": 8.7,
+    "text": "In the last few weeks you've had your Muse hard at work.",
+    "words": 11,
+    "hold_s": -1
+   },
+   {
+    "t_s": 14,
+    "text": "Your flights dropped from $350 to $270",
+    "words": 7,
+    "hold_s": -1
+   },
+   {
+    "t_s": 18,
+    "text": "Splitting nap times can help.",
+    "words": 5,
+    "hold_s": -1
+   },
+   {
+    "t_s": 18,
+    "text": "Baby Sleeping Plan Artifact",
+    "words": 4,
+    "hold_s": -1
+   },
+   {
+    "t_s": 26,
+    "text": "20-Day Content Calendar Artifact",
+    "words": 4,
+    "hold_s": -1
+   },
+   {
+    "t_s": 28,
+    "text": "Your brand kit is ready!",
+    "words": 5,
+    "hold_s": -1
+   },
+   {
+    "t_s": 32,
+    "text": "Here's themes for your ideas.",
+    "words": 5,
+    "hold_s": -1
+   },
+   {
+    "t_s": 36.5,
+    "text": "And we are just getting started.",
+    "words": 6,
+    "hold_s": 1.67
+   },
+   {
+    "t_s": 36.5,
+    "text": "Muse for 18+, N. America only",
+    "words": 6,
+    "hold_s": 3.9
+   }
+  ],
+  "holds_vs_reading_rule": "Closing line holds about 1.67s for 6 words, under rule 2's 2 s floor; small print is 18 px of 720 (2.5%), under the 2.6% floor. Captions follow speech, so holds match the voice."
+ },
+ "sound": {
+  "music": "Classified music at 0.74 confidence; tags percussion 0.266, keyboard_musical 0.242, synthesizer 0.213; about 99 BPM but beat confidence only 0.207. Below the 0.2 line otherwise, so no further genre named.",
+  "sfx": "None established from the evidence; disc_scratching tag 0.236 is not enough to claim a sound effect.",
+  "vo_music_balance": "Speech tag 0.716 vs music 0.659; customer speech and music share the mix. Loudness range is 1.3 LU, so the level barely moves.",
+  "energy_arc": "Three sections: 0-11.5s, 11.5-24.8s, 24.8-37.8s; silence span 36.9-37.8s at the end. LUFS -16.2 integrated, short-term max -15.2, true peak -5.1 dBTP.",
+  "sync_to_picture": "1 of 2 cuts lands on a strong onset (share 0.5 vs chance 0.326); with two cuts that cannot show the cuts are locked to the sound."
+ },
+ "good": [
+  {
+   "observation": "Real customers speaking in phone-shaped cards make the proof the picture; a name, a job and a result arrive in under 4 s of runtime each.",
+   "evidence": "f0001.jpg, f0007.jpg, f0009.jpg"
+  },
+  {
+   "observation": "Burned-in captions follow speech word for word, so the film reads with sound off; every spoken line is on screen.",
+   "evidence": "transcript.md; crops/caption.png"
+  },
+  {
+   "observation": "A blank white title card after the cut resets attention and states the premise in 11 words at 7.6% of frame height.",
+   "evidence": "f0005.jpg; title_measurements"
+  },
+  {
+   "observation": "Depth blur separates the one sharp speaker from decoration, so a single card is the focal point in most frames.",
+   "evidence": "f0009.jpg, f0013.jpg, f0014.jpg"
+  },
+  {
+   "observation": "Closing line builds word by word and stays centred and still once landed; one idea, two lines of 3 and 3 words.",
+   "evidence": "strips/window-14-35.368s.jpg; f0019.jpg"
+  },
+  {
+   "observation": "The mascot chips (Shopping your items, Spa day booked, Workout ready) show jobs done as short results rather than feature names.",
+   "evidence": "f0004.jpg; crops/chips.png"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "No logo, product name lockup or URL ends the film; the close is a slogan plus 2.5%-height legal text.",
+   "evidence": "f0019.jpg; crops/legal.png"
+  },
+  {
+   "observation": "The right half is empty at frame 0 and several frames leave a quarter or more bare.",
+   "evidence": "f0001.jpg; f0014.jpg"
+  },
+  {
+   "observation": "Product UI is shown as small blurred chips; the real app never appears, so how Muse works is not visible.",
+   "evidence": "f0007.jpg, f0009.jpg"
+  },
+  {
+   "observation": "Closing title holds about 1.67 s, shorter than the 2 s last-line floor.",
+   "evidence": "strips/window-14-35.368s.jpg"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Open on one real customer speaking, with a verbatim caption, and name the product in the first sentence.",
+   "evidence": "f0001.jpg: 'My Muse's name is Lizzie.' at t=0",
+   "relation": "confirms",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "In a testimonial film, keep one continuous shot of 20 s or more and make change by swapping cards in a depth field instead of cutting.",
+   "evidence": "metrics.json longest_shot 30.37 s, 80.3% of runtime; 2 hard cuts",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Insert one blank title card on white at 18-25% of runtime to restate the premise in at most 11 words before the proof run.",
+   "evidence": "title at t=7.5-9.5 s (share 0.23); f0005.jpg",
+   "relation": "extends",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "Blur background cards and keep one speaker sharp so a focal point survives a crowded field.",
+   "evidence": "f0009.jpg, f0013.jpg blurred side cards",
+   "relation": "confirms",
+   "skill_rule": "6"
+  },
+  {
+   "rule": "Caption every spoken line in a pill at 3% of frame height or more at a fixed bottom-centre position.",
+   "evidence": "crops/caption.png; f0001.jpg to f0018.jpg all show pill at y~585-624",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Build a closing line word by word, then hold it at least 2 s; this film holds about 1.67 s for 6 words.",
+   "evidence": "strips/window-14-35.368s.jpg; 36.17 to 37.84 s",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Small print stays at 2.6% of the short side or more; this film's 18 px (2.5%) is the weakest legible element.",
+   "evidence": "crops/legal.png; ink height 18 px of 720",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Music at -16.2 LUFS with true peak -5.1 dBTP falls 2.2 LU under the social target; master testimonial films at -14 LUFS.",
+   "evidence": "metrics.json sound.lufs_integrated -16.2, true_peak_db -5.1",
+   "relation": "contradicts",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 19,
+ "crops_made": 7,
+ "unchecked": [
+  "Title hold times before 36 s: sample interval 2 s hides when the 8.7 s title leaves.",
+  "Sound effects: no describe tag above 0.2 names one.",
+  "Exact easing curves: not measured.",
+  "Product UI presence share is an estimate from sheets, not a measurement.",
+  "Caption text height: ink measure on the pill returned no clean line."
+ ]
+}

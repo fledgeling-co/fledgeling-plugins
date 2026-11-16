@@ -18,11 +18,11 @@ Pick the row from the request, then read its section. Each section adds to `dire
 
 ## 1. Launch and promo
 
-The beat table in `story-and-rhythm.md` §2 is the default shape; hybrid is the default route. The film is made of the product: real interface captures rebuilt to move, real outputs, real numbers (`direction.md` §2). Every selling point that matters gets its own shot; a price or a key number gets a card of its own rather than tiny type at the end (Cft-TBQv_Y4's comparison). End on the mark, carried in and held 2-3 s; a URL is optional. Music and hits by default.
+The beat table in `story-and-rhythm.md` §2 is the default shape; hybrid is the default route. The film is made of the product: real interface captures rebuilt to move, real outputs, real numbers (`direction.md` §2). Every selling point that matters gets its own shot; a price or a key number gets a card of its own rather than tiny type at the end (Cft-TBQv_Y4's comparison). End on the mark, carried in and held 2-3 s; a URL is optional. Music and hits by default. A launch film about a software product also follows `saas-films.md`: most measured product launches are 45-90 s music-led feature films paced by change inside the shot, not by a cut every 2-3 s.
 
 ## 2. Explainer
 
-Narration leads (`sound.md` §1). One concrete example is worked through from start to finish; a question the viewer would ask opens each section. Pick the visual grammar by what is being explained: a mechanism or derivation as a diagram that builds and transforms (the 3Blue1Brown family: one canvas, objects morphing rather than cutting); a process as an object travelling through stations; a history as one timeline the camera travels along; numbers as a data story (§3). Long holds are correct while the viewer reads or the picture moves on its own; the camera stays still then. Subtitles for vertical, 4:5 and square deliveries; none by default on 16:9.
+Narration leads (`sound.md` §1). Measured narrated product explainers run 90-232 s at about 167 spoken words a minute, cut 3-9 times a minute, and restart attention with a 1-5-word chapter card every product area (`saas-films.md` §1, §3). One concrete example is worked through from start to finish; a question the viewer would ask opens each section. Pick the visual grammar by what is being explained: a mechanism or derivation as a diagram that builds and transforms (the 3Blue1Brown family: one canvas, objects morphing rather than cutting); a process as an object travelling through stations; a history as one timeline the camera travels along; numbers as a data story (§3). Long holds are correct while the viewer reads or the picture moves on its own; the camera stays still then. Subtitles for vertical, 4:5 and square deliveries; none by default on 16:9.
 
 ## 3. Data story
 
@@ -48,7 +48,7 @@ A lower third, callout, caption group or bug meant to sit on footage. Render wit
 
 ## 7. Product demo
 
-Use Benji Taylor's Stageshow method: a staged, simplified copy of the real screen made only for the film, with real words only where the story is (3-7 real strings) and quiet filler bars elsewhere, a cursor that moves in shallow arcs timed by distance with visible presses, one action told in 3-5 beats over 10-16 s, and a loop whose last frame matches its first. design-craft:design-craft's `references/product-demo.md` carries the full procedure for a demo embedded in a page; here the same demo is one shot inside a film, and the film's rhythm, sound and review apply to it.
+Use Benji Taylor's Stageshow method: a staged, simplified copy of the real screen made only for the film, with real words only where the story is (3-7 real strings) and quiet filler bars elsewhere, a cursor that moves in shallow arcs timed by distance with visible presses, one action told in 3-5 beats over 10-16 s, and a loop whose last frame matches its first. When the demo shows a real or full-size interface, push 1.5-3x onto the control in use so its text reaches 2.6 % of the frame's short side, and show the whole window only to orient (`saas-films.md` §5). design-craft:design-craft's `references/product-demo.md` carries the full procedure for a demo embedded in a page; here the same demo is one shot inside a film, and the film's rhythm, sound and review apply to it.
 
 ## 8. 3D, simulation and particles
 

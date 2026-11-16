@@ -1,0 +1,161 @@
+{
+ "id": "dUIuvfP2j2c",
+ "title": "Email Harvey and Get Answers On the Go",
+ "uploader": "Harvey",
+ "duration_s": 26.1,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 8,
+  "cuts_per_min": 18.39,
+  "cut_times_s": [
+   1.46,
+   3.04,
+   4.54,
+   7.46,
+   8.58,
+   9.25,
+   18.58,
+   22.04
+  ],
+  "median_shot_s": 1.58,
+  "mean_shot_s": 2.9,
+  "shots_over_10s": 0,
+  "first_cut_s": 1.46,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 9.25,
+   "end": 18.58,
+   "seconds": 9.33,
+   "share_of_runtime": 0.357
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 8,
+   "flash": 1,
+   "appear": 2,
+   "disappear": 0,
+   "change": 9,
+   "hold": 11
+  },
+  "holds_over_1s": 7,
+  "median_hold_s": 1.4,
+  "longest_hold_s": 3.92,
+  "windows": 15
+ },
+ "frames": {
+  "count": 13,
+  "not_evidence_frames": [
+   "f0009.jpg"
+  ],
+  "dark_share": 0.231,
+  "light_share": 0.769,
+  "median_contentful_cells": 0.244,
+  "intervals_new_composition_share": 0.167,
+  "intervals_static_share": 0.083,
+  "longest_static_run_s": 2,
+  "longest_static_run_ends_at_s": 24,
+  "frame0": {
+   "meanLuminance": 0.0028,
+   "contentfulCells": 0.05,
+   "blankCells": 0.95,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -22.7,
+  "lufs_short_term_max": -19.8,
+  "true_peak_db": -3.5,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.016,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 25.75,
+    "end": 26.094
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 8.5,
+    "label": "A"
+   },
+   {
+    "start": 8.5,
+    "end": 18.5,
+    "label": "B"
+   },
+   {
+    "start": 18.5,
+    "end": 26.094,
+    "label": "C"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.752
+   ],
+   [
+    "singing_bowl",
+    0.351
+   ],
+   [
+    "keyboard_musical",
+    0.326
+   ],
+   [
+    "percussion",
+    0.254
+   ],
+   [
+    "gong",
+    0.247
+   ],
+   [
+    "synthesizer",
+    0.242
+   ],
+   [
+    "foghorn",
+    0.217
+   ],
+   [
+    "piano",
+    0.151
+   ]
+  ],
+  "lra_lu": 4.7,
+  "cuts_on_strong_onset_share": 0.125,
+  "chance_share": 0.028,
+  "strong_onsets_per_min": 6.9
+ },
+ "look": {
+  "luma": 185.5,
+  "contrast": 22.8,
+  "saturation": 0.007,
+  "bw_share": 0.88,
+  "warmth": 0.9
+ }
+}

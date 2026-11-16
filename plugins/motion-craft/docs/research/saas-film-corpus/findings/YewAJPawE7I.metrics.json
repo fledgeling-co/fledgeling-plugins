@@ -1,0 +1,168 @@
+{
+ "id": "YewAJPawE7I",
+ "title": "Introducing Claude Whiteboards, Sheets, and Data",
+ "uploader": "Claude",
+ "duration_s": 57.78,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 1,
+  "cuts_per_min": 1.04,
+  "cut_times_s": [
+   45.79
+  ],
+  "median_shot_s": 28.89,
+  "mean_shot_s": 28.89,
+  "shots_over_10s": 2,
+  "first_cut_s": 45.79,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 0,
+   "end": 45.79,
+   "seconds": 45.79,
+   "share_of_runtime": 0.792
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 3,
+   "flash": 1,
+   "appear": 10,
+   "disappear": 11,
+   "change": 52,
+   "hold": 30
+  },
+  "holds_over_1s": 7,
+  "median_hold_s": 0.71,
+  "longest_hold_s": 2.88,
+  "windows": 42
+ },
+ "frames": {
+  "count": 29,
+  "not_evidence_frames": [],
+  "dark_share": 0.0,
+  "light_share": 1.0,
+  "median_contentful_cells": 0.175,
+  "intervals_new_composition_share": 0.0,
+  "intervals_static_share": 0.25,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 4,
+  "frame0": {
+   "meanLuminance": 0.9705,
+   "contentfulCells": 0.0625,
+   "blankCells": 0.9375,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -15.5,
+  "lufs_short_term_max": -13.1,
+  "true_peak_db": -1.1,
+  "bpm": 185.7,
+  "beats": {
+   "count": 172,
+   "confidence": 0.44,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 56.62,
+    "end": 57.774
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 15.605,
+    "label": "A"
+   },
+   {
+    "start": 15.605,
+    "end": 51.925,
+    "label": "B"
+   },
+   {
+    "start": 51.925,
+    "end": 57.774,
+    "label": "C"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.754
+   ],
+   [
+    "keyboard_musical",
+    0.507
+   ],
+   [
+    "synthesizer",
+    0.451
+   ],
+   [
+    "percussion",
+    0.326
+   ],
+   [
+    "piano",
+    0.292
+   ],
+   [
+    "plucked_string_instrument",
+    0.284
+   ],
+   [
+    "drum",
+    0.245
+   ],
+   [
+    "electric_piano",
+    0.21
+   ]
+  ],
+  "lra_lu": 7.1,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.216,
+  "strong_onsets_per_min": 66.5
+ },
+ "look": {
+  "luma": 242.1,
+  "contrast": 20.1,
+  "saturation": 0.035,
+  "bw_share": 0.03,
+  "warmth": 6.7
+ }
+}

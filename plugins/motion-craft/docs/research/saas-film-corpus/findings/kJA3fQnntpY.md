@@ -1,0 +1,33 @@
+# kJA3fQnntpY: Collaborate on artifacts in Claude (160 s, Claude)
+
+## Hook and structure
+Frame 0 is the product, not a logo: four overlapping avatars (K, Z, J, S), a comment button and a black Share button centred on cream (`f0001.jpg`). Within 1.0 s the comment button becomes a counter reading "2" (`strips/window-01-0.251s.jpg`), and by 1.7 s the camera pulls back into the doc (`strips/window-03-1.669s.jpg`). The voiceover starts at 0.8 s with "Create a doc with Claude and anyone you share it with can make changes." So the hook lands inside 3 s with the subject on screen.
+
+The film is a narrated walkthrough of one scenario. A 2.9 s blue title card, "Collaborating on Claude Artifacts" (t=15.56 to 18.48 s, `f0009.jpg`), separates the promise from the demo. Then come artifact chips (t=18.5-25 s), a typed prompt (t=25-43 s), the generated doc and Share dialog (t=44-62 s), a live `@Claude` comment (t=62-76 s), a tracker (t=76-112 s), roles and link sharing (t=112-126 s), comment-to-edit (t=126-136 s), the Artifacts library (t=136-146 s) and a summary question (t=146-154 s). The end is three plain cards: Claude, Claude Academy, Claude.com/learn (`f0078.jpg` to `f0080.jpg`). I take the hero moment as t=72.6 s (share 0.454), where Claude answers a comment with "Booked for Wed, 10 AM in Room B." (`strips/window-38-72.615s.jpg`).
+
+## Rhythm
+`metrics.json` gives 5 hard cuts (15.56, 18.48, 135.8, 145.6, 153.99 s), 1.88 cuts per minute and a 9.09 s median shot. One shot runs 117.3 s, which is 73.4 % of runtime (`rhythm.longest_shot`). There is no burst (`rhythm.bursts` is empty). The film does not cut for pace; it keeps one app window on screen and changes state in it. The median hold is 1.58 s with 41 holds over 1 s (`events`), and the longest static run is 12 s ending at 76 s (`frames.longest_static_run_s`). Change is driven by typing, popovers and zooms, not by edits, so the shot-length rule for launch films (1.8-3.5 s) does not fit this tutorial format.
+
+## Look and type
+The ground is cream (`f0001.jpg`), then a flat slate-blue backdrop behind a rounded app window from t=15.6 s to about t=135 s (`f0025.jpg`). `metrics.look` reports luma 233 and saturation 0.058, so the film is nearly colourless apart from avatar colours and the coral Claude starburst. Coral appears on the starburst and the red send button (`f0016.jpg`) and nowhere else as an accent. Type is serif for titles, greeting and doc body, with a sans for UI chrome. Measured title lines (`$HF measure ink`): "Collaborating on" 91 px (12.6 % of 720) and "Claude Artifacts" 71 px (9.9 %) at t=17 s; "Let's noodle, Sylvia" 53 px (7.4 %) at t=28 s; "Claude.com/learn" 49 px (6.8 %) at t=158 s. The title card is two lines of 2 words each with the second line in bold (`crops/title.png`), one emphasis. The end card's 6.8 % is inside the 4-9 % band; the title card's 12.6 % is above it.
+
+## Product interface
+The interface is clean, real-looking capture on screen for roughly 90 % of runtime (only the title card, chips and end cards are not UI, from the cut list). Zoomed states are legible. The share dialog's role menu reads Owner, Editor, Contributor, Commenter, Viewer, each with a one-line description (`f0058.jpg`), and the tracker's "Slipping" pill is crisp at 2x (`crops/badges.png`). Full-window states are not: at `f0025.jpg` and `f0073.jpg` body text is about 8-10 px at 720p, so phone-width legibility is partial. The Artifacts library crop (`crops/comment.png`, from `f0073.jpg`) shows card text smeared mid-zoom. Named cursor flags (Sylvia, Kyra, Josefina, Zoe; `f0004.jpg`, `f0007.jpg`) show collaboration without a caption, and a real arrow cursor leads the eye (`f0049.jpg`).
+
+## Motion and transitions
+Typed prompts reveal character by character with a caret (`f0016.jpg`, `f0019.jpg`). Chips stagger in left to right with fade and a small vertical offset (`f0010.jpg`), and a coral starburst arcs over them (`strips/window-15-23.524s.jpg`). The title card shrinks into a rounded tile and the chips ground replaces it (`strips/window-11-17.852s.jpg`). The cut at 15.56 s goes from doc to title card with no dissolve (`strips/window-09-15.474s.jpg`). Camera moves are scale and pan zooms between a full window and a detail, with blur mid-move (`f0073.jpg`); `strips/window-45-86.587s.jpg` shows the cursor travelling to the send arrow while the prompt sits still. Ease curves were not measured; they read as ease-out settles.
+
+## Copy on screen
+Designed copy is minimal: one title card, the chip labels, the greeting and the end cards. Everything else is the product's own text. The title card is 4 words, visible 2.9 s, above the 1.7 s the reading rule asks for. Prompts are typed at narration speed, so the viewer never reads alone. Quoted from the crops: "Collaborating on / Claude Artifacts" (`crops/title.png`), "Let's noodle, Sylvia" (`crops/greeting.png`), "Claude.com/learn" (`crops/endurl.png`). The last line's hold was not measured; it is sampled at t=158 s and the file ends at 159.87 s.
+
+## Sound
+The transcript is local whisper output (the transcript tool was not found): 414 words in 159.88 s, about 155 words per minute, from 0.8 s to about 152 s. `audio.json` classifies the track as music at confidence 0.64, but the top describe tag is speech at 0.773, then music at 0.6 and keyboard_musical at 0.229; nothing else is above 0.2 and there is no steady beat (confidence 0.113). I can only say a keyboard-like musical tone is possible; no genre is supported. Loudness is -15.8 LUFS integrated, -14.3 short-term max, true peak -1.2 dBTP, LRA 10.8 LU (`metrics.sound`). Peak meets the -1 dBTP limit; integrated is 1.8 LU under -14. Cuts are not locked to the sound: `cuts_on_strong_onset_share` is 0.0 against `chance_share` 0.089. Silence is only the last 0.37 s (159.5-159.87 s).
+
+## What to steal
+1. Open on a finished fragment of the product (avatar row and Share button) rather than a title; it is the subject at t=0 (`f0001.jpg`).
+2. Zoom until the active control fills the frame before using it, then pull back (`f0028.jpg`, `f0067.jpg`).
+3. Use one dataset for every step so the tracker is built from rows already read (`f0025.jpg` to `f0067.jpg`).
+4. Type prompts on screen at narration speed and let the voice read them (`f0016.jpg` to `f0037.jpg`).
+5. Give each collaborator one colour used for cursor flag, avatar and task owner (`f0004.jpg`, `f0061.jpg`).
+6. End on plain centred logo, lockup and URL cards at about 7 % of frame height (`f0078.jpg` to `f0080.jpg`).
+7. Do not copy the pacing for social: 1.88 cuts per minute and a 117 s shot suit a tutorial, not a launch film.

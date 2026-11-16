@@ -1,0 +1,405 @@
+{
+ "id": "en0GuyhieQk",
+ "title": "Introducing Claude Dashboards and Claude Motion",
+ "brand": "Claude",
+ "duration_s": 81.62,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "Presenter voiceover over a screen-recorded story: a bike-share dashboard becomes an animated film, then comments and export are shown, ending on a typed tagline and logo.",
+ "one_thing": "The film is its own demo: the animation about empty bike docks that the voiceover opens with is the product's output, and the interface shown wrapping it is the proof.",
+ "transcript": {
+  "source": "auto-captions",
+  "voiceover": "on-camera-presenter",
+  "words_total": 212,
+  "words_per_minute": 155,
+  "voice_style": "Relaxed first-person presenter, conversational, short sentences, a worked story told in first person ('Pretend that I run the operations team').",
+  "script_shape": "Teaser line, name the two products, a bike-share scenario, dashboard, turn it into animation, steer with comments, share and export, product names again, try today."
+ },
+ "structure": {
+  "frame0": "Full-frame 3D isometric city map, 6:10 am clock chip top-left, two white station labels (Fernhill 21 bikes, Canal Street 6 bikes). Subject present, not black or logo (f0001.jpg).",
+  "first_3s": "The finished animation plays full-frame, a station label pops in within 0.25 s (strips/window-01-0s.jpg), then shrinks into a player frame at t=2 s with a scrub bar (f0002.jpg).",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 4.1,
+    "role": "hook",
+    "what": "Finished 3D bike-map animation plays full-frame, then pulls back into a video player chrome while voice says it is about empty bike docks."
+   },
+   {
+    "start_s": 4.1,
+    "end_s": 7.0,
+    "role": "setup",
+    "what": "Player scrubs back from the dashboard, then cuts to the presenter on camera inside the same player frame."
+   },
+   {
+    "start_s": 7.0,
+    "end_s": 9.5,
+    "role": "other",
+    "what": "Presenter introduction with name, team and demos-recorded cards sliding in beside the video (f0005.jpg)."
+   },
+   {
+    "start_s": 9.5,
+    "end_s": 14.0,
+    "role": "reveal",
+    "what": "Title card in the player: Introducing Claude Dashboards and Claude Motion, with a bike travelling a timeline and three chart cards beside it."
+   },
+   {
+    "start_s": 14.0,
+    "end_s": 24.0,
+    "role": "other",
+    "what": "Presenter in a red shirt; a comment thread builds on the video, joke that he changed outfits, showing comments on video."
+   },
+   {
+    "start_s": 24.0,
+    "end_s": 27.5,
+    "role": "setup",
+    "what": "Data-source logos (AWS, BigQuery, ClickHouse, Databricks, Salesforce, Snowflake) slide in a row: where the data comes from."
+   },
+   {
+    "start_s": 27.5,
+    "end_s": 38.0,
+    "role": "demo",
+    "what": "Claude chat creates the Bike Share System Overview dashboard, then the page scrolls with chart tooltips and a station map."
+   },
+   {
+    "start_s": 38.0,
+    "end_s": 47.0,
+    "role": "turn",
+    "what": "Map card selected, comment typed asking Claude to turn it into an animation, then text-led build steps and the Motion artifact appears."
+   },
+   {
+    "start_s": 47.0,
+    "end_s": 58.0,
+    "role": "payoff",
+    "what": "38-second 3D bike film: night to morning, station labels, routes, then a camera drop to the empty dock row."
+   },
+   {
+    "start_s": 58.0,
+    "end_s": 72.0,
+    "role": "demo",
+    "what": "Comment on the video is sent, Claude updates the artifact, then colleagues' comments and a drawn circle appear on the player."
+   },
+   {
+    "start_s": 72.0,
+    "end_s": 77.5,
+    "role": "cta",
+    "what": "Export button and ten design-tool logos orbit it: export straight into design tools."
+   },
+   {
+    "start_s": 73.5,
+    "end_s": 77.5,
+    "role": "turn",
+    "what": "Typed tagline Claude makes it. You steer it. is selected and edited like a text box."
+   },
+   {
+    "start_s": 77.5,
+    "end_s": 81.6,
+    "role": "logo",
+    "what": "Claude asterisk and wordmark build and hold to the end."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 54,
+   "share": 0.66,
+   "what": "The 3D city film at 6:50 am: Fernhill 17 bikes label, teal routes, then the camera drops to the dock row (f0028.jpg, f0029.jpg)."
+  },
+  "ending": {
+   "cta_text": "Claude makes it. You steer it.",
+   "logo_hold_s": 3.6,
+   "what": "Cursor-edited tagline then the Claude logo builds letter by letter and holds on a cream ground for about 3.6 s, final 4 s static."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 8,
+  "cuts_per_min": 5.88,
+  "median_shot_s": 4.75,
+  "how_change_is_paced": "Slow, continuous change inside long shots (longest 31.8 s, 38.9 % of runtime, the dashboard and comment scroll) with eight hard cuts only; no burst. Most change comes from elements sliding in the player or UI state changes."
+ },
+ "look": {
+  "ground": "Warm off-white cream with a faint dot grid for the player scenes; the 3D film is a soft pastel miniature city under a wide-angle tilt.",
+  "palette": [
+   "cream #F4F3EE ground",
+   "near-black ink outlines",
+   "teal data marks",
+   "amber/ochre highlight",
+   "dusty pink title card",
+   "Claude coral orange"
+  ],
+  "accent_use": "Amber marks the hill problem and teal the downtown surplus in both dashboard and film; coral appears only on Claude-owned elements (asterisk, Send, Export).",
+  "type": "Serif (Tiempos-like) for titles, tagline and logo; condensed bold grotesque for the film's clock and labels; clean sans for interface text; monospace for the filename above the player.",
+  "title_height_pct": [
+   5.28,
+   8.33
+  ],
+  "title_measurements": [
+   {
+    "t_s": 11,
+    "text": "Introducing",
+    "line_height_px": 44,
+    "frame_height_px": 720,
+    "pct": 6.11
+   },
+   {
+    "t_s": 11,
+    "text": "and Claude Motion",
+    "line_height_px": 38,
+    "frame_height_px": 720,
+    "pct": 5.28
+   },
+   {
+    "t_s": 76,
+    "text": "You steer it.",
+    "line_height_px": 41,
+    "frame_height_px": 720,
+    "pct": 5.69
+   },
+   {
+    "t_s": 78.5,
+    "text": "Claude (wordmark with asterisk)",
+    "line_height_px": 60,
+    "frame_height_px": 720,
+    "pct": 8.33
+   }
+  ],
+  "max_words_per_title_line": 3,
+  "density": "medium",
+  "depth": "The 3D film has real parallax, long cast shadows and a depth-of-field blur; everything inside the player is flat with a single hard black outline."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 75,
+  "shown_as": [
+   "real-ui-capture",
+   "redrawn-simplified-ui",
+   "floating-ui-cards",
+   "live-action"
+  ],
+  "cursor": "stylised",
+  "camera_on_ui": "Mostly locked full-frame screen captures of the app; one scroll-and-zoom of the dashboard at 30-37 s; comment cards slide in at larger scale than they appear in the real app.",
+  "legible_at_phone_width": "partly",
+  "notes": "Dashboard text (KPI captions, chart axes) is about 8-11 px tall on a 720 frame and unreadable at phone width, but the large KPI numerals 445K, 2,999, 21%, 4,200, 71%, 92 and the enlarged comment cards are legible (crops/kpis.png, crops/prompt.png)."
+ },
+ "motion": {
+  "text_entry": "Tagline types in as a text box with a selection and toolbar (strips/window-50-73.542s.jpg); logo builds letter by letter at 24 fps (strips/window-53-77.709s.jpg); the build-step line reveals word by word.",
+  "ui_motion": "Elements spring in: comment cards grow downward as replies add, logo tiles slide in a row, ten tiles orbit the Export button. Scrub bar head follows the film's own time and wipes pink segments.",
+  "camera": "The 3D film has a slow tilted drift, then a drop to street level at the dock row; the player scenes are locked-off.",
+  "eases": "Out-heavy easing with small overshoot on cards and tiles; cursor glides on curved paths; eases judged by eye from strips, not measured.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 8,
+    "example_t_s": 42.08,
+    "cause": "Comment is sent, map card is replaced by the build-step text card."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 6,
+    "example_t_s": 59.3,
+    "cause": "Chat panel slides over the film as the comment is sent."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 2,
+    "example_t_s": 2,
+    "cause": "Full-frame film shrinks into a player frame holding the same picture."
+   },
+   {
+    "type": "push-or-slide",
+    "count": 3,
+    "example_t_s": 25,
+    "cause": "Logo tiles slide across, pushing off the right edge toward the dashboard."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 1,
+    "example_t_s": 56,
+    "cause": "Camera drops from overhead city to the dock row at street level."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0s.jpg",
+   "strips/window-03-4.042s.jpg",
+   "strips/window-04-5.625s.jpg",
+   "strips/window-30-41.959s.jpg",
+   "strips/window-41-59.209s.jpg",
+   "strips/window-43-61.667s.jpg",
+   "strips/window-50-73.542s.jpg",
+   "strips/window-53-77.709s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "6:10 am Typical weekday; Fernhill 21 bikes; Canal Street 6 bikes",
+    "words": 10,
+    "hold_s": 2
+   },
+   {
+    "t_s": 10,
+    "text": "Introducing Claude Dashboards and Claude Motion",
+    "words": 6,
+    "hold_s": 4
+   },
+   {
+    "t_s": 14,
+    "text": "@Claude did Nate change outfits here? Yes, at 0:14 he switches to an orange shirt. I'm method acting!",
+    "words": 17,
+    "hold_s": 8
+   },
+   {
+    "t_s": 28,
+    "text": "Create a dashboard from a year of our ride data. The docks on the hill are empty by 8:15 every weekday...",
+    "words": 30,
+    "hold_s": 3
+   },
+   {
+    "t_s": 30,
+    "text": "System overview 445K 2,999 21% 4,200 71% 92",
+    "words": 8,
+    "hold_s": 6
+   },
+   {
+    "t_s": 40,
+    "text": "@Claude turn this into an animation ... keep it simple: the hill running dry by 8:15, and the 92 bikes we carry back up.",
+    "words": 33,
+    "hold_s": 3.5
+   },
+   {
+    "t_s": 42,
+    "text": "Projecting dashboard coordinates into a 3D city grid",
+    "words": 7,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 44,
+    "text": "Tracing every morning ride from the hilltop to downtown",
+    "words": 8,
+    "hold_s": 2
+   },
+   {
+    "t_s": 58,
+    "text": "@Claude Hold on the empty dock a beat longer so it lands.",
+    "words": 11,
+    "hold_s": 3
+   },
+   {
+    "t_s": 64,
+    "text": "Can we name the van route here? Ops will ask. / Love the 4,200. Put it on the all-hands title slide too. / Hold on...",
+    "words": 31,
+    "hold_s": 4
+   },
+   {
+    "t_s": 73.5,
+    "text": "Claude makes it. You steer it.",
+    "words": 6,
+    "hold_s": 3.5
+   },
+   {
+    "t_s": 78,
+    "text": "Claude",
+    "words": 1,
+    "hold_s": 3.6
+   }
+  ],
+  "holds_vs_reading_rule": "Title card holds about 4 s for 6 words, above the 0.5+0.3 per word rule; the 33-word prompt at f0021 holds about 3.5 s, shorter than the 10.4 s rule gives, but it is read by the presenter's voice."
+ },
+ "sound": {
+  "music": "Auto-captions mark [music] at t=13 and about t=20-75; describe tags keyboard_musical 0.381, percussion 0.357, synthesizer 0.287, mallet_percussion 0.249, glockenspiel 0.2, piano 0.198, so a light mallet/keys bed; bpm estimate 171.8 at confidence 0.379 is unreliable.",
+  "sfx": "No distinct sound effects can be confirmed; the final seconds have short silence spans at 78.8-81.6 s. UI sounds not supported by the evidence.",
+  "vo_music_balance": "Speech tag 0.744 vs music 0.678; voiceover runs from 0 to about 75 s with music underneath; loudness range 3.7 LU is narrow.",
+  "energy_arc": "Six sections A-F (0, 11.5, 23.4, 39.4, 47.5, 72.9 s); short-term max -13.9 LUFS, integrated -15.9, true peak -1.2 dBTP; fairly even level, ends on a cleared silence under the logo.",
+  "sync_to_picture": "cuts_on_strong_onset_share 0.25 against chance_share 0.147, 10.3 points above chance on 8 cuts: only weakly locked, not a designed music edit."
+ },
+ "good": [
+  {
+   "observation": "The film demonstrates the product by being its output: the opening 3D animation is the thing the story later builds, so the payoff is already in frame 0.",
+   "evidence": "f0001.jpg opens on the Motion output; f0027-f0029 show it built."
+  },
+  {
+   "observation": "A single metaphor frame (a video player with scrub bar and filename) holds every scene, so changes of subject read as the same world.",
+   "evidence": "f0002.jpg to f0014.jpg, f0034.jpg, f0035.jpg share the player chrome."
+  },
+  {
+   "observation": "Consistent colour semantics: amber is the hill problem, teal the surplus, in the dashboard and in the animation.",
+   "evidence": "f0017.jpg dashboard map vs f0001.jpg film markers."
+  },
+  {
+   "observation": "Story data is reduced to a few legible numbers: the 33-word prompt names only 8:15 and 92 bikes, and the film shows those two.",
+   "evidence": "crops/prompt.png; f0001.jpg label counts."
+  },
+  {
+   "observation": "Real product screens (chat, Share button, comments) are shown rather than invented, while the heavily simplified overlays are scaled up for legibility.",
+   "evidence": "f0015.jpg, f0021.jpg, f0034.jpg."
+  },
+  {
+   "observation": "The ending cleans the screen: tagline typed in an editor box, then a logo that builds letter by letter and holds 3.6 s on cream.",
+   "evidence": "strips/window-50-73.542s.jpg, strips/window-53-77.709s.jpg."
+  }
+ ],
+ "weak": [
+  {
+   "observation": "A 24 s on-camera presenter section opens the film before the product shows; the jokes (outfit change, demos recorded 17) add time without selling.",
+   "evidence": "f0004.jpg to f0012.jpg, t=4-24 s."
+  },
+  {
+   "observation": "Dashboard interface text is tiny: the chart axes and KPI sublines are unreadable at phone width and the camera only scrolls past them.",
+   "evidence": "f0016.jpg; crops/kpis.png small captions."
+  },
+  {
+   "observation": "Pace is slow and uneven: 8 hard cuts, no burst, a 31.8 s longest shot and a 4 s static end.",
+   "evidence": "metrics.json rhythm.longest_shot, bursts []."
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Open on the finished product output full-frame, then shrink it into an interface frame; the film's frame 0 is the payoff, not a setup.",
+   "evidence": "f0001.jpg full-frame film; f0002.jpg at t=2 s inside player.",
+   "relation": "extends",
+   "skill_rule": "Rule 1"
+  },
+  {
+   "rule": "Use one container (player, window) for the whole film and move between subjects by changing what is inside it, so cuts read as state changes rather than new scenes.",
+   "evidence": "8 cuts in 82 s; player chrome in 10 frames of the 41.",
+   "relation": "extends",
+   "skill_rule": "Rule 7"
+  },
+  {
+   "rule": "A film can run 4.75 s median shots and 5.9 cuts/min, with no burst, when change is carried by UI state; the 1.8-3.5 s cut rhythm is not required for feature explainers.",
+   "evidence": "metrics.json median_shot_s 4.75, cuts_per_min 5.88, bursts empty.",
+   "relation": "contradicts",
+   "skill_rule": "Rules 8 and 10"
+  },
+  {
+   "rule": "Scale up a UI fragment (comment card, prompt box) to fill 40 percent or more of frame width at the moment the viewer must read it, rather than showing the full-app screen.",
+   "evidence": "f0021.jpg prompt box ~520 px of 1280; f0016.jpg full dashboard unreadable.",
+   "relation": "confirms",
+   "skill_rule": "Rule 5"
+  },
+  {
+   "rule": "Give each data colour one job across the whole film: one colour for the problem, one for the contrast, coral only for brand-owned controls.",
+   "evidence": "amber and teal in f0017.jpg and f0001.jpg; coral on Send and Export, f0021.jpg, f0035.jpg.",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "End on a typed tagline in an edit box followed by a letter-by-letter logo that holds 3 s or more on a clean ground.",
+   "evidence": "f0036-f0039 tagline, f0040-f0041 logo; metrics longest_static_run_s 4.",
+   "relation": "confirms",
+   "skill_rule": "Rule 2"
+  },
+  {
+   "rule": "Keep voice-over at about 155 words per minute and let the on-screen prompt text carry names and numbers while the voice carries the story.",
+   "evidence": "transcript 212 words over 82 s; prompt text in crops/prompt.png.",
+   "relation": "new",
+   "skill_rule": "none"
+  }
+ ],
+ "frames_opened": 41,
+ "crops_made": 6,
+ "unchecked": [
+  "Audible music genre and mix: no listening, only tags.",
+  "Exact hold durations are estimated from 2 s samples and strips, not measured per line.",
+  "Phone-width legibility judged from 1280 px frames, not a rendered phone-size copy."
+ ]
+}

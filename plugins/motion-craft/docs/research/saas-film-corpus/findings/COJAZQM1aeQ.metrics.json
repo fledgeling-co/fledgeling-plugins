@@ -1,0 +1,231 @@
+{
+ "id": "COJAZQM1aeQ",
+ "title": "Build an App With Claude Design",
+ "uploader": "Claude",
+ "duration_s": 102.24,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 23,
+  "cuts_per_min": 13.5,
+  "cut_times_s": [
+   4.58,
+   9.38,
+   29.12,
+   39.62,
+   40.67,
+   54.79,
+   56.79,
+   58.5,
+   60.88,
+   65.54,
+   68.46,
+   70.04,
+   73.42,
+   76.33,
+   77.08,
+   77.92,
+   78.29,
+   78.5,
+   80.75,
+   85.75,
+   88,
+   89.79,
+   90.29
+  ],
+  "median_shot_s": 2.31,
+  "mean_shot_s": 4.26,
+  "shots_over_10s": 4,
+  "first_cut_s": 4.58,
+  "not_cuts": [
+   {
+    "t": 94.42,
+    "kind": "fast"
+   }
+  ],
+  "longest_shot": {
+   "start": 9.38,
+   "end": 29.12,
+   "seconds": 19.75,
+   "share_of_runtime": 0.193
+  },
+  "bursts": [
+   {
+    "start_s": 73.42,
+    "end_s": 80.75,
+    "cuts": 7,
+    "mid_share": 0.754
+   }
+  ]
+ },
+ "events": {
+  "counts": {
+   "cut": 15,
+   "flash": 0,
+   "appear": 30,
+   "disappear": 17,
+   "change": 107,
+   "hold": 52
+  },
+  "holds_over_1s": 25,
+  "median_hold_s": 1.13,
+  "longest_hold_s": 4.67,
+  "windows": 75
+ },
+ "frames": {
+  "count": 51,
+  "not_evidence_frames": [
+   "f0050.jpg"
+  ],
+  "dark_share": 0.0,
+  "light_share": 0.882,
+  "median_contentful_cells": 0.362,
+  "intervals_new_composition_share": 0.24,
+  "intervals_static_share": 0.16,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 44,
+  "frame0": {
+   "meanLuminance": 0.8783,
+   "contentfulCells": 0.2062,
+   "blankCells": 0.3688,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0038.jpg",
+  "f0039.jpg",
+  "f0040.jpg",
+  "f0041.jpg",
+  "f0042.jpg",
+  "f0043.jpg",
+  "f0044.jpg",
+  "f0045.jpg",
+  "f0046.jpg",
+  "f0047.jpg",
+  "f0048.jpg",
+  "f0049.jpg",
+  "f0050.jpg",
+  "f0051.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -24.5,
+  "lufs_short_term_max": -22.5,
+  "true_peak_db": -7,
+  "bpm": 103,
+  "beats": {
+   "count": 176,
+   "confidence": 0.236,
+   "reason": null
+  },
+  "silence_spans": [],
+  "sections": [
+   {
+    "start": 0,
+    "end": 4.705,
+    "label": "A"
+   },
+   {
+    "start": 4.705,
+    "end": 19.875,
+    "label": "B"
+   },
+   {
+    "start": 19.875,
+    "end": 54.215,
+    "label": "C"
+   },
+   {
+    "start": 54.215,
+    "end": 95.555,
+    "label": "D"
+   },
+   {
+    "start": 95.555,
+    "end": 102.234,
+    "label": "E"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.682
+   ],
+   [
+    "speech",
+    0.68
+   ],
+   [
+    "keyboard_musical",
+    0.449
+   ],
+   [
+    "synthesizer",
+    0.413
+   ],
+   [
+    "percussion",
+    0.342
+   ],
+   [
+    "drum",
+    0.269
+   ],
+   [
+    "piano",
+    0.187
+   ],
+   [
+    "mallet_percussion",
+    0.172
+   ]
+  ],
+  "lra_lu": 2.6,
+  "cuts_on_strong_onset_share": 0.13,
+  "chance_share": 0.137,
+  "strong_onsets_per_min": 37.6
+ },
+ "look": {
+  "luma": 212.1,
+  "contrast": 36.6,
+  "saturation": 0.089,
+  "bw_share": 0.22,
+  "warmth": 7.5
+ }
+}

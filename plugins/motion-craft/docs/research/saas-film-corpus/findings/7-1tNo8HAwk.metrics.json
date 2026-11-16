@@ -1,0 +1,146 @@
+{
+ "id": "7-1tNo8HAwk",
+ "title": "New agents for legal professionals | Claude Cowork",
+ "uploader": "Claude",
+ "duration_s": 25.24,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 0,
+  "cuts_per_min": 0.0,
+  "cut_times_s": [],
+  "median_shot_s": 25.24,
+  "mean_shot_s": 25.24,
+  "shots_over_10s": 1,
+  "first_cut_s": null,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 0,
+   "end": 25.24,
+   "seconds": 25.24,
+   "share_of_runtime": 1.0
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 0,
+   "flash": 0,
+   "appear": 2,
+   "disappear": 0,
+   "change": 6,
+   "hold": 6
+  },
+  "holds_over_1s": 4,
+  "median_hold_s": 1.65,
+  "longest_hold_s": 3.58,
+  "windows": 7
+ },
+ "frames": {
+  "count": 13,
+  "not_evidence_frames": [
+   "f0002.jpg",
+   "f0009.jpg",
+   "f0011.jpg"
+  ],
+  "dark_share": 0.0,
+  "light_share": 1.0,
+  "median_contentful_cells": 0.15,
+  "intervals_new_composition_share": 0.0,
+  "intervals_static_share": 0.417,
+  "longest_static_run_s": 6,
+  "longest_static_run_ends_at_s": 24,
+  "frame0": {
+   "meanLuminance": 0.889,
+   "contentfulCells": 0.15,
+   "blankCells": 0.85,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -17.1,
+  "lufs_short_term_max": -15.5,
+  "true_peak_db": -4.3,
+  "bpm": 89.9,
+  "beats": {
+   "count": 32,
+   "confidence": 0.423,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 23.19,
+    "end": 25.234
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 5.395,
+    "label": "A"
+   },
+   {
+    "start": 5.395,
+    "end": 25.234,
+    "label": "B"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.858
+   ],
+   [
+    "keyboard_musical",
+    0.594
+   ],
+   [
+    "piano",
+    0.48
+   ],
+   [
+    "synthesizer",
+    0.477
+   ],
+   [
+    "percussion",
+    0.471
+   ],
+   [
+    "mallet_percussion",
+    0.422
+   ],
+   [
+    "marimba_xylophone",
+    0.349
+   ],
+   [
+    "electric_piano",
+    0.345
+   ]
+  ],
+  "lra_lu": 6.4
+ },
+ "look": {
+  "luma": 224.3,
+  "contrast": 19.1,
+  "saturation": 0.058,
+  "bw_share": 0.56,
+  "warmth": 10.5
+ }
+}

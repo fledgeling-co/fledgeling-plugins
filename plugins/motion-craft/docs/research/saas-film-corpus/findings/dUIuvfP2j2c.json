@@ -1,0 +1,351 @@
+{
+ "id": "dUIuvfP2j2c",
+ "title": "Email Harvey and Get Answers On the Go",
+ "brand": "Harvey",
+ "duration_s": 26.1,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "One continuous email scenario: forward a redlined contract to ask@harvey.ai, get a comparison table back; bracketed by black wordmark and end cards.",
+ "one_thing": "You can forward a document to ask@harvey.ai and receive the legal analysis as an ordinary email reply.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": -1,
+  "voice_style": "No speech; whisper returned only 'Music' for 0-26 s.",
+  "script_shape": "Wordless: 3 on-screen text cards (wordmark, tagline, end line) around a silent UI demo; the interface carries all the story."
+ },
+ "structure": {
+  "frame0": "Black frame with a small white serif 'Harvey' wordmark centred (f0001.jpg); ink 59 px tall at t=0.8; frame0 contentful cells 0.05, so mostly empty.",
+  "first_3s": "Wordmark to 1.46 s, hard cut to white, 'Now An Email Away' builds word by word 1.46-1.83 s, hard cut at 3.04 s into a mail notification toast.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 1.46,
+    "role": "logo",
+    "what": "White serif Harvey wordmark on black."
+   },
+   {
+    "start_s": 1.46,
+    "end_s": 3.04,
+    "role": "hook",
+    "what": "'Now An Email Away' on white, words fade in left to right."
+   },
+   {
+    "start_s": 3.04,
+    "end_s": 4.54,
+    "role": "setup",
+    "what": "Grey scrim with a notification toast 'Updated Redlines from Acme Corp', cursor on it."
+   },
+   {
+    "start_s": 4.54,
+    "end_s": 7.46,
+    "role": "setup",
+    "what": "Inbox message from John Doe with PDF redline attachment; window drifts slightly larger."
+   },
+   {
+    "start_s": 7.46,
+    "end_s": 9.25,
+    "role": "demo",
+    "what": "Close-up of Reply All and Forward buttons; cursor clicks Forward, which turns black at 8.58 s."
+   },
+   {
+    "start_s": 9.25,
+    "end_s": 11.2,
+    "role": "demo",
+    "what": "Giant 'ask@harvey.ai' typed letter by letter with caret, then slides out of frame."
+   },
+   {
+    "start_s": 11.2,
+    "end_s": 15.1,
+    "role": "demo",
+    "what": "Compose window: prompt to compare redlines, attachment added, cursor moves to Send."
+   },
+   {
+    "start_s": 15.1,
+    "end_s": 16.4,
+    "role": "turn",
+    "what": "Cut to huge faded serif text from the answer (thresholds $250,000 to $25,000), blurred and drifting."
+   },
+   {
+    "start_s": 16.4,
+    "end_s": 18.58,
+    "role": "turn",
+    "what": "H icon with 'Done.' on white (seen at 18.5 s), then cut to the reply."
+   },
+   {
+    "start_s": 18.58,
+    "end_s": 22.04,
+    "role": "payoff",
+    "what": "Reply from Harvey AI: clause-by-clause comparison table, scrolled."
+   },
+   {
+    "start_s": 22.04,
+    "end_s": 26.1,
+    "role": "cta",
+    "what": "Black end card 'AI Tailored for Law' with small Harvey wordmark."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 18.58,
+   "share": 0.712,
+   "what": "Reply email from Harvey AI with the comparison table appears; this is the answer the film promised, at the start of section C."
+  },
+  "ending": {
+   "cta_text": "AI Tailored for Law",
+   "logo_hold_s": 4.06,
+   "what": "Black card, title centred at 7.1% height, Harvey wordmark small below; still for about 4 s (f0012, f0013)."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 8,
+  "cuts_per_min": 18.39,
+  "median_shot_s": 1.58,
+  "how_change_is_paced": "Fast cuts in the first 9 s (1.46, 3.04, 4.54, 7.46, 8.58, 9.25) then one 9.33 s shot (9.25-18.58, 35.7% of runtime) holding the typing, compose and answer-blur; two cuts follow at 18.58 and 22.04."
+ },
+ "look": {
+  "ground": "White and near-white (light share 0.769) for the product; pure black for the wordmark and end card (dark share 0.231).",
+  "palette": [
+   "#FFFFFF",
+   "#F3F3F0 warm grey panels",
+   "#1A1A1A near-black buttons",
+   "#7A766F grey address text",
+   "#C8201F red PDF icon"
+  ],
+  "accent_use": "Near-black fills mark the active control (Forward at 8.58 s, Send); the only colour is the small red PDF icons. saturation 0.007.",
+  "type": "Titles in a high-contrast serif (white on black, black on white); interface in a grotesque sans. Title is one line, 3-4 words, sentence kept in title case, no accent word.",
+  "title_height_pct": [
+   5.4,
+   8.6
+  ],
+  "title_measurements": [
+   {
+    "t_s": 0.8,
+    "text": "Harvey",
+    "line_height_px": 59,
+    "frame_height_px": 720,
+    "pct": 8.2
+   },
+   {
+    "t_s": 2.5,
+    "text": "Now An Email Away",
+    "line_height_px": 62,
+    "frame_height_px": 720,
+    "pct": 8.6
+   },
+   {
+    "t_s": 23,
+    "text": "AI Tailored for Law",
+    "line_height_px": 51,
+    "frame_height_px": 720,
+    "pct": 7.1
+   },
+   {
+    "t_s": 23,
+    "text": "Harvey (end-card wordmark)",
+    "line_height_px": 39,
+    "frame_height_px": 720,
+    "pct": 5.4
+   }
+  ],
+  "max_words_per_title_line": 4,
+  "density": "sparse",
+  "depth": "Flat. The UI window has a faint soft shadow on white; no parallax or layered depth."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 72.8,
+  "shown_as": [
+   "redrawn-simplified-ui"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Hard cut into a 3x close-up of Forward at 7.46 s and a huge 'ask@harvey.ai' at 9.25 s; later a slow push-in on the full window.",
+  "legible_at_phone_width": "partly",
+  "notes": "Window shots at 1280 px show 8-10 px body text (f0003, f0011); the table is unreadable at phone width. The two close-ups (Forward button, address, glyph about 100 px) are fully legible. Content is fictional (Acme Corp, John Doe, jane@whitfordlane.com)."
+ },
+ "motion": {
+  "text_entry": "Words fade in one after another, left to right, over about 0.4 s (strips/window-01-1.375s.jpg); end card also fades words in (strips/window-15-21.959s.jpg).",
+  "ui_motion": "Typed text with caret, button hover to black fill at 8.58 s, cursor travelling to Send, attachment chip added, inbox scrolling to reveal table rows (f0010 to f0011).",
+  "camera": "Cut-based zooms into the UI; slow scale drift on window shots (f0003 to f0004); blurred drift on the oversized answer text 15.1-16.4 s.",
+  "eases": "Cursor decelerates into targets (strips/window-05-8.209s.jpg, 11 frames from far to click); caret typing runs about 0.1 s a character with the last characters slowing.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 8,
+    "example_t_s": 1.46,
+    "cause": "Scene changes between black card, white card, UI shots; not triggered by an on-screen object."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 2,
+    "example_t_s": 8.58,
+    "cause": "Cursor arrives on Forward and it turns black."
+   },
+   {
+    "type": "zoom-through",
+    "count": 2,
+    "example_t_s": 7.46,
+    "cause": "Cut from full window to extreme close-up of the control being used."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 1,
+    "example_t_s": 15.1,
+    "cause": "Compose window dissolves into the oversized answer text in a blur."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-1.375s.jpg",
+   "strips/window-03-4.459s.jpg",
+   "strips/window-05-8.209s.jpg",
+   "strips/window-07-9.417s.jpg",
+   "strips/window-11-15.084s.jpg",
+   "strips/window-13-18.5s.jpg",
+   "strips/window-15-21.959s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "Harvey",
+    "words": 1,
+    "hold_s": 1.46
+   },
+   {
+    "t_s": 1.5,
+    "text": "Now An Email Away",
+    "words": 4,
+    "hold_s": 1.54
+   },
+   {
+    "t_s": 9.25,
+    "text": "ask@harvey.ai",
+    "words": 1,
+    "hold_s": 1.9
+   },
+   {
+    "t_s": 18.5,
+    "text": "Done.",
+    "words": 1,
+    "hold_s": -1
+   },
+   {
+    "t_s": 22.04,
+    "text": "AI Tailored for Law",
+    "words": 4,
+    "hold_s": 4.06
+   }
+  ],
+  "holds_vs_reading_rule": "'Now An Email Away' holds 1.54 s against the rule's 0.5 + 0.3 x 4 = 1.7 s, so it is just short; the final card holds 4.06 s, well over the 2 s minimum."
+ },
+ "sound": {
+  "music": "Music only. describe tags: music 0.752, singing_bowl 0.351, keyboard_musical 0.326, percussion 0.254, gong 0.247, synthesizer 0.242; no steady beat (confidence 0.016).",
+  "sfx": "None identifiable from the evidence; no sound-effect tag above 0.2 other than the musical ones.",
+  "vo_music_balance": "No voiceover. Integrated -22.7 LUFS, short-term max -19.8, true peak -3.5 dBTP, LRA 4.7 LU; quiet against a -14 LUFS social target.",
+  "energy_arc": "Sections A 0-8.5 s, B 8.5-18.5 s, C 18.5-26.09 s; silence only in the last 0.34 s (25.75-26.09).",
+  "sync_to_picture": "cuts_on_strong_onset_share 0.125 vs chance_share 0.028: lead is 0.097, under 0.10, so cuts are not locked to the sound. Section edges 8.5 and 18.5 sit near cuts at 8.58 and 18.58."
+ },
+ "good": [
+  {
+   "observation": "A single plain scenario (get email, forward it, get answer) tells the whole product story with no voiceover.",
+   "evidence": "beats 3.04-22.04 s; transcript none"
+  },
+  {
+   "observation": "Extreme close-ups of the two actions that matter (Forward, the address) are legible at any screen size.",
+   "evidence": "f0005.jpg, f0006.jpg crops"
+  },
+  {
+   "observation": "Typed address is shown letter by letter with a caret, so the viewer can read the one fact to remember.",
+   "evidence": "strips/window-07-9.417s.jpg"
+  },
+  {
+   "observation": "The product shows its result: a real-looking table with section references and recommendations in the reply.",
+   "evidence": "f0011.jpg, crops/table.png"
+  },
+  {
+   "observation": "Restrained black/white palette with one serif and one sans gives a premium legal tone; end card holds 4 s.",
+   "evidence": "look.json saturation 0.007; f0012.jpg"
+  },
+  {
+   "observation": "Longer calm shot (9.33 s) after a fast opening lets the demo breathe.",
+   "evidence": "metrics rhythm.longest_shot share 0.357"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Frame 0 is black with a small wordmark and the first 1.46 s carries no product; hook only arrives at 1.5 s.",
+   "evidence": "f0001.jpg; frame0 contentful cells 0.05"
+  },
+  {
+   "observation": "Full-window UI shots are too small to read at phone width; the table payoff is never shown legibly except as blurred oversize text.",
+   "evidence": "f0003.jpg, f0010.jpg"
+  },
+  {
+   "observation": "Audio is quiet (-22.7 LUFS) and cuts do not follow it.",
+   "evidence": "metrics sound.lufs_integrated; share 0.125 vs 0.028"
+  },
+  {
+   "observation": "'Done.' appears for a very short time and the claim 'answers on the go' is never shown on a phone.",
+   "evidence": "strips/window-13-18.5s.jpg"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Film the one action a viewer must copy (an address, a button) as a 3x close-up with glyphs above 100 px, typed or clicked in real time.",
+   "evidence": "f0005.jpg, f0006.jpg; strips/window-07-9.417s.jpg",
+   "relation": "extends",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "A wordmark-only black frame 0 is a legitimate open for an established brand when the tagline cards in at 1.5 s; keep it under 1.5 s.",
+   "evidence": "f0001.jpg; first cut 1.46 s",
+   "relation": "contradicts",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "A launch demo can run at about 18 cuts a minute with no burst: six cuts in the first 9.3 s, then a single 9 s shot.",
+   "evidence": "hard_cuts 8, bursts [], longest shot 9.33 s",
+   "relation": "contradicts",
+   "skill_rule": "8"
+  },
+  {
+   "rule": "Show the answer by cutting from the question to a huge, blurred slice of the answer text, then to the whole reply.",
+   "evidence": "strips/window-11-15.084s.jpg; f0009.jpg",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Place music section changes on cuts: sections at 8.5 and 18.5 s match cuts at 8.58 and 18.58 s even though onset locking is below chance plus 0.10.",
+   "evidence": "audio sections; cut_times_s",
+   "relation": "extends",
+   "skill_rule": "8"
+  },
+  {
+   "rule": "Use a four-word one-line title at 7-9% of frame height, serif, no accent word, with words fading in left to right in under 0.5 s.",
+   "evidence": "title_measurements 62 px and 51 px of 720; window-01 strip",
+   "relation": "confirms",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "End on a black title card held at least 4 s with the wordmark small beneath it.",
+   "evidence": "f0012.jpg, f0013.jpg; 22.04-26.1 s",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Fictional but plausible product content is acceptable, but full-window UI needs 2x or larger crops or the reader cannot verify it at phone width.",
+   "evidence": "f0003.jpg 8-10 px text; crops/table.png",
+   "relation": "extends",
+   "skill_rule": "5"
+  }
+ ],
+ "frames_opened": 13,
+ "crops_made": 6,
+ "unchecked": [
+  "Transcript tool absent from ToolSearch; local whisper used and found no speech.",
+  "Strip window-12 (16.375 s) not opened, so the start of 'Done.' is not timed; its hold_s is -1.",
+  "Sampled f0010.jpg (t=18 s) shows the reply while strip window-13 shows 'Done.' at 18.5 s; ordering not reconciled.",
+  "No phone-width render checked directly; legibility judged from 1280 px frames."
+ ]
+}

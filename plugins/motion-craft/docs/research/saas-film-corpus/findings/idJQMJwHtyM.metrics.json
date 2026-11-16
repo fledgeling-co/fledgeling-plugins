@@ -1,0 +1,173 @@
+{
+ "id": "idJQMJwHtyM",
+ "title": "Claude for Google Workspace\u2122",
+ "uploader": "Claude",
+ "duration_s": 60.02,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 5,
+  "cuts_per_min": 5.0,
+  "cut_times_s": [
+   4.54,
+   6.46,
+   8.08,
+   10.08,
+   50.79
+  ],
+  "median_shot_s": 3.27,
+  "mean_shot_s": 10.01,
+  "shots_over_10s": 1,
+  "first_cut_s": 4.54,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 10.08,
+   "end": 50.79,
+   "seconds": 40.71,
+   "share_of_runtime": 0.678
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 5,
+   "flash": 0,
+   "appear": 11,
+   "disappear": 10,
+   "change": 32,
+   "hold": 25
+  },
+  "holds_over_1s": 17,
+  "median_hold_s": 1.4,
+  "longest_hold_s": 5.29,
+  "windows": 31
+ },
+ "frames": {
+  "count": 30,
+  "not_evidence_frames": [],
+  "dark_share": 0.0,
+  "light_share": 1.0,
+  "median_contentful_cells": 0.281,
+  "intervals_new_composition_share": 0.0,
+  "intervals_static_share": 0.241,
+  "longest_static_run_s": 6,
+  "longest_static_run_ends_at_s": 42,
+  "frame0": {
+   "meanLuminance": 0.9122,
+   "contentfulCells": 0.1375,
+   "blankCells": 0.8187,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -15.4,
+  "lufs_short_term_max": -13.7,
+  "true_peak_db": -0.6,
+  "bpm": 90.2,
+  "beats": {
+   "count": 86,
+   "confidence": 0.217,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 58.46,
+    "end": 60.014
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 3.985,
+    "label": "A"
+   },
+   {
+    "start": 3.985,
+    "end": 48.025,
+    "label": "B"
+   },
+   {
+    "start": 48.025,
+    "end": 60.014,
+    "label": "C"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.819
+   ],
+   [
+    "keyboard_musical",
+    0.52
+   ],
+   [
+    "piano",
+    0.372
+   ],
+   [
+    "wind_instrument",
+    0.353
+   ],
+   [
+    "brass_instrument",
+    0.316
+   ],
+   [
+    "synthesizer",
+    0.309
+   ],
+   [
+    "saxophone",
+    0.209
+   ],
+   [
+    "electric_piano",
+    0.2
+   ]
+  ],
+  "lra_lu": 8.8,
+  "cuts_on_strong_onset_share": 0.0,
+  "chance_share": 0.135,
+  "strong_onsets_per_min": 43.0
+ },
+ "look": {
+  "luma": 239.1,
+  "contrast": 22,
+  "saturation": 0.03,
+  "bw_share": 0.39,
+  "warmth": 0.7
+ }
+}

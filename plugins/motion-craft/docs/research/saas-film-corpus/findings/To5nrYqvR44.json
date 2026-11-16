@@ -1,0 +1,167 @@
+{
+  "id": "To5nrYqvR44",
+  "title": "Meet Claude Slides, Claude Design and Claude Docs",
+  "brand": "Claude",
+  "duration_s": 94.64,
+  "status": "ok",
+  "format": "product-demo-walkthrough",
+  "format_note": "One scripted user session (Frankie, Varde 2.0 jacket launch) moves through Slides, Design and Docs inside a single chat, bookended by a type card and a logo.",
+  "one_thing": "Three products are one conversation: a single prompt becomes a deck, social images and a one-pager, and you steer each by commenting.",
+  "transcript": {
+    "source": "none",
+    "voiceover": "none-music-only",
+    "words_total": 0,
+    "words_per_minute": 0,
+    "voice_style": "No speech. Music only; all meaning is carried by on-screen type and typed UI text.",
+    "script_shape": "Tagline, then a user prompt, then three escalating edits (slide, social sizes, doc), a collaboration burst, and the line 'Claude makes it. You steer it.'"
+  },
+  "structure": {
+    "frame0": "Warm off-white poster. At t=0 the 'Now in beta' pill and 'Create docs,' are already typing in (strips/window-01-0s.jpg); the full three-line headline is complete by 0.46 s.",
+    "first_3s": "Headline 'Create docs, slides, and designs. Same conversation.' holds from 0.46 s; at 2 s the three product names turn into icon chips inside the sentence (f0002.jpg).",
+    "beats": [
+      { "start_s": 0, "end_s": 3.6, "role": "hook", "what": "Serif tagline 'Create docs, slides, and designs. Same conversation.' with a Now in beta pill; product names become icon chips." },
+      { "start_s": 3.6, "end_s": 5.1, "role": "setup", "what": "Chips collapse into the Claude home screen with an Output menu listing Docs, Slides, Design, Artifact." },
+      { "start_s": 5.1, "end_s": 9.5, "role": "setup", "what": "Slides is chosen; a zip file is dragged onto a drop zone over the blurred home screen." },
+      { "start_s": 9.5, "end_s": 14.5, "role": "demo", "what": "The prompt is typed: 'here's the launch kit for the Varde 2.0. build the reveal deck for fri's readiness review.'" },
+      { "start_s": 14.5, "end_s": 20.5, "role": "reveal", "what": "Claude replies 'Your deck is ready'; the deck opens beside the chat with eight slide thumbnails." },
+      { "start_s": 20.5, "end_s": 30.2, "role": "demo", "what": "Camera pushes into slide 2; headline text is retyped and the background recolored cyan from a design-system palette." },
+      { "start_s": 30.2, "end_s": 42, "role": "demo", "what": "A comment tagged @Claude asks for social images in typical sizes; Claude answers in the thread." },
+      { "start_s": 42, "end_s": 46.7, "role": "reveal", "what": "A design canvas appears with the jacket slide rebalanced into 16:9, 1:1, 4:5 and 9:16 boards." },
+      { "start_s": 46.7, "end_s": 57.6, "role": "demo", "what": "Zoomed edits: the date line recolored from cyan to ember via palette, then 'update the accent color across all versions'." },
+      { "start_s": 57.6, "end_s": 66, "role": "turn", "what": "New request for a one-pager; Claude asks a multiple-choice question and the user picks 'The weight'." },
+      { "start_s": 66, "end_s": 81.4, "role": "payoff", "what": "A Docs page writes itself: lead message, a 5-bar weight chart, a line-up table, with Claude, Zak and Jenn cursors and comments." },
+      { "start_s": 81.4, "end_s": 84.5, "role": "proof", "what": "Collaborator avatars count 7 to 8 comments; a lone Share button pulses with confetti outlines." },
+      { "start_s": 84.5, "end_s": 90, "role": "cta", "what": "'Claude makes it. You steer it.' types in with Claude and You cursor tags." },
+      { "start_s": 90, "end_s": 94.64, "role": "logo", "what": "Spark and Claude wordmark centered on cream; music falls to silence from 91.0 s." }
+    ],
+    "hero_moment": {
+      "t_s": 28.17,
+      "share": 0.2977,
+      "what": "Palette click flips the slide from dark to cyan in about 0.3 s (strips/window-20-28.084s.jpg), on the start of music section D at 27.985 s."
+    },
+    "ending": {
+      "cta_text": "Claude makes it. You steer it.",
+      "logo_hold_s": 4.6,
+      "what": "Typed line with two labelled cursors, then the Claude spark and wordmark; logo is on screen from at least t=90 s to the end."
+    }
+  },
+  "rhythm": {
+    "route": "hybrid",
+    "hard_cuts": 18,
+    "cuts_per_min": 11.41,
+    "median_shot_s": 2.54,
+    "how_change_is_paced": "One continuous scripted session; something typed, selected or zoomed changes every 1-2 s. 3 shots run over 10 s, the longest 20.58 s (metrics.json). No burst (bursts is empty); the bursts that exist are camera pushes."
+  },
+  "look": {
+    "ground": "Warm off-white cream for the Claude frames; the demo content is a near-black teal slide world with cyan and ember accents.",
+    "palette": [
+      "warm cream ground",
+      "near-black ink",
+      "terracotta orange (Claude spark, send button, cursor tag)",
+      "near-black teal slide ground",
+      "cyan slide accent",
+      "ember orange accent",
+      "chart green on grey bars"
+    ],
+    "accent_use": "Terracotta marks Claude itself (spark, Claude cursor tag, send button); cyan and ember belong to the demo brand Talvik and swap in the edit.",
+    "type": "Tagline and logo line in a high-contrast serif; UI in a neutral grotesque; demo slides in a heavy grotesque headline with spaced-caps labels.",
+    "title_height_pct": [6.4, 11.5],
+    "title_measurements": [
+      { "t_s": 1, "text": "Create docs,", "line_height_px": 76, "frame_height_px": 720, "pct": 10.6 },
+      { "t_s": 1, "text": "slides, and designs.", "line_height_px": 83, "frame_height_px": 720, "pct": 11.5 },
+      { "t_s": 1, "text": "Same conversation.", "line_height_px": 64, "frame_height_px": 720, "pct": 8.9 },
+      { "t_s": 21, "text": "Rain is a given.", "line_height_px": 66, "frame_height_px": 720, "pct": 9.2 },
+      { "t_s": 21, "text": "Shells should come prepared.", "line_height_px": 71, "frame_height_px": 720, "pct": 9.9 },
+      { "t_s": 85, "text": "Claude makes it. You steer it. (while typing)", "line_height_px": 46, "frame_height_px": 720, "pct": 6.4 }
+    ],
+    "max_words_per_title_line": 6,
+    "density": "sparse",
+    "depth": "Flat. Windows carry soft drop shadows over cream; the chat/canvas panes are stacked layers, with zooms rather than parallax."
+  },
+  "product_ui": {
+    "presence_pct_runtime": 82,
+    "shown_as": ["redrawn-simplified-ui"],
+    "cursor": "stylised",
+    "camera_on_ui": "Wide window at t=18 s, then repeated pushes into the active control (toolbar f0017, palette f0026, comment box f0029) until it fills the frame; pull back to wide when a new surface appears.",
+    "legible_at_phone_width": "partly",
+    "notes": "Zoomed frames read at 25-30 px glyphs. Wide frames (f0010 t=18, f0023 t=44) show chat text at roughly 7-8 px, so only the headline-sized slide text survives phone width."
+  },
+  "motion": {
+    "text_entry": "Headline lines fade up within 0.46 s, staggered about 0.1 s apart (strips/window-01-0s.jpg); later copy is typed character by character with a live cursor.",
+    "ui_motion": "Menus open, chips collapse, a palette click recolors the slide in about 0.3 s, charts and tables fill as Claude types with a tagged cursor, avatars add a fourth then fifth face.",
+    "camera": "Constant scale pushes and pans onto the active UI control, with a hard jump from window to full-slide framing at 20.58 s.",
+    "eases": "Chip collapse out (3.67-3.92 s) is about 0.25 s against 0.46 s for the headline in; UI state changes settle fast and then hold.",
+    "transitions": [
+      { "type": "ui-state-change", "count": 30, "example_t_s": 28.17, "cause": "A palette click or typed command changes the slide, doc or chart in place." },
+      { "type": "continuous-camera-move", "count": 12, "example_t_s": 46, "cause": "Camera pushes onto the control about to be used or the canvas just built." },
+      { "type": "hard-cut", "count": 18, "example_t_s": 20.58, "cause": "Window framing jumps to the same slide filling the frame; detector also counts fast pans." },
+      { "type": "morph-or-shared-element", "count": 2, "example_t_s": 2, "cause": "Product names in the tagline become the Output menu items they describe." },
+      { "type": "match-cut", "count": 2, "example_t_s": 82.21, "cause": "Share button in the doc toolbar becomes the same button alone, enlarged, with confetti." }
+    ],
+    "strips_read": [
+      "strips/window-01-0s.jpg: tagline lines assemble in 0.46 s",
+      "strips/window-03-3.209s.jpg: chips collapse into menu 3.67-4.13 s",
+      "strips/window-13-20.5s.jpg: window to full slide in one frame at 20.58 s",
+      "strips/window-20-28.084s.jpg: cyan recolor, camera zoom over 0.3 s",
+      "strips/window-31-44s.jpg: chat to design canvas via wipe up and pull-back",
+      "strips/window-44-60s.jpg: question card selects 'The weight' 60.8-61.4 s",
+      "strips/window-53-75.167s.jpg: table cells fill TAL-01 to TAL-03",
+      "strips/window-58-81.292s.jpg: avatars 7 to 8, then Share enlarges",
+      "strips/window-60-85.167s.jpg: two cursors type the end line in parallel"
+    ]
+  },
+  "copy": {
+    "on_screen_lines": [
+      { "t_s": 0.5, "text": "Create docs, slides, and designs. Same conversation.", "words": 7, "hold_s": 3.1 },
+      { "t_s": 4.2, "text": "Good morning, Frankie", "words": 3, "hold_s": 2.5 },
+      { "t_s": 10, "text": "here's the launch kit for the Varde 2.0. build the reveal deck for fri's readiness review.", "words": 16, "hold_s": 3 },
+      { "t_s": 16, "text": "Your deck is ready — eight slides, one job each.", "words": 9, "hold_s": 2.5 },
+      { "t_s": 20.8, "text": "Rain is a given. Shells should come prepared.", "words": 8, "hold_s": 2.5 },
+      { "t_s": 34, "text": "@Claude lets use this slide design and mock up the social images, the typical sizes", "words": 15, "hold_s": 4 },
+      { "t_s": 40, "text": "On it — I'll start a design canvas for these. Four sizes: landscape, square, portrait and story, each rebalanced around the shell.", "words": 22, "hold_s": 3 },
+      { "t_s": 54, "text": "@Claude update the accent color and image size + placement across all versions", "words": 12, "hold_s": 2 },
+      { "t_s": 62, "text": "Should the one-pager lead with the taped seams or the weight?", "words": 12, "hold_s": 1.5 },
+      { "t_s": 76, "text": "Varde 2.0 — field messaging / Claimed weight, waterproof shells: Varde 2.0 11.2 oz", "words": 12, "hold_s": 2 },
+      { "t_s": 85.5, "text": "Claude makes it. You steer it.", "words": 6, "hold_s": 3.2 }
+    ],
+    "holds_vs_reading_rule": "The tagline holds about 3.1 s for 7 words (rule asks 2.6 s). The 22-word Claude reply holds about 3 s, below the rule's 7.1 s: the film shows it as proof of activity, not to be read in full."
+  },
+  "sound": {
+    "music": "Music only (describe tag music 0.781): keyboard_musical 0.509, percussion 0.448, piano 0.390; bpm 115.5 with low beat confidence 0.293; nine sections.",
+    "sfx": "None established. No sfx tag in audio.json and I cannot hear the film, so click or typing sounds are unverified.",
+    "vo_music_balance": "No voiceover; integrated loudness -15 LUFS, short-term max -11.6, loudness range 5.5 LU.",
+    "energy_arc": "Section changes at 5.5, 16.3, 28.0, 45.0, 50.3, 66.9, 77.9 and 89.9 s; last 3.6 s silent (91.01-94.63 s) under the held logo.",
+    "sync_to_picture": "Not locked: cuts_on_strong_onset_share 0.167 against chance_share 0.128 (difference 0.039). The hero recolor at 28.17 s and logo near 90 s fall on section starts 27.985 and 89.905."
+  },
+  "good": [
+    { "observation": "The tagline is the hook and the thesis: a three-line serif headline fills frame 0 and says all three products in one sentence, then the product names turn into chips that are the next screen's menu.", "evidence": "f0001.jpg, f0002.jpg, strips/window-03-3.209s.jpg" },
+    { "observation": "Every product capability is shown as a task one fictional person does with one fixture (the Varde 2.0 jacket), so the audience tracks a single story across slides, social sizes and a doc.", "evidence": "f0010, f0024, f0040 share headline and figures" },
+    { "observation": "Camera pushes hold the active control at full frame, so typed prompts and menus read at 25-30 px glyphs instead of the 7-8 px of the wide window.", "evidence": "f0017.jpg, f0026.jpg, f0029.jpg vs f0009.jpg" },
+    { "observation": "Collaboration is visible rather than described: tagged Claude, Zak and Jenn cursors type into the same doc and comments appear beside it, then the closing line reuses the same two-cursor idea.", "evidence": "f0039.jpg, f0041.jpg, strips/window-60-85.167s.jpg" },
+    { "observation": "Pacing needs no cut burst. Median shot is 2.54 s, static share is 0.13 and the longest static run is 4 s, so the eye always has a typed character or state change to follow.", "evidence": "metrics.json rhythm, frames" },
+    { "observation": "The ending is short and plain: a six-word line typed on cream, then the logo, with 3.6 s of silence for the music to settle.", "evidence": "f0045.jpg, f0046.jpg, metrics.json silence_spans" }
+  ],
+  "weak": [
+    { "observation": "The opening product section (4-20 s) is the longest uninterrupted stretch at 20.58 s; wide frames show chat text at roughly 7-8 px, so it reads as texture rather than copy on a phone.", "evidence": "metrics.json longest_shot; f0010.jpg" },
+    { "observation": "Loudness is above the social master target: -15 LUFS integrated with true peak +0.1 dBTP, over the -1 dBTP ceiling.", "evidence": "metrics.json sound" },
+    { "observation": "Some UI detail slips past: the 22-word Claude reply holds about 3 s and the doc body text cannot be read at that speed.", "evidence": "f0021.jpg, f0037.jpg" }
+  ],
+  "rule_candidates": [
+    { "rule": "Open on the sentence itself: type the headline from frame 0 so a partial line is already on screen, and complete the full 3-line headline within 0.5 s.", "evidence": "strips/window-01-0s.jpg: 'Create docs,' at 0 s, three lines by 0.458 s.", "relation": "confirms", "skill_rule": "1" },
+    { "rule": "A sparse single-subject serif title can run 8.9-11.5 % of frame height on three lines when it is the only content and holds about 3 s.", "evidence": "title_measurements t=1: 76, 83, 64 px of 720.", "relation": "contradicts", "skill_rule": "3" },
+    { "rule": "A demo that is one continuous scripted session can hold shots to 20 s if the screen changes at least every 2 s; hard cuts then stay near 11 per minute.", "evidence": "longest shot 20.58 s, median 2.54 s, longest static run 4 s.", "relation": "extends", "skill_rule": "10" },
+    { "rule": "A calm UI demo needs no cut burst; its energy peak is a single state change (a recolor in 0.3 s) placed on a music section start.", "evidence": "bursts empty; recolor 28.17 s, section D starts 27.985 s.", "relation": "extends", "skill_rule": "8" },
+    { "rule": "Push the camera until the control being used fills the frame, then pull back only when a new surface appears.", "evidence": "f0017, f0026, f0029 zoomed; f0010 wide at t=18 with 7-8 px text.", "relation": "confirms", "skill_rule": "6" },
+    { "rule": "Carry one headline phrase and one fixture product through every surface shown, so three products read as one story.", "evidence": "'Rain is a given.' on f0011, f0024, f0040.", "relation": "new", "skill_rule": "none" },
+    { "rule": "Turn the closing line into a typing action with two labelled cursors (maker and user) so the slogan demonstrates the product's collaboration.", "evidence": "strips/window-60-85.167s.jpg, 85.17-86.63 s.", "relation": "new", "skill_rule": "none" },
+    { "rule": "End with a plain line held about 3 s, then a logo held 4 s or more, with the music dropping to silence under the logo.", "evidence": "line t=85.5-89; logo from t=90; silence 91.01-94.63 s.", "relation": "extends", "skill_rule": "2" }
+  ],
+  "frames_opened": 47,
+  "crops_made": 6,
+  "unchecked": [
+    "Transcript tool was not in ToolSearch; local whisper returned only 'The', so speech is none.",
+    "Sound effects (typing, clicks) cannot be heard; none confirmed.",
+    "Exact logo arrival between t=88 and t=90 not sampled finer than 2 s.",
+    "Hold times for text lines are estimated from 2 s frames and strips, not measured per line."
+  ]
+}

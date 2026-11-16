@@ -1,0 +1,140 @@
+{
+ "id": "_Qxh2NZcWuY",
+ "title": "Harvey\u2019s Partnership with ElevenLabs",
+ "uploader": "Harvey",
+ "duration_s": 23.44,
+ "fps": 24,
+ "rhythm": {
+  "hard_cuts": 0,
+  "cuts_per_min": 0.0,
+  "cut_times_s": [],
+  "median_shot_s": 23.44,
+  "mean_shot_s": 23.44,
+  "shots_over_10s": 1,
+  "first_cut_s": null,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 0,
+   "end": 23.44,
+   "seconds": 23.44,
+   "share_of_runtime": 1.0
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 0,
+   "flash": 0,
+   "appear": 4,
+   "disappear": 4,
+   "change": 18,
+   "hold": 17
+  },
+  "holds_over_1s": 6,
+  "median_hold_s": 0.79,
+  "longest_hold_s": 3.25,
+  "windows": 14
+ },
+ "frames": {
+  "count": 12,
+  "not_evidence_frames": [],
+  "dark_share": 1.0,
+  "light_share": 0.0,
+  "median_contentful_cells": 0.106,
+  "intervals_new_composition_share": 0.0,
+  "intervals_static_share": 0.909,
+  "longest_static_run_s": 16,
+  "longest_static_run_ends_at_s": 16,
+  "frame0": {
+   "meanLuminance": 0.0622,
+   "contentfulCells": 0.075,
+   "blankCells": 0.925,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -13.5,
+  "lufs_short_term_max": -11.3,
+  "true_peak_db": -1.2,
+  "bpm": null,
+  "beats": {
+   "count": 0,
+   "confidence": 0.037,
+   "reason": "no steady beat"
+  },
+  "silence_spans": [
+   {
+    "start": 0,
+    "end": 0.335
+   },
+   {
+    "start": 22.84,
+    "end": 23.434
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 23.434,
+    "label": "A"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.743
+   ],
+   [
+    "music",
+    0.668
+   ],
+   [
+    "keyboard_musical",
+    0.362
+   ],
+   [
+    "whale_vocalization",
+    0.233
+   ],
+   [
+    "organ",
+    0.228
+   ],
+   [
+    "synthesizer",
+    0.202
+   ],
+   [
+    "singing_bowl",
+    0.176
+   ],
+   [
+    "hammond_organ",
+    0.173
+   ]
+  ],
+  "lra_lu": 4.8
+ },
+ "look": {
+  "luma": 13.6,
+  "contrast": 10.8,
+  "saturation": 0.158,
+  "bw_share": 0.81,
+  "warmth": 1.9
+ }
+}

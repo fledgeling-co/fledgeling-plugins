@@ -1,0 +1,213 @@
+{
+ "id": "arDCe_F8vfk",
+ "title": "Harvey for Innovation Teams: Lead Firmwide AI Transformation",
+ "uploader": "Harvey",
+ "duration_s": 109.04,
+ "fps": 23.976,
+ "rhythm": {
+  "hard_cuts": 7,
+  "cuts_per_min": 3.85,
+  "cut_times_s": [
+   1.46,
+   3.42,
+   6.96,
+   8.76,
+   16.81,
+   60.77,
+   98.97
+  ],
+  "median_shot_s": 5.8,
+  "mean_shot_s": 13.63,
+  "shots_over_10s": 3,
+  "first_cut_s": 1.46,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 16.81,
+   "end": 60.77,
+   "seconds": 43.96,
+   "share_of_runtime": 0.403
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 7,
+   "flash": 0,
+   "appear": 10,
+   "disappear": 23,
+   "change": 67,
+   "hold": 53
+  },
+  "holds_over_1s": 31,
+  "median_hold_s": 1.13,
+  "longest_hold_s": 10.01,
+  "windows": 62
+ },
+ "frames": {
+  "count": 55,
+  "not_evidence_frames": [
+   "f0004.jpg",
+   "f0054.jpg",
+   "f0055.jpg"
+  ],
+  "dark_share": 0.2,
+  "light_share": 0.8,
+  "median_contentful_cells": 0.125,
+  "intervals_new_composition_share": 0.13,
+  "intervals_static_share": 0.296,
+  "longest_static_run_s": 8,
+  "longest_static_run_ends_at_s": 52,
+  "frame0": {
+   "meanLuminance": 0.0591,
+   "contentfulCells": 0.05,
+   "blankCells": 0.95,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0038.jpg",
+  "f0039.jpg",
+  "f0040.jpg",
+  "f0041.jpg",
+  "f0042.jpg",
+  "f0043.jpg",
+  "f0044.jpg",
+  "f0045.jpg",
+  "f0046.jpg",
+  "f0047.jpg",
+  "f0048.jpg",
+  "f0049.jpg",
+  "f0050.jpg",
+  "f0051.jpg",
+  "f0052.jpg",
+  "f0053.jpg",
+  "f0054.jpg",
+  "f0055.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -13.9,
+  "lufs_short_term_max": -12.4,
+  "true_peak_db": -4.5,
+  "bpm": 120.2,
+  "beats": {
+   "count": 210,
+   "confidence": 0.158,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 0,
+    "end": 0.23
+   },
+   {
+    "start": 106.145,
+    "end": 109.034
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 16.995,
+    "label": "A"
+   },
+   {
+    "start": 16.995,
+    "end": 47.005,
+    "label": "B"
+   },
+   {
+    "start": 47.005,
+    "end": 100.025,
+    "label": "C"
+   },
+   {
+    "start": 100.025,
+    "end": 109.034,
+    "label": "D"
+   }
+  ],
+  "describe_tags": [
+   [
+    "music",
+    0.775
+   ],
+   [
+    "keyboard_musical",
+    0.442
+   ],
+   [
+    "synthesizer",
+    0.375
+   ],
+   [
+    "percussion",
+    0.33
+   ],
+   [
+    "singing_bowl",
+    0.329
+   ],
+   [
+    "mallet_percussion",
+    0.205
+   ],
+   [
+    "piano",
+    0.194
+   ],
+   [
+    "marimba_xylophone",
+    0.177
+   ]
+  ],
+  "lra_lu": 6.2,
+  "cuts_on_strong_onset_share": 0.143,
+  "chance_share": 0.088,
+  "strong_onsets_per_min": 22.6
+ },
+ "look": {
+  "luma": 197.1,
+  "contrast": 13.4,
+  "saturation": 0.019,
+  "bw_share": 0.8,
+  "warmth": 0
+ }
+}

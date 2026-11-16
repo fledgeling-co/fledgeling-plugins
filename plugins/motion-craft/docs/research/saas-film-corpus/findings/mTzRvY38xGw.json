@@ -1,0 +1,143 @@
+{
+ "id": "mTzRvY38xGw",
+ "title": "Visualize Legal Data on Demand in Harvey",
+ "brand": "Harvey",
+ "duration_s": 31.56,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "Silent, music-only film showing one feature: typing a prompt into Harvey and getting an interactive HTML artifact back, three times with different prompts.",
+ "one_thing": "Type a plain-English request and Harvey returns a working timeline, chart or dashboard file, shown as prompt, file chip, finished artifact.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": -1,
+  "voice_style": "No speech. Local whisper returned only 'Music' tags; the transcript tool was unavailable.",
+  "script_shape": "All meaning is carried by typed prompts and on-screen UI text; the typed prompt is the narration."
+ },
+ "structure": {
+  "frame0": "Cropped, zoomed prompt box on a light grey ground: placeholder 'Ask Harvey anything' with caret, Files and Sources buttons. Product and brand name are in frame at t=0 (f0001.jpg).",
+  "first_3s": "Zooms in on the prompt box, hard-cuts at 1.93s to a white screen where a giant 'C' and caret appear at 2.77s and grow letter by letter. Hook is a typed command.",
+  "beats": [
+   {"start_s": 0, "end_s": 1.9, "role": "hook", "what": "Empty Harvey prompt box 'Ask Harvey anything', camera pushes in on it."},
+   {"start_s": 1.93, "end_s": 4.9, "role": "setup", "what": "Prompt re-typed as giant type, one letter per cut: C, Cr, Cre, Create."},
+   {"start_s": 4.9, "end_s": 6.8, "role": "setup", "what": "Prompt continues, 'Create a' then '...tive litigation timeline', text scrolling left under a caret."},
+   {"start_s": 6.9, "end_s": 9.0, "role": "setup", "what": "Pull back to the send button; cursor presses the black arrow."},
+   {"start_s": 9.03, "end_s": 12.0, "role": "reveal", "what": "Answer text scrolls up: 'I've created an interactive timeline of all 32 key events in Project Southfield.' plus file chip."},
+   {"start_s": 12.0, "end_s": 15.0, "role": "demo", "what": "Camera pulls out to the full Harvey app: sidebar, chat, and a timeline of dated events in a side panel."},
+   {"start_s": 15.0, "end_s": 20.0, "role": "demo", "what": "Push back into the prompt box; types 'Create a structure'; chip harborview-tidewater-structure-chart.html; opens Corporate Structure Chart."},
+   {"start_s": 20.5, "end_s": 22.0, "role": "setup", "what": "New prompt typed: 'Create a compliance dashboard'."},
+   {"start_s": 22.0, "end_s": 26.0, "role": "payoff", "what": "Cursor clicks meridian-compliance-dashboard.html; Consumer Lending Compliance Dashboard with KPIs and heat map opens."},
+   {"start_s": 26.0, "end_s": 28.7, "role": "proof", "what": "Large 'Create' with file chips cycling: relationship_map, litigation_dashboard, witness_network."},
+   {"start_s": 28.7, "end_s": 31.56, "role": "logo", "what": "Serif 'Harvey' wordmark centred on white, held to the end."}
+  ],
+  "hero_moment": {
+   "t_s": 24,
+   "share": 0.76,
+   "what": "Compliance dashboard fully rendered: three KPI cards (14, 23, 25) and a 9-row, 7-column colour-coded heat map (f0013.jpg)."
+  },
+  "ending": {
+   "cta_text": "Harvey",
+   "logo_hold_s": 2.8,
+   "what": "Wordmark only, no tagline or URL, held 28.7s to 31.56s on white (f0015.jpg, f0016.jpg)."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 9,
+  "cuts_per_min": 17.11,
+  "median_shot_s": 0.37,
+  "how_change_is_paced": "One burst of 8 cuts between 1.93s and 4.83s (about 0.35s apart, one per typed letter), then a 22.5s shot (71% of runtime) from 9.03s that covers everything else with camera moves and UI state changes."
+ },
+ "look": {
+  "ground": "White with a one-off light grey first scene (f0001.jpg). Almost no contrast beyond black text on white; luma 245, saturation 0.004.",
+  "palette": ["white #FFFFFF", "near-black text", "warm light grey #E5E5E0", "soft green status chips", "soft amber status chips", "soft red status chips", "blue accent button and tags"],
+  "accent_use": "Colour appears only inside product artifacts: green, amber and red heat-map cells and a blue Pre-Merger tab. The frame around the product stays monochrome.",
+  "type": "Neo-grotesque sans for prompts and UI at huge size; a high-contrast serif for the Harvey wordmark. Prompt text goes from grey placeholder to black typed text.",
+  "title_height_pct": [8.3, 12.9],
+  "title_measurements": [
+   {"t_s": 21, "text": "Create a compliance dashb", "line_height_px": 76, "frame_height_px": 720, "pct": 10.6},
+   {"t_s": 26, "text": "Create", "line_height_px": 93, "frame_height_px": 720, "pct": 12.9},
+   {"t_s": 29, "text": "Harvey", "line_height_px": 60, "frame_height_px": 720, "pct": 8.3}
+  ],
+  "max_words_per_title_line": 4,
+  "density": "sparse",
+  "depth": "Flat. No shadows or parallax; artifact windows sit on white with a hairline border. Depth comes from zoom scale only."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 91,
+  "shown_as": ["real-ui-capture"],
+  "cursor": "real",
+  "camera_on_ui": "Constant punch-ins and pull-outs on a flat screen recording: close on the prompt box, wide on the whole app at 14.4s, close again on file chips.",
+  "legible_at_phone_width": "partly",
+  "notes": "Prompt text and file chips are huge and readable. The full-app wide shot (f0007.jpg) and the heat-map cells are small; the heat map is readable at 720p only after the zoom, and the timeline body text is smaller still."
+ },
+ "motion": {
+  "text_entry": "Typed letter by letter with a caret, both in the real prompt box and at poster scale. Letters are revealed by hard cuts at 1.93s-4.83s, one per cut.",
+  "ui_motion": "Artifacts build in on arrival: timeline rows fade and re-flow at 12s, org-chart nodes appear one by one at 20.1s. File chips shimmer with a light sweep at 10.5s and 22.8s.",
+  "camera": "Smooth continuous zoom between a close crop and the wide app, no cuts after 9.03s.",
+  "eases": "Not measured from motion curves. Zoom steps in window-11-14.433s.jpg look fast-out then slow settle.",
+  "transitions": [
+   {"type": "hard-cut", "count": 9, "example_t_s": 2.77, "cause": "Each cut reveals the next typed letter."},
+   {"type": "continuous-camera-move", "count": 4, "example_t_s": 14.43, "cause": "Zoom out to the app, then zoom into the prompt box."},
+   {"type": "ui-state-change", "count": 4, "example_t_s": 9.03, "cause": "Send click leads to answer text, chip, then artifact."},
+   {"type": "push-or-slide", "count": 2, "example_t_s": 5.5, "cause": "Prompt text scrolls left as it grows."}
+  ],
+  "strips_read": ["strips/window-01-0.3s.jpg", "strips/window-02-1.866s.jpg", "strips/window-03-3.4s.jpg", "strips/window-08-8.9s.jpg", "strips/window-11-14.433s.jpg", "strips/window-16-20.166s.jpg", "strips/window-18-22s.jpg", "strips/window-21-28.433s.jpg"]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {"t_s": 0, "text": "Ask Harvey anything", "words": 3, "hold_s": 1.9},
+   {"t_s": 4, "text": "Create a", "words": 2, "hold_s": 1.5},
+   {"t_s": 6, "text": "tive litigation timeline", "words": 3, "hold_s": 0.8},
+   {"t_s": 10.3, "text": "I've created an interactive timeline of all 32 key events in Project Southfield.", "words": 13, "hold_s": 1.5},
+   {"t_s": 18, "text": "harborview-tidewater-structure-chart.html", "words": 1, "hold_s": 2},
+   {"t_s": 20.9, "text": "Create a compliance dashboard", "words": 4, "hold_s": 1.1},
+   {"t_s": 22.5, "text": "meridian-compliance-dashboard.html", "words": 1, "hold_s": 1.5},
+   {"t_s": 24, "text": "Consumer Lending Compliance Dashboard", "words": 4, "hold_s": 2},
+   {"t_s": 26, "text": "Create relationship_map", "words": 2, "hold_s": 2.7},
+   {"t_s": 29, "text": "Harvey", "words": 1, "hold_s": 2.8}
+  ],
+  "holds_vs_reading_rule": "Mostly follows it: the 13-word answer line stays about 1.5s against a 4.4s rule, so it is a glance, not a read. Short prompts and the logo (2.8s, rule 2s) pass."
+ },
+ "sound": {
+  "music": "Music only, 136.3 BPM at beat confidence 0.506. Describe tags: music 0.689, percussion 0.355, tabla 0.311, drum 0.282, mallet_percussion 0.235. Two sections, A 0-14.6s and B 14.6-31.55s.",
+  "sfx": "Not separable from the music; no spoken or effect evidence in audio.json or transcript.",
+  "vo_music_balance": "No voiceover; music is the whole track.",
+  "energy_arc": "Strong onsets from 0.5s, dense through the 8-cut burst (about 3-4.8s), steady through B, 0.44s silence at 31.11s before the end.",
+  "sync_to_picture": "Partly locked: 22.2% of cuts land on strong onsets against 6.1% by chance (+0.161). The section change at 14.635s lines up with the zoom-out/zoom-in at 14.4-15.0s."
+ },
+ "good": [
+  {"observation": "The prompt is the hook: it is typed at poster scale so the user's request reads in one glance with no voiceover.", "evidence": "f0002.jpg, f0003.jpg, strips/window-03-3.4s.jpg"},
+  {"observation": "Letter-per-cut typing makes a cut burst that has a reason for every cut and sits on audible percussion.", "evidence": "metrics rhythm.bursts: 8 cuts 1.93-4.83s; cut share 0.222"},
+  {"observation": "Each demo has the same three-step grammar (prompt, file chip, opened artifact), so the viewer learns it once and reads the next two faster.", "evidence": "f0004-f0007, f0009-f0010, f0011-f0013"},
+  {"observation": "Real, specific artifacts: dated timeline events, merger chart, heat map with real labels (Full, Partial, Non-Compl.) make the output credible.", "evidence": "crops/heatmap.png, crops/timeline.png, crops/kpis.png"},
+  {"observation": "A single 22.5s continuous shot replaces cuts for the rest of the film, so camera movement itself is the transition.", "evidence": "metrics rhythm.longest_shot share 0.714"},
+  {"observation": "Plain white restraint ending: wordmark alone for 2.8s on the quietest frame.", "evidence": "f0015.jpg, f0016.jpg; longest_hold_s 2.83"}
+ ],
+ "weak": [
+  {"observation": "The full-app wide shot and the compliance heat map appear small; the wide timeline text is unreadable at phone width.", "evidence": "f0007.jpg, f0013.jpg"},
+  {"observation": "No tagline, URL or call to action; the film ends on the logo and never says what to do next.", "evidence": "f0015.jpg, f0016.jpg"},
+  {"observation": "The artifacts open and are replaced within a few seconds (dashboard visible about 2s), too short to read the data that proves the feature.", "evidence": "f0012.jpg at 22s, f0013.jpg at 24s, f0014.jpg at 26s"},
+  {"observation": "The timeline reveal has smeared overlapping text as rows animate in, which reads as a blur artifact rather than a build.", "evidence": "crops/timeline.png, f0007.jpg"}
+ ],
+ "rule_candidates": [
+  {"rule": "Type the prompt at poster scale (60%+ of frame height for the first letters) and reveal one letter per hard cut for 8 cuts in about 3 s.", "evidence": "f0002.jpg C about 480px of 720; 8 cuts 1.93-4.83s", "relation": "extends", "skill_rule": "8"},
+  {"rule": "A cut burst may sit early (1.9-4.8s, 11% of runtime) if every cut reveals a new typed letter; the burst-at-mid rule is for energy films without a typing device.", "evidence": "metrics rhythm.bursts mid_share 0.107", "relation": "contradicts", "skill_rule": "8"},
+  {"rule": "After the burst, hold one continuous shot of 20s or more with camera moves and UI state changes as the only seams.", "evidence": "longest_shot 9.03-31.56s, 22.53s, share 0.714", "relation": "contradicts", "skill_rule": "10"},
+  {"rule": "Repeat one demo grammar (prompt, file chip, artifact) three times with new content so the second and third round read in under 3 s each.", "evidence": "t=15-22 and 22-26 rounds vs t=2-14 round", "relation": "new", "skill_rule": "none"},
+  {"rule": "Start frame 0 on the product's own input field zoomed to 100% width, with the brand's name in the placeholder.", "evidence": "f0001.jpg 'Ask Harvey anything' at t=0", "relation": "confirms", "skill_rule": "1"},
+  {"rule": "Show the output artifact with real labels and numbers (14 / 23 / 25 and a 9x7 heat map) rather than a mock grid, and hold it 2s or more.", "evidence": "f0013.jpg, crops/kpis.png", "relation": "confirms", "skill_rule": "10"},
+  {"rule": "End on a wordmark alone for at least 2.5s with the music dropping to silence for the last 0.4s.", "evidence": "silence_spans 31.11-31.554s; logo hold 2.8s", "relation": "extends", "skill_rule": "2"},
+  {"rule": "Place the zoom reveal from a close crop to the whole app at the music section change.", "evidence": "sections B starts 14.635s; strips/window-11-14.433s.jpg", "relation": "extends", "skill_rule": "8"}
+ ],
+ "frames_opened": 16,
+ "crops_made": 5,
+ "unchecked": [
+  "Transcript tool unavailable (router MCP failed to connect); whisper found no speech.",
+  "Sound heard only through audio.json; the 0.7 dBTP true peak and 894 clip events exceed the -1 dBTP rule.",
+  "Exact typed wording at 4-6s: only fragments 'Create a' and 'tive litigation timeline' were read.",
+  "Easing curves not measured; hero share assumes dashboard at 24s is the peak.",
+  "Title ink at t=3 and 4.2 hit the ROI edge and was discarded."
+ ]
+}

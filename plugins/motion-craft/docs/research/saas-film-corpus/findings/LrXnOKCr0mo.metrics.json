@@ -1,0 +1,203 @@
+{
+ "id": "LrXnOKCr0mo",
+ "title": "Introducing Spaces in Muse",
+ "uploader": "Muse",
+ "duration_s": 90.32,
+ "fps": 23.976,
+ "rhythm": {
+  "hard_cuts": 15,
+  "cuts_per_min": 9.96,
+  "cut_times_s": [
+   4.46,
+   8.05,
+   13.14,
+   32.45,
+   32.57,
+   41.33,
+   45.46,
+   49.92,
+   60.44,
+   64.98,
+   65.06,
+   65.48,
+   77.41,
+   82.62,
+   85.84
+  ],
+  "median_shot_s": 4.47,
+  "mean_shot_s": 5.64,
+  "shots_over_10s": 3,
+  "first_cut_s": 4.46,
+  "not_cuts": [],
+  "longest_shot": {
+   "start": 13.14,
+   "end": 32.45,
+   "seconds": 19.31,
+   "share_of_runtime": 0.214
+  },
+  "bursts": []
+ },
+ "events": {
+  "counts": {
+   "cut": 5,
+   "flash": 0,
+   "appear": 14,
+   "disappear": 11,
+   "change": 49,
+   "hold": 41
+  },
+  "holds_over_1s": 24,
+  "median_hold_s": 1.44,
+  "longest_hold_s": 4.88,
+  "windows": 46
+ },
+ "frames": {
+  "count": 45,
+  "not_evidence_frames": [],
+  "dark_share": 0.2,
+  "light_share": 0.8,
+  "median_contentful_cells": 0.3,
+  "intervals_new_composition_share": 0.136,
+  "intervals_static_share": 0.273,
+  "longest_static_run_s": 4,
+  "longest_static_run_ends_at_s": 12,
+  "frame0": {
+   "meanLuminance": 0.8989,
+   "contentfulCells": 0.1375,
+   "blankCells": 0.5687,
+   "isEvidence": true
+  }
+ },
+ "frames_to_open": [
+  "f0001.jpg",
+  "f0002.jpg",
+  "f0003.jpg",
+  "f0004.jpg",
+  "f0005.jpg",
+  "f0006.jpg",
+  "f0007.jpg",
+  "f0008.jpg",
+  "f0009.jpg",
+  "f0010.jpg",
+  "f0011.jpg",
+  "f0012.jpg",
+  "f0013.jpg",
+  "f0014.jpg",
+  "f0015.jpg",
+  "f0016.jpg",
+  "f0017.jpg",
+  "f0018.jpg",
+  "f0019.jpg",
+  "f0020.jpg",
+  "f0021.jpg",
+  "f0022.jpg",
+  "f0023.jpg",
+  "f0024.jpg",
+  "f0025.jpg",
+  "f0026.jpg",
+  "f0027.jpg",
+  "f0028.jpg",
+  "f0029.jpg",
+  "f0030.jpg",
+  "f0031.jpg",
+  "f0032.jpg",
+  "f0033.jpg",
+  "f0034.jpg",
+  "f0035.jpg",
+  "f0036.jpg",
+  "f0037.jpg",
+  "f0038.jpg",
+  "f0039.jpg",
+  "f0040.jpg",
+  "f0041.jpg",
+  "f0042.jpg",
+  "f0043.jpg",
+  "f0044.jpg",
+  "f0045.jpg"
+ ],
+ "sound": {
+  "kind": "music",
+  "lufs_integrated": -19,
+  "lufs_short_term_max": -16.9,
+  "true_peak_db": -1.8,
+  "bpm": 124.5,
+  "beats": {
+   "count": 186,
+   "confidence": 0.309,
+   "reason": null
+  },
+  "silence_spans": [
+   {
+    "start": 89.95,
+    "end": 90.314
+   }
+  ],
+  "sections": [
+   {
+    "start": 0,
+    "end": 4.525,
+    "label": "A"
+   },
+   {
+    "start": 4.525,
+    "end": 16.145,
+    "label": "B"
+   },
+   {
+    "start": 16.145,
+    "end": 84.855,
+    "label": "C"
+   },
+   {
+    "start": 84.855,
+    "end": 90.314,
+    "label": "D"
+   }
+  ],
+  "describe_tags": [
+   [
+    "speech",
+    0.808
+   ],
+   [
+    "music",
+    0.64
+   ],
+   [
+    "percussion",
+    0.27
+   ],
+   [
+    "keyboard_musical",
+    0.259
+   ],
+   [
+    "synthesizer",
+    0.214
+   ],
+   [
+    "drum",
+    0.204
+   ],
+   [
+    "plucked_string_instrument",
+    0.125
+   ],
+   [
+    "mallet_percussion",
+    0.121
+   ]
+  ],
+  "lra_lu": 3.7,
+  "cuts_on_strong_onset_share": 0.067,
+  "chance_share": 0.11,
+  "strong_onsets_per_min": 29.2
+ },
+ "look": {
+  "luma": 179.5,
+  "contrast": 44.9,
+  "saturation": 0.195,
+  "bw_share": 0,
+  "warmth": -34
+ }
+}

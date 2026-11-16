@@ -1,0 +1,399 @@
+{
+  "id": "KLMl0ug_oK0",
+  "title": "Introducing Command Center",
+  "brand": "Harvey",
+  "duration_s": 78.74,
+  "status": "ok",
+  "format": "product-demo-walkthrough",
+  "format_note": "One screen-capture session of a Harvey admin dashboard: ask an AI a question, get a deck, enable a feature. Opens on a title poster, ends on a tagline card.",
+  "one_thing": "Command Center is where a firm sees its Harvey usage and asks the product questions about it, with a deck produced from the answer.",
+  "transcript": {
+    "source": "local-whisper",
+    "voiceover": "none-music-only",
+    "words_total": 0,
+    "words_per_minute": 0,
+    "voice_style": "No speech. Whisper returned only 'Music' for the whole runtime; all meaning is carried by the interface text.",
+    "script_shape": "The typed prompts and the assistant's replies are the script: question, answer with numbers, follow-up, generated deck, then one-click feature enablement."
+  },
+  "structure": {
+    "frame0": "Pale grey poster: 'Command Center' in heavy sans centred, four floating dashboard cards (bar charts, a 305 active-users area chart, a releases card) around it (f0001.jpg, strips/window-01-0s.jpg).",
+    "first_3s": "Title is sharp by 0.23 s and the cards slide in by 0.77 s, then the whole poster dims through black from about 2.4 s to 3.0 s (strips/window-02-2.466s.jpg).",
+    "beats": [
+      {
+        "start_s": 0,
+        "end_s": 2.4,
+        "role": "hook",
+        "what": "Title poster with four floating dashboard cards"
+      },
+      {
+        "start_s": 3.0,
+        "end_s": 6.0,
+        "role": "setup",
+        "what": "Fades up on a zoomed dashboard; cursor presses Explore analytics (f0003.jpg)"
+      },
+      {
+        "start_s": 6.0,
+        "end_s": 10.0,
+        "role": "demo",
+        "what": "Camera pulls back to the full app window; Explore your analytics panel with four suggested prompts"
+      },
+      {
+        "start_s": 10.0,
+        "end_s": 14.0,
+        "role": "demo",
+        "what": "Camera pushes into the composer; question typed: What use cases is my team using Harvey for?"
+      },
+      {
+        "start_s": 14.0,
+        "end_s": 19.0,
+        "role": "proof",
+        "what": "Generating insights steps, then a reply: Document Review and Due Diligence (23.1% of queries), 42,610 queries"
+      },
+      {
+        "start_s": 19.0,
+        "end_s": 33.0,
+        "role": "demo",
+        "what": "Panel closes; cursor hovers chart bars and the line chart, dark tooltips show Your firm against Peer firms"
+      },
+      {
+        "start_s": 33.0,
+        "end_s": 40.0,
+        "role": "demo",
+        "what": "Panel reopens; second prompt typed: create a presentation for the most effective use cases based on usage in M&A"
+      },
+      {
+        "start_s": 40.0,
+        "end_s": 47.0,
+        "role": "setup",
+        "what": "Harvey is working; Assessing query steps; a pptx pane opens with an H loading mark"
+      },
+      {
+        "start_s": 47.0,
+        "end_s": 57.0,
+        "role": "reveal",
+        "what": "Eight-slide deck renders in the pane: title slide, usage chart, activity totals, weekly users; the pane scrolls"
+      },
+      {
+        "start_s": 57.0,
+        "end_s": 65.6,
+        "role": "turn",
+        "what": "Back to the dashboard; cursor on '15 recommended actions to increase your usage'"
+      },
+      {
+        "start_s": 65.6,
+        "end_s": 68.0,
+        "role": "demo",
+        "what": "Recommended actions page scrolled in; cursor moves to Enable on Web search"
+      },
+      {
+        "start_s": 68.0,
+        "end_s": 73.5,
+        "role": "payoff",
+        "what": "Spinner modal, then a green check: Web search succesfully enabled, with Skip and Add users"
+      },
+      {
+        "start_s": 73.5,
+        "end_s": 74.6,
+        "role": "other",
+        "what": "Modal dismissed; app dims and fades to white"
+      },
+      {
+        "start_s": 74.6,
+        "end_s": 78.74,
+        "role": "logo",
+        "what": "White end card: AI Tailored for Law, Harvey wordmark below"
+      }
+    ],
+    "hero_moment": {
+      "t_s": 48,
+      "share": 0.61,
+      "what": "The generated deck appears in the pane beside the chat: a dark green title slide, Showcasing Whitford Lane's usage in M&A (f0025.jpg, about 48 s)."
+    },
+    "ending": {
+      "cta_text": "AI Tailored for Law",
+      "logo_hold_s": 4.1,
+      "what": "Fade through white to a plain card: serif tagline centred, Harvey wordmark at the bottom, no button, no URL (f0039.jpg)."
+    }
+  },
+  "rhythm": {
+    "route": "continuous",
+    "hard_cuts": 6,
+    "cuts_per_min": 4.57,
+    "median_shot_s": 4.17,
+    "how_change_is_paced": "One 36.5 s shot (46% of runtime, 29.13 to 65.63 s) holds the whole demo; change comes from typed text, chart hovers, panels opening and camera push-ins, not cuts. No burst of cuts exists (metrics.json bursts is empty)."
+  },
+  "look": {
+    "ground": "Dark olive-black painted texture behind a bright off-white app window; the title poster and end card use flat pale grey and near-white grounds.",
+    "palette": [
+      "off-white #f5f5f2",
+      "near-black sidebar",
+      "slate-grey bars",
+      "dark green slide #2d4a47",
+      "success green check",
+      "textured olive-black backdrop"
+    ],
+    "accent_use": "Almost none: green appears only for percentage deltas, the success check and the generated slide; the black Explore analytics and Enable buttons are the only high-contrast controls.",
+    "type": "Heavy grotesque sans for the opening title; light serif for the dashboard headings, big numbers and the closing tagline; small grotesque sans for interface labels.",
+    "title_height_pct": [
+      2.1,
+      8.6
+    ],
+    "title_measurements": [
+      {
+        "t_s": 1.5,
+        "text": "Command Center",
+        "line_height_px": 62,
+        "frame_height_px": 720,
+        "pct": 8.6
+      },
+      {
+        "t_s": 77.5,
+        "text": "AI Tailored for Law",
+        "line_height_px": 52,
+        "frame_height_px": 720,
+        "pct": 7.2
+      },
+      {
+        "t_s": 77.5,
+        "text": "Harvey",
+        "line_height_px": 41,
+        "frame_height_px": 720,
+        "pct": 5.7
+      },
+      {
+        "t_s": 70,
+        "text": "New releases",
+        "line_height_px": 29,
+        "frame_height_px": 720,
+        "pct": 4.0
+      },
+      {
+        "t_s": 33,
+        "text": "Whitford Lane's Command Center",
+        "line_height_px": 15,
+        "frame_height_px": 720,
+        "pct": 2.1
+      }
+    ],
+    "max_words_per_title_line": 4,
+    "density": "medium",
+    "depth": "Soft drop shadows lift the floating cards on the poster; the app window sits flat on the textured backdrop with a thin rounded edge."
+  },
+  "product_ui": {
+    "presence_pct_runtime": 94,
+    "shown_as": [
+      "real-ui-capture",
+      "floating-ui-cards"
+    ],
+    "cursor": "real",
+    "camera_on_ui": "Digital zoom on a flat capture: push in to a button or composer, pull back to the whole window, push in again. About six moves on one 36.5 s shot, each tied to the next click or typed line.",
+    "legible_at_phone_width": "partly",
+    "notes": "At full-window framing the sidebar and chart labels are about 8 px high at 720p, too small for a phone; the film zooms in for every line that matters (the prompt, the tooltips, the Enable row, the modal)."
+  },
+  "motion": {
+    "text_entry": "The title blurs in and sharpens in about 0.23 s (strip 01). Prompts type character by character with a caret; assistant replies stream in; step lists appear one line at a time.",
+    "ui_motion": "Panels slide in from the right; tooltips fade in and out on hover; the pptx pane shows a grey skeleton, then slides stack and scroll; a spinner modal resolves to a success modal.",
+    "camera": "Slow push-ins and pull-backs on the captured window; no rotation. The opening poster cards drift in from the frame edges over 0.77 s.",
+    "eases": "Camera moves ease in and out over about 1 s (strip 03, 4.0 to 4.6 s). Fades through black and white run about 0.6 s (strip 02, strip 34).",
+    "transitions": [
+      {
+        "type": "fade-through-colour",
+        "count": 2,
+        "example_t_s": 2.97,
+        "cause": "Poster dims through black into the product at 3.0 s; app dims and fades to white at 74.6 s."
+      },
+      {
+        "type": "continuous-camera-move",
+        "count": 6,
+        "example_t_s": 9.8,
+        "cause": "Zoom to the composer so the typed prompt is readable, then back out when the reply arrives."
+      },
+      {
+        "type": "ui-state-change",
+        "count": 8,
+        "example_t_s": 68.2,
+        "cause": "Cursor click on Enable triggers spinner, then success modal."
+      },
+      {
+        "type": "hard-cut",
+        "count": 3,
+        "example_t_s": 73.57,
+        "cause": "Modal and dim overlay vanish between 73.533 and 73.567 s after Skip is clicked."
+      }
+    ],
+    "strips_read": [
+      "strips/window-01-0s.jpg: title blurs in over 0.23 s, cards enter by 0.77 s",
+      "strips/window-02-2.466s.jpg: poster dims to black from 2.7 to 3.03 s",
+      "strips/window-03-3s.jpg: fade up from black, then zoom-out settle, cursor lands on Explore analytics",
+      "strips/window-05-9.8s.jpg: push into composer while the prompt types",
+      "strips/window-13-28.8s.jpg: tooltip hover, then zoom-in on the line chart from 29.2 s",
+      "strips/window-29-65.2s.jpg: scroll to Recommended actions, push in on Enable at 66.8 s",
+      "strips/window-30-67.633s.jpg: click, grey dim, spinner modal at 68.1 s",
+      "strips/window-33-73.5s.jpg: hard cut from dimmed modal to clean page",
+      "strips/window-34-74.1s.jpg: Web search row turns green, fade to white by 74.63 s"
+    ]
+  },
+  "copy": {
+    "on_screen_lines": [
+      {
+        "t_s": 0.5,
+        "text": "Command Center",
+        "words": 2,
+        "hold_s": 2.2
+      },
+      {
+        "t_s": 4,
+        "text": "Explore analytics",
+        "words": 2,
+        "hold_s": 1.5
+      },
+      {
+        "t_s": 10,
+        "text": "What use cases is my team using Harvey for?",
+        "words": 9,
+        "hold_s": 4
+      },
+      {
+        "t_s": 18,
+        "text": "Document Review and Due Diligence (23.1% of queries)",
+        "words": 8,
+        "hold_s": 4
+      },
+      {
+        "t_s": 38,
+        "text": "From this data, create a presentation for the most effective use cases based on usage in M&A",
+        "words": 17,
+        "hold_s": 2
+      },
+      {
+        "t_s": 48,
+        "text": "Showcasing Whitford Lane's usage in M&A",
+        "words": 6,
+        "hold_s": 3
+      },
+      {
+        "t_s": 70,
+        "text": "Web search succesfully enabled",
+        "words": 4,
+        "hold_s": 4.5
+      },
+      {
+        "t_s": 76,
+        "text": "AI Tailored for Law",
+        "words": 4,
+        "hold_s": 2.7
+      }
+    ],
+    "holds_vs_reading_rule": "The tagline (4 words) needs 0.5 + 1.2 = 1.7 s and holds about 2.7 s, so rule 2 is met; the long reply text at 18 s is never meant to be read in full."
+  },
+  "sound": {
+    "music": "Music only, no speech. Describe tags: bowed_string_instrument 0.514, keyboard_musical 0.507, orchestra 0.482, cello 0.446, violin_fiddle 0.397, piano 0.301. No steady beat (confidence 0.01).",
+    "sfx": "No evidence of sound effects: the analysis lists only 11 weak spectral-flux onsets, strongest at t=0.015 s.",
+    "vo_music_balance": "No voiceover. Integrated -11.2 LUFS, short-term max -9, loudness range 4.5 LU.",
+    "energy_arc": "Six sections: A 0-20 s, B 20-27, C 27-33.5, D 33.5-45, E 45-53.5, F 53.5-78.7 s. Loudness range is narrow at 4.5 LU, so the arc is flat.",
+    "sync_to_picture": "Not locked: cuts_on_strong_onset_share is 0.0 against chance_share 0.003, and there is no beat grid to cut to."
+  },
+  "good": [
+    {
+      "observation": "Frame 0 is a finished poster: the title sits among four floating product cards, so the subject is on screen before anything moves.",
+      "evidence": "f0001.jpg, strips/window-01-0s.jpg"
+    },
+    {
+      "observation": "The camera zooms in to whatever the viewer must read (prompt, tooltip, Enable row, modal) and pulls back to show context, so a 720p UI stays legible without cutting.",
+      "evidence": "f0006.jpg, f0013.jpg, f0034.jpg, f0036.jpg"
+    },
+    {
+      "observation": "The demo carries real numbers in the answer (23.1%, 42,610 queries) and in the generated deck (287 active users, 56,826 queries), so the claim shows output rather than naming it.",
+      "evidence": "f0010.jpg, crops/my-chat-reply.png"
+    },
+    {
+      "observation": "The deck rendering in the side pane is the payoff for the chat prompt: grey skeleton, then a dark green title slide, then a scroll through slides.",
+      "evidence": "f0024.jpg, f0025.jpg, f0028.jpg"
+    },
+    {
+      "observation": "Restraint: one colour of backdrop, one app window, one cursor, almost no accent colour, and an end card with just a tagline and wordmark.",
+      "evidence": "f0039.jpg, measure/look.json saturation 0.099"
+    },
+    {
+      "observation": "Every state change is caused by a visible click or keystroke: Explore analytics opens the panel, Enable spawns the spinner, Skip clears the modal.",
+      "evidence": "f0003.jpg, f0034.jpg, strips/window-30-67.633s.jpg"
+    }
+  ],
+  "weak": [
+    {
+      "observation": "No cut lands on a musical onset and the music has no beat, so the picture feels unconnected to the sound.",
+      "evidence": "metrics.json sound.cuts_on_strong_onset_share 0.0"
+    },
+    {
+      "observation": "The audio peaks above full scale (true peak +0.2 dB, 17 clipped samples from 38.1 s) and is about 3 LU louder than the -14 LUFS social target.",
+      "evidence": "metrics.json true_peak_db 0.2, lufs_integrated -11.2"
+    },
+    {
+      "observation": "At full-window framing most text is 7-8 px tall at 720p; the sidebar, axis labels and legends are unreadable at phone width.",
+      "evidence": "f0004.jpg, f0011.jpg"
+    },
+    {
+      "observation": "The 36.5 s unbroken shot and the long wait for AI output (about 6 s of Harvey is working at 14-16 s and 40-44 s) slow the middle.",
+      "evidence": "metrics.json longest_shot; f0008.jpg, f0021.jpg"
+    }
+  ],
+  "rule_candidates": [
+    {
+      "rule": "A demo film can hold one shot of 30 s or more if the camera pushes in on each line to be read (every 5-10 s) and each state change follows a click or keystroke.",
+      "evidence": "Longest shot 36.5 s, 46.4% of runtime; push-ins at 4, 10, 29, 66 s",
+      "relation": "contradicts",
+      "skill_rule": "10"
+    },
+    {
+      "rule": "When the product is the hero, keep the UI on screen for about 90% of runtime and open on a poster with the title and floating product cards.",
+      "evidence": "f0001.jpg; UI visible 3.0 to 74.6 s of 78.74 s",
+      "relation": "extends",
+      "skill_rule": "1"
+    },
+    {
+      "rule": "Zoom the capture so the line being read is at least about 20 px tall at 720p; pull back to the whole window only for orientation.",
+      "evidence": "f0007.jpg prompt text vs f0004.jpg sidebar text",
+      "relation": "confirms",
+      "skill_rule": "5"
+    },
+    {
+      "rule": "End on a plain card: one 4-word serif tagline at about 7% of frame height and the wordmark below, held about 4 s, with no button or URL.",
+      "evidence": "f0039.jpg; title 52 px of 720 = 7.2%; end card from 74.6 s",
+      "relation": "confirms",
+      "skill_rule": "2 and 3"
+    },
+    {
+      "rule": "Put one heavy-weight title at 8-9% of frame height over the first 2-3 s and swap to a lighter serif for body headings, so the opener and the product read as two typographic layers.",
+      "evidence": "Command Center 62 px of 720 = 8.6% (t=1.5 s); dashboard heading 15 px",
+      "relation": "extends",
+      "skill_rule": "3"
+    },
+    {
+      "rule": "Fade through black or white at the two seams where the film changes world (title to product, product to tagline), about 0.6 s each, and use no cross-dissolve between worlds.",
+      "evidence": "strips/window-02-2.466s.jpg, strips/window-34-74.1s.jpg",
+      "relation": "confirms",
+      "skill_rule": "7"
+    },
+    {
+      "rule": "Show the output of the AI feature as a rendered artefact beside the chat (a slide, a chart) with a grey skeleton first, so the viewer sees the result rather than reading the reply.",
+      "evidence": "f0024.jpg skeleton, f0025.jpg title slide, f0027.jpg and f0028.jpg slides",
+      "relation": "new",
+      "skill_rule": "none"
+    },
+    {
+      "rule": "A music-only product film with no beat may run with zero cuts on onsets, but its loudness should still land at -14 LUFS and under -1 dBTP.",
+      "evidence": "cuts_on_strong_onset_share 0.0; -11.2 LUFS; true peak +0.2",
+      "relation": "contradicts",
+      "skill_rule": "9"
+    }
+  ],
+  "frames_opened": 39,
+  "crops_made": 6,
+  "unchecked": [
+    "transcript tool was not in ToolSearch; used local whisper, which returned only 'Music' (no speech).",
+    "Sampled frames look about 1 s offset from nominal: f0002 (2 s) is black, but strips show the title until 2.9 s; times are approximate.",
+    "Sound was not heard; only audio.json and metrics.json were read.",
+    "The hover tooltip fade-out and deck slide-in motions between 2 s samples were not examined in strips.",
+    "Which tool made the film was not examined."
+  ]
+}

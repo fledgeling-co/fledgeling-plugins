@@ -1,0 +1,346 @@
+{
+ "id": "7-1tNo8HAwk",
+ "title": "New agents for legal professionals | Claude Cowork",
+ "brand": "Claude",
+ "duration_s": 25.24,
+ "status": "ok",
+ "format": "short-announcement",
+ "format_note": "One 25 s unbroken motion-graphics shot on a flat cream ground: three serif headlines, a logo carousel, a chip wheel, wordmark. No product screen.",
+ "one_thing": "Claude plugs into the legal tools lawyers already use, via 12 practice-specific plugins.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No speech. Whisper returned a single stray 'I'; treated as none.",
+  "script_shape": "Three claims in sequence: where it works, what it connects to, how many plugins. Each is shown by an object after the line, then the wordmark."
+ },
+ "structure": {
+  "frame0": "Full headline 'Claude works where lawyers work' already on screen, dark serif, centred on cream. Subject present from the first frame (f0001.jpg, strips/window-01-0s.jpg).",
+  "first_3s": "Headline holds about 2.4 s, then dissolves word by word left to right while the next headline starts to build (strips/window-02-2.375s.jpg).",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 2.4,
+    "role": "hook",
+    "what": "Headline 'Claude works where lawyers work' holds still."
+   },
+   {
+    "start_s": 2.4,
+    "end_s": 3.5,
+    "role": "setup",
+    "what": "Words fade out in order; 'Connected across your legal stack' builds word by word."
+   },
+   {
+    "start_s": 3.5,
+    "end_s": 5.8,
+    "role": "setup",
+    "what": "Second headline holds still."
+   },
+   {
+    "start_s": 5.8,
+    "end_s": 9.8,
+    "role": "proof",
+    "what": "Headline slides left; a row of app logo tiles enters from the right and fills the row."
+   },
+   {
+    "start_s": 9.8,
+    "end_s": 14.0,
+    "role": "demo",
+    "what": "Logo tiles bob in a staggered wave and stream left; 15 or more distinct logos pass."
+   },
+   {
+    "start_s": 14.0,
+    "end_s": 15.5,
+    "role": "setup",
+    "what": "'With 12 plugins tailored to different practices' builds word by word."
+   },
+   {
+    "start_s": 15.5,
+    "end_s": 21.1,
+    "role": "reveal",
+    "what": "Headline drifts up and fades; a vertical wheel of 12 practice chips scrolls through a blurred focus band."
+   },
+   {
+    "start_s": 21.1,
+    "end_s": 21.8,
+    "role": "payoff",
+    "what": "Coral dot appears, grows into the asterisk mark, wordmark types in."
+   },
+   {
+    "start_s": 21.8,
+    "end_s": 25.24,
+    "role": "logo",
+    "what": "Claude logo holds still; music silent from 23.19 s."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 12.0,
+   "share": 0.475,
+   "what": "Mid-stream of the logo carousel (f0007.jpg): about 14 tiles in a wavy row, the densest and most colourful frame of the film."
+  },
+  "ending": {
+   "cta_text": "none; Claude wordmark only",
+   "logo_hold_s": 3.4,
+   "what": "Coral asterisk and 'Claude' wordmark centred, still from 21.8 s to the end (f0012.jpg, f0013.jpg)."
+  }
+ },
+ "rhythm": {
+  "route": "continuous",
+  "hard_cuts": 0,
+  "cuts_per_min": 0.0,
+  "median_shot_s": 25.24,
+  "how_change_is_paced": "One shot, a new composition every 4-7 s: headline, headline, logo row, headline, chip wheel, logo. Between those, motion is continuous slides and word-staggered fades, never a cut. 42 % of sampled intervals are static."
+ },
+ "look": {
+  "ground": "Flat warm cream (about #E6E5D9), no gradient, no texture. Fully light; luma 224.",
+  "palette": [
+   "cream ground",
+   "near-black ink",
+   "white tile",
+   "coral #D97757-like",
+   "partner brand colours in tiles"
+  ],
+  "accent_use": "Coral appears only in the dot and asterisk at 21-25 s; partner logos supply the other colour.",
+  "type": "Serif headline (dark, tight tracking) for claims; clean grotesque for chips; serif wordmark. Sentence case, no all-caps, no italics.",
+  "title_height_pct": [
+   7.5,
+   10.8
+  ],
+  "title_measurements": [
+   {
+    "t_s": 1,
+    "text": "Claude works where lawyers work",
+    "line_height_px": 56,
+    "frame_height_px": 720,
+    "pct": 7.8
+   },
+   {
+    "t_s": 4,
+    "text": "Connected across your legal stack",
+    "line_height_px": 54,
+    "frame_height_px": 720,
+    "pct": 7.5
+   },
+   {
+    "t_s": 14.3,
+    "text": "With 12 plugins tailored to different practices",
+    "line_height_px": 54,
+    "frame_height_px": 720,
+    "pct": 7.5
+   },
+   {
+    "t_s": 22.5,
+    "text": "Claude wordmark with asterisk",
+    "line_height_px": 78,
+    "frame_height_px": 720,
+    "pct": 10.8
+   }
+  ],
+  "max_words_per_title_line": 7,
+  "density": "sparse",
+  "depth": "Flat. Tiles carry a faint soft shadow; chips use white fill and blur-by-distance to fake depth in the wheel."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 55,
+  "shown_as": [
+   "floating-ui-cards",
+   "abstract-illustration"
+  ],
+  "cursor": "none",
+  "camera_on_ui": "No camera moves. Objects move through a fixed frame: tiles stream sideways, chips scroll vertically.",
+  "legible_at_phone_width": "partly",
+  "notes": "No Claude interface appears. Partner logos (docusign, Thomson Reuters, box, FREE LAW PROJECT, netdocuments, Consilio read in crops/icons-left.png and icons-right.png) stand for the integrations. Chip labels are large and legible (crops/chips.png); logo wordmarks inside tiles are small."
+ },
+ "motion": {
+  "text_entry": "Headline builds word by word, each word fading from grey to ink over about 0.04-0.08 s steps, left to right (strips/window-05-14.042s.jpg).",
+  "ui_motion": "Tiles enter in a row, then each bobs up or down in a staggered wave moving left to right (strips/window-04-9.792s.jpg). Chips scroll up with the focused chip brightest and white, neighbours fading and blurring.",
+  "camera": "Locked frame throughout. No zoom or pan.",
+  "eases": "Not measured per curve. Word fades are quick; the headline exit slide at t=6-7 s and carousel streams read as smooth ease-out; the asterisk grows over 0.15 s.",
+  "transitions": [
+   {
+    "type": "push-or-slide",
+    "count": 2,
+    "example_t_s": 6.96,
+    "cause": "Docusign tile entering pushes headline off left; the tile row later streams out left."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 3,
+    "example_t_s": 2.5,
+    "cause": "Words of one headline fade out in order as the next headline's words fade in."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 1,
+    "example_t_s": 21.4,
+    "cause": "Last chip dissolves to a coral dot that grows into the asterisk logo."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 1,
+    "example_t_s": 16.5,
+    "cause": "Headline drifts up as the chip wheel rises from below."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0s.jpg",
+   "strips/window-02-2.375s.jpg",
+   "strips/window-03-5.834s.jpg",
+   "strips/window-04-9.792s.jpg",
+   "strips/window-05-14.042s.jpg",
+   "strips/window-06-15.459s.jpg",
+   "strips/window-07-21.417s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "Claude works where lawyers work",
+    "words": 5,
+    "hold_s": 2.4
+   },
+   {
+    "t_s": 3.5,
+    "text": "Connected across your legal stack",
+    "words": 5,
+    "hold_s": 2.3
+   },
+   {
+    "t_s": 14.4,
+    "text": "With 12 plugins tailored to different practices",
+    "words": 7,
+    "hold_s": 1.1
+   },
+   {
+    "t_s": 16.9,
+    "text": "AI governance legal / Commercial legal / Corporate legal / Employment legal / IP legal",
+    "words": 11,
+    "hold_s": 0.4
+   },
+   {
+    "t_s": 18.0,
+    "text": "Law student / Legal builder hub / Legal clinic / Litigation legal / Privacy legal / Product legal / Regulatory legal",
+    "words": 15,
+    "hold_s": 0.4
+   },
+   {
+    "t_s": 21.8,
+    "text": "Claude",
+    "words": 1,
+    "hold_s": 3.4
+   }
+  ],
+  "holds_vs_reading_rule": "Headlines 1 and 2 hold about 2.4 s and 2.3 s, above the 2.0 s needed for 5 words. Headline 3 (7 words, 2.6 s needed) holds about 1.1 s. The last line holds 3.4 s, above 2 s."
+ },
+ "sound": {
+  "music": "Music only, about 89.9 BPM (beat confidence 0.423). Tags: music 0.858, keyboard_musical 0.594, piano 0.48, synthesizer 0.477, percussion 0.471, mallet_percussion 0.422, marimba_xylophone 0.349. Sections A 0-5.4 s, B 5.4-25.2 s.",
+  "sfx": "None identified; no sfx tag in audio.json describe list.",
+  "vo_music_balance": "No voice; music is the whole track. Integrated -17.1 LUFS, true peak -4.3 dBTP, LRA 6.4 LU.",
+  "energy_arc": "Section change at 5.4 s as the logo row arrives; music goes silent from 23.19 s, leaving the final 2.0 s of logo hold unscored.",
+  "sync_to_picture": "No cuts to align, so cut-to-sound lock is not measurable. Section B starts at 5.4 s, near the headline-to-logos handoff at 5.8 s."
+ },
+ "good": [
+  {
+   "observation": "Frame 0 carries the full claim; the film opens on its thesis with no build-up.",
+   "evidence": "f0001.jpg; frame0 contentfulCells 0.15, isEvidence true"
+  },
+  {
+   "observation": "One idea per beat: claim, integrations, plugin count, brand. Every composition holds one subject on a flat ground.",
+   "evidence": "f0001, f0003, f0005, f0010, f0011 .jpg"
+  },
+  {
+   "observation": "Word-by-word build and fade gives a headline change without any cut; the same device is used three times.",
+   "evidence": "strips/window-02-2.375s.jpg, window-05-14.042s.jpg"
+  },
+  {
+   "observation": "The claim 'with 12 plugins' is proved by exactly 12 chips on screen, so the number is checkable.",
+   "evidence": "frames f0010.jpg; strips/window-06-15.459s.jpg"
+  },
+  {
+   "observation": "Logo tiles are real partner marks, so the integrations claim is shown rather than described.",
+   "evidence": "crops/icons-left.png, crops/icons-right.png"
+  },
+  {
+   "observation": "Staggered vertical wave across a stationary row adds energy to an otherwise static frame without a cut.",
+   "evidence": "strips/window-04-9.792s.jpg"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "No Claude product interface is shown; how the plugins work or what an agent does is never visible.",
+   "evidence": "product_ui none of real-ui-capture across 13 frames"
+  },
+  {
+   "observation": "Third headline gets about 1.1 s of full-opacity hold for 7 words before drifting away, short of the reading rule.",
+   "evidence": "strips/window-06-15.459s.jpg; 14.4-15.5 s"
+  },
+  {
+   "observation": "Music ends at 23.19 s while the logo holds to 25.24 s, and loudness is -17.1 LUFS, 3 LU under the -14 target.",
+   "evidence": "metrics.json sound.silence_spans, lufs_integrated"
+  },
+  {
+   "observation": "Tile logos are small inside the 100 px tiles; most are marks only and would not read at phone width.",
+   "evidence": "f0007.jpg; crops/icons-right.png"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "A film may carry its whole claim in one continuous shot: change the composition every 4-7 s through slides and word-staggered fades rather than cuts.",
+   "evidence": "hard_cuts 0, median_shot_s 25.24, compositions at 0, 3.5, 5.8, 14, 15.5, 21.1 s",
+   "relation": "extends",
+   "skill_rule": "7 and 10"
+  },
+  {
+   "rule": "Exceptions to a 1.8-3.5 s cut cadence need a different change source: here a new composition every 4-7 s.",
+   "evidence": "6 compositions in 25 s; cuts_per_min 0",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Headlines can sit at 7.5-8 % of frame height, centred, one line, 5-7 words, with no accent word; the brand mark is larger at about 11 %.",
+   "evidence": "title_measurements 54-56 px of 720; wordmark 78 px",
+   "relation": "confirms",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "Show a count claim with that many objects: 'with 12 plugins' is followed by 12 chips so the viewer can count them.",
+   "evidence": "chips list at 15.5-21 s; copy line at 14.4 s",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Build a headline word by word at about 0.04-0.08 s per word; hold it still at least 0.5 s plus 0.3 s a word (2.6 s for 7 words).",
+   "evidence": "strips/window-05-14.042s.jpg; hold of third line about 1.1 s",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "End on a still wordmark for at least 3 s and let the music reach its end before the hold finishes; do not leave audio silent under the last 2 s.",
+   "evidence": "logo hold 3.4 s; silence 23.19-25.23 s",
+   "relation": "extends",
+   "skill_rule": "2 and 9"
+  },
+  {
+   "rule": "A hero moment can be a dense object field in motion rather than a UI: about 14 staggered tiles fill the row at the midpoint of the film.",
+   "evidence": "f0007.jpg at t=12 s, share 0.475",
+   "relation": "extends",
+   "skill_rule": "6 and 8"
+  },
+  {
+   "rule": "Measure social loudness: this brand master sits at -17.1 LUFS and -4.3 dBTP, so a -14 LUFS target is stricter than the corpus.",
+   "evidence": "metrics.json sound.lufs_integrated -17.1, true_peak_db -4.3",
+   "relation": "contradicts",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 13,
+ "crops_made": 5,
+ "unchecked": [
+  "Easing curves not measured per element.",
+  "Cut-to-sound share absent from metrics.json; no cuts exist, so lock cannot be assessed.",
+  "Tile logos beyond those legible in crops not identified.",
+  "Transcript tool absent from ToolSearch; local whisper used."
+ ]
+}

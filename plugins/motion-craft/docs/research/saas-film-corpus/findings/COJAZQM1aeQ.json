@@ -1,0 +1,425 @@
+{
+ "id": "COJAZQM1aeQ",
+ "title": "Build an App With Claude Design",
+ "brand": "Claude",
+ "duration_s": 102.24,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "On-camera designer narrates a screen-recorded walkthrough; the presenter footage and the title sit on a canvas with the product's own selection handles and toolbars.",
+ "one_thing": "Claude Design lets you ask for options, comment and edit them, get a click-through prototype, then tell Claude to build it.",
+ "transcript": {
+  "source": "human-captions",
+  "voiceover": "on-camera-presenter",
+  "words_total": 284,
+  "words_per_minute": 166.7,
+  "voice_style": "Casual first-person presenter, conversational and unscripted in tone, with small jokes about a silly side project.",
+  "script_shape": "Anecdote about a silly app (0-17s), self-intro, the problem (onboarding), five numbered steps with two coffee breaks, then 'Not bad', 'build it', and a one-line invitation."
+ },
+ "structure": {
+  "frame0": "Presenter video in a framed box with a filename label 'Claude-Design-Demo.mov', selection handles and a cursor on a light dotted canvas; subject present, not black (f0001.jpg).",
+  "first_3s": "Presenter talks to camera while the box grows from small to 750 px wide and gains selection handles at t=0.67s; cursor drifts away (strips/window-01-0s.jpg).",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 4.58,
+    "role": "hook",
+    "what": "Presenter pitches a dumb daily-challenge app inside a canvas frame."
+   },
+   {
+    "start_s": 4.58,
+    "end_s": 9.38,
+    "role": "setup",
+    "what": "Frame slides up; green title card appears, recolours to lavender via a swatch click."
+   },
+   {
+    "start_s": 9.38,
+    "end_s": 17,
+    "role": "setup",
+    "what": "Phone artboard shows 'Draw a picture', edited down to 'Dra', then 'Upload bird noises'."
+   },
+   {
+    "start_s": 17,
+    "end_s": 29.12,
+    "role": "setup",
+    "what": "Presenter introduces himself; a typed comment card reads 'Hi, I'm Nate. I'm a designer at Anthropic.'"
+   },
+   {
+    "start_s": 29.12,
+    "end_s": 39.62,
+    "role": "problem",
+    "what": "Presenter fills the frame and explains the onboarding problem."
+   },
+   {
+    "start_s": 39.62,
+    "end_s": 54.79,
+    "role": "demo",
+    "what": "Blur-through into the Claude app: pick folder, Artifacts, Design, type the prompt."
+   },
+   {
+    "start_s": 54.79,
+    "end_s": 56.79,
+    "role": "other",
+    "what": "Coffee-break gag: portrait clip of presenter drinking from a mug, with a toolbar coffee button."
+   },
+   {
+    "start_s": 56.79,
+    "end_s": 65.54,
+    "role": "reveal",
+    "what": "Chat plus canvas show five onboarding artboards; comment card 'Bigger bird. Much bigger.'"
+   },
+   {
+    "start_s": 65.54,
+    "end_s": 73.42,
+    "role": "demo",
+    "what": "Inline text edit 'Bet you won't.', properties panel with radius field."
+   },
+   {
+    "start_s": 73.42,
+    "end_s": 80.75,
+    "role": "demo",
+    "what": "Burst of seven cuts: reply, prompt typing, second coffee clip, Click-through artboard, Play."
+   },
+   {
+    "start_s": 80.75,
+    "end_s": 89.79,
+    "role": "proof",
+    "what": "Full-screen prototype: bird, time picker, CAW counter; prompt 'ok claude. build it.'"
+   },
+   {
+    "start_s": 89.79,
+    "end_s": 94.0,
+    "role": "turn",
+    "what": "Presenter in a shrinking frame says 'And that's it' and closes."
+   },
+   {
+    "start_s": 94.0,
+    "end_s": 100.0,
+    "role": "payoff",
+    "what": "Serif line 'Claude makes it.' is typed, selected, trimmed to 'it.' and fades."
+   },
+   {
+    "start_s": 100.0,
+    "end_s": 102.24,
+    "role": "logo",
+    "what": "Claude starburst logo and wordmark on cream."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 58.0,
+   "share": 0.567,
+   "what": "Five generated onboarding artboards (yellow, blue bird, cream terms, navy wheel) appear beside the current screen after the coffee gag (f0030.jpg)."
+  },
+  "ending": {
+   "cta_text": "Claude makes it.",
+   "logo_hold_s": 2.2,
+   "what": "Typed tagline resolves to the Claude logo; the spoken CTA is 'try collabing with Claude on it' at 1:34."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 23,
+  "cuts_per_min": 13.5,
+  "median_shot_s": 2.31,
+  "how_change_is_paced": "Long presenter shots (longest 19.75s, 19.3% of runtime) carry typed comment cards; screen demos cut every 1-3s; one burst of 7 cuts in 7.3s at 72-79% of runtime (metrics.json bursts)."
+ },
+ "look": {
+  "ground": "Light warm grey dotted canvas (frame 0), cream at the end; the app screens are near-white. Light share 0.88, dark share 0.0.",
+  "palette": [
+   "warm grey #EFEFEA",
+   "sage green",
+   "lavender",
+   "violet #8579BC",
+   "yellow",
+   "sky blue",
+   "coral/orange red",
+   "black ink"
+  ],
+  "accent_use": "Coral starburst is the only accent on the logo card; coloured fills (sage, lavender, violet) mark the design-canvas artboards.",
+  "type": "Serif headline with bold accent phrase 'Claude Design' on the title card; heavy grotesque in app mockups; monospace filename labels above frames.",
+  "title_height_pct": [
+   3.9,
+   10.1
+  ],
+  "title_measurements": [
+   {
+    "t_s": 6,
+    "text": "How an Anthropic designer",
+    "line_height_px": 57,
+    "frame_height_px": 720,
+    "pct": 7.9
+   },
+   {
+    "t_s": 6,
+    "text": "uses Claude Design",
+    "line_height_px": 44,
+    "frame_height_px": 720,
+    "pct": 6.1
+   },
+   {
+    "t_s": 10,
+    "text": "Draw a picture",
+    "line_height_px": 51,
+    "frame_height_px": 720,
+    "pct": 7.1
+   },
+   {
+    "t_s": 14,
+    "text": "Upload bird noises",
+    "line_height_px": 73,
+    "frame_height_px": 720,
+    "pct": 10.1
+   },
+   {
+    "t_s": 84,
+    "text": "You're in. Go make bird noises.",
+    "line_height_px": 28,
+    "frame_height_px": 720,
+    "pct": 3.9
+   }
+  ],
+  "max_words_per_title_line": 4,
+  "density": "sparse",
+  "depth": "Flat 2D with black 3px outlines and hard offset shadows on buttons; a soft drop shadow only on the comment card."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 48,
+  "shown_as": [
+   "real-ui-capture",
+   "redrawn-simplified-ui",
+   "live-action"
+  ],
+  "cursor": "stylised",
+  "camera_on_ui": "Frame-filling screen recordings with 2x punch-ins on the prompt box and chat reply (f0024.jpg, f0038.jpg); no camera moves inside the UI.",
+  "legible_at_phone_width": "partly",
+  "notes": "Headlines in the artboards and prototype read easily; chat body text, sidebar labels and properties panel are small (f0030.jpg, f0037.jpg). Punch-in frames at 40.4 and 78 s fix this where the film uses them."
+ },
+ "motion": {
+  "text_entry": "Typed letter by letter with a caret, then edited in place: 'Dra', selection highlight, deletions; the title card is a scene object that slides in, not a caption.",
+  "ui_motion": "Selection handles and toolbars appear on the clicked object; swatch click recolours the card green to lavender in about 1s; artboards pan sideways between ideas.",
+  "camera": "Canvas pans and scrolls vertically (title card slides up at 4.5-4.6 s); the presenter box scales to full frame at 28.7-30.1 s.",
+  "eases": "Slides and scales ease out smoothly over about 0.4-1s; typing is uneven, human-paced; the cursor drifts in curves.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 23,
+    "example_t_s": 73.42,
+    "cause": "Next step of the workflow appears; most cuts follow a typing or click action."
+   },
+   {
+    "type": "push-or-slide",
+    "count": 2,
+    "example_t_s": 4.58,
+    "cause": "Presenter frame drags up off canvas to reveal the title card."
+   },
+   {
+    "type": "zoom-through",
+    "count": 1,
+    "example_t_s": 29.12,
+    "cause": "Presenter frame scales from selected box to full frame."
+   },
+   {
+    "type": "cross-dissolve",
+    "count": 1,
+    "example_t_s": 40.4,
+    "cause": "Presenter clip blurs and fades into the app window."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 6,
+    "example_t_s": 6,
+    "cause": "A click on a swatch, toolbar button or play button changes the object."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0s.jpg",
+   "strips/window-03-3.667s.jpg",
+   "strips/window-08-11.375s.jpg",
+   "strips/window-22-28.709s.jpg",
+   "strips/window-30-40.375s.jpg",
+   "strips/window-38-53.959s.jpg",
+   "strips/window-54-73.334s.jpg",
+   "strips/window-58-78.417s.jpg",
+   "strips/window-60-80.667s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 4.6,
+    "text": "How an Anthropic designer uses Claude Design",
+    "words": 7,
+    "hold_s": 4.8
+   },
+   {
+    "t_s": 10,
+    "text": "Draw a picture",
+    "words": 3,
+    "hold_s": 2.0
+   },
+   {
+    "t_s": 14,
+    "text": "Upload bird noises",
+    "words": 3,
+    "hold_s": 2.0
+   },
+   {
+    "t_s": 18,
+    "text": "Hi, I'm Nate. I'm a designer at Anthropic.",
+    "words": 8,
+    "hold_s": 5.0
+   },
+   {
+    "t_s": 52,
+    "text": "design a silly onboarding for this silly app. start from what we have currently, and do a series of designs for new ideas",
+    "words": 23,
+    "hold_s": 3.0
+   },
+   {
+    "t_s": 60,
+    "text": "Bigger bird. Much bigger. It should be uncomfortable.",
+    "words": 9,
+    "hold_s": 4.0
+   },
+   {
+    "t_s": 68,
+    "text": "Bet you won't. Go on.",
+    "words": 5,
+    "hold_s": 2.0
+   },
+   {
+    "t_s": 84,
+    "text": "You're in. Go make bird noises.",
+    "words": 6,
+    "hold_s": 2.0
+   },
+   {
+    "t_s": 88,
+    "text": "ok claude. build it.",
+    "words": 4,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 94,
+    "text": "Claude makes it.",
+    "words": 3,
+    "hold_s": 1.5
+   },
+   {
+    "t_s": 100,
+    "text": "Claude",
+    "words": 1,
+    "hold_s": 2.2
+   }
+  ],
+  "holds_vs_reading_rule": "The title card holds about 4.8s against 2.6s needed for 7 words and the logo holds 2.2s; 'Claude makes it.' holds about 1.5s against a 1.4s need. Product text is shown only as long as the action takes."
+ },
+ "sound": {
+  "music": "Music tagged 0.682 alongside speech 0.680; keyboard_musical 0.449 and synthesizer 0.413 suggest a soft keys/synth bed; percussion 0.342, drum 0.269. About 103 BPM, beat confidence 0.236, so a faint pulse only.",
+  "sfx": "Nothing in audio.json identifies sfx; I could not hear it.",
+  "vo_music_balance": "Presenter speech is the main track from 0 to about 95s; sections A-E change at 4.7, 19.9, 54.2, 95.6s, the last one under the ending.",
+  "energy_arc": "Flat and quiet: LRA 2.6 LU, short-term max -22.5 LUFS; no silence spans. The only structural change is the outro section at 95.6s.",
+  "sync_to_picture": "Cuts are not locked to the sound: 0.13 of cuts land on strong onsets against 0.137 chance. Picture follows the spoken steps instead, e.g. prompt typing at 52s with narration at 0:53."
+ },
+ "good": [
+  {
+   "observation": "The product's own editing chrome (selection handles, toolbars, comment card, cursor) frames the presenter and the title, so the film demonstrates the tool before it explains it.",
+   "evidence": "f0001.jpg, f0004.jpg, f0010.jpg"
+  },
+  {
+   "observation": "Typed on-screen text changes meaning on screen: 'Draw a picture' is cut to 'Dra' and becomes 'Upload bird noises', showing the premise in one gesture.",
+   "evidence": "strips/window-08-11.375s.jpg, f0006.jpg, f0008.jpg"
+  },
+  {
+   "observation": "Every step of the workflow is shown as the real action in the real app: folder pick, Artifacts, Design mode, prompt, five artboards, comment, edit, prototype, build.",
+   "evidence": "f0021-f0045; 48% of runtime"
+  },
+  {
+   "observation": "Both coffee waits are a 2s joke clip, so 'I go get a coffee' compresses the AI wait without a time-lapse.",
+   "evidence": "f0029.jpg, f0040.jpg; cuts at 54.79, 56.79"
+  },
+  {
+   "observation": "The prototype screens are large, high contrast and legible: 'Today you may only make bird noises.', time picker, CAW counter.",
+   "evidence": "f0041.jpg-f0043.jpg, crops/prototype-screen.png"
+  },
+  {
+   "observation": "The ending uses the idea of the film: the tagline is typed in an editor, selected, trimmed to 'it.', then replaced by the logo.",
+   "evidence": "f0048.jpg-f0051.jpg, crops/closing-type.png"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Chat panes, sidebar and properties panel are small text; the tiny artboard copy at 21-28% canvas zoom would not read at phone width.",
+   "evidence": "f0030.jpg, f0037.jpg, f0040.jpg"
+  },
+  {
+   "observation": "The loudness is -24.5 LUFS with true peak -7 dB, about 10 LU under a -14 LUFS social master.",
+   "evidence": "metrics.json sound.lufs_integrated"
+  },
+  {
+   "observation": "The first 40s are presenter-led and the product appears only at 40.7s; the hook is a joke idea rather than the product.",
+   "evidence": "cuts.json first UI cut 40.67s; f0001.jpg-f0020.jpg"
+  },
+  {
+   "observation": "Cuts are not locked to the music (0.13 against 0.137 chance), and the music is near-inaudible in measured loudness range of 2.6 LU.",
+   "evidence": "metrics.json sound.cuts_on_strong_onset_share"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "Show the real product doing each step, ideally 45% or more of runtime, and keep each screen only as long as its action takes.",
+   "evidence": "48% of runtime is real Claude app capture, 40.7-89.8s; median shot 2.31s.",
+   "relation": "confirms",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Frame on-camera or hero footage as an object on the product's canvas, with a filename label, selection handles and cursor, so the UI chrome carries the transitions.",
+   "evidence": "f0001.jpg frame 0; scale-to-full-frame at 28.7-30.1s (strips/window-22-28.709s.jpg).",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "A single long presenter shot can run about 20s if a typed card or text change updates every 2-4s; the 1.8-3.5s cut cadence applies to shots with nothing else changing.",
+   "evidence": "Longest shot 9.38-29.12s (19.75s, 19.3% of runtime); comment card text changes at 16-22s.",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Place the burst of cuts when the narration lists steps, not at 30-60%; here 7 cuts in 7.3s start at 72% and lead into the prototype payoff.",
+   "evidence": "metrics.json rhythm.bursts: 73.42-80.75s, 7 cuts, mid_share 0.754.",
+   "relation": "contradicts",
+   "skill_rule": "8"
+  },
+  {
+   "rule": "Type the exact prompt on screen as the line is spoken, and punch in 2x on the input box so the words read.",
+   "evidence": "Prompt typed 50-54s (f0025-f0027), spoken 'Design a silly onboarding' at 0:53.",
+   "relation": "extends",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "Two-line title with one bold accent phrase at 6-8% of frame height: 57px of 720 for line 1 and 4 words max a line.",
+   "evidence": "Title card at t=6: lines 57px (7.9%) and 44px (6.1%), accent 'Claude Design'.",
+   "relation": "confirms",
+   "skill_rule": "3"
+  },
+  {
+   "rule": "End on a typed or edited tagline that resolves to the logo and hold the logo 2s or more.",
+   "evidence": "'Claude makes it.' 94s, 'it.' 98s, logo held 100-102.2s (2.2s).",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "When speech carries the film, music can sit very low, but measure it: this master is -24.5 LUFS, 10.5 LU below the -14 LUFS target.",
+   "evidence": "metrics.json sound: -24.5 LUFS, true peak -7 dB, LRA 2.6 LU.",
+   "relation": "contradicts",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 51,
+ "crops_made": 6,
+ "unchecked": [
+  "Audio was not heard; music genre rests on describe tags only.",
+  "Title heights at t=94 and t=100 not measured: the ink tool returned the whole region.",
+  "Exact end of 'You steer it.' typing not seen between f0049 and f0050.",
+  "Transition counts other than hard cuts are from the 9 strips opened, not all 60."
+ ]
+}

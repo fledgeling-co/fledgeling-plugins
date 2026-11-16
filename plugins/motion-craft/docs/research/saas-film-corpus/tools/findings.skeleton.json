@@ -1,0 +1,152 @@
+{
+ "id": "<string>",
+ "title": "<string>",
+ "brand": "<string>",
+ "duration_s": "<number, -1 if unmeasurable>",
+ "status": "<one of: ok | partial | failed>",
+ "format": "<one of: launch-film | feature-explainer | product-demo-walkthrough | customer-or-user-story | tutorial | brand-manifesto | short-announcement | partnership-sting | other>",
+ "format_note": "<string, at most 30 words>",
+ "one_thing": "<string, at most 30 words>",
+ "transcript": {
+  "source": "<one of: human-captions | auto-captions | local-whisper | none>",
+  "voiceover": "<one of: narrator-vo | on-camera-presenter | presenter-and-vo | customer-testimonial | none-music-only>",
+  "words_total": "<integer>",
+  "words_per_minute": "<number, -1 if unmeasurable>",
+  "voice_style": "<string, at most 25 words>",
+  "script_shape": "<string, at most 40 words>"
+ },
+ "structure": {
+  "frame0": "<string, at most 40 words>",
+  "first_3s": "<string, at most 40 words>",
+  "beats": [
+   "<3-20 items like the next one>",
+   {
+    "start_s": "<number, -1 if unmeasurable>",
+    "end_s": "<number, -1 if unmeasurable>",
+    "role": "<one of: hook | problem | setup | reveal | demo | proof | turn | payoff | cta | logo | other>",
+    "what": "<string, at most 25 words>"
+   }
+  ],
+  "hero_moment": {
+   "t_s": "<number, -1 if unmeasurable>",
+   "share": "<number, -1 if unmeasurable>",
+   "what": "<string, at most 30 words>"
+  },
+  "ending": {
+   "cta_text": "<string, at most 20 words>",
+   "logo_hold_s": "<number, -1 if unmeasurable>",
+   "what": "<string, at most 30 words>"
+  }
+ },
+ "rhythm": {
+  "route": "<one of: continuous | montage | hybrid>",
+  "hard_cuts": "<integer>",
+  "cuts_per_min": "<number, -1 if unmeasurable>",
+  "median_shot_s": "<number, -1 if unmeasurable>",
+  "how_change_is_paced": "<string, at most 50 words>"
+ },
+ "look": {
+  "ground": "<string, at most 30 words>",
+  "palette": [
+   "<1-8 items like the next one>",
+   "<string>"
+  ],
+  "accent_use": "<string, at most 30 words>",
+  "type": "<string, at most 40 words>",
+  "title_height_pct": [
+   "<2-2 items like the next one>",
+   "<number, -1 if unmeasurable>"
+  ],
+  "title_measurements": [
+   "<0-8 items like the next one>",
+   {
+    "t_s": "<number, -1 if unmeasurable>",
+    "text": "<string, at most 15 words>",
+    "line_height_px": "<number, -1 if unmeasurable>",
+    "frame_height_px": "<number, -1 if unmeasurable>",
+    "pct": "<number, -1 if unmeasurable>"
+   }
+  ],
+  "max_words_per_title_line": "<integer>",
+  "density": "<one of: sparse | medium | dense>",
+  "depth": "<string, at most 30 words>"
+ },
+ "product_ui": {
+  "presence_pct_runtime": "<number, -1 if unmeasurable>",
+  "shown_as": [
+   "<1-4 items like the next one>",
+   "<one of: real-ui-capture | redrawn-simplified-ui | floating-ui-cards | device-mockup | abstract-illustration | live-action | none>"
+  ],
+  "cursor": "<one of: none | real | stylised | labelled-cursors>",
+  "camera_on_ui": "<string, at most 40 words>",
+  "legible_at_phone_width": "<one of: yes | partly | no>",
+  "notes": "<string, at most 60 words>"
+ },
+ "motion": {
+  "text_entry": "<string, at most 40 words>",
+  "ui_motion": "<string, at most 50 words>",
+  "camera": "<string, at most 40 words>",
+  "eases": "<string, at most 40 words>",
+  "transitions": [
+   "<1-12 items like the next one>",
+   {
+    "type": "<one of: hard-cut | match-cut | push-or-slide | zoom-through | whip-pan | mask-or-wipe | morph-or-shared-element | cross-dissolve | fade-through-colour | continuous-camera-move | ui-state-change | other>",
+    "count": "<integer>",
+    "example_t_s": "<number, -1 if unmeasurable>",
+    "cause": "<string, at most 20 words>"
+   }
+  ],
+  "strips_read": [
+   "<3-12 items like the next one>",
+   "<string>"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   "<0-30 items like the next one>",
+   {
+    "t_s": "<number, -1 if unmeasurable>",
+    "text": "<string, at most 25 words>",
+    "words": "<integer>",
+    "hold_s": "<number, -1 if unmeasurable>"
+   }
+  ],
+  "holds_vs_reading_rule": "<string, at most 40 words>"
+ },
+ "sound": {
+  "music": "<string, at most 40 words>",
+  "sfx": "<string, at most 40 words>",
+  "vo_music_balance": "<string, at most 30 words>",
+  "energy_arc": "<string, at most 40 words>",
+  "sync_to_picture": "<string, at most 40 words>"
+ },
+ "good": [
+  "<3-8 items like the next one>",
+  {
+   "observation": "<string, at most 40 words>",
+   "evidence": "<string, at most 20 words>"
+  }
+ ],
+ "weak": [
+  "<0-5 items like the next one>",
+  {
+   "observation": "<string, at most 40 words>",
+   "evidence": "<string, at most 20 words>"
+  }
+ ],
+ "rule_candidates": [
+  "<3-8 items like the next one>",
+  {
+   "rule": "<string, at most 35 words>",
+   "evidence": "<string, at most 25 words>",
+   "relation": "<one of: confirms | contradicts | extends | new>",
+   "skill_rule": "<string, at most 20 words>"
+  }
+ ],
+ "frames_opened": "<integer>",
+ "crops_made": "<integer>",
+ "unchecked": [
+  "<0-6 items like the next one>",
+  "<string, at most 25 words>"
+ ]
+}

@@ -1,0 +1,198 @@
+{
+  "id": "ydIT4EdLK54",
+  "title": "Harvey Platform Overview",
+  "brand": "Harvey",
+  "duration_s": 231.57,
+  "status": "ok",
+  "format": "feature-explainer",
+  "format_note": "Narrated 3:52 tour of Assistant, Word and Outlook add-ins, Vault, review tables and Workflows, built from real product capture with text-only chapter cards.",
+  "one_thing": "A calm narrated tour where every spoken claim is paired with a captured screen or a big serif number, so the product explains itself without hype.",
+  "transcript": {
+    "source": "auto-captions",
+    "voiceover": "narrator-vo",
+    "words_total": 468,
+    "words_per_minute": 121.3,
+    "voice_style": "Even, measured narrator reading full sentences; no on-camera presenter; claims stated as plain numbers and product nouns.",
+    "script_shape": "Proof stats (0-28s), then one chapter per product area: Assistant, Microsoft suite, Vault, review tables, workflows, customer stats, tagline."
+  },
+  "structure": {
+    "frame0": "Centered black serif 'Harvey' wordmark on near-white; contentfulCells 0.031, so almost empty. No product in frame.",
+    "first_3s": "Wordmark holds to 2.0s, then a hard cut to a grey world map with countries shading dark while the narrator gives 74,000 lawyers, 58 countries.",
+    "beats": [
+      { "start_s": 0, "end_s": 7.2, "role": "hook", "what": "Wordmark, then world map with shaded countries under 'over 74,000 lawyers at 700 organizations in 58 countries'." },
+      { "start_s": 7.2, "end_s": 17, "role": "proof", "what": "'Accelerate Expertise' card, a grid of workflow tiles, then 24 counting to '25 Hours Saved'." },
+      { "start_s": 17, "end_s": 30.4, "role": "setup", "what": "Floating UI fragments around an H, desktop plus phone mockup, then four compliance badges: SOC2 II, CCPA, ISO 27001, GDPR." },
+      { "start_s": 30.4, "end_s": 108.2, "role": "demo", "what": "One 77.8s Assistant capture: sources menu, country list, prompt typing, Improve, agent flowchart, answer, email draft, editor with versions." },
+      { "start_s": 108.2, "end_s": 142, "role": "demo", "what": "Harvey / Microsoft lockup and Word, Outlook, SharePoint card, then Word edits and NDA playbook, then Outlook summary." },
+      { "start_s": 142, "end_s": 158, "role": "demo", "what": "Dark Vault card, 'Matters Documents Research', Vault grid, Commercial Contracts folder growing to 100,000 files." },
+      { "start_s": 158, "end_s": 190, "role": "demo", "what": "Review table: file picker, column builder, filled table, then '96% Accuracy vs. 89% Contract Attorneys'." },
+      { "start_s": 190, "end_s": 218, "role": "demo", "what": "Export buttons, 'Workflows' card, workflow gallery, prompt text highlighted then turned into a node graph." },
+      { "start_s": 218, "end_s": 226, "role": "proof", "what": "'651 Deployments' on black, then four customer stats (7 Hours, 60%, 96%, 50%)." },
+      { "start_s": 226, "end_s": 231.6, "role": "logo", "what": "'AI Tailored for Law' with Harvey wordmark below on pale grey." }
+    ],
+    "hero_moment": {
+      "t_s": 190,
+      "share": 0.82,
+      "what": "Blurred review table behind '96% Accuracy vs. 89% Contract Attorneys', the film's one head-to-head number (f0095 sheet 6, t=3:10)."
+    },
+    "ending": {
+      "cta_text": "AI Tailored for Law",
+      "logo_hold_s": 5.5,
+      "what": "Static tagline over the Harvey wordmark on pale grey, identical in f0115 and f0116; no URL or button."
+    }
+  },
+  "rhythm": {
+    "route": "hybrid",
+    "hard_cuts": 11,
+    "cuts_per_min": 2.85,
+    "median_shot_s": 8.95,
+    "how_change_is_paced": "Short card shots in the first 30s (cuts at 2, 7.2, 9.7, 23, 30.4), then three long captures: 77.8s (33.6% of runtime), 23.3s and 10.5s. Inside them UI state changes about every 1.7s (median hold). No burst."
+  },
+  "look": {
+    "ground": "Near-white (frame luma 239), with pale grey-green and off-white panels; two near-black cards (t=142, t=218). Light share 0.983.",
+    "palette": ["#FAFAFA off-white", "#F1F1EE panel grey", "#CFD8D6 grey-green", "#0F0F0B near-black", "#4A4A45 map dark", "#C9C9C4 map light", "Microsoft blue only in app chrome"],
+    "accent_use": "No brand accent colour: saturation 0.008, bw_share 0.67. Colour appears only inside real UI (red redlines, green/amber status dots, partner logos).",
+    "type": "Large high-contrast serif for headlines and numbers; small grotesque sans for UI, subtext and card labels. Centred, single line, no weight changes.",
+    "title_height_pct": [5.4, 8.3],
+    "title_measurements": [
+      { "t_s": 0.5, "text": "Harvey", "line_height_px": 50, "frame_height_px": 720, "pct": 6.9 },
+      { "t_s": 8, "text": "Accelerate Expertise", "line_height_px": 39, "frame_height_px": 720, "pct": 5.4 },
+      { "t_s": 12, "text": "24", "line_height_px": 52, "frame_height_px": 720, "pct": 7.2 },
+      { "t_s": 220, "text": "7 Hours", "line_height_px": 60, "frame_height_px": 720, "pct": 8.3 },
+      { "t_s": 222, "text": "7 Hours (in 2x2 grid)", "line_height_px": 48, "frame_height_px": 720, "pct": 6.7 },
+      { "t_s": 226, "text": "AI Tailored for Law", "line_height_px": 51, "frame_height_px": 720, "pct": 7.1 }
+    ],
+    "max_words_per_title_line": 4,
+    "density": "sparse",
+    "depth": "Flat. UI panels have hairline borders and no real shadow; depth comes from scale changes and a faint cube pattern at t=26-28."
+  },
+  "product_ui": {
+    "presence_pct_runtime": 74,
+    "shown_as": ["real-ui-capture", "device-mockup", "floating-ui-cards"],
+    "cursor": "real",
+    "camera_on_ui": "Crops are punched in to the active region (f0049, f0097, f0100), then the view pulls out to the full app; Word and Outlook panels are shown full width first, then magnified.",
+    "legible_at_phone_width": "partly",
+    "notes": "Prompt text, buttons and cards read well at 1280 px (crops prompt-ui.png, draft-card.png). Wide shots of the Outlook window, the table (f0082) and the Vault grid have 8-10 px text and would fail on a phone."
+  },
+  "motion": {
+    "text_entry": "Chapter cards appear whole after a hard cut (strip window-04); prompts type character by character with a cursor (f0043, f0079). 'Matters' enters alone and 'Documents' and 'Research' follow.",
+    "ui_motion": "Scripted interactions: menus open, a PDF chip drops into the prompt, checkboxes tick, columns generate, a progress bar fills, version labels switch 1 to 2. Flowchart nodes light up in sequence (f0037).",
+    "camera": "Slow zooms and pans on the map and on captured screens; the browser window scales down to reveal a phone mockup at 20.9s (strip window-12).",
+    "eases": "Not measurable from sampled frames; strips show motion settling softly on tiles and on the mockup scale, with no overshoot visible.",
+    "transitions": [
+      { "type": "hard-cut", "count": 11, "example_t_s": 7.23, "cause": "Narration moves to the next claim; the cut lands on the new subject, as at 2.0s into the map." },
+      { "type": "ui-state-change", "count": 30, "example_t_s": 45, "cause": "A click or typed prompt changes the same capture: menu opens, chip drops, answer streams in." },
+      { "type": "fade-through-colour", "count": 2, "example_t_s": 144.3, "cause": "Dark Vault card brightens to white over about 0.5s before the Vault interface (strip window-57)." },
+      { "type": "zoom-through", "count": 2, "example_t_s": 19.77, "cause": "H logo cuts to a browser window that scales down to make room for a phone mockup." }
+    ],
+    "strips_read": [
+      "strips/window-01-1.933s.jpg",
+      "strips/window-04-9.6s.jpg",
+      "strips/window-12-19.7s.jpg",
+      "strips/window-15-30.333s.jpg",
+      "strips/window-44-108.166s.jpg",
+      "strips/window-52-131.433s.jpg",
+      "strips/window-56-141.9s.jpg",
+      "strips/window-57-144.3s.jpg"
+    ]
+  },
+  "copy": {
+    "on_screen_lines": [
+      { "t_s": 0.5, "text": "Harvey", "words": 1, "hold_s": 2.0 },
+      { "t_s": 8, "text": "Accelerate Expertise", "words": 2, "hold_s": 2.4 },
+      { "t_s": 12, "text": "24", "words": 1, "hold_s": 2 },
+      { "t_s": 16, "text": "25 Hours Saved", "words": 3, "hold_s": 4 },
+      { "t_s": 24, "text": "SOC2 II  CCPA  ISO 27001  GDPR", "words": 5, "hold_s": 6 },
+      { "t_s": 34, "text": "Think Research", "words": 2, "hold_s": 2 },
+      { "t_s": 102, "text": "Harvey / Microsoft", "words": 2, "hold_s": 4 },
+      { "t_s": 106, "text": "Word Outlook SharePoint", "words": 3, "hold_s": 2 },
+      { "t_s": 150, "text": "Matters Documents Research", "words": 3, "hold_s": 4 },
+      { "t_s": 188, "text": "96% Accuracy vs. 89% Contract Attorneys", "words": 5, "hold_s": 3 },
+      { "t_s": 200, "text": "Workflows", "words": 1, "hold_s": 2 },
+      { "t_s": 218, "text": "651 Deployments", "words": 2, "hold_s": 2.8 },
+      { "t_s": 222, "text": "7 Hours / 60% Reduction / 96% Adoption / 50% Reduction", "words": 8, "hold_s": 4 },
+      { "t_s": 226, "text": "AI Tailored for Law", "words": 4, "hold_s": 5.5 }
+    ],
+    "holds_vs_reading_rule": "Card holds (2.0-6 s) clear the 0.5 s plus 0.3 s a word rule; the 2x2 stat grid at 4 s is tightest. The last line holds 5.5 s against the 2 s floor."
+  },
+  "sound": {
+    "music": "A bed under narration. describe tags: music 0.628, keyboard_musical 0.328, synthesizer 0.285, percussion 0.213; piano 0.135 is below the 0.2 threshold. No steady beat (confidence 0.028).",
+    "sfx": "None identified; no sound-effect tag scores above 0.2 (water 0.156, whale_vocalization 0.147).",
+    "vo_music_balance": "Speech scores 0.82, music 0.628: narration leads and the bed sits under it; no gap in the speech except the last 1.6 s of silence from 230 s.",
+    "energy_arc": "Flat: loudness range 2.9 LU, short-term max -10.6 LUFS against -14.1 integrated, 19 music sections A-S with no obvious climax.",
+    "sync_to_picture": "Not locked: cuts_on_strong_onset_share 0.091 against chance_share 0.06, a 0.031 gap, under the 0.10 bar. Cuts follow the narration instead."
+  },
+  "good": [
+    { "observation": "Each narrated claim gets a matching image within a second or two: 58 countries as a shaded map, security as four badges, 100,000 files as a folder count rolling up.", "evidence": "f0004, f0013, sheet-05 t=2:28-2:38" },
+    { "observation": "The prompt, the 'Improve' click, the answer, the follow-up and the editable draft run as one continuous capture with a real cursor, so the viewer sees how it is used.", "evidence": "f0019-f0049, 30.4-108.2s shot" },
+    { "observation": "Big serif numbers on a blank ground make the proof beats easy to take in: titles run 5.4-8.3% of frame height with at most 4 words a line.", "evidence": "title_measurements; f0112" },
+    { "observation": "Text-only chapter cards (Harvey / Microsoft, Word Outlook SharePoint, Matters Documents Research, Workflows) tell the viewer what area is next before any dense UI arrives.", "evidence": "f0058 sheet-03, f0073-f0076, sheet-07 t=3:20" },
+    { "observation": "The workflow prompt text is highlighted phrase by phrase, then the same phrases appear as nodes in a flowchart, so the viewer sees the description become the structure.", "evidence": "f0106, f0109" },
+    { "observation": "Palette discipline: off-white, grey-green and near-black only, with colour left to the product's own interface.", "evidence": "look.json saturation 0.008; sheets 1-8" },
+    { "observation": "The ending holds the tagline and wordmark for about 5.5 s with nothing else moving.", "evidence": "f0115, f0116; metrics longest_static_run" }
+  ],
+  "weak": [
+    { "observation": "Frame 0 is a lone wordmark on empty ground for 2 s, so the product and the claim arrive only after the first cut.", "evidence": "f0001; metrics frames.frame0.contentfulCells 0.031" },
+    { "observation": "The 77.8 s capture carries long dead stretches, such as a 14 s static run and the scrolling country list, while the narrator moves to the next sentence.", "evidence": "metrics longest_static_run_s 14; f0046, f0049 sheet-02" },
+    { "observation": "Wide shots of Outlook, the Vault grid and the review table use 8-10 px text, so the proof is unreadable at phone width.", "evidence": "f0067, f0082, f0103" },
+    { "observation": "True peak is -0.2 dBTP, above the -1 dBTP ceiling, and the audio has no steady beat, so picture and sound are not locked.", "evidence": "metrics sound.true_peak_db -0.2; cuts share 0.091 vs 0.06" }
+  ],
+  "rule_candidates": [
+    {
+      "rule": "A feature-explainer may let one captured UI take run 60 s or more if the on-screen state changes at least every 2 s and a cursor leads the eye.",
+      "evidence": "Longest shot 77.8 s (33.6% of runtime); median hold 1.73 s; real cursor in f0043 and f0079.",
+      "relation": "extends",
+      "skill_rule": "10"
+    },
+    {
+      "rule": "Open a product chapter with a text-only card of 1-3 words held 2-4 s, naming the area before showing its interface.",
+      "evidence": "Cards at 8.0, 102, 106, 150, 200 s: 'Accelerate Expertise', 'Harvey / Microsoft', 'Matters Documents Research', 'Workflows'.",
+      "relation": "new",
+      "skill_rule": "none"
+    },
+    {
+      "rule": "Show customer proof as a 2x2 grid: logo, serif number at about 7% of frame height, and one or two lines of subtext, on alternating white and grey tiles.",
+      "evidence": "f0112 at t=222: four tiles, number measured 48 px of 720 (6.7%).",
+      "relation": "new",
+      "skill_rule": "none"
+    },
+    {
+      "rule": "Headline lines of 1-4 words at 5-8% of frame height read cleanly on a sparse ground; this film measured 5.4-8.3% across six lines.",
+      "evidence": "title_measurements: 39-60 px of 720 px.",
+      "relation": "confirms",
+      "skill_rule": "3"
+    },
+    {
+      "rule": "Hold the closing tagline and wordmark for 5 s or more with no other motion.",
+      "evidence": "'AI Tailored for Law' static in f0115 and f0116, about 5.5 s from t=226 to the end.",
+      "relation": "confirms",
+      "skill_rule": "2"
+    },
+    {
+      "rule": "Turn a typed description into structure on screen: highlight its key phrases in turn, then show the same phrases as boxes in a diagram.",
+      "evidence": "f0106 (highlighted phrases) to f0109 (File upload, Selection, Condition, Prompt nodes).",
+      "relation": "new",
+      "skill_rule": "none"
+    },
+    {
+      "rule": "An explainer built on narration needs no cut burst; cuts follow the sentence, at 2.85 cuts a minute, and bursts stay empty.",
+      "evidence": "metrics rhythm.bursts [], hard_cuts 11, cuts_on_strong_onset_share 0.091 vs 0.06.",
+      "relation": "extends",
+      "skill_rule": "8"
+    },
+    {
+      "rule": "Frame 0 may be a wordmark only if the first cut by 2.0 s lands on the proof subject; this film cuts to a data map at 2.0 s.",
+      "evidence": "f0001 wordmark; strip window-01-1.933s.jpg shows the cut to the map.",
+      "relation": "contradicts",
+      "skill_rule": "1"
+    }
+  ],
+  "frames_opened": 44,
+  "crops_made": 7,
+  "unchecked": [
+    "Audio was not heard; sound read from audio.json and metrics only. Ease curves not measured.",
+    "Seam count not tallied, so the third-of-seams hard-cut share (rule 7) is not checked.",
+    "crops/stat-sub.png missed its target (blank); stat-sub2.png holds the usable subtext crop.",
+    "Product UI presence (74%) is estimated from 2 s samples, not measured."
+  ]
+}

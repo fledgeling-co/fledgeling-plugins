@@ -1,0 +1,431 @@
+{
+ "id": "arDCe_F8vfk",
+ "title": "Harvey for Innovation Teams: Lead Firmwide AI Transformation",
+ "brand": "Harvey",
+ "duration_s": 109.04,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "Music-only tour of Harvey's admin and builder features: five chapter title cards, each followed by a cursor-driven UI scene on a Whitford Lane demo workspace.",
+ "one_thing": "Firms that have built legal knowledge can run firmwide AI transformation in Harvey: build workflows, deploy playbooks, curate knowledge, control access and track usage.",
+ "transcript": {
+  "source": "none",
+  "voiceover": "none-music-only",
+  "words_total": 0,
+  "words_per_minute": 0,
+  "voice_style": "No speech. Local whisper returned only the repeated word 'The' at 0, 30 and 60 s, so it was discarded.",
+  "script_shape": "Hook line 'You've built the knowledge.', 'Now' pivot, four example tasks, then five chapter titles over UI scenes, and a closing line 'Lead your firm's transformation.'"
+ },
+ "structure": {
+  "frame0": "Harvey wordmark, white serif, centred on near-black (mean luminance 0.059, contentfulCells 0.05). A lone logo, not a subject poster.",
+  "first_3s": "Wordmark holds to 1.46 s, hard cut to white, 'You've built the knowledge.' fades in word by word (1.46-1.84 s) and holds to the 3.42 s cut.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 1.46,
+    "role": "logo",
+    "what": "Harvey wordmark on near-black."
+   },
+   {
+    "start_s": 1.46,
+    "end_s": 3.42,
+    "role": "hook",
+    "what": "White card: 'You've built the knowledge.'"
+   },
+   {
+    "start_s": 3.42,
+    "end_s": 8.76,
+    "role": "setup",
+    "what": "Black knowledge graph: labelled nodes (Whitford Lane, Recent Ruling, Legal Precedent) multiply and link; 'Now' flashes on white at 6.96 s."
+   },
+   {
+    "start_s": 8.76,
+    "end_s": 16.81,
+    "role": "turn",
+    "what": "Graph lights a path per task: Draft a Client Alert, Summarize Interview Calls, Conduct Post-Merger Compliance Review, Build Case Strategy for Litigation."
+   },
+   {
+    "start_s": 16.81,
+    "end_s": 19.5,
+    "role": "reveal",
+    "what": "Cut to light ground: 'Design Your Workspace', then the H app tile at 18 s."
+   },
+   {
+    "start_s": 19.5,
+    "end_s": 37,
+    "role": "demo",
+    "what": "Workflow builder: sidebar and canvas, typed File upload card, Text Input branch to Yes/No paths, access modal."
+   },
+   {
+    "start_s": 37,
+    "end_s": 49,
+    "role": "demo",
+    "what": "'Manage Templates Across Teams': lease-terms table, column labels, Vault Workflows template card."
+   },
+   {
+    "start_s": 49,
+    "end_s": 65,
+    "role": "demo",
+    "what": "'Deploy Your Playbooks': playbook upload by drag, Review buttons, NDA playbook PDF, Fallback positions form with typed Guidance."
+   },
+   {
+    "start_s": 65,
+    "end_s": 75,
+    "role": "demo",
+    "what": "'Curate Firm Knowledge': Create knowledge base form, folder drag, Fraud Cases file list, Vault grid."
+   },
+   {
+    "start_s": 75,
+    "end_s": 87,
+    "role": "demo",
+    "what": "'Control Access and Usage': Roles permission grid, Assistant Workflows checkbox, Users table, role dropdown."
+   },
+   {
+    "start_s": 87,
+    "end_s": 98,
+    "role": "proof",
+    "what": "'Track Usage and Adoption': Analytics pie and area charts (904 unique users), most-recent-query table."
+   },
+   {
+    "start_s": 98,
+    "end_s": 98.97,
+    "role": "payoff",
+    "what": "Grey card: 'Lead your firm's transformation.'"
+   },
+   {
+    "start_s": 98.97,
+    "end_s": 109.04,
+    "role": "logo",
+    "what": "Harvey wordmark on near-black, fades out by about 106 s; last 2.9 s black and silent."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 16.81,
+   "share": 0.154,
+   "what": "Hard cut from the dark knowledge graph to the light product world, at the section A to B music boundary (16.995 s)."
+  },
+  "ending": {
+   "cta_text": "Lead your firm's transformation.",
+   "logo_hold_s": 5,
+   "what": "One closing line, then the wordmark on black; no URL or button on screen in f0050-f0055."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 7,
+  "cuts_per_min": 3.85,
+  "median_shot_s": 5.8,
+  "how_change_is_paced": "Seven hard cuts, three shots over 10 s, the longest 43.96 s (16.81-60.77 s, 40% of runtime). Inside that shot the camera pushes and pulls, cursor clicks and chapter titles do the pacing."
+ },
+ "look": {
+  "ground": "Near-black and pure white for brand beats; warm off-white (#fafafa) for every UI scene; one grey card (about #bfc0ba) at 98 s.",
+  "palette": [
+   "near-black #0e0f0a",
+   "white",
+   "off-white #fafafa",
+   "sage-teal nodes",
+   "dark teal chart fills",
+   "warm grey #bfc0ba",
+   "black UI buttons"
+  ],
+  "accent_use": "Teal only inside the graph nodes and the analytics charts; type is black or white throughout and no word is colour-accented.",
+  "type": "High-contrast book serif for titles, centred; grotesk sans for UI. Each title fades in one word at a time, later words greyer while the line is still landing.",
+  "title_height_pct": [
+   8.1,
+   9.7
+  ],
+  "title_measurements": [
+   {
+    "t_s": 2,
+    "text": "You've built the knowledge.",
+    "line_height_px": 70,
+    "frame_height_px": 720,
+    "pct": 9.7
+   },
+   {
+    "t_s": 40,
+    "text": "Manage Templates Across Teams (line 1)",
+    "line_height_px": 67,
+    "frame_height_px": 720,
+    "pct": 9.3
+   },
+   {
+    "t_s": 50,
+    "text": "Deploy Your Playbooks",
+    "line_height_px": 66,
+    "frame_height_px": 720,
+    "pct": 9.2
+   },
+   {
+    "t_s": 67,
+    "text": "Curate Firm Knowledge",
+    "line_height_px": 66,
+    "frame_height_px": 720,
+    "pct": 9.2
+   },
+   {
+    "t_s": 89,
+    "text": "Track Usage and Adoption",
+    "line_height_px": 67,
+    "frame_height_px": 720,
+    "pct": 9.3
+   },
+   {
+    "t_s": 98,
+    "text": "Lead your firm's transformation.",
+    "line_height_px": 58,
+    "frame_height_px": 720,
+    "pct": 8.1
+   }
+  ],
+  "max_words_per_title_line": 4,
+  "density": "sparse",
+  "depth": "Flat. Soft card shadows and a dot-grid canvas; the graph scenes use depth only through dimmed background nodes behind the title."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 70,
+  "shown_as": [
+   "real-ui-capture",
+   "floating-ui-cards"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Starts on a cropped corner of the app at 20 s, pulls back to the full window at 22 s, then isolates single cards or controls at 2-3x and pans along rows (f0029).",
+  "legible_at_phone_width": "partly",
+  "notes": "Whole-window frames (f0012, f0027, f0043) carry UI text about 7-9 px tall at 720p. Isolated cards and the zoomed Roles checkbox (f0042.jpg) read clearly. Data is a fictional firm, Whitford Lane."
+ },
+ "motion": {
+  "text_entry": "Titles and the hook line fade in word by word; the 4-word hook lands in 0.38 s (1.46-1.84 s, window-01). 'Draft a Client Alert' builds in about 0.3 s (window-07).",
+  "ui_motion": "Cursor moves to targets, text types in (typo 'pater' completes to 'patent application', f0014 to f0015), cards stack with connector arrows, drag ghosts show a folder and a PDF with a green plus.",
+  "camera": "Scale pushes and pulls within one continuous shot; the graph pans and nodes drift behind titles.",
+  "eases": "Smooth settles with no overshoot; fades on the title words and a soft fade-in on table rows (f0048).",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 7,
+    "example_t_s": 16.81,
+    "cause": "Chapter or world change: black graph to white UI, title card to scene."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 8,
+    "example_t_s": 20,
+    "cause": "Crop-in to the sidebar then pull back to the full window, or zoom to one control."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 10,
+    "example_t_s": 26,
+    "cause": "Cursor click or typing adds a card, fills a field or ticks a box."
+   },
+   {
+    "type": "other",
+    "count": 13,
+    "example_t_s": 10.05,
+    "cause": "Each title builds word by word, either over the graph or on a blank ground."
+   }
+  ],
+  "strips_read": [
+   "window-01-1.377s.jpg: wordmark to white hook, cut at 1.46 s then four words appear in 0.38 s",
+   "window-04-6.34s.jpg: graph nodes sweep, hard cut at 6.965 s to a pale 'Now'",
+   "window-07-10.052s.jpg: 'Draft a Client Alert' builds over a lit path in about 0.3 s",
+   "window-12-16.392s.jpg: title held still over graph, hard cut at 16.808 s to 'Design Your Workspace'",
+   "window-21-28.028s.jpg: File upload card with cursor sliding to the 'Add step' control",
+   "window-38-55.681s.jpg: Settings pans right to the Status and Actions columns, cursor to Review",
+   "window-41-60.519s.jpg: soft two-frame change at 60.77 s into the playbook form, scroll to Fallback positions",
+   "window-60-94.512s.jpg: pie hover tooltip 'Litigation 31k', then Settings table rows fade in one by one"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 1.46,
+    "text": "You've built the knowledge.",
+    "words": 4,
+    "hold_s": 1.6
+   },
+   {
+    "t_s": 6.96,
+    "text": "Now",
+    "words": 1,
+    "hold_s": -1
+   },
+   {
+    "t_s": 10.05,
+    "text": "Draft a Client Alert",
+    "words": 4,
+    "hold_s": -1
+   },
+   {
+    "t_s": 12,
+    "text": "Summarize Interview Calls",
+    "words": 3,
+    "hold_s": -1
+   },
+   {
+    "t_s": 14,
+    "text": "Conduct Post-Merger Compliance Review",
+    "words": 4,
+    "hold_s": -1
+   },
+   {
+    "t_s": 16.4,
+    "text": "Build Case Strategy for Litigation",
+    "words": 5,
+    "hold_s": -1
+   },
+   {
+    "t_s": 16.81,
+    "text": "Design Your Workspace",
+    "words": 3,
+    "hold_s": -1
+   },
+   {
+    "t_s": 38,
+    "text": "Manage Templates Across Teams",
+    "words": 4,
+    "hold_s": 2
+   },
+   {
+    "t_s": 50,
+    "text": "Deploy Your Playbooks",
+    "words": 3,
+    "hold_s": -1
+   },
+   {
+    "t_s": 64,
+    "text": "Curate Firm Knowledge",
+    "words": 3,
+    "hold_s": -1
+   },
+   {
+    "t_s": 76,
+    "text": "Control Access and Usage",
+    "words": 4,
+    "hold_s": -1
+   },
+   {
+    "t_s": 88,
+    "text": "Track Usage and Adoption",
+    "words": 4,
+    "hold_s": -1
+   },
+   {
+    "t_s": 98,
+    "text": "Lead your firm's transformation.",
+    "words": 4,
+    "hold_s": -1
+   }
+  ],
+  "holds_vs_reading_rule": "Hook holds 1.6 s against a 1.7 s rule for 4 words. Manage Templates shows at 38 and 40 s, so 2 s or more. Closing line start was not sampled (on screen at 98 s, cut 98.97 s)."
+ },
+ "sound": {
+  "music": "Music only. Describe tags: music 0.775, keyboard_musical 0.442, synthesizer 0.375, percussion 0.33, singing_bowl 0.329, mallet_percussion 0.205. Tempo 120.2 BPM at beat confidence 0.158, so the tempo is unreliable.",
+  "sfx": "No sound-effect evidence in audio.json or the tags; none claimed.",
+  "vo_music_balance": "No voiceover; music is the only layer. Integrated -13.9 LUFS, true peak -4.5 dBTP, loudness range 6.2 LU.",
+  "energy_arc": "Sections A 0-17 s, B 17-47 s, C 47-100 s, D 100-109 s. Silence 0-0.23 s and 106.1-109.0 s; loudness range 6.2 LU.",
+  "sync_to_picture": "cuts_on_strong_onset_share 0.143 against chance 0.088, a 0.055 margin: the cuts are not locked to the sound. The A to B boundary at 16.995 s lands 0.19 s after the 16.81 s cut."
+ },
+ "good": [
+  {
+   "observation": "The hook says the whole film in four words, on a clean white card with nothing competing, and the pivot 'Now' answers it.",
+   "evidence": "f0002.jpg, f0004.jpg, window-04-6.34s.jpg"
+  },
+  {
+   "observation": "A repeatable chapter pattern: a 3-4 word title on empty ground, then one UI scene that proves it. Six verbs (Design, Manage, Deploy, Curate, Control, Track) make the feature list scannable without speech.",
+   "evidence": "f0009, f0020, f0026, f0034, f0039, f0045"
+  },
+  {
+   "observation": "Real-looking product UI with plausible data (Whitford Lane, case names, 904 unique users) and a visible cursor makes the claims concrete.",
+   "evidence": "f0043.jpg, f0047.jpg, crops/users-table.png"
+  },
+  {
+   "observation": "Camera crops to one card or control, so a dense interface reads one thing at a time; the viewer sees the whole window first, then the detail.",
+   "evidence": "f0011-f0012, f0042.jpg"
+  },
+  {
+   "observation": "Black graph opening and black wordmark ending bookend the film around a long light middle, so the brand mark opens and closes the film.",
+   "evidence": "f0001.jpg, f0051.jpg, look.json dark_share 0.2"
+  },
+  {
+   "observation": "Restraint: one typeface per role, no accent colour on type, one idea per frame; titles hold still once built.",
+   "evidence": "title_measurements, strips window-12-16.392s.jpg"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Full-window UI frames put text about 7-9 px tall at 720p, unreadable at phone width until the camera zooms.",
+   "evidence": "f0012.jpg, f0027.jpg, f0043.jpg"
+  },
+  {
+   "observation": "The film opens on a lone wordmark for 1.46 s, and ends with no URL, button or next step on screen.",
+   "evidence": "f0001.jpg, f0050-f0055"
+  },
+  {
+   "observation": "The closing line 'Lead your firm's transformation.' sits on a grey card of unknown length (on screen at 98 s, cut at 98.97 s), a payoff with no visual weight beyond type.",
+   "evidence": "cuts 98.97 s; f0050.jpg"
+  },
+  {
+   "observation": "A static share of 0.296 of sampled intervals and an 8 s run ending at 52 s leave long near-identical stretches in the middle of the film.",
+   "evidence": "metrics.json intervals_static_share, longest_static_run_s"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "When the film has no voice, open on the claim: put a 4-word first line on screen within 1.5 s, and let a brand mark wait until the end.",
+   "evidence": "Wordmark 0-1.46 s, claim 1.46 s (f0001, f0002)",
+   "relation": "contradicts",
+   "skill_rule": "Rule 1: frame 0 is a poster with the subject in it"
+  },
+  {
+   "rule": "A feature tour may run one 40+ s continuous shot if the camera moves, a UI state changes or a title turns over roughly every 2-3 s; count internal changes, not cuts.",
+   "evidence": "Longest shot 43.96 s, 40.3% of runtime; 7 cuts at 3.85 per minute",
+   "relation": "contradicts",
+   "skill_rule": "Rule 10: cuts every 1.8-3.5 s in launch films"
+  },
+  {
+   "rule": "Structure a multi-feature tour as repeating pairs: a 3-4 word verb-led title on a blank ground, then one 8-12 s UI scene for that feature.",
+   "evidence": "Five titles at 38, 50, 64, 76, 88 s each followed by one scene",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "Show the whole app window for about 2 s so the viewer knows where they are, then crop to a single card or control at 2x or more before asking them to read.",
+   "evidence": "f0012 whole window, f0014-f0015 and f0042 cropped",
+   "relation": "extends",
+   "skill_rule": "Rule 5: every must-carry fact legible at phone width"
+  },
+  {
+   "rule": "Build titles word by word, about 0.1 s a word for a 4-word line, with later words greyer until the line lands, then hold the title perfectly still.",
+   "evidence": "window-01-1.377s.jpg 0.38 s for four words; window-07-10.052s.jpg",
+   "relation": "extends",
+   "skill_rule": "Rule 4: a landed title holds dead still"
+  },
+  {
+   "rule": "Animate interface use with a real arrow cursor, typed text and drag ghosts (folder, PDF with green plus) rather than describing the action in a caption.",
+   "evidence": "f0014-f0015 typed 'patent application'; f0036 folder drag; f0027 PDF drag",
+   "relation": "confirms",
+   "skill_rule": "Rule 10: real product UI beats invented UI"
+  },
+  {
+   "rule": "Master a music-only film near -14 LUFS with true peak under -1 dBTP; leave music unsynced to cuts if section changes still land on the main cut.",
+   "evidence": "-13.9 LUFS, -4.5 dBTP; cut share 0.143 vs chance 0.088",
+   "relation": "confirms",
+   "skill_rule": "Rule 9: social masters at -14 LUFS, true peak at or below -1 dBTP"
+  },
+  {
+   "rule": "Close with the brand wordmark on the opening's dark ground, hold about 5 s and fade to 2-3 s of silence; give the last line at least 2 s first.",
+   "evidence": "f0051-f0055; silence span 106.1-109.0 s; closing line gone at 98.97 s",
+   "relation": "extends",
+   "skill_rule": "Rule 2: the last line holds at least 2 s"
+  }
+ ],
+ "frames_opened": 55,
+ "crops_made": 6,
+ "unchecked": [
+  "Hold times for most title lines: only 2 s samples exist, so most hold_s are -1.",
+  "Sound effects: cannot be heard and audio.json lists none.",
+  "Whether the chapter order matches Harvey's product naming: not checkable from the film.",
+  "The 98.97 s cut has no strip (strips end at 94.5 s); its motion is read from f0050-f0051 only.",
+  "Crop crops/kb-header.png was blank (wrong region); title readings use the other five crops and the frames.",
+  "Transition counts for continuous-camera-move, ui-state-change and title fades are my counts from frames and strips, not metrics.json."
+ ]
+}

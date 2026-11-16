@@ -1,0 +1,421 @@
+{
+ "id": "jKRl_CSVxyI",
+ "title": "Using Claude Opus 5.5 as your daily driver",
+ "brand": "Claude",
+ "duration_s": 212.5,
+ "status": "ok",
+ "format": "feature-explainer",
+ "format_note": "Presenter-led model-launch walkthrough: talking head cut against real desktop-app screen recordings, side-by-side comparison, then settings tips.",
+ "one_thing": "Opus 5.5 on medium effort is faster and cheaper than Opus 5, and here is when to switch to high.",
+ "transcript": {
+  "source": "human-captions",
+  "voiceover": "on-camera-presenter",
+  "words_total": 721,
+  "words_per_minute": 203.6,
+  "voice_style": "Conversational first-person presenter; casual fillers ('Okay so', 'Cool'); hedged honesty ('this is just my run').",
+  "script_shape": "Claims first (faster, cheaper, +25% limits), then a live A/B proof, then a counter-case where high effort wins, two config tips, one command, short sign-off."
+ },
+ "structure": {
+  "frame0": "Presenter mid-smile in a warm dark home-office set; no title in the first frame, wordmark 'Claude Opus 5.5' appears by 1.17 s (strips/window-01-0s.jpg).",
+  "first_3s": "Presenter speaks straight to camera; title top-left at 1.2 s, subline 'Compared to Opus 5' and first claim 'Faster' follow by 3.5 s while she says the release line.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 18,
+    "role": "hook",
+    "what": "Presenter states four gains while a five-line stat list builds beside her."
+   },
+   {
+    "start_s": 18,
+    "end_s": 34.6,
+    "role": "setup",
+    "what": "'Let's run them side by side'; cream stage, app windows slide in, same prompt typed in both."
+   },
+   {
+    "start_s": 34.6,
+    "end_s": 66.8,
+    "role": "demo",
+    "what": "Opus 5 and 5.5 windows side by side; 5.5 finishes with a short answer while Opus 5 keeps reading."
+   },
+   {
+    "start_s": 66.8,
+    "end_s": 86.5,
+    "role": "proof",
+    "what": "Usage popover shows 5-hour limit 4% for 5.5 versus 6% for Opus 5."
+   },
+   {
+    "start_s": 86.5,
+    "end_s": 98,
+    "role": "turn",
+    "what": "Effort defaults to medium; effort slider and tooltip explained."
+   },
+   {
+    "start_s": 98,
+    "end_s": 137.6,
+    "role": "demo",
+    "what": "Rename task on medium: handler edited, tests pass, mobile serializer file missed."
+   },
+   {
+    "start_s": 137.6,
+    "end_s": 151.9,
+    "role": "payoff",
+    "what": "Same task on High traces the mobile client, edits serializer and schema, adds a test."
+   },
+   {
+    "start_s": 151.9,
+    "end_s": 173.1,
+    "role": "demo",
+    "what": "Subagent tip: model: sonnet in explore.md and CLAUDE_CODE_SUBAGENT_MODEL in settings.json."
+   },
+   {
+    "start_s": 173.1,
+    "end_s": 184.7,
+    "role": "payoff",
+    "what": "Presenter recaps: medium by default, high for multi-file changes, Sonnet or Haiku for read-only subagents."
+   },
+   {
+    "start_s": 184.7,
+    "end_s": 189.5,
+    "role": "demo",
+    "what": "/claude-api prompt-audit typed and run; reads CLAUDE.md and SKILL.md, edits both."
+   },
+   {
+    "start_s": 189.5,
+    "end_s": 205.4,
+    "role": "cta",
+    "what": "Presenter sums up and asks viewers to try 5.5 and send feedback."
+   },
+   {
+    "start_s": 205.4,
+    "end_s": 212.5,
+    "role": "logo",
+    "what": "Cream card: coral star appears, then 'Claude Code' wordmark."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 44,
+   "share": 0.207,
+   "what": "5.5's whole answer sits on screen (cause, tests, one snag, one question) while Opus 5 is still listing file reads (sheet-02, 44 s)."
+  },
+  "ending": {
+   "cta_text": "Spoken only: 'go try out Opus 5.5 and let me know what you think.' No on-screen CTA.",
+   "logo_hold_s": 7.1,
+   "what": "Cream card with coral star then 'Claude Code' wordmark, centred, held to the end (f0104.jpg, f0106.jpg)."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 20,
+  "cuts_per_min": 5.65,
+  "median_shot_s": 8,
+  "how_change_is_paced": "Talking head alternates with screen recordings on topic boundaries; longest shot 32.2 s (34.6-66.8 s) is a split-screen where UI activity (typing, lists, diffs) supplies the change. No burst; bursts list is empty."
+ },
+ "look": {
+  "ground": "Two grounds: warm dark home-office footage with a dark vignette on the left for text, and a cream stage (#e0d9c8-like) carrying near-black app windows.",
+  "palette": [
+   "near-black app window (#121212-like)",
+   "cream stage",
+   "warm brown set",
+   "coral/terracotta star and diff accents",
+   "blue progress bars and heatmap",
+   "diff green and red"
+  ],
+  "accent_use": "Coral is reserved for the Claude star and inline code; green and red appear only as +/- diff counts.",
+  "type": "Serif display (Tiempos-like) for overlay headings with sans captions beneath; app UI in a sans, code in monospace; all white on dark.",
+  "title_height_pct": [
+   2.9,
+   11.1
+  ],
+  "title_measurements": [
+   {
+    "t_s": 1,
+    "text": "Claude Opus 5.5",
+    "line_height_px": 50,
+    "frame_height_px": 720,
+    "pct": 6.9
+   },
+   {
+    "t_s": 17,
+    "text": "Faster",
+    "line_height_px": 29,
+    "frame_height_px": 720,
+    "pct": 4.0
+   },
+   {
+    "t_s": 17,
+    "text": "20% cheaper per token",
+    "line_height_px": 38,
+    "frame_height_px": 720,
+    "pct": 5.3
+   },
+   {
+    "t_s": 17,
+    "text": "25% more usage",
+    "line_height_px": 38,
+    "frame_height_px": 720,
+    "pct": 5.3
+   },
+   {
+    "t_s": 210,
+    "text": "Claude Code (end wordmark)",
+    "line_height_px": 80,
+    "frame_height_px": 720,
+    "pct": 11.1
+   },
+   {
+    "t_s": 17,
+    "text": "than Opus 5 on the same task (caption)",
+    "line_height_px": 21,
+    "frame_height_px": 720,
+    "pct": 2.9
+   }
+  ],
+  "max_words_per_title_line": 4,
+  "density": "medium",
+  "depth": "Soft drop shadow under app windows on cream; presenter footage has shallow depth of field; overlay list sits on a dark gradient."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 62,
+  "shown_as": [
+   "real-ui-capture"
+  ],
+  "cursor": "real",
+  "camera_on_ui": "Scale-up crops on the prompt box (27-32 s), usage popover (72-78 s) and effort slider (90 s, 132 s); windows slide in and out on the cream stage.",
+  "legible_at_phone_width": "partly",
+  "notes": "Split-window frames carry 11-13 px UI text (f0032.jpg, f0035.jpg) that is unreadable on a phone; zoomed crops (f0037.jpg, f0045.jpg) are legible. 62% is a count of sampled frames showing the app, not a timed share."
+ },
+ "motion": {
+  "text_entry": "Overlay list builds one line at a time from 1.2 s to about 15 s, each new heading with its caption; lines persist, never exit before the cut at 17.9 s.",
+  "ui_motion": "Typed prompts with caret, step lists growing line by line, 'sped up' pill during time compression, diff panes opening, popovers fading in over the dim window.",
+  "camera": "Scale-in push on the prompt box (26.9-27.3 s, strips/window-09-26.666s.jpg) and scale-up crops on controls; windows slide in from the right at 22.9 s.",
+  "eases": "Ease-out slides; text lines fade in; windows dim by about 50% when a code card overlays (sheet-04 at 2:02).",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 20,
+    "example_t_s": 22.87,
+    "cause": "Presenter says 'let's run them side by side'; cut lands on topic change."
+   },
+   {
+    "type": "push-or-slide",
+    "count": 1,
+    "example_t_s": 22.9,
+    "cause": "App window slides onto empty cream stage after cut."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 4,
+    "example_t_s": 26.9,
+    "cause": "Scale-in on prompt box as typing starts."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 6,
+    "example_t_s": 40,
+    "cause": "Agent finishes; list collapses into summary, popovers open on click."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 1,
+    "example_t_s": 116,
+    "cause": "Code card fades over the dimmed chat window to show the missed file."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0s.jpg",
+   "strips/window-04-9.8s.jpg",
+   "strips/window-08-22.8s.jpg",
+   "strips/window-09-26.666s.jpg",
+   "strips/window-34-66.733s.jpg",
+   "strips/window-42-82.566s.jpg",
+   "strips/window-49-99.4s.jpg",
+   "strips/window-60-127.7s.jpg"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 1.2,
+    "text": "Claude Opus 5.5",
+    "words": 3,
+    "hold_s": 16.7
+   },
+   {
+    "t_s": 2,
+    "text": "Compared to Opus 5",
+    "words": 4,
+    "hold_s": 15.9
+   },
+   {
+    "t_s": 3.5,
+    "text": "Faster than Opus 5 on the same task",
+    "words": 8,
+    "hold_s": 14.4
+   },
+   {
+    "t_s": 5,
+    "text": "Better answers shorter, clearer about what to do next",
+    "words": 8,
+    "hold_s": 12.9
+   },
+   {
+    "t_s": 6,
+    "text": "20% cheaper per token $4 in, $20 out per million tokens",
+    "words": 12,
+    "hold_s": 11.9
+   },
+   {
+    "t_s": 10.4,
+    "text": "25% more usage on Pro, Max and Team limits",
+    "words": 8,
+    "hold_s": 7.5
+   },
+   {
+    "t_s": 15,
+    "text": "~40% cheaper per task it needs fewer tokens to get to a result",
+    "words": 12,
+    "hold_s": 2.9
+   },
+   {
+    "t_s": 26,
+    "text": "Fix #418: refunds on orders that used discount codes come out a few cents off, and refunding an order item by item doesn't add up...",
+    "words": 23,
+    "hold_s": 4
+   },
+   {
+    "t_s": 44,
+    "text": "Want me to close that in this change, or open the PR as is?",
+    "words": 13,
+    "hold_s": 6
+   },
+   {
+    "t_s": 72,
+    "text": "5-hour limit Resets in 3 hr 12 min 4%",
+    "words": 8,
+    "hold_s": 3
+   },
+   {
+    "t_s": 90,
+    "text": "Effort: Higher effort means more thorough responses, but takes longer and uses your limits faster.",
+    "words": 16,
+    "hold_s": 6
+   },
+   {
+    "t_s": 205.4,
+    "text": "Claude Code",
+    "words": 2,
+    "hold_s": 7.1
+   }
+  ],
+  "holds_vs_reading_rule": "Overlay list lines hold 2.9-16.7 s against a 0.5 s + 0.3 s/word floor of 1.1-3.5 s, so all pass; the last list line (12 words, 2.9 s) is the tightest. End wordmark holds 7.1 s."
+ },
+ "sound": {
+  "music": "No music supported: describe tags are speech 0.864, music 0.47, plucked_string_instrument 0.242, keyboard_musical 0.202; beats count 0, confidence 0.015 ('no steady beat'). A quiet bed is possible, not confirmed.",
+  "sfx": "None identified. typing scores 0.169 and typewriter 0.143, below the 0.2 threshold, so keyboard sound is not claimed.",
+  "vo_music_balance": "Voice is the programme: audio kind 'voice', integrated -16 LUFS, short-term max -14, true peak -3.5 dB, LRA 2.6 LU.",
+  "energy_arc": "Flat conversational delivery at about 204 wpm; 15 sections, each 5-22 s; silence only in the last 5 s (207.5-212.5 s).",
+  "sync_to_picture": "cuts_on_strong_onset_share 0.0 against chance_share 0.067: cuts are not locked to the sound; they follow speech topic changes."
+ },
+ "good": [
+  {
+   "observation": "The comparison is shown rather than claimed: identical prompt typed in two windows, so the viewer sees 5.5 finish while Opus 5 is still reading.",
+   "evidence": "strips/window-09-26.666s.jpg; f0023.jpg"
+  },
+  {
+   "observation": "Real product UI with a real cursor, real file names and real numbers (4% versus 6%, 41 of 41 passing) makes each claim checkable.",
+   "evidence": "f0037.jpg; f0073.jpg"
+  },
+  {
+   "observation": "A counter-case (medium misses the mobile serializer) is shown before the advice, so 'use high here' is earned.",
+   "evidence": "f0058.jpg and f0075.jpg; t=98-152 s"
+  },
+  {
+   "observation": "Stat list builds line by line beside the speaker and persists, giving five must-carry facts at 4.0-6.9% heading height.",
+   "evidence": "f0004.jpg; f0007.jpg; title_measurements"
+  },
+  {
+   "observation": "Scale-up crops put small UI controls (effort slider, usage popover) at readable size instead of showing the full window.",
+   "evidence": "f0045.jpg; f0037.jpg"
+  },
+  {
+   "observation": "Restrained palette: coral only for the star and code, green/red only for diff counts, so attention goes to the content.",
+   "evidence": "f0075.jpg; sheet-02 diff counts"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Full-window split-screen frames carry 11-13 px UI text that is unreadable at phone width; the comparison relies on voice.",
+   "evidence": "f0032.jpg; strips/window-34-66.733s.jpg"
+  },
+  {
+   "observation": "The 25% overlay line appears about 2.4 s after the spoken '25% further' at 8 s, so text trails speech.",
+   "evidence": "transcript [00:08]; sheet-01 8 s versus strips/window-04-9.8s.jpg"
+  },
+  {
+   "observation": "No on-screen call to action; the ask to try 5.5 is spoken only and the end card carries only the product wordmark.",
+   "evidence": "f0106.jpg; transcript [03:23]"
+  },
+  {
+   "observation": "20 hard cuts and talking-head stretches of 8-20 s repeat one framing, so the film leans on the voice for variety.",
+   "evidence": "metrics rhythm hard_cuts 20; sheet-05 2:10-2:14"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "In presenter-led explainers, build must-carry numbers as a persistent list that adds one line per spoken claim, headings 4-7% of frame height with 2.9% captions beneath.",
+   "evidence": "f0004.jpg, f0007.jpg; list of five lines held 1.2-17.9 s; 29-50 px headings of 720",
+   "relation": "extends",
+   "skill_rule": "5"
+  },
+  {
+   "rule": "Prove a comparative claim with a split screen running identical input; put the cut to the result at the moment the faster side finishes.",
+   "evidence": "Split screen 34.6-66.8 s; 5.5 summary on screen at 44 s versus Opus 5 reading",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "For screen-recording tutorials, long shots of 8-32 s are acceptable when on-screen activity changes every 1-2 s; the 1.8-3.5 s cut rule applies to launch films.",
+   "evidence": "median_shot_s 8; longest 32.17 s; cuts_per_min 5.65",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Zoom small interface controls to fill 40% or more of the frame width before asking the viewer to read them; do not show the full window.",
+   "evidence": "f0045.jpg zoom shows 24 px popover text; f0032.jpg split window shows 11-13 px text",
+   "relation": "extends",
+   "skill_rule": "6"
+  },
+  {
+   "rule": "A speech-driven film may be almost all hard cuts when each cut lands on a topic change in the voice; no dissolves needed.",
+   "evidence": "20 hard cuts; first at 22.87 on 'let's run them side by side'",
+   "relation": "contradicts",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "Open on the subject with the title arriving within 1.5 s; add a 'sped up' pill whenever recorded time is compressed.",
+   "evidence": "strips/window-01-0s.jpg title at 1.17 s; f0019.jpg 'sped up' pill",
+   "relation": "confirms",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "End on a clean brand card held at least 5 s, with the mark animating in before the wordmark; put any call to action in on-screen text too.",
+   "evidence": "205.4-212.5 s card, 7.1 s; f0104.jpg star then f0106.jpg wordmark",
+   "relation": "confirms",
+   "skill_rule": "2"
+  },
+  {
+   "rule": "Voice-only social uploads can sit at -16 LUFS integrated with -3.5 dBTP peak and 2.6 LU range; speech clarity, not loudness, is the gate.",
+   "evidence": "metrics sound lufs_integrated -16, true_peak_db -3.5, lra_lu 2.6",
+   "relation": "extends",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 61,
+ "crops_made": 8,
+ "unchecked": [
+  "Audio not heard; sound read from tags and loudness only.",
+  "No strip covers 130-212 s; the ending's motion is read from sheets and frames only.",
+  "Strips for 17.9 s and 26-34 s transitions, and 25% line entrance timing, partly inferred from sheets.",
+  "product_ui.presence_pct_runtime is a frame-count estimate, not a timed measurement."
+ ]
+}

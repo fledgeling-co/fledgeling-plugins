@@ -1,0 +1,402 @@
+{
+ "id": "SkFmiMHDN38",
+ "title": "How an Anthropic engineer uses Claude Docs",
+ "brand": "Claude",
+ "duration_s": 83.02,
+ "status": "ok",
+ "format": "product-demo-walkthrough",
+ "format_note": "Presenter voice-over narrates two real use cases (stand-up, launch review) while a live-typed Claude Docs capture is zoomed and panned; ends on tagline and logo.",
+ "one_thing": "Claude Docs is a shared document where teammates and Claude type side by side, so Claude suggests agenda items, builds a chart and checks the author's claims.",
+ "transcript": {
+  "source": "auto-captions",
+  "voiceover": "on-camera-presenter",
+  "words_total": 209,
+  "words_per_minute": 151.1,
+  "voice_style": "Plain first-person speech from a named product engineer; short declaratives, no hype words; the sentences name each on-screen action as it happens.",
+  "script_shape": "Intro (name, role, promise at 7-14s), then two numbered use cases ('First up is stand-up', 'Then, there's launch reviews'), each as ask-Claude then result, then one-line invitation to try it."
+ },
+ "structure": {
+  "frame0": "f0001.jpg: cream document page on a flat blue ground, serif title 'How an Anthropic engineer uses Claude Docs', grey placeholder lines, a hand-drawn cursor mid-page. Not black or empty.",
+  "first_3s": "Cursor selects the title (formatting bar with H3, B, I, U appears at t=2s), title enlarges to two lines at t=4s and a video thumbnail 'dougs-demo.mp4' is dragged in (f0003.jpg). No speech until 7s.",
+  "beats": [
+   {
+    "start_s": 0,
+    "end_s": 5.7,
+    "role": "hook",
+    "what": "Document page: title selected, formatting bar, video file dragged into the page (f0002-f0003)."
+   },
+   {
+    "start_s": 5.7,
+    "end_s": 14.5,
+    "role": "setup",
+    "what": "Doug's video plays inside the doc; name, role and a comment card typed in; he introduces himself and the film's promise."
+   },
+   {
+    "start_s": 11.9,
+    "end_s": 14.5,
+    "role": "setup",
+    "what": "Camera leaves the page for a tab menu: Intro, Team standups, Launch reviews, Outro; cursor picks Team standups."
+   },
+   {
+    "start_s": 14.5,
+    "end_s": 23.2,
+    "role": "demo",
+    "what": "Stand-up page: five teammates type updates at once, each with a coloured name flag and caret."
+   },
+   {
+    "start_s": 23.2,
+    "end_s": 37.2,
+    "role": "demo",
+    "what": "Claude types a 'Suggested by Claude' section; Doug selects one item; a nested reply is typed and the camera pulls back."
+   },
+   {
+    "start_s": 37.2,
+    "end_s": 48,
+    "role": "demo",
+    "what": "Menu click to Launch reviews; Doug types the summary sentence about charts and diagrams."
+   },
+   {
+    "start_s": 48,
+    "end_s": 52,
+    "role": "reveal",
+    "what": "Typing @Claude add a chart, then the stacked area chart 'Docs with a visual grew every week' fills the frame."
+   },
+   {
+    "start_s": 52,
+    "end_s": 60.2,
+    "role": "proof",
+    "what": "Full app view with chat panel and chart; Doug asks '@Claude is this right?' and Claude answers 'Mostly.' with For and Against."
+   },
+   {
+    "start_s": 60.2,
+    "end_s": 69.4,
+    "role": "proof",
+    "what": "Summary edited per Claude's reply; Share clicked; teammates' comments (Adam, Ines, Adrianne) answered by Claude."
+   },
+   {
+    "start_s": 69.4,
+    "end_s": 73.6,
+    "role": "turn",
+    "what": "Cut back to Doug's card with his closing line; reactions rise to 7 and 1."
+   },
+   {
+    "start_s": 73.6,
+    "end_s": 78,
+    "role": "payoff",
+    "what": "Tagline 'Claude makes it. You steer it.' typed by two labelled cursors, Claude (orange) and You (blue)."
+   },
+   {
+    "start_s": 78,
+    "end_s": 83,
+    "role": "logo",
+    "what": "Claude asterisk and wordmark, centred on cream, held still until the end."
+   }
+  ],
+  "hero_moment": {
+   "t_s": 52,
+   "share": 0.626,
+   "what": "The stacked area chart appears full-frame after '@Claude add a chart' (f0026.jpg), the payoff of the stated chart claim."
+  },
+  "ending": {
+   "cta_text": "Next time your team works on a doc together, consider asking Claude.",
+   "logo_hold_s": 5,
+   "what": "Spoken invitation over Doug's card, then typed tagline 'Claude makes it. You steer it.' and a held logo (f0040.jpg to f0042.jpg)."
+  }
+ },
+ "rhythm": {
+  "route": "hybrid",
+  "hard_cuts": 13,
+  "cuts_per_min": 9.4,
+  "median_shot_s": 4.56,
+  "how_change_is_paced": "One 23 s shot (37.17-60.17) carries the demo through typing, menus and camera zooms; something on screen changes about every 1.2 s (median_hold_s 1.17). No bursts; seams come at topic changes."
+ },
+ "look": {
+  "ground": "Flat desaturated blue (about #6F9CC8) behind a cream page in the intro; pure white app UI in the demo; cream ground for the tagline and logo.",
+  "palette": [
+   "blue ground",
+   "cream page",
+   "near-black text",
+   "clay orange accent",
+   "white UI",
+   "chart blue",
+   "chart green",
+   "chart orange"
+  ],
+  "accent_use": "Clay orange marks Claude: the name flag, caret, send button and logo asterisk; the blue flag marks 'You'; other teammates get their own flag colours.",
+  "type": "Serif display for titles and section heads ('Suggested by Claude'), grotesque sans for body, chips and UI; the accent word 'Claude Docs' is set in bold serif.",
+  "title_height_pct": [
+   4.3,
+   7.2
+  ],
+  "title_measurements": [
+   {
+    "t_s": 1,
+    "text": "How an Anthropic engineer uses Claude Docs",
+    "line_height_px": 31,
+    "frame_height_px": 720,
+    "pct": 4.3
+   },
+   {
+    "t_s": 24,
+    "text": "Suggested by Claude",
+    "line_height_px": 52,
+    "frame_height_px": 720,
+    "pct": 7.2
+   },
+   {
+    "t_s": 77,
+    "text": "Claude makes it. You steer it.",
+    "line_height_px": 42,
+    "frame_height_px": 720,
+    "pct": 5.8
+   }
+  ],
+  "max_words_per_title_line": 7,
+  "density": "sparse",
+  "depth": "Flat. A hairline-outlined page floats on the blue ground and the app window has a faint edge shadow; no parallax or blur."
+ },
+ "product_ui": {
+  "presence_pct_runtime": 89,
+  "shown_as": [
+   "real-ui-capture",
+   "floating-ui-cards",
+   "live-action"
+  ],
+  "cursor": "stylised",
+  "camera_on_ui": "Hard crops 2-4x into one region (a list, a prompt box, a chart), then a pull-back to the full window once at 52-54 s and once at 67 s (f0027.jpg).",
+  "legible_at_phone_width": "partly",
+  "notes": "Zoomed shots set body text near 36-52 px at 720p; the full-window shots (f0027.jpg, f0035.jpg) shrink body text to about 10 px, below phone-legible. Text is typed live by named cursors, so the product's behaviour is the animation."
+ },
+ "motion": {
+  "text_entry": "Typed letter by letter with a coloured caret and name flag (f0012-f0014); tagline typed by two flags at once (f0038.jpg); title enlarges at 4 s.",
+  "ui_motion": "Dropdown opens and a cursor glides to a row (strips/window-12-14.459s.jpg); a file is dragged onto the page (strips/window-06-5.417s.jpg); comment cards slide in; the chart fills in whole.",
+  "camera": "Zoom and pan around a flat UI, for example the move down the page 11.9-12.5 s before the menu, and the pull-back to full window at 52-54 s.",
+  "eases": "Smooth ease-out settles on cards and the page; cursor paths curve. Exact curves not measured.",
+  "transitions": [
+   {
+    "type": "hard-cut",
+    "count": 13,
+    "example_t_s": 14.54,
+    "cause": "Cursor lands on 'Team standups' and the next page appears under it."
+   },
+   {
+    "type": "continuous-camera-move",
+    "count": 4,
+    "example_t_s": 11.9,
+    "cause": "Camera drifts down the page, then cuts to the menu."
+   },
+   {
+    "type": "ui-state-change",
+    "count": 6,
+    "example_t_s": 37.2,
+    "cause": "Menu click changes the tab; content swaps under a still cursor."
+   },
+   {
+    "type": "morph-or-shared-element",
+    "count": 1,
+    "example_t_s": 5.4,
+    "cause": "Dragged video thumbnail grows into the player inside the page."
+   }
+  ],
+  "strips_read": [
+   "strips/window-01-0s.jpg: opening frames, page eases in with title already present",
+   "strips/window-06-5.417s.jpg: video thumbnail dropped, grows into player",
+   "strips/window-11-11.875s.jpg: camera pans down, then cut to tab menu at 12.67s",
+   "strips/window-12-14.459s.jpg: menu to app view, cursor lands on Team standups",
+   "strips/window-28-37.084s.jpg: cut to Team standups menu, list changes to Launch reviews",
+   "strips/window-43-60.084s.jpg: Claude reply card, then cut to Summary edit",
+   "strips/window-50-67.25s.jpg: full window cut to zoomed comment cards, third card appears at 67.46s",
+   "strips/window-56-73.125s.jpg: cut from Doug card to cream ground, Claude typed in",
+   "strips/window-58-76.125s.jpg: tagline complete, You flag fades off"
+  ]
+ },
+ "copy": {
+  "on_screen_lines": [
+   {
+    "t_s": 0,
+    "text": "How an Anthropic engineer uses Claude Docs",
+    "words": 7,
+    "hold_s": 3.4
+   },
+   {
+    "t_s": 6,
+    "text": "Doug / Product engineer, Anthropic",
+    "words": 5,
+    "hold_s": 6.5
+   },
+   {
+    "t_s": 9.5,
+    "text": "(He helped build Claude Docs)",
+    "words": 5,
+    "hold_s": 3
+   },
+   {
+    "t_s": 12.5,
+    "text": "Intro / Team standups / Launch reviews / Outro",
+    "words": 7,
+    "hold_s": 2
+   },
+   {
+    "t_s": 24,
+    "text": "Suggested by Claude",
+    "words": 3,
+    "hold_s": 2
+   },
+   {
+    "t_s": 40,
+    "text": "Charts and diagrams: launch review",
+    "words": 5,
+    "hold_s": 3
+   },
+   {
+    "t_s": 45,
+    "text": "Charts and diagrams launched last month. People use them more than expected, and most docs with a chart or diagram get shared.",
+    "words": 21,
+    "hold_s": 3
+   },
+   {
+    "t_s": 49,
+    "text": "@Claude add a chart",
+    "words": 4,
+    "hold_s": 2
+   },
+   {
+    "t_s": 52,
+    "text": "Docs with a visual grew every week",
+    "words": 7,
+    "hold_s": 2
+   },
+   {
+    "t_s": 56,
+    "text": "@Claude is this right?",
+    "words": 4,
+    "hold_s": 2
+   },
+   {
+    "t_s": 58,
+    "text": "Mostly. For: docs with a data chart get shared more often than docs without one. Against: docs with only a diagram get shared less often.",
+    "words": 26,
+    "hold_s": 3
+   },
+   {
+    "t_s": 68,
+    "text": "@Claude are data charts still growing or leveling off? Leveling off. Flat from week 3 to week 4.",
+    "words": 17,
+    "hold_s": 2
+   },
+   {
+    "t_s": 76,
+    "text": "Claude makes it. You steer it.",
+    "words": 6,
+    "hold_s": 1.5
+   }
+  ],
+  "holds_vs_reading_rule": "The 26-word Claude reply holds about 3 s where the rule asks 8.3 s, so voice-over carries it; the 6-word tagline needs 2.3 s and holds about 1.5 s after typing."
+ },
+ "sound": {
+  "music": "Music is present (kind 'music'); describe tags: synthesizer 0.301, piano 0.213, keyboard_musical 0.405. Tempo 129.9 BPM at beat confidence 0.353, so tempo is unreliable. Sections A-G with a change at 7.0 s.",
+  "sfx": "Typing 0.376, click 0.27 and typing_computer_keyboard 0.223 tags point to keyboard sound, probably synchronised to typing; not checked by ear.",
+  "vo_music_balance": "Speech tag 0.659 vs music 0.617: close, so music sits under the voice; speech runs 7-72 s.",
+  "energy_arc": "Quiet intro to 7 s, level through the voice-over, silence span 78.8-83.0 s over the logo; short-term max -13.6 LUFS.",
+  "sync_to_picture": "Cuts are not locked to the sound: cuts_on_strong_onset_share 0.077 against chance_share 0.158. Typing may sync to keystroke sounds, not verified."
+ },
+ "good": [
+  {
+   "observation": "The product does the animating: named cursors type real-looking stand-up updates at once, so the viewer sees collaboration instead of being told about it.",
+   "evidence": "f0012.jpg, f0013.jpg; t=18-22s"
+  },
+  {
+   "observation": "Each use case follows one pattern, ask Claude, see the result, in 10-20 s, so the film is easy to follow and the spoken line matches the screen.",
+   "evidence": "t=22-30s stand-up; t=48-60s chart; transcript"
+  },
+  {
+   "observation": "Zoom crops make small UI legible: menu text is about 20-25 px and typed lines 36-52 px at 720p.",
+   "evidence": "f0007.jpg, f0014.jpg, f0021.jpg"
+  },
+  {
+   "observation": "Claude is shown as a participant with an orange flag and caret, then the closing line is typed by 'Claude' and 'You' flags, so the product's metaphor becomes the tagline.",
+   "evidence": "f0038.jpg, f0039.jpg"
+  },
+  {
+   "observation": "Restrained palette: blue ground, cream page, one clay accent; the logo ends on a still frame held about 5 s.",
+   "evidence": "f0040.jpg-f0042.jpg; metrics look.saturation 0.072"
+  },
+  {
+   "observation": "Self-checking beat: asking Claude 'is this right?' shows an honest 'Mostly.' with For and Against, which builds trust in a way a success shot would not.",
+   "evidence": "f0031.jpg; t=56-60s"
+  }
+ ],
+ "weak": [
+  {
+   "observation": "Full-window shots shrink body and chart text to about 10 px, below phone legibility, and the chat panel on the left is unreadable at 720p.",
+   "evidence": "f0027.jpg, f0035.jpg"
+  },
+  {
+   "observation": "Final-state loudness is -17 LUFS integrated and the true peak is +0.4 dB, above the -1 dBTP ceiling; likely to clip in encoding.",
+   "evidence": "metrics.json sound.lufs_integrated, true_peak_db"
+  },
+  {
+   "observation": "Reading time is thin on long copy: the 26-word Claude reply and the 21-word summary rely on voice-over to be read.",
+   "evidence": "f0031.jpg; f0022.jpg"
+  }
+ ],
+ "rule_candidates": [
+  {
+   "rule": "In a UI walkthrough, let named cursors type the content live and animate the product itself; show a result within 10-20 s of each stated action.",
+   "evidence": "f0012.jpg-f0014.jpg typing by 5 named flags, t=18-22s; chart at t=52s.",
+   "relation": "extends",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "Keep one demo in one continuous shot of 20 s or more when the action is typing: change something on screen about every 1.2 s instead of cutting every 1.8-3.5 s.",
+   "evidence": "23 s shot 37.17-60.17s (27.7% of runtime); median_hold_s 1.17; median shot 4.56 s.",
+   "relation": "contradicts",
+   "skill_rule": "10"
+  },
+  {
+   "rule": "A calm walkthrough needs no 5-8 cut burst; run it at about 9 cuts a minute with every seam on a topic change.",
+   "evidence": "metrics bursts [] ; hard_cuts 13 in 83 s (9.4/min).",
+   "relation": "extends",
+   "skill_rule": "8"
+  },
+  {
+   "rule": "Frame 0 can be the real product page with title and cursor already in place; the title is a single 4.3 % line, bolding the product name as the accent.",
+   "evidence": "f0001.jpg; ink measure t=1s: 31 px of 720.",
+   "relation": "confirms",
+   "skill_rule": "1"
+  },
+  {
+   "rule": "Cut when the cursor lands on a control, and show the result under the still cursor, so the cause of each seam is on screen.",
+   "evidence": "cut at 14.54s after cursor on Team standups (strips/window-12-14.459s.jpg); cut at 37.17s.",
+   "relation": "confirms",
+   "skill_rule": "7"
+  },
+  {
+   "rule": "Zoom to 2-4x on the one region being acted on, and pull back to the full window once to show context.",
+   "evidence": "f0021.jpg (zoomed) versus f0027.jpg (full window at t=52-54s).",
+   "relation": "confirms",
+   "skill_rule": "6"
+  },
+  {
+   "rule": "Close with a tagline typed by two labelled cursors that mirror the product's collaboration, then hold the logo still for about 5 s.",
+   "evidence": "f0038.jpg at t=74s; logo f0040.jpg-f0042.jpg, t=78-83s.",
+   "relation": "new",
+   "skill_rule": "none"
+  },
+  {
+   "rule": "A social master at -17 LUFS with +0.4 dBTP is a miss: this film shows what the -14 LUFS and -1 dBTP targets would have prevented.",
+   "evidence": "metrics sound.lufs_integrated -17, true_peak_db 0.4.",
+   "relation": "contradicts",
+   "skill_rule": "9"
+  }
+ ],
+ "frames_opened": 42,
+ "crops_made": 6,
+ "unchecked": [
+  "Sound not heard: sync of typing to keystroke sounds is inferred from tags only.",
+  "Ease curves not measured; described from strips.",
+  "Title ink at t=40s and t=45s failed (ROI missed); no measurement.",
+  "Colour hexes read by eye, not sampled.",
+  "Hard-cut count of 13 includes the 0.04 s cut at t=0."
+ ]
+}
