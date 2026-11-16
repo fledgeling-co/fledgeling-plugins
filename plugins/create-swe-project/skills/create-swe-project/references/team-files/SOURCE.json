@@ -1,12 +1,12 @@
 {
   "source_commit": "00b2d4cd034c658a9c0baef36c5950ad07a0e119",
-  "synced": "2026-11-09",
+  "synced": "2026-11-16",
   "excluded": [
     "DESIGN.md"
   ],
   "files": {
     "CODING_PRACTICES.md": "ec4153fd6fea1e89dba61d996c58d65c31ee5487bcaa3e4478ee153bf49d6ec1",
-    "NEW_PROJECT_BEST_PRACTICES.md": "e2fe0b702dbcecc66a39f9079b5196e0ecff6554072b3af5e8ed4b876079a100",
-    "CLAUDE-STARTER.md": "8d56764f2a4da7d69059e37ef25cf8ac4313ee113e871f7e73fd4b390aa878ec"
+    "NEW_PROJECT_BEST_PRACTICES.md": "7c78a19c251e3ef60701145f680e952e7081dd28ce59c3b958495d2229e4024e",
+    "CLAUDE-STARTER.md": "6a538f1d452942f54197cf6259dbab1a52827758014a6f46d354c03bc62cfe79"
   }
 }

@@ -16,6 +16,7 @@ Each spec runs to roughly 22,000–25,000 tokens, so read the shared baseline pl
 | anything | CP protocol (top of the file), §1, §5, §7 |
 | a mutation path (endpoint, Server Action, job, webhook) | CP §4, §6.1, §6.3, §6.8, §6.14 |
 {{ROUTING_ROWS}}| a wire shape shared by two apps | CP §6.10; BP §17 |
+| a model call, prompt or tool definition | BP §6; CP §1 |
 | the gate, test setup or CI | BP §15, §19 |
 | Docker, Caddy, worktrees | BP §20, §21, §23 |
 | a new dependency or a toolchain upgrade | BP §1, §2; CP §4 (A03) |
@@ -27,9 +28,12 @@ Deliberate divergences from the specs are logged in `docs/DIVERGENCES.md` — ch
 **Behaviour under ambiguity** (for trivial tasks, use judgment):
 
 - **Decide routine calls; ask about real forks.** Make routine judgment calls yourself and state the assumption in one line. Check in only when different readings of the request would lead to materially different work, and name the readings when you do. If the request looks mistaken or a better approach exists, say so in a sentence and continue with the task as asked.
+- **Look before you change.** On a loosely specified task, open the files and docs that could bear on it first, including ones the request did not name, and use what you find.
 - **Simplicity first.** Minimum change that solves the problem. No speculative features, abstractions, or impossible-case handling. Test: would a senior reviewer call this overcomplicated?
 - **Surgical changes.** Don't "improve" adjacent code; match existing style; mention unrelated problems instead of fixing them. Clean up only orphans your own change created. Test: every changed line traces to the request.
 - **Goal-driven execution.** Turn the task into checkable success criteria before starting ("fix the bug" → "a test reproducing it passes; the gate stays green") and finish when they pass.
+- **Finish before ending the turn.** A summary that announces the next step is not the task done: take the step. End a turn early only when nothing can move without the user, or the next action is destructive, irreversible or outward-facing and needs their confirmation.
+- **Report plainly.** One line before the first tool call, an update only on a finding or a change of direction, and the outcome first at the end. Explain a result in a sentence or two; do not write out your reasoning.
 
 ## Project overview
 

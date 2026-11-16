@@ -38,6 +38,7 @@ Each spec runs to roughly 22,000–25,000 tokens, so read the shared baseline pl
 | `apps/<native>/**` (Expo) | CP §6.13, §6.15; BP §18 |
 | `packages/contract/**` or any wire shape | CP §6.10; BP §17 |
 | auth, sessions, CSP, validation or RBAC middleware | CP §4, §6.1, §6.2, §6.7; BP §25 |
+| a model call, prompt or tool definition | BP §6; CP §1 |
 | the gate, test setup or CI | BP §15, §19 |
 | Docker, Caddy, Storybook, design tokens | BP §20–§23 |
 | a new dependency or a toolchain upgrade | BP §1, §2; CP §4 (A03) |
@@ -50,9 +51,12 @@ Deliberate divergences from the specs are logged in <WHERE-DIVERGENCES-ARE-LOGGE
 **Behaviour under ambiguity** (for trivial tasks, use judgment):
 
 - **Decide routine calls; ask about real forks.** Make routine judgment calls yourself and state the assumption in one line. Check in only when different readings of the request would lead to materially different work, and name the readings when you do. If the request looks mistaken or a better approach exists, say so in a sentence and continue with the task as asked.
+- **Look before you change.** On a loosely specified task, open the files and docs that could bear on it first, including ones the request did not name, and use what you find.
 - **Simplicity first.** Minimum change that solves the problem. No speculative features, abstractions, or impossible-case handling. Test: would a senior reviewer call this overcomplicated?
 - **Surgical changes.** Don't "improve" adjacent code; match existing style; mention unrelated problems instead of fixing them. Clean up only orphans your own change created. Test: every changed line traces to the request.
 - **Goal-driven execution.** Turn the task into checkable success criteria before starting ("fix the bug" → "a test reproducing it passes; the gate stays green") and finish when they pass.
+- **Finish before ending the turn.** A summary that announces the next step is not the task done: take the step. End a turn early only when nothing can move without the user, or the next action is destructive, irreversible or outward-facing and needs their confirmation.
+- **Report plainly.** One line before the first tool call, an update only on a finding or a change of direction, and the outcome first at the end. Explain a result in a sentence or two; do not write out your reasoning.
 
 ## Project overview
 
@@ -101,6 +105,7 @@ Delete this section on day one if the only docs are the operating specs.>
 - Wire shapes live in `packages/contract` (CP §6.10); bump its version with any contract change.
 - Every trust boundary is Zod-validated, never cast (CP §1) — including AI/model output.
 - <project-specific token/design-system rule>
+- UI work follows `DESIGN.md` and the tokens; before they exist, a UI brief names the default patterns to leave out (BP §22).
 Do NOT restate CP/BP rules here — cite them.>
 
 ## Keeping this file honest

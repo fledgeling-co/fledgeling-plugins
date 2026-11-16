@@ -4,6 +4,7 @@
 - **Tests are part of the feature** (BP §15): a pure helper with logic of its own gets a co-located `*.test.ts`, and a route handler or Server Action gets a handler test, in the same change that writes it. The most security-sensitive surfaces (auth, admin) get the strongest coverage, including a test that an unauthorised caller is denied.
 - **Assert real data, not "it rendered"**: for a known-good fixture, assert a value-shaped string and explicitly not the placeholder (BP §15).
 - **The first feature that crosses two apps creates `packages/contract`** for the shared Zod wire DTOs (CP §6.10, BP §17), plus `docs/CONTRACTS.md` for the sync workflow. Until then there is deliberately no contract package.
+- **UI follows `DESIGN.md` and the tokens.** Before they exist, a UI brief names the default patterns to leave out (a cream or off-white ground, italic accent words in headlines, numbered "01/02/03" labels, monospace labels, pill-shaped buttons), because "avoid a generic look" only swaps one default for another (BP §22).
 - **Worktrees come from `scripts/worktree-add.sh`**, never a bare `git worktree add` (no install, no gate), and a merged worktree is removed in the turn it merges (`scripts/prune-merged-worktrees.sh --apply`, BP §23).
 
 ## Secrets — 1Password
