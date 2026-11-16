@@ -120,14 +120,18 @@ to resolve the "Other things we noticed" items, fix them and mark each one resol
 
 ## Lanes
 
-Every lane runs the newest model its CLI offers, so a new release needs no edit to this skill.
-`fable` uses the claude CLI's alias, which tracks the newest Fable. `argon` and `grok` are looked
-up at run time by `scripts/latest_model.py`, which reads `agy models` and `grok models` and picks
-the highest version. The model column shows what each resolved to on 7 November 2026.
+Argon and Grok run the newest model their CLI offers, looked up at run time by
+`scripts/latest_model.py`, which reads `agy models` and `grok models` and picks the highest
+version. Fable is the exception: it is pinned to `claude-fable-5-1` at medium effort (owner
+directive, 10 November 2026), so the lane does not drift with the `fable` alias or run at high
+effort. Its probe tries default setting sources first and, only on the terminal
+`needs_relogin` auth signature, retries with `project,local` so the stored claude.ai login can
+answer; `FP_FABLE_SETTING_SOURCES` forces the sources and the log records what ran. The model
+column shows what each resolved to on 7 November 2026, with Fable pinned.
 
 | Lane | Family | Command (in `scripts/run_panel.sh`) | Resolved 7 Nov 2026 |
 |---|---|---|---|
-| `fable` | Anthropic | `claude --model fable --effort high -p` | claude-fable-5-1 |
+| `fable` | Anthropic | `claude --model claude-fable-5-1 --effort medium -p` | claude-fable-5-1 (pinned) |
 | `astra` | OpenAI | `codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only` | gpt-6-astra (pinned; codex lists no models) |
 | `argon` | Google | `agy --new-project --model "$(latest_model.py gemini --effort high)" --add-dir <repo> -p` | gemini-4-argon-high |
 | `grok` | xAI | `grok -m "$(latest_model.py grok)" --effort xhigh -p` | grok-4.7 |

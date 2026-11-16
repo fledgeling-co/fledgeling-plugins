@@ -5,10 +5,11 @@
 #   run_panel.sh --brief brief.md --out /tmp/panel/r1 --lanes fable,astra,argon,grok \
 #                [--add-dir /path/to/repo]... [--timeout 900] [--min-bytes 1500]
 #
-# Lanes and their commands. Each runs the newest model its CLI offers, so a new release needs no
-# edit here: fable is the claude CLI alias, and argon and grok are looked up by latest_model.py
-# from `agy models` and `grok models`. Pin one with FP_<LANE>_MODEL, e.g. FP_GROK_MODEL=grok-4.7.
-#   fable  claude --model fable --effort high -p                       (newest Fable)
+# Lanes and their commands. Argon and grok run the newest model their CLI offers, looked up by
+# latest_model.py from `agy models` and `grok models`. Fable is pinned to the exact model id at
+# medium effort (owner directive, 10 Nov 2026): the `fable` alias at high effort is not the lane
+# this panel runs. Override a model with FP_<LANE>_MODEL, e.g. FP_GROK_MODEL=grok-4.7.
+#   fable  claude --model claude-fable-5-1 --effort medium -p          (pinned)
 #   astra  codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only -o <file>
 #   argon  agy --new-project --model <newest gemini, high> --add-dir <each dir> -p
 #   grok   grok -m <newest grok> --effort xhigh -p                     (xhigh is grok's maximum)
@@ -46,8 +47,51 @@ run_lane() {
   local lane=$1 md="$OUT/$1.md" log="$OUT/$1.log" model rc
   : > "$md"
   case $lane in
-    fable) model=${FP_FABLE_MODEL:-fable}
-           limit claude --model "$model" --effort high -p "$PROMPT" < /dev/null > "$md" 2> "$log";;
+    fable) model=${FP_FABLE_MODEL:-claude-fable-5-1}
+           # claude only reads outside its working directory (/tmp) with --add-dir; without it the
+           # lane cannot open the files the brief names.
+           local -a cadd; for d in $DIRS; do cadd+=(--add-dir "$d"); done
+           # A one-line probe at the lane's own model and effort fails the lane in a minute when
+           # the account cannot answer at all. Its output goes to the log, never to /dev/null:
+           # measured 10 Nov 2026, the real failure was a fast terminal API error (409
+           # no-eligible-account, needs_relogin) on every claude model, and discarding the probe
+           # output made the log claim a 60s timeout and a 429 that never happened.
+           # Setting sources (panel decision, 10 Nov 2026): FP_FABLE_SETTING_SOURCES=auto (the
+           # default) probes with default sources first, so a working user-settings API key
+           # keeps working; only on that terminal auth signature does it retry once with
+           # project,local, which reaches the stored claude.ai login instead of a user-settings
+           # key. =default or an explicit comma-separated list forces those sources and skips
+           # the fallback. The brief runs once, on whichever sources the probe proved, and the
+           # log records setting_sources= beside model=.
+           local prc srcmode=${FP_FABLE_SETTING_SOURCES:-auto} srcsel=""
+           local -a srcflag
+           if [[ $srcmode == auto ]]; then
+             perl -e 'alarm shift @ARGV; exec @ARGV' 60 claude --model "$model" --effort medium -p "Reply with ok." < /dev/null > "$log" 2>&1
+             prc=$?
+             if (( prc == 0 )); then
+               srcsel=default
+             elif (( prc != 142 )) && grep -qE 'needs_relogin|no-eligible-account' "$log"; then
+               print "probe: default sources failed (rc=$prc) with the terminal auth signature; retrying with project,local" >> "$log"
+               perl -e 'alarm shift @ARGV; exec @ARGV' 60 claude --setting-sources project,local --model "$model" --effort medium -p "Reply with ok." < /dev/null >> "$log" 2>&1
+               prc=$?
+               if (( prc == 0 )); then srcsel=project,local; srcflag=(--setting-sources project,local); fi
+             fi
+           elif [[ $srcmode == default ]]; then
+             perl -e 'alarm shift @ARGV; exec @ARGV' 60 claude --model "$model" --effort medium -p "Reply with ok." < /dev/null > "$log" 2>&1
+             prc=$?
+             if (( prc == 0 )); then srcsel=default; fi
+           else
+             perl -e 'alarm shift @ARGV; exec @ARGV' 60 claude --setting-sources "$srcmode" --model "$model" --effort medium -p "Reply with ok." < /dev/null > "$log" 2>&1
+             prc=$?
+             if (( prc == 0 )); then srcsel=$srcmode; srcflag=(--setting-sources "$srcmode"); fi
+           fi
+           if [[ -n $srcsel ]]; then
+             print "setting_sources=$srcsel" >> "$log"
+             limit claude $srcflag --model "$model" --effort medium $cadd -p "$PROMPT" < /dev/null > "$md" 2>> "$log"
+           else
+             print "probe failed (rc=$prc, sources=$srcmode): claude --model $model --effort medium gave no usable answer; the probe output in this log is the reason. rc=142 is the 60s alarm kill; a fast non-zero exit is an account or API error to fix at the account (e.g. claude auth status), not a timeout." >> "$log"
+             false
+           fi;;
     astra) model=${FP_ASTRA_MODEL:-gpt-6-astra}
            limit codex exec -m "$model" -c model_reasoning_effort="high" -s read-only --skip-git-repo-check -o "$md" "$PROMPT" < /dev/null > "$log" 2>&1;;
     argon) model=${FP_ARGON_MODEL:-$("$LATEST" gemini --effort high 2>/dev/null)}

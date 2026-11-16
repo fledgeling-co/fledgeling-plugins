@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 - 2026-11-10
+
+The Fable lane is pinned to `claude-fable-5-1` at medium effort (owner directive), replacing the `fable` alias at high effort, and receives the brief's directories via `--add-dir` so it can open the files it is told to read from its `/tmp` working directory. A one-line probe at the lane's own model and effort now fails the lane before the round when the account cannot answer, and its output is kept in the lane log: the failure that prompted this was a fast terminal 409 `no-eligible-account` error on every Claude model, which the old probe discarded and misreported as a 60-second timeout and a 429. The probe tries default setting sources first and, only on that terminal signature, retries with `project,local` so the stored claude.ai login can answer (`FP_FABLE_SETTING_SOURCES` forces the sources); the log records `setting_sources=`. `latest_model.py fable` resolves to the pin.
+
 ## 0.2.0 - 2026-11-07
 
 Every lane now runs the newest model its CLI offers, so a new release needs no skill edit. `fable` uses the claude CLI alias (`--model fable`, Fable 5.1 today); `argon` and `grok` are resolved at run time by the new `scripts/latest_model.py`, which reads `agy models` and `grok models` and picks the highest version, falling back to a pin with a warning if the listing fails. Grok moves to `xhigh`, the highest effort its CLI accepts (it rejects `max`), and to grok-4.7. The panel runs all four lanes by default, and each lane log records `model=<id>`. Requested by Luke on 7 November 2026.
