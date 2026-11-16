@@ -2,17 +2,15 @@
 """Print the newest model id a CLI currently offers, so a lane always runs the latest release.
 
     latest_model.py grok                    # newest plain grok-N.N from `grok models`, e.g. grok-4.7
-    latest_model.py gemini --effort high    # newest gemini-<version>-carbon-high from `agy models`
+    latest_model.py gemini --effort high    # newest gemini-<version>-argon-high from `agy models`
     latest_model.py opus                    # the claude CLI alias, which tracks the newest Opus
     latest_model.py fable                   # the pinned panel model, claude-fable-5-1
 
 Opus needs no lookup: `claude --model opus` resolves to the newest Opus on every call. The fable
 panel lane is pinned to `claude-fable-5-1` (run at medium effort by run_panel.sh), so it resolves
 to that exact id rather than the `fable` alias. grok and agy have no such alias, so this reads
-their model lists and picks the highest version number. For gemini it takes Carbon, never Hydrogen
-(owner directive, 16 Nov 2026): the newest gemini-<version>-carbon-<effort> when `agy models` lists
-one, and Argon at the same effort when it does not, saying so on stderr. agy 1.5.9 listed only Argon
-and Hydrogen on 16 Nov 2026, so until Carbon returns the lane runs Argon.
+their model lists and picks the highest version number. For gemini it takes Argon, never Hydrogen
+(owner directive, 16 Nov 2026): the newest gemini-<version>-argon-<effort> that `agy models` lists.
 
 If the listing fails or matches nothing, it prints --fallback (or the built-in pin below) on stdout,
 says so on stderr and exits 0, so a lane still runs and its log shows that the pin was used.
@@ -22,9 +20,9 @@ import re
 import subprocess
 import sys
 
-PINS = {"grok": "grok-4.7", "gemini": "gemini-4-carbon-{effort}", "opus": "opus", "fable": "claude-fable-5-1"}
-# Gemini names in order of preference. Hydrogen is never chosen (owner directive, 16 Nov 2026).
-GEMINI_PREFER = ("carbon", "argon")
+PINS = {"grok": "grok-4.7", "gemini": "gemini-4-argon-{effort}", "opus": "opus", "fable": "claude-fable-5-1"}
+# Gemini names in order of preference. Argon only; Hydrogen is never chosen (owner directive, 16 Nov 2026).
+GEMINI_PREFER = ("argon",)
 
 
 def version(text):

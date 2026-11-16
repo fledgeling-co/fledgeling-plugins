@@ -7,7 +7,7 @@ it replaced.
 ## Sections, in this order
 
 1. **How this report was made**, at the top, as a short list: what the feedback was checked
-   against, which models reviewed it ("Claude Fable 5.1, GPT-6 Astra and Gemini 4 Carbon, each
+   against, which models reviewed it ("Claude Fable 5.1, GPT-6 Astra and Gemini 4 Argon, each
    at high effort, reviewed the feedback and questions independently"), any design and UX
    pass, and what has or has not changed on the project yet. Name the models; leave out their
    families, effort tables and run counts. No stats header and no table of contents above it:

@@ -2,18 +2,17 @@
 # Run one panel round: the same brief to several model families at once, each writing its own
 # answer file, then report which lanes produced a usable answer.
 #
-#   run_panel.sh --brief brief.md --out /tmp/panel/r1 --lanes fable,astra,carbon,grok \
+#   run_panel.sh --brief brief.md --out /tmp/panel/r1 --lanes fable,astra,argon,grok \
 #                [--add-dir /path/to/repo]... [--timeout 900] [--min-bytes 1500]
 #
-# Lanes and their commands. Carbon and grok run the newest model their CLI offers, looked up by
-# latest_model.py from `agy models` and `grok models`. The Google lane takes Gemini Carbon, never
-# Hydrogen (owner directive, 16 Nov 2026), and Argon while agy does not list Carbon; `argon` is kept
-# as an alias of `carbon` so older commands still run. Fable is pinned to the exact model id at
+# Lanes and their commands. Argon and grok run the newest model their CLI offers, looked up by
+# latest_model.py from `agy models` and `grok models`. The Google lane takes Gemini Argon, never
+# Hydrogen (owner directive, 16 Nov 2026); `carbon`, its name for one release, still runs it. Fable is pinned to the exact model id at
 # medium effort (owner directive, 10 Nov 2026): the `fable` alias at high effort is not the lane
 # this panel runs. Override a model with FP_<LANE>_MODEL, e.g. FP_GROK_MODEL=grok-4.7.
 #   fable  claude --model claude-fable-5-1 --effort medium -p          (pinned)
 #   astra  codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only -o <file>
-#   carbon agy --new-project --model <newest gemini carbon, high> --add-dir <each dir> -p
+#   argon  agy --new-project --model <newest gemini argon, high> --add-dir <each dir> -p
 #   grok   grok -m <newest grok> --effort xhigh -p                     (xhigh is grok's maximum)
 #
 # Every lane runs from a neutral directory (/tmp): agy run from inside a repo has answered a
@@ -26,7 +25,7 @@
 # (default 1, so only an empty file fails; a full round-one answer runs to several thousand bytes,
 # so pass --min-bytes 1500 there to catch an answer that stopped early).
 set -u
-BRIEF= OUT= LANES=fable,astra,carbon,grok TIMEOUT=900 MINB=1
+BRIEF= OUT= LANES=fable,astra,argon,grok TIMEOUT=900 MINB=1
 typeset -a DIRS
 while (( $# )); do
   case $1 in
@@ -39,7 +38,7 @@ while (( $# )); do
     *) print -u2 "unknown argument: $1"; exit 2;;
   esac
 done
-[[ -f $BRIEF && -n $OUT ]] || { print -u2 "usage: run_panel.sh --brief FILE --out DIR [--lanes fable,astra,carbon,grok] [--add-dir DIR]..."; exit 2; }
+[[ -f $BRIEF && -n $OUT ]] || { print -u2 "usage: run_panel.sh --brief FILE --out DIR [--lanes fable,astra,argon,grok] [--add-dir DIR]..."; exit 2; }
 mkdir -p "$OUT"
 PROMPT=$(<"$BRIEF")
 limit() { perl -e 'alarm shift @ARGV; exec @ARGV' "$TIMEOUT" "$@"; }
@@ -96,9 +95,9 @@ run_lane() {
            fi;;
     astra) model=${FP_ASTRA_MODEL:-gpt-6-astra}
            limit codex exec -m "$model" -c model_reasoning_effort="high" -s read-only --skip-git-repo-check -o "$md" "$PROMPT" < /dev/null > "$log" 2>&1;;
-    carbon|argon) : > "$log"
-           # the resolver's note (Argon used because agy lists no Carbon) stays in the lane log
-           model=${FP_CARBON_MODEL:-${FP_ARGON_MODEL:-$("$LATEST" gemini --effort high 2>> "$log")}}
+    argon|carbon) : > "$log"
+           # the resolver's notes (a failed listing, the pin used) stay in the lane log
+           model=${FP_ARGON_MODEL:-${FP_CARBON_MODEL:-$("$LATEST" gemini --effort high 2>> "$log")}}
            local -a add; for d in $DIRS; do add+=(--add-dir "$d"); done
            limit agy --new-project --model "$model" $add -p "$PROMPT" > "$md" 2>> "$log";;
     grok)  model=${FP_GROK_MODEL:-$("$LATEST" grok 2>/dev/null)}

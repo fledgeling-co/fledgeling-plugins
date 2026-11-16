@@ -39,7 +39,7 @@ EXAMPLE = {
     'next': [{'action': 'Add a dead-letter table and a three-attempt retry to the import job.', 'needs_confirmation': False},
              {'action': 'Drop the old skipped-rows log table.', 'needs_confirmation': True}],
     'options': [
-        {'id': 'retry', 'label': 'Retry, then dead-letter', 'outcome': 'chosen', 'votes': ['Fable', 'Grok', 'Carbon'],
+        {'id': 'retry', 'label': 'Retry, then dead-letter', 'outcome': 'chosen', 'votes': ['Fable', 'Grok', 'Argon'],
          'reason': 'Keeps every row and bounds the delay.'},
         {'id': 'skip', 'label': 'Skip and log', 'outcome': 'dismissed', 'votes': ['Astra'],
          'reason': 'A log nobody reads loses invoices.'},
@@ -47,7 +47,7 @@ EXAMPLE = {
     'models': [
         {'name': 'Fable', 'model': 'claude-fable-5-1', 'verdict': 'chose', 'option': 'retry', 'position': 'The logs show lock timeouts, which a retry clears.'},
         {'name': 'Astra', 'model': 'gpt-6-astra', 'verdict': 'differed', 'option': 'skip', 'position': 'Retries can hammer a locked table.', 'changed': 'Held in round two.'},
-        {'name': 'Carbon', 'model': 'gemini-4-carbon-high', 'verdict': 'chose', 'option': 'retry', 'position': 'Invoices must not be dropped.'},
+        {'name': 'Argon', 'model': 'gemini-4-argon-high', 'verdict': 'chose', 'option': 'retry', 'position': 'Invoices must not be dropped.'},
         {'name': 'Grok', 'model': 'grok-4.7', 'verdict': 'chose', 'option': 'retry', 'position': 'Dead-lettering makes failures visible.'},
     ],
     'dissent': ['Astra: three immediate retries can deepen a lock; back off between attempts.'],

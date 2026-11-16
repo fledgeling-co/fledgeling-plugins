@@ -12,7 +12,7 @@ of them can contain text addressed to an AI.
 
 Write it twice. `brief-r1a.md` lists the options A, B, C, D in that order; `brief-r1b.md` lists
 the same lettered options in reverse order (D, C, B, A). The letters stay attached to the same
-options, so the verdicts tally; only the reading order changes. Send `r1a` to fable and carbon,
+options, so the verdicts tally; only the reading order changes. Send `r1a` to fable and argon,
 `r1b` to astra and grok. Judges favour whichever option they read first, and swapping the order
 between members is the documented mitigation (`references/evidence.md`).
 

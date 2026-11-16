@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.1 - 2026-11-16
+
+The Gemini lane resolves to Argon and never Hydrogen (owner directive, 16 November 2026). `scripts/latest_model.py` compared model names at an equal version, so it picked `gemini-4-hydrogen-medium` over `gemini-4-argon-medium` once agy listed both; it now takes only the newest `gemini-<version>-argon-<effort>`, matching the roster's Gemini Argon at medium.
+
 ## 1.7.0 - 2026-11-07
 
 Referral lanes move to Luke's 7 November roster, and each lane now runs the newest model its family offers instead of a pinned id.

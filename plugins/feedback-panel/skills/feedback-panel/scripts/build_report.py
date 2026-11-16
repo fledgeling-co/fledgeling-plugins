@@ -32,7 +32,7 @@ EXAMPLE = {
     'kicker': 'Acme website · feedback · 1 November 2026',
     'made': [
         'Every point in the feedback was checked against the website and the company files.',
-        'Claude Fable 5.1, GPT-6 Astra and Gemini 4 Carbon reviewed the feedback and questions independently.',
+        'Claude Fable 5.1, GPT-6 Astra and Gemini 4 Argon reviewed the feedback and questions independently.',
     ],
     'intro_note': 'Answer the questions below, then download your answers and send the file to Sam.',
     'return_to': 'Sam',

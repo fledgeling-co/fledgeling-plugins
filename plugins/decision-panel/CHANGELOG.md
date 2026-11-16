@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 - 2026-11-16
+
+The Google lane is Gemini Argon again, and still never Hydrogen (owner directive, 16 November 2026, replacing the Carbon directive the same day). `latest_model.py gemini` takes the newest `gemini-<version>-argon-<effort>` that `agy models` lists, so a newer Hydrogen release is never picked. The lane is `argon` again; `carbon`, its name in the previous release, still runs it, and `FP_ARGON_MODEL` overrides the model (`FP_CARBON_MODEL` is still read).
+
 ## 0.2.0 - 2026-11-16
 
 The Google lane is now `carbon` and takes Gemini Carbon, never Hydrogen (owner directive, 16 November 2026). `latest_model.py gemini` had been picking `gemini-4-hydrogen-high`, because at an equal version it compared model names and "hydrogen" sorts after "argon". It now takes the newest `gemini-<version>-carbon-<effort>` that `agy models` lists. agy 1.5.9, the current release, listed no Carbon on 16 November and refuses `gemini-4-carbon-high`, so until Carbon is listed again the lane runs Argon at the same effort and writes `agy offers no carbon model at high; using argon` to the lane log; it never falls back to Hydrogen. `argon` still works as a lane name and runs the same lane, and `FP_CARBON_MODEL` overrides the model (`FP_ARGON_MODEL` is still read).
