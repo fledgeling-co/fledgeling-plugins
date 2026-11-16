@@ -3,7 +3,7 @@ name: decision-panel
 description: >-
   Put one decision to a panel of four model families and decide it for the user. Frames the
   question and its options from the conversation and the repo, runs two rounds across Fable,
-  GPT-6 Astra, Gemini Argon and Grok (each resolved at run time to the newest model), settles it
+  GPT-6 Astra, Gemini Carbon and Grok (each resolved at run time to the newest model), settles it
   with evidence first and votes second, records every model's position and the dissent on a
   self-contained HTML decision page, then acts on the result. Use when the user explicitly asks
   for a panel to decide: "have the panel decide", "put this to the panel", "panel this", "let the
@@ -59,7 +59,7 @@ A-to-D order and `brief-r1b.md` in reverse, then run both into one directory:
 
 ```bash
 S=<this skill>/scripts
-$S/run_panel.sh --brief <wd>/brief-r1a.md --out <wd>/r1 --lanes fable,argon --add-dir <repo> --add-dir <wd> --timeout 900 --min-bytes 600 &
+$S/run_panel.sh --brief <wd>/brief-r1a.md --out <wd>/r1 --lanes fable,carbon --add-dir <repo> --add-dir <wd> --timeout 900 --min-bytes 600 &
 $S/run_panel.sh --brief <wd>/brief-r1b.md --out <wd>/r1 --lanes astra,grok  --add-dir <repo> --add-dir <wd> --timeout 900 --min-bytes 600 &
 wait
 $S/tally.py <wd>/r1
@@ -132,11 +132,11 @@ tally, the page path, and anything that is waiting on the user.
 |---|---|---|---|
 | `fable` | Anthropic | `claude --model claude-fable-5-1 --effort medium -p` | claude-fable-5-1 (pinned) |
 | `astra` | OpenAI | `codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only` | gpt-6-astra (pinned; codex lists no models) |
-| `argon` | Google | `agy --new-project --model "$(latest_model.py gemini --effort high)" -p` | gemini-4-argon-high |
+| `carbon` | Google | `agy --new-project --model "$(latest_model.py gemini --effort high)" -p` | gemini-4-carbon-high (agy listed no Carbon on 16 Nov 2026, so the lane ran gemini-4-argon-high and logged it) |
 | `grok` | xAI | `grok -m "$(latest_model.py grok)" --effort xhigh -p` | grok-4.7 |
 
-Argon and Grok run the newest model their CLI offers: `scripts/latest_model.py` reads
-`agy models` and `grok models` and picks the highest version. Fable is the exception: it is
+Carbon and Grok run the newest model their CLI offers: `scripts/latest_model.py` reads
+`agy models` and `grok models` and picks the highest version. The Google lane takes Gemini Carbon and never Hydrogen (owner directive, 16 November 2026): `latest_model.py` picks the newest `gemini-<version>-carbon-high` that `agy models` lists, and while agy lists no Carbon it runs Argon at the same effort and writes that to the lane log. `argon` still works as a lane name and runs the same lane. Fable is the exception: it is
 pinned to `claude-fable-5-1` at medium effort (owner directive, 10 November 2026), so the lane
 does not drift with the `fable` alias or run at high effort. Its probe tries default setting
 sources first and, only on the terminal `needs_relogin` auth signature, retries with

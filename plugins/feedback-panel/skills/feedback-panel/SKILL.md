@@ -120,9 +120,9 @@ to resolve the "Other things we noticed" items, fix them and mark each one resol
 
 ## Lanes
 
-Argon and Grok run the newest model their CLI offers, looked up at run time by
+Carbon and Grok run the newest model their CLI offers, looked up at run time by
 `scripts/latest_model.py`, which reads `agy models` and `grok models` and picks the highest
-version. Fable is the exception: it is pinned to `claude-fable-5-1` at medium effort (owner
+version. The Google lane takes Gemini Carbon and never Hydrogen (owner directive, 16 November 2026): `latest_model.py` picks the newest `gemini-<version>-carbon-high` that `agy models` lists, and while agy lists no Carbon it runs Argon at the same effort and writes that to the lane log. `argon` still works as a lane name and runs the same lane. Fable is the exception: it is pinned to `claude-fable-5-1` at medium effort (owner
 directive, 10 November 2026), so the lane does not drift with the `fable` alias or run at high
 effort. Its probe tries default setting sources first and, only on the terminal
 `needs_relogin` auth signature, retries with `project,local` so the stored claude.ai login can
@@ -133,7 +133,7 @@ column shows what each resolved to on 7 November 2026, with Fable pinned.
 |---|---|---|---|
 | `fable` | Anthropic | `claude --model claude-fable-5-1 --effort medium -p` | claude-fable-5-1 (pinned) |
 | `astra` | OpenAI | `codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only` | gpt-6-astra (pinned; codex lists no models) |
-| `argon` | Google | `agy --new-project --model "$(latest_model.py gemini --effort high)" --add-dir <repo> -p` | gemini-4-argon-high |
+| `carbon` | Google | `agy --new-project --model "$(latest_model.py gemini --effort high)" --add-dir <repo> -p` | gemini-4-carbon-high (agy listed no Carbon on 16 Nov 2026, so the lane ran gemini-4-argon-high and logged it) |
 | `grok` | xAI | `grok -m "$(latest_model.py grok)" --effort xhigh -p` | grok-4.7 |
 
 Run all four lanes by default. Grok runs at `xhigh`, the highest effort its CLI accepts; it

@@ -13,7 +13,7 @@
 
 Hand one decision to four model families and get it decided, on one page, with the reasons and the dissent written down.
 
-Some calls deserve more than one model's opinion and less than a meeting: which stack to support first, whether a plan holds up, which of two architectures to commit to. This plugin puts that call to Fable, GPT-6 Astra, Gemini Argon and Grok at once, each on the newest model its CLI offers, and lets the evidence in your repo settle it before any vote does.
+Some calls deserve more than one model's opinion and less than a meeting: which stack to support first, whether a plan holds up, which of two architectures to commit to. This plugin puts that call to Fable, GPT-6 Astra, Gemini Carbon and Grok at once, each on the newest model its CLI offers, and lets the evidence in your repo settle it before any vote does.
 
 It's the deliberate sibling of `clarify`. Clarify refers a fork to one model on its own, mid-task, before deciding whether to bother you. This one only runs when you ask for it, uses all four, runs two rounds and leaves a record.
 
