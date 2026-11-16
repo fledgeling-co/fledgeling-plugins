@@ -364,7 +364,7 @@
     {
       "name": "motion-craft",
       "description": "Make short videos from code, the way Claude Motion does, with open tools that run on your own machine: animated explainers, launch and feature films, data stories from a spreadsheet, logo stings, transparent overlays, vertical social clips, product demos and 3D or simulation pieces. HTML compositions render frame by frame through HeyGen's open-source HyperFrames, pinned to a tested release and run locally with telemetry off and no account, plus a bundled procedural sound engine mastered to -14 LUFS. A director before an animator: it reads the subject and gathers its real logo, screens and numbers, writes three storylines and a spec that turns every adjective into a number with a banned-defaults list, designs the rhythm (hook inside 3 s, a burst near the middle, the hero on the strongest beat), reviews contact sheets and phone-width frames against measured craft numbers, and leaves the film editable through variables and stable element ids in a live preview. Every rule traces to 18 video transcripts, 7 open-source motion skills, frame-by-frame measurements of two reference films, and a 48-film study of shipped SaaS product films that sets rhythm by film type, interface legibility, proof devices and endings.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -667,7 +667,7 @@
     {
       "name": "feedback-panel",
       "description": "Review a stakeholder's feedback on a project with a panel of model families, decide what to build, what to ask and what to push back on, and hand the feedback author a self-contained HTML report with multiple-choice questions, preselected recommendations, the reasoning inside each question, and a JSON export they send back. Then apply the answers that come back, build the agreed changes, and turn the report into a record of the answers. Use when someone pastes or points at feedback on a website, app, deck, document or design and wants it reviewed, triaged, challenged or turned into questions \u2014 \"review this feedback\", \"what do you make of Amy's notes\", \"have codex and gemini check this too\", \"turn these comments into questions for her\", \"push back where it's wrong\", \"here are her answers, work through them\" \u2014 even when they never say \"panel\" or \"report\". Not for reviewing code diffs (code-review:code-review), a project's own backlog (whats-left:whats-left), or a single fork you need settled (clarify:clarify).",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -677,8 +677,8 @@
     },
     {
       "name": "decision-panel",
-      "description": "Put one decision to a panel of four model families and decide it for the user. Frames the question and its options from the conversation and the repo, runs two rounds across Fable, GPT-6 Astra, Gemini Argon and Grok (each resolved at run time to the newest model), settles it with evidence first and votes second, records every model's position and the dissent on a self-contained HTML decision page, then acts on the result. Use when the user explicitly asks for a panel to decide: \"have the panel decide\", \"put this to the panel\", \"panel this\", \"let the models decide between X and Y\", \"decide this for me with the panel\", \"/decision-panel:decision-panel\", for choices that deserve deliberate, recorded judgement such as architecture, product direction, pricing, vendor or tool selection, or whether a plan is a good one. The panel decides on the user's behalf; actions that are destructive, irreversible, outward-facing or cost money still wait for their confirmation. Not for quick forks met during other work (clarify:clarify refers those on its own), not for reviewing someone's feedback (feedback-panel:feedback-panel), and not for code review (code-review:code-review).",
-      "version": "0.1.1",
+      "description": "Put one decision to a panel of four model families and decide it for the user. Frames the question and its options from the conversation and the repo, runs two rounds across Fable, GPT-6 Astra, Gemini Carbon and Grok (each resolved at run time to the newest model), settles it with evidence first and votes second, records every model's position and the dissent on a self-contained HTML decision page, then acts on the result. Use when the user explicitly asks for a panel to decide: \"have the panel decide\", \"put this to the panel\", \"panel this\", \"let the models decide between X and Y\", \"decide this for me with the panel\", \"/decision-panel:decision-panel\", for choices that deserve deliberate, recorded judgement such as architecture, product direction, pricing, vendor or tool selection, or whether a plan is a good one. The panel decides on the user's behalf; actions that are destructive, irreversible, outward-facing or cost money still wait for their confirmation. Not for quick forks met during other work (clarify:clarify refers those on its own), not for reviewing someone's feedback (feedback-panel:feedback-panel), and not for code review (code-review:code-review).",
+      "version": "0.2.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

@@ -1,3 +1,15 @@
+## 0.3.0 - 2026-11-16
+
+What a production run taught once other models reviewed it frame by frame. The run was seven 25-32 s product films, reviewed twice by a four-family panel and once by Sonnet 5.5 under be-my-witness. One series, so each change is an observed failure with its fix (`evidence.md` §8).
+
+- **Reading time counts from the last word.** A line built word by word settles when its last word lands. Counted from the start, 33 of 35 captions met the hold; counted from the last word, about 28 missed. In a film without a voice, captions now start on beats, one per beat change, and say what the frame does not already show (binding rules, `craft.md` §3, `saas-films.md` §6).
+- **A fact inside the interface has to reach a frame.** The film's one message sat in a card footer under the chat composer in every sampled frame, while every rule-based check passed. Binding rule 5 now says a captured line counts only when a frame shows it whole and uncovered, and review gains a row for it.
+- **Interface staging, `saas-films.md` §5.** Show the whole card before pushing in. Keep chrome off the line that carries the point. Give a decision 1.5 s before the tap. Veil the pane the camera leaves. Fade system sheets in within 0.15 s. Use the product's real mark in notifications. Open on content rather than an empty app.
+- **Line breaks by sense** (`craft.md` §4): no one-letter word alone at the end of a line.
+- **Review.** Sample every beat as well as a grid, and check frame findings against the timeline: two from a 2 s grid were wrong. Brief the one fresh reviewer as a viewer, with a per-frame manifest and none of this skill's rules.
+- **Sound.** When the render log says the audio was lowered to stay under −1 dBTP, lower the one cue that overshoots after AAC encoding instead of shipping a quiet master (`sound.md` §5).
+- **Engine.** Starting states go in `gsap.set` or CSS, not a zero-time `tl.set`; GSAP 3 has no `className` tween; the lint rejects template literals in `querySelector` (`engine.md` §4).
+
 ## 0.2.0 - 2026-11-16
 
 What good looks and sounds like in SaaS product films, measured from 48 of them.

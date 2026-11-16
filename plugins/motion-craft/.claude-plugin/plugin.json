@@ -1,6 +1,6 @@
 {
   "name": "motion-craft",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Make short videos from code, the way Claude Motion does, with open tools that run on your own machine: animated explainers, launch and feature films, data stories from a spreadsheet, logo stings, transparent overlays, vertical social clips, product demos and 3D or simulation pieces. HTML compositions render frame by frame through HeyGen's open-source HyperFrames, pinned to a tested release and run locally with telemetry off and no account, plus a bundled procedural sound engine mastered to -14 LUFS. A director before an animator: it reads the subject and gathers its real logo, screens and numbers, writes three storylines and a spec that turns every adjective into a number with a banned-defaults list, designs the rhythm (hook inside 3 s, a burst near the middle, the hero on the strongest beat), reviews contact sheets and phone-width frames against measured craft numbers, and leaves the film editable through variables and stable element ids in a live preview. Every rule traces to 18 video transcripts, 7 open-source motion skills, frame-by-frame measurements of two reference films, and a 48-film study of shipped SaaS product films that sets rhythm by film type, interface legibility, proof devices and endings.",
   "author": {
     "name": "Fledgeling",

@@ -78,6 +78,16 @@ The product is on screen for 70 % of the runtime (55-80 %): as a real capture in
 - **Dim the rest.** Zoom about 3x on the one token being named and drop everything else to about a quarter contrast [yUuFvL1lK4k].
 - **Let the product animate itself.** Named cursors typing at once show collaboration better than narration about it [SkFmiMHDN38, YewAJPawE7I]; the product's own editing gestures (select, bold, drag) can be the transitions [COJAZQM1aeQ, bVXiNb9RyyI].
 
+Seven more from a production run reviewed frame by frame by other models (`evidence.md` §8). Each fixes a fault that passed every automated check:
+
+- **Show the whole card, then push in.** Hold a card or panel whole for about 1 s, at a size where its headline reads, before pushing in on the part that matters. A run of crops that never shows the whole leaves the viewer rebuilding the card from pieces, and reviewers from four model families flagged exactly that.
+- **Keep chrome off the line that carries the point.** In a pushed-in shot, a composer bar, toolbar, pinned header or the caption band covers live text. Before rendering, list every line in a capture that carries a must-carry fact, and confirm that some frame shows it whole and uncovered.
+- **Give a decision time to read.** Keep the control on screen at least 1.5 s before the tap, show the press (a ripple or a pressed state), and hold the result before the camera moves. A tap 0.6 s after the buttons appeared read as no decision at all.
+- **Veil the pane you leave.** On a foldable, a split view or two windows side by side, cover the pane the camera is not on with the ground colour at about 80 % opacity, so the text the frame edge cuts reads as background rather than as a cropping fault.
+- **Fade system sheets in fast.** A passkey, Touch ID or permission sheet should be fully opaque within about 0.15 s; a slower fade leaves frames where the page shows through, which reads as a rendering fault.
+- **Use the product's real mark in system chrome.** Notifications, connector chips and tool lines that stand for the product carry its real mark, never a generic glyph, or the notification reads as another app's.
+- **Open on content, not an empty app.** A chat or editor that starts nearly empty and fills over 2-3 s makes frame 0 mostly blank screen. Start with the earlier messages already there.
+
 ## 6. Type on screen
 
 From 144 `hyperframes measure ink` readings:
@@ -97,7 +107,8 @@ Titles run 5 words a line at most (4-6), which confirms binding rule 3. How they
 - **Out in reading order**, word by word, in about 0.35 s, shorter than the entrance [mQZB0l-rhxE].
 - **A title rail.** The title lands, slides to a left rail and holds there for about 10 s while only the interface beside it changes [Jw6l1jgNVw8, wzrBFx0ONZg].
 - **Two accents worth adding to the one-accent-word rule:** a second line in pale grey that darkens to black over about 0.5 s [wzrBFx0ONZg], and a headline that changes one word at a time ("faster" to "smarter") [bOeWJRfYWWY, xDiG-MN7GzU].
-- **The reading hold is the commonest type miss**: 7-9-word openers held 1.1-1.9 s where binding rule 2 asks 2.6-3.2 s [7-1tNo8HAwk, 5qt_aGyAsKk, o5PmFp8HYTM]. Hold every line for 0.5 s plus 0.3 s a word.
+- **The reading hold is the commonest type miss**: 7-9-word openers held 1.1-1.9 s where binding rule 2 asks 2.6-3.2 s [7-1tNo8HAwk, 5qt_aGyAsKk, o5PmFp8HYTM]. Hold every line for 0.5 s plus 0.3 s a word, counted from when its last word lands.
+- **Running captions in a film without a voice.** Start each caption on a beat in `timeline.json` and hold it until the next. In the production run, three or four captions carried a 30 s film after seven or eight had run on a 3 s clock that ignored the picture. Each caption names the actor and the verb and says what the frame does not already show; a caption that repeats the card it sits under spends the viewer's reading time twice (`evidence.md` §8).
 
 ## 7. Motion and transitions
 
@@ -140,6 +151,7 @@ Check every film against these, in this order, because each appeared in the owne
 5. Frame 0 is a lone wordmark and the product arrives late (13 open on a wordmark; 1 waits 21.7 s).
 6. A claim is spoken with no picture of it (§4).
 7. A stretch with nothing changing outruns 4 s: the longest static run is 6 s at the median and reaches 30 s.
+8. A must-carry line inside the interface never reaches a frame whole: pushed past, or under a composer bar or the caption band (§5, from the production run in `evidence.md` §8).
 
 ## 12. Three house styles
 

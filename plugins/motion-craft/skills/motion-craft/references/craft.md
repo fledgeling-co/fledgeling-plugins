@@ -25,6 +25,7 @@ Name springs by damping ratio: 1.0 never bounces, 0.7-0.85 reads premium, 0.4-0.
 - **Stagger**: letters one frame apart, words 60-120 ms, list items 40-80 ms (chips and cards up to 0.2-0.25 s).
 - **Typing**: about 35 ms a character; an idle caret blinks at about 2.4 Hz.
 - **Holds**: a line the viewer must read holds 0.5 s plus 0.3 s a word after it settles; the film's last line holds at least 2 s; a one- or two-word chapter line may hold 0.4 s. The commonest user note on generated films is "you barely read that before it goes" (hbPvZvpu9KU).
+- **A line built word by word settles when its last word lands.** Its window is the build, then the hold, then the exit. A 9-word caption that fades in over 0.2 s and inks a word every 80 ms has settled about 0.9 s in, so with its exit it needs a window of about 4.3 s where the bare formula says 3.2 s. Measured on one seven-film series, 33 of 35 captions met the formula counted from their start and about 28 missed it counted from the last word (`evidence.md` §8). Budget captions from the settled time, which in a film without a voice usually means fewer of them.
 - **Pause before the payoff**: hold 0.3-0.75 s before it; the payoff plays at normal speed.
 - **Rhythm inside shots**: montages cut every 0.13-0.8 s; a demo holds one framing for 7-10 s while the UI acts; shots average 1.8-3 s with motion inside them.
 - **Beat grid**: frames per beat = fps × 60 / BPM. Compute each beat from its index and round it; never add a rounded beat repeatedly (at 128 BPM and 30 fps that drifts 2 frames in 32 beats). Cut on the beat; change the layout on the bar.
@@ -42,6 +43,7 @@ Name springs by damping ratio: 1.0 never bounces, 0.7-0.85 reads premium, 0.4-0.
   - one word of a sentence rolling through options like a slot machine, about 0.1 s a roll.
 - **A landed title is dead still.** The motion moves on to the next element, the camera or the world behind it. Exit with a 0.13-0.25 s blur-out and fade, word by word, or with the scene's own move.
 - One highlighted word in the accent colour, carrying the point.
+- **Break lines by sense.** A two-sentence line breaks between its sentences, and no line ends on a word of one letter or one syllable standing alone ("…drafts it. A / person approves it." reads as a typo). Set the break with `<br>` rather than leaving it to the wrap, which moves when the type size or the copy changes.
 - Real typefaces from the brand or from `assets/fonts/`, declared with `@font-face`; a fallback system font in a hold is a craft failure the eye catches at once.
 
 ## 5. Composition and the camera

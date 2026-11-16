@@ -67,6 +67,9 @@ The scaffold loads GSAP from a CDN. Copy it into the project so renders do not d
 10. Scene files put their styles, markup and scripts inside `<template>` and style their root as `#root`, sized with `inset: 0`.
 11. Content stays inside the 90 % action-safe box, key text inside 80 % title-safe.
 12. Canvas, three.js or WebGL layers draw from the `hf-seek` event: `window.addEventListener("hf-seek", e => renderAt(e.detail.time))`, with all stateful simulation done once at load.
+13. Set every element's starting state with `gsap.set` or CSS, never a `tl.set` at time 0: frame 0 renders before a zero-time `tl.set` applies, so the poster frame shows the wrong camera, scroll or visibility.
+14. GSAP 3 has no `className` tween; swap a class with `tl.set(el, { attr: { class: '…' } }, t)`.
+15. The lint rejects a template literal inside `querySelector`; reach a child through an element you already hold, `el.querySelector('.label')`.
 
 Intended overflow, overlap or crop is declared on the narrowest element (`data-layout-allow-overflow`, `data-layout-allow-overlap`, `data-layout-bleed="true"`) so the layout audit can still see everything else.
 
