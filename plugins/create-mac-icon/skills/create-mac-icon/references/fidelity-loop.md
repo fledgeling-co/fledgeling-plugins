@@ -89,6 +89,7 @@ name both mechanisms; these patterns follow them.
 
 [opus5]: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5.md
 [best]: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md
+[opus55]: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5.md
 
 - **Structure the brief with XML tags, longform state first, the task
   last.** Context, fixture, baseline numbers and prior learnings up top;
@@ -102,6 +103,13 @@ name both mechanisms; these patterns follow them.
   is *made of*, not self-checks, and stay.
 - **Cap delegation explicitly.** Opus 5 delegates readily; a round is a
   single track. Say "do not delegate to subagents; spawn none."
+- **On Opus 5.5, three more things** (from its [prompting guide][opus55], not
+  measured here). Effort defaults to `medium`, so re-sweep any Opus 5 `high` or
+  `xhigh` setting before reusing it. Never ask the agent to write its reasoning
+  into the reply; ask which constant it changed and what the score did. And it
+  can end a turn on a progress report with the round unfinished: the round is
+  done when `gate.txt` exists, so a text-only turn before that gets one
+  continuation naming the missing artifact, then counts as a failed round.
 - **Constrain scope in the brief's own words.** State the edit class, what
   is out of scope this round, and: deliver what was asked at the scope
   intended, make routine judgment calls yourself, and if the brief looks

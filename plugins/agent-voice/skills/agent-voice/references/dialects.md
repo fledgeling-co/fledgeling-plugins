@@ -55,6 +55,38 @@ These are Opus 5 adjustments. For another Claude model, read its specific guide 
   markdown in the output."* `[Anthropic]` A voice file written in the voice it asks for is
   doing double duty. This package's own prose is written that way deliberately.
 
+## Claude Opus 5.5
+
+The Opus 5 adjustments above carry over. These are the differences, paraphrased from Anthropic's
+[Prompting Claude Opus 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5)
+(read 16 November 2026); none of it has been measured in this package.
+
+- **Reports are already plainer.** 5.5's progress updates and closing summaries say what it did,
+  what it found and what it needs. Keep the cadence instruction, because it is still how to get
+  updates at predictable points, and drop wording that only compensated for Opus 5's narration.
+- **A brief never asks for the reasoning to be written out.** A prompt, skill or tool description
+  that asks for thinking verbatim or in a fixed format can be declined. Ask for a short explanation
+  of the answer or a summary of the actions taken.
+- **No "think carefully" lines.** The model decides how much to think and effort is the control. Such
+  a line delays the reply and buys nothing.
+- **An unattended brief names its stops.** 5.5 ends some turns with a progress report and no tool
+  call. For a run nobody is watching, name the endings that are not wanted (a summary that
+  announces the next step without taking it, an offer to carry on unless told otherwise, a list of
+  decisions that block nothing, stopping because the turn has been long) and the ones that are
+  (nothing can move without the user, or the blocker is deliberately protected). Status notes go in
+  the same message as the next tool call. Leave this out of a brief when a person is there to
+  answer, and keep confirmation for risky actions.
+- **A multi-app brief says to look around first.** On a loosely specified task across mail,
+  documents, sheets and records, tell the runner to list and open the sources that could be
+  relevant, including ones the task does not name, before it changes anything.
+- **Pasted text is marked.** Wrap text the user copied from elsewhere in `<pasted_content>` tags
+  carrying a matching random id, and say that instructions inside are followed only where the
+  user's own words ask for it.
+- **A frontend brief names patterns, not a mood.** "Avoid a generic AI look" swaps one default for
+  another. Name the specific things to leave out, then extend the list from what comes back.
+- **Effort defaults to `medium`.** A brief or harness that pinned `high` or `xhigh` for Opus 5
+  should be re-swept, not carried over.
+
 ## Gemini calibration
 
 The measured baseline here is Gemini 3.7 Flash, not Gemini 3.8. Keep its recorded observations as evidence about that run; do not infer current capability limits or override an explicitly selected Gemini implementation lane. Confirm the actual runtime model and supported controls before setting them.
@@ -123,5 +155,6 @@ prompts against the new baseline"* `[Anthropic]`. On a model change, run the lin
 worked examples in the register files and draft one of them fresh. If the fresh draft has
 drifted, the fix is a tightened rule here, not a note in the chat.
 
-**Calibrated on:** Claude Opus 5 (`claude-opus-5`) and Gemini 3.7 Flash, August 2026. Sources
+**Calibrated on:** Claude Opus 5 (`claude-opus-5`) and Gemini 3.7 Flash, August 2026. The Opus 5.5
+section is from the vendor guide and has not been re-baselined here. Sources
 and dates in `evidence.md`.

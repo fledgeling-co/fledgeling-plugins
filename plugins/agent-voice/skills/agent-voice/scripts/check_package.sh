@@ -45,6 +45,7 @@ if [ "$fail" -eq 0 ]; then echo "all shipped files clean on the hard checks"; el
 hr "4. vendor quotes verbatim"
 SOURCES=()
 for s in /tmp/anthro-prompting-claude-opus-5.md \
+         /tmp/anthro-prompting-claude-opus-5-5.md \
          /tmp/anthro-best-practices.md \
          /tmp/anthro-claude-prompting-best-practices.md \
          /tmp/anthro-migration-guide.md \
@@ -55,6 +56,7 @@ if [ "${#SOURCES[@]}" -eq 0 ]; then
   echo "skipped: no vendor source copies on disk."
   echo "  Fetch them to re-run this check:"
   echo "    curl -sL https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5.md -o /tmp/anthro-prompting-claude-opus-5.md"
+  echo "    curl -sL https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5.md -o /tmp/anthro-prompting-claude-opus-5-5.md"
   echo "    curl -sL https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md -o /tmp/anthro-best-practices.md"
   echo "    curl -sL https://platform.claude.com/docs/en/about-claude/models/migration-guide.md -o /tmp/anthro-migration-guide.md"
   echo "  The Gemini corpus ships as a slash command, not a URL."

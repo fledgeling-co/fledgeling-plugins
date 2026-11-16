@@ -41,6 +41,11 @@ key: `brief`.
   actions in a single pass… Break the requests into separate prompts."* `[Google]`
 - **Context first, task last.** Long input at the top, the instruction at the end, bridged with
   an anchor phrase `[Google]` `[Anthropic]`.
+- **For an unattended Opus 5.5 runner, name the stops.** It can end a turn on a progress report with
+  work still owed. Say which endings are not wanted and which are, and ask for a short explanation
+  of the result, never the reasoning written out; the wording is in `dialects.md` under Claude
+  Opus 5.5. Where the harness can show elapsed time against a budget, say so, because 5.5 paces
+  itself to it.
 - **Say what a dead end looks like.** A runner with no stated failure mode reports success. Tell
   it what to return when the thing is not there.
 - **Target: as long as the spec genuinely is.** This register has no brevity rule; an

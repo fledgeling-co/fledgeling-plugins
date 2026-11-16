@@ -67,6 +67,13 @@ every unrelated tremor into a wake.
 `references/templates.md`. It needs an escalation branch, an explicit stop
 condition, and what to do with an item that needs a human.
 
+A detached tick runs with nobody watching, so its brief names how the turn may
+end: no summary that announces the next step without taking it, no offer to
+carry on unless told otherwise, no list of decisions that block nothing. It
+stops when the tick's work is done or nothing can move without a person. Ask it
+for a short account of what it did, never its reasoning written out, which
+Opus 5.5 can decline.
+
 `.claude/loop.md` is only needed when composing with a bare `/loop`; it is capped
 at 25,000 bytes and `scripts/write-brief.sh` size-checks it.
 

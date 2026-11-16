@@ -49,9 +49,19 @@ Run by the guard at the end of every turn. Exit 0 is the only thing that counts.
 ## Delivery
 
 - **Driver:** <skill or command, e.g. /ship-fleet:ship-fleet>
-- **Model / effort:** claude-opus-5 / high
+- **Model / effort:** <model the session runs> / <effort, set explicitly: Opus 5.5 defaults to `medium`, Opus 5 to `high`>
 - **Concurrency cap:** <n>
 - **If an agent dies:** <the resume path>
+
+## How turns end
+
+A message with no tool call ends the turn. Do not end one with a summary that
+announces the next step, an offer to carry on unless told otherwise, a list of
+decisions that block nothing, or because the turn has been long. Put status
+notes in the same message as the next tool call and carry on with whatever does
+not need an answer. Stop only when nothing can move without the owner, or the
+blocker is deliberately protected. Destructive, irreversible and outward-facing
+actions still wait for confirmation.
 
 ## Stop conditions
 

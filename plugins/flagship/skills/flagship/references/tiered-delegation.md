@@ -60,11 +60,39 @@ same brief cannot serve both.
 | Tests | Trusted | State that tests verify correctness and are never edited to pass |
 | Subagents | **Cap explicitly** — delegates readily | Usually none. Say so |
 | Progress | Narrate thinly | Structured state file, updated per item |
+| How a turn ends | On Opus 5.5, name the early stops that are not wanted (see below) | The brief already says when to stop and what to report |
+| Reasoning | Never ask for it written into the reply; ask for a short explanation | The same |
 
 **The reason, stated so it generalises**: a frontier model's failure mode is doing *too much* —
 over-verifying, over-delegating, widening scope. A weaker model's failure mode is doing *too little*
 — skipping the check, satisfying the example rather than the requirement, reporting done on an
 unrun gate. Instructions that correct one make the other worse.
+
+## A conductor on Opus 5.5
+
+Three things from Anthropic's Opus 5.5 prompting guide change how a bound conductor is briefed and
+read. None has been measured in this plugin.
+
+- **A text-only turn is a report, not completion.** 5.5 reports progress on long multi-part work,
+  and some reports end the turn with no tool call. The fleet ledger and the gate exit codes decide
+  whether an item is done. A conductor turn that ends with open items and no stated blocker gets
+  one short message naming them; after two or three of those on the same item, stop and review
+  the run instead of nudging again. Work the conductor started and that is still running (a
+  background command, a worker) means the item is not finished.
+- **An unattended conductor brief names its stops.** Unwanted: a summary that announces the next
+  step without taking it, an offer to carry on unless told otherwise, a list of decisions that
+  block nothing, stopping because the turn has been long. Wanted: nothing can move without the
+  operator, or the blocker is deliberately protected. Every irreversible act still waits, as
+  "What the conductor keeps" says.
+- **Elapsed time makes a team finish sooner.** Where the harness can append it, end each message
+  back to the conductor with `elapsed 340s / 1200s`, the budget set somewhat above the time
+  wanted. 5.5 paces itself to it and keeps more workers busy in parallel. The budget is advisory,
+  so the berth and timeout rules still bound the fleet, and quality needs checking because it
+  verifies a little less under time pressure.
+
+Set the conductor's effort explicitly. 5.5 defaults to `medium`, which Anthropic reports matching
+Opus 5 at `high`; the `xhigh` in the topology table was chosen for Opus 5 and should be re-swept
+before it is carried over.
 
 ## The worker brief
 

@@ -41,6 +41,12 @@ author's verdict or build transcript. An empty result or missing artifact is an
 unfinished stage, never an implicit pass. A fallback reports the actual model and
 whether family independence was lost.
 
+A runner turn that ends in a progress report is also an unfinished stage. Opus
+5.5 ends some turns that way with work still owed, so advance on the artifact and
+the gate, send one message naming what is open, and stop after two or three such
+continuations. Shipyard's `references/model-and-effort.md` §8 has the rule and
+the stops an unattended runner brief should name.
+
 ## 3. Durable artifacts are the pipeline's memory
 
 | Stage | Durable artifact |

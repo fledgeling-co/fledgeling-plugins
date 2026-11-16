@@ -6,7 +6,7 @@ Establish an aesthetic direction (typography, color, density, mood, component st
 
 ## Phase 1: Confirm there's truly no existing context
 
-Before committing to a new direction, double-check that no existing context applies:
+Before committing to a new direction, confirm that no existing context applies:
 
 - No brand guide
 - No existing app or product to match

@@ -11,7 +11,7 @@ Every routed agent has **two** independent settings, and the lane tables histori
 - **Model** — the capability class (haiku → sonnet → opus, or sideways to an out-of-family reviewer).
 - **Effort** (`low` / `medium` / `high` / `xhigh` / `max`) — how much work the model does *inside* that class. It is a model-specific reasoning control rather than a token cap. Supported values and effects depend on the model and harness. For Opus 5, lowering effort reduces thinking but does not reliably shorten visible responses; specify response length separately.
 
-Opus 5's API default is `high`; a CLI, proxy or agent harness can choose a different default. Read the selected harness's supported settings and observe the run before assigning an effort value. Do not extrapolate this default to Gemini or GPT.
+Opus 5's API default is `high` and Opus 5.5's is `medium`; a CLI, proxy or agent harness can choose a different default. Read the selected harness's supported settings and observe the run before assigning an effort value. Do not extrapolate this default to Gemini or GPT.
 
 ## 2. Opus 5 effort starting points
 
@@ -26,6 +26,17 @@ These are task-shaped starting points to evaluate, not universal settings for Ge
 | A single genuinely frontier judgement call | `max` | Reserve it. On ordinary work it adds cost for small gains and can overthink structured tasks |
 
 **Effort is the primary cost dial; model is the second.** Step effort down before you step capability down — a strong model at `low` costs less than it looks and stays in its capability class.
+
+### When the lane runs Opus 5.5
+
+The table above was calibrated for Opus 5. Level names do not mean the same amount of thinking on 5.5: Anthropic reports 5.5 at `medium` matching or beating Opus 5 at `high` on coding and knowledge work, with `low` close behind on several coding evals, and 5.5 thinks more per turn at `xhigh` and `max`. So on 5.5:
+
+- Start each row **one level lower** than the table (`medium` for synthesis and judgement, `high` for feature runners) and move up only where a sweep on this pipeline's own work shows a gain.
+- Thinking is always on; a request that disables it returns a 400. Lower effort is the only way to get less thinking.
+- At `xhigh` or `max`, leave `max_tokens` room for thinking plus the reply.
+- Effort can change mid-conversation through per-message effort without losing the cache. A top-level change still invalidates it, so rule 4.2 below stands for harnesses that cannot send per-message effort.
+
+Source: [Opus 5.5 prompting](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5) and the effort page it links.
 
 ## 3. Reviewer capability is task-specific
 
@@ -71,3 +82,13 @@ Written deliverables run long by default, and this pipeline produces a lot of th
 - **Triage review sections** stay short and non-technical; the Assumptions block is a list of decisions, not an essay defending each one.
 - **`ORCHESTRATOR.md`** is a resumable state file. Rows and status, not prose.
 - **Your own turn-by-turn output** is thinner still: one line before the first tool call saying what you're about to do, an update only when you find something material or change direction, and an outcome-first close. A recap of the phases the user just watched scroll past is not a report.
+
+## 8. Unattended runs on Opus 5.5
+
+Opus 5.5 reports progress on long multi-part work, and some of those reports end the turn with no tool call. A conductor that reads a text-only turn as "the stage is done" stops a runner early. Three rules:
+
+- **The ledger decides, not the last message.** A stage is done when its artifact exists and its gate ran. A runner turn that ends with open items and no stated blocker gets one short message naming those items; stop after two or three automatic continuations so a stuck runner ends and is reviewed.
+- **Wait for what the runner started.** A background command or child agent still running means the stage is not finished.
+- **A runner brief for an unattended run names the stops.** Unwanted: a summary that announces the next step without taking it, an offer to continue unless told otherwise, a list of decisions that block nothing, stopping because the turn has been long. Wanted: nothing can move without the user, or the blocker is deliberately protected. Status notes go in the same message as the next tool call. Confirmation for destructive, irreversible or outward-facing actions is unaffected, and this paragraph stays out of a brief when a person is there to answer.
+
+Where the harness can show it, end each message back to a runner with elapsed time against a budget (`elapsed 340s / 1200s`). 5.5 paces itself to it and keeps more lanes working in parallel. The budget is advisory, so keep the real timeout.

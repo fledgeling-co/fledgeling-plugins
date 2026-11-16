@@ -87,15 +87,18 @@ evidence, and do not grant an independence-gated status until that gate is met.
 
 ## Prompting calibration
 
-Give Opus 5 the complete task and concrete finish line, use supported effort as
+Give Opus 5 or 5.5 the complete task and concrete finish line, use supported effort as
 the cost dial, and keep written artifacts proportional to the work. Remove generic
 "double-check yourself" passes and extra coordinator layers; retain explicit
 acceptance, external measurement and independent-review requirements because those
 acquire evidence beyond the author's reasoning. Source: [Opus 5 prompting](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5)
 and [prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices).
+For an Opus 5.5 runner, also apply `model-and-effort.md` §2 (start one effort level lower) and §8
+(unattended runs); do not ask a runner to write out its reasoning, only a short explanation or a
+summary of what it did. Source: [Opus 5.5 prompting](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5).
 
 When editing an API harness, follow the [Opus 5 migration guide](https://platform.claude.com/docs/en/models/opus-5/migration-guide):
-adaptive thinking is on by default; preserve assistant/thinking blocks unchanged
+adaptive thinking is on by default (and cannot be disabled on Opus 5.5); preserve assistant/thinking blocks unchanged
 through tool loops; consume response blocks by type; and verify supported request
 parameters. These API settings are not skill instructions that a runner can enact
 by writing them in prose, and they do not apply automatically to Gemini or GPT.

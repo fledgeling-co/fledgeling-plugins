@@ -18,6 +18,13 @@ read-only work merely because a referral is absent.
 Use supported connectors, APIs or repository tools before UI automation. Confirm
 the account, tenant, project, order, product version or conversation identity at
 the current source. Do not infer these from a display name or an old tab title.
+Before acting on any row, look across the permitted sources that could bear on
+it, including ones the request did not name: the earlier thread that set the
+policy, the other tab of the sheet, the note on the record. The fact a next
+action depends on often sits there, and a model that starts work quickly misses
+it. This widens what is read, never what is acted on; the bound above still
+decides that.
+
 Record the locator and two times: when the underlying event happened, and when
 you checked it. Capture the source's update time if available. A fresh read of an
 old email is still an old email.

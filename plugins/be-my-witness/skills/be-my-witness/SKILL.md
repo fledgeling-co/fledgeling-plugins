@@ -129,6 +129,13 @@ So the unit is **not a zoom factor**. Crop so the long edge lands under the ceil
 and body text stays above 7 px. Around 1024² is a good default crop size; the optimum
 is model-dependent and non-monotonic.
 
+Opus 5.5 reads screenshots, charts and diagrams more accurately than Opus 5 without
+tools, and that does not retire the crop. The downscale happens before the model sees
+the image, so a 5 px glyph is unreadable to any reader, and Anthropic's own guidance for
+5.5 keeps two things for the densest inputs: higher-resolution images and a crop tool.
+What 5.5 changes is the margin: the ceilings and the 7 px floor above were measured on
+earlier models, so treat them as safe defaults and re-measure before tightening them.
+
 ```bash
 python3 scripts/crop.py shot.png --tiles-from /tmp/ps.json --out /tmp/tiles   # inspection tiles
 python3 scripts/crop.py shot.png --region 0,0,480,300 --scale 2 --out /tmp/hdr.png
@@ -187,7 +194,9 @@ effect. `references/bias-controls.md` carries both.
 **Do not add chain-of-thought to the judging call.** On MLLM-as-a-Judge, three-step
 CoT degraded every similarity metric: GPT-4V scoring fell 0.557 → 0.299 and pairwise
 0.806 → 0.728. It reduced hallucination and cost accuracy. Ask for the atoms, not the
-reasoning that led to them.
+reasoning that led to them. On Opus 5.5 there is a second reason: a judging prompt that
+asks for the reasoning written out can be declined outright, where a short reason per
+finding is fine.
 
 **Do not drop the reference just because it is advisory.** Self-preference roughly
 *doubles* when a judge has nothing to anchor on (GPT-4o 0.55 → 1.08 on one measure).

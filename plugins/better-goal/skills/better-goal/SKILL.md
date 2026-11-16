@@ -69,6 +69,14 @@ ports, dev servers, remote hosts), the concurrency cap, and the stop conditions.
 Match its length to the run. A brief padded with restated context is re-read
 every turn and buys nothing.
 
+Keep the template's **How turns end** paragraph. Opus 5.5 reports progress on
+long work, and some of those reports end the turn with no tool call. The guard
+catches that by exit code and sends the run back, but each catch spends one of
+the 8 consecutive blocks Claude Code allows, so a brief that names the unwanted
+endings loses fewer of them. Set the effort in the Delivery line explicitly:
+5.5 defaults to `medium`, and Anthropic reports that matching Opus 5 at `high`,
+so an inherited `xhigh` should be justified by a measurement, not habit.
+
 ### 3. Turn "done" into gates
 
 `references/gate-craft.md` is the craft guide. The state file's `verify[]` is an

@@ -70,6 +70,15 @@ The classes, and what each one is for:
 | `design` | authoring a design | opus-design · fable | **medium** · **medium** |
 | `design-review` | judging rendered UI | opus · fable-high | xhigh · high |
 
+**The Claude rows were benched on `claude-opus-5`, and Opus 5.5 has no bench row.**
+Effort names do not carry across the two: 5.5 defaults to `medium`, Anthropic
+reports that level matching Opus 5 at `high`, and 5.5 thinks more per turn at
+`xhigh` and `max`. So when the serving model is 5.5, the efforts in this table are
+one level higher than they were measured to be, and the honest route is a bench
+run before the registry changes. Until then, record the requested-to-serving
+receipt, and where the user picks 5.5 through `runtime-preferences.md`, start one
+level lower than the row and say that the choice is unmeasured.
+
 Two flags change which lanes a class can see, and both are the caller asserting
 something the router cannot observe:
 

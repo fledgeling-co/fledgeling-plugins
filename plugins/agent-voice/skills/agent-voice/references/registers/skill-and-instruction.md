@@ -37,6 +37,7 @@ prompt templates. Lint format key: `skill`.
   actively harmful: emotional appeals, flattery and artificial pressure *"will no longer
   improve and in many cases will get worse"* performance `[Google]`.
 - **Separate acceptance evidence from repeated self-check reminders.** For Opus 5, remove generic "double-check" prompts that duplicate its behavior `[Anthropic]`. Keep named tests, source checks, visual comparisons and required independent reviews. Gemini guidance also favors explicit verification steps `[Google]`; neither model gets to claim a check that did not run. See `dialects.md`.
+- **Leave out thinking instructions and requests for written-out reasoning.** Opus 5.5 decides how much to think; a "think carefully" line only delays the reply, and an instruction to write the reasoning into the output can be declined. Ask for a short explanation or a summary of the actions taken. A skill that runs unattended names the early stops it does not want; see `dialects.md`.
 - **Cap delegation explicitly** and name which scenarios warrant it `[Anthropic]`.
 - **State the scope**, because the model widens tasks on its own: *"Deliver what was asked, at
   the scope intended… rather than quietly narrowing, widening, or transforming it."*

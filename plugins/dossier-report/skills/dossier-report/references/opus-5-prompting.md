@@ -1,4 +1,4 @@
-# Writing prompts for Opus 5 runners
+# Writing prompts for Opus 5 and Opus 5.5 runners
 
 Use this guide for an Opus 5 runner. The pipeline does not require every stage to use Opus: preserve the user's selected orchestration, planning and implementation lanes. An Opus planning stage may hand a complete brief to Gemini 3.8, coordinated by GPT-6; resolve their actual IDs and controls from the current harness.
 
@@ -76,6 +76,75 @@ Thinking is on by default and can only be disabled at effort `high` or below;
 `disabled` plus an unsupported higher-effort setting is invalid. Prefer lower effort with thinking
 on over disabling it: with thinking off, the model occasionally emits tool calls
 as plain text or leaks internal XML tags into visible output.
+
+## Opus 5.5 runners
+
+Everything above still applies to Opus 5.5 (`claude-opus-5-5`). These are the
+differences, from [Prompting Claude Opus 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5.md)
+and its linked pages, reviewed 2026-11-16.
+
+**Effort.** The default is `medium`, not `high`, and the level names do not carry
+across: in Anthropic's testing 5.5 at `medium` matches or beats Opus 5 at `high`
+on coding and knowledge work, and `low` comes close on several coding evals. Set
+effort explicitly, start at `medium`, and keep `xhigh` and `max` for work where a
+quality gain was measured, because 5.5 thinks more per turn at those levels. To
+get less thinking, lower effort; a prompt line does it less reliably. A top-level
+effort change mid-conversation invalidates the cache.
+
+**Thinking.** It is always on; `thinking: disabled` returns a 400. Size
+`max_tokens` for thinking plus the reply and read responses by block type. Drop
+lines that tell the model to think carefully or step by step: it decides how much
+to think, and such lines only delay the first token.
+
+**No reasoning in the reply.** A brief that asks the runner to write out its
+reasoning, verbatim or in a fixed format, can be declined (`reasoning_extraction`).
+Ask for a short explanation of the answer or a summary of what it did.
+
+**Unattended runs.** On long multi-part tasks 5.5 reports progress, and some of
+those reports end the turn with no tool call. A loop that reads that as "done"
+stops early. In the harness: keep the task's parts in a checklist the runner
+updates, treat a text-only end of turn as a report, send one short message naming
+the open items, wait for any background command or child still running, and stop
+after two or three automatic continuations so a stuck run ends and gets reviewed.
+In the brief, for runs nobody is watching: name the stops you do not want (a
+summary that announces the next step without taking it, an offer to continue
+unless told otherwise, a list of decisions that block nothing, stopping because
+the turn has been long) and the stops you do (nothing can move without the user,
+or the blocker is deliberately protected). Status notes go in the same message as
+the next tool call. Keep confirmation for risky or destructive actions, and leave
+this out when a person is there to answer.
+
+**Progress updates.** Ask for the cadence you want in the brief (one line of
+intent before the first tool call, a short recap at the end). The runner follows
+it.
+
+**Look before acting across apps.** When the task spans mail, documents, sheets
+or records and is loosely specified, tell the runner to list and open the sources
+that could be relevant, including ones the task does not name, before it changes
+anything. Keep untrusted content out of what it searches, since it will act on
+what it finds.
+
+**Time signals for agent teams.** 5.5 paces itself to elapsed time. Where the
+harness can, end each message back to the runner with `elapsed 340s / 1200s`, with
+the budget set somewhat above the time you want spent. With no sensible budget,
+show elapsed time alone and say that time matters. The budget is advisory: keep a
+real timeout, and check quality, because under time pressure it verifies a little
+less.
+
+**Pasted text.** Wrap text the user copied from elsewhere in
+`<pasted_content id="…">` tags with a matching random id on the closing tag, and
+tell the runner to follow instructions inside only where the user's own words ask
+it to.
+
+**Vision.** 5.5 reads charts, diagrams and screenshots more accurately without
+tools, so re-test scaffolding built for earlier models before keeping it.
+Higher-resolution images and a crop tool still add accuracy on the densest inputs.
+
+**Frontend defaults.** Without design direction 5.5 falls back on a few default
+styles, and "avoid a generic AI look" swaps one default for another. Name the
+specific patterns to avoid (a cream ground, italic accent words, numbered
+"01/02/03" labels, monospace labels, pill buttons), look at what came back, and
+extend the list.
 
 ## Environment traps when spawning via `claude -p`
 

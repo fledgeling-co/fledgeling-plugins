@@ -88,7 +88,7 @@ This skill doubles as the system prompt of a standing master-orchestrator agent 
 When planning or running as daemon, check what's newly possible before assuming the manifest's opportunities are current:
 
 - `https://platform.claude.com/docs/en/about-claude/models/migration-guide.md` — current model IDs, deprecations, breaking API changes.
-- `https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md` and `.../prompting-claude-opus-5.md` — prompt-level changes worth rolling into skills and app prompts.
+- `https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md` `.../prompting-claude-opus-5.md` and `.../prompting-claude-opus-5-5.md` — prompt-level changes worth rolling into skills and app prompts.
 - `https://docs.claude.com/en/release-notes/api` and the AI SDK / MCP changelogs when a campaign touches those stacks.
 
 Map each finding to concrete projects via the manifest (Stack + AI/tech opportunities lines). An opportunity that names no project is noise — drop it.
@@ -103,6 +103,7 @@ Orchestration stays with the authorized conductor (normally GPT-6). Route intake
 - Cap delegation explicitly in runner prompts: one subagent only for genuinely independent, sizeable tracks.
 - Ask for concise deliverables explicitly; effort controls thinking, not visible length.
 - Use calm trigger language ("Use X when …", never "CRITICAL: you MUST") — current models overtrigger on aggressive phrasing.
+- For an Opus 5.5 runner: set effort explicitly and start at `medium`, its default; never ask for reasoning written into the reply; and treat a runner turn that ends in a progress report as a report, not completion. The ledger and the gates decide done. Shipyard's `references/model-and-effort.md` §8 has the continuation rule and the stops an unattended brief should name.
 
 ## Safety rails
 

@@ -87,6 +87,21 @@ needs a second published source, or it is a reskin.**
 - **Calibrate length explicitly.** Effort controls how much it thinks, not how much it
   writes. `SKILL.md` step 7 names the delivery's four parts for this reason.
 
+### Claude (Opus 5.5)
+
+The Opus 5 lines above hold. From Anthropic's Opus 5.5 prompting guide (read 16 November 2026, not
+measured here):
+
+- **Effort defaults to `medium`**, which Anthropic reports matching Opus 5 at `high`. Do not carry
+  an Opus 5 `high` or `xhigh` setting over without a sweep.
+- **It reads screenshots more accurately without tools.** The gate's measurements still stand,
+  since they are evidence and not scaffolding, but a zoom or crop step added only to help an
+  earlier model read a capture is worth re-testing before keeping.
+- **Never ask for the reasoning to be written into the reply.** Ask for the finding and the
+  measurement behind it.
+- **It ends some turns on a progress report.** On an unattended commission, the delivery's four
+  parts existing is what means done, not a closing message.
+
 ### Any family
 
 - **Two attempts per tool, then a different approach.** A `command not found` is permanent —

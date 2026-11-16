@@ -343,6 +343,15 @@ Every figure in this skill carries a **composed pair** of marks in `references/p
 marks from the same family, an `assumed` figure stated outside a section like this one, or a living
 source with no read date. The tiering is a gate, not a convention.
 
+**Every measurement here was taken on Opus 5, and none has been repeated on its successor.** The
+successor defaults to a lower effort level, thinks more per turn at the top two levels, and
+Anthropic describes its reports as plainer and its tasks as finishing in fewer tokens. Each of those
+moves the baseline the block was tuned against: the closing message may have less slack to take,
+and the effort sweep's result belongs to the older model. Treat the block as carried over and
+unmeasured on the newer model until the paired benchmark is re-run there. One clause needs no
+re-run: the block never asks for reasoning to be written into a reply, which the newer model can
+decline.
+
 **The two families are orthogonal, and keeping them apart is the point.**
 
 - **Independence** — a property of *the source*, and **not improvable by reading harder**:

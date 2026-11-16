@@ -1,6 +1,6 @@
-# Opus 5 authoring — the prompts this plugin writes
+# Opus 5 and 5.5 authoring — the prompts this plugin writes
 
-Read this before writing or editing any runner prompt in the plugin. Apply its Opus-specific guidance when a `warrant:panel` lane or a subagent actually runs Opus 5. Other lanes follow the user-selected, supported model and the recorded lane configuration; do not treat Opus settings as Gemini or GPT API options.
+Read this before writing or editing any runner prompt in the plugin. Apply its Opus-specific guidance when a `warrant:panel` lane or a subagent actually runs Opus 5 or Opus 5.5. Other lanes follow the user-selected, supported model and the recorded lane configuration; do not treat Opus settings as Gemini or GPT API options.
 
 Sources refreshed 7 September 2026: [Opus 5 prompting](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5), [Opus 5 migration](https://platform.claude.com/docs/en/models/opus-5/migration-guide), and [prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices). Where a rule below has no
 citation it is an inference from this plugin's own subject matter and is marked.
@@ -76,6 +76,27 @@ and with it disabled the model can emit a tool call as plain text or leak intern
 visible output. Both matter here because lane output is parsed: a tool call that renders as text
 completes the turn without running, and the leaked text stays in the history. Prefer a lower effort
 with thinking on over disabling it.
+
+## When the lane runs Opus 5.5
+
+Source: [Opus 5.5 prompting](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5), read 16 November 2026. Everything above holds; these change.
+
+- **Effort.** The default is `medium`, and level names do not carry across models: Anthropic reports
+  5.5 at `medium` matching or beating Opus 5 at `high` on coding and knowledge work. The table above
+  was written for Opus 5, so on 5.5 start each stage one level lower (`high` for the find pass and
+  the adjudicator, `medium` for the filter pass and a lens lane) and sweep from there. 5.5 thinks more
+  per turn at `xhigh` and `max`, so use them only where a sweep showed a gain.
+- **Thinking cannot be disabled.** `thinking: disabled` returns a 400, so the choice is only which
+  effort to run.
+- **Ask for a verdict and its evidence, not the reasoning.** A brief that asks a lane to write out
+  its reasoning can be declined (`reasoning_extraction`). The verdict schema already asks for a short
+  reason and a locator, which is the allowed form. Do not add a "show your working" field.
+- **A lane that ends its turn with a progress report has not finished.** 5.5 reports as it works,
+  and some reports end the turn with no tool call. `lane_run.py` validating the verdict against the
+  schema is what decides a lane is done; a text-only turn with no verdict gets one continuation
+  naming what is missing, and a second failure is a failed lane.
+- **Captures.** 5.5 reads screenshots, charts and diagrams more accurately without tools. Keep crop
+  tools for the densest captures and re-test any other visual scaffolding before keeping it.
 
 ## Prompt shape
 

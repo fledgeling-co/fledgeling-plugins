@@ -259,6 +259,12 @@ their ordered lane sets and are **mandatory where available** — their fallback
 downgrade in the artifact, never a silent pass; the egress opt-out is re-grepped before every
 external call because it is the only kill-switch reaching runners already in motion.
 
+**Runners on Opus 5.5.** Read `model-and-effort.md` §2 and §8 before writing a runner prompt:
+start one effort level lower than the Opus 5 table, treat a runner turn that ends in a progress
+report as a report and let `ORCHESTRATOR.md` and the gates decide done, and name in the prompt the
+early stops an unattended runner should not take. Where the harness can append it, give each
+runner elapsed time against a budget; 5.5 paces itself to it.
+
 **Never strip the pipeline's safeguards to make a runner cheaper.** The sanctioned low-cost
 runner shape is exactly this file's runner prompt with leaner inner waves and cheaper leaf
 lanes — never with fan-out, review phases, or evidence rules deleted (the hand-rolled "SOLO
