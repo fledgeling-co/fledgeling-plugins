@@ -42,6 +42,33 @@ class SwiftBodies(unittest.TestCase):
                 'mutator': call.split('(')[0].split('.')[-1], 'classification': classification,
                 'rationale': 'test fixture', 'references': [{'path': 'unused', 'sha256': '0' * 64}]}
 
+    def test_blind_accounting_partitions_deferred_and_scoped_calls(self):
+        source = '''@Test func good() { write(); read() }
+@Test func blind() { write() }
+@Test func deferred() { defer { write() }; read() }
+@Test func scoped() { Issue.record("failure") }
+@Test func mixed() { defer { write() }; Issue.record("failure") }
+@Test func clean() { read() }
+'''
+        blocks = SCAN.swift_body_spans(source)['blocks']
+        scopes = []
+        for block in blocks:
+            if block['name'] not in ('scoped', 'mixed'):
+                continue
+            body = source[block['bodyStart']:block['end']]
+            offset = body.index('record(')
+            scopes.append({'file': 'ExampleTests.swift', 'name': block['name'],
+                'bodySHA256': hashlib.sha256(body.encode()).hexdigest(),
+                'testEntry': block['testEntry'], 'callOffset': offset,
+                'callSHA256': SCAN.call_fingerprint(body, offset, offset + len('record(')),
+                'mutator': 'record', 'classification': 'failure-sentinel',
+                'rationale': 'fixture', 'references': [{'path': 'fixture', 'sha256': '0' * 64}]})
+        result = self.scan(source, mutators=('write', 'record'), scopes=scopes, readers=('read',))
+        self.assertEqual(result['scopeFindings'], [])
+        self.assertEqual((result['mutating'], result['reread'], len(result['findings']),
+                          result['scopedOnlyBodies'], result['deferredOnlyBodies'],
+                          result['mixedOnlyBodies']), (5, 1, 1, 1, 1, 1))
+
     def test_exact_call_scope_removes_only_that_occurrence_then_rechecks_earlier_calls(self):
         source = 'func testScoped() { write(); read(); Issue.record("failure") }'
         scope = self.scope(source, 'record(')
@@ -382,6 +409,48 @@ class SwiftBodies(unittest.TestCase):
                 self.assertEqual(result['examined'], examined)
         result = self.scan('func testHasRead() { load() }\nprivate func fixture() { write() }')
         self.assertIn('ExampleTests.swift:2)', result['findings'][0])
+
+    def test_cli_reports_deferred_bodies_without_calling_them_reads(self):
+        run = self.cli({'ExampleTests.swift':
+            '@Test func deferred() { defer { write() }; read() }\n'
+            '@Test func blind() { write() }\n'})
+        self.assertIn('mutating=2 re-read-after=0 blind=1', run.stdout)
+        self.assertIn('accounting: scoped-only=0 deferred-only=1 mixed-only=0', run.stdout)
+        self.assertNotEqual(run.returncode, 0, 'the blind mutation must still fail the gate')
+
+    def test_mutator_shaped_trailing_closures_refuse_a_complete_verdict(self):
+        source = ('@Test func example() {\n'
+                  '  writer.write { value in consume(value) }\n'
+                  '  read()\n'
+                  '}\n')
+        result = self.scan(source, mutators=('write', 'wri'), readers=('read',))
+        self.assertEqual(len(result['notMeasured']), 1)
+        self.assertEqual((result['swiftFiles'], result['swiftMeasuredFiles'],
+                          result['swiftPartialFiles'], result['swiftUnmeasuredFiles']), (1, 0, 1, 0))
+        self.assertIn('ExampleTests.swift:2', result['notMeasured'][0])
+        self.assertIn('trailing closure', result['notMeasured'][0])
+        run = self.cli({'ExampleTests.swift': source})
+        self.assertNotEqual(run.returncode, 0)
+        self.assertIn('NOT MEASURED', run.stdout)
+
+    def test_ambiguous_conditional_and_implicit_members_are_not_silently_accepted(self):
+        source = ('@Test func example() {\n'
+                  '  if writer.write { read() }\n'
+                  '  .write { read() }\n'
+                  '}\n')
+        result = self.scan(source, mutators=('write',), readers=('read',))
+        self.assertEqual(len(result['notMeasured']), 2)
+        self.assertTrue(all('trailing closure' in item for item in result['notMeasured']))
+
+    def test_comments_strings_and_nested_declarations_are_not_trailing_calls(self):
+        source = ('''@Test func example() {
+          // writer.write { value in use(value) }
+          let literal = "writer.write { value in use(value) }"
+          func helper() { writer.write { value in use(value) } }
+          helper(); writer.write(); read()
+        }''')
+        result = self.scan(source, mutators=('write',), readers=('read',))
+        self.assertEqual(result['notMeasured'], [])
 
     def test_following_reader_cannot_clear_a_blind_test(self):
         result = self.scan('func testBlind() { write() }\nprivate func helper() { read() }')

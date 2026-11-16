@@ -799,11 +799,12 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
     findings: list[str] = []
     not_measured: list[str] = []
     swift_files = swift_measured = swift_entries = swift_helpers = swift_bodyless = 0
+    swift_partial_files: set[Path] = set()
     scopes = scopes or []
     scope_uses = {id(row): 0 for row in scopes}
     scope_errors: list[str] = []
     scoped_counts = {name: 0 for name in sorted(SCOPE_CLASSES)}
-    scoped_only_bodies = 0
+    scoped_only_bodies = deferred_only_bodies = mixed_only_bodies = 0
     body_records: dict[tuple[str, str, str], list[tuple[str, str, bool]]] = {}
     scope_identities = [(row.get("file"), row.get("name"), row.get("bodySHA256"),
                          row.get("callOffset")) for row in scopes]
@@ -895,6 +896,23 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                     row.get("classification") == "attributed-helper" for row in body_scopes):
                 continue
             examined += 1
+            if swift is not None:
+                # Without Swift's expression grammar `write { ... }` may be a
+                # trailing-closure call or a conditional reading a property.
+                # Report the ambiguity instead of silently omitting a possible
+                # mutation or manufacturing one from a property reference.
+                possible = set()
+                for verb in mutators:
+                    matches = list(re.finditer(
+                        r"(?<![A-Za-z0-9_])" + re.escape(verb) + r"\w*\s*\{", body))
+                    if matches:
+                        seen_verbs.add(verb)
+                        possible.update((m.start(), m.end()) for m in matches)
+                for start, _ in sorted(possible):
+                    line = original_src.count('\n', 0, swift["blocks"][i]["bodyStart"] + start) + 1
+                    not_measured.append(f"{f}:{line} — possible mutator-shaped trailing closure "
+                                        "or conditional requires Swift syntax analysis")
+                    swift_partial_files.add(f)
             calls = []
             for v in mutators:
                 # `(?<![A-Za-z0-9_])` is load-bearing. Without it a verb that is a
@@ -930,7 +948,15 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
             last_call = max(observable, default=None, key=lambda call: call[0])
             last, which = (-1, None) if last_call is None else (last_call[0], last_call[2])
             if last < 0:
-                scoped_only_bodies += bool(ignored)
+                # Every body counted as mutating belongs to exactly one bucket.
+                # Deferred-only calls are not observed; scoped calls are not
+                # evidence of a read. Preserve both distinctions in the output.
+                if calls and ignored:
+                    mixed_only_bodies += 1
+                elif calls:
+                    deferred_only_bodies += 1
+                elif ignored:
+                    scoped_only_bodies += 1
                 continue
             tail = body[last:]
             if any(re.search(re.escape(rd) + r"\w*", tail) for rd in readers):
@@ -993,10 +1019,14 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
             "reread": reread, "findings": findings, "seenVerbs": seen_verbs,
             "declBlocks": decl_blocks, "specBlocks": spec_blocks,
             "notMeasured": not_measured, "swiftFiles": swift_files,
-            "swiftMeasuredFiles": swift_measured, "swiftTestEntries": swift_entries,
+            "swiftMeasuredFiles": swift_measured - len(swift_partial_files),
+            "swiftPartialFiles": len(swift_partial_files),
+            "swiftUnmeasuredFiles": swift_files - swift_measured,
+            "swiftTestEntries": swift_entries,
             "swiftExcludedHelpers": swift_helpers, "swiftBodylessRequirements": swift_bodyless,
             "scopeFindings": scope_errors, "scopedCounts": scoped_counts,
-            "scopeRecords": len(scopes), "scopedOnlyBodies": scoped_only_bodies}
+            "scopeRecords": len(scopes), "scopedOnlyBodies": scoped_only_bodies,
+            "deferredOnlyBodies": deferred_only_bodies, "mixedOnlyBodies": mixed_only_bodies}
 
 
 # ── the control ─────────────────────────────────────────────────────────────
@@ -1084,12 +1114,14 @@ def main() -> int:
     # a root is how the blind pass came to report 32 findings about a tree that
     # was not the campaign's.
     index = None
+    coverage_incomplete = False
     src_origin = ""
     raw_source = args.source or campaign.get("sourceRoot") or ""
     if raw_source:
         src_origin = "--source" if args.source else "campaign.json sourceRoot"
         src_root = find_root(d, str(raw_source))
         if src_root is None:
+            coverage_incomplete = True
             print(f"providers:  NOT RESOLVED — {raw_source!r} ({src_origin}) does not exist. "
                   f"A root that is not there resolves nothing, and nothing resolved is not "
                   f"nothing to resolve.")
@@ -1116,6 +1148,7 @@ def main() -> int:
         print(f"  · {line}")
     if declared:
         if index is None:
+            coverage_incomplete = True
             print(f"  providers: {named} of {declared} named, 0 resolved — NOT CHECKED. "
                   f"Declare `sourceRoot` in campaign.json or pass --source <root>; until "
                   f"one of them says where production source is, a provider is a string "
@@ -1139,12 +1172,14 @@ def main() -> int:
               f"({declared_root!r}). The declared root is what the vocabulary was written "
               f"for; an override is a different corpus.")
     if not raw_tests:
+        coverage_incomplete = True
         print("blind:      NOT RUN — no corpus. Declare `testRoot` in campaign.json beside "
               "`blindVocabulary`, or pass --tests <root>. This is the cheapest of the three "
               "and needs no privilege.")
     else:
         root = find_root(d, str(raw_tests))
         if root is None:
+            coverage_incomplete = True
             print(f"blind:      SKIPPED — {raw_tests} ({tests_origin}) does not exist. A pass "
                   f"that could not run is not a pass that found nothing.")
         else:
@@ -1171,6 +1206,7 @@ def main() -> int:
                 if args.mutator or args.reader:
                     source += " + command line"
             if not muts or not rds:
+                coverage_incomplete = True
                 print("blind:      NOT RUN — an empty mutator or reader list matches nothing, "
                       "and a pass that matches nothing returns clean.")
                 muts = rds = ()
@@ -1178,7 +1214,8 @@ def main() -> int:
                 res = pass_blind(root, muts, rds, blind_scopes)
                 if res["swiftFiles"]:
                     print(f"  Swift: files={res['swiftFiles']} measured-files={res['swiftMeasuredFiles']} "
-                          f"unmeasured-files={len(res['notMeasured'])} "
+                          f"unmeasured-files={res['swiftUnmeasuredFiles']} "
+                          f"partially-measured-files={res['swiftPartialFiles']} "
                           f"explicit-test-entries={res['swiftTestEntries']} "
                           f"called-helpers-excluded={res['swiftExcludedHelpers']} "
                           f"bodyless-protocol-requirements={res['swiftBodylessRequirements']}")
@@ -1200,6 +1237,7 @@ def main() -> int:
                 seen = [v for v in claimed if v in res["seenVerbs"]]
                 misfit = bool(claimed) and res["files"] > 0 and len(seen) * 4 < len(claimed)
                 if misfit:
+                    coverage_incomplete = True
                     print(f"blind:      VOCABULARY DOES NOT FIT — {len(seen)} of {len(claimed)} "
                           f"declared mutator(s) appear anywhere under {root} "
                           f"({tests_origin}, {res['files']} file(s) scanned).")
@@ -1216,6 +1254,8 @@ def main() -> int:
                     blind_findings = res["findings"]
                     print(f"blind:      examined={res['examined']} mutating={res['mutating']} "
                           f"re-read-after={res['reread']} blind={len(blind_findings)}")
+                    print(f"  accounting: scoped-only={res['scopedOnlyBodies']} "
+                          f"deferred-only={res['deferredOnlyBodies']} mixed-only={res['mixedOnlyBodies']}")
                     print(f"  corpus: {root} ({tests_origin}, {res['files']} file(s))")
                     print(f"  blocks: declaration-style {res['declBlocks']} · "
                           f"arrow-style it/test {res['specBlocks']}")
@@ -1225,6 +1265,8 @@ def main() -> int:
                         print(f"  · {line}")
                 # Missing measurements are independent of vocabulary fit and cannot be erased by
                 # clean findings from other files (or by a vocabulary warning).
+                if res["notMeasured"] or scope_load_findings or res["scopeFindings"]:
+                    coverage_incomplete = True
                 for diagnostic in res["notMeasured"]:
                     print(f"blind:      NOT MEASURED — {diagnostic}")
                 blind_findings.extend(res["notMeasured"])
@@ -1233,14 +1275,16 @@ def main() -> int:
                 blind_findings.extend(scope_load_findings)
                 blind_findings.extend(res["scopeFindings"])
                 if not res["examined"]:
+                    coverage_incomplete = True
                     print(f"blind:      NOT MEASURED — {res['files']} file(s) scanned and "
                           "0 test blocks recognised; an empty measured population cannot clear.")
                     blind_findings.append(f"the blind pass recognised 0 test blocks in {res['files']} "
                                           f"file(s) under {root} — a result over an empty population")
 
     findings = len(unclassed) + len(uncensused) + len(blind_findings)
-    print(f"\nvacuity: requirements={total} external={declared} findings={findings}")
-    if args.gate and findings:
+    coverage = "incomplete" if coverage_incomplete else "complete"
+    print(f"\nvacuity: requirements={total} external={declared} findings={findings} coverage={coverage}")
+    if args.gate and (findings or coverage_incomplete):
         return 1
     return 0
 

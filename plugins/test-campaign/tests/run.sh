@@ -1013,7 +1013,10 @@ fi
 # --seed-strengthen control is the skill's own arming rule turned on the gate
 # itself: strengthen a constraint the registry cannot satisfy, and require red.
 VC="$WORK/vacuity"
-mkdir -p "$VC"
+mkdir -p "$VC/src/isolation" "$VC/check-tests"
+printf 'pub fn spawn_guest() {}\n' >"$VC/src/isolation/macos.rs"
+printf '@Test func measured() { write(); read() }\n' >"$VC/check-tests/ExampleTests.swift"
+printf '{"sourceRoot":"%s","testRoot":"%s"}\n' "$VC/src" "$VC/check-tests" >"$VC/campaign.json"
 cat >"$VC/inventory.json" <<'JSON'
 {"requirement": [
   {"id":"REQ-001","title":"The daemon keeps a counter in memory","effect":"none","evidence":"observed"},
@@ -1366,7 +1369,9 @@ fi
 #    with no source root declared, the resolution is NOT CHECKED out loud rather
 #    than quietly clean.
 PRV="$WORK/provider"
-mkdir -p "$PRV/camp" "$PRV/repo/src/isolation"
+mkdir -p "$PRV/camp" "$PRV/repo/src/isolation" "$PRV/check-tests"
+printf '@Test func measured() { write(); read() }\n' >"$PRV/check-tests/ExampleTests.swift"
+printf '{"testRoot":"%s"}\n' "$PRV/check-tests" >"$PRV/camp/campaign.json"
 cat >"$PRV/camp/inventory.json" <<'JSON'
 {"requirement": [
   {"id":"REQ-001","title":"The engine boots a Tart guest per job","effect":"subprocess",
@@ -1380,14 +1385,14 @@ RS
 
 # No root declared: both providers are strings nobody read, and the run says so.
 out="$(python3 "$S/vacuity-check.py" "$PRV/camp" --gate 2>&1)"; rc=$?
-if [ "$rc" = 0 ] && grep -qF -- "2 of 2 named, 0 resolved — NOT CHECKED" <<<"$out"; then
+if [ "$rc" = 1 ] && grep -qF -- "2 of 2 named, 0 resolved — NOT CHECKED" <<<"$out"; then
   say "ok    with no source root the provider resolution is not-checked out loud"; PASS=$((PASS+1))
 else
   echo "FAIL  an unresolvable census should say NOT CHECKED (exit $rc)"
   echo "$out" | sed 's/^/      /'; FAIL=$((FAIL+1))
 fi
 
-echo '{"project":"Provider","sourceRoot":"'"$PRV/repo"'"}' >"$PRV/camp/campaign.json"
+printf '{"project":"Provider","sourceRoot":"%s","testRoot":"%s"}\n' "$PRV/repo" "$PRV/check-tests" >"$PRV/camp/campaign.json"
 out="$(python3 "$S/vacuity-check.py" "$PRV/camp" --gate 2>&1)"; rc=$?
 if [ "$rc" = 1 ] && grep -qF -- "which resolves to nothing" <<<"$out" \
    && grep -qF -- "2 of 2 named, 1 resolved" <<<"$out"; then
@@ -2241,6 +2246,12 @@ if python3 "$HERE/test_instrument_defects.py"; then
   say "ok    instrument defect regressions (registry DEF-051/052/054/056/061/501)"; PASS=$((PASS+1))
 else
   echo "FAIL  instrument defect regressions"; FAIL=$((FAIL+1))
+fi
+
+if python3 "$HERE/test_vacuity_gate_coverage.py"; then
+  say "ok    vacuity gate refuses incomplete coverage"; PASS=$((PASS+1))
+else
+  echo "FAIL  vacuity gate coverage fixtures"; FAIL=$((FAIL+1))
 fi
 
 echo "campaign gate tests: $PASS passed, $FAIL failed"

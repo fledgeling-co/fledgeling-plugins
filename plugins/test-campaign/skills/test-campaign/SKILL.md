@@ -902,6 +902,13 @@ Raise the ratchet in the same commit that earns it.
 **No artifact, no verdict.** A conclusion reached by looking is not a
 measurement.
 
+**A closing message is not a finished campaign.** A model running a long campaign
+reports progress as it goes, and some of those reports end the turn with phases
+still open. `campaign.py check` clearing is what finished means. When a turn ends
+with open rows and no stated blocker, name the open rows and carry on; after two
+or three such restarts on the same rows, stop and record them as blocked with the
+reason, so a stuck run is reviewed and not nudged forever.
+
 **A filename is not evidence of what a picture depicts.** A capture claims a
 subject; the claim is checkable only against what the channel was pointed at, and
 only if that was written down while the shutter was open. Everything else — the
