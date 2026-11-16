@@ -130,16 +130,21 @@ tally, the page path, and anything that is waiting on the user.
 
 | Lane | Family | Command (in `scripts/run_panel.sh`) | Resolved 7 Nov 2026 |
 |---|---|---|---|
-| `fable` | Anthropic | `claude --model fable --effort high -p` | claude-fable-5-1 |
+| `fable` | Anthropic | `claude --model claude-fable-5-1 --effort medium -p` | claude-fable-5-1 (pinned) |
 | `astra` | OpenAI | `codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only` | gpt-6-astra (pinned; codex lists no models) |
 | `argon` | Google | `agy --new-project --model "$(latest_model.py gemini --effort high)" -p` | gemini-4-argon-high |
 | `grok` | xAI | `grok -m "$(latest_model.py grok)" --effort xhigh -p` | grok-4.7 |
 
-Each lane runs the newest model its CLI offers, so a new release needs no edit here: `fable` is
-the claude CLI alias, and `scripts/latest_model.py` reads `agy models` and `grok models` and
-picks the highest version. Grok runs at `xhigh`, the most its CLI accepts. When the model
-running this skill shares a family with a lane, keep the lane and say so on the page. Pin a
-model with `FP_<LANE>_MODEL`, for example to repeat a decision on the same versions.
+Argon and Grok run the newest model their CLI offers: `scripts/latest_model.py` reads
+`agy models` and `grok models` and picks the highest version. Fable is the exception: it is
+pinned to `claude-fable-5-1` at medium effort (owner directive, 10 November 2026), so the lane
+does not drift with the `fable` alias or run at high effort. Its probe tries default setting
+sources first and, only on the terminal `needs_relogin` auth signature, retries with
+`project,local` so the stored claude.ai login can answer; `FP_FABLE_SETTING_SOURCES` forces
+the sources (`auto`, `default`, or a list) and the log records the sources that ran. Grok runs at
+`xhigh`, the most its CLI accepts. When the model running this skill shares a family with a
+lane, keep the lane and say so on the page. Override a model id with `FP_<LANE>_MODEL`, for
+example to repeat a decision on the same versions; the Fable effort stays medium.
 
 ## Scope and cost
 

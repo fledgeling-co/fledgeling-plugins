@@ -3,12 +3,14 @@
 
     latest_model.py grok                    # newest plain grok-N.N from `grok models`, e.g. grok-4.7
     latest_model.py gemini --effort medium  # newest gemini-<version>-<name>-medium from `agy models`
-    latest_model.py opus | fable            # the claude CLI alias, which already tracks the newest model
+    latest_model.py opus                    # the claude CLI alias, which tracks the newest Opus
+    latest_model.py fable                   # the pinned panel model, claude-fable-5-1
 
-The Anthropic families need no lookup: `claude --model opus` and `claude --model fable` resolve to
-the newest Opus and Fable on every call. grok and agy have no such alias, so this reads their model
-lists and picks the highest version number. At an equal version a flagship name beats a flash or
-lite variant, so gemini-4-argon wins over a gemini-4-flash.
+Opus needs no lookup: `claude --model opus` resolves to the newest Opus on every call. The fable
+panel lane is pinned to `claude-fable-5-1` (run at medium effort by run_panel.sh), so it resolves
+to that exact id rather than the `fable` alias. grok and agy have no such alias, so this reads
+their model lists and picks the highest version number. At an equal version a flagship name beats
+a flash or lite variant, so gemini-4-argon wins over a gemini-4-flash.
 
 If the listing fails or matches nothing, it prints --fallback (or the built-in pin below) on stdout,
 says so on stderr and exits 0, so a lane still runs and its log shows that the pin was used.
@@ -18,7 +20,7 @@ import re
 import subprocess
 import sys
 
-PINS = {"grok": "grok-4.7", "gemini": "gemini-4-argon-{effort}", "opus": "opus", "fable": "fable"}
+PINS = {"grok": "grok-4.7", "gemini": "gemini-4-argon-{effort}", "opus": "opus", "fable": "claude-fable-5-1"}
 LIGHT = ("flash", "lite", "mini", "nano")
 
 
@@ -58,8 +60,11 @@ def main():
     ap.add_argument("--fallback", help="id to print when the CLI listing fails")
     a = ap.parse_args()
     fallback = a.fallback or PINS[a.family].format(effort=a.effort)
-    if a.family in ("opus", "fable"):
-        print(a.family)
+    if a.family == "opus":
+        print("opus")
+        return
+    if a.family == "fable":
+        print(fallback)
         return
     try:
         found = newest_grok() if a.family == "grok" else newest_gemini(a.effort)
