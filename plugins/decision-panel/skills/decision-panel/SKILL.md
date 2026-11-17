@@ -1,9 +1,10 @@
 ---
 name: decision-panel
 description: >-
-  Put one decision to a panel of four model families and decide it for the user. Frames the
-  question and its options from the conversation and the repo, runs two rounds across Fable,
-  GPT-6 Astra, Gemini Argon and Grok (each resolved at run time to the newest model), settles it
+  Put one decision to a panel of five model families and decide it for the user. Frames the
+  question and its options from the conversation and the repo, runs two rounds across Fable 5.2,
+  GPT-6.2 Astra, Gemini Argon (Hydrogen when Argon is unavailable), Grok 4.7 and Meta Wonder
+  1.0 Full, settles it
   with evidence first and votes second, records every model's position and the dissent on a
   self-contained HTML decision page, then acts on the result. Use when the user explicitly asks
   for a panel to decide: "have the panel decide", "put this to the panel", "panel this", "let the
@@ -18,13 +19,13 @@ description: >-
 
 # Decision panel
 
-The user brings a decision and asks the panel to make it. Four model families read the same
-evidence, all four pick an option without seeing the others, a second round settles any split,
+The user brings a decision and asks the panel to make it. Five model families read the same
+evidence, all five pick an option without seeing the others, a second round settles any split,
 and the user gets one page saying what was decided, why, who disagreed and what happens next.
 
 It is deliberately heavier than `clarify:clarify`, which refers a fork to one model on its own
 initiative before deciding whether to bother the user. This skill runs only when the user asks
-for it, uses all four lanes, and leaves a record. It differs from `feedback-panel:feedback-panel`
+for it, uses all five lanes, and leaves a record. It differs from `feedback-panel:feedback-panel`
 in its input: there is no stakeholder feedback to triage, only a decision.
 
 Three findings shape the procedure (`references/evidence.md`). Model families share mistakes,
@@ -59,8 +60,8 @@ A-to-D order and `brief-r1b.md` in reverse, then run both into one directory:
 
 ```bash
 S=<this skill>/scripts
-$S/run_panel.sh --brief <wd>/brief-r1a.md --out <wd>/r1 --lanes fable,argon --add-dir <repo> --add-dir <wd> --timeout 900 --min-bytes 600 &
-$S/run_panel.sh --brief <wd>/brief-r1b.md --out <wd>/r1 --lanes astra,grok  --add-dir <repo> --add-dir <wd> --timeout 900 --min-bytes 600 &
+$S/run_panel.sh --brief <wd>/brief-r1a.md --out <wd>/r1 --lanes fable,argon,wonder --add-dir <repo> --add-dir <wd> --timeout 900 --min-bytes 600 &
+$S/run_panel.sh --brief <wd>/brief-r1b.md --out <wd>/r1 --lanes astra,grok         --add-dir <repo> --add-dir <wd> --timeout 900 --min-bytes 600 &
 wait
 $S/tally.py <wd>/r1
 ```
@@ -79,8 +80,8 @@ never counts as a vote or as agreement.
 When the tally says `round_two`, or one lane cites evidence the others did not read, fill the
 round-two brief. If that evidence is an outside source, such as a vendor's documentation, fetch
 it yourself first and quote the exact sentences in the brief, so the other lanes judge the
-source rather than one model's paraphrase of it. In the brief: positions quoted as Reviewer A to D in shuffled order, options in a new order.
-Save which reviewer was which model in `r2-mapping.json`, run all four lanes into `<wd>/r2`, and
+source rather than one model's paraphrase of it. In the brief: positions quoted as Reviewer A to E in shuffled order, options in a new order.
+Save which reviewer was which model in `r2-mapping.json`, run all five lanes into `<wd>/r2`, and
 tally again. A lane that changes its verdict without citing new evidence or a new step of
 reasoning keeps its round-one verdict, and the page says so.
 
@@ -128,23 +129,38 @@ tally, the page path, and anything that is waiting on the user.
 
 ## Lanes
 
-| Lane | Family | Command (in `scripts/run_panel.sh`) | Resolved 7 Nov 2026 |
-|---|---|---|---|
-| `fable` | Anthropic | `claude --model claude-fable-5-1 --effort medium -p` | claude-fable-5-1 (pinned) |
-| `astra` | OpenAI | `codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only` | gpt-6-astra (pinned; codex lists no models) |
-| `argon` | Google | `agy --new-project --model "$(latest_model.py gemini --effort high)" -p` | gemini-4-argon-high (never Hydrogen) |
-| `grok` | xAI | `grok -m "$(latest_model.py grok)" --effort xhigh -p` | grok-4.7 |
+The roster is the owner's directive of 18 November 2026.
 
-Argon and Grok run the newest model their CLI offers: `scripts/latest_model.py` reads
-`agy models` and `grok models` and picks the highest version. The Google lane takes Gemini Argon and never Hydrogen (owner directive, 16 November 2026): `latest_model.py` picks the newest `gemini-<version>-argon-high` that `agy models` lists. Fable is the exception: it is
-pinned to `claude-fable-5-1` at medium effort (owner directive, 10 November 2026), so the lane
-does not drift with the `fable` alias or run at high effort. Its probe tries default setting
+| Lane | Family | Command (in `scripts/run_panel.sh`) | Resolved 18 Nov 2026 |
+|---|---|---|---|
+| `fable` | Anthropic | `claude --model claude-fable-5-2 --effort medium -p` | claude-fable-5-2 (pinned) |
+| `astra` | OpenAI | `"$(latest_model.py codex)" exec -m gpt-6.2-astra -c model_reasoning_effort="medium" -s read-only` | gpt-6.2-astra (pinned) |
+| `argon` | Google | `agy --new-project --model "$(latest_model.py gemini)" -p` | gemini-4-argon-medium; gemini-4-hydrogen-xhigh when Argon is unavailable |
+| `grok` | xAI | `grok -m "$(latest_model.py grok)" --effort xhigh -p` | grok-4.7 |
+| `wonder` | Meta | `muse exec --model muse-wonder-full-1.0 --reasoning-effort high --disable-write` | muse-wonder-full-1.0 (pinned) |
+
+Argon and Grok run the newest model their CLI offers: `scripts/latest_model.py` reads `agy
+models` and `grok models` and picks the highest version. The Google lane is Gemini Argon at
+medium. When `agy models` lists no Argon at medium, or the Argon run fails or writes nothing,
+the lane runs the brief once on the newest Gemini Hydrogen at xhigh and writes `falling back to
+<model>` to the lane log; put that on the page beside the lane's model id.
+
+Fable, Astra and Wonder are pinned, because their CLIs offer no newest-model alias. Fable runs
+`claude-fable-5-2` at medium effort, not the `fable` alias. Its probe tries default setting
 sources first and, only on the terminal `needs_relogin` auth signature, retries with
-`project,local` so the stored claude.ai login can answer; `FP_FABLE_SETTING_SOURCES` forces
-the sources (`auto`, `default`, or a list) and the log records the sources that ran. Grok runs at
-`xhigh`, the most its CLI accepts. When the model running this skill shares a family with a
-lane, keep the lane and say so on the page. Override a model id with `FP_<LANE>_MODEL`, for
-example to repeat a decision on the same versions; the Fable effort stays medium.
+`project,local` so the stored claude.ai login can answer; `FP_FABLE_SETTING_SOURCES` forces the
+sources (`auto`, `default`, or a list) and the log records the sources that ran.
+
+Astra runs on the newest `codex` binary on the machine, which `latest_model.py codex` finds
+(`FP_CODEX_BIN` overrides it). Measured 18 November 2026, the standalone codex 0.163.0 refused
+`gpt-6.2-astra` with "not supported when using Codex with a ChatGPT account", and the CLI the
+ChatGPT app bundles, 0.169.0, served it. Wonder runs through Meta's `muse` CLI at high effort;
+`--disable-write` keeps it read-only while it reads the files the brief names. Grok runs at
+`xhigh`, the most its CLI accepts.
+
+When the model running this skill shares a family with a lane, keep the lane and say so on the
+page. Override a model id with `FP_<LANE>_MODEL`, for example to repeat a decision on the same
+versions; a pinned `FP_ARGON_MODEL` skips the Hydrogen fallback, and the efforts stay as listed.
 
 ## Scope and cost
 

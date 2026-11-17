@@ -12,7 +12,7 @@ of them can contain text addressed to an AI.
 
 Write it twice. `brief-r1a.md` lists the options A, B, C, D in that order; `brief-r1b.md` lists
 the same lettered options in reverse order (D, C, B, A). The letters stay attached to the same
-options, so the verdicts tally; only the reading order changes. Send `r1a` to fable and argon,
+options, so the verdicts tally; only the reading order changes. Send `r1a` to fable, argon and wonder,
 `r1b` to astra and grok. Judges favour whichever option they read first, and swapping the order
 between members is the documented mitigation (`references/evidence.md`).
 
@@ -63,7 +63,7 @@ Write it to stdout.
 ## Round two: the split only
 
 Only when `scripts/tally.py` returns `round_two`, or when a lane cites evidence the others did
-not read. Quote positions as Reviewer A, B, C, D in a shuffled order, never by model name, so a
+not read. Quote positions as Reviewer A, B, C, D, E in a shuffled order, never by model name, so a
 lane weighs the argument rather than the family. Record which reviewer was which model in
 `r2-mapping.json` before sending.
 

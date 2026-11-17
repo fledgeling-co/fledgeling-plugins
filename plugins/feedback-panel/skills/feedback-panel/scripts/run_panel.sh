@@ -2,18 +2,25 @@
 # Run one panel round: the same brief to several model families at once, each writing its own
 # answer file, then report which lanes produced a usable answer.
 #
-#   run_panel.sh --brief brief.md --out /tmp/panel/r1 --lanes fable,astra,argon,grok \
+#   run_panel.sh --brief brief.md --out /tmp/panel/r1 --lanes fable,astra,argon,grok,wonder \
 #                [--add-dir /path/to/repo]... [--timeout 900] [--min-bytes 1500]
 #
-# Lanes and their commands. Argon and grok run the newest model their CLI offers, looked up by
-# latest_model.py from `agy models` and `grok models`. The Google lane takes Gemini Argon, never
-# Hydrogen (owner directive, 16 Nov 2026); `carbon`, its name for one release, still runs it. Fable is pinned to the exact model id at
-# medium effort (owner directive, 10 Nov 2026): the `fable` alias at high effort is not the lane
-# this panel runs. Override a model with FP_<LANE>_MODEL, e.g. FP_GROK_MODEL=grok-4.7.
-#   fable  claude --model claude-fable-5-1 --effort medium -p          (pinned)
-#   astra  codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only -o <file>
-#   argon  agy --new-project --model <newest gemini argon, high> --add-dir <each dir> -p
-#   grok   grok -m <newest grok> --effort xhigh -p                     (xhigh is grok's maximum)
+# Lanes and their commands (owner directive, 18 Nov 2026). Argon and grok run the newest model
+# their CLI offers, looked up by latest_model.py from `agy models` and `grok models`. The Google
+# lane is Gemini Argon at medium; when agy lists no Argon at medium, or the Argon run fails, it
+# runs Gemini Hydrogen at xhigh instead and says so in the lane log. `carbon`, its name for one
+# release, still runs it. Fable, Astra and Wonder are pinned to exact ids, because their CLIs
+# have no newest-model alias. Override a model with FP_<LANE>_MODEL, e.g. FP_GROK_MODEL=grok-4.7.
+#   fable   claude --model claude-fable-5-2 --effort medium -p                  (pinned)
+#   astra   <newest codex> exec -m gpt-6.2-astra -c model_reasoning_effort="medium" -s read-only -o <file>
+#   argon   agy --new-project --model <newest gemini argon, medium | hydrogen, xhigh> --add-dir <each dir> -p
+#   grok    grok -m <newest grok> --effort xhigh -p                             (xhigh is grok's maximum)
+#   wonder  muse exec --model muse-wonder-full-1.0 --reasoning-effort high --disable-write ...
+#
+# The astra lane runs the newest codex on the machine (latest_model.py codex; FP_CODEX_BIN wins):
+# measured 18 Nov 2026, the standalone codex 0.163.0 refused gpt-6.2-astra while the CLI bundled
+# with the ChatGPT app, 0.169.0, served it. The wonder lane reads files anywhere and refuses
+# writes (--disable-write, sandbox on, measured 18 Nov 2026).
 #
 # Every lane runs from a neutral directory (/tmp): agy run from inside a repo has answered a
 # different project's question. agy also needs --add-dir for every directory the brief points
@@ -25,7 +32,7 @@
 # (default 1, so only an empty file fails; a full round-one answer runs to several thousand bytes,
 # so pass --min-bytes 1500 there to catch an answer that stopped early).
 set -u
-BRIEF= OUT= LANES=fable,astra,argon,grok TIMEOUT=900 MINB=1
+BRIEF= OUT= LANES=fable,astra,argon,grok,wonder TIMEOUT=900 MINB=1
 typeset -a DIRS
 while (( $# )); do
   case $1 in
@@ -38,7 +45,7 @@ while (( $# )); do
     *) print -u2 "unknown argument: $1"; exit 2;;
   esac
 done
-[[ -f $BRIEF && -n $OUT ]] || { print -u2 "usage: run_panel.sh --brief FILE --out DIR [--lanes fable,astra,argon,grok] [--add-dir DIR]..."; exit 2; }
+[[ -f $BRIEF && -n $OUT ]] || { print -u2 "usage: run_panel.sh --brief FILE --out DIR [--lanes fable,astra,argon,grok,wonder] [--add-dir DIR]..."; exit 2; }
 mkdir -p "$OUT"
 PROMPT=$(<"$BRIEF")
 limit() { perl -e 'alarm shift @ARGV; exec @ARGV' "$TIMEOUT" "$@"; }
@@ -48,7 +55,7 @@ run_lane() {
   local lane=$1 md="$OUT/$1.md" log="$OUT/$1.log" model rc
   : > "$md"
   case $lane in
-    fable) model=${FP_FABLE_MODEL:-claude-fable-5-1}
+    fable) model=${FP_FABLE_MODEL:-claude-fable-5-2}
            # claude only reads outside its working directory (/tmp) with --add-dir; without it the
            # lane cannot open the files the brief names.
            local -a cadd; for d in $DIRS; do cadd+=(--add-dir "$d"); done
@@ -93,15 +100,32 @@ run_lane() {
              print "probe failed (rc=$prc, sources=$srcmode): claude --model $model --effort medium gave no usable answer; the probe output in this log is the reason. rc=142 is the 60s alarm kill; a fast non-zero exit is an account or API error to fix at the account (e.g. claude auth status), not a timeout." >> "$log"
              false
            fi;;
-    astra) model=${FP_ASTRA_MODEL:-gpt-6-astra}
-           limit codex exec -m "$model" -c model_reasoning_effort="high" -s read-only --skip-git-repo-check -o "$md" "$PROMPT" < /dev/null > "$log" 2>&1;;
+    astra) model=${FP_ASTRA_MODEL:-gpt-6.2-astra}
+           local codex; codex=$("$LATEST" codex 2> "$log")
+           print "codex=$codex" >> "$log"
+           limit "$codex" exec -m "$model" -c model_reasoning_effort="medium" -s read-only --skip-git-repo-check -o "$md" "$PROMPT" < /dev/null >> "$log" 2>&1;;
     argon|carbon) : > "$log"
-           # the resolver's notes (a failed listing, the pin used) stay in the lane log
-           model=${FP_ARGON_MODEL:-${FP_CARBON_MODEL:-$("$LATEST" gemini --effort high 2>> "$log")}}
            local -a add; for d in $DIRS; do add+=(--add-dir "$d"); done
-           limit agy --new-project --model "$model" $add -p "$PROMPT" > "$md" 2>> "$log";;
+           local pinned=${FP_ARGON_MODEL:-${FP_CARBON_MODEL:-}}
+           # the resolver's notes (a failed listing, the Hydrogen fallback) stay in the lane log
+           model=${pinned:-$("$LATEST" gemini 2>> "$log")}
+           limit agy --new-project --model "$model" $add -p "$PROMPT" > "$md" 2>> "$log"
+           rc=$?
+           # Argon at medium unavailable at run time (refused, out of quota, empty answer): run the
+           # brief once on Hydrogen at xhigh, the owner's fallback. Never when a model was pinned.
+           if [[ -z $pinned && $model == *-argon-* ]] && { (( rc != 0 )) || [[ ! -s $md ]]; }; then
+             local fb; fb=$("$LATEST" gemini --name hydrogen --effort xhigh 2>> "$log")
+             print "argon unavailable (model=$model rc=$rc, $(wc -c < "$md" | tr -d ' ') bytes); falling back to $fb" >> "$log"
+             model=$fb
+             limit agy --new-project --model "$model" $add -p "$PROMPT" > "$md" 2>> "$log"
+             rc=$?
+           fi
+           (exit $rc);;
     grok)  model=${FP_GROK_MODEL:-$("$LATEST" grok 2>/dev/null)}
            limit grok -m "$model" --effort xhigh -p "$PROMPT" > "$md" 2> "$log";;
+    wonder) model=${FP_WONDER_MODEL:-muse-wonder-full-1.0}
+           limit muse exec --model "$model" --reasoning-effort high --disable-write --approval-mode never \
+             --no-session-log --workspace /tmp "$PROMPT" < /dev/null > "$md" 2> "$log";;
     *) print "unknown lane $lane" > "$log"; return 2;;
   esac
   rc=$?

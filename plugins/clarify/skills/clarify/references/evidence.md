@@ -79,6 +79,10 @@ and a fact nobody has checked since August are different kinds of claim.
 | `grok models` → `grok-4.7`, `grok-4.7-build-fast` (default), `grok-4.6`, `grok-4.5`; `-m latest` is refused | 7 Nov 2026 | `grok models`; `grok -m latest -p OK` → "unknown model id" |
 | `agy models` → `gemini-4-argon-{high,medium,low}` beside `gemini-3.8-flash-{high,medium,low}` | 7 Nov 2026 | `agy models` |
 | `scripts/latest_model.py` resolves `grok` → `grok-4.7` and `gemini --effort medium` → `gemini-4-argon-medium`, and falls back to its pin with a stderr warning when the CLI is missing | 7 Nov 2026 | run from `/tmp`, and once with `PATH=/usr/bin:/bin` |
+| `agy models` → `gemini-4-hydrogen-{xhigh,high,medium,low}` and `gemini-4-argon-{high,medium,low}`; `gemini-4-hydrogen-xhigh` answers | 18 Nov 2026 | `agy models`; `agy --new-project --model gemini-4-hydrogen-xhigh -p "Reply with ok."` |
+| Standalone `codex` 0.163.0 refuses `gpt-6.2-sol` and `gpt-6.2-astra` ("not supported when using Codex with a ChatGPT account"); the ChatGPT app's bundled codex 0.169.0 serves both, echoing `model: gpt-6.2-sol` and `reasoning effort: xhigh` | 18 Nov 2026 | `codex exec -m gpt-6.2-sol -c model_reasoning_effort="xhigh" -s read-only -o …` with each binary |
+| `muse exec --model muse-wonder-1.0 --reasoning-effort xhigh` answers; with `--disable-write --workspace /tmp` it read two files outside the workspace and refused to create one | 18 Nov 2026 | `muse exec … "Read <two paths> … try to create /tmp/muse-write-test.txt"`; the file did not exist afterwards |
+| `scripts/latest_model.py` resolves `gemini` → `gemini-4-hydrogen-xhigh` and `codex` → the bundled codex path | 18 Nov 2026 | run from the plugin directory |
 
 Two rows carry most of the weight.
 

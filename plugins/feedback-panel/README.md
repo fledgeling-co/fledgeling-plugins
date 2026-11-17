@@ -11,7 +11,7 @@ person who wrote it one HTML page to answer.
 
 1. Grounds every feedback point in the repo and sorts it into understood, question or push-back,
    with a `file:line` for each.
-2. Has a second model family check that triage, then runs four families, each on its newest model, in two rounds on the
+2. Has a second model family check that triage, then runs five families (Fable 5.2, GPT-6.2 Astra, Gemini Argon or Hydrogen, Grok 4.7 and Meta Wonder 1.0 Full) in two rounds on the
    open questions and push-back, and reconciles where they split.
 3. Runs the design, UX and design-review skills over decisions that change what a visitor sees.
 4. Builds a self-contained report (`scripts/build_report.py`): multiple-choice questions that
@@ -33,6 +33,6 @@ turned into questions.
 
 ## Requirements
 
-The lanes call the `claude`, `codex`, `agy` and `grok` CLIs (`scripts/run_panel.sh`); any
+The lanes call the `claude`, `codex`, `agy`, `grok` and `muse` CLIs (`scripts/run_panel.sh`); any
 missing CLI is reported as a failed lane and the panel continues with the rest. The report
 builder needs Python 3 only.

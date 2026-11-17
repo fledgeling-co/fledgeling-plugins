@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.8.0 - 2026-11-18
+
+Referral lanes move to Luke's 18 November 2026 roster: five lanes in five families, every one at xhigh. Opus (the `opus` alias, `claude-opus-5-5` today) stays. GPT-6.2 Sol (`gpt-6.2-sol`), Meta Wonder 1.0 (`muse-wonder-1.0` through the `muse` CLI, not the Full variant) and Grok 4.7 join or stay, and the Gemini lane moves from Argon at medium to Hydrogen at xhigh. The panel rung uses up to five families.
+
+`scripts/latest_model.py gemini` now resolves to the newest `gemini-<version>-hydrogen-xhigh`; `--name` and `--effort` (which now accepts `xhigh`) pick any other. `latest_model.py codex` prints the newest codex binary on the machine, because the standalone codex 0.163.0 refuses `gpt-6.2-sol` on a ChatGPT account and the codex 0.169.0 the ChatGPT app bundles serves it (measured 18 November). Each lane was run live at xhigh and answered; the measurements are in `references/evidence.md`.
+
 ## 1.7.1 - 2026-11-16
 
 The Gemini lane resolves to Argon and never Hydrogen (owner directive, 16 November 2026). `scripts/latest_model.py` compared model names at an equal version, so it picked `gemini-4-hydrogen-medium` over `gemini-4-argon-medium` once agy listed both; it now takes only the newest `gemini-<version>-argon-<effort>`, matching the roster's Gemini Argon at medium.

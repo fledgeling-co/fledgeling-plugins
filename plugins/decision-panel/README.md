@@ -7,26 +7,26 @@
 <p align="center">
   <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-D33C21">
   <img alt="SWE skill: decisions" src="https://img.shields.io/badge/SWE_skill-decisions-434A55">
-  <img alt="Four model families" src="https://img.shields.io/badge/panel-4_model_families-434A55">
+  <img alt="Five model families" src="https://img.shields.io/badge/panel-5_model_families-434A55">
   <img alt="Evals: one live run" src="https://img.shields.io/badge/evals-one_live_run-8A8070">
 </p>
 
-Hand one decision to four model families and get it decided, on one page, with the reasons and the dissent written down.
+Hand one decision to five model families and get it decided, on one page, with the reasons and the dissent written down.
 
-Some calls deserve more than one model's opinion and less than a meeting: which stack to support first, whether a plan holds up, which of two architectures to commit to. This plugin puts that call to Fable, GPT-6 Astra, Gemini Argon and Grok at once, each on the newest model its CLI offers, and lets the evidence in your repo settle it before any vote does.
+Some calls deserve more than one model's opinion and less than a meeting: which stack to support first, whether a plan holds up, which of two architectures to commit to. This plugin puts that call to Fable 5.2, GPT-6.2 Astra, Gemini Argon (or Hydrogen when Argon is unavailable), Grok 4.7 and Meta Wonder 1.0 Full at once, and lets the evidence in your repo settle it before any vote does.
 
-It's the deliberate sibling of `clarify`. Clarify refers a fork to one model on its own, mid-task, before deciding whether to bother you. This one only runs when you ask for it, uses all four, runs two rounds and leaves a record.
+It's the deliberate sibling of `clarify`. Clarify refers a fork to one model on its own, mid-task, before deciding whether to bother you. This one only runs when you ask for it, uses all five, runs two rounds and leaves a record.
 
 ## How it works
 
 1. **Frames the decision** from the conversation and your repo: one question, two to four options, the constraints and where each came from, and the files a model needs to read. Nothing secret or personal goes into the brief; it points at paths instead.
-2. **Round one.** All four answer independently with a `VERDICT` line, a ranking, the evidence and the risk if they're wrong. Two of them read the options in reverse order, because judges favour whatever they read first.
-3. **Round two, only on a split.** Positions come back to all four as Reviewer A to D, never by model name. A model that changes its mind has to cite something new, or its first answer stands. If one model cites an outside source the others didn't read, the source is fetched and quoted to all of them first.
+2. **Round one.** All five answer independently with a `VERDICT` line, a ranking, the evidence and the risk if they're wrong. Two of them read the options in reverse order, because judges favour whatever they read first.
+3. **Round two, only on a split.** Positions come back to all five as Reviewer A to E, never by model name. A model that changes its mind has to cite something new, or its first answer stands. If one model cites an outside source the others didn't read, the source is fetched and quoted to all of them first.
 4. **Decides.** Evidence first, then the majority, with the minority written down. A tie that survives round two is broken on the evidence and marked as a tie-break.
 5. **One page.** A self-contained HTML decision page in `docs/decisions/`: the decision, why, what happens next, every option and who chose it, each model's position, the dissent and the evidence. `scripts/build_decision.py --check` refuses a page that counts a failed model as a vote or hides a dissent.
 6. **Acts on it.** It carries out the next steps itself, except anything destructive, irreversible, outward-facing or that costs money, which waits for your OK.
 
-`scripts/tally.py` does the counting, so the settle-or-split call is the same every time: unanimous is decided, three of four is decided with dissent, and anything closer goes to round two.
+`scripts/tally.py` does the counting, so the settle-or-split call is the same every time: unanimous is decided, three quarters or more (four of five) is decided with dissent, and anything closer goes to round two.
 
 ## Does it actually work?
 
@@ -59,4 +59,4 @@ Ask for it: "have the panel decide which queue to use", "put this to the panel",
 
 ## Requirements
 
-The `claude`, `codex`, `agy` and `grok` CLIs, signed in. A missing one is reported as a failed lane and the panel goes on with the rest. Python 3 for the scripts. Every model runs on your subscriptions, so a run costs no metered money.
+The `claude`, `codex`, `agy`, `grok` and `muse` CLIs, signed in. The Astra lane needs a codex that serves `gpt-6.2-astra`; the runner picks the newest one installed, including the copy the ChatGPT app bundles. A missing one is reported as a failed lane and the panel goes on with the rest. Python 3 for the scripts. Every model runs on your subscriptions, so a run costs no metered money.

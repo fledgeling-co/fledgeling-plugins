@@ -59,7 +59,7 @@ disagreements; they are inputs to the panel, not verdicts.
 
 ### 3. The panel, two rounds
 
-Run the four lanes in the Lanes table with `scripts/run_panel.sh --min-bytes 1500` and the round-one brief in
+Run the five lanes in the Lanes table with `scripts/run_panel.sh --min-bytes 1500` and the round-one brief in
 `references/panel-briefs.md`. Each lane gets the feedback, the triage and the project paths,
 and returns a determination per question and a ruling per push-back (uphold, modify, withdraw)
 with evidence. Then run round two with only the points where the lanes split, quoting each
@@ -120,27 +120,36 @@ to resolve the "Other things we noticed" items, fix them and mark each one resol
 
 ## Lanes
 
-Argon and Grok run the newest model their CLI offers, looked up at run time by
-`scripts/latest_model.py`, which reads `agy models` and `grok models` and picks the highest
-version. The Google lane takes Gemini Argon and never Hydrogen (owner directive, 16 November 2026): `latest_model.py` picks the newest `gemini-<version>-argon-high` that `agy models` lists. Fable is the exception: it is pinned to `claude-fable-5-1` at medium effort (owner
-directive, 10 November 2026), so the lane does not drift with the `fable` alias or run at high
-effort. Its probe tries default setting sources first and, only on the terminal
-`needs_relogin` auth signature, retries with `project,local` so the stored claude.ai login can
-answer; `FP_FABLE_SETTING_SOURCES` forces the sources and the log records what ran. The model
-column shows what each resolved to on 7 November 2026, with Fable pinned.
+The roster is the owner's directive of 18 November 2026. Argon and Grok run the newest model
+their CLI offers, looked up at run time by `scripts/latest_model.py`, which reads `agy models`
+and `grok models` and picks the highest version. The Google lane is Gemini Argon at medium.
+When `agy models` lists no Argon at medium, or the Argon run fails or writes nothing, the lane
+runs once on the newest Gemini Hydrogen at xhigh and writes `falling back to <model>` to its log;
+name the model that answered in the report.
 
-| Lane | Family | Command (in `scripts/run_panel.sh`) | Resolved 7 Nov 2026 |
+Fable, Astra and Wonder are pinned, because their CLIs offer no newest-model alias. Fable runs
+`claude-fable-5-2` at medium effort, not the `fable` alias. Its probe tries default setting
+sources first and, only on the terminal `needs_relogin` auth signature, retries with
+`project,local` so the stored claude.ai login can answer; `FP_FABLE_SETTING_SOURCES` forces the
+sources and the log records what ran. Astra runs on the newest `codex` binary on the machine
+(`latest_model.py codex`; `FP_CODEX_BIN` overrides it): measured 18 November 2026, the
+standalone codex 0.163.0 refused `gpt-6.2-astra` and the CLI the ChatGPT app bundles, 0.169.0,
+served it. Wonder runs through Meta's `muse` CLI, read-only with `--disable-write`.
+
+| Lane | Family | Command (in `scripts/run_panel.sh`) | Resolved 18 Nov 2026 |
 |---|---|---|---|
-| `fable` | Anthropic | `claude --model claude-fable-5-1 --effort medium -p` | claude-fable-5-1 (pinned) |
-| `astra` | OpenAI | `codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only` | gpt-6-astra (pinned; codex lists no models) |
-| `argon` | Google | `agy --new-project --model "$(latest_model.py gemini --effort high)" --add-dir <repo> -p` | gemini-4-argon-high (never Hydrogen) |
+| `fable` | Anthropic | `claude --model claude-fable-5-2 --effort medium -p` | claude-fable-5-2 (pinned) |
+| `astra` | OpenAI | `"$(latest_model.py codex)" exec -m gpt-6.2-astra -c model_reasoning_effort="medium" -s read-only` | gpt-6.2-astra (pinned) |
+| `argon` | Google | `agy --new-project --model "$(latest_model.py gemini)" --add-dir <repo> -p` | gemini-4-argon-medium; gemini-4-hydrogen-xhigh when Argon is unavailable |
 | `grok` | xAI | `grok -m "$(latest_model.py grok)" --effort xhigh -p` | grok-4.7 |
+| `wonder` | Meta | `muse exec --model muse-wonder-full-1.0 --reasoning-effort high --disable-write` | muse-wonder-full-1.0 (pinned) |
 
-Run all four lanes by default. Grok runs at `xhigh`, the highest effort its CLI accepts; it
+Run all five lanes by default. Grok runs at `xhigh`, the highest effort its CLI accepts; it
 rejects `max`. When the user names lanes, use those. When the model writing the report shares a
 family with a lane, keep the lane and say in the report which reviewer shares that family.
 Each lane's log ends with `model=<id>`, the model it was asked for. Pin a model with
-`FP_<LANE>_MODEL`, for example to repeat a run on the same version.
+`FP_<LANE>_MODEL`, for example to repeat a run on the same version; a pinned `FP_ARGON_MODEL`
+skips the Hydrogen fallback.
 
 ## Scope and length
 

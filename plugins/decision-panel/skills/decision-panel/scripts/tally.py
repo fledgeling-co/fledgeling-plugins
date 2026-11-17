@@ -9,8 +9,8 @@ A lane with no verdict line, or an answer file under 300 bytes, is a failure and
 
 Then it applies the panel's rule, so the call is the same on every run:
   unanimous among valid lanes          -> decided
-  top option has at least 3/4 of them  -> decided_split (record the dissent)
-  anything else                        -> round_two (2-2, 2-1-1, or fewer than 3 valid lanes)
+  top option has at least 3/4 of them  -> decided_split (3-1 of four, 4-1 of five; record the dissent)
+  anything else                        -> round_two (2-2, 2-1-1, 3-2 of five, or fewer than 3 valid lanes)
 Exit code 0 when the round settles the decision, 3 when it needs round two, 1 when fewer than
 two lanes answered at all.
 """

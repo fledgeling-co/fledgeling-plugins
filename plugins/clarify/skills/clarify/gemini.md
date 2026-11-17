@@ -75,7 +75,7 @@ report the fractions beside the question — four cells, four clauses, or the sw
 |---|---|--:|---|
 | Gate 1's sweep sources — conversation, repo, session work, the files | SKILL.md:50–58 | 4 | `4 of 4`, each with the clause naming where |
 | Technical forks surviving gates 1–3, each referred | SKILL.md:96 | one per fork | `2 of 2 referred` |
-| Panel members asked whether a better approach exists | SKILL.md:187 | 3 (4 with fable) | `3 of 3 asked, 3 answered` |
+| Panel members asked whether a better approach exists | SKILL.md:211 | 5 | `5 of 5 asked, 5 answered` |
 | Shape-table rules the linter reads back | SKILL.md:327 | 10 | `exit 0, output pasted` |
 
 ## C7 — read what the prompt names, then answer

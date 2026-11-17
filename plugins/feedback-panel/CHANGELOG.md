@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 - 2026-11-18
+
+The panel is five lanes on the owner's 18 November 2026 roster. Fable moves to `claude-fable-5-2` at medium. Astra moves to `gpt-6.2-astra` at medium (from `gpt-6-astra` at high). A new `wonder` lane runs Meta's `muse-wonder-full-1.0` at high through the `muse` CLI, read-only with `--disable-write`. Grok stays on the newest Grok at xhigh, `grok-4.7` today. The Google lane is Gemini Argon at medium (from high), and runs the newest Gemini Hydrogen at xhigh when agy lists no Argon at medium or the Argon run fails or writes nothing; the lane log says `falling back to <model>`. A pinned `FP_ARGON_MODEL` skips the fallback, and `FP_WONDER_MODEL` overrides the new lane.
+
+The Astra lane now runs the newest `codex` binary on the machine (`latest_model.py codex`, or `FP_CODEX_BIN`). Measured 18 November, the standalone codex 0.163.0 refused `gpt-6.2-astra` on a ChatGPT account, and the codex 0.169.0 the ChatGPT app bundles served it. `run_panel.sh` and `latest_model.py` are the same files as decision-panel 0.3.0's, tested there.
+
 ## 0.3.1 - 2026-11-16
 
 The Google lane is Gemini Argon again, and still never Hydrogen (owner directive, 16 November 2026, replacing the Carbon directive the same day). `latest_model.py gemini` takes the newest `gemini-<version>-argon-<effort>` that `agy models` lists, so a newer Hydrogen release is never picked. The lane is `argon` again; `carbon`, its name in the previous release, still runs it, and `FP_ARGON_MODEL` overrides the model (`FP_CARBON_MODEL` is still read).
