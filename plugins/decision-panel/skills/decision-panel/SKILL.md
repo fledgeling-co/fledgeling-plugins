@@ -137,7 +137,7 @@ The roster is the owner's directive of 18 November 2026.
 | `astra` | OpenAI | `"$(latest_model.py codex)" exec -m gpt-6.2-astra -c model_reasoning_effort="medium" -s read-only` | gpt-6.2-astra (pinned) |
 | `argon` | Google | `agy --new-project --model "$(latest_model.py gemini)" -p` | gemini-4-argon-medium; gemini-4-hydrogen-xhigh when Argon is unavailable |
 | `grok` | xAI | `grok -m "$(latest_model.py grok)" --effort xhigh -p` | grok-4.7 |
-| `wonder` | Meta | `muse exec --model muse-wonder-full-1.0 --reasoning-effort high --disable-write` | muse-wonder-full-1.0 (pinned) |
+| `wonder` | Meta | `muse exec --model muse-wonder-full-1.0 --reasoning-effort high --disable-write --disable-shell --disable-web-tools` | muse-wonder-full-1.0 (pinned) |
 
 Argon and Grok run the newest model their CLI offers: `scripts/latest_model.py` reads `agy
 models` and `grok models` and picks the highest version. The Google lane is Gemini Argon at

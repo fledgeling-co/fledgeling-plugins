@@ -19,8 +19,8 @@
 #
 # The astra lane runs the newest codex on the machine (latest_model.py codex; FP_CODEX_BIN wins):
 # measured 18 Nov 2026, the standalone codex 0.163.0 refused gpt-6.2-astra while the CLI bundled
-# with the ChatGPT app, 0.169.0, served it. The wonder lane reads files anywhere and refuses
-# writes (--disable-write, sandbox on, measured 18 Nov 2026).
+# with the ChatGPT app, 0.169.0, served it. The wonder lane has read tools only: it reads files
+# anywhere, and refuses writes, shell and web fetches (measured 18 Nov 2026).
 #
 # Every lane runs from a neutral directory (/tmp): agy run from inside a repo has answered a
 # different project's question. agy also needs --add-dir for every directory the brief points
@@ -124,8 +124,12 @@ run_lane() {
     grok)  model=${FP_GROK_MODEL:-$("$LATEST" grok 2>/dev/null)}
            limit grok -m "$model" --effort xhigh -p "$PROMPT" > "$md" 2> "$log";;
     wonder) model=${FP_WONDER_MODEL:-muse-wonder-full-1.0}
-           limit muse exec --model "$model" --reasoning-effort high --disable-write --approval-mode never \
-             --no-session-log --workspace /tmp "$PROMPT" < /dev/null > "$md" 2> "$log";;
+           # Read tools only: no writes, no shell, no web, and untrusted approval. muse's --workspace
+           # does not confine reads (measured 18 Nov 2026), so cutting the network is what stops a
+           # planted instruction in a repo file from sending data anywhere but the model.
+           limit muse exec --model "$model" --reasoning-effort high --disable-write --disable-shell \
+             --disable-web-tools --approval-mode untrusted --no-session-log --workspace /tmp \
+             "$PROMPT" < /dev/null > "$md" 2> "$log";;
     *) print "unknown lane $lane" > "$log"; return 2;;
   esac
   rc=$?

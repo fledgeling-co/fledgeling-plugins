@@ -142,7 +142,7 @@ served it. Wonder runs through Meta's `muse` CLI, read-only with `--disable-writ
 | `astra` | OpenAI | `"$(latest_model.py codex)" exec -m gpt-6.2-astra -c model_reasoning_effort="medium" -s read-only` | gpt-6.2-astra (pinned) |
 | `argon` | Google | `agy --new-project --model "$(latest_model.py gemini)" --add-dir <repo> -p` | gemini-4-argon-medium; gemini-4-hydrogen-xhigh when Argon is unavailable |
 | `grok` | xAI | `grok -m "$(latest_model.py grok)" --effort xhigh -p` | grok-4.7 |
-| `wonder` | Meta | `muse exec --model muse-wonder-full-1.0 --reasoning-effort high --disable-write` | muse-wonder-full-1.0 (pinned) |
+| `wonder` | Meta | `muse exec --model muse-wonder-full-1.0 --reasoning-effort high --disable-write --disable-shell --disable-web-tools` | muse-wonder-full-1.0 (pinned) |
 
 Run all five lanes by default. Grok runs at `xhigh`, the highest effort its CLI accepts; it
 rejects `max`. When the user names lanes, use those. When the model writing the report shares a

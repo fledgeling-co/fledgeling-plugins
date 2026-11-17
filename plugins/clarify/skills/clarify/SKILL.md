@@ -118,7 +118,7 @@ Honor the user's chosen roles first. For referrals from this skill, Luke's roste
 | Opus 5.5 (Anthropic) | `claude --model opus --effort xhigh -p "<prompt>" < /dev/null > /tmp/so.md` | the newest Opus (the alias), claude-opus-5-5 |
 | GPT-6.2 Sol (OpenAI) | `"$(scripts/latest_model.py codex)" exec -m gpt-6.2-sol -c model_reasoning_effort="xhigh" -s read-only --skip-git-repo-check -o /tmp/so-sol.md "<prompt>" < /dev/null` | gpt-6.2-sol (pinned) |
 | Grok 4.7 (xAI) | `grok -m "$(scripts/latest_model.py grok)" --effort xhigh -p "<prompt>" > /tmp/so-grok.md` | grok-4.7 |
-| Meta Wonder 1.0 (Meta) | `muse exec --model muse-wonder-1.0 --reasoning-effort xhigh --disable-write --approval-mode never --no-session-log --workspace /tmp "<prompt>" < /dev/null > /tmp/so-wonder.md` | muse-wonder-1.0 (pinned; not the Full variant) |
+| Meta Wonder 1.0 (Meta) | `muse exec --model muse-wonder-1.0 --reasoning-effort xhigh --disable-write --disable-shell --disable-web-tools --approval-mode untrusted --no-session-log --workspace /tmp "<prompt>" < /dev/null > /tmp/so-wonder.md` | muse-wonder-1.0 (pinned; not the Full variant) |
 | Gemini Hydrogen (Google) | `agy --new-project --model "$(scripts/latest_model.py gemini)" --add-dir <each dir the packet names> -p "<prompt>" > /tmp/so-agy.md` | gemini-4-hydrogen-xhigh |
 
 Run each from a neutral directory such as `/tmp`, under a deadline
@@ -170,8 +170,9 @@ because a CLI's argv is not stable across versions:
   Codex with a ChatGPT account"); the CLI the ChatGPT app bundles, 0.169.0, serves
   it at xhigh. `scripts/latest_model.py codex` prints the newest codex binary on
   the machine, and `FP_CODEX_BIN` overrides it.
-- `muse exec` serves `muse-wonder-1.0` at xhigh. With `--disable-write` it reads
-  files outside its `--workspace` and refuses to write.
+- `muse exec` serves `muse-wonder-1.0` at xhigh. With `--disable-write
+  --disable-shell --disable-web-tools` it still reads files outside its
+  `--workspace`, and refuses to write, run a shell or fetch a URL.
 - An empty or missing output file is a lane failure whatever the exit code says;
   a CLI that echoes its flags has proved only that it read them.
 
