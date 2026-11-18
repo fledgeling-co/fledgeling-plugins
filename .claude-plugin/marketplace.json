@@ -696,6 +696,17 @@
       },
       "source": "./plugins/app-store-connect",
       "category": "development"
+    },
+    {
+      "name": "home-craft",
+      "description": "Build, adapt or review a native Swift/SwiftUI iOS app for Apple CarPlay and Apple HomeView on iOS 26 and 27. Picks the one CarPlay entitlement, wires the car scene for a car-only cold launch, keeps Now Playing on one framework, and ships Swift templates that type-check against the iOS 27 SDK plus a 24-rule static audit. HomeView has no SDK: an app reaches it as a CarPlay audio or video app from a paired iPhone, or as a small widget, and the skill says which.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/home-craft",
+      "category": "development"
     }
   ]
 }

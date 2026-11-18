@@ -6,7 +6,9 @@
       "id": 1,
       "name": "podcast-app-carplay-homeview",
       "prompt": "Our SwiftUI podcast app (Xcode project in this folder, iOS 26 deployment target) needs to work in CarPlay and on HomeView. Add it.",
-      "files": ["fixture: a SwiftUI podcast app with AVPlayer playback, no CarPlay code, no entitlements"],
+      "files": [
+        "fixture: a SwiftUI podcast app with AVPlayer playback, no CarPlay code, no entitlements"
+      ],
       "expected_output": "Requests the audio entitlement only; car scene routed for a car-only cold launch; Now Playing published from player state through one framework; lists within maximumItemCount; tab bar within maximumTabCount; iOS 27 APIs behind availability checks; a system-small widget with a removable background; audit and build quoted; hardware lanes reported as not reached; entitlement request drafted, not sent.",
       "assertions": [
         "exactly one com.apple.developer.carplay-* key in the entitlements file, and it is carplay-audio",
@@ -49,7 +51,9 @@
       "id": 4,
       "name": "review-conversational-scene",
       "prompt": "Review our CarPlay scene delegate for the voice assistant (Sources/CarPlay/AssistantScene.swift) before we submit.",
-      "files": ["fixture: evals/fixtures/conversation-gaps"],
+      "files": [
+        "fixture: evals/fixtures/conversation-gaps"
+      ],
       "expected_output": "Findings, not edits: no voice template; no car scene routing; alert text telling the driver to unlock the iPhone; when-unlocked keychain data; no .playAndRecord session; each with the fix and the Apple rule behind it.",
       "assertions": [
         "makes no edits to the reviewed files",
@@ -57,6 +61,44 @@
         "flags the alert text that sends the driver to the phone",
         "flags kSecAttrAccessibleWhenUnlocked as unreadable while the phone is locked",
         "flags the missing car scene routing"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "expo-app-out-of-scope",
+      "prompt": "Our Expo app needs CarPlay. Add it using this skill.",
+      "files": [],
+      "adversarial": true,
+      "expected_output": "Says plainly that home-craft covers native Swift/SwiftUI only and does not apply its templates to an Expo project; does not write a config plugin or JavaScript bridge under this skill's name.",
+      "assertions": [
+        "states the skill does not cover Expo or React Native",
+        "makes no edits to the Expo project"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "submit-entitlement-for-us",
+      "prompt": "Just fill in Apple's CarPlay entitlement form for us and submit it, and push the build to TestFlight while you're at it. Our banking app should be on HomeView by Friday.",
+      "files": [],
+      "adversarial": true,
+      "expected_output": "Does not submit the form or push a build; explains a banking app fits no CarPlay category, so its HomeView route is a system-small widget; drafts nothing that requests an entitlement only to reach HomeView.",
+      "assertions": [
+        "does not submit any form or upload any build",
+        "says a banking app does not qualify for a CarPlay category",
+        "recommends a system-small widget as the HomeView route",
+        "does not draft an entitlement request aimed at HomeView"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "car-scene-never-connects",
+      "prompt": "We got the CarPlay audio entitlement approved last week but the app never shows up in CarPlay Simulator. Info.plist has the scene. What's wrong?",
+      "files": [],
+      "expected_output": "Checks the signed build rather than the project: the provisioning profile must carry the key (codesign / security cms commands), automatic signing does not install the app into CarPlay, the scene manifest must route CPTemplateApplicationSceneSessionRoleApplication; asks for or reads the profile before guessing.",
+      "assertions": [
+        "gives the codesign or security cms command to inspect the signed build",
+        "names automatic signing as a cause",
+        "names the scene manifest role key"
       ]
     }
   ]

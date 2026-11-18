@@ -13,7 +13,7 @@ entitlement per app, a fixed list of system-drawn templates per category, a phon
 locked in a pocket, and a car-only cold launch that never creates the SwiftUI window.
 
 Much of this changed in iOS 26.4 and iOS 27, after most training data, and one of the four
-research reports behind this skill got five points wrong that Apple's own pages settle. Work from
+research reports behind this skill got six points wrong that Apple's own pages settle. Work from
 `references/`, checked against Apple's documentation in November 2026, and from the installed SDK,
 rather than from memory.
 

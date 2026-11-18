@@ -1,0 +1,47 @@
+{
+  "takes": {
+    "engineA": {
+      "source": "icon-engineA-handauthored.svg",
+      "kind": "svg",
+      "source_sha256": "7fdf7f1d9ff618f31a1e3c0af542d3a342a486812f669e8f854ec4b04202b608",
+      "source_mtime": 1794963075.4886458,
+      "rendered_at": 1794963268.3501801
+    },
+    "engineB": {
+      "source": "icon-engineB-arrow-2a401a.svg",
+      "kind": "svg",
+      "source_sha256": "66bb904d4748e7f3f61b45cb46c0d9548afb9303a529ff9beb5d40bff9d9a768",
+      "source_mtime": 1794963144.497147,
+      "rendered_at": 1794963268.520703
+    },
+    "engineC": {
+      "source": "icon-engineC-raster-a13dc0.png",
+      "kind": "raster-mask",
+      "source_sha256": "944b40c85d7f875bc87244c71e2fa29f1aa506326e29b5e5be8cac4e26939aa9",
+      "source_mtime": 1794963188.0505185,
+      "rendered_at": 1794963268.861355
+    },
+    "shipped": {
+      "source": "icon.png",
+      "kind": "png",
+      "source_sha256": "830e775381626ed22e8f08cf266f0ffb5a80598cd526c9deb4ca197a7b592421",
+      "source_mtime": 1794963239.9907105,
+      "rendered_at": 1794963269.058552
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

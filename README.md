@@ -133,6 +133,14 @@ Builds a shareholder portal out of a company's own documents. Its main job is re
 
 <br clear="left" />
 
+<a href="plugins/home-craft/README.md"><img src="plugins/home-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [home-craft](plugins/home-craft/README.md)
+
+Puts a native iOS app in the car and on Apple's new HomeView display, which has no SDK of its own. It picks the one CarPlay entitlement the app is allowed, wires the car scene for a launch with the phone locked in a pocket, and ships Swift templates that compile against the iOS 27 SDK. Then it says whether it saw the app on a car screen or a counter, or didn't.
+
+<br clear="left" />
+
 <a href="plugins/launch-craft/README.md"><img src="plugins/launch-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [launch-craft](plugins/launch-craft/README.md) · **Uses multiple models**
