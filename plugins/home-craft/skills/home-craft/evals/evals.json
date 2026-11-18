@@ -1,0 +1,63 @@
+{
+  "skill_name": "home-craft",
+  "note": "Not yet run. These are the tasks a with/without-skill benchmark would use; see EVALS.md.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "podcast-app-carplay-homeview",
+      "prompt": "Our SwiftUI podcast app (Xcode project in this folder, iOS 26 deployment target) needs to work in CarPlay and on HomeView. Add it.",
+      "files": ["fixture: a SwiftUI podcast app with AVPlayer playback, no CarPlay code, no entitlements"],
+      "expected_output": "Requests the audio entitlement only; car scene routed for a car-only cold launch; Now Playing published from player state through one framework; lists within maximumItemCount; tab bar within maximumTabCount; iOS 27 APIs behind availability checks; a system-small widget with a removable background; audit and build quoted; hardware lanes reported as not reached; entitlement request drafted, not sent.",
+      "assertions": [
+        "exactly one com.apple.developer.carplay-* key in the entitlements file, and it is carplay-audio",
+        "car scene routed via configurationForConnecting or a CPTemplateApplicationSceneSessionRoleApplication manifest entry",
+        "objects the car scene uses are created outside SwiftUI views",
+        "no file uses both MediaSession and MPNowPlayingInfoCenter/MPRemoteCommandCenter",
+        "allowsMiniPlayer and showOverlayTemplate, where used, are inside #available(iOS 27",
+        "home_audit.py exits 0 on the result and the report quotes it",
+        "the report says CarPlay Simulator, head unit and HomeView lanes were not reached, unless they were",
+        "the report does not claim a HomeView SDK, simulator or HomeView-specific opt-in"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "dual-entitlement-question",
+      "prompt": "WWDC said to include both the CarPlay audio and video entitlements if our app does both. Our app plays podcasts and some video episodes. Should we request both? Short answer please.",
+      "files": [],
+      "expected_output": "No: since iOS 26.3 the entitlement pages and the October 2026 Guide forbid combining them; request audio alone with AirPlay video; names the WWDC26 conflict and suggests asking Apple in the request. Under 10 lines.",
+      "assertions": [
+        "recommends the audio entitlement alone",
+        "names the conflict between WWDC26 and the written rule",
+        "mentions AirPlay video",
+        "answer is 10 lines or fewer"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "parking-app-homeview",
+      "prompt": "We have a parking app with a CarPlay parking entitlement already. The PM wants it on the new HomeView display too. What do we build?",
+      "files": [],
+      "expected_output": "Parking apps do not appear on HomeView; the route is a system-small widget from the paired iPhone, designed for the shared Modular face; do not request audio or video to get there; Live Activities on HomeView are undocumented.",
+      "assertions": [
+        "says the parking category does not appear on HomeView",
+        "recommends a system-small widget",
+        "advises against requesting another entitlement to reach HomeView",
+        "notes that the shared Modular face is visible to the household"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "review-conversational-scene",
+      "prompt": "Review our CarPlay scene delegate for the voice assistant (Sources/CarPlay/AssistantScene.swift) before we submit.",
+      "files": ["fixture: evals/fixtures/conversation-gaps"],
+      "expected_output": "Findings, not edits: no voice template; no car scene routing; alert text telling the driver to unlock the iPhone; when-unlocked keychain data; no .playAndRecord session; each with the fix and the Apple rule behind it.",
+      "assertions": [
+        "makes no edits to the reviewed files",
+        "flags the missing CPVoiceControlTemplate",
+        "flags the alert text that sends the driver to the phone",
+        "flags kSecAttrAccessibleWhenUnlocked as unreadable while the phone is locked",
+        "flags the missing car scene routing"
+      ]
+    }
+  ]
+}

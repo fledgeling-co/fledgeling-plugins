@@ -1,0 +1,37 @@
+<!-- Merge into the app target's Info.plist. Keep the phone scene the app already has.
+     UIApplicationSupportsMultipleScenes must be true, or the car scene never connects.
+     HomeCraftApp.swift routes scenes in code instead; use one of the two, not both. -->
+<key>UIApplicationSceneManifest</key>
+<dict>
+    <key>UIApplicationSupportsMultipleScenes</key>
+    <true/>
+    <key>UISceneConfigurations</key>
+    <dict>
+        <key>UIWindowSceneSessionRoleApplication</key>
+        <array>
+            <dict>
+                <key>UISceneConfigurationName</key>
+                <string>Phone</string>
+            </dict>
+        </array>
+        <key>CPTemplateApplicationSceneSessionRoleApplication</key>
+        <array>
+            <dict>
+                <key>UISceneClassName</key>
+                <string>CPTemplateApplicationScene</string>
+                <key>UISceneConfigurationName</key>
+                <string>CarPlay</string>
+                <key>UISceneDelegateClassName</key>
+                <string>$(PRODUCT_MODULE_NAME).CarPlayMediaSceneDelegate</string>
+            </dict>
+        </array>
+    </dict>
+</dict>
+<!-- Audio and video apps keep playing in the background. -->
+<key>UIBackgroundModes</key>
+<array>
+    <string>audio</string>
+</array>
+<!-- Conversational apps only. -->
+<key>NSMicrophoneUsageDescription</key>
+<string>Lets you talk to the assistant hands-free in the car.</string>
