@@ -456,14 +456,14 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
 <script type="application/json" id="report-data">
 {
  "project": "fledgeling-plugins",
- "updated": "2026-11-18T01:03:01+00:00",
+ "updated": "2026-11-18T01:09:39+00:00",
  "verdict": {
-  "token": "in-flight",
-  "number": "0 of 7",
-  "unit": "benchmark tasks run, by the owner's choice",
-  "headline": "home-craft is built and checked, but not merged, pushed or benchmarked",
-  "run_label": "home-craft 0.1.0 · branch feat/home-craft",
-  "head_sha": "425042f"
+  "token": "done",
+  "number": "6 of 6",
+  "unit": "home-craft tasks finished",
+  "headline": "home-craft is live on main; its subscriber email was suppressed; not benchmarked",
+  "run_label": "home-craft 0.1.0 · pushed 90ef06a",
+  "head_sha": "90ef06a"
  },
  "tasks": [
   {
@@ -508,11 +508,12 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
   },
   {
    "id": "HC-6",
-   "title": "Merged to main and pushed",
+   "title": "Merged to main and pushed, no subscriber email",
    "origin": "planned",
-   "stage": "not started",
-   "outcome": "stuck",
-   "blocked_by": "owner decision: a push emails subscribers"
+   "stage": "code written",
+   "outcome": "done",
+   "blocked_by": "",
+   "version": "90ef06a"
   }
  ],
  "gates": [
@@ -621,23 +622,12 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
  ],
  "not_done": [
   {
-   "action": "Merge feat/home-craft and push",
-   "reason": "A push sends the subscriber email at 10am Sydney.",
-   "what_would_unblock": "The owner's go-ahead."
-  },
-  {
    "action": "Read Muse subagent sessions",
    "reason": "Briefing names the folder but does not render it.",
    "size": "an hour or two"
   }
  ],
  "needs_you": [
-  {
-   "ask": "Say whether to merge and push home-craft",
-   "kind": "decision",
-   "waiting_since": "2026-11-18T01:03:01+00:00",
-   "one_line": "Pushing announces it to subscribers."
-  },
   {
    "ask": "Check the xAI console for a stray research job",
    "kind": "decision",
@@ -646,10 +636,10 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
   }
  ],
  "git": {
-  "branch": "feat/home-craft",
-  "commits_ahead": 2,
+  "branch": "main",
+  "commits_ahead": 0,
   "worktree_clean": true,
-  "pushed": false
+  "pushed": true
  },
  "armed": [
   {
