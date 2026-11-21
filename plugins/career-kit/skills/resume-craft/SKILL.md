@@ -64,6 +64,19 @@ feedback:
 5. **When a default and a section's job pull apart, the job wins**, and you say so in your
    reply: a summary of 98 words that does its four things beats one of 85 that dropped one.
    Length and count defaults are guides to read against, never targets to cut to.
+6. **A rule about form never licenses a new claim.** If making a sentence fit a rule would mean
+   asserting something the person has not confirmed, such as putting them into a team that
+   received an award, keep the plain fact as it was or ask. Form rules give way to facts.
+7. **A rule never forbids the accurate word.** When the plainest true name for something is
+   also the word the ad uses, use it. The fault is a word that is there only because of the ad.
+8. **Keep the person's standing decisions, and check them after every revision.** Hold a list
+   of what they have asked for by name: a term to use, wording they approved, something ruled
+   out. A later correction changes what it names and nothing else. In one engagement a person
+   had said to use a method's name and to keep a particular word, and both disappeared three
+   revisions later while unrelated feedback was being applied (C). Put those terms, and each of
+   the ad's required phrases the person holds, in a file and run the lint with `--keep`.
+9. **A lint warning is a prompt to read the line, not a fault to clear.** Several of the
+   over-corrections above were made to silence a warning.
 
 `references/corrections.md` lists the corrections this skill has absorbed, with what each one
 forbids and what it leaves in. Read it before acting on feedback, and add to it when a person

@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 0.4.7
+
+`career-kit:resume-craft`: an audit for over-corrections, and four rules from it.
+
+- The person asked for the skill and one engagement's drafts to be checked for further
+  over-corrections. Ten were found and are listed in `references/corrections.md`. Their common
+  cause was treating the latest instruction as the only one.
+- `SKILL.md`, "Applying a rule or a correction", gains four rules: a rule about form never
+  licenses a new claim; a rule never forbids the accurate word; the person's standing decisions
+  are kept on a list and checked after every revision; a lint warning is a prompt to read the
+  line, not a fault to clear.
+- `scripts/resume_lint.py --keep FILE` fails when a term the person asked for, or a required
+  phrase they hold, has gone missing. The told-twice warning now needs a run of 12 shared
+  words, since a required term named in the summary and shown in a role shares words by
+  design. The lint prints a reminder not to edit merely to clear a warning.
+- Recognition is stated as what was awarded and to whom; "I was part of the team" only when
+  the person confirmed it. Skills labels use the plainest true word, whether or not the ad
+  uses it.
+- Not re-run: the skill's evals.
+
 ## 0.4.6
 
 `career-kit:resume-craft`: the key skills say what the person is unusually good at.

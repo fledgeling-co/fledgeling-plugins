@@ -207,7 +207,7 @@ def roles_of(section):
     return roles
 
 
-def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=None):
+def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=None, keep=()):
     r = Report()
     year = year or datetime.date.today().year
     doc = parse(text)
@@ -415,8 +415,10 @@ def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=Non
         sw = [w.lower().strip(".,;:") for _, s_ in sec_of["summary"]["body"] for w in s_.split()]
         ex = " ".join(w.lower().strip(".,;:") for _, s_ in sec_of["experience"]["body"]
                       for w in s_.split())
-        for k in range(len(sw) - 6):
-            run = " ".join(sw[k:k + 7])
+        # A required term named in the summary and shown in a role shares words by design, so
+        # only a long run counts as the same story told twice.
+        for k in range(len(sw) - 11):
+            run = " ".join(sw[k:k + 12])
             if run in ex:
                 r.warn("told-twice", f"the summary and the experience share the words '{run}'; "
                                      "tell it once, in the experience")
@@ -476,6 +478,13 @@ def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=Non
     r.info(f"{total} words, {len(all_bullets)} bullets")
     if total > 1100:
         r.warn("length", f"{total} words is more than two pages usually hold at 10.5pt")
+    low_text = re.sub(r"\s+", " ", text.lower())
+    for term in keep:
+        if term.lower() not in low_text:
+            r.error("kept-term-missing", f"'{term}' is on the keep list and is not in the "
+                                         "résumé; the person asked for it or the ad requires "
+                                         "it, so a later edit should not have removed it")
+
     return r
 
 
@@ -526,6 +535,12 @@ def run_self_test():
         print("FAIL label-opener/figure-on-object: should fire on a title-and-statistic opening only")
     else:
         print("ok   label-opener and figure-on-object fire on a title-and-statistic opening only")
+    r_keep = lint(good, year=2026, keep=["acceptance criteria", "a term that is not there"])
+    if r_keep.codes() & {"kept-term-missing"} and len([e for e in r_keep.errors if "kept-term" in e]) == 1:
+        print("ok   --keep reports a missing term and accepts a present one")
+    else:
+        ok = False
+        print("FAIL --keep: should report exactly the one missing term")
     ev = "I put a duplicate-claims fix first when call data showed lodgements made twice."
     r_ev = lint(good.replace("Most of my work is deciding which customer problem gets fixed first, from what the call data shows.", ev, 1), year=2026)
     if "summary-event" not in r_ev.codes() or "summary-event" in rg.codes():
@@ -549,6 +564,9 @@ def main():
                     help="accepted summary length as min-max (default 60-90)")
     ap.add_argument("--allow-gaps", action="store_true",
                     help="report [gap] markers as warnings, for a draft going to the person")
+    ap.add_argument("--keep", metavar="FILE",
+                    help="a file of terms that must stay in the résumé, one per line: words "
+                         "the person asked for and the ad's required phrases they hold")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
@@ -556,14 +574,21 @@ def main():
     if not a.files:
         ap.error("give a résumé file, or --self-test")
     lo, hi = (int(x) for x in a.summary_words.split("-"))
+    keep = []
+    if a.keep:
+        keep = [ln.strip() for ln in open(a.keep, encoding="utf-8")
+                if ln.strip() and not ln.startswith("#")]
     status = 0
     for path in a.files:
         text = open(path, encoding="utf-8").read()
-        r = lint(text, voice=a.voice, summary_range=(lo, hi), allow_gaps=a.allow_gaps)
+        r = lint(text, voice=a.voice, summary_range=(lo, hi), allow_gaps=a.allow_gaps, keep=keep)
         print(f"== {path}")
         for ln in r.errors + r.warns + r.infos:
             print(ln)
         print(f"RESULT: {len(r.errors)} error(s), {len(r.warns)} warning(s)")
+        if r.warns:
+            print("A warning is a prompt to read the line against its section's job. Change the "
+                  "line only if it fails that job; do not edit to clear the warning.")
         if r.errors:
             status = 1
     sys.exit(status)

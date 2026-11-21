@@ -142,8 +142,11 @@ so it leads with their strengths and is labelled by them. Build it in this order
    (writing user stories, managing a backlog, leading a team) is craft. One "craft" line keeps
    the ad's terms present for a recruiter's search; the roles carry the evidence. A section
    made only of craft reads as the job ad with the person's name on it (C).
-4. **Label each line by the strength**, in a word or two. Labels copied from the ad's headings
-   ("Product ownership", "Stakeholder management") tell the reader the list came from the ad.
+4. **Label each line by the strength**, in a word or two, using the plainest true name for it.
+   A label that exists only because the ad has that heading tells the reader the list came
+   from the ad. A label that is the right word and also appears in the ad is the right word:
+   "Influence" names an ability, where "Agreement" names its result, and one draft chose the
+   second to avoid a word the ads used (C).
 
 The research's template says the skills lines mirror the ad (R). They do, in step 2 and in the
 craft line. One person's list had been built by mirroring first, then given proof, then made

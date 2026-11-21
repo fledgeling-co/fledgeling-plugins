@@ -44,6 +44,28 @@ cutting, and re-run the section's test afterwards.
 | Scope verbs are fixed | A stronger verb | The work itself; "supported" is still worth a bullet |
 | A restricted figure stays off public copies | The figure on those copies | The figure on the internal copy, and the work it measured everywhere |
 
+## Over-corrections found on audit
+
+One engagement's drafts were audited for this after the person asked. Each row is something
+that was removed or bent to satisfy a rule, a reviewer or a lint warning, and that should have
+stayed.
+
+| What was done | The rule it was done for | What it cost |
+| --- | --- | --- |
+| A skills label became "Agreement" in place of "Influence" | Labels are not copied from the ad | The accurate word, which was also the person's own |
+| "I was part of the project team that received…" | Every sentence is about the person | A claim of team membership nobody had confirmed |
+| "I write the user stories and acceptance criteria" was cut from the role | The lint's told-twice warning | The role evidence for an item the summary claims |
+| A method's name the person had asked for by name was dropped | Scope line under about 35 words | A standing decision, and the ad's exact term |
+| "Sequencing", "trade-offs", "milestones, risks and issues" disappeared | Do not write for a keyword search | Required phrases the person holds and had confirmed, each of which had a true context |
+| A dependencies bullet was cut | Three to five bullets | The only line showing a required item |
+| The summary fell to one past job | "It reads as a laundry list" | The breadth of a long career |
+| Tenure went unmentioned | No count of years | The span, which is the difference |
+| Each skill was rewritten to describe a bullet | Each skill needs a proving line | The skill's general form |
+| The skills were stripped to what any holder of the title does | "Make it more general" | The person's strengths |
+
+The common cause: the most recent instruction was treated as the only one. Earlier decisions,
+the research's requirements and the section's job were not re-checked after each change.
+
 ## After a correction
 
 1. Re-read the section against its job in `sections.md`. For a summary that means all four
@@ -54,4 +76,6 @@ cutting, and re-run the section's test afterwards.
    one section usually applies to the others.
 4. Tell the person what you removed and what you kept in another form, so they can say if the
    line was drawn in the wrong place.
-5. Add the correction to the table above, with both columns filled in.
+5. Check the person's standing decisions and the ad's required phrases are all still there
+   (`resume_lint.py --keep terms.txt`).
+6. Add the correction to the table above, with both columns filled in.

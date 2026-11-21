@@ -50,8 +50,10 @@ something near the person. A résumé sentence states the person's relation to i
   sits in, go in a clause of a sentence about the person, never in a sentence of their own.
   "The squad plans in increments and works in 2-week sprints" is about the squad; "I accept each
   increment in 2-week sprints" is about the person.
-- **Shared recognition is stated as shared, with the person in it.** "I was part of the project
-  team that received…" keeps a team award a team award and keeps the sentence about them.
+- **Recognition is stated as what was awarded, and to whom.** A team award is a team award. Say
+  "I was part of the team that received…" only when the person has confirmed they were on that
+  team. Otherwise the plain fact stands ("The project received…"), even though it is a
+  sentence about the project: a rule about form does not justify a claim nobody confirmed (C).
 
 ## Verbs
 
