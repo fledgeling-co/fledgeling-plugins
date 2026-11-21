@@ -92,7 +92,8 @@ fact has an obvious next question:
 | A bullet that stops at the action | What was different afterwards? | The second half of the bullet, or its scale if nothing was measured |
 
 Ask these when you first meet the fact, not at the end. Write the line with what is known
-meanwhile; an enriching question never holds up a draft, and never appears in it as a bracket.
+meanwhile, and leave a red placeholder where the answer will go ("…under one way of working,
+which `<what changed as a result>`"), so the draft shows what it is waiting on.
 A reply that says "the award line is thin because nobody has said what the award was for" is
 doing its job; a résumé that prints the bare line without asking has skipped a step (C).
 

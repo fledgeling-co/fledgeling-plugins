@@ -127,6 +127,8 @@ question asks for years of experience (R).
 
 ## Gaps in the document
 
-An unconfirmed fact appears as `[a question in square brackets]`. The builder prints brackets as
-a highlight so that a gap is impossible to miss. A document with brackets in it goes to the
-person and never to an employer; the lint exits non-zero on them unless `--allow-gaps` is given.
+Missing information appears as a placeholder in angle brackets, named for what is missing and
+placed where the answer will go: `<Project Name>`, `<what changed as a result>`. The builders
+print it in red, in the PDF and the Word file. A document with a placeholder in it goes to the
+person and never to an employer; the lint exits non-zero on one unless `--allow-gaps` is given.
+Square brackets are still recognised, for drafts written to the earlier convention (C).

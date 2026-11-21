@@ -40,6 +40,14 @@ Apply these in order when they disagree:
    untested there and take the conventions from research or from the person.
 4. The defaults in this file.
 
+**When the résumé will be judged against a standard**, such as a research digest, an
+employer's guide or a recruiter's checklist, treat that standard's structure and numbers as
+limits and not as guides: the scope line's length, the bullet counts, the summary's range, the
+section order. Meet them by moving material to the section it fits, and depart only on the
+person's own instruction. Then list every remaining departure in your reply, each with the
+standard's figure, the résumé's figure and whose decision it was, so the person can decide
+before a judge finds it. A departure nobody chose is a defect (C).
+
 Rules marked **R** come from the research and rules marked **C** come from corrections a person
 made to drafts that had passed every check. `references/evidence.md` has the source for each.
 
@@ -102,9 +110,12 @@ corrects a draft.
 - **Their rules**: what they will not claim, what stays off a public copy, any wording they
   have already rejected.
 
-Use only facts the person has given. Where a fact is missing, write `[the missing fact, as a
-question]` in square brackets in the draft and list the brackets in your reply, so a gap is
-impossible to miss and never reads as plausible text. A background check and an interview test
+Use only facts the person has given. Where information is missing, leave a placeholder in
+angle brackets where the answer will go, named for what is missing: "for the `<Project Name>`
+project", "which `<what changed as a result>`". The builders print a placeholder in red, in
+the PDF and the Word file, so a gap is impossible to miss and never reads as plausible text.
+Write the sentence around it so that it will read correctly once the answer is dropped in.
+List every placeholder in your reply as a question. A background check and an interview test
 every figure, so an invented or rounded-up number costs the person more than an admitted gap
 (R, C). When `career-kit:career-kit` is running the engagement, its question form collects the
 answers.
@@ -115,9 +126,11 @@ it happened. An award: what was it for, and what did they do towards it? A move 
 roles: what were they asked to take on? A team they led: what changed while they led it? A
 tool: what do they use it for? "The project received the award" is all an award line can say
 until someone asks what the award recognised, and the answer is usually the best line in the
-section (C). These are enriching questions, separate from gaps: the draft stands without the
-answer and is better with it. Put them in your reply, most valuable first, each with where the
-answer would go. `references/voice.md` lists the question for each kind of bare fact.
+section (C). These enriching questions get a red placeholder too, at the point in the sentence where
+the answer belongs ("received the award for `<what the award recognised>`"), so the person
+sees what a better line is waiting on. Put the questions in your reply, most valuable first.
+A draft with placeholders goes to the person; the copy that goes to an employer has none, and
+the lint fails on one unless `--allow-gaps` is given. `references/voice.md` lists the question for each kind of bare fact.
 
 ## The document, top to bottom
 
@@ -245,11 +258,12 @@ date or a figure (R, C). `references/tailoring.md` covers internal, external and
 
 ```bash
 python3 scripts/resume_lint.py path/to/resume.md            # exit 0 clean, 1 on any error
-python3 scripts/resume_lint.py --allow-gaps path/to/draft.md   # a draft that still has [gaps]
+python3 scripts/resume_lint.py --allow-gaps path/to/draft.md   # a draft that still has <gaps>
 ```
 
-6. Reply with the path, the open `[gaps]` as questions, the enriching questions for any bare
-   fact, each ad requirement the résumé does not meet, and each place you departed from a default and why. Keep the reply under 12 lines.
+6. Reply with the path, the open `<placeholders>` as questions, the enriching questions for any bare
+   fact, each ad requirement the résumé does not meet, each departure from the research or
+   other standard it will be judged against, and each place you departed from a default and why. Keep the reply under 12 lines.
 
 When the task is one section, do steps 1 and 2 for that section, read the sections it depends
 on, and write only what was asked.

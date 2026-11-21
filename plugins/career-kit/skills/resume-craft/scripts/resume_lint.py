@@ -144,7 +144,7 @@ PERSONAL = [
 ]
 CLEARED = re.compile(r"\b(security cleared|probity cleared|police check(ed)?|apra approved|"
                      r"eligible for (all )?(banking|background) checks)\b", re.I)
-GAP = re.compile(r"\[[^\]\n]{2,}\](?!\()")
+GAP = re.compile(r"\[[^\]\n]{2,}\](?!\()|<[^<>\n/!][^<>\n]{1,70}>")
 
 
 def words(text):
@@ -576,6 +576,12 @@ def run_self_test():
         print("FAIL label-opener/figure-on-object: should fire on a title-and-statistic opening only")
     else:
         print("ok   label-opener and figure-on-object fire on a title-and-statistic opening only")
+    ph = good.replace("was promoted twice", "was promoted twice for <what the promotions recognised>", 1)
+    if "gaps" in lint(ph, year=2026).codes() and not lint(ph, year=2026, allow_gaps=True).errors:
+        print("ok   an angle-bracket placeholder is an error, and a warning with --allow-gaps")
+    else:
+        ok = False
+        print("FAIL gaps: <placeholder> should fail the lint unless --allow-gaps is given")
     nr = good.replace("- Coached 3 assessors into senior roles.", "- Brought the two teams under one way of working.", 1)
     if "bullet-no-result" in lint(nr, year=2026).codes() and "bullet-no-result" not in rg.codes():
         print("ok   bullet-no-result fires on a bullet that stops at the action, and not on good.md")
@@ -641,7 +647,7 @@ def main():
     ap.add_argument("--summary-words", default="60-90",
                     help="accepted summary length as min-max (default 60-90)")
     ap.add_argument("--allow-gaps", action="store_true",
-                    help="report [gap] markers as warnings, for a draft going to the person")
+                    help="report <placeholder> and [gap] markers as warnings, for a draft going to the person")
     ap.add_argument("--keep", metavar="FILE",
                     help="a file of terms that must stay in the résumé, one per line: words "
                          "the person asked for and the ad's required phrases they hold")

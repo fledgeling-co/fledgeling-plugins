@@ -45,11 +45,16 @@ st.paragraph_format.space_after = Pt(4.5)
 st.paragraph_format.line_spacing = 1.12
 W = Mm(210 - 32)
 
-def run(p, t, bold=False, color=None, size=None):
-    r = p.add_run(t); r.bold = bold; r.font.name = FONT
-    if color is not None: r.font.color.rgb = color
-    if size: r.font.size = Pt(size)
-    return r
+def run(p,t,bold=False,color=None,size=None):
+    # <Missing Thing> marks information nobody has supplied yet. It is set in red.
+    r=None
+    for k,part in enumerate(re.split(r"(<[^<>\n/][^<>\n]{1,70}>)",t)):
+        if not part: continue
+        r=p.add_run(part); r.bold=bold or k%2==1; r.font.name=FONT
+        if k%2==1: r.font.color.rgb=RGBColor(0xC0,0x00,0x00)
+        elif color is not None: r.font.color.rgb=color
+        if size: r.font.size=Pt(size)
+    return r if r is not None else p.add_run("")
 
 def border(p, color=RULE, sz=5):
     pPr = p._p.get_or_add_pPr(); b = OxmlElement("w:pBdr"); e = OxmlElement("w:bottom")

@@ -228,6 +228,11 @@ live here: "I write the user stories and acceptance criteria" (C). State direct 
 separately from the size of a squad or team they work in but do not manage (R). A reader scans
 for the bullets, so the scope line is the frame and the bullets carry the evidence (evals).
 
+The research's shape for a role is a scope line and then result bullets: one or two sentences
+of what the role is, three to five things that happened for the current role, two to four for
+each role in the last 10 to 12 years, one line for anything older (R). That shape is what a
+reviewer holding the research will check first.
+
 **When the scope line overflows.** It holds, in this order: what they own and the structure
 they own it in; then one sentence of standing duties, where a method the ad names can sit
 ("in 2-week Scrum sprints"). Anything more moves down. A third duty becomes a bullet that

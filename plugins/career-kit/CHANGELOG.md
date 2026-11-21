@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 0.4.10
+
+`career-kit:resume-craft`: a résumé that will be judged against a standard abides by it.
+
+- `SKILL.md`: when a research digest, an employer's guide or a checklist is the measure, its
+  structure and numbers are limits. They are met by moving material to the section it fits,
+  departed from only on the person's instruction, and every remaining departure is listed
+  with whose decision it was.
+- `references/sections.md` states the research's shape for a role where the experience section
+  is described.
+- Missing information is now a placeholder in angle brackets where the answer will go
+  ("for the `<Project Name>` project"), printed in red by `build_resume.py` and `make_docx.py`.
+  Enriching questions get one too. The lint treats a placeholder as an error unless
+  `--allow-gaps` is given. Square brackets are still recognised.
+- Not re-run: the skill's evals.
+
 ## 0.4.9
 
 `career-kit:resume-craft`: a bare fact is a question to ask.

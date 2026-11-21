@@ -15,7 +15,8 @@ Markdown subset:
     #### Role | Team | Dates   role row, middle parts render as muted "· Team"
     - bullet
     Label: text               (inside a "Key skills" section) bold label, inline text
-    [anything in brackets]    renders as a yellow highlight, for a fact nobody has confirmed
+    <Missing Thing>           renders in red, where information has not been supplied yet
+    [anything in brackets]    renders as a yellow highlight (the earlier gap marker)
 
 Highlighted brackets are the gap marker. They print, deliberately: an unconfirmed figure
 should be impossible to miss rather than plausible prose.
@@ -31,7 +32,9 @@ a = ap.parse_args()
 
 def inline(t):
     t = html.escape(t)
-    return re.sub(r"\[([^\]]+)\]", r'<mark class="todo">[\1]</mark>', t)
+    t = re.sub(r"\[([^\]]+)\]", r'<mark class="todo">[\1]</mark>', t)
+    # <Missing Thing> marks information nobody has supplied yet. It prints in red.
+    return re.sub(r"&lt;([^&\n/][^&\n]{1,70}?)&gt;", r'<span class="gap">&lt;\1&gt;</span>', t)
 
 body, ul, title = [], False, ""
 for ln in open(a.src).read().splitlines():
@@ -100,6 +103,7 @@ p{margin:0 0 1.6mm}
 ul{margin:0 0 1mm;padding-left:4.6mm}
 li{margin-bottom:1.1mm}
 mark.todo{background:#FFE36E;color:#16181D;padding:0 .6mm;border-radius:.6mm}
+.gap{color:#C00000;font-weight:700}
 .banner{width:210mm;margin:8mm auto 0;font:13px/1.5 system-ui,sans-serif;color:#3D4350;
  background:#FFF6CC;border:1px solid #E5C94A;border-radius:6px;padding:10px 14px}
 @media print{html{background:#fff}.sheet{margin:0;box-shadow:none;padding:0;width:auto;

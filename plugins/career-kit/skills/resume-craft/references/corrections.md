@@ -31,6 +31,8 @@ cutting, and re-run the section's test afterwards.
 | "Written as a plain fact" (title and statistic) | A label and a number about the product | The title, riding along; the figure, attached to their responsibility |
 | "That is not a skill" | A noun they work with | The ad's term, inside an ability that a bullet shows |
 | "Each skill needs a line that shows it" | A skill with nothing under it | The skill's general wording; the proof is found by reading down, not written into the skill |
+| "Leave missing information as red text in angle brackets" | Stating the bare fact and hiding that more is wanted; a question list the draft does not point to | The sentence, written so the answer drops in; no placeholder on any copy sent to an employer |
+| "It will be judged against the research, so abide by it" | Departures from the research that nobody chose | Departures the person chose, each listed with whose decision it was |
 | A scope paragraph that grew to three sentences to keep things the person wanted | Growing the scope line | Everything it held: the extra duty as a bullet, the tool use as a bullet or on the tools line |
 | "It sounds like the tool is doing the validating" | A sentence with a second reading | Its content; the order word or repeated subject that fixes the reading is not padding |
 | "People know what that is; defining it is fluff" | A gloss on a name the reader already knows, and any word that tells them nothing | Glosses on internal names; connecting words; the term itself |
