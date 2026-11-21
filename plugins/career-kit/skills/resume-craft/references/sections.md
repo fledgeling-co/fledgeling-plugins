@@ -44,8 +44,12 @@ has to be short enough that the reader reaches the roles.
 
 Write it in this order:
 
-1. **Who they are now**, in the target role's terms: the current title and what they own, with
-   one figure for scale (R, C).
+1. **What they are responsible for now**, in the target role's terms, with one figure that sizes
+   that responsibility (R, C). Open with the responsibility and let the title ride along: "As
+   Product Owner for claims lodgement, I am responsible for how about 9,000 customers a month
+   lodge a claim." A summary that opens "I am the Product Owner for X, which has 9,000 users"
+   gives a label and a fact about X; the title is already on the role line, and the figure has
+   been spent on the product (C).
 2. **What the role requires that they hold.** Name two or three of the ad's required items in
    the ad's own words, as things they do: "I write the user stories and acceptance criteria for
    2-week sprints". Cover the kinds of requirement the ad has: the role itself, the method, and
@@ -56,14 +60,35 @@ Write it in this order:
    the summary and the skills has no evidence under it (R, evals).
 3. **What makes them different** from another person with the same title. For someone who moved
    between functions, this is usually where they came from and what that lets them see (C).
-4. **At most one proof**, and it names the decision: what they did and why, in a clause. "I put
-   a merchant auto-fill ahead of a requested dashboard because staff were retyping details on
-   most cases." A proof that points without naming, such as "one such call" or "a
-   prioritisation decision of mine", reads as evasion; five blind verdicts of six asked for
-   the decision itself (evals). In a full résumé the bullet carries the figures and the
-   summary does not repeat them. When the summary stands alone, as a profile or a form field,
-   give the result figure too. When the paragraph would pass 90 words, cut this sentence
+4. **The judgement the work turns on**, in one sentence that is true every week: the trade-off
+   they keep having to make, or the question they ask of each piece of work. "Most of my work
+   is weighing simpler access for staff against the controls that keep duties separate." The
+   strongest single example of it is then the first bullet of the current role, where it has
+   its context and its figures. When the paragraph would pass 90 words, cut this sentence
    before anything in parts 1 to 3.
+
+**Every sentence in the summary is standing, and none reports one occasion** (C). Apply this to
+each sentence: could it begin "Usually" or "Each week"? "I put closing the access conflicts
+ahead of another division's request for a new role" could not. It is one event, it needs the
+role's context to mean anything, it repeats the bullet a few lines below, and out of context
+it reads as a boast about turning a colleague down. The person it was written for called it
+too specific. An event is evidence, and evidence belongs in a bullet.
+
+Three ways to get this wrong, each of which has happened:
+
+- *The named incident.* An earlier version of this file asked for "one proof, and it names the
+  decision", because blind reviewers had marked down proofs that pointed without naming ("one
+  such call", "a prioritisation decision of mine"). The pointing was the fault. Naming the
+  incident fixed the evasion and put a bullet in the summary.
+- *The pointer.* "One such call shows how I work" tells the reader an example exists and keeps
+  it from them. Do not gesture at a bullet from the summary.
+- *The habit made from one event.* "I put access risks ahead of new features when the evidence
+  calls for it" turns one deferred request into a practice. A standing sentence describes the
+  recurring work, which the person's sources show is recurring; it does not generalise a
+  single decision.
+
+When the summary stands alone, as a profile field or a form answer with no roles under it, it
+may end on one result with its figure, because there is no bullet to carry it.
 
 What stays out, and why:
 
@@ -76,7 +101,7 @@ What stays out, and why:
 - **A claim the experience does not carry.** Each statement in the summary points at a role
   below that shows it (C).
 
-Two failures to look for. The first is a summary built from whichever fact had a confirmed
+Two more failures to look for. The first is a summary built from whichever fact had a confirmed
 number: one engagement's draft described eighteen years as "coordinated 5 to 10 change
 workstreams" while the person's old résumé described running workforce planning for 1,400 seats
 (C). Before writing, ask what the strongest true thing about each period is. The second is a
@@ -228,7 +253,7 @@ Melbourne, VIC | 0400 000 000 | priya.nair@example.com | linkedin.com/in/priya-n
 
 ## Professional summary
 
-I am the Product Owner for the claims lodgement journey at Harbour Mutual, used by about 9,000 customers a month. I write the user stories and acceptance criteria and prioritise the backlog from call and claims data. I came to product from the claims floor, where I led 12 assessors, so I know which steps customers abandon and why. I put a duplicate-claims fix first when call data showed how many lodgements were being made twice.
+As Product Owner for claims lodgement at Harbour Mutual, I am responsible for how about 9,000 customers a month lodge a claim. I write the user stories and acceptance criteria and prioritise the backlog from call and claims data. I came to product from the claims floor, where I led 12 assessors, so I know which steps customers abandon and why. Most of my work is deciding which customer problem gets fixed first, from what the call data shows.
 
 ## Key skills
 
@@ -261,7 +286,7 @@ I led 12 assessors handling motor claims.
 ```
 
 What the example shows: the summary names the current role, two things the role requires, the
-difference (the claims floor) and one proof as a clause, which the first bullet tells in full; every skill has a line that shows it; "coordinating the
+difference (the claims floor) and the judgement the work turns on, which the first bullet shows happening once; every skill has a line that shows it; "coordinating the
 testing that the assurance team ran" keeps the scope exact; the third bullet has no result
 figure because none was measured; there is no education section because the invented person has
 nothing to list.

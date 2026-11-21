@@ -26,6 +26,33 @@ Two details that follow:
   removed them" has lost its subject. Write "Removed permissions that almost nobody used from
   one role."
 
+## Responsibility, not description
+
+One fault has turned up in four places, each caught by the person the résumé was for and each
+missed by every check: a noun in the skills ("epics, features and stories"), a duty where a
+bullet should be, one incident standing in the summary for how someone works, and a summary
+that opened with a title and a statistic about the product. In each, the sentence describes
+something near the person. A résumé sentence states the person's relation to it (C).
+
+- **The person does, owns, decides or answers for something in every sentence.** The main verb
+  is theirs. "I am the Product Owner for…" has "am" for a verb and a label for its content.
+- **Take the person out and see what is left.** "Atlas has about 20,000 users" stays true
+  without them, so it is a fact about the world. "I am responsible for what about 20,000
+  people can do in Atlas" does not survive, so it is about them.
+- **A figure sizes their responsibility.** Attach each number to what the person does with it:
+  the users whose access they set, the people they lead, the releases they took a backlog
+  through. A number hanging off the product ("which has…", "used by…") or the team ("a 12-person
+  squad") is context, and one clause of context per paragraph is enough.
+- **A title is a label, and labels live on the role line.** In prose, say what the title
+  carries. The title may ride along as "As Product Owner for…" where a reader or a search
+  needs it in the summary.
+- **Context is subordinate.** A few words explaining an internal name, or the team the person
+  sits in, go in a clause of a sentence about the person, never in a sentence of their own.
+  "The squad plans in increments and works in 2-week sprints" is about the squad; "I accept each
+  increment in 2-week sprints" is about the person.
+- **Shared recognition is stated as shared, with the person in it.** "I was part of the project
+  team that received…" keeps a team award a team award and keeps the sentence about them.
+
 ## Verbs
 
 Open bullets with plain verbs that say what was done: led, ran, built, wrote, cut, fixed, moved,

@@ -1,5 +1,37 @@
 # CHANGELOG
 
+## 0.4.3
+
+`career-kit:resume-craft`: a general rule that every sentence is about the person.
+
+- A summary written to the skill's own template opened with a title and a statistic about the
+  product, and the person it was for said it read as a plain fact where it should describe a
+  responsibility. They asked for broader rules. `SKILL.md` and `references/voice.md` now say:
+  every sentence has the person doing, owning, deciding or answering for something; a figure
+  sizes their responsibility; a title is a label and lives on the role line; context goes in a
+  clause. The test is to take the person out of the sentence and see whether it is still true.
+- The summary's first part is now "what they are responsible for", and the worked example and
+  `tests/good.md` open that way.
+- `scripts/resume_lint.py` warns `label-opener`, `figure-on-object` and `not-about-person` on
+  summary sentences, with a self-test.
+- Not re-run: the skill's evals.
+
+## 0.4.2
+
+`career-kit:resume-craft`: the summary no longer ends on "one proof, naming the decision".
+
+- A summary written to that rule ended on a single incident, and the person it was for called
+  it too specific. The fourth part of a summary is now the judgement the work turns on, in a
+  sentence that is true every week; the strongest example is the first bullet of the current
+  role. Every sentence in a summary is standing and none reports one occasion.
+- `references/sections.md` records the three ways this has gone wrong: the named incident, the
+  pointer ("one such call"), and the habit made from one event. The worked example and
+  `tests/good.md` are rewritten to match.
+- `scripts/resume_lint.py` warns `summary-event` on a summary sentence that reports one
+  occasion, with a self-test that it fires then and not otherwise.
+- Not re-run: the skill's evals. The earlier rule came from them, so the next run should check
+  that judges do not mark the standing sentence down as vague.
+
 ## 0.4.1
 
 `scripts/run_panel.sh` takes its default lanes from the frontier tier of the model roster beside decision-panel's runner.

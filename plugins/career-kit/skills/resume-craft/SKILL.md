@@ -68,7 +68,7 @@ Write the sections in this order, under these headings, in one column of plain t
 | Section | Its job | Length | Test |
 | --- | --- | --- | --- |
 | Name and contact line | How to reach them and their right to work | Name, then 1 line | Is every item plain text in the body, and is anything personal there that no employer needs? |
-| Professional summary | Who they are in the target role's terms, which of the ad's required items they hold, what makes them different, at most one proof, naming the decision | 60 to 90 words, 1 paragraph | Could this paragraph sit on someone else's résumé? Then it has failed |
+| Professional summary | What they are responsible for in the target role's terms, which of the ad's required items they hold, what makes them different, and the judgement the work turns on | 60 to 90 words, 1 paragraph | Could this paragraph sit on someone else's résumé? Then it has failed. Is each sentence true of the whole role, and none of one occasion? |
 | Key skills | Things they can do | 2 to 4 labelled lines | Is each item an ability, and which line below shows it? |
 | Professional experience: employer heading | Where they have worked and how they moved | 1 line, plus 1 or 2 sentences when several roles sit under one employer | Are the start date and each move true and visible? |
 | Current role | Exactly what they own, how the work runs, and what happened because of them | Scope line of 1 or 2 sentences, then 3 to 5 bullets | Is each bullet one thing that happened, with a detail only they would know? |
@@ -83,6 +83,14 @@ a worked example of an invented person.
 
 ## Voice
 
+- **Every sentence is about the person: what they do, own, decide or answer for.** "I am the
+  Product Owner for X, which has 20,000 users" is a title and a fact about X. Write what the
+  title carries: "I am responsible for what 20,000 people can do in X." Test any line by taking
+  the person out of it; if what is left is still true, it is a fact about the world and needs
+  rewriting around their responsibility (C).
+- **A figure gives the size of the person's responsibility**, and is attached to what they do
+  with it. A number that describes the product, the employer or the team beside them tells the
+  reader about those things (C).
 - **Paragraphs are in the first person.** The summary, the employer sentences and each scope
   paragraph are prose, and "I own… I came to product from operations" reads as a person (C).
 - **Bullets open with a past-tense verb**, including in the current role. Ongoing work belongs
@@ -122,7 +130,8 @@ date or a figure (R, C). `references/tailoring.md` covers internal, external and
    the experience shows, then the summary last. The summary and the skills make claims the
    experience has to carry, so they are easier to write true once it exists.
 4. Read the whole document top to bottom as the hiring manager would, in under a minute. Cut
-   any fact stated twice in full: the summary names a proof in a clause and the bullet tells it,
+   any fact stated twice in full: the summary says what the work turns on and the first bullet
+   shows it happening once,
    and a scope line does not repeat the summary. Paragraphs are where a first-person résumé gets
    heavy, so keep each scope line to 2 sentences or fewer and let the bullets carry the detail.
    Then check the summary against the ad: it names two or three of the required items the

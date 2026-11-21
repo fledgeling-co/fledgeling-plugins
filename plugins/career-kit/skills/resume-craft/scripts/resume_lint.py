@@ -70,6 +70,22 @@ BARE_PRESENT = {
     "champion", "act", "serve", "take", "bring", "help", "handle", "execute", "engage",
     "shape", "set", "establish", "improve", "accept", "embed", "orchestrate", "administer",
 }
+# A sentence that describes something near the person instead of what they answer for.
+LABEL_OPENER = re.compile(
+    r"^I(?: am|'m|\u2019m) (?:the |a |an )?(?:[A-Z][\w-]+ ){0,3}"
+    r"(?:Owner|Manager|Lead|Leader|Engineer|Analyst|Director|Head|Consultant|Specialist|"
+    r"Officer|Designer|Developer|Architect|Coordinator|Advisor|Adviser|Partner|Executive)\b")
+FIGURE_ON_OBJECT = re.compile(
+    r"\b(?:which|that) (?:has|have|serves|serve|supports|support)\b[^.]*\d|\bused by (?:about |around |over )?\d")
+FIRST_PERSON = re.compile(r"\b(?:I|my|me|I'm|I\u2019m|I've|I\u2019ve)\b")
+
+# A first-person sentence that reports a single decision or event. The summary is standing:
+# what the person does and how they judge it. One occasion is evidence and goes in a bullet.
+SUMMARY_EVENT = re.compile(
+    r"^I (?:put|moved|fixed|cut|closed|deferred|chose|rebuilt|rewrote|added|removed|shipped|"
+    r"launched|introduced|prioritised|prioritized|redesigned|stopped|delayed)\b(?! into)"
+    r".*\b(?:ahead of|first|when|after|because|instead of|before)\b", re.I)
+
 IRREGULAR_PAST = {
     "led", "ran", "built", "cut", "took", "brought", "wrote", "won", "grew", "held", "set",
     "made", "gave", "got", "kept", "drove", "chose", "taught", "sold", "spoke", "began",
@@ -349,6 +365,20 @@ def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=Non
                     r.error("bare-present", f"line {i}: a summary sentence opens with the "
                                             f"bare verb '{sent.split()[0]}'")
                     break
+                if LABEL_OPENER.search(sent):
+                    r.warn("label-opener", f"line {i}: '{' '.join(sent.split()[:6])}…' opens with a "
+                                           "title; say what the person is responsible for")
+                if FIGURE_ON_OBJECT.search(sent):
+                    r.warn("figure-on-object", f"line {i}: a figure describes the product or team "
+                                               "('which has…', 'used by…'); attach it to what the "
+                                               "person is responsible for")
+                if not FIRST_PERSON.search(sent) and len(sent.split()) > 4:
+                    r.warn("not-about-person", f"line {i}: '{' '.join(sent.split()[:6])}…' has no "
+                                               "'I' or 'my'; a summary sentence is about the person")
+                if SUMMARY_EVENT.search(sent):
+                    r.warn("summary-event", f"line {i}: a summary sentence reports one occasion "
+                                            f"('{' '.join(sent.split()[:6])}…'); say what the work "
+                                            "turns on and leave the occasion to a bullet")
 
     # --- the same story told in full twice
     if "summary" in sec_of and "experience" in sec_of:
@@ -359,7 +389,7 @@ def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=Non
             run = " ".join(sw[k:k + 7])
             if run in ex:
                 r.warn("told-twice", f"the summary and the experience share the words '{run}'; "
-                                     "name the proof in the summary and tell it once below")
+                                     "tell it once, in the experience")
                 break
 
     # --- education
@@ -444,6 +474,21 @@ def run_self_test():
     else:
         print(f"ok   bad.md: all {len(expected)} expected checks fired "
               f"({len(rb.errors)} errors, {len(rb.warns)} warnings)")
+    lab = "I am the Product Owner for the claims lodgement journey, used by about 9,000 customers a month."
+    r_lab = lint(good.replace("As Product Owner for claims lodgement at Harbour Mutual, I am responsible for how about 9,000 customers a month lodge a claim.", lab, 1), year=2026)
+    want = {"label-opener", "figure-on-object"}
+    if not want <= r_lab.codes() or want & rg.codes():
+        ok = False
+        print("FAIL label-opener/figure-on-object: should fire on a title-and-statistic opening only")
+    else:
+        print("ok   label-opener and figure-on-object fire on a title-and-statistic opening only")
+    ev = "I put a duplicate-claims fix first when call data showed lodgements made twice."
+    r_ev = lint(good.replace("Most of my work is deciding which customer problem gets fixed first, from what the call data shows.", ev, 1), year=2026)
+    if "summary-event" not in r_ev.codes() or "summary-event" in rg.codes():
+        ok = False
+        print("FAIL summary-event: should fire on one occasion in the summary, and only then")
+    else:
+        print("ok   summary-event fires on one occasion in the summary and not on good.md")
     r3 = lint(good.replace("I am the", "Am the", 1) + "\n", voice="implied", year=2026)
     print("ok   --voice implied accepted" if "summary-person" not in r3.codes()
           else "FAIL --voice implied still warns")
