@@ -60,6 +60,10 @@ Write it in this order:
    the summary and the skills has no evidence under it (R, evals).
 3. **What makes them different** from another person with the same title. For someone who moved
    between functions, this is usually where they came from and what that lets them see (C).
+   For someone with a long career, it is usually the span: say the range of work behind them
+   in one clause, most recent first, in words and without headcounts. "I came to product from
+   branch operations, after a long career across lending, collections and frontline service."
+   One past job stands for one past job; it does not stand for a career (C).
 4. **The judgement the work turns on**, in one sentence that is true every week: the trade-off
    they keep having to make, or the question they ask of each piece of work. "Most of my work
    is weighing simpler access for staff against the controls that keep duties separate." The
@@ -93,7 +97,9 @@ may end on one result with its figure, because there is no bullet to carry it.
 What stays out, and why:
 
 - **A count of years.** "20+ years" is an age signal and says nothing about what was done; the
-  dates below already show the tenure (R).
+  dates below already show the tenure (R). This rule removes the number. It does not remove
+  the career: breadth and length of experience go in, in words, as the difference in part 3.
+  A person who wants the number in can have it; their rule outranks this default (C).
 - **A list of the titles they would accept**, or a career objective. The summary states what
   they are (R).
 - **Adjectives about themselves.** "Strategic, results-driven leader" gives a reader nothing to

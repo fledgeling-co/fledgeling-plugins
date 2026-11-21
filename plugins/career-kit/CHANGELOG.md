@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 0.4.4
+
+`career-kit:resume-craft`: rules for applying a correction without over-correcting.
+
+- Four corrections in a row, each applied to more than it said, left a summary that never
+  mentioned a twenty-year career. `SKILL.md` has a new section, "Applying a rule or a
+  correction": name the fault and what it leaves alone, ask what the text was there to do,
+  recast before cutting, re-run the section's whole job afterwards, and let the job win over a
+  length or count default.
+- New `references/corrections.md`: every correction the skill has absorbed, with what it
+  forbids and what it leaves in.
+- `references/sections.md`: "no count of years" removes the number and keeps the breadth; for
+  a long career the summary's difference is the span, in one clause, most recent first.
+- Not re-run: the skill's evals.
+
 ## 0.4.3
 
 `career-kit:resume-craft`: a general rule that every sentence is about the person.

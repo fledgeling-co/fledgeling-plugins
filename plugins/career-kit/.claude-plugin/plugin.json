@@ -1,7 +1,7 @@
 {
   "name": "career-kit",
   "description": "Take one person from \"I need a new résumé\" to a complete, role-targeted application kit: country and employer research, a cited review of their current résumé and LinkedIn with real cropped evidence, one résumé per target role built from a single source of facts as HTML, PDF and Word, paste-ready LinkedIn copy, a bespoke personal website, an interview guide, and a project record a later session can pick up. Decides what it can decide with a model panel and asks the person the rest through one HTML form with suggested defaults and tap-to-fill examples, rather than leaving gaps in the document or filling them with plausible text. Ships a deterministic gate that fails any output carrying a figure absent from the confirmed-facts file. Also ships resume-craft, a second skill that knows what belongs in each résumé section, the structure and the voice, drafts or reviews a single section or a whole document, and lints structure and voice.",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"

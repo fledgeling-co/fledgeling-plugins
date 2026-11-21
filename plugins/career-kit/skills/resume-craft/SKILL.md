@@ -43,6 +43,32 @@ Apply these in order when they disagree:
 Rules marked **R** come from the research and rules marked **C** come from corrections a person
 made to drafts that had passed every check. `references/evidence.md` has the source for each.
 
+## Applying a rule or a correction
+
+A rule names a fault. It does not name everything near the fault. Most of the bad drafts this
+skill was built from were over-corrections: "no count of years" became a summary that never
+mentioned a twenty-year career, "this reads as a laundry list" became a summary with one past
+job in it, and "keep to five bullets" removed the only bullet that showed a required item (C).
+Each was a rule from the research or the person, applied to more than it said.
+
+Before you cut or rewrite anything because of a rule, a reviewer's finding or the person's
+feedback:
+
+1. **Say what the fault is, in one line, and what it leaves alone.** "A number of years is an
+   age signal" forbids the number. The breadth of the career is still wanted, in words.
+2. **Ask what the text was there to do.** A list of four past roles was carrying range. An
+   incident in the summary was carrying judgement. Keep the function and change the form.
+3. **Recast before you cut.** Cutting is the last option, for text that was doing nothing.
+4. **Afterwards, re-run the section's test and its whole job** from the table below. A
+   paragraph can satisfy every correction made to it and no longer do what it is for.
+5. **When a default and a section's job pull apart, the job wins**, and you say so in your
+   reply: a summary of 98 words that does its four things beats one of 85 that dropped one.
+   Length and count defaults are guides to read against, never targets to cut to.
+
+`references/corrections.md` lists the corrections this skill has absorbed, with what each one
+forbids and what it leaves in. Read it before acting on feedback, and add to it when a person
+corrects a draft.
+
 ## What you need before writing
 
 - **Everything the person has said about their work**, from every source: the old résumé, a
