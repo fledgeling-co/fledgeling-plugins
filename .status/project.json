@@ -1,208 +1,177 @@
 {
-  "project": "fledgeling-plugins",
-  "updated": "2026-11-18T01:09:39+00:00",
-  "verdict": {
-    "token": "done",
-    "number": "6 of 6",
-    "unit": "home-craft tasks finished",
-    "headline": "home-craft is live on main; its subscriber email was suppressed; not benchmarked",
-    "run_label": "home-craft 0.1.0 \u00b7 pushed 90ef06a",
-    "head_sha": "90ef06a"
+ "project": "fledgeling-plugins",
+ "updated": "2026-11-21T00:14:23+00:00",
+ "verdict": {
+  "token": "done",
+  "number": "51 of 52",
+  "unit": "resume-craft checks passed, against 43 of 52 without it",
+  "headline": "career-kit is installable; outside judges preferred the no-skill résumé three times",
+  "run_label": "career-kit 0.4.0 · pushed b65a837",
+  "head_sha": "b65a837"
+ },
+ "tasks": [
+  {
+   "id": "CK-1",
+   "title": "resume-craft skill, five references and research corpus written",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "b65a837"
   },
-  "tasks": [
-    {
-      "id": "HC-1",
-      "title": "Skill, references and research corpus written",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "version": "71fd72e"
-    },
-    {
-      "id": "HC-2",
-      "title": "Swift templates that compile for iOS 26 and 27",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "version": "71fd72e"
-    },
-    {
-      "id": "HC-3",
-      "title": "Project audit with 24 rules and 6 test projects",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "version": "71fd72e"
-    },
-    {
-      "id": "HC-4",
-      "title": "Icon, banner, README and evals page",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "version": "425042f"
-    },
-    {
-      "id": "HC-5",
-      "title": "Listed in the marketplace and on the site",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "version": "425042f"
-    },
-    {
-      "id": "HC-6",
-      "title": "Merged to main and pushed, no subscriber email",
-      "origin": "planned",
-      "stage": "code written",
-      "outcome": "done",
-      "blocked_by": "",
-      "version": "90ef06a"
-    }
-  ],
-  "gates": [
-    {
-      "name": "Swift templates compile against the iOS 27.1 SDK",
-      "command": "scripts/typecheck_templates.sh",
-      "exit_code": 0,
-      "counts": "4/4",
-      "state": "done",
-      "kind": "types"
-    },
-    {
-      "name": "Project audit catches what it should",
-      "command": "home_audit.py --self-test",
-      "exit_code": 0,
-      "counts": "6/6",
-      "state": "done",
-      "kind": "tests"
-    },
-    {
-      "name": "Icon contact sheet complete and current",
-      "command": "audit_sheet.py check plugins/home-craft/assets",
-      "exit_code": 0,
-      "counts": "28/28",
-      "state": "done",
-      "kind": "design"
-    },
-    {
-      "name": "Skills catalogue builds",
-      "command": "node site/scripts/build-catalogue.mjs",
-      "exit_code": 0,
-      "counts": "63/63",
-      "state": "done",
-      "kind": "build"
-    },
-    {
-      "name": "README and evals page pass the voice check",
-      "command": "voice_lint.py --format marketing",
-      "exit_code": 0,
-      "counts": "2/2",
-      "state": "done",
-      "kind": "sign-off"
-    },
-    {
-      "name": "Skill beats having no skill",
-      "command": "not run",
-      "state": "waived",
-      "kind": "tests"
-    }
-  ],
-  "findings": [
-    {
-      "id": "F-1",
-      "score": 45,
-      "severity": "medium",
-      "file_line": "references/chunk-reader-brief.md",
-      "claim": "test reader wrote 18.9 KB against a 12,000-character target",
-      "state": "needs-work"
-    },
-    {
-      "id": "F-2",
-      "score": 40,
-      "severity": "medium",
-      "file_line": "references/chunk-reader-brief.md",
-      "claim": "reading an 83k-token chunk cost the reader 234k tokens",
-      "state": "needs-work"
-    },
-    {
-      "id": "F-3",
-      "score": 70,
-      "severity": "high",
-      "file_line": "braindump/SKILL.md",
-      "claim": "skill summaries keep fewer rejected approaches than the built-in compact (61% vs 74%, 3 sessions)",
-      "state": "needs-work"
-    },
-    {
-      "id": "F-4",
-      "score": 50,
-      "severity": "medium",
-      "file_line": "braindump/evals/evals.json",
-      "claim": "7 of 12 text evals pass in both arms and cannot tell them apart",
-      "state": "needs-work"
-    }
-  ],
-  "not_checked": [
-    {
-      "axis": "home-craft against no skill",
-      "why_not": "The owner chose to ship without the benchmark."
-    },
-    {
-      "axis": "home-craft templates on a real car or HomeView",
-      "why_not": "No car, head unit or HomeView in the setup."
-    },
-    {
-      "axis": "Full split-read with 8 readers and a merged briefing",
-      "why_not": "Only one reader was run, to keep cost down."
-    },
-    {
-      "axis": "Gemini instructions file",
-      "why_not": "Edited by hand, not regenerated with geminify."
-    },
-    {
-      "axis": "braindump's published figures under the new extractor",
-      "why_not": "The benchmark was not re-run."
-    }
-  ],
-  "not_done": [
-    {
-      "action": "Read Muse subagent sessions",
-      "reason": "Briefing names the folder but does not render it.",
-      "size": "an hour or two"
-    }
-  ],
-  "needs_you": [
-    {
-      "ask": "Check the xAI console for a stray research job",
-      "kind": "decision",
-      "waiting_since": "2026-11-18T01:03:01+00:00",
-      "one_line": "A timed-out run may have been billed up to $2.50."
-    }
-  ],
-  "git": {
-    "branch": "main",
-    "commits_ahead": 0,
-    "worktree_clean": true,
-    "pushed": true
+  {
+   "id": "CK-2",
+   "title": "Lint for résumé structure and voice",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "b65a837"
   },
-  "armed": [
-    {
-      "check": "Swift templates compile",
-      "mutation": "removed one iOS 27 availability check",
-      "case_reddened": "type-check failed at iOS 26.0",
-      "red": 1,
-      "green": 4,
-      "sha": "71fd72e",
-      "armed": true
-    },
-    {
-      "check": "Project audit self-test",
-      "mutation": "set one test project's expected result to empty",
-      "case_reddened": "self-test fell to 5 of 6",
-      "red": 1,
-      "green": 6,
-      "sha": "71fd72e",
-      "armed": true
-    }
-  ]
+  {
+   "id": "CK-3",
+   "title": "Tested against the same tasks with no skill",
+   "origin": "planned",
+   "stage": "checked",
+   "outcome": "done",
+   "version": "b65a837"
+  },
+  {
+   "id": "CK-4",
+   "title": "Icon and banner made and signed off",
+   "origin": "asked for",
+   "stage": "checked",
+   "outcome": "done",
+   "version": "b65a837"
+  },
+  {
+   "id": "CK-5",
+   "title": "Plugin registered in the marketplace and the README",
+   "origin": "asked for",
+   "stage": "pushed",
+   "outcome": "done",
+   "version": "b65a837"
+  }
+ ],
+ "gates": [
+  {
+   "name": "Résumé lint tests itself",
+   "command": "resume_lint.py --self-test",
+   "exit_code": 0,
+   "counts": "3/3",
+   "state": "done",
+   "kind": "tests"
+  },
+  {
+   "name": "Catalogue builds with the plugin registered",
+   "command": "node site/scripts/build-catalogue.mjs",
+   "exit_code": 0,
+   "counts": "64/64",
+   "state": "done",
+   "kind": "build"
+  },
+  {
+   "name": "Skill names in the repo all resolve",
+   "command": "scripts/check_skill_references.py",
+   "exit_code": 0,
+   "counts": "87/87",
+   "state": "done",
+   "kind": "lint"
+  },
+  {
+   "name": "Icon sheet complete and past the bar",
+   "command": "audit_sheet.py check",
+   "exit_code": 0,
+   "counts": "21/21",
+   "state": "done",
+   "kind": "lint"
+  },
+  {
+   "name": "Banner sized, sourced and signed off",
+   "command": "banner_sheet.py check",
+   "exit_code": 0,
+   "counts": "6/6",
+   "state": "done",
+   "kind": "lint"
+  }
+ ],
+ "findings": [
+  {
+   "id": "CK-F1",
+   "score": 70,
+   "severity": "high",
+   "file_line": "plugins/career-kit/EVALS.md",
+   "claim": "outside judges preferred the no-skill complete résumé in all three rounds",
+   "state": "needs-work"
+  },
+  {
+   "id": "CK-F2",
+   "score": 40,
+   "severity": "medium",
+   "file_line": "skills/resume-craft/evals/grade.py",
+   "claim": "the count-of-years check misses \"14 years in disputes\"",
+   "state": "needs-work"
+  }
+ ],
+ "not_checked": [
+  {
+   "axis": "Icon material against the image it was copied from",
+   "why_not": "The scorer needs torch, which is not installed."
+  },
+  {
+   "axis": "resume-craft on a second person",
+   "why_not": "One invented candidate, one run per task."
+  },
+  {
+   "axis": "career-kit's first skill against no skill",
+   "why_not": "Never benchmarked; EVALS.md says so."
+  }
+ ],
+ "not_done": [
+  {
+   "action": "Design and reading review of the banner",
+   "reason": "Reused the family banner layout instead.",
+   "size": "under an hour"
+  },
+  {
+   "action": "Refresh the portfolio manifest entry",
+   "reason": "Not run this session.",
+   "size": "minutes"
+  }
+ ],
+ "needs_you": [
+  {
+   "ask": "Check the xAI console for a stray research job",
+   "kind": "decision",
+   "waiting_since": "2026-11-18T01:03:01+00:00",
+   "one_line": "A timed-out run may have been billed up to $2.50."
+  },
+  {
+   "ask": "Keep first-person paragraphs as resume-craft's default?",
+   "kind": "decision",
+   "waiting_since": "2026-11-21T00:14:23+00:00",
+   "one_line": "Three outside models preferred the other style on a whole résumé, three times."
+  },
+  {
+   "ask": "Should career-kit's subscriber email ever send?",
+   "kind": "decision",
+   "waiting_since": "2026-11-21T00:14:23+00:00",
+   "one_line": "Skipped at push; the next digest draft will pick it up as new."
+  }
+ ],
+ "git": {
+  "branch": "main",
+  "commits_ahead": 0,
+  "worktree_clean": false,
+  "pushed": true
+ },
+ "armed": [
+  {
+   "check": "Résumé lint",
+   "mutation": "fed it a résumé with 16 planted faults",
+   "case_reddened": "all 16 checks fired",
+   "red": 16,
+   "green": 1,
+   "sha": "b65a837",
+   "armed": true
+  }
+ ]
 }

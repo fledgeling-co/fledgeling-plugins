@@ -51,7 +51,15 @@ ap.add_argument("--download-name", default="answers.txt")
 a = ap.parse_args()
 
 spec = json.load(open(a.spec))
-Q = json.dumps(spec["questions"], ensure_ascii=False)
+def js_json(value):
+    """JSON that is safe inside a <script> block: a question containing "</script>" or "<!--"
+    would otherwise end the script and run as markup."""
+    return (json.dumps(value, ensure_ascii=False)
+            .replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+            .replace("\u2028", "\\u2028").replace("\u2029", "\\u2029"))
+
+
+Q = js_json(spec["questions"])
 
 CSS = """
 :root{--ink:#16181D;--ink2:#3D4350;--ink3:#C3C8D2;--bg:#F6F7F9;--blue:#1F2B5B;--card:#fff}
@@ -170,9 +178,9 @@ collect();
 """
 
 js = (JS.replace("__Q__", Q)
-        .replace("__KEY__", json.dumps(a.key))
-        .replace("__TITLE__", json.dumps(a.title))
-        .replace("__DL__", json.dumps(a.download_name)))
+        .replace("__KEY__", js_json(a.key))
+        .replace("__TITLE__", js_json(a.title))
+        .replace("__DL__", js_json(a.download_name)))
 
 open(a.out, "w").write(
     f'<!doctype html><html lang="en"><head><meta charset="utf-8">'

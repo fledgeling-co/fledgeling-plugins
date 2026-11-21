@@ -162,14 +162,17 @@ Three model families outside Anthropic's read each pair as "Option A" and "Optio
 orders, with the facts and the ad, and were not told that either side used a skill. A judge who
 picks differently when the order swaps is recorded as a flip.
 
-| Pair | GPT-6.2 Sol | Muse Wonder 1.0 | Grok |
+| Pair | GPT-6.2 Sol (OpenAI) | Muse Wonder 1.0 (Meta) | Grok 4.7 (xAI) |
 | --- | --- | --- | --- |
-| Summary | with the skill, both orders | with the skill, both orders | without, one order; the other returned nothing |
-| Review | with the skill, both orders | flipped with the order | with the skill, one order; the other returned nothing |
-| Complete résumé | without, both orders | without, both orders | returned nothing in either order |
+| Summary | with the skill, both orders | with the skill, both orders | without, one order; the other answer was cut off |
+| Review | with the skill, both orders | flipped with the order | with the skill, one order; the other answer was cut off |
+| Complete résumé | without, both orders | without, both orders | both answers were cut off |
 
-Grok returned an empty file on four of its six calls. Those are lane failures and are not
-counted as opinions.
+All three ran at high reasoning effort through signed-in command-line tools: `gpt-6.2-sol` on
+the Codex CLI, `muse-wonder-1.0` on the Muse CLI, and `grok-4.7` on the Grok CLI. Four of Grok's
+six answers in this round stopped at about 500 characters, before the verdict line. They are
+counted as failed calls. Their partial lines are in the run folder, and on the complete résumé
+both rated accuracy a tie and gave "reads" to the no-skill version.
 
 On the complete résumé both judges gave the same reason. One wrote that the no-skill version
 was "more concise and scannable, with clearer role headings and less repetition than A's
