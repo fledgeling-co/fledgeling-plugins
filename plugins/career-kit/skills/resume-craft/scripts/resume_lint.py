@@ -70,6 +70,13 @@ BARE_PRESENT = {
     "champion", "act", "serve", "take", "bring", "help", "handle", "execute", "engage",
     "shape", "set", "establish", "improve", "accept", "embed", "orchestrate", "administer",
 }
+# Items nearly every résumé for a role carries. They read as the job ad, not as the person.
+SKILL_GENERIC = {"leading teams", "leadership", "stakeholder management", "communication",
+                 "teamwork", "problem solving", "problem-solving", "time management",
+                 "attention to detail", "managing stakeholders", "team leadership",
+                 "project management", "people management", "strategic thinking",
+                 "collaboration", "relationship management"}
+
 # Capitalised words that are methods or standard terms, not this employer's product or system.
 SKILL_PROPER_OK = {"Definition", "Done", "Scrum", "Agile", "Kanban", "Lean", "Release", "Train",
                    "Chief", "Product", "Owner", "English", "Australian"}
@@ -281,6 +288,10 @@ def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=Non
                 continue
             for item in line.split(":", 1)[-1].split(";"):
                 toks = item.split()
+                if " ".join(toks).lower().strip(" .") in SKILL_GENERIC:
+                    r.warn("skill-generic", f"skill '{' '.join(toks)}' is what anyone with the "
+                                            "title would list; lead with what this person is "
+                                            "unusually good at")
                 if len(toks) > 10:
                     r.warn("skill-long", f"skill '{' '.join(toks[:6])}…' is {len(toks)} words; a "
                                          "skill names an ability that carries to another role, "
@@ -493,8 +504,14 @@ def run_self_test():
     else:
         print(f"ok   bad.md: all {len(expected)} expected checks fired "
               f"({len(rb.errors)} errors, {len(rb.warns)} warnings)")
-    spec = "leading discovery from call and claims data in the Harbour claims system for assessors"
-    r_sk = lint(good.replace("leading discovery from data and from customers", spec, 1), year=2026)
+    spec = "finding what customers are stuck on from call and claims data in the Harbour claims system"
+    r_sk = lint(good.replace("finding where customers get stuck, from data and frontline staff", spec, 1), year=2026)
+    r_gen = lint(good.replace("coaching frontline staff into senior roles", "leading teams", 1), year=2026)
+    if "skill-generic" not in r_gen.codes() or "skill-generic" in rg.codes():
+        ok = False
+        print("FAIL skill-generic: should fire on an item anyone with the title would list")
+    else:
+        print("ok   skill-generic fires on an item anyone with the title would list")
     want_sk = {"skill-long", "skill-specific"}
     if not want_sk <= r_sk.codes() or want_sk & rg.codes():
         ok = False

@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 0.4.6
+
+`career-kit:resume-craft`: the key skills say what the person is unusually good at.
+
+- A skills section made general, as asked, was then described as reading "like a list of items
+  to tick off from a job role". It had been built from the ads and generalised by removing
+  detail, and nothing asked whether an item distinguished the person. `SKILL.md` now says
+  general is not generic: the claim sections take their content from the person first and are
+  checked against the ad second.
+- `references/sections.md`: build the skills from what recurs across roles, what the person is
+  relied on for and what the title did not require; label each line by the strength; give entry
+  requirements one craft line at most, last. A same-title test for every item.
+- `scripts/resume_lint.py` warns `skill-generic`, with a self-test. The worked example and
+  `tests/good.md` are rewritten to match.
+- Not re-run: the skill's evals.
+
 ## 0.4.5
 
 `career-kit:resume-craft`: each section speaks at its own level of generality.

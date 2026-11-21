@@ -122,11 +122,38 @@ Test: could this paragraph sit on someone else's résumé? If yes, it has failed
 Two to four labelled lines of plain text, and one more line for tools (R, C).
 
 ```
-Product ownership: prioritising a backlog by customer impact and risk; writing user stories and acceptance criteria; leading discovery from data and from users
-People and partners: leading teams; coaching people into wider responsibilities; securing agreement between teams with competing priorities
+Simplifying: making a complicated process simpler without weakening its controls; deciding from data what should change
+Agreement: securing agreement between teams with competing priorities; preparing frontline staff for a change
+People: coaching people into wider responsibilities; leading planning and operations teams
+Product craft: prioritising a backlog by customer impact and risk; writing user stories and acceptance criteria
 Tools: Jira, Confluence, Power BI, Excel
 ```
 
+**This section says what the person is unusually good at.** It is read as "why this person",
+so it leads with their strengths and is labelled by them. Build it in this order:
+
+1. **Start from the person.** From everything they have said, find what recurs in two or more
+   roles, what others rely on them for (a review, an award, "known for…" in their own old
+   résumé), and what they did that the title did not require. Those are strengths. A strength
+   that appears in one role only is a bullet.
+2. **Then read the ad.** Mark which of its requirements those strengths meet. Each remaining
+   requirement is either shown in a role already or is a gap to tell the person about.
+3. **Entry requirements get one line at most, last.** What every holder of the title does
+   (writing user stories, managing a backlog, leading a team) is craft. One "craft" line keeps
+   the ad's terms present for a recruiter's search; the roles carry the evidence. A section
+   made only of craft reads as the job ad with the person's name on it (C).
+4. **Label each line by the strength**, in a word or two. Labels copied from the ad's headings
+   ("Product ownership", "Stakeholder management") tell the reader the list came from the ad.
+
+The research's template says the skills lines mirror the ad (R). They do, in step 2 and in the
+craft line. One person's list had been built by mirroring first, then given proof, then made
+general, and at the end they said it no longer described their strengths and read "like a list
+of items to tick off from a job role" (C). Mirroring is a check on the list, and the person is
+its source.
+
+- **Each item passes the same-title test.** Would it be on the résumé of most people with this
+  title? Then it is craft: move it to the craft line or leave it to the roles. Would it be
+  missing from most of them, and true of this person in more than one role? Then it leads (C).
 - **Each item is something the person can do**, written as an action: "prioritising a backlog
   by customer impact and risk". A noun they work with ("epics, features and stories",
   "stakeholders", "risk") is a thing, and it sat in one draft's skills for a day only because it
@@ -270,8 +297,9 @@ As Product Owner for claims lodgement at Harbour Mutual, I am responsible for ho
 
 ## Key skills
 
-Product ownership: prioritising a backlog by customer impact and cost; writing user stories and acceptance criteria; leading discovery from data and from customers
-People and operations: leading and coaching a team; preparing frontline teams for a process change
+Customer problems: finding where customers get stuck, from data and frontline staff; deciding which fix goes first
+People: coaching frontline staff into senior roles; preparing a team for a change before it lands
+Product craft: prioritising a backlog by customer impact and cost; writing user stories and acceptance criteria
 Tools: Jira, Confluence, Power BI
 
 ## Professional experience
@@ -299,7 +327,7 @@ I led 12 assessors handling motor claims.
 ```
 
 What the example shows: the summary names the current role, two things the role requires, the
-difference (the claims floor) and the judgement the work turns on, which the first bullet shows happening once; every skill has a line that shows it; "coordinating the
+difference (the claims floor) and the judgement the work turns on, which the first bullet shows happening once; the skills lead with what she is good at and end on one craft line, and every skill has a line that shows it; "coordinating the
 testing that the assurance team ran" keeps the scope exact; the third bullet has no result
 figure because none was measured; there is no education section because the invented person has
 nothing to list.

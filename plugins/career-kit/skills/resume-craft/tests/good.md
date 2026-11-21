@@ -8,8 +8,9 @@ As Product Owner for claims lodgement at Harbour Mutual, I am responsible for ho
 
 ## Key skills
 
-Product ownership: prioritising a backlog by customer impact and cost; writing user stories and acceptance criteria; leading discovery from data and from customers
-People and operations: leading and coaching a team; preparing frontline teams for a process change
+Customer problems: finding where customers get stuck, from data and frontline staff; deciding which fix goes first
+People: coaching frontline staff into senior roles; preparing a team for a change before it lands
+Product craft: prioritising a backlog by customer impact and cost; writing user stories and acceptance criteria
 Tools: Jira, Confluence, Power BI
 
 ## Professional experience

@@ -75,6 +75,8 @@ corrects a draft.
   profile export, answers to questions, position descriptions. Gather it per period of the
   career before drafting that period. A fact with a number is not more important because it has
   a number (C).
+- **What they are known for**: what a manager, a review or a colleague would say they are
+  good at, and what turns up in more than one of their roles. Ask if the documents do not say.
 - **The target**: the role or ad, or the role family when there is no ad.
 - **Their rules**: what they will not claim, what stays off a public copy, any wording they
   have already rejected.
@@ -95,7 +97,7 @@ Write the sections in this order, under these headings, in one column of plain t
 | --- | --- | --- | --- |
 | Name and contact line | How to reach them and their right to work | Name, then 1 line | Is every item plain text in the body, and is anything personal there that no employer needs? |
 | Professional summary | What they are responsible for in the target role's terms, which of the ad's required items they hold, what makes them different, and the judgement the work turns on | 60 to 90 words, 1 paragraph | Could this paragraph sit on someone else's résumé? Then it has failed. Is each sentence true of the whole role, and none of one occasion? |
-| Key skills | Things they can do, in any job | 2 to 4 labelled lines | Is each item an ability, would it still be true in their next job, and which line below shows it? |
+| Key skills | What they are unusually good at, as abilities that carry to any role | 2 to 4 labelled lines | Is each item an ability, would it be true in their next job, would it be missing from the résumé of most people with the same title, and which line below shows it? |
 | Professional experience: employer heading | Where they have worked and how they moved | 1 line, plus 1 or 2 sentences when several roles sit under one employer | Are the start date and each move true and visible? |
 | Current role | Exactly what they own, how the work runs, and what happened because of them | Scope line of 1 or 2 sentences, then 3 to 5 bullets | Is each bullet one thing that happened, with a detail only they would know? |
 | Roles in the last 10 to 12 years | The depth the summary claims | Scope line with scale, then 1 to 4 bullets | Does this role show something the summary says? |
@@ -122,6 +124,15 @@ turns an ability into a description of one job and tells the reader the person d
 A skill named so broadly that nothing could prove it ("discovery", "stakeholders") is the
 opposite fault. Aim between them: a verb and what it acts on, with no employer, product, system
 or data set named.
+
+**General is not the same as generic.** Remove the specifics from a job-specific line and what
+is left is whatever everyone with that title does. The claim sections, the summary and the key
+skills, have to be both: general enough to carry, and the person's own. So their content comes
+from the person first and is checked against the ad second, never the other way round. Find
+what recurs across their roles, what people rely on them for, and what they did that the title
+did not require; then see which of the ad's requirements those meet. What every holder of the
+title does is the entry requirement. It is shown in the roles, where the ad's terms sit in dated
+evidence, and it leads nothing (C).
 
 Left out by default: a photo, date of birth, marital status, street address, a count of years of
 experience, a career objective, referee names, skill bars, and any claim to be "cleared" for
@@ -173,7 +184,8 @@ date or a figure (R, C). `references/tailoring.md` covers internal, external and
 1. Gather the facts and the target as above, and note the person's rules.
 2. Write down the job and the test for each section as it applies to this person. The table
    above is the starting set; adjust it to them and give it to any reviewer.
-3. Write the experience section first, most recent role first, then the key skills from what
+3. Write the experience section first, most recent role first, then the key skills from what recurs across the roles and
+   what the person is relied on for, checked against what
    the experience shows, then the summary last. The summary and the skills make claims the
    experience has to carry, so they are easier to write true once it exists.
 4. Read the whole document top to bottom as the hiring manager would, in under a minute. Cut
