@@ -31,6 +31,10 @@ cutting, and re-run the section's test afterwards.
 | "Written as a plain fact" (title and statistic) | A label and a number about the product | The title, riding along; the figure, attached to their responsibility |
 | "That is not a skill" | A noun they work with | The ad's term, inside an ability that a bullet shows |
 | "Each skill needs a line that shows it" | A skill with nothing under it | The skill's general wording; the proof is found by reading down, not written into the skill |
+| A scope paragraph that grew to three sentences to keep things the person wanted | Growing the scope line | Everything it held: the extra duty as a bullet, the tool use as a bullet or on the tools line |
+| "It sounds like the tool is doing the validating" | A sentence with a second reading | Its content; the order word or repeated subject that fixes the reading is not padding |
+| "People know what that is; defining it is fluff" | A gloss on a name the reader already knows, and any word that tells them nothing | Glosses on internal names; connecting words; the term itself |
+| "The skill should have asked what the award was for" | Printing a bare fact and stopping | The fact, as given; a question to the person for what it recognised and their part in it |
 | "It is impersonal and rigid" | A record-style sentence where the person has a stake | The fact, unchanged; one plain sentence of pride, reason or judgement tied to a specific thing |
 | "Would we have told you that if it were not true of her?" | Holding back the plain implication of the person's own answer | Asking about anything it would take a second fact to know |
 | "It reads like a list to tick off from the job ad" | Entry requirements leading the skills; labels taken from the ad | The ad's terms, in the roles and in one craft line; the person's own strengths, first |

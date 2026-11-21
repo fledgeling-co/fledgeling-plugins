@@ -77,6 +77,21 @@ SKILL_GENERIC = {"leading teams", "leadership", "stakeholder management", "commu
                  "project management", "people management", "strategic thinking",
                  "collaboration", "relationship management"}
 
+# "use X to draft …, and validate …": the second verb attaches to the tool.
+SECOND_VERB = re.compile(
+    r"\b(?:use|used|using)\b[^.;]{3,80}?\bto \w+[^.;]{3,120}?,? and "
+    r"(?:validate|check|review|approve|confirm|verify|edit|correct|publish|send|sign off)\b")
+
+# A widely known product or method followed by a few words saying what it is.
+KNOWN_GLOSS = re.compile(
+    r"\b(?:Microsoft Copilot|Copilot|ChatGPT|Jira|Confluence|Excel|Power BI|Tableau|Salesforce|"
+    r"Slack|Microsoft Teams|GitHub|Scrum|Kanban|SQL|Python|Word|PowerPoint|SharePoint|Trello|"
+    r"Asana|ServiceNow|Workday|SAP|Figma|Miro)(?:,| \() ?(?:an?|the) [A-Za-z][A-Za-z -]{1,40}?"
+    r"(?:tool|assistant|platform|system|software|application|app|framework|methodology|method|"
+    r"language|product|suite)\b")
+
+AWARD = re.compile(r"\b(?:[Aa]ward|[Pp]rize)\b")
+
 # Capitalised words that are methods or standard terms, not this employer's product or system.
 SKILL_PROPER_OK = {"Definition", "Done", "Scrum", "Agile", "Kanban", "Lean", "Release", "Train",
                    "Chief", "Product", "Owner", "English", "Australian"}
@@ -376,6 +391,10 @@ def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=Non
             elif not (low.endswith("ed") or low in IRREGULAR_PAST):
                 r.warn("bullet-opener", f"line {i}: bullet opens with '{first}'; bullets "
                                         "open with a past-tense verb")
+            if len(words(b)) < 14 and not re.search(r"\d", b):
+                r.warn("bullet-no-result", f"line {i}: '{' '.join(b.split()[:6])}…' stops at the "
+                                           "action; ask the person what was different "
+                                           "afterwards, or give the scale of the work")
             if len(words(b)) > 75:
                 r.warn("bullet-length", f"line {i}: bullet is {len(words(b))} words; one "
                                         "idea per bullet")
@@ -456,6 +475,21 @@ def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=Non
         for rx, what in PERSONAL:
             if rx.search(ln):
                 r.error("personal-detail", f"line {i}: {what} does not belong on the résumé")
+        if SECOND_VERB.search(ln):
+            r.warn("two-readings", f"line {i}: after 'use … to …', a second verb joined by 'and' "
+                                   "reads as the tool doing it; say who does it and when "
+                                   "('then … myself')")
+        g = KNOWN_GLOSS.search(ln)
+        if g:
+            r.warn("gloss-known", f"line {i}: '{g.group(0).strip()}' explains something the "
+                                  "reader already knows; name it and move on")
+        if AWARD.search(ln):
+            for sent in re.split(r"(?<=[.!?])\s+", ln):
+                if AWARD.search(sent) and not re.search(r"\bfor\b", sent.split("ward", 1)[-1]):
+                    r.warn("award-bare", f"line {i}: an award is named without what it was for; "
+                                         "ask the person what it recognised and what they did "
+                                         "towards it")
+                    break
         m = CLEARED.search(ln)
         if m:
             r.warn("cleared-claim", f"line {i}: '{m.group(0)}'; employers run their own "
@@ -542,6 +576,36 @@ def run_self_test():
         print("FAIL label-opener/figure-on-object: should fire on a title-and-statistic opening only")
     else:
         print("ok   label-opener and figure-on-object fire on a title-and-statistic opening only")
+    nr = good.replace("- Coached 3 assessors into senior roles.", "- Brought the two teams under one way of working.", 1)
+    if "bullet-no-result" in lint(nr, year=2026).codes() and "bullet-no-result" not in rg.codes():
+        print("ok   bullet-no-result fires on a bullet that stops at the action, and not on good.md")
+    else:
+        ok = False
+        print("FAIL bullet-no-result: should fire on a short bullet with no figure only")
+    tw = "I started as a claims assessor. I use Jira to draft the release notes, and check them before release."
+    r_tw = lint(good.replace("I started as a claims assessor", tw, 1), year=2026)
+    r_tw2 = lint(good.replace("I started as a claims assessor", tw.replace(", and check them", ", then check them myself"), 1), year=2026)
+    if "two-readings" in r_tw.codes() and "two-readings" not in r_tw2.codes():
+        print("ok   two-readings fires on 'use X to draft …, and check …' and not on the 'then' form")
+    else:
+        ok = False
+        print("FAIL two-readings: should fire on the 'and' form only")
+    gl = "I started as a claims assessor. I track work in Jira, a ticketing tool, each week."
+    r_gl = lint(good.replace("I started as a claims assessor", gl, 1), year=2026)
+    if "gloss-known" in r_gl.codes() and "gloss-known" not in rg.codes():
+        print("ok   gloss-known fires on a gloss of a widely known product, and not on good.md")
+    else:
+        ok = False
+        print("FAIL gloss-known: should fire on 'Jira, a ticketing tool' and not on good.md")
+    aw = "I started as a claims assessor. I am proud that our team received the 2025 Service Award."
+    r_aw = lint(good.replace("I started as a claims assessor", aw, 1), year=2026)
+    aw2 = aw.replace("Award.", "Award for cutting duplicate claims.")
+    r_aw2 = lint(good.replace("I started as a claims assessor", aw2, 1), year=2026)
+    if "award-bare" in r_aw.codes() and "award-bare" not in r_aw2.codes():
+        print("ok   award-bare fires on an award with no 'for', and not once it says what for")
+    else:
+        ok = False
+        print("FAIL award-bare: should fire only when the award line does not say what it was for")
     imp = "I started as a claims assessor. The lodgement project received the 2025 team award."
     r_imp = lint(good.replace("I started as a claims assessor", imp, 1), year=2026)
     if "impersonal-prose" in r_imp.codes() and "impersonal-prose" not in rg.codes():

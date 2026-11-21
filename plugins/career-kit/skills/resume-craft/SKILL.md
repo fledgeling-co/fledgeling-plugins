@@ -63,7 +63,12 @@ feedback:
    paragraph can satisfy every correction made to it and no longer do what it is for.
 5. **When a default and a section's job pull apart, the job wins**, and you say so in your
    reply: a summary of 98 words that does its four things beats one of 85 that dropped one.
-   Length and count defaults are guides to read against, never targets to cut to.
+   Length and count defaults are guides to read against, never targets to cut to. Before a
+   default gives way, though, look for the section whose level the extra material fits. A
+   duty that will not fit a two-sentence scope line becomes a bullet that shows it happening
+   once; a tool goes on the tools line with what it is used for; a second story in a bullet
+   becomes its own bullet or joins the story it belongs to. Keep the material and keep the
+   structure; let a default go only when both cannot be had.
 6. **A rule about form never licenses a new claim, and caution never withholds what the
    person has already told you.** A fact someone volunteers about themselves carries its plain
    implication: a person who lists a team award as theirs was on the team. What an answer does
@@ -103,6 +108,16 @@ impossible to miss and never reads as plausible text. A background check and an 
 every figure, so an invented or rounded-up number costs the person more than an admitted gap
 (R, C). When `career-kit:career-kit` is running the engagement, its question form collects the
 answers.
+
+**A bare fact is a question waiting to be asked.** When the person gives you a fact with no
+substance behind it, write what you have and ask for the rest; do not settle for stating that
+it happened. An award: what was it for, and what did they do towards it? A move between
+roles: what were they asked to take on? A team they led: what changed while they led it? A
+tool: what do they use it for? "The project received the award" is all an award line can say
+until someone asks what the award recognised, and the answer is usually the best line in the
+section (C). These are enriching questions, separate from gaps: the draft stands without the
+answer and is better with it. Put them in your reply, most valuable first, each with where the
+answer would go. `references/voice.md` lists the question for each kind of bare fact.
 
 ## The document, top to bottom
 
@@ -181,7 +196,15 @@ a worked example of an invented person.
   that reads as machine-written is named in `references/voice.md`, and the lint fails on it (R).
 - **State scope exactly.** Supported is not led; coordinated is not ran; one backlog in a squad
   is not the squad's backlog. People who know the real scope read the résumé (C).
-- **Explain an internal name in a few words on first use**, then use it freely (R, C).
+- **Explain only what this reader would not know.** An internal name gets a few words on first
+  use, then is used freely (R, C). A product, company or method the hiring manager already
+  knows gets none: "Microsoft Copilot, an AI assistant" spends three words telling them what
+  they know, and usually they are there to carry a keyword (C).
+- **Each sentence has one reading.** Say who does each thing and in what order. "I use the tool
+  to draft test cases, and validate the output" lets the tool do the validating; "then
+  validate the output myself" does not. `references/voice.md` lists the usual traps (C).
+- **Every word tells the reader something.** Take a phrase out; if the reader has lost nothing
+  they did not already know, it stays out. `references/voice.md` lists the usual kinds.
 - **One number, one noun, one time.** Keep a figure with the thing it counts, write an expected
   result as expected, and count one piece of work once (C).
 
@@ -225,8 +248,8 @@ python3 scripts/resume_lint.py path/to/resume.md            # exit 0 clean, 1 on
 python3 scripts/resume_lint.py --allow-gaps path/to/draft.md   # a draft that still has [gaps]
 ```
 
-6. Reply with the path, the open `[gaps]` as questions, each ad requirement the résumé does not
-   meet, and each place you departed from a default and why. Keep the reply under 12 lines.
+6. Reply with the path, the open `[gaps]` as questions, the enriching questions for any bare
+   fact, each ad requirement the résumé does not meet, and each place you departed from a default and why. Keep the reply under 12 lines.
 
 When the task is one section, do steps 1 and 2 for that section, read the sections it depends
 on, and write only what was asked.

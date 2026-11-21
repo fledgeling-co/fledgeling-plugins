@@ -197,7 +197,9 @@ Recognition that belongs to no single role can go here, worded as what was actua
 to whom, and in the person's voice. A team award is a team award, and the person who lists it
 was on the team: "I am proud that our work on the claims rebuild received the 2025 team award"
 is true to both. "The claims rebuild received the 2025 team award" is true and reads as a
-caption (C).
+caption (C). Ask what the award was for and what the person did towards it; a line that says
+what was recognised is worth more than the award's name, and "received an award" is as far as
+the line can go until somebody asks (C).
 
 - Keep the true start date. Application forms and employment checks collect the real dates, and
   a résumé that disagrees with the form costs more than the tenure does (R).
@@ -226,6 +228,13 @@ live here: "I write the user stories and acceptance criteria" (C). State direct 
 separately from the size of a squad or team they work in but do not manage (R). A reader scans
 for the bullets, so the scope line is the frame and the bullets carry the evidence (evals).
 
+**When the scope line overflows.** It holds, in this order: what they own and the structure
+they own it in; then one sentence of standing duties, where a method the ad names can sit
+("in 2-week Scrum sprints"). Anything more moves down. A third duty becomes a bullet that
+shows it happening once. How they use a tool becomes a bullet or a note on the tools line. A
+result never goes in the scope line at all. A scope paragraph of three or four sentences is a
+set of bullets that has not been written yet (C).
+
 Work that is still in build goes in its own last bullet, marked as not yet released, with a
 forecast worded as a forecast. Leave it out when space is short.
 
@@ -239,7 +248,12 @@ forecast worded as a forecast. Leave it out when space is short.
   list has nothing under it (R, evals);
 - a figure where one was confirmed. Where no result was measured, give the scope instead (how
   many people, sites, releases) and write no result figure (R);
-- two sentences are fine when the second carries the result. One idea per bullet.
+- two sentences are fine when the second carries the result. One idea per bullet, where an
+  idea is one story: a release, the fault found after it and the fix belong together, and two
+  unrelated decisions do not;
+- every bullet ends on what was different afterwards, or on the scale of the work when nothing
+  was measured. A bullet that stops at the action ("Brought the two teams under one way of
+  working.") is half a bullet: leave it as it is, and ask the person what changed (C).
 
 Order the bullets by how much they matter to the target role, with the strongest first.
 

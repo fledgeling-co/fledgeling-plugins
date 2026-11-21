@@ -74,6 +74,28 @@ The test: would someone reading their answer be surprised to learn the implicati
 false? If yes, it is part of what they said. If establishing it would take a second fact, it
 is not.
 
+## Asking what a fact was for
+
+Using what an answer implies is half of it. The other half is asking for what it leaves out,
+because the part a person does not think to say is often the part worth printing. Each bare
+fact has an obvious next question:
+
+| The fact as given | Ask | What the answer gives the résumé |
+| --- | --- | --- |
+| An award or recognition | What was it for? What did you do that it recognised? | The achievement behind the award, which is stronger than the award |
+| "I was promoted" or a move to a bigger role | What were you asked to take on, and why you? | A reason the employer trusted them with more |
+| "I led a team of N" | What was different by the time you left? | A bullet in place of a headcount |
+| A project name | What did it change for customers or staff? | A result, or a scope if nothing was measured |
+| A tool or method | What do you use it for, and how often? | A skill with a line under it |
+| "It went well" or "it was adopted" | How could you tell? | A measure, or an honest "nothing was tracked" |
+| A change they made | What was it like before? | The contrast that makes the change readable |
+| A bullet that stops at the action | What was different afterwards? | The second half of the bullet, or its scale if nothing was measured |
+
+Ask these when you first meet the fact, not at the end. Write the line with what is known
+meanwhile; an enriching question never holds up a draft, and never appears in it as a bracket.
+A reply that says "the award line is thin because nobody has said what the award was for" is
+doing its job; a résumé that prints the bare line without asking has skipped a step (C).
+
 ## Sounding like the person
 
 A résumé written in the first person can still read like a personnel file. Each prose section
@@ -156,8 +178,47 @@ describes what happened in it (R).
   the short form (R, C).
 - Explain an internal name in a few words the first time: "Atlas, the claims
   system". An internal reader loses nothing and an external one can follow (R, C).
+- Explain nothing the reader already knows. Before glossing a name, ask whether the person
+  hiring for this role would recognise it. Widely used products, well-known companies and
+  standard methods need no gloss: Excel, Jira, Microsoft Copilot, Scrum, a major bank (C).
 - Capitalise what the organisation capitalises (Release Train, Definition of Done) and keep
   "agile" lower case.
+
+## One reading only
+
+Read each sentence looking for a second meaning, the way someone who does not know the work
+would take it. Where there is one, say who did what and in what order (C).
+
+| Trap | Reads as | Write |
+| --- | --- | --- |
+| A second verb after "use X to…": "I use the tool to draft test cases, and validate the output" | The tool validates | "…to draft test cases, then validate the output myself" |
+| A step with no order word: "drafted the plan and got approval" | Possibly one act | "drafted the plan, then got approval" where the order matters |
+| A modifier beside the wrong noun: "an update to how staff verify customers over six months" | Customers are verified over six months | "Over six months, coordinated an update to how staff verify customers" |
+| A pronoun with two candidates: "added a check after the worst issue; it came from outside the team" | The check came from outside | Name the noun again: "the issue came from…" |
+| Numbers joined loosely: "teams of 5 and about 15" | One team of an odd size | One team at a time, or the one that matters |
+| A list whose last item changes kind: "led planning, reporting and five analysts" | Three activities | Split it: what they led, then whom |
+| A lost subject after "when…": "When the data showed a gap, closed it" | Nobody closed it | "Closed the gap the data showed" |
+
+Order words (then, first, afterwards, before) and a repeated subject cost a word or two each.
+They are not padding; they are what makes the sentence say one thing.
+
+## Words that tell the reader nothing
+
+A phrase earns its place by telling this reader something they did not know. Take it out and
+re-read; if nothing is lost, leave it out. The usual kinds:
+
+| Kind | Example | What to do |
+| --- | --- | --- |
+| A gloss on something known | "Microsoft Copilot, an AI assistant"; "Excel, a spreadsheet tool" | Name it and move on |
+| A gloss added to carry a keyword | "…, an AI assistant" where the ad says "AI" | If the term matters, write a true sentence that uses it; otherwise leave it out |
+| A category before the thing | "the Jira tool", "the Scrum methodology" | "Jira", "Scrum" |
+| The title or employer restated | "In my role as Product Owner, I…" under a Product Owner heading | "I…" |
+| A purpose nobody doubts | "in order to deliver outcomes", "to add value" | Cut, or say the actual purpose |
+| An intensifier or hedge | "successfully delivered", "various stakeholders", "a range of" | The verb or the noun alone, or the number |
+| A second word for the same thing | "validated and reviewed", "plans and schedules" | Whichever one the person used |
+
+This is a test of each phrase, not a reason to shorten. A gloss on an internal name, a
+connecting word and the sentence with a person in it all tell the reader something, and stay.
 
 ## Cutting for length
 

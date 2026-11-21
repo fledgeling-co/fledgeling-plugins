@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## 0.4.9
+
+`career-kit:resume-craft`: a bare fact is a question to ask.
+
+- An award line went through four wordings, each a way of saying the award was received, and
+  nobody asked what it was for. `SKILL.md` now says to write what is known and ask for the
+  rest: what an award recognised, what a move added, what changed under their leadership.
+  These enriching questions are separate from gaps, never appear as brackets, and go in the
+  reply, most valuable first.
+- `references/voice.md`: the question to ask for each kind of bare fact.
+- `scripts/resume_lint.py` warns `award-bare` when an award is named without what it was for,
+  with a self-test.
+- A role paragraph glossed a product every reader knows, to carry an ad's keyword. The skill
+  now says to explain only what this reader would not know, and `references/voice.md` has a
+  table of words that tell the reader nothing. The lint warns `gloss-known`.
+- A sentence about a tool read as the tool checking its own work. The skill now says each
+  sentence has one reading, with a table of the usual traps in `references/voice.md`, and the
+  lint warns `two-readings` on "use X to …, and [check]".
+- The experience section's structure is held more firmly. When a scope line overflows, the
+  extra moves to a bullet or the tools line before any default gives way, and every bullet
+  ends on what was different afterwards or on its scale. The lint warns `bullet-no-result`.
+- Not re-run: the skill's evals.
+
 ## 0.4.8
 
 `career-kit:resume-craft`: what an answer implies, and sounding like the person.
