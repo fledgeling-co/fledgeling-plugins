@@ -44,6 +44,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shlex
 import os
 import re
 import sys
@@ -77,6 +78,9 @@ _COMMANDS = {
 _FAMILY_KEY = {"Anthropic": "claude", "xAI": "xai", "Meta": "meta", "Google": "gemini", "OpenAI": "openai"}
 
 
+_ROSTER_PY = Path(__file__).resolve().parent / "roster.py"
+
+
 def _referral_lanes():
     roster = json.loads((Path(__file__).resolve().parent / "roster.json").read_text(encoding="utf-8"))
     tier = roster["tiers"]["daily"]
@@ -84,9 +88,12 @@ def _referral_lanes():
     for name in tier["lanes"]:
         spec = roster["lanes"][name]
         effort = spec.get("effort") or tier["effort"]
-        model = spec.get("model") or f"$(scripts/roster.py model {name})"
-        if spec["resolve"] in ("newest-grok", "newest-gemini"):
-            model = f"$(scripts/roster.py model {name})"
+        # A lane whose id is looked up at run time is resolved through this plugin's own
+        # roster.py by absolute path. A cwd-relative path would run whatever scripts/roster.py
+        # the current project happens to contain.
+        model = spec.get("model")
+        if spec["resolve"] in ("newest-grok", "newest-gemini") or not model:
+            model = f"$({shlex.quote(str(_ROSTER_PY))} model {name})"
         lanes[_FAMILY_KEY[spec["family"]]] = _COMMANDS[spec["cli"]].format(model=model, effort=effort)
     return lanes
 

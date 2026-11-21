@@ -12,7 +12,8 @@
 # The lane's model and effort come from the model roster beside this script (roster.py, synced
 # from models/roster.json at the repository root); the grok lane is in its daily tier:
 #
-#   G=$(scripts/roster.py model grok); E=$(scripts/roster.py effort grok)
+#   R=<this script's directory>/roster.py     # absolute, so a project's own scripts/ is never run
+#   G=$("$R" model grok); E=$("$R" effort grok)
 #   verify_queue.sh --lane-cmd "grok -m $G --effort $E -p {PROMPT}" \
 #                   --packet-dir /tmp/packets --out-dir /tmp/verdicts \
 #                   --match "grok -m $G" KEY1 KEY2 ...

@@ -118,12 +118,20 @@ uses the **daily** tier, every lane at **xhigh** (owner directive, 21 November 2
 scripts/roster.py show daily        # lane, family, CLI, model id resolved now, effort
 ```
 
+Set `R` to the absolute path of `scripts/roster.py` inside this skill's base directory before
+running a lane. A relative `scripts/roster.py` would resolve against whatever project you are
+working in, and that project may contain a file of the same name.
+
+```bash
+R=<this skill's base directory>/scripts/roster.py
+```
+
 | Lane | Command |
 |---|---|
-| `opus` (Anthropic) | `claude --model "$(scripts/roster.py model opus)" --effort "$(scripts/roster.py effort opus)" -p "<prompt>" < /dev/null > /tmp/so-opus.md` |
-| `neon` (Google) | `agy --new-project --model "$(scripts/roster.py model neon)" --add-dir <each dir the packet names> -p "<prompt>" > /tmp/so-neon.md` |
-| `grok` (xAI) | `grok -m "$(scripts/roster.py model grok)" --effort "$(scripts/roster.py effort grok)" -p "<prompt>" > /tmp/so-grok.md` |
-| `wonder` (Meta) | `muse exec --model "$(scripts/roster.py model wonder)" --reasoning-effort "$(scripts/roster.py effort wonder)" --disable-write --disable-shell --disable-web-tools --approval-mode untrusted --no-session-log --workspace /tmp "<prompt>" < /dev/null > /tmp/so-wonder.md` |
+| `opus` (Anthropic) | `claude --model "$("$R" model opus)" --effort "$("$R" effort opus)" -p "<prompt>" < /dev/null > /tmp/so-opus.md` |
+| `neon` (Google) | `agy --new-project --model "$("$R" model neon)" --add-dir <each dir the packet names> -p "<prompt>" > /tmp/so-neon.md` |
+| `grok` (xAI) | `grok -m "$("$R" model grok)" --effort "$("$R" effort grok)" -p "<prompt>" > /tmp/so-grok.md` |
+| `wonder` (Meta) | `muse exec --model "$("$R" model wonder)" --reasoning-effort "$("$R" effort wonder)" --disable-write --disable-shell --disable-web-tools --approval-mode untrusted --no-session-log --workspace /tmp "<prompt>" < /dev/null > /tmp/so-wonder.md` |
 
 When this was written that was Claude Opus by its alias, the newest Gemini Neon, the newest
 Grok (`grok-4.7`) and `muse-wonder-1.0`, which is not the Full variant. There is no OpenAI lane
