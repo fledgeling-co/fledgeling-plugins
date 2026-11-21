@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.2
+
+Out-of-family referral lanes come from the model roster's daily tier (`scripts/roster.json`, synced from `models/roster.json`); `session_calibrate.py` names no model of its own.
+
 ## 0.6.0 - 2026-09-05
 
 Expands the module catalogue with anti-passive-audit rules and rendered visual reference requirements.

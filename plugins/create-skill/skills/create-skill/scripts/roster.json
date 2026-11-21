@@ -1,0 +1,38 @@
+{
+  "updated": "2026-11-21",
+  "note": "The one place Fledgeling's panel models are defined. Edit this file, then run scripts/sync_model_roster.py, which copies it and roster.py into every consumer plugin. Do not edit a plugin's copy. A consumer is a tier name, or {tier, path} when its copy does not live in plugins/<name>/skills/<name>/scripts.",
+  "tiers": {
+    "frontier": {
+      "effort": "medium",
+      "purpose": "Judging and deciding: the strongest model each family offers.",
+      "lanes": ["fable", "astra", "argon", "carbon", "wonder-full"]
+    },
+    "daily": {
+      "effort": "xhigh",
+      "purpose": "Quick second opinions: the everyday model each family offers, thinking as hard as it can.",
+      "lanes": ["opus", "neon", "grok", "wonder"]
+    }
+  },
+  "consumers": {
+    "create-skill": "frontier",
+    "decision-panel": "frontier",
+    "feedback-panel": "frontier",
+    "improve-skill": "frontier",
+    "clarify": "daily",
+    "geminify": "daily",
+    "stocktake": "daily",
+    "ship-fleet": "daily",
+    "shipyard": {"tier": "daily", "path": "plugins/shipyard/scripts"}
+  },
+  "lanes": {
+    "fable":       {"label": "Claude Fable 5.2",    "family": "Anthropic", "cli": "claude", "resolve": "pinned", "model": "claude-fable-5-2"},
+    "astra":       {"label": "GPT-6.2 Astra",       "family": "OpenAI",    "cli": "codex",  "resolve": "pinned", "model": "gpt-6.2-astra"},
+    "argon":       {"label": "Gemini Argon",        "family": "Google",    "cli": "agy",    "resolve": "newest-gemini", "name": "argon", "fallback": "neon"},
+    "carbon":      {"label": "Gemini Carbon",       "family": "Google",    "cli": "agy",    "resolve": "newest-gemini", "name": "carbon"},
+    "wonder-full": {"label": "Meta Wonder Full 1.0", "family": "Meta",     "cli": "muse",   "resolve": "pinned", "model": "muse-wonder-full-1.0", "effort": "high"},
+    "opus":        {"label": "Claude Opus",         "family": "Anthropic", "cli": "claude", "resolve": "alias",  "model": "opus"},
+    "neon":        {"label": "Gemini Neon",         "family": "Google",    "cli": "agy",    "resolve": "newest-gemini", "name": "neon"},
+    "grok":        {"label": "Grok",                "family": "xAI",       "cli": "grok",   "resolve": "newest-grok", "model": "grok-4.7"},
+    "wonder":      {"label": "Meta Wonder 1.0",     "family": "Meta",      "cli": "muse",   "resolve": "pinned", "model": "muse-wonder-1.0"}
+  }
+}

@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that takes an existing skill all the way from "this could be better" to a named, iconed, evidence-backed plugin.</p>
 
 <p align="center">
-  <img alt="Version 1.3.1" src="https://img.shields.io/badge/version-1.3.1-F2542D">
+  <img alt="Version 1.3.2" src="https://img.shields.io/badge/version-1.3.2-F2542D">
   <img alt="6 phases" src="https://img.shields.io/badge/phases-6-2A241E">
   <img alt="2 user checkpoints" src="https://img.shields.io/badge/user_checkpoints-2-B8300F">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8C7C63">

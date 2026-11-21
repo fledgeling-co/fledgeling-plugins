@@ -2,9 +2,9 @@
 name: decision-panel
 description: >-
   Put one decision to a panel of five model families and decide it for the user. Frames the
-  question and its options from the conversation and the repo, runs two rounds across Fable 5.2,
-  GPT-6.2 Astra, Gemini Argon (Hydrogen when Argon is unavailable), Grok 4.7 and Meta Wonder
-  1.0 Full, settles it
+  question and its options from the conversation and the repo, runs two rounds across the five frontier lanes of
+  Fledgeling's model roster (Fable 5.2, GPT-6.2 Astra, Gemini Argon, Gemini Carbon and Meta Wonder
+  Full 1.0 when this was written), settles it
   with evidence first and votes second, records every model's position and the dissent on a
   self-contained HTML decision page, then acts on the result. Use when the user explicitly asks
   for a panel to decide: "have the panel decide", "put this to the panel", "panel this", "let the
@@ -60,8 +60,8 @@ A-to-D order and `brief-r1b.md` in reverse, then run both into one directory:
 
 ```bash
 S=<this skill>/scripts
-$S/run_panel.sh --brief <wd>/brief-r1a.md --out <wd>/r1 --lanes fable,argon,wonder --add-dir <repo> --add-dir <wd> --timeout 900 --min-bytes 600 &
-$S/run_panel.sh --brief <wd>/brief-r1b.md --out <wd>/r1 --lanes astra,grok         --add-dir <repo> --add-dir <wd> --timeout 900 --min-bytes 600 &
+$S/run_panel.sh --brief <wd>/brief-r1a.md --out <wd>/r1 --lanes fable,argon,wonder-full --add-dir <repo> --add-dir <wd> --timeout 900 --min-bytes 600 &
+$S/run_panel.sh --brief <wd>/brief-r1b.md --out <wd>/r1 --lanes astra,carbon       --add-dir <repo> --add-dir <wd> --timeout 900 --min-bytes 600 &
 wait
 $S/tally.py <wd>/r1
 ```
@@ -129,38 +129,45 @@ tally, the page path, and anything that is waiting on the user.
 
 ## Lanes
 
-The roster is the owner's directive of 18 November 2026.
+The models are not named in this skill. They come from Fledgeling's model roster,
+`scripts/roster.json`, read through `scripts/roster.py`, and `scripts/run_panel.sh` takes each
+lane's model and effort from it. This skill runs the **frontier** tier:
 
-| Lane | Family | Command (in `scripts/run_panel.sh`) | Resolved 18 Nov 2026 |
-|---|---|---|---|
-| `fable` | Anthropic | `claude --model claude-fable-5-2 --effort medium -p` | claude-fable-5-2 (pinned) |
-| `astra` | OpenAI | `"$(latest_model.py codex)" exec -m gpt-6.2-astra -c model_reasoning_effort="medium" -s read-only` | gpt-6.2-astra (pinned) |
-| `argon` | Google | `agy --new-project --model "$(latest_model.py gemini)" -p` | gemini-4-argon-medium; gemini-4-hydrogen-xhigh when Argon is unavailable |
-| `grok` | xAI | `grok -m "$(latest_model.py grok)" --effort xhigh -p` | grok-4.7 |
-| `wonder` | Meta | `muse exec --model muse-wonder-full-1.0 --reasoning-effort high --disable-write --disable-shell --disable-web-tools` | muse-wonder-full-1.0 (pinned) |
+```bash
+scripts/roster.py show frontier     # lane, family, CLI, model id resolved now, effort
+```
 
-Argon and Grok run the newest model their CLI offers: `scripts/latest_model.py` reads `agy
-models` and `grok models` and picks the highest version. The Google lane is Gemini Argon at
-medium. When `agy models` lists no Argon at medium, or the Argon run fails or writes nothing,
-the lane runs the brief once on the newest Gemini Hydrogen at xhigh and writes `falling back to
-<model>` to the lane log; put that on the page beside the lane's model id.
+When this was written, 21 November 2026, that was five lanes: `fable` (Claude Fable 5.2),
+`astra` (GPT-6.2 Astra), `argon` (Gemini Argon) and `carbon` (Gemini Carbon) at medium effort,
+and `wonder-full` (Meta Wonder Full 1.0) at high. Two of the five are Google models and none is
+xAI's, so a split between `argon` and `carbon` is one family disagreeing with itself; say so
+on the page when it happens.
 
-Fable, Astra and Wonder are pinned, because their CLIs offer no newest-model alias. Fable runs
-`claude-fable-5-2` at medium effort, not the `fable` alias. Its probe tries default setting
-sources first and, only on the terminal `needs_relogin` auth signature, retries with
-`project,local` so the stored claude.ai login can answer; `FP_FABLE_SETTING_SOURCES` forces the
-sources (`auto`, `default`, or a list) and the log records the sources that ran.
+The roster's source is `models/roster.json` at the root of the fledgeling-plugins repository,
+and `scripts/sync_model_roster.py` there copies it into this skill. Change the source and sync;
+an edit to this copy is overwritten on the next sync.
 
-Astra runs on the newest `codex` binary on the machine, which `latest_model.py codex` finds
-(`FP_CODEX_BIN` overrides it). Measured 18 November 2026, the standalone codex 0.163.0 refused
-`gpt-6.2-astra` with "not supported when using Codex with a ChatGPT account", and the CLI the
-ChatGPT app bundles, 0.169.0, served it. Wonder runs through Meta's `muse` CLI at high effort;
-`--disable-write` keeps it read-only while it reads the files the brief names. Grok runs at
-`xhigh`, the most its CLI accepts.
+How a lane's model id is found:
 
-When the model running this skill shares a family with a lane, keep the lane and say so on the
-page. Override a model id with `FP_<LANE>_MODEL`, for example to repeat a decision on the same
-versions; a pinned `FP_ARGON_MODEL` skips the Hydrogen fallback, and the efforts stay as listed.
+- **`fable`, `astra`, `wonder-full`** are pinned to exact ids, because their CLIs offer no
+  newest-model alias. Fable's probe tries default setting sources first and, only on the
+  terminal `needs_relogin` auth signature, retries with `project,local` so the stored claude.ai
+  login can answer; `FP_FABLE_SETTING_SOURCES` forces the sources and the log records what ran.
+  Astra runs on the newest `codex` binary on the machine (`latest_model.py codex`;
+  `FP_CODEX_BIN` overrides it): measured 18 November 2026, the standalone codex 0.163.0 refused
+  `gpt-6.2-astra` and the CLI the ChatGPT app bundles, 0.169.0, served it. Wonder runs through
+  Meta's `muse` CLI with read tools only.
+- **`argon` and `carbon`** take the newest `gemini-<version>-<name>-<effort>` that `agy models`
+  lists; agy carries the effort in the model id. When agy lists no Argon at the lane's effort,
+  or the Argon run fails or writes nothing, the `argon` lane runs once on Gemini Neon at xhigh
+  and writes `falling back to <model>` to its log. Name the model that answered. `carbon` has
+  no fallback, because a second lane on Neon would count one model twice.
+
+Run every lane in the tier by default. When the user names lanes, use those; any lane in the
+roster can be passed to `--lanes`. When the model running this skill shares a family with a lane,
+keep the lane and say so. Each lane's log ends with `model=<id>` and `effort=<level>`. Pin a
+model with `FP_<LANE>_MODEL` (`FP_WONDER_FULL_MODEL` for `wonder-full`), for example to repeat
+a run on the same version; a pinned model switches that lane's fallback off.
 
 ## Scope and cost
 

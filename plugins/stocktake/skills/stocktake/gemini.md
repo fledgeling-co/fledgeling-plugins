@@ -106,7 +106,7 @@ one queue run; a Gemini runner skips lane 1 of `references/verification-lanes.md
 
 ```
 $ python3 <warrant>/scripts/snapshot_evidence.py --root . --diff … --tests …   → digest 7f3a91c4  (pre-lane)
-$ scripts/verify_queue.sh --lane-cmd 'grok -m grok-4.6 --effort xhigh -p {PROMPT}' … WEB-1234 WEB-1240
+$ scripts/verify_queue.sh --lane-cmd "grok -m $(scripts/roster.py model grok) --effort $(scripts/roster.py effort grok) -p {PROMPT}" … WEB-1234 WEB-1240
   DONE WEB-1234 VERDICT: PARTIAL 6114B   ·   NO-VERDICT WEB-1240 — empty output
 $ wc -c /tmp/verdicts/v-WEB-1234.md /tmp/verdicts/v-WEB-1240.md   → 6114 · 0
 $ python3 $S/board_ledger.py record <dir> --key WEB-1234   # init <dir> first, or record refuses: no ledger at <dir> --verdict needs-work --lane 'grok-4.6 xhigh (xAI)' \

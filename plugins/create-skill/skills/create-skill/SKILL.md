@@ -117,8 +117,10 @@ skill earn its place in the context window". Full protocol:
 
 - **Structural assertions**, not 1-10 scores — checkable properties of
   the output, graded by an independent subagent with quoted evidence.
-- **A blind panel** of heterogeneous judge families on anonymised A/B
-  pairs, where neither side is identified and judges never see the skill.
+- **A blind panel** on anonymised A/B pairs, where neither side is
+  identified and judges never see the skill. The judges are the frontier tier of
+  Fledgeling's model roster, the lanes decision-panel runs, and
+  `scripts/judge_panel.sh` runs them from `scripts/roster.json`.
 - **Iterate**: every confirmed defect becomes a rule the same day, and
   the lost case is re-judged blind to verify the flip.
 

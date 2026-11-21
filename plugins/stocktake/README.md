@@ -8,7 +8,7 @@
 A SWE skill for Claude Code that goes through a tracker board card by card, checks each claim against the codebase, and moves every card to the column its evidence supports.</p>
 
 <p align="center">
-  <img alt="Version 0.8.3" src="https://img.shields.io/badge/version-0.8.3-D33C21">
+  <img alt="Version 0.8.4" src="https://img.shields.io/badge/version-0.8.4-D33C21">
   <img alt="SWE skill: triage" src="https://img.shields.io/badge/SWE_skill-triage-434A55">
   <img alt="Gates red-armed 5 of 5" src="https://img.shields.io/badge/gates_red--armed-5--of--5-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">

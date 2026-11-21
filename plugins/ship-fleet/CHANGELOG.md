@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.9.5
+
+Preflight checks for an answering lane of the model roster's daily tier in place of a pinned `gpt-5.6-sol`; `scripts/roster.py show daily` lists the lanes.
+
 ## 2.9.3 - 2026-09-01
 
 Closes the auditor findings on `gemini.md`: filled the exemplars the overrides only described, corrected counts and citations that disagreed with the target `SKILL.md`, and brought the file inside the 150-250 line bound. `verify_quotes.py` exits 0.

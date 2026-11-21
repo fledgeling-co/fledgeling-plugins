@@ -3,7 +3,7 @@
 # every brief and answer where a later session can read them.
 #
 #   run_panel.sh --brief brief.md --out decisions/photo-panel [--brief-reversed brief-b.md]
-#                [--add-dir /path/to/project]... [--lanes fable,astra,argon,grok,wonder]
+#                [--add-dir /path/to/project]... [--lanes <any lanes in the model roster; default is its frontier tier>]
 #                [--timeout 900] [--min-bytes 600]
 #
 # This wraps `decision-panel:decision-panel`'s own runner rather than reimplementing the lanes,
@@ -29,7 +29,7 @@
 #
 # Strip contact details from anything a brief points at. These lanes are other vendors' models.
 set -u
-BRIEF= BRIEF_B= OUT= LANES=fable,astra,argon,grok,wonder TIMEOUT=900 MINB=600
+BRIEF= BRIEF_B= OUT= LANES= TIMEOUT=900 MINB=600
 typeset -a DIRS
 while (( $# )); do
   case $1 in
@@ -60,6 +60,8 @@ fi
   print -u2 "FP_PANEL_RUNNER to its scripts/run_panel.sh."
   exit 3; }
 
+# With no --lanes, run the frontier tier of the model roster that ships beside the runner.
+[[ -n $LANES ]] || LANES=$("${RUNNER:h}/roster.py" lanes frontier) || { print -u2 "could not read the model roster beside $RUNNER"; exit 3; }
 mkdir -p "$OUT"
 typeset -a addflags; for d in $DIRS; do addflags+=(--add-dir "$d"); done
 cp "$BRIEF" "$OUT/brief.md"

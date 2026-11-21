@@ -1,7 +1,7 @@
 {
   "name": "clarify",
   "description": "Decide whether a material question needs the user's input, then ask it clearly. Use when two readings would lead to materially different work, a user-owned trade-off is unresolved, an action exceeds existing authorization, or the user invokes /clarify:clarify. First read the conversation, repo and existing decisions; make routine reversible judgement calls without interruption. Use one bounded second opinion only for a material technical ambiguity that evidence has not resolved; use a panel for a high-impact disagreement and research for external facts. Referrals go to five lanes in five families, all at xhigh: Opus 5.5, GPT-6.2 Sol, Grok 4.7, Meta Wonder 1.0 and Gemini Hydrogen, and the user's selected roles come first. Ask only the remaining user-axis decision, with the available question tool or one concise question, and preserve notes attached to the answer. Existing authorization carries forward.",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "author": {
     "name": "Fledgeling",
     "email": "lukerhodes27@gmail.com"

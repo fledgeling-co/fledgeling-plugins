@@ -64,29 +64,40 @@ A model asked "Clerk or WorkOS?" gives the blog-post answer; one given this code
 gives a verdict on *this* codebase. Pin the model **and** the effort on every lane: a lane that
 inherits its CLI config default is not the lane you routed.
 
+Which models these are, and at what effort, is defined once: Fledgeling's model roster,
+`${CLAUDE_PLUGIN_ROOT}/scripts/roster.json`, read through `scripts/roster.py` beside it. Second
+opinions use its **daily** tier. `roster.py show daily` prints the lanes as they resolve now;
+when this was written, 21 November 2026, they were Claude Opus, Gemini Neon, Grok and Meta
+Wonder 1.0, each at xhigh, and the tier has no OpenAI lane. The roster's source is
+`models/roster.json` at the root of the fledgeling-plugins repository; change it there.
+
 ```bash
+R=${CLAUDE_PLUGIN_ROOT}/scripts/roster.py     # model <lane> prints the id, effort <lane> the level
+
 # Lane A — a different Claude (fast; in-family)
-claude --model claude-fable-5 --effort high -p "<question + evidence>"
+claude --model "$($R model opus)" --effort "$($R effort opus)" -p "<question + evidence>"
 
-# Lane B — a different family (default when independence is the point)
+# Lane B — Google family (agy carries the effort in the model id)
 perl -e 'alarm shift @ARGV; exec @ARGV' 900 \
-  codex exec -m gpt-5.6-sol -c model_reasoning_effort="high" \
-  -s read-only -o /tmp/so-<slug>.md "<question + evidence>" < /dev/null \
-  > /tmp/so-<slug>.log 2>&1
-grep -qx "model: gpt-5.6-sol"     /tmp/so-<slug>.log || echo "WRONG-MODEL — lane failed"
-grep -qx "reasoning effort: high" /tmp/so-<slug>.log || echo "WRONG-EFFORT — lane failed"
-
-# Lane C — Google family (the effort is baked into the model id)
-perl -e 'alarm shift @ARGV; exec @ARGV' 900 \
-  agy --model gemini-3.7-flash-high -p "<question + evidence>" \
+  agy --new-project --model "$($R model neon)" -p "<question + evidence>" \
   > /tmp/so-<slug>-agy.md 2>/tmp/so-<slug>-agy.log
 
-# Lane D — xAI family (efforts: xhigh|high|medium|low)
+# Lane C — xAI family
 perl -e 'alarm shift @ARGV; exec @ARGV' 900 \
-  grok -m grok-4.6 --effort xhigh -p "<question + evidence>" \
+  grok -m "$($R model grok)" --effort "$($R effort grok)" -p "<question + evidence>" \
   > /tmp/so-<slug>-grok.md 2>/tmp/so-<slug>-grok.log
-# fallback: cursor-agent -p --force --model grok-4.6 "<question + evidence>"
+# fallback when the grok CLI cannot run headless: cursor-agent -p --force --model "$($R model grok)" "<question + evidence>"
+
+# Lane D — Meta family (read tools only)
+perl -e 'alarm shift @ARGV; exec @ARGV' 900 \
+  muse exec --model "$($R model wonder)" --reasoning-effort "$($R effort wonder)" \
+  --disable-write --disable-shell --disable-web-tools --approval-mode untrusted \
+  --no-session-log --workspace /tmp "<question + evidence>" < /dev/null \
+  > /tmp/so-<slug>-wonder.md 2>/tmp/so-<slug>-wonder.log
 ```
+
+Record the id `roster.py model <lane>` printed beside each answer. A lane whose CLI does not
+offer that id fails; report it and take the next family.
 
 Lane rules (each one is a paid-for incident):
 
@@ -116,7 +127,7 @@ quality (the multi-agent failure literature's central finding).
 
 Protocol, and each rule has a measured bias behind it:
 
-1. **Three lanes from three families** (e.g. B + C + D; add A only as a fourth voice). Diverse
+1. **Three lanes from three families** (B + C + D; add A only as a fourth voice). Diverse
    panels outperform a single large judge and dilute intra-model bias — measured at roughly
    one-seventh the cost of a frontier single judge (PoLL, 2024).
 2. **Blind and structural.** Each member gets the same packet: the fork, the evidence, the

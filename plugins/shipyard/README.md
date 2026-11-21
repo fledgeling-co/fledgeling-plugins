@@ -8,7 +8,7 @@
 Seven pipeline skills for Claude Code that take a feature from rough idea to independently verified code, and a status machine where "done" has to be earned by a stranger.</p>
 
 <p align="center">
-  <img alt="Version 0.5.4" src="https://img.shields.io/badge/version-0.5.4-D33C21">
+  <img alt="Version 0.5.5" src="https://img.shields.io/badge/version-0.5.5-D33C21">
   <img alt="SWE skill: delivery pipeline" src="https://img.shields.io/badge/SWE_skill-delivery_pipeline-434A55">
   <img alt="Report card 37-37 vs 22-37" src="https://img.shields.io/badge/report_card-37%2F37_vs_22%2F37-756E60">
   <img alt="Blind panel 17-4" src="https://img.shields.io/badge/blind_panel-17--4-756E60">

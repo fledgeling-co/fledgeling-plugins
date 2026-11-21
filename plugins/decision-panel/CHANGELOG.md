@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+The models and efforts now come from Fledgeling's model roster (owner directive, 21 November 2026)
+
+`scripts/roster.json` and `scripts/roster.py` are copies of `models/roster.json` and `models/roster.py` at the repository root, written by `scripts/sync_model_roster.py`. `run_panel.sh` takes each lane's model and effort from the roster and, with no `--lanes`, runs the frontier tier: fable, astra, argon and carbon at medium, wonder-full at high. The `grok` lane leaves the default set, `carbon` becomes its own lane where it had been an alias for `argon`, the Meta lane is named `wonder-full`, and the Google fallback is Gemini Neon at xhigh where it was Hydrogen. SKILL.md no longer carries a table of model ids.
+
 ## 0.3.0 - 2026-11-18
 
 The panel is five lanes on the owner's 18 November 2026 roster. Fable moves to `claude-fable-5-2` at medium. Astra moves to `gpt-6.2-astra` at medium (from `gpt-6-astra` at high). A new `wonder` lane runs Meta's `muse-wonder-full-1.0` at high through the `muse` CLI, read-only with `--disable-write`. Grok stays on the newest Grok at xhigh, `grok-4.7` today. The Google lane is Gemini Argon at medium (from high), and runs the newest Gemini Hydrogen at xhigh when agy lists no Argon at medium or the Argon run fails or writes nothing; the lane log says `falling back to <model>`. A pinned `FP_ARGON_MODEL` skips the fallback, and `FP_WONDER_MODEL` overrides the new lane.

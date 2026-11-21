@@ -65,12 +65,33 @@ COMMAND_ROOTS = [
 
 GEMINI_FAMILY = re.compile(r"gemini|antigravity|(?:^|[/:_-])agy(?:$|[/:_-])", re.I)
 
-# Families a Gemini runner may refer to for an out-of-family second opinion.
-OUT_OF_FAMILY = {
-    "claude": "claude --model claude-fable-5 --effort high -p",
-    "openai": "codex exec -m gpt-5.6-sol -c model_reasoning_effort=\"high\" -s read-only",
-    "xai": "grok -m grok-4.6 --effort xhigh -p",
+# Families a Gemini runner may refer to for an out-of-family second opinion. The models and
+# efforts are the daily tier of Fledgeling's model roster (roster.json beside this file, synced
+# from models/roster.json at the repository root), so this script names no model of its own.
+_COMMANDS = {
+    "claude": "claude --model {model} --effort {effort} -p",
+    "grok": "grok -m {model} --effort {effort} -p",
+    "muse": "muse exec --model {model} --reasoning-effort {effort} --disable-write --disable-shell --disable-web-tools",
+    "agy": "agy --new-project --model {model} -p",
 }
+_FAMILY_KEY = {"Anthropic": "claude", "xAI": "xai", "Meta": "meta", "Google": "gemini", "OpenAI": "openai"}
+
+
+def _referral_lanes():
+    roster = json.loads((Path(__file__).resolve().parent / "roster.json").read_text(encoding="utf-8"))
+    tier = roster["tiers"]["daily"]
+    lanes = {}
+    for name in tier["lanes"]:
+        spec = roster["lanes"][name]
+        effort = spec.get("effort") or tier["effort"]
+        model = spec.get("model") or f"$(scripts/roster.py model {name})"
+        if spec["resolve"] in ("newest-grok", "newest-gemini"):
+            model = f"$(scripts/roster.py model {name})"
+        lanes[_FAMILY_KEY[spec["family"]]] = _COMMANDS[spec["cli"]].format(model=model, effort=effort)
+    return lanes
+
+
+OUT_OF_FAMILY = _referral_lanes()
 
 
 def family_of(model: str) -> str:

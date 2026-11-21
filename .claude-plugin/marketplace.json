@@ -116,7 +116,7 @@
     {
       "name": "improve-skill",
       "description": "End-to-end skill-improvement pipeline: source skill + user feedback + paid/free Dossier deep-research panel (read in full, citations verified) merged into a plan; the improved skill built as a new plugin; proven with comparative structural evals and a blind multi-family AI judge panel (CLIs + APIs, keys via 1Password); iterated on findings with blind re-judging; then the full brand treatment (user-chosen name and icon concept, mac-design-studio 3-engine icon with audit.html, composed retina banners, Luke-voice README/EVALS with succinct-then-deep comparison, root-README entry) and shipped.",
-      "version": "1.3.1",
+      "version": "1.3.2",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -127,7 +127,7 @@
     {
       "name": "create-skill",
       "description": "Build a brand-new skill from scratch: a broad clarifying interview that pins down trigger, output and done condition before anything is written, paid+free deep research on the skill's domain (read in full, citations verified), the build itself run through skill-creator with every structural choice traced to evidence, proof against a no-skill baseline with structural evals and a blind multi-family judge panel, then the full brand treatment and ship. The sibling of improve-skill:improve-skill, for when there is no predecessor to improve. v1.3.0 hardens the brand phase, which is where this pipeline was quietly skippable: a bundled `render_banner.py` renders banner-src.html and asserts the five things that fail silently (viewport override took effect, web font actually loaded, every image decoded, nothing overflows the frame, PNG is exactly 3200x1040), the marketplace catalogue gate now fails on a missing banner, and the pipeline has answers for three cases it previously had none for: the user forbidding questions, an existing in-repo research corpus that makes a second panel redundant, and a skill that joins an existing plugin rather than getting one of its own.",
-      "version": "1.4.2",
+      "version": "1.5.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -138,7 +138,7 @@
     {
       "name": "geminify",
       "description": "Two modes. Mode A adds a Gemini-calibrated `gemini.md` to an existing skill, so the same skill works on Google's models as well as Claude's: reads the target, scans it for the unbounded scopes and assumed verification that Gemini handles differently, assembles the file from a shared core plus only the modules the skill's own subject matter earns, tags every claim by how strong its evidence actually is, gates the result by checking each quoted vendor sentence appears verbatim in Google's published guidance, then installs the conditional pointer and bumps the version. Mode B calibrates the session the runner is already in, when a Gemini model is serving it and no target is named: `session_calibrate.py` reports which loaded skills ship a `gemini.md`, which source names have an invalid namespace or are unpublished by their marketplace and may fail at runtime, and which referral lanes are out-of-family for the serving model, then the runner posts a receipt ledger where a Skill tool call discharges a row and conforming output does not. Use whenever someone wants a skill to work on Gemini \u2014 \"geminify design-craft\", \"add Gemini support to this skill\", \"make this skill work in Antigravity\", \"write a gemini.md for X\", \"/geminify:geminify\" \u2014 whenever a skill produced weak output under a Gemini model and the skill itself is not at fault, and whenever a session is served by a Gemini-family model and should apply the overrides to the skills it has loaded. NOT for fixing a skill that is broken for every model (use improve-skill:improve-skill), and NOT for authoring a new skill (use create-skill:create-skill).",
-      "version": "0.6.1",
+      "version": "0.6.2",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -215,7 +215,7 @@
     {
       "name": "clarify",
       "description": "Decide whether a material question needs the user's input, then ask it clearly. Use when two readings would lead to materially different work, a user-owned trade-off is unresolved, an action exceeds existing authorization, or the user invokes /clarify:clarify. First read the conversation, repo and existing decisions; make routine reversible judgement calls without interruption. Use one bounded second opinion only for a material technical ambiguity that evidence has not resolved; use a panel for a high-impact disagreement and research for external facts. Referrals go to five lanes in five families, all at xhigh: Opus 5.5, GPT-6.2 Sol, Grok 4.7, Meta Wonder 1.0 and Gemini Hydrogen, and the user's selected roles come first. Ask only the remaining user-axis decision, with the available question tool or one concise question, and preserve notes attached to the answer. Existing authorization carries forward.",
-      "version": "1.8.0",
+      "version": "1.9.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -282,7 +282,7 @@
       "name": "shipyard",
       "source": "./plugins/shipyard",
       "description": "The shipyard: the feature-delivery stage skills: intake (rough idea to briefs, with trawl:trawl ideation and Dossier research), triage (readiness with the Sentinel review and decision-gate assumptions), plan (committed plans plus a comprehensive test strategy), design (all-platform interactive mocks gated by design-review:design-review and be-my-witness:be-my-witness), work (worktree build through the agy/grok/codex executor lanes with evidence-typed acceptance), verify (cross-family acceptance against the running app - the only path to Done), and shipyard:gap-fix (the road back from Needs More Work). One tracker adapter covers markdown specs and tasks-MCP boards; shared references carry the model lanes, second-opinion/panel protocol, evidence rules, and the incident ledger.",
-      "version": "0.5.4",
+      "version": "0.5.5",
       "category": "development"
     },
     {
@@ -303,7 +303,7 @@
       "name": "ship-fleet",
       "source": "./plugins/ship-fleet",
       "description": "Backlog-wide feature-delivery orchestrator: surveys everything remaining in a repo's pipeline (specs, plans, briefs, mocks, worktrees, deferred follow-ups), writes ORCHESTRATOR.md and a visual hierarchy before any execution, then conducts dependency-ordered ship-feature:ship-feature runners under a global agent budget - with per-item cross-family verification, serialized merges, executor-lane routing, and a ledger a fresh session can resume the whole fleet from.",
-      "version": "2.9.4",
+      "version": "2.9.5",
       "category": "development"
     },
     {
@@ -418,7 +418,7 @@
     {
       "name": "stocktake",
       "description": "Count what a tracker board claims against what the codebase actually holds, card by card, and move each one to the column its evidence supports. Reads every comment and attached image and rebuilds the numbered requirement list from the ticket BEFORE opening any completion record or diff, because a diff read first supplies the frame and the requirements it silently dropped never enter the list. Locates the work \u2014 merged, on a branch nobody merged, unpushed, in a worktree, or never built \u2014 then traces each requirement to the code that PRODUCES its value rather than to a surface that renders it, and judges whether the tests standing behind it could actually fail: which rung of oracle each critical requirement stands on, armed and unarmed assertions counted apart, a denominator for what the gate really runs. Grades every verdict out of family with a single strongest judge rather than a panel, because nine frontier judges across seven families supply about two independent votes. An inconclusive result blocks and never rounds up to a pass. Cards with work left get a brief written for ship-fleet:ship-fleet to orchestrate; cards with open decisions get referred to another model family or decided with a named recommendation rather than parked on the reader; cards whose evidence holds are promoted to Done \u2014 and never past it into a human's column until eight named preconditions hold for one pre-registered low-risk class, which a bundled gate refuses by default. Use whenever someone asks to triage, sweep, review, reconcile or clean up a board or backlog, asks what is left across a set of tickets, asks whether items in a review column are genuinely done, asks which tickets sit in the wrong status, or says a column has piled up. At Done, the column a card may reach is decided by the `warrant` plugin rather than by a checklist: warrant_column.py reads the signed warrant and the ratchet's last word and returns Verified where the card's defect class has earned warrant tier 3 with no revocation, Needs More Work where a warrant gate failed on the card's own evidence, and Done with every reason named otherwise. A grant states the substitution it rests on every time, because a warrant tier is earned by absence of escapes rather than by a measured non-inferiority study, and the signed warrant is a person accepting that in advance.",
-      "version": "0.8.3",
+      "version": "0.8.4",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -667,7 +667,7 @@
     {
       "name": "feedback-panel",
       "description": "Review a stakeholder's feedback on a project with a panel of model families, decide what to build, what to ask and what to push back on, and hand the feedback author a self-contained HTML report with multiple-choice questions, preselected recommendations, the reasoning inside each question, and a JSON export they send back. Then apply the answers that come back, build the agreed changes, and turn the report into a record of the answers. Use when someone pastes or points at feedback on a website, app, deck, document or design and wants it reviewed, triaged, challenged or turned into questions \u2014 \"review this feedback\", \"what do you make of Amy's notes\", \"have codex and gemini check this too\", \"turn these comments into questions for her\", \"push back where it's wrong\", \"here are her answers, work through them\" \u2014 even when they never say \"panel\" or \"report\". Not for reviewing code diffs (code-review:code-review), a project's own backlog (whats-left:whats-left), or a single fork you need settled (clarify:clarify).",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -678,7 +678,7 @@
     {
       "name": "decision-panel",
       "description": "Put one decision to a panel of five model families and decide it for the user. Frames the question and its options from the conversation and the repo, runs two rounds across Fable 5.2, GPT-6.2 Astra, Gemini Argon (Hydrogen when Argon is unavailable), Grok 4.7 and Meta Wonder 1.0 Full, settles it with evidence first and votes second, records every model's position and the dissent on a self-contained HTML decision page, then acts on the result. Use when the user explicitly asks for a panel to decide: \"have the panel decide\", \"put this to the panel\", \"panel this\", \"let the models decide between X and Y\", \"decide this for me with the panel\", \"/decision-panel:decision-panel\", for choices that deserve deliberate, recorded judgement such as architecture, product direction, pricing, vendor or tool selection, or whether a plan is a good one. The panel decides on the user's behalf; actions that are destructive, irreversible, outward-facing or cost money still wait for their confirmation. Not for quick forks met during other work (clarify:clarify refers those on its own), not for reviewing someone's feedback (feedback-panel:feedback-panel), and not for code review (code-review:code-review).",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -711,7 +711,7 @@
     {
       "name": "career-kit",
       "description": "Take one person from \"I need a new r\u00e9sum\u00e9\" to a complete, role-targeted application kit: country and employer research, a cited review of their current r\u00e9sum\u00e9 and LinkedIn with real cropped evidence, one r\u00e9sum\u00e9 per target role built from a single source of facts as HTML, PDF and Word, paste-ready LinkedIn copy, a bespoke personal website, an interview guide, and a project record a later session can pick up. Decides what it can decide with a model panel and asks the person the rest through one HTML form with suggested defaults and tap-to-fill examples, rather than leaving gaps in the document or filling them with plausible text. Ships a deterministic gate that fails any output carrying a figure absent from the confirmed-facts file. Also ships resume-craft, a second skill that knows what belongs in each r\u00e9sum\u00e9 section, the structure and the voice, drafts or reviews a single section or a whole document, and lints structure and voice.",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

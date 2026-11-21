@@ -39,6 +39,36 @@ and [Opus 5 guide](https://platform.claude.com/docs/en/build-with-claude/prompt-
 when changing model-specific instructions. Keep reusable detail bundled inside
 the plugin so installed skills do not depend on this repository's root files.
 
+## Panel models live in one file
+
+`models/roster.json` defines which models the panel skills run and at what effort. Two tiers:
+**frontier** (fable, astra, argon, carbon at medium; wonder-full at high) for judging and
+deciding (`create-skill`, `decision-panel`, `feedback-panel`, `improve-skill`, and `career-kit`
+through decision-panel's runner), and **daily** (opus, neon, grok, wonder, all at xhigh) for
+second opinions (`clarify`, `shipyard`, `ship-fleet`, `geminify`, `stocktake`). The `consumers`
+map in the file is the authoritative list. `models/roster.py` resolves a lane to the model id its CLI accepts.
+
+An installed plugin cannot read this repository's root, so each consumer carries a copy in its
+skill's `scripts/` directory. After any change to `models/`:
+
+```bash
+python3 scripts/sync_model_roster.py           # write the copies
+python3 scripts/sync_model_roster.py --check   # must exit 0 before a commit
+```
+
+Change a model, an effort or a tier in `models/roster.json` only. A model id or effort written
+into a SKILL.md, a runner or a changelog as a current setting is a second definition, and it
+will disagree with the roster on the next change. Skills say which tier they run and print the
+live set with `scripts/roster.py show <tier>`; dated prose ("when this was written") is a
+record and stays as written. To give another plugin the roster, add it under `consumers`.
+
+Not on the roster, deliberately: lanes that do the work instead of judging it (shipyard's
+executor lanes, `defer`'s cost ladder, `better-loop`'s tick, `flagship`'s worker proxy),
+`warrant`'s version-pinned lanes, `create-mac-icon`'s image-reading judges, which call an API
+with image input, and the eval harnesses inside `be-my-witness`, `create-luke-content` and
+`mac-craft`. Several of those still pin older ids. `flagship` ships an unrelated
+`scripts/roster.py`; the sync refuses to overwrite a `roster.py` that is not the model roster.
+
 ## Adding or renaming a plugin — four places, one commit
 
 A plugin is not "added" when its directory exists. It is added when it is

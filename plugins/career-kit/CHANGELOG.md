@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.1
+
+`scripts/run_panel.sh` takes its default lanes from the frontier tier of the model roster beside decision-panel's runner.
+
 ## 0.4.0
 
 A second skill, `career-kit:resume-craft`, for the words of the résumé itself.

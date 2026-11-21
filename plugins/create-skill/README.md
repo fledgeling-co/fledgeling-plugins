@@ -7,7 +7,7 @@
 <p align="center"><strong>Build a new skill properly, from the interview outward.</strong></p>
 
 <p align="center">
-  <img alt="Version 1.4.2" src="https://img.shields.io/badge/version-1.4.2-C4622D">
+  <img alt="Version 1.5.0" src="https://img.shields.io/badge/version-1.5.0-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 

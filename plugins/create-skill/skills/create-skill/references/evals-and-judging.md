@@ -48,9 +48,44 @@ adds cost without evidence.
 - **Judges never see the skill**, and are not told either side is a
   baseline: "which of these two better achieves X" is the question, not
   "is the skill better".
-- **Heterogeneous families, honestly sourced**: CLIs you're signed into,
-  APIs with keys from 1Password or a named env file, never hardcoded. A
-  rate-limited family is reported and substituted, with the harness named.
+- **The judges are the frontier tier of Fledgeling's model roster**, the same
+  lanes `decision-panel:decision-panel` and `feedback-panel:feedback-panel`
+  run, so a skill's evals are judged by the models that settle its design
+  decisions. `scripts/judge_panel.sh` runs them and takes each lane's model
+  and effort from `scripts/roster.json` through `scripts/roster.py`:
+
+  ```bash
+  scripts/roster.py show frontier                                   # the lanes as they resolve now
+  scripts/judge_panel.sh --dir <dir of anonymised *.txt bundles>    # exit 0 only if every lane answered
+  ```
+
+  When this was written, 21 November 2026, the tier was `fable` (Claude Fable
+  5.2), `astra` (GPT-6.2 Astra), `argon` (Gemini Argon) and `carbon` (Gemini
+  Carbon) at medium effort, and `wonder-full` (Meta Wonder Full 1.0) at high.
+  When `agy models` lists no Argon at that effort, or the Argon run fails or
+  writes nothing, the `argon` lane runs once on Gemini Neon at xhigh and its
+  log says `falling back to <model>`. Two of the five lanes are Google's and
+  none is xAI's; report a split between `argon` and `carbon` as one family
+  disagreeing with itself.
+
+  The roster's source is `models/roster.json` at the root of the
+  fledgeling-plugins repository. Change it there and run
+  `scripts/sync_model_roster.py`; the copy in this skill is overwritten on
+  each sync. `FP_<LANE>_MODEL` overrides a lane's model and switches its
+  fallback off.
+
+  The runner writes `<bundle>.<lane>.md`, a log beside each, and
+  `models.tsv` with the id and effort every lane resolved to. Copy those into
+  `EVALS.md`; "Gemini" alone does not say which model answered.
+- **The lane that shares a family with the author is recorded and left out
+  of the majority.** When Claude wrote the outputs, that is `fable`.
+- **A failed lane is never an opinion.** An empty answer, an answer cut off
+  before its verdict line, a refusal or a usage limit is reported with the
+  lane's name and is not counted. Read the answer file before recording a
+  failure as "empty": on 21 November 2026 four Grok answers were logged as
+  empty that had in fact stopped at about 500 characters.
+- **Run every bundle in both orders.** A judge who picks differently when
+  the order swaps is recorded as a flip, not as a vote.
 - Capture the `usage` object per call and **report exact cost** from
   token counts at published rates.
 - **Un-blind and tally** per dimension. Deadlocks are reported as

@@ -34,7 +34,7 @@ Resolve each expected artifact **inside the project** (Glob; exclude `.worktrees
 | Design language | `DESIGN*.md` at project root | Ask the user for one (or point at design-md-from-website / design-md-from-screenshots skills); UI stages degrade without it |
 | Best practices | `docs/CODING_PRACTICES.md` + `docs/NEW_PROJECT_BEST_PRACTICES.md` | See §2 |
 | Git | repo root is a git repo with a detectable integration branch | Hard requirement — stop and sort this with the user |
-| Codex CLI | `codex` on PATH, logged in, `gpt-5.6-sol` answering | See §5 — the pipeline's three out-of-family review gates degrade to in-family without it |
+| Out-of-family review lanes | At least one lane of the model roster's daily tier outside the writer's family answers a one-line prompt (`scripts/roster.py show daily` lists them with the CLI each needs) | See §5 — the pipeline's three out-of-family review gates degrade to in-family without one |
 
 Present one consolidated report (found ✓ / missing ✗ / degraded consequence), then a single AskUserQuestion for the repairs rather than one prompt per item.
 

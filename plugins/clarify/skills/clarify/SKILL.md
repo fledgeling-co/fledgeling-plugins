@@ -8,8 +8,8 @@ description: >
   make routine reversible judgement calls without interruption. Use one bounded
   second opinion only for a material technical ambiguity that evidence has not
   resolved; use a panel for a high-impact disagreement and research for external
-  facts. Referrals go to five lanes in five families, all at xhigh: Opus 5.5,
-  GPT-6.2 Sol, Grok 4.7, Meta Wonder 1.0 and Gemini Hydrogen, and the user's
+  facts. Referrals go to the daily lanes of Fledgeling's model roster, all at xhigh (Claude Opus,
+  Gemini Neon, Grok and Meta Wonder 1.0 when this was written), and the user's
   selected roles come first. Ask only the remaining
   user-axis decision, with the available question tool or one concise question,
   and preserve notes attached to the answer. Existing authorization carries
@@ -101,7 +101,7 @@ How far to climb, by leverage:
 | Rung | Reach for it when | Typical cost |
 | --- | --- | --- |
 | **One lane** | The default. The fork is real but bounded, and you want one competent reading you do not already hold | Seconds to a couple of minutes, no money |
-| **Five-family panel** | The call is high-leverage and genuinely open — an architecture everything downstream amplifies — or two lanes already split | Up to five concurrent calls, still no money |
+| **Four-lane panel** | The call is high-leverage and genuinely open — an architecture everything downstream amplifies — or two lanes already split | Up to four concurrent calls, still no money |
 
 **Dossier is a different branch, not a higher rung.** Escalate to research when the answer lives
 *outside this repo* and has to be sourced rather than reasoned. Residual uncertainty about a
@@ -110,40 +110,46 @@ than an answer.
 
 #### The lanes
 
-Honor the user's chosen roles first. For referrals from this skill, Luke's roster
-(set 18 November 2026) is five lanes in five families, every one at **xhigh**:
+Honor the user's chosen roles first. For referrals from this skill, the lanes come from
+Fledgeling's model roster, `scripts/roster.json`, read through `scripts/roster.py`. This skill
+uses the **daily** tier, every lane at **xhigh** (owner directive, 21 November 2026):
 
-| Lane | Command | Resolved 18 Nov 2026 |
-|---|---|---|
-| Opus 5.5 (Anthropic) | `claude --model opus --effort xhigh -p "<prompt>" < /dev/null > /tmp/so.md` | the newest Opus (the alias), claude-opus-5-5 |
-| GPT-6.2 Sol (OpenAI) | `"$(scripts/latest_model.py codex)" exec -m gpt-6.2-sol -c model_reasoning_effort="xhigh" -s read-only --skip-git-repo-check -o /tmp/so-sol.md "<prompt>" < /dev/null` | gpt-6.2-sol (pinned) |
-| Grok 4.7 (xAI) | `grok -m "$(scripts/latest_model.py grok)" --effort xhigh -p "<prompt>" > /tmp/so-grok.md` | grok-4.7 |
-| Meta Wonder 1.0 (Meta) | `muse exec --model muse-wonder-1.0 --reasoning-effort xhigh --disable-write --disable-shell --disable-web-tools --approval-mode untrusted --no-session-log --workspace /tmp "<prompt>" < /dev/null > /tmp/so-wonder.md` | muse-wonder-1.0 (pinned; not the Full variant) |
-| Gemini Hydrogen (Google) | `agy --new-project --model "$(scripts/latest_model.py gemini)" --add-dir <each dir the packet names> -p "<prompt>" > /tmp/so-agy.md` | gemini-4-hydrogen-xhigh |
+```bash
+scripts/roster.py show daily        # lane, family, CLI, model id resolved now, effort
+```
+
+| Lane | Command |
+|---|---|
+| `opus` (Anthropic) | `claude --model "$(scripts/roster.py model opus)" --effort "$(scripts/roster.py effort opus)" -p "<prompt>" < /dev/null > /tmp/so-opus.md` |
+| `neon` (Google) | `agy --new-project --model "$(scripts/roster.py model neon)" --add-dir <each dir the packet names> -p "<prompt>" > /tmp/so-neon.md` |
+| `grok` (xAI) | `grok -m "$(scripts/roster.py model grok)" --effort "$(scripts/roster.py effort grok)" -p "<prompt>" > /tmp/so-grok.md` |
+| `wonder` (Meta) | `muse exec --model "$(scripts/roster.py model wonder)" --reasoning-effort "$(scripts/roster.py effort wonder)" --disable-write --disable-shell --disable-web-tools --approval-mode untrusted --no-session-log --workspace /tmp "<prompt>" < /dev/null > /tmp/so-wonder.md` |
+
+When this was written that was Claude Opus by its alias, the newest Gemini Neon, the newest
+Grok (`grok-4.7`) and `muse-wonder-1.0`, which is not the Full variant. There is no OpenAI lane
+in the daily tier. The roster's source is `models/roster.json` at the root of the
+fledgeling-plugins repository; `scripts/sync_model_roster.py` there copies it into this skill,
+so change the source and never this copy.
 
 Run each from a neutral directory such as `/tmp`, under a deadline
 (`perl -e 'alarm shift @ARGV; exec @ARGV' 900 <command>`).
 
-**Use the latest available version of each model where the CLI can say what
-that is**, so a new release needs no edit here. `claude --model opus` already
-resolves to the newest Opus. grok and agy have no such alias, so
-`scripts/latest_model.py` reads `grok models` and `agy models` and prints the
-highest version; when a listing fails it prints the pin from the last column and
-says so on stderr. codex and muse run exact ids, so Sol and Wonder are pinned and
-change only with an edit here. Record the id beside the answer, because "Grok"
-alone does not say which release answered. The last column is a record of one
-resolution, not a setting.
+**The roster resolves the newest version where the CLI can say what that is**, so a new release
+needs no edit here. `claude --model opus` already resolves to the newest Opus. grok and agy have
+no such alias, so `roster.py` reads `grok models` and `agy models` and prints the highest
+version; when a listing fails it prints the roster's own id and says so on stderr. muse runs an
+exact id. Record the id beside the answer, because "Grok" alone does not say which release
+answered.
 
-**The thinking level is part of the lane, not a dial on top of it.** Every lane
-runs at `xhigh`, the highest level the grok CLI accepts. agy carries the effort
-in the model id, which is why the resolver takes `--effort`.
+**The thinking level belongs to the tier, not to the caller.** Every daily lane runs at `xhigh`,
+the highest level the grok CLI accepts. agy carries the effort in the model id, so `roster.py
+model neon` already includes it.
 
-Choose a family different from the decision's author when independence is the
-aim. When the author is Claude, Sol, Grok, Wonder and Hydrogen are the
-independent lanes and the Opus lane is the in-family reading; say which you used.
-**Design questions go to the Opus lane**, because that is the role Luke gives
-Opus. The Gemini Flash models in `agy models` are the implementation lane once a
-spec or plan exists, which makes them the wrong instrument for an open fork: an
+Choose a family different from the decision's author when independence is the aim. When the
+author is Claude, `neon`, `grok` and `wonder` are the independent lanes and `opus` is the
+in-family reading; say which you used. **Design questions go to the `opus` lane**, because that
+is the role Luke gives Opus. The Gemini Flash models in `agy models` are the implementation lane
+once a spec or plan exists, which makes them the wrong instrument for an open fork: an
 unspecified brief is the condition their guard exists for.
 
 Use the current tool schema or CLI `--help`, with a bounded request and an output
@@ -163,13 +169,11 @@ because a CLI's argv is not stable across versions:
   name. `grok models` lists `grok-4.7`, `grok-4.7-build-fast` (the CLI default),
   `grok-4.6` and `grok-4.5`, and `-m latest` is refused as an unknown model, which
   is why the resolver exists.
-- `agy models` lists `gemini-4-hydrogen-{xhigh,high,medium,low}` and
-  `gemini-4-argon-{high,medium,low}` beside the `gemini-3.8-flash` family, so the
-  effort travels in the model id.
-- The standalone `codex` 0.163.0 refuses `gpt-6.2-sol` ("not supported when using
-  Codex with a ChatGPT account"); the CLI the ChatGPT app bundles, 0.169.0, serves
-  it at xhigh. `scripts/latest_model.py codex` prints the newest codex binary on
-  the machine, and `FP_CODEX_BIN` overrides it.
+- `agy models` listed `gemini-4-hydrogen-{xhigh,high,medium,low}` and
+  `gemini-4-argon-{high,medium,low}` beside the `gemini-3.8-flash` family on that date, so
+  the effort travels in the model id. On 21 November 2026 it listed only the
+  `gemini-3.8-flash` family, and every Gemini 4 lane failed; check the listing before
+  counting on the `neon` lane.
 - `muse exec` serves `muse-wonder-1.0` at xhigh. With `--disable-write
   --disable-shell --disable-web-tools` it still reads files outside its
   `--workspace`, and refuses to write, run a shell or fetch a URL.
@@ -198,9 +202,9 @@ Read current policy before invocation: honor active `OPT-OUT: external-models` a
 #### The panel
 
 When the call is genuinely open and high-leverage — an architecture everything downstream
-amplifies, a verdict two lanes already split on — use up to five available capable families;
-keep within the harness's concurrency limit and report any missing lane. The five lanes above
-are the panel: Anthropic, OpenAI, xAI, Meta and Google. Same packet to each, candidate options
+amplifies, a verdict two lanes already split on — use the daily lanes;
+keep within the harness's concurrency limit and report any missing lane. The four lanes above
+are the panel: Anthropic, Google, xAI and Meta. Same packet to each, candidate options
 in swapped order between members, verdict-line answers (`VERDICT:` + one reason), members that
 return nothing counted and reported rather than dropped.
 

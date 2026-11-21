@@ -9,9 +9,13 @@
 # One judge per card, not a panel — a panel of nine frontier judges across seven
 # families buys about two independent votes (references/evidence.md).
 #
-#   verify_queue.sh --lane-cmd 'grok -m X --effort high -p {PROMPT}' \
+# The lane's model and effort come from the model roster beside this script (roster.py, synced
+# from models/roster.json at the repository root); the grok lane is in its daily tier:
+#
+#   G=$(scripts/roster.py model grok); E=$(scripts/roster.py effort grok)
+#   verify_queue.sh --lane-cmd "grok -m $G --effort $E -p {PROMPT}" \
 #                   --packet-dir /tmp/packets --out-dir /tmp/verdicts \
-#                   --match 'grok -m X' KEY1 KEY2 ...
+#                   --match "grok -m $G" KEY1 KEY2 ...
 #
 # {PROMPT} is replaced with the packet's contents. --match is the pgrep pattern
 # used to detect an in-flight instance of the lane.

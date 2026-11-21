@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.4
+
+The verdict lane's model and effort come from the model roster (`scripts/roster.py model grok`, `effort grok`); the usage examples no longer pin `grok-4.6`.
+
 ## 0.8.2 - 2026-09-01
 
 Closes the auditor findings on `gemini.md`: filled the exemplars the overrides only described, corrected counts and citations that disagreed with the target `SKILL.md`, and brought the file inside the 150-250 line bound. `verify_quotes.py` exits 0.

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.5
+
+Second-opinion lanes read their model and effort from the model roster's daily tier (`scripts/roster.py`): Opus, Gemini Neon, Grok and Meta Wonder at xhigh. The pinned `claude-fable-5`, `gpt-5.6-sol`, `gemini-3.7-flash-high` and `grok-4.6` are gone, and the tier has no OpenAI lane.
+
 ## 0.5.3 - 2026-09-01
 
 Closes the auditor findings on `gemini.md`: filled the exemplars the overrides only described, corrected counts and citations that disagreed with the target `SKILL.md`, and brought the file inside the 150-250 line bound. `verify_quotes.py` exits 0.

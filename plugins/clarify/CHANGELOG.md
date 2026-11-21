@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.9.0
+
+The models and efforts now come from Fledgeling's model roster (owner directive, 21 November 2026)
+
+`scripts/roster.json` and `scripts/roster.py` are copies of `models/roster.json` and `models/roster.py` at the repository root, written by `scripts/sync_model_roster.py`. Referrals use the daily tier, every lane at xhigh: opus, neon, grok and wonder. The GPT-6.2 Sol lane is gone, since the daily tier has no OpenAI lane, and the Google lane is Gemini Neon where it was Hydrogen. The lane commands in SKILL.md read the model and effort from `scripts/roster.py`. `scripts/latest_model.py` stays for callers that used it.
+
 ## 1.8.0 - 2026-11-18
 
 Referral lanes move to Luke's 18 November 2026 roster: five lanes in five families, every one at xhigh. Opus (the `opus` alias, `claude-opus-5-5` today) stays. GPT-6.2 Sol (`gpt-6.2-sol`), Meta Wonder 1.0 (`muse-wonder-1.0` through the `muse` CLI, not the Full variant) and Grok 4.7 join or stay, and the Gemini lane moves from Argon at medium to Hydrogen at xhigh. The panel rung uses up to five families.
