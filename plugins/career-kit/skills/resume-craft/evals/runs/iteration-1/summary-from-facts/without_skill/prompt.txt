@@ -1,0 +1,1 @@
+Hannah Okoye is applying for the job in ad.md at another bank. Her confirmed facts are in facts.md. Write the professional summary for her résumé and save it, the paragraph only, to outputs/summary.md.

@@ -1,0 +1,36 @@
+# PRIYA NAIR
+
+Melbourne, VIC | 0400 000 000 | priya.nair@example.com | linkedin.com/in/priya-nair-example | Australian citizen
+
+## Professional summary
+
+I am the Product Owner for the claims lodgement journey at Harbour Mutual, used by about 9,000 customers a month. I came to product from the claims floor, where I led a team of 12 assessors, so I know which steps customers abandon and why. In product I have shipped 3 releases, and I put a duplicate-claims fix first when call volumes showed what the duplicates were costing.
+
+## Key skills
+
+Product ownership: prioritising a backlog by customer impact and cost; writing user stories and acceptance criteria; leading discovery from call and claims data
+People and operations: leading and coaching assessors; preparing frontline teams for a process change
+Tools: Jira, Confluence, Power BI
+
+## Professional experience
+
+### Harbour Mutual, Melbourne | Mar 2012 – Present
+
+I started as a claims assessor and was promoted twice before moving into product in 2024, to fix the lodgement problems I had been hearing about from customers for years.
+
+#### Product Owner, Claims Lodgement | Harbour Mutual | Feb 2024 – Present
+
+I own the backlog for the online lodgement journey in an 8-person squad, and I work to the Head of Claims Product. I write the user stories and acceptance criteria and accept each release.
+
+- Moved a fix for duplicate claims ahead of a planned photo-upload feature after call data showed about 400 duplicate lodgements a month. Duplicates fell to about 60 a month within 2 releases.
+- Took the lodgement backlog through 3 releases, coordinating the testing that the assurance team ran before each one.
+- Rewrote the lodgement questions with 6 assessors so that customers answer them in the order assessors need them.
+
+#### Team Leader, Motor Claims | Harbour Mutual | Jul 2018 – Feb 2024
+
+I led 12 assessors handling motor claims.
+
+- Coached 3 assessors into senior roles.
+- Prepared the team for a new claims system, including guidance and training for 12 people.
+
+#### Claims Assessor | Harbour Mutual | Mar 2012 – Jul 2018

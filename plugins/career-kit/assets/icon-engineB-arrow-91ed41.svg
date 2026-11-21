@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" fill="none" viewBox="0 0 512 512">
+<!-- SVG created with Arrow, by QuiverAI (https://quiver.ai) -->
+  <defs>
+    <linearGradient id="paint0_linear_1686_6313" x2="80" y2="80" gradientTransform="scale(6.4)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFEFA" offset="0" />
+      <stop stop-color="#F8F3E8" offset=".5469" />
+      <stop stop-color="#EAE0CC" offset="1" />
+    </linearGradient>
+    <linearGradient id="paint1_linear_1686_6313" x1="32.24" x2="27.22" y1="54.3" y2="62.4" gradientTransform="scale(6.4)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E7DECE" stop-opacity="0" offset="0" />
+      <stop stop-color="#E4DBC9" stop-opacity=".44" offset=".526" />
+      <stop stop-color="#E4DBC9" stop-opacity="0" offset="1" />
+    </linearGradient>
+    <linearGradient id="paint2_linear_1686_6313" x1="51.36" x2="46.33" y1="54.3" y2="62.4" gradientTransform="scale(6.4)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E7DECE" stop-opacity="0" offset="0" />
+      <stop stop-color="#E4DBC9" stop-opacity=".44" offset=".526" />
+      <stop stop-color="#E4DBC9" stop-opacity="0" offset="1" />
+    </linearGradient>
+    <linearGradient id="paint3_linear_1686_6313" x1="49.44" x2="67.27" y1="16.67" y2="66.67" gradientTransform="scale(6.4)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E5DDCD" stop-opacity=".5" offset="0" />
+      <stop stop-color="#E4DBC8" stop-opacity=".44" offset=".3542" />
+      <stop stop-color="#E4DBC9" stop-opacity="0" offset="1" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#paint0_linear_1686_6313)" />
+  <path d="m206.5 346.2-31.81 55.23 63.62 35.9 34.5-24.45-66.3-66.69z" fill="url(#paint1_linear_1686_6313)" />
+  <path d="m328.8 346.2-31.87 55.23 86.91 37.89 14.21-17.15-69.25-75.97z" fill="url(#paint2_linear_1686_6313)" />
+  <path d="m306.6 98.11 30.08 37.25 61.31 291.3h-14.21l-56.51-26.82-20.67-301.8z" fill="url(#paint3_linear_1686_6313)" />
+  <path d="m203.3 100.3-36.48 287.9c-0.832 7.232 5.312 12.86 13.18 12.86 7.168 0 13.38-4.672 14.08-11.39l27.9-287.6c0.512-5.248-3.648-9.6-9.472-9.6-4.864 0-8.704 3.264-9.216 7.808z" fill="#4B423B" />
+  <path d="m309.2 100.3 35.78 287.9c0.896 7.232-5.184 12.86-13.06 12.86-7.168 0-13.5-4.672-14.14-11.39l-27.2-287.6c-0.512-5.248 3.392-9.6 9.344-9.6 4.736 0 8.832 3.264 9.28 7.808z" fill="#4B423B" />
+  <rect x="211.5" y="116.1" width="89.25" height="16.49" rx="8.243" fill="#A89A86" />
+  <rect x="207.5" y="165.5" width="97.32" height="16.9" rx="8.449" fill="#E9562A" />
+  <rect x="202.4" y="219" width="107.4" height="16.58" rx="7.779" fill="#A89A86" />
+  <rect x="197.1" y="274.1" width="117.8" height="16.49" rx="7.779" fill="#A89A86" />
+  <rect x="191.6" y="329" width="129" height="16.88" rx="7.95" fill="#A89A86" />
+</svg>

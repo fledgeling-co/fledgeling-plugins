@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>career-kit icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  /* The flex lives on an inner div, never on the <td>. Two independent
+     commissions hit this: the scoring browser computes display:flex on a table
+     cell and still lays its children out as blocks, so all seven renders stack
+     into a column and every row reads as one tall strip. The sheet looks broken
+     and nothing errors. */
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>career-kit icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "The ladder is the page: Tahoe porcelain register, soft 3D miniature" · one shared spec, three engines per the mac-design-studio pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py. SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="A hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes 1 to 4 on the renders: clipped to the family squircle, optically centred on x=512, the filled silhouette is a ladder, and at 16px the two rails and the ember rung all survive. One light from top left, one hue family plus the ember, rails at about 7:1 against the porcelain. The tube shading on rails and rungs and the pooled shadow at the right foot were rebuilt from take C. Loses a point on 8, depth: the cast shadow of the rungs is faint, so the ladder sits on the tile more than it stands in front of it.</td>
+  </tr>
+
+  <tr>
+    <td class="take ">B · icon-engineB-arrow-91ed41.svg<small>Arrow vector take</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineB-arrow-91ed41-1024.png" width="160" height="160" alt="B hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-91ed41-256.png" width="128" height="128" alt="B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-91ed41-128.png" width="64" height="64" alt="B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-91ed41-96.png" width="48" height="48" alt="B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-91ed41-64.png" width="32" height="32" alt="B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineB-arrow-91ed41-32.png" width="16" height="16" alt="B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineB-arrow-91ed41-32.png" width="96" height="96" alt="B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ">8 / 12</td>
+    <td class="verdict">Same idea, drawn independently, and it confirms the silhouette: five rungs, one ember, slight taper. Lost because the ladder fills about 35% of the tile where the family sits at 55 to 65%, so at 16px the ember rung is two pixels of pink; the ground is a flat square with no cushion rim; and the shadow is a hard flat polygon. Fails 4, 8, 9 and 11. Nothing was salvaged; its proportions matched the master's already. The generator returned four concatenated documents, and the first is kept.</td>
+  </tr>
+
+  <tr>
+    <td class="take ">C · icon-engineC-raster-a7c9c4-masked.png<small>GPT Image raster, corpus-referenced, masked with the family squircle</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/engineC-raster-a7c9c4-masked-1024.png" width="160" height="160" alt="C hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/engineC-raster-a7c9c4-masked-256.png" width="128" height="128" alt="C at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/engineC-raster-a7c9c4-masked-128.png" width="64" height="64" alt="C at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/engineC-raster-a7c9c4-masked-96.png" width="48" height="48" alt="C at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/engineC-raster-a7c9c4-masked-64.png" width="32" height="32" alt="C at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/engineC-raster-a7c9c4-masked-32.png" width="16" height="16" alt="C at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/engineC-raster-a7c9c4-masked-32.png" width="96" height="96" alt="C 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ">10 / 12</td>
+    <td class="verdict">The richest material of the three: rails and rungs read as lit tubes with a bright shoulder and a shaded belly, the ember rung glows onto the rails, and the shadow pools to the right. Lost because it is a flat raster, so it fails 10, variant robustness, by construction, and because its rails are a mid taupe at about 3:1 where the family's objects are dark, which makes it the palest object on the shelf. Its tube shading, glow strength and shadow pool were rebuilt into the master.</td>
+  </tr>
+
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It is the only take that is layered (bg, mid, fg, highlight as named groups), sits on the family's ground and accent exactly, and holds its silhouette and its ember rung down to 16px on the real renders. Its material came from the raster take, matched by eye. Known liabilities to revisit: the match to the raster's material was never measured, because the scorer needs torch for the perceptual metric and it is not installed here, so no fidelity rounds ran; the rung shadows on the tile are faint; a ladder says career more than it says résumé, and the reading of rungs as the lines of a page depends on being told; at 16px the lowest taupe rungs soften into the ground while the rails and the ember rung hold.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by `python3 ../scripts/audit_sheet.py render <dir>` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand.</div>
+</body>
+</html>

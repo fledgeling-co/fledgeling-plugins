@@ -1,0 +1,58 @@
+{
+  "expectations": [
+    {
+      "text": "summary is 60 to 100 words",
+      "passed": false,
+      "evidence": "152 words"
+    },
+    {
+      "text": "no count of years",
+      "passed": true,
+      "evidence": "none found"
+    },
+    {
+      "text": "written in the first person",
+      "passed": false,
+      "evidence": "no I or my"
+    },
+    {
+      "text": "none of the generic register",
+      "passed": true,
+      "evidence": "none found"
+    },
+    {
+      "text": "internal-only $3.2m figure is absent",
+      "passed": true,
+      "evidence": "absent"
+    },
+    {
+      "text": "SMS rollout is not claimed as led or delivered",
+      "passed": true,
+      "evidence": "no overclaim"
+    },
+    {
+      "text": "the 30% forecast is not written as achieved",
+      "passed": true,
+      "evidence": "absent or marked as forecast"
+    },
+    {
+      "text": "the roster restructure carries no invented result",
+      "passed": true,
+      "evidence": "no result claimed"
+    },
+    {
+      "text": "every figure is in the facts file",
+      "passed": false,
+      "evidence": "['12']"
+    },
+    {
+      "text": "first sentence names the current role",
+      "passed": true,
+      "evidence": "Product Owner in card disputes with 14 years in disputes at Kestrel Bank, the first 12 in operations as a disputes offic"
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "total": 10
+  }
+}

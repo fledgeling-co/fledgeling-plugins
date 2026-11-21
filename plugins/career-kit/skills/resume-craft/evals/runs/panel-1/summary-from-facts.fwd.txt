@@ -1,0 +1,92 @@
+You are an experienced hiring manager at an Australian bank. Everything below is about an invented person.
+
+<confirmed_facts>
+# Confirmed facts: Hannah Okoye (an invented person, for evaluation only)
+
+Everything here was confirmed by Hannah. Nothing else is known about her work.
+
+## Contact
+- Hannah Okoye, Brisbane, QLD. Mobile 0400 000 000. hannah.okoye@example.com. linkedin.com/in/hannah-okoye-example
+- Australian citizen.
+
+## Employer
+- Kestrel Bank, Brisbane, since February 2009. All of her roles have been at Kestrel Bank.
+
+## Roles
+| Title | Dates | Notes |
+|---|---|---|
+| Product Owner, Disputes Workflow | Aug 2024 – present | A move from operations into product |
+| Operations Manager, Payments Disputes | Mar 2020 – Aug 2024 | Promotion. 3 team leaders reported to her; 31 staff in total across 2 sites; about 2,400 disputes a month |
+| Team Leader, Disputes Operations | Sep 2015 – Mar 2020 | Promotion. 9 direct reports |
+| Disputes Officer | Jun 2012 – Sep 2015 | |
+| Customer Service Officer | Feb 2009 – Jun 2012 | |
+
+## Current role (Product Owner, Disputes Workflow)
+- She owns the backlog for Beacon, Kestrel's internal case-management tool for card payment disputes. About 140 staff use it.
+- It is one of two backlogs in a 10-person squad. She does not own the other backlog or the squad.
+- She reports to the Head of Payments Product.
+- She writes the user stories and acceptance criteria. The squad works in 2-week sprints.
+- Tools: Jira, Confluence, Power BI.
+- She moved a change that auto-fills merchant details ahead of a dashboard that managers had asked for, after case data showed staff were retyping merchant details on about 70% of cases. In the quarter after release, average handling time fell from 18 minutes to 14 minutes.
+- She SUPPORTED the bank's rollout of a new fraud-alert SMS. Her part was writing the disputes team's process and the training for the 140 staff. She did not lead or deliver the rollout.
+- She COORDINATED user acceptance testing for 4 releases. The QA team ran the tests.
+- Auto-categorisation of new disputes is in build and has not been released. The business case FORECASTS that it will cut manual triage by 30%. Nothing has been measured.
+
+## Operations Manager, Payments Disputes
+- She introduced a daily report of ageing disputes. Disputes older than 45 days fell from about 310 to about 90 over 6 months.
+- She restructured rosters across the 2 sites. No result was measured.
+- Card disputes cost Kestrel about $3.2 million a year in chargeback losses. THIS FIGURE IS INTERNAL ONLY. Hannah does not want it on anything that leaves Kestrel Bank.
+
+## Team Leader, Disputes Operations
+- She coached 2 disputes officers into team leader roles.
+
+## Other
+- As an operator she worked within Visa and Mastercard chargeback timeframes. She has never owned or delivered a card scheme mandate change.
+- No formal qualifications. She completed Kestrel's internal Product Fundamentals course in 2025.
+- Her reason for moving to product, in her words: "I was tired of working around the tool. I wanted to fix it."
+
+</confirmed_facts>
+
+<job_ad>
+# Product Owner, Card Disputes — Lantern Bank (Sydney or Brisbane)
+
+Lantern Bank is rebuilding how customers dispute a card transaction. You will own the backlog for our disputes squad.
+
+## You will
+- Own and prioritise the product backlog for the disputes squad, balancing customer impact, risk and effort.
+- Lead discovery with frontline disputes staff and customers.
+- Write user stories and acceptance criteria and accept work each sprint.
+- Work with Risk and Operations so that controls are built into each change.
+
+## Required
+- Experience as a Product Owner in an agile squad.
+- Backlog prioritisation using data.
+- Card disputes or chargeback operations experience.
+- Experience delivering card scheme mandate changes (Visa or Mastercard).
+- Stakeholder management across operations and risk.
+
+## Desirable
+- A product or agile certification.
+- Jira and Confluence.
+
+Applications close 5 December 2026. Apply through the Lantern Bank careers site.
+
+</job_ad>
+
+<option_A>
+Product Owner in card disputes with 14 years in disputes at Kestrel Bank, the first 12 in operations as a disputes officer, team leader and operations manager. Since August 2024, owner of the backlog for Beacon, the case-management tool used by about 140 disputes staff, writing the user stories and acceptance criteria for a squad working in two-week sprints with Jira and Confluence. Prioritises from case data: moved a merchant-details auto-fill ahead of a dashboard managers had requested after the data showed staff retyping those details on about 70% of cases, and average handling time fell from 18 minutes to 14 in the quarter after release. Previously managed the disputes operation itself, 31 staff across two sites handling about 2,400 disputes a month within Visa and Mastercard chargeback timeframes, where a daily ageing report she introduced brought disputes older than 45 days down from about 310 to about 90 in six months.
+
+</option_A>
+
+<option_B>
+I am the Product Owner for Beacon, Kestrel Bank's case-management tool for card disputes, used by about 140 staff. I own one of the 2 backlogs in an agile squad. I came to product from disputes operations, where I managed 31 staff, because I was tired of working around the tool and wanted to fix it. I prioritise the backlog using case data: when it showed staff retyping merchant details on about 70% of cases, I moved an auto-fill change ahead of a dashboard managers wanted, and average handling time fell from 18 minutes to 14 the quarter after release.
+
+</option_B>
+
+Two professional summaries written for the top of this person's résumé for the job ad below. Which one would you send? Judge on three things: (1) accuracy against the confirmed facts, including whether anything is overstated or should not leave her employer; (2) how it reads to a busy person; (3) how well it suits this ad without claiming what she has not done.
+
+Answer in exactly this format and nothing else:
+ACCURACY: A or B or TIE, then one sentence
+READS: A or B or TIE, then one sentence
+SUITS: A or B or TIE, then one sentence
+VERDICT: A or B or TIE

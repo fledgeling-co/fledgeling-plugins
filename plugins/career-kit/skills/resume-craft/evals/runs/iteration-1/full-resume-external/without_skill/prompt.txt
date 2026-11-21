@@ -1,0 +1,1 @@
+Hannah Okoye is applying for the job in ad.md at another bank. Her confirmed facts are in facts.md. Write her résumé in Markdown and save it to outputs/resume.md. Put anything you need to tell her in outputs/notes.md.

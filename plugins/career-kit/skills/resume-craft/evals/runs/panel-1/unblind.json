@@ -1,0 +1,20 @@
+{
+ "summary-from-facts.fwd": {
+  "A": "without_skill"
+ },
+ "summary-from-facts.rev": {
+  "A": "with_skill"
+ },
+ "full-resume-external.fwd": {
+  "A": "with_skill"
+ },
+ "full-resume-external.rev": {
+  "A": "without_skill"
+ },
+ "review-old-resume.fwd": {
+  "A": "with_skill"
+ },
+ "review-old-resume.rev": {
+  "A": "without_skill"
+ }
+}

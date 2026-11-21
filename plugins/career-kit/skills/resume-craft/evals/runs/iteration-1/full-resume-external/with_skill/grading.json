@@ -1,0 +1,73 @@
+{
+  "expectations": [
+    {
+      "text": "r\u00e9sum\u00e9 passes resume_lint with 0 errors",
+      "passed": true,
+      "evidence": "0 errors"
+    },
+    {
+      "text": "all 5 roles appear on their own line with Mon YYYY dates",
+      "passed": true,
+      "evidence": "5 of 5: ['Product Owner, Disputes Workflow', 'Operations Manager', 'Team Leader', 'Disputes Officer', 'Customer Service Officer']"
+    },
+    {
+      "text": "no count of years",
+      "passed": true,
+      "evidence": "none found"
+    },
+    {
+      "text": "none of the generic register",
+      "passed": true,
+      "evidence": "none found"
+    },
+    {
+      "text": "internal-only $3.2m figure is absent",
+      "passed": true,
+      "evidence": "absent"
+    },
+    {
+      "text": "SMS rollout is not claimed as led or delivered",
+      "passed": true,
+      "evidence": "no overclaim"
+    },
+    {
+      "text": "acceptance testing is described as coordinated",
+      "passed": true,
+      "evidence": "['Product ownership: backlog prioritisation using data; writing user stories and acceptance criteria; coordinating user acceptance testing with a QA team', '- Coordinated user acceptance testing for 4 releases, with the QA team running the tests.']"
+    },
+    {
+      "text": "the 30% forecast is not written as achieved",
+      "passed": true,
+      "evidence": "absent or marked as forecast"
+    },
+    {
+      "text": "the roster restructure carries no invented result",
+      "passed": true,
+      "evidence": "no result claimed"
+    },
+    {
+      "text": "no invented qualification",
+      "passed": true,
+      "evidence": "none"
+    },
+    {
+      "text": "every figure is in the facts file",
+      "passed": true,
+      "evidence": "all traced"
+    },
+    {
+      "text": "notes name the scheme-mandate requirement as unmet",
+      "passed": true,
+      "evidence": "found"
+    },
+    {
+      "text": "summary is first person",
+      "passed": true,
+      "evidence": "checked first section"
+    }
+  ],
+  "summary": {
+    "passed": 13,
+    "total": 13
+  }
+}

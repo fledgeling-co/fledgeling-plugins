@@ -1,0 +1,130 @@
+# Voice, verbs and cutting
+
+Read this when drafting or reviewing sentences. **R** marks a default from the research, **C**
+one from a recorded correction; `evidence.md` has the source for each.
+
+## Person and tense
+
+| Where | Person and tense | Example |
+| --- | --- | --- |
+| Summary | First person; present for the current role, past for what led to it | "I am the Product Owner for… I came to product from operations." |
+| Employer sentences | First person, past | "I started as a claims assessor and was promoted twice." |
+| Scope paragraph | First person; present for a current role, past for a finished one | "I own the backlog for…" / "I led 12 assessors." |
+| Bullets | No stated subject; open with a past-tense verb | "Moved a fix for duplicate claims ahead of…" |
+
+All four rows are corrections (C). The research reports say nothing about person in a résumé,
+and one engagement's review brief set "no first person" as a rule; the result was summaries
+that read "Lead discovery… Took the backlog…", which five reviewing models passed as consistent
+and the person read as a list of commands. A person who prefers the implied subject throughout
+can have it, with one condition that still holds: no line opens with a bare present-tense verb.
+
+Two details that follow:
+
+- **Ongoing work goes in the scope paragraph and finished work in bullets.** "I write the user
+  stories" is a standing duty; "Rewrote the lodgement questions" happened.
+- **After a "when" clause, keep a subject or recast.** "When a role held unused permissions,
+  removed them" has lost its subject. Write "Removed permissions that almost nobody used from
+  one role."
+
+## Verbs
+
+Open bullets with plain verbs that say what was done: led, ran, built, wrote, cut, fixed, moved,
+took, brought, coached, hired, rewrote, prepared, recommended, redesigned, closed.
+
+**Scope verbs are facts.** Choose the verb the person confirmed, and hold it everywhere the work
+is mentioned:
+
+| The person did this | Write | Not |
+| --- | --- | --- |
+| Helped a rollout others ran | Supported | Led, delivered, shipped |
+| Arranged work others carried out | Coordinated | Ran, managed, owned |
+| Decided the order of work | Prioritised | Delivered, closed |
+| Had a say in a decision | Contributed to, recommended | Decided, set |
+| Watched performance of people who report elsewhere | Oversaw | Managed, led |
+| Owns one part of a team's work | Own [the named part] | Own the team's [whole thing] |
+
+Reviewers in one engagement caught "shipped" where the truth was "supported", "runs" where it
+was "coordinates" and "led" where it was "coordinated", on separate rounds (C). When
+`../career-kit/scripts/facts_lint.py --verbs` is available, run it to list candidates.
+
+## Four kinds of drift
+
+Check a draft for each by name. A figure check catches none of the last three (C).
+
+1. **A stronger verb than the person confirmed.** "Led the sign-on rollout" for "supported the sign-on rollout".
+2. **An expected outcome written as achieved.** "Cut handling time by 30%" when the 30% was the
+   business case. Write "expected to cut" or leave the figure out.
+3. **A figure whose noun changed.** "About 20,000 staff" when the fact is 20,000 users.
+4. **One piece of work counted more than once.** A conflict audit, a risk decision and a
+   remediation that were one job, written as three bullets.
+
+Related measurement rules from the research (R): 82% to 94% is 12 percentage points, not 12%;
+say whether a saving was realised or forecast; say whether a result was theirs or the team's;
+do not claim sole cause where several things moved a number; when a figure is confidential, use
+an approved range or leave it out.
+
+## The register to keep out
+
+These read as generic or machine-written to recruiters, and they give a ranking tool nothing to
+match (R). The lint fails on them.
+
+> results-driven, results-oriented, proven track record, passionate, dynamic, spearheaded,
+> leveraged, synergy, seasoned, visionary, operational excellence, fast-paced, detail-oriented,
+> team player, self-starter, highly motivated, thought leader, strong communication skills,
+> excellent communication skills
+
+`scripts/resume_lint.py` holds the full list. Replace each with the thing that happened. "Strategic, results-driven leader passionate about
+transformation" becomes the decision made and what followed. Other signs a recruiter reads as
+generic: flawless uniform sentences with no short one among them, vocabulary a person would not
+say aloud, and no specific example anywhere (R).
+
+Also keep out: "Responsible for…" and "Duties included…", which describe a job, where a bullet
+describes what happened in it (R).
+
+## Plain style
+
+- Short concrete sentences. Vary their length; a short one lands where the point is.
+- The spelling of the person's country: organisation, prioritise, programme or program as the
+  employer writes it (R).
+- Numerals for every count and measure, including under 10. "One" stays a word where it is a
+  pronoun: one of the backlogs (C).
+- Write a term in full with its short form on first use, "planning increment (PI)", then use
+  the short form (R, C).
+- Explain an internal name in a few words the first time: "Atlas, the claims
+  system". An internal reader loses nothing and an external one can follow (R, C).
+- Capitalise what the organisation capitalises (Release Train, Definition of Done) and keep
+  "agile" lower case.
+
+## Cutting for length
+
+Cut by reading. A numeric target is met by deleting connecting words and the one human sentence,
+and one cut to "800 to 850 words" left page two 40% empty (C).
+
+In this order:
+
+1. A bullet whose content another bullet already carries.
+2. A bullet the target role does not ask for, starting with the oldest role.
+3. Detail in roles older than the last 10 to 12 years.
+4. A clause that restates the sentence before it.
+
+Leave alone: the connecting words between sentences, the sentence that says how the person
+judges their work, and any figure the person confirmed and wants in. After cutting, look at the
+built page, because a page count of two says nothing about a half-empty second page.
+
+## Wording that has survived many drafts
+
+Re-read the oldest wording in the document as if it were new. "Teams of 5 and about 15" was
+written in the first hour of one engagement as shorthand, passed every fact check after, and
+was caught only when the person read it (C). Familiarity reads as correctness.
+
+## Before and after
+
+All invented. The "after" lines show the shape; a real one uses only confirmed facts.
+
+| Before | After | What changed |
+| --- | --- | --- |
+| Responsible for managing the product backlog. | Moved a fix for duplicate claims ahead of a planned feature after call data showed about 400 duplicate lodgements a month. | A duty became one decision with its reason |
+| Lead discovery using data. | Rewrote the lodgement questions with 6 assessors so that customers answer them in the order assessors need them. | Bare present verb became something that happened |
+| Managed a team. | Scope: "I led 12 assessors handling motor claims." Bullet: "Coached 3 assessors into senior roles." | Scale went to the scope line, the outcome to a bullet |
+| Delivered the new claims system. | Prepared the team for a new claims system, including guidance and training for 12 people. | The verb matches what the person did |
+| Improved customer experience. | `[what changed for customers, and how it was measured?]` | No fact was supplied, so the gap is asked about |

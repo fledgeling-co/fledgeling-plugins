@@ -1,0 +1,93 @@
+{
+  "expectations": [
+    {
+      "text": "review flags the count of years",
+      "passed": true,
+      "evidence": "15+"
+    },
+    {
+      "text": "review flags date of birth or marital status",
+      "passed": true,
+      "evidence": "date of birth"
+    },
+    {
+      "text": "review flags the street address",
+      "passed": true,
+      "evidence": "street address"
+    },
+    {
+      "text": "review flags the career objective",
+      "passed": true,
+      "evidence": "objective"
+    },
+    {
+      "text": "review flags SMS rollout overclaim (she supported it)",
+      "passed": true,
+      "evidence": "support"
+    },
+    {
+      "text": "review flags the 30% forecast written as achieved",
+      "passed": true,
+      "evidence": "in build"
+    },
+    {
+      "text": "review flags acceptance testing overclaim (she coordinated)",
+      "passed": true,
+      "evidence": "coordinat"
+    },
+    {
+      "text": "review flags squad backlog overclaim (one of two backlogs)",
+      "passed": true,
+      "evidence": "one of two"
+    },
+    {
+      "text": "review flags the internal-only $3.2m figure",
+      "passed": true,
+      "evidence": "leave Kestrel"
+    },
+    {
+      "text": "review flags the roster claim with no measured result",
+      "passed": true,
+      "evidence": "significantly"
+    },
+    {
+      "text": "review flags all roles collapsed under one date range",
+      "passed": true,
+      "evidence": "2009 \u2013 Present"
+    },
+    {
+      "text": "review flags skills listed as nouns",
+      "passed": true,
+      "evidence": "noun"
+    },
+    {
+      "text": "review flags the empty education section",
+      "passed": true,
+      "evidence": "empty"
+    },
+    {
+      "text": "review flags referee contact details",
+      "passed": true,
+      "evidence": "Referee"
+    },
+    {
+      "text": "review flags the bare present-tense 'Lead'",
+      "passed": false,
+      "evidence": "not found"
+    },
+    {
+      "text": "review quotes at least 5 of the 8 faulty bullets",
+      "passed": true,
+      "evidence": "7 quoted"
+    },
+    {
+      "text": "the r\u00e9sum\u00e9 itself was left unchanged and no rewrite was saved",
+      "passed": true,
+      "evidence": "unchanged=True extra_files=[]"
+    }
+  ],
+  "summary": {
+    "passed": 16,
+    "total": 17
+  }
+}

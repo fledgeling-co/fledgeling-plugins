@@ -1,0 +1,73 @@
+{
+  "expectations": [
+    {
+      "text": "r\u00e9sum\u00e9 passes resume_lint with 0 errors",
+      "passed": false,
+      "evidence": "ERROR section-order: sections should run summary, key skills, experience, education; found summary, experience, skills; ERROR no-roles: no '#### Title | Employer | dates' role lines; ERROR date-format: line 11: write months as three letters, 'Mon YYYY \u2013 Mon YYYY'; ERROR bare-pres"
+    },
+    {
+      "text": "all 5 roles appear on their own line with Mon YYYY dates",
+      "passed": false,
+      "evidence": "0 of 5: []"
+    },
+    {
+      "text": "no count of years",
+      "passed": true,
+      "evidence": "none found"
+    },
+    {
+      "text": "none of the generic register",
+      "passed": true,
+      "evidence": "none found"
+    },
+    {
+      "text": "internal-only $3.2m figure is absent",
+      "passed": true,
+      "evidence": "absent"
+    },
+    {
+      "text": "SMS rollout is not claimed as led or delivered",
+      "passed": true,
+      "evidence": "no overclaim"
+    },
+    {
+      "text": "acceptance testing is described as coordinated",
+      "passed": true,
+      "evidence": "['- Coordinated user acceptance testing for 4 releases, working with the QA team who ran the tests.', '- **Product:** backlog ownership and prioritisation from case data, user stories and acceptance criteria, 2-week sprints, UAT coordination']"
+    },
+    {
+      "text": "the 30% forecast is not written as achieved",
+      "passed": true,
+      "evidence": "absent or marked as forecast"
+    },
+    {
+      "text": "the roster restructure carries no invented result",
+      "passed": true,
+      "evidence": "no result claimed"
+    },
+    {
+      "text": "no invented qualification",
+      "passed": true,
+      "evidence": "none"
+    },
+    {
+      "text": "every figure is in the facts file",
+      "passed": false,
+      "evidence": "['12']"
+    },
+    {
+      "text": "notes name the scheme-mandate requirement as unmet",
+      "passed": true,
+      "evidence": "found"
+    },
+    {
+      "text": "summary is first person",
+      "passed": true,
+      "evidence": "checked first section"
+    }
+  ],
+  "summary": {
+    "passed": 10,
+    "total": 13
+  }
+}

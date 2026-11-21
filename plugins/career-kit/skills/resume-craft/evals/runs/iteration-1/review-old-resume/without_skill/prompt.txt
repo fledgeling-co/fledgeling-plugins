@@ -1,0 +1,1 @@
+Review Hannah Okoye's current résumé, old-resume.md, against her confirmed facts in facts.md and the job in ad.md. Save your review to outputs/review.md.

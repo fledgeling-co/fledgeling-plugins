@@ -1,0 +1,67 @@
+# CHANGELOG
+
+## 0.4.0
+
+A second skill, `career-kit:resume-craft`, for the words of the résumé itself.
+
+- `skills/resume-craft/SKILL.md`: what each of 8 sections is for with a test for each, the
+  order of precedence when sources disagree, voice, suiting the document to an ad, and separate
+  procedures for drafting and for reviewing.
+- Five references: each section in depth with a worked example of an invented person; voice,
+  verbs and cutting; structure, format and long tenure; tailoring and internal, external and
+  public copies; Australian banking conventions for late 2026.
+- `references/evidence.md` marks every rule as research, correction or this skill's inference,
+  and says which wins where they disagree.
+- `scripts/resume_lint.py`: section order and names, summary length, a count of years, personal
+  details, date format, bare present-tense openers, the generic register, bullet counts, an
+  empty education section and gap markers. `--self-test` runs two fixtures.
+- `docs/deep-research/`: the five research reports the rules cite.
+- `career-kit:career-kit` stage 5 and `references/documents.md` now point to the new skill.
+
+## 0.3.0
+
+From the last third of the same engagement, when the person read the panel-reviewed résumés and
+found they read badly.
+
+- `SKILL.md`: reading the document as its reader is now stated as the thing the checks do not
+  cover. Prose is written whole, by hand; scripts render and check. Section jobs are written
+  before drafting. One voice: first-person paragraphs, past-tense bullets.
+- `references/documents.md`: what each section is for, with a test for each; using the whole
+  career; voice, tense and person; reading the built page.
+- `references/panels.md`: ask for a cold read before any rule; do not pass your own style rule
+  as settled; ask what is missing; read the lanes' reasons yourself; when to stop.
+- `references/website.md`: a generated video hero, and checking the whole domain before the
+  address goes on a résumé.
+- Twelve rows added to `references/evidence.md`.
+
+## 0.2.0
+
+From three further rounds of the same engagement on 20 November 2026: a five-lane review of the
+finished résumés, a third question form, a domain registration, and six iterations on one image.
+
+- The work is described as a loop of rounds, and a panel reviews the copy after every change,
+  not once at stage 8. Both are stated at the top of `SKILL.md`.
+- `references/panels.md`: when a panel runs, review against apply, giving lanes the whole fact
+  base, the four kinds of drift to ask about by name, and how to handle a lane that answers late.
+- `references/questions-form.md`: rounds, answer strength, a tick that contradicts its note.
+- `references/website.md`: iterating on an effect, visibility, and a custom-domain procedure.
+- `scripts/build_form.py` counts questions the person has looked at, and exports an untouched
+  suggested default as `[suggested default, not touched]`. It used to count any question holding
+  a value, so a form with pre-selected defaults read as complete before it was opened.
+- Removed an employer name from a `make_variants.py` example and a person's name from a
+  docstring.
+- Twelve rows added to `references/evidence.md`.
+
+## 0.1.0
+
+First release. Built from one working session on 20 November 2026 that produced a complete
+application kit for one person: four research lanes reconciled into a digest, a 20-finding
+review page with cropped evidence, five role-targeted résumés from one source of facts, a
+personal website, LinkedIn copy, and an interview guide.
+
+- Ten-stage procedure in `SKILL.md`, with depth in eleven reference files.
+- Nine scripts generalised out of that session: résumé and variant builds, styled Word,
+  evidence cropping, the question-form generator, browser capture, the panel wrapper, a
+  direct-router MCP caller, and `facts_lint.py`.
+- `references/evidence.md` traces every rule to what happened in that session.
+- Not registered in the marketplace, and no icon or banner yet.

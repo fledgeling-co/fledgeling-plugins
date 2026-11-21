@@ -141,6 +141,14 @@ Puts a native iOS app in the car and on Apple's new HomeView display, which has 
 
 <br clear="left" />
 
+<a href="plugins/career-kit/README.md"><img src="plugins/career-kit/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [career-kit](plugins/career-kit/README.md)
+
+Takes one person from "I need a new résumé" to the whole application kit, built from one file of facts they have confirmed. A gap goes back to them as a question, and a figure nobody confirmed fails the build. Its second skill, resume-craft, knows what each section of a résumé is for and the voice it is written in, and it drafts or reviews one section at a time.
+
+<br clear="left" />
+
 <a href="plugins/launch-craft/README.md"><img src="plugins/launch-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [launch-craft](plugins/launch-craft/README.md) · **Uses multiple models**

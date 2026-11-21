@@ -1,0 +1,47 @@
+{
+  "takes": {
+    "engineA-handauthored": {
+      "source": "icon-engineA-handauthored.svg",
+      "kind": "svg",
+      "source_sha256": "4c7895df1529c732214841952d79dbdbb83a325820f815f61d41301d334be362",
+      "source_mtime": 1795219051.9612892,
+      "rendered_at": 1795219098.880527
+    },
+    "engineB-arrow-91ed41": {
+      "source": "icon-engineB-arrow-91ed41.svg",
+      "kind": "svg",
+      "source_sha256": "7d9c388dec9127b47690d538aa01b66ac6b5d7487ad2ae98162943b7ca509322",
+      "source_mtime": 1795219022.1478052,
+      "rendered_at": 1795219099.021578
+    },
+    "engineC-raster-a7c9c4-masked": {
+      "source": "icon-engineC-raster-a7c9c4-masked.png",
+      "kind": "png",
+      "source_sha256": "d348cf75714e0c4d9f0b028425cae4c6d374d409463ab2ca5ca27019924e5586",
+      "source_mtime": 1795219052.2167034,
+      "rendered_at": 1795219099.1959271
+    },
+    "master": {
+      "source": "icon.png",
+      "kind": "png",
+      "source_sha256": "0e96abbcbc31d9e311eaf3065a0875c0fd328d115170a69492420f03624db4db",
+      "source_mtime": 1795219080.8049788,
+      "rendered_at": 1795219099.287489
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

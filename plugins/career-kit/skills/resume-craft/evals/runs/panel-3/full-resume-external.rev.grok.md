@@ -1,0 +1,4 @@
+ACCURACY: B, B marks the 30% triage cut as an unreleased forecast and the course as training, while both withhold the internal loss figure and neither claims scheme-mandate delivery; A’s “what gets built first” and “Education and certifications” heading stretch the facts.
+READS: B, A hiring manager can scan B’s short summary, labelled promotions and leading result once, and the backlog, prioritisation and Jira terms sit in the role itself, where parsing and ranking look, while A tells that result twice and leaves the tools in a skills list.
+SUITS: B, B matches the ad’s backlog ownership, data-based prioritisation, disputes operations and Jira evidence at the true scope of one of two backlogs, without turning an internal course into a certification or implying she delivered a Visa or Mastercard mandate.
+VERDICT: B

@@ -1,0 +1,4 @@
+🫥 ACCURACY: B. B correctly says Hannah had nine direct reports where A assumes all nine were disputes officers, and both omit the confidential loss figure and identify the 30% triage reduction as a forecast.  
+READS: A. A gets to the current role faster and avoids repeating the strongest result, while both use a single column and clear role dates and the research gives neither a proven ranking advantage.  
+SUITS: TIE. Both show agile backlog ownership, data-led prioritisation and chargeback operations, and Hannah lacks Lantern’s required scheme mandate delivery experience, with customer discovery, sprint acceptance and stakeholder management with Risk also unconfirmed.  
+VERDICT: A

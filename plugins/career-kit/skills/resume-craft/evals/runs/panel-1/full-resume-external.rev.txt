@@ -1,0 +1,190 @@
+You are an experienced hiring manager at an Australian bank. Everything below is about an invented person.
+
+<confirmed_facts>
+# Confirmed facts: Hannah Okoye (an invented person, for evaluation only)
+
+Everything here was confirmed by Hannah. Nothing else is known about her work.
+
+## Contact
+- Hannah Okoye, Brisbane, QLD. Mobile 0400 000 000. hannah.okoye@example.com. linkedin.com/in/hannah-okoye-example
+- Australian citizen.
+
+## Employer
+- Kestrel Bank, Brisbane, since February 2009. All of her roles have been at Kestrel Bank.
+
+## Roles
+| Title | Dates | Notes |
+|---|---|---|
+| Product Owner, Disputes Workflow | Aug 2024 – present | A move from operations into product |
+| Operations Manager, Payments Disputes | Mar 2020 – Aug 2024 | Promotion. 3 team leaders reported to her; 31 staff in total across 2 sites; about 2,400 disputes a month |
+| Team Leader, Disputes Operations | Sep 2015 – Mar 2020 | Promotion. 9 direct reports |
+| Disputes Officer | Jun 2012 – Sep 2015 | |
+| Customer Service Officer | Feb 2009 – Jun 2012 | |
+
+## Current role (Product Owner, Disputes Workflow)
+- She owns the backlog for Beacon, Kestrel's internal case-management tool for card payment disputes. About 140 staff use it.
+- It is one of two backlogs in a 10-person squad. She does not own the other backlog or the squad.
+- She reports to the Head of Payments Product.
+- She writes the user stories and acceptance criteria. The squad works in 2-week sprints.
+- Tools: Jira, Confluence, Power BI.
+- She moved a change that auto-fills merchant details ahead of a dashboard that managers had asked for, after case data showed staff were retyping merchant details on about 70% of cases. In the quarter after release, average handling time fell from 18 minutes to 14 minutes.
+- She SUPPORTED the bank's rollout of a new fraud-alert SMS. Her part was writing the disputes team's process and the training for the 140 staff. She did not lead or deliver the rollout.
+- She COORDINATED user acceptance testing for 4 releases. The QA team ran the tests.
+- Auto-categorisation of new disputes is in build and has not been released. The business case FORECASTS that it will cut manual triage by 30%. Nothing has been measured.
+
+## Operations Manager, Payments Disputes
+- She introduced a daily report of ageing disputes. Disputes older than 45 days fell from about 310 to about 90 over 6 months.
+- She restructured rosters across the 2 sites. No result was measured.
+- Card disputes cost Kestrel about $3.2 million a year in chargeback losses. THIS FIGURE IS INTERNAL ONLY. Hannah does not want it on anything that leaves Kestrel Bank.
+
+## Team Leader, Disputes Operations
+- She coached 2 disputes officers into team leader roles.
+
+## Other
+- As an operator she worked within Visa and Mastercard chargeback timeframes. She has never owned or delivered a card scheme mandate change.
+- No formal qualifications. She completed Kestrel's internal Product Fundamentals course in 2025.
+- Her reason for moving to product, in her words: "I was tired of working around the tool. I wanted to fix it."
+
+</confirmed_facts>
+
+<job_ad>
+# Product Owner, Card Disputes — Lantern Bank (Sydney or Brisbane)
+
+Lantern Bank is rebuilding how customers dispute a card transaction. You will own the backlog for our disputes squad.
+
+## You will
+- Own and prioritise the product backlog for the disputes squad, balancing customer impact, risk and effort.
+- Lead discovery with frontline disputes staff and customers.
+- Write user stories and acceptance criteria and accept work each sprint.
+- Work with Risk and Operations so that controls are built into each change.
+
+## Required
+- Experience as a Product Owner in an agile squad.
+- Backlog prioritisation using data.
+- Card disputes or chargeback operations experience.
+- Experience delivering card scheme mandate changes (Visa or Mastercard).
+- Stakeholder management across operations and risk.
+
+## Desirable
+- A product or agile certification.
+- Jira and Confluence.
+
+Applications close 5 December 2026. Apply through the Lantern Bank careers site.
+
+</job_ad>
+
+<option_A>
+# Hannah Okoye
+
+Brisbane, QLD · 0400 000 000 · hannah.okoye@example.com · linkedin.com/in/hannah-okoye-example · Australian citizen
+
+## Summary
+
+Product Owner for a card disputes case-management tool, with 12 years in disputes operations before that: disputes officer, team leader, then operations manager for a 31-person team handling about 2,400 disputes a month. I moved into product in 2024 to fix the tool my teams had been working around, and I prioritise its backlog from case data.
+
+## Experience
+
+### Kestrel Bank, Brisbane (February 2009 – present)
+
+**Product Owner, Disputes Workflow** · August 2024 – present
+
+Own the backlog for Beacon, the bank's internal case-management tool for card payment disputes, used by about 140 staff. It is one of two backlogs in a 10-person agile squad working in 2-week sprints. Report to the Head of Payments Product.
+
+- Prioritised a change that auto-fills merchant details ahead of a dashboard requested by managers, after case data showed staff were retyping merchant details on about 70% of cases. Average handling time fell from 18 minutes to 14 minutes in the quarter after release.
+- Write the user stories and acceptance criteria for the Beacon backlog, managed in Jira and Confluence, with Power BI for case data.
+- Coordinated user acceptance testing for 4 releases, working with the QA team who ran the tests.
+- Supported the bank's rollout of a new fraud-alert SMS by writing the disputes team's process and the training for 140 staff.
+- Currently in build: auto-categorisation of new disputes, forecast in the business case to cut manual triage by 30% (not yet released).
+
+**Operations Manager, Payments Disputes** · March 2020 – August 2024
+
+Promoted to run card disputes operations across 2 sites: 31 staff, including 3 team leaders reporting to me, handling about 2,400 disputes a month.
+
+- Introduced a daily report of ageing disputes. Disputes older than 45 days fell from about 310 to about 90 over 6 months.
+- Restructured rosters across the 2 sites.
+
+**Team Leader, Disputes Operations** · September 2015 – March 2020
+
+Promoted to lead a team of 9 disputes officers.
+
+- Coached 2 disputes officers into team leader roles.
+
+**Disputes Officer** · June 2012 – September 2015
+
+Handled card disputes within Visa and Mastercard chargeback timeframes.
+
+**Customer Service Officer** · February 2009 – June 2012
+
+## Skills
+
+- **Product:** backlog ownership and prioritisation from case data, user stories and acceptance criteria, 2-week sprints, UAT coordination
+- **Card disputes:** chargeback operations under Visa and Mastercard timeframes, ageing and backlog management, process and training design
+- **Leadership:** managed 31 staff across 2 sites through 3 team leaders; coaching staff into leadership roles
+- **Tools:** Jira, Confluence, Power BI
+
+## Training
+
+- Product Fundamentals, Kestrel Bank internal course, 2025
+
+</option_A>
+
+<option_B>
+# HANNAH OKOYE
+
+Brisbane, QLD | 0400 000 000 | hannah.okoye@example.com | linkedin.com/in/hannah-okoye-example | Australian citizen
+
+## Professional summary
+
+I am the Product Owner for Beacon, Kestrel Bank's case-management tool for card disputes, which about 140 staff use. I came to product from disputes operations, where I managed 31 staff across 2 sites handling about 2,400 disputes a month. I was tired of working around the tool. I wanted to fix it. In product I prioritise the backlog using data from the cases themselves: I moved a change that auto-fills merchant details ahead of a dashboard managers had asked for, and average handling time fell from 18 minutes to 14.
+
+## Key skills
+
+Product ownership: backlog prioritisation using data; writing user stories and acceptance criteria; coordinating user acceptance testing with a QA team
+Card disputes operations: managing disputes teams across 2 sites; working within Visa and Mastercard chargeback timeframes; cutting a backlog of ageing disputes with daily reporting
+People: leading team leaders and disputes officers; coaching officers into team leader roles; writing process and training for frontline staff
+Tools: Jira, Confluence, Power BI
+
+## Professional experience
+
+### Kestrel Bank, Brisbane | Feb 2009 – Present
+
+I started as a Customer Service Officer, moved into disputes in 2012 and was promoted twice, to Team Leader and then Operations Manager, before moving from operations into product in 2024. As an operator in disputes I worked within Visa and Mastercard chargeback timeframes.
+
+#### Product Owner, Disputes Workflow | Kestrel Bank | Aug 2024 – Present
+
+I am a Product Owner in an agile squad of 10 that works in 2-week sprints. I own the backlog for Beacon, Kestrel's internal case-management tool for card payment disputes, which about 140 staff use. It is one of 2 backlogs in the squad, and I report to the Head of Payments Product. I write the user stories and acceptance criteria. Auto-categorisation of new disputes is in build now; the business case forecasts that it will cut manual triage by 30%, and nothing has been measured yet.
+
+- Moved a change that auto-fills merchant details ahead of a dashboard that managers had asked for, after case data showed staff were retyping merchant details on about 70% of cases. In the quarter after release, average handling time fell from 18 minutes to 14 minutes.
+- Coordinated user acceptance testing for 4 releases, with the QA team running the tests.
+- Supported the bank's rollout of a new fraud-alert SMS by writing the disputes team's process and the training for the 140 staff.
+
+#### Operations Manager, Payments Disputes | Kestrel Bank | Mar 2020 – Aug 2024
+
+I managed payments disputes operations across 2 sites. 3 team leaders reported to me, with 31 staff in total, and we handled about 2,400 disputes a month.
+
+- Introduced a daily report of ageing disputes. Disputes older than 45 days fell from about 310 to about 90 over 6 months.
+- Restructured rosters across the 2 sites.
+
+#### Team Leader, Disputes Operations | Kestrel Bank | Sep 2015 – Mar 2020
+
+I led a disputes operations team of 9 direct reports.
+
+- Coached 2 disputes officers into team leader roles.
+
+#### Disputes Officer | Kestrel Bank | Jun 2012 – Sep 2015
+
+#### Customer Service Officer | Kestrel Bank | Feb 2009 – Jun 2012
+
+## Professional development
+
+Product Fundamentals, Kestrel Bank internal course, completed 2025
+
+</option_B>
+
+Two complete résumés written for this person for the job ad below. Which one would you send? Judge on three things: (1) accuracy against the confirmed facts, including whether anything is overstated or should not leave her employer; (2) how it reads to a busy person; (3) how well it suits this ad without claiming what she has not done.
+
+Answer in exactly this format and nothing else:
+ACCURACY: A or B or TIE, then one sentence
+READS: A or B or TIE, then one sentence
+SUITS: A or B or TIE, then one sentence
+VERDICT: A or B or TIE
