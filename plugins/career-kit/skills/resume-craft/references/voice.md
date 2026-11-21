@@ -70,7 +70,7 @@ sends them questions they have already answered (C).
 | Their own old résumé or profile says they did Z | They did Z | Any figure in it that they have not since confirmed |
 | "The change went live" | It happened | That it worked, or what it improved |
 
-The test: would a reasonable reader of their answer be surprised to learn the implication was
+The test: would someone reading their answer be surprised to learn the implication was
 false? If yes, it is part of what they said. If establishing it would take a second fact, it
 is not.
 
