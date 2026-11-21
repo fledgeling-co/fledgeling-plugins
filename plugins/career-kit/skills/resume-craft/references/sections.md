@@ -194,7 +194,10 @@ If the summary already gave the reason for the move, leave it out here: one sent
 progression is enough, and a second telling of the career is the first thing a reader skips
 (evals).
 Recognition that belongs to no single role can go here, worded as what was actually awarded and
-to whom; a team award is a team award (C).
+to whom, and in the person's voice. A team award is a team award, and the person who lists it
+was on the team: "I am proud that our work on the claims rebuild received the 2025 team award"
+is true to both. "The claims rebuild received the 2025 team award" is true and reads as a
+caption (C).
 
 - Keep the true start date. Application forms and employment checks collect the real dates, and
   a résumé that disagrees with the form costs more than the tenure does (R).

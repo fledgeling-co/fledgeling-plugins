@@ -64,9 +64,12 @@ feedback:
 5. **When a default and a section's job pull apart, the job wins**, and you say so in your
    reply: a summary of 98 words that does its four things beats one of 85 that dropped one.
    Length and count defaults are guides to read against, never targets to cut to.
-6. **A rule about form never licenses a new claim.** If making a sentence fit a rule would mean
-   asserting something the person has not confirmed, such as putting them into a team that
-   received an award, keep the plain fact as it was or ask. Form rules give way to facts.
+6. **A rule about form never licenses a new claim, and caution never withholds what the
+   person has already told you.** A fact someone volunteers about themselves carries its plain
+   implication: a person who lists a team award as theirs was on the team. What an answer does
+   not imply is anything it would take another fact to know: a figure, a result, a stronger
+   verb, sole credit. Use the first freely and ask about the second. `references/voice.md`
+   has the line between them.
 7. **A rule never forbids the accurate word.** When the plainest true name for something is
    also the word the ad uses, use it. The fault is a word that is there only because of the ad.
 8. **Keep the person's standing decisions, and check them after every revision.** Hold a list
@@ -168,6 +171,12 @@ a worked example of an invented person.
   in the scope paragraph; a bullet is something that happened (C).
 - **No line opens with a bare present-tense verb.** "Lead discovery…" reads as a command or as
   a misspelt "Led", and beside past-tense bullets it looks as if the tense keeps changing (C).
+- **It sounds like the person, and not like their file.** A first-person résumé that states
+  everything as a record entry ("The project received the award in 2026") is correct and
+  rigid. Where the person has a stake in something, say so once, in plain words, attached to
+  the specific thing: pride in a named piece of work, the reason for a move, how they judge
+  their work. "Our" for what a team did. One such sentence in a section is enough; adjectives
+  about themselves are still out (C).
 - **Plain verbs and the local spelling.** Led, ran, cut, fixed, wrote, coached. The register
   that reads as machine-written is named in `references/voice.md`, and the lint fails on it (R).
 - **State scope exactly.** Supported is not led; coordinated is not ran; one backlog in a squad

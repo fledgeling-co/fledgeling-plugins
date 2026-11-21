@@ -88,7 +88,7 @@ LABEL_OPENER = re.compile(
     r"Officer|Designer|Developer|Architect|Coordinator|Advisor|Adviser|Partner|Executive)\b")
 FIGURE_ON_OBJECT = re.compile(
     r"\b(?:which|that) (?:has|have|serves|serve|supports|support)\b[^.]*\d|\bused by (?:about |around |over )?\d")
-FIRST_PERSON = re.compile(r"\b(?:I|my|me|I'm|I\u2019m|I've|I\u2019ve)\b")
+FIRST_PERSON = re.compile(r"\b(?:I|my|me|I'm|I\u2019m|I've|I\u2019ve|our|we|us)\b", re.I)
 
 # A first-person sentence that reports a single decision or event. The summary is standing:
 # what the person does and how they judge it. One occasion is evidence and goes in a bullet.
@@ -381,6 +381,13 @@ def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=Non
                                         "idea per bullet")
         for x in roles:
             for i, p in x["paras"]:
+                if voice == "first":
+                    for sent in re.split(r"(?<=[.!?])\s+", p.strip()):
+                        if len(sent.split()) > 4 and not FIRST_PERSON.search(sent):
+                            r.warn("impersonal-prose", f"line {i}: '{' '.join(sent.split()[:6])}…' "
+                                                       "has no 'I', 'my' or 'our'; say it as the "
+                                                       "person would, or fold it into a sentence "
+                                                       "that is about them")
                 first = re.sub(r"[^A-Za-z'-]", "", p.split()[0]).lower() if p.split() else ""
                 if first in BARE_PRESENT and len(p.split()) > 3:
                     r.error("bare-present", f"line {i}: paragraph opens with the bare verb "
@@ -535,6 +542,13 @@ def run_self_test():
         print("FAIL label-opener/figure-on-object: should fire on a title-and-statistic opening only")
     else:
         print("ok   label-opener and figure-on-object fire on a title-and-statistic opening only")
+    imp = "I started as a claims assessor. The lodgement project received the 2025 team award."
+    r_imp = lint(good.replace("I started as a claims assessor", imp, 1), year=2026)
+    if "impersonal-prose" in r_imp.codes() and "impersonal-prose" not in rg.codes():
+        print("ok   impersonal-prose fires on a record-style sentence in a prose paragraph only")
+    else:
+        ok = False
+        print("FAIL impersonal-prose: should fire on a record-style sentence, and not on good.md")
     r_keep = lint(good, year=2026, keep=["acceptance criteria", "a term that is not there"])
     if r_keep.codes() & {"kept-term-missing"} and len([e for e in r_keep.errors if "kept-term" in e]) == 1:
         print("ok   --keep reports a missing term and accepts a present one")

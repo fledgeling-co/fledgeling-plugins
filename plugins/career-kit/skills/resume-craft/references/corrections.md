@@ -31,6 +31,8 @@ cutting, and re-run the section's test afterwards.
 | "Written as a plain fact" (title and statistic) | A label and a number about the product | The title, riding along; the figure, attached to their responsibility |
 | "That is not a skill" | A noun they work with | The ad's term, inside an ability that a bullet shows |
 | "Each skill needs a line that shows it" | A skill with nothing under it | The skill's general wording; the proof is found by reading down, not written into the skill |
+| "It is impersonal and rigid" | A record-style sentence where the person has a stake | The fact, unchanged; one plain sentence of pride, reason or judgement tied to a specific thing |
+| "Would we have told you that if it were not true of her?" | Holding back the plain implication of the person's own answer | Asking about anything it would take a second fact to know |
 | "It reads like a list to tick off from the job ad" | Entry requirements leading the skills; labels taken from the ad | The ad's terms, in the roles and in one craft line; the person's own strengths, first |
 | "More general" | This job's detail inside a claim | Whatever is distinctive about the person; general is not generic |
 | "That skill is too specific" | This job's product, system or data named inside a skill | The ability, stated so it carries to another role; the instance, in a bullet |
@@ -62,6 +64,7 @@ stayed.
 | Tenure went unmentioned | No count of years | The span, which is the difference |
 | Each skill was rewritten to describe a bullet | Each skill needs a proving line | The skill's general form |
 | The skills were stripped to what any holder of the title does | "Make it more general" | The person's strengths |
+| An award the person had listed as theirs was written as a bare fact about a project | A rule about form never licenses a new claim | The plain implication of their own answer, and the one warm sentence in the section |
 
 The common cause: the most recent instruction was treated as the only one. Earlier decisions,
 the research's requirements and the section's job were not re-checked after each change.

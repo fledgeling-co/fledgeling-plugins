@@ -50,10 +50,45 @@ something near the person. A résumé sentence states the person's relation to i
   sits in, go in a clause of a sentence about the person, never in a sentence of their own.
   "The squad plans in increments and works in 2-week sprints" is about the squad; "I accept each
   increment in 2-week sprints" is about the person.
-- **Recognition is stated as what was awarded, and to whom.** A team award is a team award. Say
-  "I was part of the team that received…" only when the person has confirmed they were on that
-  team. Otherwise the plain fact stands ("The project received…"), even though it is a
-  sentence about the project: a rule about form does not justify a claim nobody confirmed (C).
+- **Recognition is stated as what was awarded, to whom, and in the person's voice.** A team
+  award is a team award. A person who lists it as their recognition was on the team, so write
+  "our work received…" and let them say they are proud of it. Ask only when their answer
+  leaves open whether it was theirs at all (C).
+
+## What an answer implies, and what it does not
+
+Two failures sit either side of this line. Inventing is the familiar one. The other is
+refusing to use what the person plainly told you, which produces stiff, arm's-length copy and
+sends them questions they have already answered (C).
+
+| The person said | It implies, and you may write | It does not imply, so ask |
+| --- | --- | --- |
+| "We won a team award for the X project" | They were on that team; "our work on X" | Their particular contribution; that the award was for them alone |
+| A title, with dates | They did that job for that time | Team size, budget, results |
+| "I use tool Y every week" | They can list Y and say what for, if they said | Depth of expertise; a certification |
+| "I led the planning team" | They were its leader | That the team's results were theirs alone |
+| Their own old résumé or profile says they did Z | They did Z | Any figure in it that they have not since confirmed |
+| "The change went live" | It happened | That it worked, or what it improved |
+
+The test: would a reasonable reader of their answer be surprised to learn the implication was
+false? If yes, it is part of what they said. If establishing it would take a second fact, it
+is not.
+
+## Sounding like the person
+
+A résumé written in the first person can still read like a personnel file. Each prose section
+may carry one sentence that only a person would write, and the document is better for it:
+
+- **A stake in something specific.** "I am proud that our work on X received…", attached to a
+  named piece of work or a named award. Never free-floating ("I am passionate about delivery").
+- **A reason.** Why they moved, in their own words where they gave them.
+- **A way of judging.** The sentence in the summary that says how they decide what matters.
+- **"Our" and "we" for what a team did**, "I" for what they did. It is more accurate as well
+  as warmer.
+
+Keep it to one per section, keep the facts exactly as they are, and leave bullets as plain
+statements of what happened. The register to keep out, below, still applies: warmth comes
+from a specific stake, never from an adjective about themselves.
 
 ## Verbs
 

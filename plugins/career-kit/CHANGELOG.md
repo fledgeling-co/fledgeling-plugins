@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 0.4.8
+
+`career-kit:resume-craft`: what an answer implies, and sounding like the person.
+
+- An award the person had listed as theirs was written as a bare fact about a project, because
+  their place on the team was treated as unconfirmed. They called it impersonal and rigid, and
+  asked whether they would have mentioned the award if it were not theirs. `SKILL.md` now says
+  caution never withholds what the person has already told you: a volunteered fact carries its
+  plain implication, and only what would take a second fact to know is asked about.
+- `references/voice.md`: a table of what common answers do and do not imply, and a section on
+  sounding like the person: one sentence of stake, reason or judgement per prose section, tied
+  to something specific, with "our" for what a team did.
+- `scripts/resume_lint.py` warns `impersonal-prose` on a sentence in the employer or role
+  paragraphs that has no first person in it.
+- Not re-run: the skill's evals.
+
 ## 0.4.7
 
 `career-kit:resume-craft`: an audit for over-corrections, and four rules from it.
