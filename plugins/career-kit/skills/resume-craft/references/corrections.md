@@ -20,6 +20,23 @@ was carrying is usually still wanted. Three things go wrong when that is missed:
 So, for every correction: name the fault narrowly, keep what the text was for, recast before
 cutting, and re-run the section's test afterwards.
 
+## Six rules that follow
+
+1. **A rule about form never licenses a new claim.** If making a sentence fit a rule would mean
+   asserting something the person has not confirmed, keep the plain fact or ask.
+2. **Caution never withholds what the person has already told you.** A fact someone volunteers
+   about themselves carries its plain implication. Ask only about what a second fact would be
+   needed to know.
+3. **A rule never forbids the accurate word.** When the plainest true name for something is
+   also the word the ad uses, use it.
+4. **The structure's limits are met by moving material**, to the section whose level it fits,
+   before any limit gives way. A duty that will not fit a scope line becomes a bullet; a tool
+   goes on the tools line.
+5. **The person's standing decisions are checked after every revision.** A later correction
+   changes what it names and nothing else. Keep the terms they asked for, and the ad's required
+   phrases they hold, in a file and run the lint with `--keep`.
+6. **A lint warning is a prompt to read the line, not a fault to clear.**
+
 ## What each correction forbids and leaves in
 
 | Correction | It forbids | It leaves in, and wants |
@@ -31,6 +48,10 @@ cutting, and re-run the section's test afterwards.
 | "Written as a plain fact" (title and statistic) | A label and a number about the product | The title, riding along; the figure, attached to their responsibility |
 | "That is not a skill" | A noun they work with | The ad's term, inside an ability that a bullet shows |
 | "Each skill needs a line that shows it" | A skill with nothing under it | The skill's general wording; the proof is found by reading down, not written into the skill |
+| "The numbers are there as details and reduce the impact" (a range, a small count) | A figure that makes the work sound smaller: a range, a small team size, a duration, a tally of faults, a second smaller figure | Figures that enlarge: large scale, results, an exact count of something hard; any figure the person asks to keep |
+| "Sometimes the use of detail reduces the apparent impact of the achievement" | Four supporting facts at the same weight as the point; method, tools and process words ahead of the result | The point and its single best support; a term the person asked for, moved to a less prominent place or raised with them |
+| "The achievements are lacklustre; they should market her, without making anything up" | Flat, admin-first telling; a supporting verb left without its effect | Every fact, verb and figure exactly as confirmed; a placeholder where the strong version needs an answer |
+| "Each role should give its responsibilities, success criteria and key achievements" | Three labelled blocks under every role; an invented target | The three things themselves: scope line, a clause naming the measure where one exists, result bullets |
 | "Leave missing information as red text in angle brackets" | Stating the bare fact and hiding that more is wanted; a question list the draft does not point to | The sentence, written so the answer drops in; no placeholder on any copy sent to an employer |
 | "It will be judged against the research, so abide by it" | Departures from the research that nobody chose | Departures the person chose, each listed with whose decision it was |
 | A scope paragraph that grew to three sentences to keep things the person wanted | Growing the scope line | Everything it held: the extra duty as a bullet, the tool use as a bullet or on the tools line |

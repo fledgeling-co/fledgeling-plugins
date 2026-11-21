@@ -21,17 +21,17 @@ I started as a claims assessor and was promoted twice before moving into product
 
 #### Product Owner, Claims Lodgement | Harbour Mutual | Feb 2024 – Present
 
-I own the lodgement backlog in an 8-person squad and work to the Head of Claims Product.
+I own the lodgement backlog in a product squad and work to the Head of Claims Product.
 
 - Moved a fix for duplicate claims ahead of a planned photo-upload feature after call data showed about 400 duplicate lodgements a month. Duplicates fell to about 60 a month within 2 releases.
-- Took the lodgement backlog through 3 releases, coordinating the testing that the assurance team ran before each one.
-- Rewrote the lodgement questions with 6 assessors so that customers answer them in the order assessors need them.
+- Took the lodgement backlog through each release, coordinating the testing that the assurance team ran before it went live.
+- Rewrote the lodgement questions with assessors, so that customers answer them in the order assessors need them.
 
 #### Team Leader, Motor Claims | Harbour Mutual | Jul 2018 – Feb 2024
 
 I led 12 assessors handling motor claims.
 
 - Coached 3 assessors into senior roles.
-- Prepared the team for a new claims system, including guidance and training for 12 people.
+- Prepared the team for a new claims system, writing the guidance and training that took it live without a backlog of claims.
 
 #### Claims Assessor | Harbour Mutual | Mar 2012 – Jul 2018

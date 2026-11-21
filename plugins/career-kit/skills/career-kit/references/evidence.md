@@ -1,19 +1,20 @@
 # Evidence — where each rule in this skill comes from
 
-Every structural choice traces to something observed. The source is one working session on
-20 November 2026 that produced a complete application kit for one person: research, a review
-page, five role-targeted résumés, a personal website, LinkedIn copy and an interview guide.
-Its compressed record is `SESSION-RECORD.md` in that project. No claim here is a general
-finding about résumés; they are failures that happened once, to one run, and were fixed.
+Every structural choice traces to something observed. The source is one engagement on 20 and
+21 November 2026 that produced a complete application kit for one person: research, a review
+page, a résumé (first as five role-targeted versions, then as one), a personal website,
+LinkedIn copy and an interview guide. No claim here is a general finding about résumés; they
+are failures that happened once, to one run, and were fixed. The rules about the words
+themselves are evidenced in `../../resume-craft/references/evidence.md`.
 
 | Rule | What happened |
 | --- | --- |
-| Never invent a fact; gaps go to the person through the form | Worked examples offered in chat for one question came back as the person's answer almost word for word. The relay confirmed they were accurate, but the agent could not tell that from the answer alone. |
+| Never invent a fact; a gap goes back to the person as a question | Worked examples offered in chat for one question came back as the person's answer almost word for word. The relay confirmed they were accurate, but the agent could not tell that from the answer alone. |
 | An unchanged example is a real answer | Fifteen second-round answers came back as the form's example text. They were recorded as unverified; the person's relay said she had selected them because they were accurate, and all fifteen were applied. |
 | State scope exactly | Review panels caught, on separate rounds, "shipped" where the truth was "supported", "runs" where it was "coordinates", "led" where it was "coordinated", and a summary implying ownership of a squad's whole backlog where the person owned one backlog in it. |
-| One résumé per role from one source of facts | The first draft was a single generic résumé. The instruction was that it had to target the named roles; a panel separately said twice that one document cannot serve a product role and a delivery role. |
+| One résumé per role from one source of facts | The first draft was a single generic résumé. The instruction was that it had to target the named roles; a panel separately said twice that one document cannot serve a product role and a delivery role. Later reversed by the same person, who asked for one résumé written by hand after five assembled versions had passed review and read badly; the skill now asks which the person wants |
 | Ask which figures may appear publicly, keep a softened copy | Three figures were fine on internal applications and not on a public page. The public résumé, the site and the LinkedIn text each needed a softened version. |
-| Change a fact in one place and rebuild | Five résumés, a website, a LinkedIn document and an interview guide shared the same dates and figures. Hand editing was abandoned for a build script after outputs began to disagree. |
+| One set of facts across every document; check them all when one changes | Five résumés, a website, a LinkedIn document and an interview guide shared the same dates and figures, and outputs edited separately began to disagree. A build script was the first remedy; it was later limited to rendering, after documents it assembled from fragments passed review and read badly. On the second day a corrected fact was still wrong in another document three times: a claim about promotions on the website, a role attribution in the interview guide, and a withdrawn statement in the LinkedIn copy |
 | Pages break automatically; no fixed-height container | `.sheet { height: 297mm; overflow: hidden }` with a manual page split silently cut bullets from page one of all five variants. Nothing errored; the page count was still correct. |
 | Check fonts actually embedded | `pdffonts` showed Helvetica and Arial where the CSS specified Aptos and Calibri, neither of which was installed. The PDF and the Word file had diverged invisibly. |
 | Check rendered output in a real browser, and say what you did not look at | Chrome's `--screenshot` captures scroll 0 only, so a scroll-driven site reported as fine. A CDP driver that eases to each position was written to see the rest. Nobody saw the site on a real phone or in Safari, and the notes say so. |
@@ -32,7 +33,7 @@ finding about résumés; they are failures that happened once, to one run, and w
 | Review is not apply | The request was to review the résumé content. Findings and wording were reported and no source was edited until the answers came back and the instruction to incorporate was given. |
 | Count questions looked at, not questions holding a value | The third form pre-selected every suggested default and read "15 of 15 answered" before it was opened. |
 | Ask when the tick and the text disagree | One answer ticked the option to drop a claim and wrote a note supporting it. The agent chose a reading and flagged it for the relay. |
-| Section word budgets; exact required phrases | Five summaries ran 113 to 157 words against a researched 60 to 100, and five of five lanes said trim. One ad's required phrase appeared only hyphenated and its synonym not at all. |
+| The research's lengths are limits; a requirement the person holds appears in the ad's words | Five summaries ran 113 to 157 words against a researched 60 to 100, and five of five lanes said trim. One ad's required phrase appeared only hyphenated and its synonym not at all. |
 | Preview an effect before building it; review tools never deploy | One hero image took six iterations, including seven selectable shader effects and a water simulation, and ended as a single image that grows on hover. The effect chooser was kept local and removed. |
 | Check funds, registrant, owner and email before offering to buy a domain | Buying one took four turns: short balance, no registrant details, no tool to read the contact on other domains, and a contact email the owner did not expect, changed afterwards. The registrar's old parking records were still being served minutes after the new ones were written. |
 | Name every file a subagent must read | A subagent told to extract "across the session" ran over its own context until given the transcript paths and the render command. |
@@ -49,6 +50,16 @@ finding about résumés; they are failures that happened once, to one run, and w
 | Answer before acting | A sentence was changed and redeployed while the person's message asking why it had been missed was in transit. |
 | Check the built page, not the page count | Raising the type size pushed "· Employer" onto its own line on three roles in every résumé; the page count was unchanged. |
 | Generate the end state and reverse the clip | A hero video of beads settling into rows was made by animating the settled still coming apart and reversing it. A first, busier concept was rejected for what it resembled. |
+| Missing information is a red placeholder where the answer will go | The person asked for gaps to be shown in the draft as red text in angle brackets. An earlier instruction had objected to a draft with many highlighted gaps; they now preferred to see exactly where an answer was wanted |
+| A few questions go in the conversation; many go in a form | Five gaps were asked as multiple-choice questions with a free-text option in chat, at the person's request, and all five were answered in free text within minutes |
+| A document that will be judged against the research abides by it | The person said the résumé would later be judged against the research digest. The current role then had a 53-word scope paragraph and six bullets against the research's scope line and three to five |
+| The person's standing decisions are checked after every revision | An audit found a term the person had asked for by name, and several required phrases, dropped while unrelated feedback was being applied |
+| Put your recommendation to the panel and ask for the case against each verdict | On a structural question three lanes took the writer's recommendation and two took no change; both dissenters named the same narrower option as the strongest case against themselves, and it became the decision |
+| Settle placement, edges, the resting frame and the beats before generating a video hero | A character hero took 11 billed clips for a cut that uses three. Four came from a tool that could not make clips join. The rest include a return clip added because the sequence ended on an empty frame, an exit and a return made again because mirroring the clip for the layout turned the exit toward the text, and a dance the person replaced with another action |
+| Read the video tool's parameters before planning a sequence | The tool sent a prompt and a first frame only, so four clips chained from each other's last frames restarted at every join and came back at 720p. The person said they did not go together. Adding last-frame, resolution and audio inputs to the tool gave 1920x1080 clips that ended on the frame supplied |
+| Join on a held pose, and measure a skip | The person reported frame skips while the character was thinking. Frame-to-frame difference across the join was 1.41 against 0.4 to 0.5 either side: the first clip was still moving when it reached its last frame and the second started from rest |
+| Fit the length in the script, never in the edit | A 20-second sequence was cut to 14 by speeding it up 1.35 times, cutting inside two clips and cross-fading one join. The person described each of those as a skip |
+| A contact sheet is not a viewing | Every clip was checked from tiled frames and reported as correct. The person, watching, found the rushed pace, the skips and the missing pause after the wave |
 
 ## What this skill changed from the session
 

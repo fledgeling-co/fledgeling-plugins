@@ -10,7 +10,7 @@ caption on the website. Copy that passed a review and was then edited has not be
 A round takes fifteen to twenty-five minutes and five model calls, so scope it. For a small
 change, point the lanes at the changed sections and the artefacts that share the changed facts.
 Batch edits made close together into one round. Run the full section-by-section review when
-every variant changed, and once over everything before hand-over. Say in the report which
+a whole document changed, and once over everything before hand-over. Say in the report which
 version each round read.
 
 Typo fixes and layout changes that alter no wording do not need a round.
@@ -20,6 +20,26 @@ Typo fixes and layout changes that alter no wording do not need a round.
 When the person asks for a review, return findings and proposed wording and change no source.
 Applying them is a second step that the person starts. Keep the lanes read-only for the same
 reason.
+
+## Ask for a reading before a ruling
+
+The source session's panels passed copy that read badly, three times, because of how they were
+asked.
+
+- A brief that asks "are tense and person consistent?" gets consistency. Subject-dropped
+  present-tense verbs are consistent and read as commands. Ask first: "quote every sentence you
+  stumbled on, had to re-read, or that sounded like a job ad, and say why."
+- Do not pass your own style rule to the panel as settled. "No first person" went into a brief
+  as a rule, the one lane that proposed first-person summaries was overruled twice by it, and
+  the person later asked for exactly that.
+- Ask what is missing. Reviewers judge what is on the page unless asked what is not.
+- Give each section's job and test (`career-kit:resume-craft`, "The document, top to bottom")
+  and ask whether the section does it.
+- Give the lanes every source, including the person's original documents. Four lanes flagged
+  "managed supplier relationships" as beyond the answers; it was in the old résumé, which they
+  had not been given.
+- When placement matters, give the page-by-page text of the built PDF. Lanes reading Markdown
+  guess where page 1 ends.
 
 ## The brief
 
@@ -45,16 +65,28 @@ A brief that works has six parts:
    `S1: KEEP | CHANGE | REPLACE | REMOVE — why — exact replacement wording`.
 6. **A word budget**, 250–450 for a single decision.
 
-For a content review, also give the word count of every section against its budget from the
+For a content review, also give the word count of every section against its limit from the
 research, and ask by name for the four kinds of drift a figure check cannot see: a stronger verb
 than the person confirmed, an expected outcome written as achieved, a figure whose noun changed,
-and one piece of work counted in several bullets. Ask whether each required phrase of each ad
-appears as an exact string, and whether each document is weighted to its ad as well as worded for
-it. After a round of answers, ask whether each answer was incorporated with nothing stated beyond
+and one piece of work counted in several bullets. Ask whether each requirement of each ad that the person holds
+is shown in a sentence, in the ad's own words, and whether the document is weighted to the role as
+well as worded for it. After a round of answers, ask whether each answer was incorporated with nothing stated beyond
 it.
 
 Strip the person's contact details from anything the brief points at. These are other vendors'
 models.
+
+## Putting your own recommendation to the panel
+
+When the person asks for your view to go with the question, state it in the brief with its
+reasons, and tell the lanes to challenge it and not defer to it. Ask each lane for the
+strongest argument against its own verdict as well. On one structural decision the two
+dissenting lanes each named the same narrower option as the best case against themselves, and
+that option, which all five could accept, was the decision.
+
+Tell the lanes who gave any feedback being judged, where that is known. Feedback from the
+person who will read the document is evidence about the reader, and outweighs a general
+finding.
 
 ## Order bias
 
@@ -94,6 +126,13 @@ was corrected twice and every vote fraction restated.
 
 Expect the slowest lane to take about twice as long as the others, and set its timeout from that.
 
+## Read the reasons yourself
+
+A synthesis that says "five lanes stumbled on this sentence" does not say which words. In the
+source session that sentence was rewritten for the wrong fault and the odd phrase in it
+("teams of 5 and about 15") survived two rounds until the person read it aloud. When you
+delegate a panel run, ask for the lanes' reasons quoted, and read them before editing.
+
 ## Acting on the result
 
 - Apply a change when two or more reviewers ask for it, or when one demonstrates a
@@ -104,6 +143,11 @@ Expect the slowest lane to take about twice as long as the others, and set its t
 - Log what you declined and why, in the project notes. A declined finding that leaves no trace
   gets re-raised by the next panel.
 
+## When to stop
+
+Stop when the remaining edits are the panel's own wording, or when a round raises only points
+the person has settled. A further round then mostly re-argues decisions.
+
 ## Two mechanical cautions
 
 A panel is only as current as the copy it read. An answer that arrives after the artefact has
@@ -113,33 +157,3 @@ Not every lane is read-only. Where a lane has write tools and the brief names a 
 check the project's files after the panel: the source session found one file changed that
 nobody in the session had edited. Prefer lanes configured read-only, and diff afterwards.
 
-## Ask for a reading before a ruling
-
-The source session's panels passed copy that read badly, three times, because of how they were
-asked.
-
-- A brief that asks "are tense and person consistent?" gets consistency. Subject-dropped
-  present-tense verbs are consistent and read as commands. Ask first: "quote every sentence you
-  stumbled on, had to re-read, or that sounded like a job ad, and say why."
-- Do not pass your own style rule to the panel as settled. "No first person" went into a brief
-  as a rule, the one lane that proposed first-person summaries was overruled twice by it, and
-  the person later asked for exactly that.
-- Ask what is missing. Reviewers judge what is on the page unless asked what is not.
-- Give each section's job and test (see `documents.md`) and ask whether the section does it.
-- Give the lanes every source, including the person's original documents. Four lanes flagged
-  "managed supplier relationships" as beyond the answers; it was in the old résumé, which they
-  had not been given.
-- When placement matters, give the page-by-page text of the built PDF. Lanes reading Markdown
-  guess where page 1 ends.
-
-## Read the reasons yourself
-
-A synthesis that says "five lanes stumbled on this sentence" does not say which words. In the
-source session that sentence was rewritten for the wrong fault and the odd phrase in it
-("teams of 5 and about 15") survived two rounds until the person read it aloud. When you
-delegate a panel run, ask for the lanes' reasons quoted, and read them before editing.
-
-## When to stop
-
-Stop when the remaining edits are the panel's own wording, or when a round raises only points
-the person has settled. A further round then mostly re-argues decisions.

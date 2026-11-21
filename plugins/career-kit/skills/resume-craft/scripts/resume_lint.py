@@ -90,6 +90,16 @@ KNOWN_GLOSS = re.compile(
     r"(?:tool|assistant|platform|system|software|application|app|framework|methodology|method|"
     r"language|product|suite)\b")
 
+VAGUE_RANGE = re.compile(r"\b\d{1,3} (?:to|or) \d{1,3} (?!per cent|percent|%)[a-z]+")
+
+LIST_IN_BULLET = re.compile(r"(?:(?!and\b)[\w'-]+(?: (?!and\b)[\w'-]+){0,2}, ){2,}"
+                            r"(?!and\b)[\w'-]+(?: (?!and\b)[\w'-]+){0,2},? and ")
+
+EMPTY_SELL = re.compile(r"\b(?:successfully|significant(?:ly)?|key (?:role|stakeholder|contributor)|"
+                        r"instrumental|pivotal|world-class|best-in-class|robust|seamless(?:ly)?)\b", re.I)
+ADMIN_END = re.compile(r"(?:tracked|logged|recorded|documented|raised|filed) (?:it|them|this) "
+                       r"in (?:Jira|Confluence|a ticket|the register|the log)\.?$", re.I)
+
 AWARD = re.compile(r"\b(?:[Aa]ward|[Pp]rize)\b")
 
 # Capitalised words that are methods or standard terms, not this employer's product or system.
@@ -391,13 +401,33 @@ def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=Non
             elif not (low.endswith("ed") or low in IRREGULAR_PAST):
                 r.warn("bullet-opener", f"line {i}: bullet opens with '{first}'; bullets "
                                         "open with a past-tense verb")
+            vr = VAGUE_RANGE.search(b)
+            if vr:
+                r.warn("vague-range", f"line {i}: '{vr.group(0)}' is a range; it reads as few and "
+                                      "as unsure. Say the thing without the count, or give the "
+                                      "one figure that is impressive")
+            if EMPTY_SELL.search(b):
+                r.warn("empty-sell", f"line {i}: '{EMPTY_SELL.search(b).group(0)}' sells with an "
+                                     "adjective; say what was at stake or what changed instead")
+            if ADMIN_END.search(b.strip()):
+                r.warn("admin-ending", f"line {i}: the bullet ends on the admin ('"
+                                       f"{' '.join(b.strip().split()[-5:])}'); end on what it "
+                                       "changed, or ask the person what happened next")
             if len(words(b)) < 14 and not re.search(r"\d", b):
                 r.warn("bullet-no-result", f"line {i}: '{' '.join(b.split()[:6])}…' stops at the "
                                            "action; ask the person what was different "
                                            "afterwards, or give the scale of the work")
-            if len(words(b)) > 75:
+            if len(words(b)) > 60:
                 r.warn("bullet-length", f"line {i}: bullet is {len(words(b))} words; one "
-                                        "idea per bullet")
+                                        "headline and one supporting fact")
+            first_sent = re.split(r"(?<=[.!?])\s+", b.strip())[0]
+            if len(first_sent.split()) > 34:
+                r.warn("headline-long", f"line {i}: the bullet's first sentence is "
+                                        f"{len(first_sent.split())} words; put the point in "
+                                        "about 30 and move the rest down or out")
+            if len(LIST_IN_BULLET.findall(b)) >= 2:
+                r.warn("bullet-lists", f"line {i}: the bullet carries two or more lists; rank "
+                                       "the detail and keep the one that matters")
         for x in roles:
             for i, p in x["paras"]:
                 if voice == "first":
@@ -582,6 +612,24 @@ def run_self_test():
     else:
         ok = False
         print("FAIL gaps: <placeholder> should fail the lint unless --allow-gaps is given")
+    vg = good.replace("- Coached 3 assessors into senior roles.", "- Coordinated 5 to 10 changes to the claims process for 12 assessors.", 1)
+    if "vague-range" in lint(vg, year=2026).codes() and "vague-range" not in rg.codes():
+        print("ok   vague-range fires on '5 to 10 changes', and not on good.md")
+    else:
+        ok = False
+        print("FAIL vague-range: should fire on a range in a bullet only")
+    li = good.replace("- Coached 3 assessors into senior roles.", "- Coordinated changes to access, onboarding, processes and transitions, managing milestones, dependencies, risks and issues for 3 teams.", 1)
+    if "bullet-lists" in lint(li, year=2026).codes() and "bullet-lists" not in rg.codes():
+        print("ok   bullet-lists fires on a bullet carrying two lists, and not on good.md")
+    else:
+        ok = False
+        print("FAIL bullet-lists: should fire on two lists in one bullet only")
+    ad = good.replace("- Coached 3 assessors into senior roles.", "- Successfully brought 3 teams together, agreed who owned what and tracked it in Jira.", 1)
+    if {"empty-sell", "admin-ending"} <= lint(ad, year=2026).codes() and not ({"empty-sell", "admin-ending"} & rg.codes()):
+        print("ok   empty-sell and admin-ending fire on an adjective and an admin ending only")
+    else:
+        ok = False
+        print("FAIL empty-sell/admin-ending: should fire on the mutated bullet and not on good.md")
     nr = good.replace("- Coached 3 assessors into senior roles.", "- Brought the two teams under one way of working.", 1)
     if "bullet-no-result" in lint(nr, year=2026).codes() and "bullet-no-result" not in rg.codes():
         print("ok   bullet-no-result fires on a bullet that stops at the action, and not on good.md")

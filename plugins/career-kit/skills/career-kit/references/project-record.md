@@ -19,7 +19,11 @@ Only what a model cannot infer from the repo:
 ## `PROJECT-NOTES.md` — the facts and the history
 
 - **Who and what**: the person, who relays for them, the goal, the target roles.
-- **Confirmed facts**, with the file that holds their verbatim answers.
+- **Confirmed facts**, with the file that holds each round of their verbatim answers.
+- **Standing decisions and the keep list**: every term they asked for, wording they approved
+  or rejected, what stays off public copies, and the path of the keep file the lint checks.
+- **Departures from the research**, each with the research's figure, the document's figure
+  and whose decision it was.
 - **Still to confirm**, as a numbered list that gets struck through rather than deleted, with
   the date and the words that settled each one.
 - **Decisions**, as a table: decision, outcome, basis. The basis is what stops the next session

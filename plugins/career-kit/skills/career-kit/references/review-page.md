@@ -41,8 +41,8 @@ handing it over. The common defects are a grid that overflows on a phone — fix
 
 ## What a review of a LinkedIn profile looks for
 
-Dates that disagree with the résumé; a headline that says a job title and nothing a recruiter
-searches for; roles under a company name that is not the employer's official page; a skills
+Dates that disagree with the résumé; a headline that is out of date, or a string of keywords
+with no person in it; roles under a company name that is not the employer's official page; a skills
 list from a previous career; typos in role titles, which are common and conspicuous; contact
 details that are a personal address from fifteen years ago; and anything stated publicly that
 their employer's social media policy would not permit.

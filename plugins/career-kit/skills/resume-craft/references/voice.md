@@ -3,6 +3,11 @@
 Read this when drafting or reviewing sentences. **R** marks a default from the research, **C**
 one from a recorded correction; `evidence.md` has the source for each.
 
+The sections run in the order a draft is built: who the sentence is about, what is true, what
+makes it worth reading, and how to keep it plain. Many examples come from one engagement, a
+product owner in a bank, and from invented people; the rule is the part that carries, so read
+each example for its shape and write the person's own field.
+
 ## Person and tense
 
 | Where | Person and tense | Example |
@@ -55,6 +60,43 @@ something near the person. A résumé sentence states the person's relation to i
   "our work received…" and let them say they are proud of it. Ask only when their answer
   leaves open whether it was theirs at all (C).
 
+## Verbs
+
+Open bullets with plain verbs that say what was done: led, ran, built, wrote, cut, fixed, moved,
+took, brought, coached, hired, rewrote, prepared, recommended, redesigned, closed.
+
+**Scope verbs are facts.** Choose the verb the person confirmed, and hold it everywhere the work
+is mentioned:
+
+| The person did this | Write | Not |
+| --- | --- | --- |
+| Helped a rollout others ran | Supported | Led, delivered, shipped |
+| Arranged work others carried out | Coordinated | Ran, managed, owned |
+| Decided the order of work | Prioritised | Delivered, closed |
+| Had a say in a decision | Contributed to, recommended | Decided, set |
+| Watched performance of people who report elsewhere | Oversaw | Managed, led |
+| Owns one part of a team's work | Own [the named part] | Own the team's [whole thing] |
+
+Reviewers in one engagement caught "shipped" where the truth was "supported", "runs" where it
+was "coordinates" and "led" where it was "coordinated", on separate rounds (C). When
+`../career-kit/scripts/facts_lint.py --verbs` is available, run it to list candidates.
+
+## Four kinds of drift
+
+Check a draft for each by name. A figure check catches none of the last three (C).
+
+1. **A stronger verb than the person confirmed.** "Led the sign-on rollout" for "supported the sign-on rollout".
+2. **An expected outcome written as achieved.** "Cut handling time by 30%" when the 30% was the
+   business case. Write "expected to cut" or leave the figure out.
+3. **A figure whose noun changed.** "About 20,000 staff" when the fact is 20,000 users.
+4. **One piece of work counted more than once.** A conflict audit, a risk decision and a
+   remediation that were one job, written as three bullets.
+
+Related measurement rules from the research (R): 82% to 94% is 12 percentage points, not 12%;
+say whether a saving was realised or forecast; say whether a result was theirs or the team's;
+do not claim sole cause where several things moved a number; when a figure is confidential, use
+an approved range or leave it out.
+
 ## What an answer implies, and what it does not
 
 Two failures sit either side of this line. Inventing is the familiar one. The other is
@@ -97,6 +139,94 @@ which `<what changed as a result>`"), so the draft shows what it is waiting on.
 A reply that says "the award line is thin because nobody has said what the award was for" is
 doing its job; a résumé that prints the bare line without asking has skipped a step (C).
 
+## Selling what is true
+
+Every rule above this one guards against saying too much. Applied alone, they produce bullets
+that are correct and lacklustre: one person's reviewer said the achievements "don't really sell
+her abilities", and the person agreed (C). Understating is a failure too. The reader is deciding
+whether to meet this person, and a flat line gives them no reason to.
+
+The facts are fixed. What you choose is which fact leads, what stands beside it, and where the
+sentence ends.
+
+| Move | Flat | Stronger, same facts |
+| --- | --- | --- |
+| Lead with what mattered, then how | "Coordinated an update to how staff verify customers and secured agreement between two teams." | "Secured agreement between the business and risk teams, the hardest part of an update to how staff verify customers." |
+| Put the scale beside the action | "Recommended stricter performance measures for suppliers." | "Recommended stricter performance measures for suppliers on contracts worth more than $X a year." |
+| Say what was at stake | "Prioritised closing access conflicts ahead of a new request." | "…in a high-risk role, where the data showed the same people could start and approve a transaction." |
+| Say why it was hard | "Got two teams to agree." | "Got two teams with opposite concerns, speed for customers and control for the bank, to agree." (only if the person said so) |
+| End on the effect, not the admin | "…agreed who owned what, and tracked it in a ticket." | "…agreed who owned what, which `<what happened next>`." |
+| Let a supporting verb carry its own result | "Supported the rollout to 3,500 staff." | "Supported the rollout to 3,500 staff through the process change that gave them a simpler way to do X." |
+| Own what was theirs | "Measures were recommended and adopted." | "Recommended the measures. They were adopted." |
+| Order by strength | Strongest story third | Strongest story first |
+
+**The limits, which do not move.** The verb is the one the person confirmed: a rollout they
+supported is still supported, told with its effect. Every figure is theirs. A result is stated
+only if they gave it; where the strong version needs a fact nobody has supplied, leave a red
+placeholder and ask. No adjective does the selling: "successfully", "significant" and
+"key" are claims with nothing under them, and the reader discounts them.
+
+**The test.** Read the bullet as the hiring manager and ask "so what?". If the bullet answers
+it, it is selling. If the answer is in the person's sources and not in the bullet, move it in.
+If it is in neither, ask them.
+
+## Ranking the detail
+
+Selling what is true adds stakes and scale. Left unchecked it also adds words, and a bullet
+with a point and four supporting facts reads as five facts. One person's reviewer put it as
+"sometimes the use of detail reduces the apparent impact of the achievement" (C). Every detail
+in their bullets had gone in for a reason, one at a time: a term an ad required, something the
+person asked to include, a proof a reviewer wanted. Nothing had ranked them.
+
+Rank them. In a bullet, in this order of value to a reader deciding whether to meet the person:
+
+1. **What changed**, for customers, staff or the organisation.
+2. **What was at stake**, or why it was hard.
+3. **How big it was**: people, users, money, releases.
+4. **Their part**, where it is not already in the verb.
+5. **How it was done**: the method, the evidence used.
+6. **With what**: tools and systems.
+7. **Process words**: the stages a piece of work went through, the artefacts it produced.
+
+Build each bullet from the top of that list:
+
+- **The first sentence is the headline**: the verb, the thing and, where it fits, item 1, in
+  about 30 words or fewer.
+- **Add one supporting fact**, the highest-ranked one available that the headline does not
+  already carry. A second sentence is for a result, never for more method.
+- **Items 5 to 7 go unless they are the point.** A method an ad asks for can be the point of
+  one bullet; a tool belongs on the tools line; process words belong in the scope line.
+- **A list of three or more items inside a bullet is a sign** that detail has not been ranked.
+  One list is sometimes right. Two is a paragraph pretending to be a bullet.
+- **Do not repeat the scope line's scale** in the bullets under it.
+
+**Numbers are ranked the same way, and more strictly.** A figure draws the eye, so a weak one
+does more damage than a weak phrase. Keep a number when it is one of these:
+
+- a scale that is large for the kind of work: users, staff affected, seats, money;
+- a result: what fell, rose or was reached;
+- an exact count of something difficult, where the count is the achievement.
+
+Take it out when it is one of these, and say the thing without it:
+
+| The figure | Why it shrinks the line | Write |
+| --- | --- | --- |
+| A range: "5 to 10 changes" | Reads as not knowing, and as few | "the channel's changes" |
+| A small team or squad size: "a 12-person squad", "5 direct reports" | Sizes the person by a small number | "a squad", "my team"; keep a team size only where leading people is the point and the number helps |
+| A duration: "over about 6 months" | Says how long it took, which is rarely to anyone's credit | Leave it out unless speed was the result |
+| A count of faults or misses: "8 issues reached production" | Leads with the failure | "every issue that reached production was fixed within 2 weeks" |
+| A second, smaller figure beside a large one: "3,500 branch staff and 200 operations staff" | The small one dilutes the large one | "more than 3,500 branch and operations staff" |
+| A count of routine units: "in 5 planning increments", "2-week sprints" | Process detail wearing a number | Name the method without the count |
+
+The test for every figure: read the sentence with it and without it. If the reader's picture
+of the person is no bigger with the number in, it goes. A figure the person has asked to keep
+stays, and you tell them what it is costing the line (C).
+
+Some detail is there by decision: a term the person asked for, a required phrase on the keep
+list. Ranking does not delete those. It moves each to the least prominent place where it is
+still true, a scope line, a skills line or a shorter bullet, and where it has nowhere to go,
+you tell the person which term lost its place and let them choose.
+
 ## Sounding like the person
 
 A résumé written in the first person can still read like a personnel file. Each prose section
@@ -112,78 +242,6 @@ may carry one sentence that only a person would write, and the document is bette
 Keep it to one per section, keep the facts exactly as they are, and leave bullets as plain
 statements of what happened. The register to keep out, below, still applies: warmth comes
 from a specific stake, never from an adjective about themselves.
-
-## Verbs
-
-Open bullets with plain verbs that say what was done: led, ran, built, wrote, cut, fixed, moved,
-took, brought, coached, hired, rewrote, prepared, recommended, redesigned, closed.
-
-**Scope verbs are facts.** Choose the verb the person confirmed, and hold it everywhere the work
-is mentioned:
-
-| The person did this | Write | Not |
-| --- | --- | --- |
-| Helped a rollout others ran | Supported | Led, delivered, shipped |
-| Arranged work others carried out | Coordinated | Ran, managed, owned |
-| Decided the order of work | Prioritised | Delivered, closed |
-| Had a say in a decision | Contributed to, recommended | Decided, set |
-| Watched performance of people who report elsewhere | Oversaw | Managed, led |
-| Owns one part of a team's work | Own [the named part] | Own the team's [whole thing] |
-
-Reviewers in one engagement caught "shipped" where the truth was "supported", "runs" where it
-was "coordinates" and "led" where it was "coordinated", on separate rounds (C). When
-`../career-kit/scripts/facts_lint.py --verbs` is available, run it to list candidates.
-
-## Four kinds of drift
-
-Check a draft for each by name. A figure check catches none of the last three (C).
-
-1. **A stronger verb than the person confirmed.** "Led the sign-on rollout" for "supported the sign-on rollout".
-2. **An expected outcome written as achieved.** "Cut handling time by 30%" when the 30% was the
-   business case. Write "expected to cut" or leave the figure out.
-3. **A figure whose noun changed.** "About 20,000 staff" when the fact is 20,000 users.
-4. **One piece of work counted more than once.** A conflict audit, a risk decision and a
-   remediation that were one job, written as three bullets.
-
-Related measurement rules from the research (R): 82% to 94% is 12 percentage points, not 12%;
-say whether a saving was realised or forecast; say whether a result was theirs or the team's;
-do not claim sole cause where several things moved a number; when a figure is confidential, use
-an approved range or leave it out.
-
-## The register to keep out
-
-These read as generic or machine-written to recruiters, and they give a ranking tool nothing to
-match (R). The lint fails on them.
-
-> results-driven, results-oriented, proven track record, passionate, dynamic, spearheaded,
-> leveraged, synergy, seasoned, visionary, operational excellence, fast-paced, detail-oriented,
-> team player, self-starter, highly motivated, thought leader, strong communication skills,
-> excellent communication skills
-
-`scripts/resume_lint.py` holds the full list. Replace each with the thing that happened. "Strategic, results-driven leader passionate about
-transformation" becomes the decision made and what followed. Other signs a recruiter reads as
-generic: flawless uniform sentences with no short one among them, vocabulary a person would not
-say aloud, and no specific example anywhere (R).
-
-Also keep out: "Responsible for…" and "Duties included…", which describe a job, where a bullet
-describes what happened in it (R).
-
-## Plain style
-
-- Short concrete sentences. Vary their length; a short one lands where the point is.
-- The spelling of the person's country: organisation, prioritise, programme or program as the
-  employer writes it (R).
-- Numerals for every count and measure, including under 10. "One" stays a word where it is a
-  pronoun: one of the backlogs (C).
-- Write a term in full with its short form on first use, "planning increment (PI)", then use
-  the short form (R, C).
-- Explain an internal name in a few words the first time: "Atlas, the claims
-  system". An internal reader loses nothing and an external one can follow (R, C).
-- Explain nothing the reader already knows. Before glossing a name, ask whether the person
-  hiring for this role would recognise it. Widely used products, well-known companies and
-  standard methods need no gloss: Excel, Jira, Microsoft Copilot, Scrum, a major bank (C).
-- Capitalise what the organisation capitalises (Release Train, Definition of Done) and keep
-  "agile" lower case.
 
 ## One reading only
 
@@ -220,6 +278,41 @@ re-read; if nothing is lost, leave it out. The usual kinds:
 
 This is a test of each phrase, not a reason to shorten. A gloss on an internal name, a
 connecting word and the sentence with a person in it all tell the reader something, and stay.
+
+## The register to keep out
+
+These read as generic or machine-written to recruiters, and they give a ranking tool nothing to
+match (R). The lint fails on them.
+
+> results-driven, results-oriented, proven track record, passionate, dynamic, spearheaded,
+> leveraged, synergy, seasoned, visionary, operational excellence, fast-paced, detail-oriented,
+> team player, self-starter, highly motivated, thought leader, strong communication skills,
+> excellent communication skills
+
+`scripts/resume_lint.py` holds the full list. Replace each with the thing that happened. "Strategic, results-driven leader passionate about
+transformation" becomes the decision made and what followed. Other signs a recruiter reads as
+generic: flawless uniform sentences with no short one among them, vocabulary a person would not
+say aloud, and no specific example anywhere (R).
+
+Also keep out: "Responsible for…" and "Duties included…", which describe a job, where a bullet
+describes what happened in it (R).
+
+## Plain style
+
+- Short concrete sentences. Vary their length; a short one lands where the point is.
+- The spelling of the person's country: organisation, prioritise, programme or program as the
+  employer writes it (R).
+- Numerals for every count and measure, including under 10. "One" stays a word where it is a
+  pronoun: one of the backlogs (C).
+- Write a term in full with its short form on first use, "planning increment (PI)", then use
+  the short form (R, C).
+- Explain an internal name in a few words the first time: "Atlas, the claims
+  system". An internal reader loses nothing and an external one can follow (R, C).
+- Explain nothing the reader already knows. Before glossing a name, ask whether the person
+  hiring for this role would recognise it. Widely used products, well-known companies and
+  standard methods need no gloss: Excel, Jira, Microsoft Copilot, Scrum, a major bank (C).
+- Capitalise what the organisation capitalises (Release Train, Definition of Done) and keep
+  "agile" lower case.
 
 ## Cutting for length
 

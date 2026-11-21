@@ -1,69 +1,87 @@
-# Worked example — the run this skill came from
+# Worked example: the engagement this skill came from
 
-One real run, with the person's name changed to L. and every contact detail removed. The full
-record of the session, under her own name, lives in `SESSION-RECORD.md` in that project; this
-file carries only what is useful as a pattern.
+One real engagement over two days, with the person's name changed to L. and every contact
+detail removed. It is here as a pattern, including the parts that went wrong, because the rules
+in this skill are the corrections.
 
 **The person.** A product owner at a large Australian bank, twenty years at the same employer
-across six roles, applying for five internal roles at once. A family member ran the sessions
+across seven roles, applying for five internal roles at once. A family member ran the sessions
 and relayed her answers.
 
-**The shape of the work.** Four research lanes on Australian bank hiring in 2026, reconciled
-into one digest. A 20-finding review of her existing résumé and LinkedIn. Five role-targeted
-résumés from one source file. A personal website. LinkedIn copy. An interview guide with about
-thirty questions. Two question forms, a day apart.
+**What was produced.** Four research lanes on Australian bank hiring, reconciled into one
+digest. A 20-finding review of her existing résumé and LinkedIn profile. A résumé, a public
+copy of it, LinkedIn copy, a personal website and an interview guide with about thirty
+questions. Four rounds of questions: three forms and one set of five asked in conversation.
 
-## The variant spec
+## Day one: evidence right, writing wrong
 
-Five roles, one facts file. What actually differed per variant was three fields:
+The first résumé was a sound generic one. The instruction was that it had to target the five
+named roles, so the build became one facts file and five variants, each assembled by a script
+from shared bullets with its own summary and skills line.
 
-```json
-{"variants": {
-  "Product-Owner": {
-    "summary": "<intro> Own the roles and entitlements backlog and its outcomes within a
-      12-person squad ... within the Chief Product Owner's direction. <background>",
-    "skills":  ["product", "risk", "leadership", "tools"],
-    "bullets": ["prio", "discovery", "sod", "model", "releases", "dependencies", "identity", "ai"],
-    "max_pages": 2},
-  "Delivery-Lead": {
-    "summary": "<a different opening, mirroring the delivery ad's phrases> ...",
-    "skills":  ["delivery", "leadership", "risk", "tools"],
-    "bullets": ["releases", "plan", "dependencies", "identity", "sod", "prio", "ai"],
-    "max_pages": 2}}}
-```
+Three corrections that day were about truth, and all three held:
 
-Nothing else changed. The bullets are keys into one shared map, so a corrected bullet corrected
-five documents.
+- **Scope.** A draft said she owned her squad's backlog. She owns one of several, and said
+  overstating it "could raise eyebrows" with readers who know the structure. She also declined
+  the most precise wording as too specific. The correct scope statement is the person's to
+  choose.
+- **Selected examples.** Fifteen answers came back as the form's own example text and were
+  treated as unverified. The relay said she had chosen them because they were accurate.
+- **Weighting.** Asked for more on two roles that ended seven years earlier, the relay said not
+  to dwell on them.
 
-## Three corrections, and what they changed
+Two things went wrong quietly. A fixed-height page container cut bullets off page one of all
+five résumés while the page count stayed at two. And a private interview-practice page was
+deployed at an unlisted address carrying three figures she had asked to keep off public pages.
 
-**Scope.** Her first draft said she owned the squad's backlog. She owns one of about three
-backlogs inside a twelve-person squad, and said overstating it "could raise eyebrows" with
-internal readers who know the real structure. The wording became "one of the backlogs in a
-12-person agile squad" everywhere. She also declined "one of about three backlogs" as too
-specific, which is the useful half of the lesson: the correct scope statement is hers to choose,
-not the most precise one available.
+Panels settled bounded choices well: a photo, 5 to 0; a sentence, 4 to 1. On four image
+concepts a panel split 3 to 2 and the person chose a combination none of the five had proposed.
 
-**Targeting.** The first résumé was a good generic product owner résumé. The instruction was
-that it had to target the five named roles, using the research. That is where the one-file,
-many-variants build came from.
+## Day two: the person read it
 
-**Weighting.** Asked for example answers about her workforce planning and IVR work, the relay
-said not to dwell on it, because that work ended seven years ago. Recent roles carry the
-document; earlier ones get a line or two.
+The five résumés had by then passed six panel rounds, a figure check and a consistency check.
+The relay read one and found, in turn:
 
-## Two things that went wrong quietly
+- summaries that opened "Lead discovery…", which read as commands or as a misspelt "Led";
+- a phrase about team sizes that sounded odd aloud and had survived since the first hour;
+- a "skills" line made of nouns taken from the ads;
+- eighteen years of work reduced, in the summary, to one minor task that happened to have a
+  confirmed number.
 
-A fixed-height page container cut bullets off page one of all five résumés. The page count was
-still two. Nothing errored. It was found by looking at the rendered pages.
+Each was true, consistent and matched to an ad. None had been read as a reader would. The
+causes were in the process: a review brief that set the writer's own style rule as settled and
+asked only whether the copy was consistent; a script that assembled the documents, so nobody
+read one whole; content drawn from form answers while her own old résumé was used only for
+dates; and a word target that did the cutting.
 
-A private interview-practice page was deployed unlisted, with a `noindex` header and a footer
-mentioning a password that was never set. It returned 200 to anyone with the URL and carried
-three figures she had asked to keep off public pages.
+What changed:
 
-## What the panels decided, and what they did not
+- **One résumé, written out by hand,** at her relay's request. A panel was then asked which of
+  the five roles one document could not serve. It named two, and said no wording would fix
+  them, because the gap was in her experience.
+- **A written job and test for every section,** before drafting.
+- **A cold read first** in every review, before any rule.
 
-A five-model panel settled the photo question 5-0 and chose between three phrasings of a
-coaching sentence 4-1. A five-model panel on four hero-image concepts split 3-2, and the person
-chose a different combination that none of the five had proposed. Panels are good at a bounded
-choice between written options and are not the person's taste.
+Then came a run of corrections that each overshot. "No count of years" removed any mention of
+a long career. "It reads as a list" left one past job in the summary. A bullet limit removed
+the only bullet showing a required item. Making the skills general stripped out what was
+distinctive about her. A rule that every sentence be about the person produced a claim nobody
+had confirmed. An audit found ten of these, and found that a term she had asked for by name
+had been dropped three revisions later. The remedy was a keep list checked by the lint after
+every edit, and the habit of asking what a rule leaves alone.
+
+The last corrections were about selling. The achievements were accurate and flat; detail and
+small numbers were making the work sound smaller; an award was stated without anyone having
+asked what it was for. Five gaps were then shown in red in the draft and answered in one short
+round of multiple-choice questions.
+
+## What to take from it
+
+- The checks for evidence and the checks for writing are different checks, and passing the
+  first says nothing about the second.
+- The person, reading, found what five models and a lint did not. Build their read into the
+  work early.
+- Every correction is a rule about one fault. Applied wider than that, it becomes the next
+  fault.
+- A fact changed in one document was, three times, still wrong in another. Check them all in
+  the same sitting.

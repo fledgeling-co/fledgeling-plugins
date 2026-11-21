@@ -26,10 +26,19 @@ the employer says about how to prepare.
 
 ## Example answers are made of confirmed facts only
 
-Where an answer needs a detail nobody has supplied, mark it in place — `[Person: one sentence
-on what draws you to this team's work]` — and collect those marks into the next round of the
-form. An example answer containing an invented specific is worse than a gap, because the person
+Where an answer needs a detail nobody has supplied, mark it in place with a placeholder in
+angle brackets, such as `<one sentence on what draws you to this team's work>`, and collect
+those into the next round of questions. An example answer containing an invented specific is worse than a gap, because the person
 will say it in the room.
+
+## Keep it in step with the résumé
+
+The guide states the same facts as the résumé, in the person's spoken voice. When a fact, a
+verb or a title changes in the résumé, find it in the guide in the same sitting; an example
+answer the person rehearses is the worst place for a claim they have since withdrawn. The
+guide is also where an example cut from the résumé for space belongs, and where a question
+raised by the résumé itself gets an answer: a web address printed on it, a gap it does not
+mention, one document sent for different kinds of role.
 
 ## A practice page
 
@@ -41,5 +50,6 @@ That page hands back what they already told you and asks nothing, which makes it
 artefact from the forms in stage 4 rather than a replacement for them.
 
 If it is deployed anywhere, it carries every figure in it to anyone with the URL. A private
-practice page holding restricted figures needs real protection, not an unlisted address —
-check what it actually serves before telling the person it is private.
+practice page holding restricted figures needs real protection, not an unlisted address.
+Where the person chooses to leave it at an open address, soften the restricted figures in the
+build, with a check that fails if one remains, and confirm what the live page serves.

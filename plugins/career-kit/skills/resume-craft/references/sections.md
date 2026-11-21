@@ -4,6 +4,25 @@ Read the part for the section you are writing or reviewing. **R** marks a defaul
 research, **C** one from a recorded correction; `evidence.md` has the source for each. The
 worked example at the end is an invented person, and none of its figures may be copied.
 
+## The level each section speaks at
+
+A résumé makes claims near the top and proves them further down. Most misplaced sentences are
+at the wrong level for the section they sit in.
+
+| Section | It speaks at the level of | Test |
+| --- | --- | --- |
+| Summary | The person, whatever the job | Could each sentence begin "Usually"? |
+| Key skills | An ability that carries to another role | Would it be true in their next job? |
+| Scope line | This role | Does it say what is theirs here, and nothing about one occasion? |
+| Bullet | One occasion | Does it have a detail that only this piece of work has, and end on what it changed? |
+
+Keep the claim and its proof apart: state a skill generally and let a bullet show it once.
+Writing the proof into the skill turns an ability into a description of one job. Naming a
+skill so broadly that nothing could prove it is the opposite fault.
+
+The examples below come from one engagement, a product owner in a bank, and from an invented
+person. Read each for its shape and write the person's own field.
+
 ## Contents
 
 1. Name and contact line
@@ -20,7 +39,7 @@ worked example at the end is an invented person, and none of its figures may be 
 ## 1. Name and contact line
 
 The name is the first line of the body, with no "Résumé" or "Curriculum Vitae" above it. One
-line follows: city and state, mobile, email, one web address, and the right to work where it is
+line follows, or two tidy lines when one would wrap: city and state, mobile, email, one web address, and the right to work where it is
 true and the market expects it.
 
 ```
@@ -38,7 +57,8 @@ Sydney, NSW | 0400 000 000 | name@example.com | linkedin.com/in/name | Australia
 
 ## 2. Professional summary
 
-One paragraph, 60 to 90 words (R, evals). It is the part most likely to be read by a person and
+One paragraph, 60 to 90 words (evals); the research's range is 60 to 100, which is the limit
+when the résumé will be judged against it (R). It is the part most likely to be read by a person and
 the part an AI summary is most likely to be built from, so it has to make the case alone, and it
 has to be short enough that the reader reaches the roles.
 
@@ -233,6 +253,16 @@ of what the role is, three to five things that happened for the current role, tw
 each role in the last 10 to 12 years, one line for anything older (R). That shape is what a
 reviewer holding the research will check first.
 
+**Responsibilities, what good looked like, and achievements.** A reader wants all three for a
+role, and a résumé gives them without three headings. Responsibilities are the scope line.
+Achievements are the bullets. What good looked like goes in a clause, in the scope line or in
+the bullet it gives a yardstick to, and only where the person's sources state a measure:
+"8 access issues reached production, the measure I watch for this backlog". A result with no
+yardstick cannot be read as good or bad. Where the sources state no measure, say nothing; do
+not invent a target, and do not print "nothing was tracked". Labelled blocks under each role
+("Core responsibilities", "Success criteria", "Key achievements") read as a position
+description, add about five lines a role, and map to no field a parser fills (C).
+
 **When the scope line overflows.** It holds, in this order: what they own and the structure
 they own it in; then one sentence of standing duties, where a method the ad names can sit
 ("in 2-week Scrum sprints"). Anything more moves down. A third duty becomes a bullet that
@@ -245,14 +275,19 @@ forecast worded as a forecast. Leave it out when space is short.
 
 **Then 3 to 5 bullets** (R). Each bullet is one thing that happened:
 
-- the situation in a clause, what they did, and what resulted;
+- the situation in a clause, what they did, and what resulted, told so that the part a reader
+  would care about comes first or last and never in the middle (`voice.md`, "Selling what is
+  true");
 - a detail only they would know, such as a system name, a volume, a trade-off they made (R, C);
 - for the current role, one bullet or the scope line for each required item the summary or
   the key skills named, so the ad's terms sit in dated evidence. List those items before you
   finish and find each one under a role; a method or a tool that appears only in the skills
   list has nothing under it (R, evals);
-- a figure where one was confirmed. Where no result was measured, give the scope instead (how
+- a figure where one was confirmed and it enlarges the reader's impression: a large scale, a
+  result, an exact count of something hard. A range, a small team size, a duration or a tally
+  of faults goes (`voice.md`, "Ranking the detail"). Where no result was measured, give the scope instead (how
   many people, sites, releases) and write no result figure (R);
+- one headline and at most one supporting fact, ranked as in `voice.md`, "Ranking the detail";
 - two sentences are fine when the second carries the result. One idea per bullet, where an
   idea is one story: a release, the fault found after it and the fix belong together, and two
   unrelated decisions do not;
@@ -335,24 +370,28 @@ I started as a claims assessor and was promoted twice before moving into product
 
 #### Product Owner, Claims Lodgement | Harbour Mutual | Feb 2024 – Present
 
-I own the lodgement backlog in an 8-person squad and work to the Head of Claims Product.
+I own the lodgement backlog in a product squad and work to the Head of Claims Product.
 
 - Moved a fix for duplicate claims ahead of a planned photo-upload feature after call data showed about 400 duplicate lodgements a month. Duplicates fell to about 60 a month within 2 releases.
-- Took the lodgement backlog through 3 releases, coordinating the testing that the assurance team ran before each one.
-- Rewrote the lodgement questions with 6 assessors so that customers answer them in the order assessors need them.
+- Took the lodgement backlog through each release, coordinating the testing that the assurance team ran before it went live.
+- Rewrote the lodgement questions with assessors, so that customers answer them in the order assessors need them.
 
 #### Team Leader, Motor Claims | Harbour Mutual | Jul 2018 – Feb 2024
 
 I led 12 assessors handling motor claims.
 
 - Coached 3 assessors into senior roles.
-- Prepared the team for a new claims system, including guidance and training for 12 people.
+- Prepared the team for a new claims system, writing the guidance and training that took it live without a backlog of claims.
 
 #### Claims Assessor | Harbour Mutual | Mar 2012 – Jul 2018
 ```
 
-What the example shows: the summary names the current role, two things the role requires, the
-difference (the claims floor) and the judgement the work turns on, which the first bullet shows happening once; the skills lead with what she is good at and end on one craft line, and every skill has a line that shows it; "coordinating the
-testing that the assurance team ran" keeps the scope exact; the third bullet has no result
-figure because none was measured; there is no education section because the invented person has
-nothing to list.
+What the example shows: the summary opens on a responsibility, names two things the role
+requires, gives the difference (the claims floor) and ends on the judgement her work turns on,
+which the first bullet shows happening once. The skills lead with what she is good at and end
+on one craft line, and every skill has a line below that shows it. "Coordinating the testing
+that the assurance team ran" keeps the scope exact. The figures that remain are a scale, two
+results and a team she led; the squad size and the count of releases are left out because
+they would make the work sound smaller. One bullet ends on the admin's opposite: what the
+training achieved. There is no education section because the invented person has nothing to
+list.

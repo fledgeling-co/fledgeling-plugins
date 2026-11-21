@@ -55,6 +55,11 @@ lane and no verification, mark it as such rather than promoting it.
 
 `dossier-report:dossier-report` will build this digest from the exported reports.
 
+Give the digest a short table of limits: the sections and their order, the length of the
+summary, the number of bullets per role, the page count, the type sizes and margins, the file
+type for a portal. The documents are built to those and may later be judged against them, so a
+departure has to be a decision somebody made.
+
 Keep the digest's claim tags, because stage 3's review page cites them: a finding whose "why it
 matters" points at a four-lane verified claim is worth more than one pointing at a single
 report, and the reader can see the difference.
@@ -62,4 +67,4 @@ report, and the reader can see the difference.
 ## What research cannot settle
 
 Anything about this person's own work, and anything about what they are comfortable publishing.
-Those are stage 4's form, and no amount of research substitutes for them.
+Those are stage 4's questions, and no amount of research substitutes for them.

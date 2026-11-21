@@ -4,7 +4,7 @@
 <h1 align="center"><img src="assets/icon-128.png" alt="" width="34" valign="middle" /> career-kit</h1>
 
 <p align="center">
-  <img alt="Version 0.4.1" src="https://img.shields.io/badge/version-0.4.1-1c7889">
+  <img alt="Version 0.5.0" src="https://img.shields.io/badge/version-0.5.0-1c7889">
   <img alt="Skills: 2" src="https://img.shields.io/badge/skills-2-ee7027">
   <img alt="resume-craft checks: 51 of 52" src="https://img.shields.io/badge/resume--craft_checks-51_of_52-5cc7d6">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8fb3bd">
@@ -17,7 +17,7 @@ you something fluent that quietly claims things the person never did.
 
 This one goes a different way. It reads what they've actually got, researches the country and
 the specific employers they're applying to, then builds the set: a review of what they have
-now, one résumé per role, their LinkedIn copy, a personal website, an interview guide. All of
+now, a résumé for the roles they want, their LinkedIn copy, a personal website, an interview guide. All of
 it from one file of confirmed facts.
 
 ## What it does
@@ -46,11 +46,12 @@ into the document as plausible-sounding text. An interview panel and a backgroun
 every number on a résumé, so a figure nobody confirmed costs more than an admitted gap. There's
 a script in here that fails the build when an output carries a number the facts file doesn't.
 
-**Builds one résumé per target role, from one set of facts.** Each one mirrors that ad's own
-phrases and backs them with a bullet that's true. Same dates, same employer, same figures
-across all of them, because they're generated rather than copied. HTML for print, a PDF for
-people, a Word file for the portals that parse it. Pages break on their own. Nothing sits in a
-fixed-height box that can swallow the last two bullets without saying so.
+**Writes the résumé for the roles they want, from one set of facts.** One document or one per
+kind of role, their call. It's written out whole and read whole, with an ad's own phrases only
+where they're true. Same dates, same employer, same figures everywhere. Anything still missing
+shows up in red, right where the answer will go. HTML for print, a PDF for people, a Word file
+for the portals that parse it. Pages break on their own. Nothing sits in a fixed-height box
+that can swallow the last two bullets without saying so.
 
 **Puts real choices to a panel of models.** Photo or no photo, which of three phrasings, does
 this section earn its place. Five model families, and half of them read the options in reverse

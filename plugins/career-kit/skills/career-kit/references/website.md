@@ -16,9 +16,21 @@ pair rather than alternatives. `motion-craft:motion-craft` for a scroll story.
 
 Imagery through `media-gen-pro__generate_image` (arguments `prompt`, `context`, `aspectRatio`,
 `n`, `outputDir`, `basename`, optional `style`, `referenceImages`, `seed`). The server reports
-which model served the request. Caption a generated image on the page as generated. Where the
+which model served the request. Whether a generated image carries a credit on the page is the
+person's choice; ask. Where the
 choice between concepts is real, generate several, tile them into one contact sheet, and put
 the sheet to a panel — then let the person choose, because this axis is theirs.
+
+## The copy is the same copy
+
+Every sentence on the site is about the person, so it comes from the same facts and follows
+the same writing rules as the résumé (`career-kit:resume-craft`): their scope stated exactly,
+figures that enlarge the picture and no others, moves between roles stated as moves. The site
+is a public surface, so it takes the softened figures.
+
+When a fact changes in the résumé, find it on the site in the same sitting. A figures row, a
+timeline tag and a story heading each restate facts in a form that a search for the résumé's
+wording will not find, so read the page.
 
 ## GSAP and three.js where they earn their place
 
@@ -118,24 +130,84 @@ Put the verification email on the list of things waiting on the person.
 ## A generated video hero
 
 When the person wants motion and a shader is more than the page needs, a short generated clip
-works: muted, autoplaying, `playsinline`, no controls, played once and held on the last frame.
+works: muted, `playsinline`, no controls, played once and held on its last frame.
 
-- Generate the still first and wait for the person's OK before any video call. Video is billed
-  per clip and costs far more than an image.
-- Image-to-video keeps objects consistent only from a first frame. To show things settling into
-  an arrangement, generate the settled arrangement as the still, animate it coming apart, and
+Before anything is generated, settle four things with the person, because each one cost a
+regeneration in the source session:
+
+1. **Whether it replaces the current hero or builds on it.** The first stills reused the
+   existing scene; the person had meant a replacement.
+2. **Where it sits on the page and which edge things enter and leave by.** A figure that walks
+   on should cross the window's own edge. Mirroring a clip to fit the layout mirrors the exit as
+   well, and an exit that ran toward the text meant two clips made again.
+3. **What the page shows when the clip has finished.** A clip that ends on an empty frame
+   leaves a hole in the hero and gives nothing to show under `prefers-reduced-motion`. End on a
+   frame that can stay.
+4. **The beats and their pauses, with a length for each.** Write them as a list that adds up to
+   the running time. Pauses are beats: one that is not in the prompt will not be in the clip.
+
+Then:
+
+- Generate stills first and wait for the person's OK before any video call. Video is billed by
+  the second; say the model's price before the first clip and the running total after each.
+- Image-to-video keeps a subject consistent only from a frame it is given. To show things
+  settling into an arrangement, generate the settled arrangement, animate it coming apart, and
   reverse the clip with `ffmpeg -vf reverse`.
+- Read the video tool's parameters before planning a sequence. A tool that sends only a prompt
+  and a first frame cannot make clips that join, and it returns the model's default resolution.
+  The sequence needs a last-frame input, a resolution setting and audio off.
 - Use a 16:9 source. A 3:1 source produced no file in the source session.
 - A router or gateway can time out while the job carries on. Wait several minutes for the file
   before retrying, or the clip is billed twice.
 - Set the first frame as the poster. Under `prefers-reduced-motion`, or when `play()` is
-  refused, show the last frame as a still.
+  refused, show the resting frame as a still. Offer a replay control once the clip has ended.
+- Serve a smaller file to phones with a `media` attribute on the first `<source>`.
 - Do not set `width` and `height` attributes that fight the CSS aspect ratio; on a phone they
   produced a tall, zoomed crop.
-- Safari plays video only from a server that answers range requests. A local file and
-  `python3 -m http.server` both fail; the deployed host does not.
+- Safari has refused to play video from a server that does not answer range requests, which
+  includes `python3 -m http.server`. Confirm playback there on the deployed host.
 - Ask what the picture might be taken to mean. A grid of objects sorted by size read to the
   person as "a banner for autism", which was not the association wanted on a profile page.
+
+### A character of the person
+
+A stylised character of the person walking onto the page is a bolder first impression than an
+abstract image. Say so once, name who will see it, and let the person decide.
+
+- **Make a character sheet first** from the photographs they supply: three full-body views on
+  a plain background. Get it approved, then pass it as a reference image for every later
+  still. Compare each still with the sheet for proportions before showing it; one still came
+  back with a larger head, and the person noticed at once.
+- **A video model may refuse a stylised still as a real person.** Report the refusal and the
+  choices. Trying another model is the person's decision, since it works around a filter.
+- **A cheaper model redraws the character.** The lite model simplified the face and enlarged
+  the head in its first clip, and every later clip inherited that. The full model held the
+  approved design for five clips.
+- **Put the character on a plain backdrop close to the page colour**, then grade the finished
+  video so the backdrop is exactly the page's background: a levels filter that takes the
+  darkest backdrop value to the page colour, then a clamp at that colour. Count the pixels
+  that match; 88% did in the source session, the rest being the figure and its shadow. With an
+  edge fade that stays clear of the text, the video has no visible frame.
+
+### Clips that play as one take
+
+- **One continuous clip beats two joined ones.** The full model carried four actions with
+  named pauses in a single eight-second clip. Split a sequence only where it exceeds the
+  model's longest clip.
+- **Join only where one clip's last frame is the next clip's first frame**, given to the model
+  as its last-frame and first-frame inputs.
+- **Put each join on a pose the character is holding still**, and ask for that pose to be held
+  for the final second or two. A model still in motion snaps onto its last frame, and the next
+  clip starts from rest, which the person saw as a skipped frame in the middle of a gesture.
+- **Find a skip by measuring.** Compare each frame with the one before it across the join; the
+  skip in the source session was one difference three times the size of its neighbours. A
+  blend of about ten frames across the join removed it, as a patch on footage already made.
+- **Fit the length in the script.** Speeding the clip up and cutting inside a clip both showed
+  as skips, and were undone. Shorten by rewriting the beats and generating again.
+- **Contact sheets show poses, and the person sees motion.** A tiled sheet of sampled frames
+  confirms the right actions happened and the design held. It cannot show pace, a skip or a
+  missing pause, and the person found all three by watching. Say that you have not watched it
+  at speed, and show it on a local copy of the page before deploying.
 
 ## The site address on the résumé
 

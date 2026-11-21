@@ -1,5 +1,77 @@
 # CHANGELOG
 
+## 0.5.0
+
+`career-kit:resume-craft` reviewed and rebuilt as a whole, after a day of piecemeal additions.
+
+- `SKILL.md` is rewritten at about three-quarters of its length. It now opens on the two layers
+  the skill is made of, the research as the base and the corrections as writing guidance on
+  top, with one order of precedence. The sixteen voice rules are grouped under four heads:
+  about the person, true, worth reading, plain. Examples are drawn from several fields.
+- Three contradictions are resolved. Length and count defaults are limits that are met by
+  moving material, and a departure is listed with whose decision it was; the earlier text
+  called them guides in one place and limits in another. A review's proposed wording now
+  carries red placeholders where a better line is waiting on an answer, matching the draft
+  convention. A bullet's test no longer asks for a number, since a weak figure is taken out.
+- `references/voice.md` is reordered to follow how a draft is built. The level-of-generality
+  table and the six rules for applying a correction move into the references.
+- The worked example and `tests/good.md` follow every current rule.
+- Includes the unreleased 0.4.11 changes: where a role's measure of success goes, selling what
+  is true, ranking the detail, and the stricter rule on numbers.
+- `career-kit:career-kit` is reviewed and rebuilt the same way. Its `SKILL.md` opens with how
+  the work runs (research as the base, only confirmed facts and all of them, visible gaps, one
+  set of facts across documents, prose written whole, rounds, a panel after every change, the
+  person's standing decisions) and defers to resume-craft for the words in place of repeating
+  them. Its cross-stage rules are grouped under truth, the person decides, and the work.
+- Contradictions removed from career-kit: "one résumé per target role" against asking the
+  person; "never hand-edit an output" against writing each document whole; gaps "never in the
+  document" against red placeholders; "no first-person pronouns on the résumé" in the LinkedIn
+  reference; a skills line for search in the LinkedIn About.
+- `references/documents.md` is rewritten around the builds and page checks, with the section
+  and voice material left to resume-craft. The LinkedIn, interview, project-record and
+  questions references are brought into line, and a few questions can now be asked in the
+  conversation in place of a form.
+- Every career-kit reference was then read line by line. `worked-example.md` is rewritten to
+  tell the whole engagement, including the second day, when five assembled résumés that had
+  passed every check were replaced by one written by hand; it no longer presents the variant
+  build as the pattern. `evidence.md` is corrected where rows described superseded rules and
+  gains five rows for the newer ones. `panels.md` is reordered and gains a section on putting
+  your own recommendation to a panel; `questions-form.md` ties placeholders to questions;
+  `website.md` says the site's copy is the same copy as the résumé's; `intake.md` records the
+  person's standing decisions.
+- `references/website.md`: the generated video hero section now opens with four things to
+  settle before generating (replace or build on, placement and edges, the resting frame, the
+  beats and pauses), and gains two parts from a character hero built on 21 November 2026: a
+  character of the person (sheet first, model drift, grading the backdrop to the page colour)
+  and clips that play as one take (join on a held pose, measure a skip, fit length in the
+  script, a contact sheet is not a viewing). Five evidence rows record what each cost.
+- Not re-run: the skill's evals. This release changes enough that they should be.
+
+## 0.4.11
+
+`career-kit:resume-craft`: where a role's measure of success goes.
+
+- Feedback on one résumé asked for core responsibilities, success criteria and key
+  achievements under every role. A five-lane panel chose none of the labelled-block options.
+  `references/sections.md` now says: responsibilities are the scope line, achievements are the
+  bullets, and what good looked like is a clause where the person's sources state a measure,
+  with silence where they do not.
+- Feedback that the achievements were lacklustre and should market the person without making
+  anything up. `SKILL.md` and `references/voice.md` now say the résumé sells what is true:
+  lead with what mattered, put the scale beside the action, say what was at stake, end on the
+  effect, and let a supporting verb carry its own result, with the confirmed verb and figures
+  unchanged. The lint warns `empty-sell` and `admin-ending`.
+- Feedback that detail was reducing the apparent impact of the achievements. The skill now
+  ranks detail: one headline and at most one supporting fact per bullet, with method, tools
+  and process words going unless they are the point, and a term the person asked for moved or
+  raised with them when it loses its place. The lint warns `headline-long` and `bullet-lists`,
+  and `bullet-length` now starts at 60 words.
+- The same feedback, applied more strictly to numbers: a figure stays only when it enlarges
+  the reader's impression (a large scale, a result, an exact count of something hard). Ranges,
+  small team sizes, durations, tallies of faults and a small figure beside a large one go. The
+  lint warns `vague-range`.
+- Not re-run: the skill's evals.
+
 ## 0.4.10
 
 `career-kit:resume-craft`: a résumé that will be judged against a standard abides by it.
