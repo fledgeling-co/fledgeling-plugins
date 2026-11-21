@@ -122,8 +122,8 @@ Test: could this paragraph sit on someone else's résumé? If yes, it has failed
 Two to four labelled lines of plain text, and one more line for tools (R, C).
 
 ```
-Product ownership: prioritising a backlog by customer impact and risk; writing user stories and acceptance criteria; leading discovery from usage data
-People and partners: leading teams; coaching people into wider responsibilities; securing agreement between business and risk teams
+Product ownership: prioritising a backlog by customer impact and risk; writing user stories and acceptance criteria; leading discovery from data and from users
+People and partners: leading teams; coaching people into wider responsibilities; securing agreement between teams with competing priorities
 Tools: Jira, Confluence, Power BI, Excel
 ```
 
@@ -131,8 +131,15 @@ Tools: Jira, Confluence, Power BI, Excel
   by customer impact and risk". A noun they work with ("epics, features and stories",
   "stakeholders", "risk") is a thing, and it sat in one draft's skills for a day only because it
   was true and matched an ad (C).
-- **Each item is shown below.** For every skill, name the bullet or scope paragraph that shows
-  it happening. A term in a skills list with no example behind it is the weakest form of
+- **Each item is stated at the level it transfers.** A skill is the part of the work that
+  goes with the person to the next job, so name the ability and leave out where it was used:
+  no employer, product, system or data set. "Leading discovery from data and from users"
+  carries; "leading discovery from access data and from the people who use the platform" is
+  one application of it, and reads as someone who has done one thing. The person this skill
+  learned it from put it as "I'm not a one-trick pony" (C).
+- **Each item is shown below, and the proof stays below.** For every skill, name the bullet or scope paragraph that shows
+  it happening. That check is made by reading down the page; it is not met by rewriting the
+  skill to describe the bullet (C). A term in a skills list with no example behind it is the weakest form of
   evidence a ranking tool or a person can be given (R).
 - **Use the ad's phrase inside the ability** where it is true, so the exact term is present for
   a recruiter's search without becoming a keyword list (R).
@@ -263,8 +270,8 @@ As Product Owner for claims lodgement at Harbour Mutual, I am responsible for ho
 
 ## Key skills
 
-Product ownership: prioritising a backlog by customer impact and cost; writing user stories and acceptance criteria; leading discovery from call and claims data
-People and operations: leading and coaching assessors; preparing frontline teams for a process change
+Product ownership: prioritising a backlog by customer impact and cost; writing user stories and acceptance criteria; leading discovery from data and from customers
+People and operations: leading and coaching a team; preparing frontline teams for a process change
 Tools: Jira, Confluence, Power BI
 
 ## Professional experience

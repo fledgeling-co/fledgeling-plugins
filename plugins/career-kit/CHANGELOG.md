@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 0.4.5
+
+`career-kit:resume-craft`: each section speaks at its own level of generality.
+
+- A skills line had been rewritten to describe the bullet that proved it, and the person said
+  it made them look like "a one-trick pony". `SKILL.md` has a new table, "The level each
+  section speaks at": the summary is about the person whatever the job, a skill is an ability
+  that carries to another role, a scope line is about this role, and a bullet is one occasion.
+  The claim and its proof are kept apart.
+- `references/sections.md`: a skill is stated at the level it transfers, with no employer,
+  product, system or data set named; the proving line is found by reading down the page.
+- `scripts/resume_lint.py` warns `skill-long` and `skill-specific`, with a self-test.
+- The worked example and `tests/good.md` are rewritten to match.
+- Not re-run: the skill's evals.
+
 ## 0.4.4
 
 `career-kit:resume-craft`: rules for applying a correction without over-correcting.

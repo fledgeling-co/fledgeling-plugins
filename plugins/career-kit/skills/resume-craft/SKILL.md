@@ -95,12 +95,33 @@ Write the sections in this order, under these headings, in one column of plain t
 | --- | --- | --- | --- |
 | Name and contact line | How to reach them and their right to work | Name, then 1 line | Is every item plain text in the body, and is anything personal there that no employer needs? |
 | Professional summary | What they are responsible for in the target role's terms, which of the ad's required items they hold, what makes them different, and the judgement the work turns on | 60 to 90 words, 1 paragraph | Could this paragraph sit on someone else's résumé? Then it has failed. Is each sentence true of the whole role, and none of one occasion? |
-| Key skills | Things they can do | 2 to 4 labelled lines | Is each item an ability, and which line below shows it? |
+| Key skills | Things they can do, in any job | 2 to 4 labelled lines | Is each item an ability, would it still be true in their next job, and which line below shows it? |
 | Professional experience: employer heading | Where they have worked and how they moved | 1 line, plus 1 or 2 sentences when several roles sit under one employer | Are the start date and each move true and visible? |
 | Current role | Exactly what they own, how the work runs, and what happened because of them | Scope line of 1 or 2 sentences, then 3 to 5 bullets | Is each bullet one thing that happened, with a detail only they would know? |
 | Roles in the last 10 to 12 years | The depth the summary claims | Scope line with scale, then 1 to 4 bullets | Does this role show something the summary says? |
 | Earlier roles | That the ladder exists | Title, employer and dates; at most 1 line | Would a reader miss this line if it were cut? |
 | Education and certifications | Qualifications actually held | 1 line each | Is there something to list? Leave the section out when there is not |
+
+### The level each section speaks at
+
+A résumé makes claims near the top and proves them further down. Each section has its own
+level of generality, and most misplaced sentences are at the wrong level for where they sit:
+an incident in the summary is too specific, a bare noun in the skills is too abstract, a skill
+that names this job's system is too specific, a duty in a bullet is too general (C).
+
+| Section | It speaks at the level of | Test |
+| --- | --- | --- |
+| Summary | The person, whatever the job | Could each sentence begin "Usually"? |
+| Key skills | An ability that carries to another role | Would it be true in their next job? |
+| Scope line | This role | Does it say what is theirs here, and nothing about one occasion? |
+| Bullet | One occasion | Does it have a name, a number or a date that only this work has? |
+
+Keep the claim and its proof apart. A skill is stated generally and a bullet below shows it
+once; writing the proof into the skill ("leading discovery from access data on the X platform")
+turns an ability into a description of one job and tells the reader the person does one thing.
+A skill named so broadly that nothing could prove it ("discovery", "stakeholders") is the
+opposite fault. Aim between them: a verb and what it acts on, with no employer, product, system
+or data set named.
 
 Left out by default: a photo, date of birth, marital status, street address, a count of years of
 experience, a career objective, referee names, skill bars, and any claim to be "cleared" for

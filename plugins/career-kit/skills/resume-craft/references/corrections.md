@@ -30,6 +30,8 @@ cutting, and re-run the section's test afterwards.
 | "Too specific" (an incident in the summary) | One occasion standing for how they work | The judgement behind it, as a standing sentence; the incident as a bullet |
 | "Written as a plain fact" (title and statistic) | A label and a number about the product | The title, riding along; the figure, attached to their responsibility |
 | "That is not a skill" | A noun they work with | The ad's term, inside an ability that a bullet shows |
+| "Each skill needs a line that shows it" | A skill with nothing under it | The skill's general wording; the proof is found by reading down, not written into the skill |
+| "That skill is too specific" | This job's product, system or data named inside a skill | The ability, stated so it carries to another role; the instance, in a bullet |
 | "Those were not promotions" | The word and the count | The moves, stated as moves, and the titles and dates |
 | "Do not dwell on that old role" | Bullet space for it | Its scope line, its scale, and its place in the summary's span |
 | "Be more concise" | Words that repeat or decorate | Connecting words, the sentence with a person in it, confirmed figures |

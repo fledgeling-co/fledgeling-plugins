@@ -70,6 +70,10 @@ BARE_PRESENT = {
     "champion", "act", "serve", "take", "bring", "help", "handle", "execute", "engage",
     "shape", "set", "establish", "improve", "accept", "embed", "orchestrate", "administer",
 }
+# Capitalised words that are methods or standard terms, not this employer's product or system.
+SKILL_PROPER_OK = {"Definition", "Done", "Scrum", "Agile", "Kanban", "Lean", "Release", "Train",
+                   "Chief", "Product", "Owner", "English", "Australian"}
+
 # A sentence that describes something near the person instead of what they answer for.
 LABEL_OPENER = re.compile(
     r"^I(?: am|'m|\u2019m) (?:the |a |an )?(?:[A-Z][\w-]+ ){0,3}"
@@ -272,6 +276,21 @@ def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=Non
         if not any(re.match(r"^(- )?(Tools|Technology|Systems|Tools and systems)", s)
                    for s in lines):
             r.warn("skills-tools", "no Tools line; tools are a list and get their own line")
+        for line in lines:
+            if re.match(r"^(- )?(Tools|Technology|Systems|Tools and systems)", line):
+                continue
+            for item in line.split(":", 1)[-1].split(";"):
+                toks = item.split()
+                if len(toks) > 10:
+                    r.warn("skill-long", f"skill '{' '.join(toks[:6])}…' is {len(toks)} words; a "
+                                         "skill names an ability that carries to another role, "
+                                         "and the instance goes in a bullet")
+                proper = [t.strip(",.()") for t in toks[1:]
+                          if re.match(r"^[A-Z][a-z]{2,}", t) and t.strip(",.()") not in SKILL_PROPER_OK]
+                if proper:
+                    r.warn("skill-specific", f"skill '{' '.join(toks[:6])}…' names "
+                                             f"{', '.join(proper)}; leave out where the ability "
+                                             "was used")
         if re.search(r"[█▓▒░●○★☆]|\b\d/5\b|\b\d{1,3}\s?%", " ".join(lines)):
             r.error("skills-ratings", "rating bars, stars or percentages in key skills")
 
@@ -474,6 +493,14 @@ def run_self_test():
     else:
         print(f"ok   bad.md: all {len(expected)} expected checks fired "
               f"({len(rb.errors)} errors, {len(rb.warns)} warnings)")
+    spec = "leading discovery from call and claims data in the Harbour claims system for assessors"
+    r_sk = lint(good.replace("leading discovery from data and from customers", spec, 1), year=2026)
+    want_sk = {"skill-long", "skill-specific"}
+    if not want_sk <= r_sk.codes() or want_sk & rg.codes():
+        ok = False
+        print("FAIL skill-long/skill-specific: should fire on a skill that describes one job only")
+    else:
+        print("ok   skill-long and skill-specific fire on a skill that describes one job only")
     lab = "I am the Product Owner for the claims lodgement journey, used by about 9,000 customers a month."
     r_lab = lint(good.replace("As Product Owner for claims lodgement at Harbour Mutual, I am responsible for how about 9,000 customers a month lodge a claim.", lab, 1), year=2026)
     want = {"label-opener", "figure-on-object"}
