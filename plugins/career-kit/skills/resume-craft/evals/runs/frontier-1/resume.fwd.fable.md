@@ -1,0 +1,6 @@
+ACCURACY: A, narrowly, because both keep the $3.2 million figure out and claim no mandate delivery, but B adds two small things Hannah never confirmed (that her 9 direct reports were all disputes officers, and that Power BI is what she uses for case data), while A stays within the confirmed facts.
+READS: B, because its summary gives the whole career in two sentences and the bold role lines and short bullets scan in seconds, where A's first-person paragraphs, repeated employer name and dense skills block slow a reader down.
+SUITS: B, because its summary and skills answer the ad's required items directly (Product Owner in an agile squad, prioritisation from case data, 12 years in chargeback operations) without claiming scheme mandate delivery or a certification she does not hold.
+IMPROVE_A: Replace the first-person paragraphs under each role with short bullets and drop the repeated "Kestrel Bank" from every role heading, so the handling-time and ageing results are the first things a reader sees.
+IMPROVE_B: Put the measured result in the summary (average handling time fell from 18 to 14 minutes after she prioritised the auto-fill change), so the claim of prioritising from case data carries its proof at the top.
+VERDICT: B

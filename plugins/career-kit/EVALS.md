@@ -94,13 +94,16 @@ and every output, prompt and verdict is in `skills/resume-craft/evals/runs/`.
 ## The short version
 
 With the skill, the output passed **51 of 52** checks. Without it, the same model passed **43 of
-52**. Three outside models then compared the paired outputs blind, and that went **one win, one
-split and one loss**: they preferred the skill's summary, split on the review, and preferred the
-no-skill version of the complete résumé. A fix aimed at that loss did not change the verdict, and neither did giving the judges the
+52**. Outside models then compared the paired outputs blind, seven rounds in all. After three
+revisions the skill's review is preferred by every judge that answered, in both orders. Its
+summary and its complete résumé are not: verdicts on those moved from round to round. The first
+three rounds, below, went **one win, one split and one loss**: the judges preferred the skill's
+summary, split on the review, and preferred the no-skill version of the complete résumé. A fix aimed at that loss did not change the verdict, and neither did giving the judges the
 research.
 
-So the skill makes a résumé follow its conventions, reliably. It has not been shown to make a
-whole résumé that an outside reader prefers, and on this fixture it made one they liked less.
+So the skill makes a résumé follow its conventions, reliably, and it now writes a review that
+outside readers prefer. It has not been shown to make a whole résumé that an outside reader
+prefers.
 
 ## What was run
 
@@ -210,6 +213,57 @@ each appointment safer despite B's cleaner prose", and still chose the other ove
 in so many words that the research "gives neither a proven ranking advantage", which is what the
 research says. The format rules the skill enforces are risk reduction, and a reader who is told
 that does not rank a résumé higher for following them.
+
+## Four more rounds, with the frontier judges
+
+Later the same day the pairs were judged again by the frontier tier of the model roster, and
+the skill was revised after each round wherever the answering judges agreed. Five lanes were
+called each time. Three answered: Claude Fable 5.2 and GPT-6.2 Astra at medium effort, and Meta
+Wonder Full 1.0 at high. The two Google lanes, Gemini Argon and Gemini Carbon, failed in every
+round, because the `agy` command-line tool on this machine offered no Gemini 4 model that day.
+Fable shares a family with the model that wrote the outputs. Its verdicts are shown and should
+be weighed as an in-family reading.
+
+Round one gave the judges the facts, the ad and the two outputs. Rounds two to four also gave
+them about 16,000 characters of the research. Each round ran both orders, and each judge was
+asked for the one change that would most improve each option. "Skill" below means the judge
+chose the skill's output in both orders, "baseline" the no-skill output in both, and "flip"
+that the choice changed with the order.
+
+| Round | Skill version judged | Summary | Complete résumé | Review |
+| --- | --- | --- | --- | --- |
+| 1, no research | as first shipped, résumé after the first fix | Astra skill; Fable baseline; Wonder baseline | Astra skill; Fable baseline; Wonder baseline | Astra flip; Fable skill; Wonder skill |
+| 2, with research | after revision 1 | Astra skill; Fable baseline; Wonder flip | Astra baseline; Fable flip; Wonder flip | skill, all three |
+| 3, with research | after revision 2 | Astra skill; Fable baseline; Wonder skill | Astra flip; Fable flip; Wonder baseline | skill, all three |
+| 4, with research | after revision 3 | Astra skill; Fable flip; Wonder baseline | Astra baseline; Fable baseline; Wonder skill | skill, all three |
+
+What was changed, and on whose agreement:
+
+- **After round 1.** All three judges said the skill's summary read better and suited the ad
+  worse, and named the same missing items. The summary now names two or three of the ad's
+  required items. Two of three asked for a one-line scope in place of a paragraph under each
+  role. All three asked for the review to lose its lint output and repeated scaffolding and to
+  end in one usable draft, and one pointed out that the review quoted the internal-only figure.
+- **After round 2.** All three asked for the ad's terms to sit in evidence under a role and for
+  a shorter summary, so the summary is 60 to 90 words and each item it names has to appear
+  again under a role. Six verdicts of six asked for a review's bracketed questions to move out
+  of its proposed draft.
+- **After round 3.** Five verdicts of six objected to a proof that pointed at a decision
+  without naming it ("one such call"), which the previous revision had caused. The proof now
+  names the decision.
+
+**The review is the clear result.** It went from a split to all three judges in both orders,
+three rounds running, and its length fell from 357 lines to 81.
+
+**The summary and the complete résumé did not settle.** Astra chose the skill's summary in all
+four rounds and the other two moved around. On the complete résumé no judge held one verdict
+across the three research rounds, so the differences between rounds are as large as the
+differences between the two résumés. Every judge in every round still marked the skill's
+summary lower on suiting the ad: the no-skill summary is about 150 words and names more of the
+ad's terms, and a summary held to 90 words cannot name as many. That is a real trade and the
+skill takes the short side of it.
+
+The structural checks did not move: the final outputs pass 51 of 52, the same as the first.
 
 ## What that leaves open
 

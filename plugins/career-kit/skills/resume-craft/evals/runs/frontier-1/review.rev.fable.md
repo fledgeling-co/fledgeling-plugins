@@ -1,0 +1,6 @@
+ACCURACY: B, because it counts her as meeting 3 of the 5 required items with risk only partly met and holds auto-categorisation back until her part is confirmed, where A says she meets four of five against its own table and proposes "Currently building auto-categorisation", which the facts do not support.
+READS: A, because it is about half the length, opens with a three-point verdict and gives paste-ready wording, where B buries the same findings under a cold-read table, a lint dump and process notes a busy reader has to wade through.
+SUITS: B, because it maps each ad phrase to where it goes on the page, says plainly that her backlog is one of two while Lantern's covers the squad, and warns her the mandate gap may cost her ranking, all without stretching the scheme experience.
+IMPROVE_A: Correct the headline count to three required items met and one partly met, and replace the "Currently building auto-categorisation" bullet with a question to Hannah about what her part in it was.
+IMPROVE_B: Cut the lint output, the section-by-section "Job/Test/Fails" scaffolding and the unsourced claims about research and ranking tools, so the overclaim table, the proposed wording and the questions fit in half the length.
+VERDICT: B

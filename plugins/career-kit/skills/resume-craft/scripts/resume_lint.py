@@ -180,7 +180,7 @@ def roles_of(section):
     return roles
 
 
-def lint(text, voice="first", summary_range=(60, 100), allow_gaps=False, year=None):
+def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=None):
     r = Report()
     year = year or datetime.date.today().year
     doc = parse(text)
@@ -294,10 +294,10 @@ def lint(text, voice="first", summary_range=(60, 100), allow_gaps=False, year=No
                     r.warn("no-scope", f"line {x['line']}: the current role has no scope "
                                        "paragraph before its bullets")
                 scope = " ".join(p for _, p in x["paras"])
-                if len(words(scope)) > 60:
+                if len(words(scope)) > 45:
                     r.warn("scope-length", f"line {x['line']}: the scope paragraph is "
                                            f"{len(words(scope))} words; the default is under "
-                                           "about 50, with the detail in bullets")
+                                           "about 35, with the detail in bullets")
             elif nb > 4:
                 r.warn("bullet-count", f"line {x['line']}: an earlier role has {nb} bullets; "
                                        "the default is 1 to 4")
@@ -456,8 +456,8 @@ def main():
     ap.add_argument("files", nargs="*")
     ap.add_argument("--voice", choices=["first", "implied"], default="first",
                     help="person used in paragraphs (default: first)")
-    ap.add_argument("--summary-words", default="60-100",
-                    help="accepted summary length as min-max (default 60-100)")
+    ap.add_argument("--summary-words", default="60-90",
+                    help="accepted summary length as min-max (default 60-90)")
     ap.add_argument("--allow-gaps", action="store_true",
                     help="report [gap] markers as warnings, for a draft going to the person")
     ap.add_argument("--self-test", action="store_true")

@@ -1,0 +1,6 @@
+🫥 ACCURACY: TIE — A says auto-fill “cut” handling time and B says the ageing report “brought” older disputes down, though the facts establish only that each measure fell after the change, and both omit the confidential loss figure.
+READS: A — Its first-person account is quicker to scan, while both use ordinary text and the research gives no basis for predicting which Lantern’s software would rank higher.
+SUITS: B — B gives the 70% figure behind Hannah’s backlog decision and names Jira and Confluence, but she lacks the required scheme-mandate delivery experience and neither summary demonstrates stakeholder work with Risk.
+IMPROVE_A: Replace the final sentence with “I moved merchant-details auto-fill ahead of a requested dashboard because staff retyped those details on about 70% of cases, and average handling time fell from 18 to 14 minutes in the quarter after release.”
+IMPROVE_B: Move the final sentence into the Operations Manager entry so the summary ends on Hannah’s product decision and its measured follow-up.
+VERDICT: A

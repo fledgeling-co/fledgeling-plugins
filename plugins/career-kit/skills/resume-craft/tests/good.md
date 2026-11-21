@@ -4,7 +4,7 @@ Melbourne, VIC | 0400 000 000 | priya.nair@example.com | linkedin.com/in/priya-n
 
 ## Professional summary
 
-I am the Product Owner for the claims lodgement journey at Harbour Mutual, used by about 9,000 customers a month. I came to product from the claims floor, where I led a team of 12 assessors, so I know which steps customers abandon and why. In product I have shipped 3 releases, and I put a duplicate-claims fix first when call volumes showed what the duplicates were costing.
+I am the Product Owner for the claims lodgement journey at Harbour Mutual, used by about 9,000 customers a month. I write the user stories and acceptance criteria and prioritise the backlog from call and claims data. I came to product from the claims floor, where I led 12 assessors, so I know which steps customers abandon and why. I put a duplicate-claims fix first when call data showed how many lodgements were being made twice.
 
 ## Key skills
 
@@ -20,7 +20,7 @@ I started as a claims assessor and was promoted twice before moving into product
 
 #### Product Owner, Claims Lodgement | Harbour Mutual | Feb 2024 – Present
 
-I own the backlog for the online lodgement journey in an 8-person squad, and I work to the Head of Claims Product. I write the user stories and acceptance criteria and accept each release.
+I own the lodgement backlog in an 8-person squad and work to the Head of Claims Product.
 
 - Moved a fix for duplicate claims ahead of a planned photo-upload feature after call data showed about 400 duplicate lodgements a month. Duplicates fell to about 60 a month within 2 releases.
 - Took the lodgement backlog through 3 releases, coordinating the testing that the assurance team ran before each one.

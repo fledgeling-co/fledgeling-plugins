@@ -1,0 +1,6 @@
+ACCURACY: A, because every line of its wording stays within the confirmed facts and it turns the two unknowns (Risk, her part in auto-categorisation) into bracketed questions, whereas B says she meets four of five required criteria when nothing confirms the Risk half of the fifth, and writes "Currently building auto-categorisation" without her part being confirmed.
+READS: A, because it hands her one complete single-column résumé with the employer name and a consistent date on every role line, which is what the research says parses safely, while B is a long review of scattered fragments she still has to assemble.
+SUITS: B, because its fit table covers the ad's duties and location as well as the requirements, and its questions on discovery, accepting work and adjacent mandate exposure give her legitimate ways to close gaps, though both state plainly that the mandate requirement is unmet.
+IMPROVE_A: Move the two bracketed questions out of the résumé body into a short list of questions for Hannah, adding discovery and sprint acceptance, so the draft cannot be sent with placeholders in it.
+IMPROVE_B: Assemble the suggested wording into one ready-to-upload résumé with the contact line and employer on each role, and correct the fit claim to three criteria met, one partly met (Risk) and one unmet.
+VERDICT: A

@@ -21,7 +21,7 @@ outrank both.
 
 | Rule | Source | Kind |
 | --- | --- | --- |
-| Summary of 60 to 100 words | C and A give 60 to 90, O 60 to 100, G 70 to 110, P 100 to 150; Hays 50 to 150 via O and G | R; the length is each report's own recommendation |
+| Summary of 60 to 90 words (was 60 to 100 until the frontier panel asked for shorter) | C and A give 60 to 90, O 60 to 100, G 70 to 110, P 100 to 150; Hays 50 to 150 via O and G | R; the length is each report's own recommendation |
 | Summary opens with identity in the target role's terms, then scope, then proof | C, A, O templates | R |
 | Summary is first person | Correction: a "no first person" rule in a review brief produced summaries reading "Lead discovery…"; the person asked for first person | Correction; the research is silent |
 | No count of years | C, A, O say no count; G suggests "15+ years"; AHRI/AHRC recommends removing raw years-of-experience fields (via G) | R, with one dissent |
@@ -93,7 +93,15 @@ outrank both.
 
 | Rule | Source |
 | --- | --- |
-| Scope paragraph of 1 to 3 sentences, under about 50 words; no fact told in full twice | First eval run, 21 November 2026: two of two blind judges preferred the no-skill résumé as easier to scan, naming "dense first-person paragraphs" and the same example told in the summary and again in a bullet. See `EVALS.md` |
+| No fact told in full twice | First eval run, 21 November 2026: two of two blind judges preferred the no-skill résumé as easier to scan, naming "dense first-person paragraphs" and the same example told in the summary and again in a bullet. See `EVALS.md` |
+| Scope line of 1 or 2 sentences, under about 35 words; work in build as its own last bullet | Frontier panel, 21 November 2026: two of the three lanes that answered asked for a one-line scope and bullets in place of first-person paragraphs. The first-person voice is kept; the paragraph is cut to a line |
+| Summary names two or three of the ad's required items; one proof as a clause | Frontier panel: all three lanes, in both orders, said the skill's summary read better and suited the ad worse, and each asked for the same missing items |
+| Review in 5 parts, 70 lines or fewer, ending in copy-ready wording; no raw lint output | Frontier panel: all three lanes asked for the lint output and repeated scaffolding to be cut and the proposals assembled into one draft |
+| A restricted figure is never repeated in a review | Frontier panel: one lane, in both orders, pointed out that the review quoted the internal-only amount |
+| Each required item the summary names is shown again in a role; the proof clause is the first cut | Frontier panel with the research supplied, 21 November 2026: all three lanes asked for the ad's terms to sit in role evidence and for a shorter summary |
+| A review's proposed wording carries no brackets; questions go in their own list | Same panel: six verdicts of six |
+| The proof names the decision; no "one such call" | Frontier panel round three, with research: five verdicts of six on the summary |
+| A review says how to handle an unmet requirement outside the résumé | Same round: three verdicts of six |
 
 ## Inferences of this skill's own
 

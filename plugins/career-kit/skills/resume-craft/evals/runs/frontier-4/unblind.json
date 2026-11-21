@@ -1,0 +1,20 @@
+{
+ "summary.fwd": {
+  "A": "without_skill"
+ },
+ "summary.rev": {
+  "A": "with_skill"
+ },
+ "resume.fwd": {
+  "A": "with_skill"
+ },
+ "resume.rev": {
+  "A": "without_skill"
+ },
+ "review.fwd": {
+  "A": "with_skill"
+ },
+ "review.rev": {
+  "A": "without_skill"
+ }
+}

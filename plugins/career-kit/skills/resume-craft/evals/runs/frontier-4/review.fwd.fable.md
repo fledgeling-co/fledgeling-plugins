@@ -1,0 +1,6 @@
+ACCURACY: A, because every line of its replacement wording matches the confirmed facts and it asks whether the measured figures may leave Kestrel, while B says she meets four of five required criteria although nothing confirms any work with risk, and writes "currently building auto-categorisation" when her part in it is unconfirmed.
+READS: A, because it hands her one assembled single-column résumé with a body contact line, conventional headings and the employer repeated on each dated role line as the research advises, whereas B is a long review whose wording sits in separate quoted fragments she must still assemble.
+SUITS: B, because its fit table also covers the ad's duties (discovery, accepting work each sprint), puts user stories and the in-build forecast into the role bullets and gives her a cover-letter angle, while both leave the scheme mandate requirement unclaimed.
+IMPROVE_A: Add a current-role bullet stating that she writes the user stories and acceptance criteria, and drop the stray "lint reports 10 errors and 4 warnings" sentence, which means nothing to Hannah.
+IMPROVE_B: Assemble the fragments into one complete, upload-ready résumé with the contact line and employer on each role, and correct "meets four of five" to three met and one (risk) unconfirmed.
+VERDICT: A

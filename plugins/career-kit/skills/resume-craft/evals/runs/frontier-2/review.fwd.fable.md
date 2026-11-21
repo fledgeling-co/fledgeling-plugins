@@ -1,0 +1,6 @@
+ACCURACY: A, because both stay within the confirmed facts and keep the internal-only figure off the page, but A flags its own uncertain placements (the Visa/Mastercard line, the referee's consent) while B's bracketed Risk prompt presumes work with Risk that nothing confirms and cites an unverifiable "lint" count.
+READS: B, because it is a short verdict plus a complete single-column résumé with the employer repeated on every dated role line, as the research advises for parsing, whereas A is a long report whose replacement wording is scattered fragments she still has to assemble.
+SUITS: B, because its draft puts the ad's own terms (own and prioritise the backlog, agile squad, user stories and acceptance criteria, Visa and Mastercard chargeback timeframes) inside evidence and states plainly that the mandate requirement is unmet, though A's fit table and follow-up questions are the more thorough analysis.
+IMPROVE_A: Assemble the suggested wording into one complete, paste-ready résumé with a contact line and the employer and dates on each role, and cut the review to about half its length.
+IMPROVE_B: Move the two bracketed questions out of the résumé body into a separate list for Hannah, with the Risk one asked neutrally, so the draft is sendable and cannot go out with placeholders or an implied Risk claim.
+VERDICT: B

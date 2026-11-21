@@ -1,0 +1,6 @@
+🫥 ACCURACY: B — Both describe her SMS and testing contributions accurately, label the 30% reduction as a forecast and omit the confidential loss figure, but A assigns specific uses to her tools that Hannah hasn’t confirmed.  
+READS: A — Its shorter opening gets me to the prioritisation decision sooner, while B’s repeated employer name may help parsers associate roles with Kestrel, and the research establishes no ranking advantage for either.  
+SUITS: A — It ties user stories to her current backlog and Visa and Mastercard timeframes to her officer role, though she lacks the required mandate-change delivery experience and neither résumé shows work with Risk.  
+IMPROVE_A: Keep Jira, Confluence and Power BI in the tools list and end the Product Owner bullet after “user stories and acceptance criteria for the Beacon backlog”.  
+IMPROVE_B: Cut the handling-time result from the summary so the reader encounters it once, alongside the decision and the quarter in which it was measured.  
+VERDICT: A

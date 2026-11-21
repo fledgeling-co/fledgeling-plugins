@@ -1,0 +1,6 @@
+ACCURACY: A, because its draft keeps every claim inside the confirmed facts and leaves out the unmeasured 30% forecast, while B's "Currently building auto-categorisation" implies a role she has not confirmed and its "meets four of five" counts the risk half of stakeholder management, which its own table says is unconfirmed.
+READS: A, because it is shorter and ends in one complete single-column résumé with contact details in the body and the employer and dates on every role line, which is what the research says parses safely, while B leaves her to assemble quoted fragments with no contact line.
+SUITS: A, narrowly, because its draft puts the ad's terms inside evidence and rates risk as only "partly shown", although B's fit table is fuller on the duties, the internal-versus-customer gap and the cover-letter angle.
+IMPROVE_A: Add advice on handling the mandate gap openly in a cover letter or interview, plus a question on whether she has been on the receiving end of a Visa or Mastercard rule change, as B does.
+IMPROVE_B: Assemble the suggested wording into one complete, sendable résumé with a contact line and the employer on each role line, and drop or reword the "Currently building" bullet so it claims only what she confirmed.
+VERDICT: A

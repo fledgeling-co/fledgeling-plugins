@@ -1,0 +1,6 @@
+ACCURACY: B, it redacts the internal loss figure like A but also holds the unreleased auto-categorisation claim pending Hannah confirming her part and avoids A's overstatement that she meets four of five requirements when risk stakeholder work is unconfirmed.
+READS: B, its complete single-column draft puts contact details in the body and repeats employer and dates on each role with conventional headings and evidence-led skills, while A leaves a busy reader to assemble fragments without a header or capabilities section.
+SUITS: B, its summary and key skills mirror the ad's Product Owner, agile squad, backlog prioritisation using case data, user stories and acceptance criteria and disputes terms inside confirmed evidence while stating only work within Visa and Mastercard timeframes rather than mandate delivery.
+IMPROVE_A: Hold the auto-categorisation bullet until Hannah confirms her specific part in it, and otherwise present it only as unreleased work with the 30% as a forecast.
+IMPROVE_B: Add an explicit note and cover-letter approach for the unconfirmed customer-discovery gap created by Beacon being an internal staff tool while Lantern is rebuilding the customer dispute journey.
+VERDICT: B

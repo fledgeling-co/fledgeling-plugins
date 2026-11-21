@@ -1,0 +1,6 @@
+ACCURACY: TIE — both correct every overclaim and keep the internal-only chargeback figure off the page; A's "meets four of five required" contradicts its own finding that nothing confirms work with risk, while B counts "seven" overclaims above an eight-row table and cites a lint result nobody can check.
+READS: B — it is half the length and ends in one complete single-column résumé with the employer and dates on every role line, plain headings and a citizenship line, which is what the research says parses safely, where A leaves her to assemble fragments from a long report.
+SUITS: A — its fit table covers the ad's duties as well as its requirements, it handles the mandate gap with wording to avoid and an adjacent-experience question, and it keeps the internal course under "Training" rather than a heading that mentions certifications.
+IMPROVE_A: Assemble the suggested wording into one complete, ready-to-upload résumé with the employer name and dates on each role line, and cut the review above it by half.
+IMPROVE_B: Rename "Education and certifications" to "Training", drop the unverifiable lint claim, and add a question on whether she has updated procedures or training after a Visa or Mastercard rule change so the mandate gap gets its honest adjacent line.
+VERDICT: B

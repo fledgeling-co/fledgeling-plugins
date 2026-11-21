@@ -1,0 +1,281 @@
+You are an experienced hiring manager at an Australian bank. Everything below is about an invented person.
+
+<research>
+Independent research on how Australian banks screen résumés in late 2026, with its own confidence labels. It was written about a generic candidate, before either option existed.
+
+## 1. Executive summary
+
+- **Use a single-column, text-based CV.** Keep contact details in the document body, use conventional headings and check the fields populated after upload. Both DOCX and selectable-text PDF can work; the employer's instructions take precedence. **High.** [SEEK, 29 October 2026](https://au.seek.com/career-advice/article/tips-for-creating-an-ats-friendly-resume); [Greenhouse, 2 March 2026](https://support.greenhouse.io/hc/en-us/articles/200989175-Unsuccessful-resume-parse).
+- **Aim for two pages; allow a third for relevant evidence.** Three pages is a practical allowance for this career, not a verified Australian-bank requirement. Keep her recent role on page one. **Medium — recommendation**, informed by [SEEK, 28 July 2026](https://au.seek.com/career-advice/article/how-long-should-a-resume-be) and [Hays, undated; accessed 20 November 2026](https://www.hays.com.au/career-advice/resumes-cover-letters/how-to-write-a-resume).
+- **Show one employer and several distinct appointments.** Give each substantial role its own title, business area and dates; identify genuine promotions, lateral moves and secondments. Lead with relevant capability rather than “20+ years of loyalty”. **Medium — inference** from the candidate's career and the progression/technology stereotypes reported by [AHRI/AHRC, July 2025](https://www.ahri.com.au/resources/hr-research/older-and-younger-workers-report-2025).
+- **Target the actual job, not all six titles at once.** Product applications need prioritisation and customer/commercial outcomes; people-leader applications need direct-report scope and performance development; delivery applications need dependencies, governance and predictable execution. **High for the distinctions in the sample; Medium for the recommendation.** [Westpac PO, November 2026](https://au.linkedin.com/jobs/view/product-owner-at-westpac-group-4489492753); [CBA Team Manager, closing 22 October 2026](https://au.linkedin.com/jobs/view/team-manager-associate-private-bankers-at-commonwealth-bank-4478383584); [ANZ Delivery Lead, closing 26 November 2026](https://careers.anz.com/job/Melbourne-Agile-Delivery-Lead,-VIC/1370615266/).
+- **Assume software may structure and prioritise the application, but do not assume automatic rejection.** CBA discloses AI-assisted screening with human oversight; LinkedIn documents qualification summaries. Neither establishes a universal bank “ATS pass score”. **High.** [CBA, 30 July 2026](https://www.commbank.com.au/content/dam/commbank-assets/about-us/careers/docs/candidate-privacy-statement.pdf); [LinkedIn Hiring Assistant FAQ, accessed 20 November 2026](https://www.linkedin.com/help/recruiter/answer/a7109304).
+- **Use the advertisement's terminology inside evidence.** “Prioritised a product backlog using customer impact and risk” communicates more than a list of “Agile, leadership, transformation”. In the seven product advertisements sampled, stakeholder influence appeared in all seven and risk/governance/compliance in six. **Medium — manual sample analysis**, with sources and counting rules in sections 2.4 and 4.
+- **Make banking risk practical.** Describe controls, remediation, operational resilience and customer outcomes she actually delivered. Add CPS 230, CPS 234 or DDO only where she can explain her contribution. **Medium — recommendation**, grounded in [APRA CPS 230, effective 1 July 2026](https://www.apra.gov.au/standards/cps-230), [CPS 234, effective 1 July 2019](https://www.apra.gov.au/standards/cps-234) and [ASIC, August 2026](https://www.asic.gov.au/about-asic/corporate-publications/newsletters/market-integrity-update/miu-issue-178-august-2026).
+- **AI assistance is not the demonstrated problem; unsupported, interchangeable claims are.** Australian evidence shows recruiter concern about AI-generated CVs, not reliable authorship detection or a blanket penalty. **High for the survey finding; Low/unconfirmed for bank-specific detection.** [Robert Half, 10 February 2026](https://www.roberthalf.com/au/en/about/press/hiring-fatigue-hits-as-overqualification-and-cvs-flood-the-market).
+- **For internal moves, use the employee route and check the actual mobility policy.** CBA advertisements require Sidekick; ING publishes a normal 12-month tenure expectation with exceptions. A universal “tell your manager before applying” rule could not be verified. **High for those two examples; unconfirmed elsewhere.** [CBA advertisement, November 2026](https://au.linkedin.com/jobs/view/senior-product-owner-at-commonwealth-bank-4486479897); [ING, 18 November 2026](https://careers.ing.com/en/job/sydney/product-area-lead-credit-cards/3121/47012715520).
+- **Choose profile visibility deliberately.** LinkedIn's recruiters-only setting is not guaranteed confidential. SEEK Public can expose basic profile details outside SEEK; Hidden/Applications only sacrifices unsolicited discovery. **High.** [LinkedIn Open to Work, accessed 20 November 2026](https://www.linkedin.com/help/linkedin/answer/a507508/let-recruiters-know-you-re-open-to-work); [SEEK visibility, undated; accessed 20 November 2026](https://au.seek.com/profile-privacy).
+
+## 2. Detailed findings
+
+### 2.1 Screening technology: what the evidence actually establishes
+
+There are four different operations to prepare for:
+
+| Operation | What it does | Candidate implication |
+|---|---|---|
+| Parsing | Extracts employer, title, dates, education, skills and contact fields. | Make these explicit and correct extraction errors. |
+| Eligibility screening | Uses answers about matters such as work rights, location or required experience. | Answer accurately; CV keywords cannot compensate for an ineligible answer. |
+| Search, matching and prioritisation | Finds candidates or orders applications against recruiter criteria. | Use recognisable terminology and show where and when the skill was used. |
+| Human selection | Evaluates evidence, judgement, motivation and fit, potentially assisted by summaries. | Give a hiring manager concrete decisions and outcomes to discuss. |
+
+**Confidence: High for the documented functions; Medium for this combined model.** Greenhouse describes field extraction; NAB describes role-specific questions; LinkedIn describes criteria-based evaluation and human decisions. [Greenhouse, 2 March 2026](https://support.greenhouse.io/hc/en-us/articles/200989175-Unsuccessful-resume-parse); [NAB, undated; accessed 20 November 2026](https://www.nab.com.au/about-us/careers/apply-for-job); [LinkedIn FAQ, accessed 20 November 2026](https://www.linkedin.com/help/recruiter/answer/a7109304).
+
+**An ATS logo does not establish which AI features are enabled.** These are documented vendor capabilities, not confirmed deployments at every customer:
+
+| Product | Verified capability | Limit on the claim |
+|---|---|---|
+| Workday HiredScore | August 2026 release describes an LLM evaluating individual qualifications against parsed CV content, with fit/gap explanations. | Does not prove CBA or ING enabled HiredScore. |
+| Oracle Recruiting | Generative-AI ratings and summaries can use parsed education, experience and skills; recruiters can filter by ratings. | Does not prove Westpac or AMP enabled this feature. |
+| SAP SuccessFactors | Configurable CV parsing, including Textkernel; 2H 2026 documentation describes AI-assisted skills matching. | Does not prove ANZ or Bendigo use AI matching. |
+| LinkedIn Hiring Assistant | Uses hiring criteria, profiles, CVs, screening responses and recruiting notes to summarise qualification matches. | An additional licensed capability, not something every LinkedIn advertiser uses. |
+
+**Confidence: High for capabilities; bank activation unconfirmed.** [Workday, 5 August 2026](https://doc.workday.com/hiredscore/en-us/workday-hiredscore/hiredscore-release-notes/2026/august/wednesday--5th-august.html); [Oracle, undated; accessed 20 November 2026](https://docs.oracle.com/en/cloud/saas/talent-management/farqa/evaluate-candidate-applications-using-ai-matching-ratings.html); [SAP parsing documentation, undated](https://help.sap.com/docs/successfactors-recruiting/setting-up-and-maintaining-sap-successfactors-recruiting/working-with-resume-parsing) and [SAP 2H 2026](https://help.sap.com/docs/SAP_SUCCESSFACTORS_RECRUITING/8477193265ea4172a1dda118505ca631/8134bbc02518434a8ef1c28f3fd2c7a1.html?locale=en-ES); [LinkedIn FAQ, accessed 20 November 2026](https://www.linkedin.com/help/recruiter/answer/a7109304).
+
+**Formatting recommendation — Medium, based on direct parser guidance:** use one column, ordinary bullets, descriptive headings and a consistent date style such as “Jan 2022 – Present”. Put name, telephone, email and LinkedIn URL in the main body. Avoid skills bars, logos, text boxes and tables for career history. A page number may sit in a footer because losing it would not lose evidence.
+
+This is risk reduction, not a claim that every two-column CV fails. Greenhouse specifically lists these layouts as possible causes of partial or unsuccessful parsing; it also says the file remains attached if parsing fails. [Greenhouse, 2 March 2026](https://support.greenhouse.io/hc/en-us/articles/200989175-Unsuccessful-resume-parse).
+
+**DOCX versus PDF:** SEEK calls DOCX often the safest option but also accepts text-based PDF and prioritises the employer's instructions. There is no comparative bank-specific test here proving one universally wins. Keep both. If both are accepted without guidance, I would upload a simple DOCX and check the extracted fields; use a text PDF when requested or when direct human circulation benefits from fixed pagination. **Medium — recommendation.** [SEEK, 29 October 2026](https://au.seek.com/career-advice/article/tips-for-creating-an-ats-friendly-resume).
+
+**Keywords and semantic matching coexist.** LinkedIn offers title/skills filters, while its AI tools assess qualifications in context. Write “Product Owner” in full, followed by “PO” if useful; do the same for genuine specialist terms. Preserve official employment titles and add a truthful functional explanation where an internal title is obscure. **High for platform functions; Medium for writing recommendation.** [LinkedIn filters, undated; accessed 20 November 2026](https://www.linkedin.com/help/recruiter/answer/a414428?lang=en); [LinkedIn AI agents, accessed 20 November 2026](https://www.linkedin.com/help/recruiter/answer/a7437598/how-linkedin-uses-ai-agents-to-connect-job-seekers-and-hirers).
+
+**Knockout questions deserve a separate check.** Platforms support screening questions, but this research cannot identify each bank's automatic rejection rules. Treat work rights, office attendance, location, required experience and mandatory credentials as substantive questions. Count actual PO experience, not total employment tenure. **High for question functionality; Medium for this checklist; exact knockout logic unconfirmed.** [LinkedIn screening questions, accessed 20 November 2026](https://www.linkedin.com/help/recruiter/answer/a410766).
+
+### 2.2 Australian conventions
+
+| Choice | Recommendation for this candidate | Evidence and confidence |
+|---|---|---|
+| Length | Start with two pages; use three if necessary to demonstrate relevant progression and achievements without tiny type. | Hays recommends approximately two; SEEK allows longer for relevant senior experience. **Medium recommendation**, not a banking rule. |
+| Personal details | Name, mobile, professional email, city/state and LinkedIn URL. Omit photograph, DOB, marital status, gender and full street address from the CV. | Victorian guidance discourages unnecessary personal details. **Medium**, including city/state instead of street address as a privacy recommendation. |
+| Opening | A 60–90-word targeted profile and a short capabilities section. | Hays supports a tailored professional summary and skills. **Medium recommendation** on exact length. |
+| Referees | Keep an agreed referee list separately. Supply names when requested; otherwise “Referees available on request” is acceptable, or omit the line to save space. | Victorian guidance supports on-request references. **High for acceptability; Medium for omission recommendation.** |
+| Language | Australian spelling: organisation, prioritise, optimise, analyse. Preserve official product and certification names. | **Medium — editorial recommendation**, rather than a claim about an ATS scoring preference. |
+| Work rights | If accurate: “Australian citizen — unrestricted Australian work rights.” Complete structured fields too. | NAB explicitly requires Australian/NZ citizenship or Australian permanent residence for permanent Australia-based roles. **High for NAB; Medium as a useful CV line elsewhere.** |
+| Background checking | Prepare accurate employment dates, qualifications and agreed referees. Provide sensitive documents through the employer's nominated checking process. | NAB describes identity, employment and police checks, with credit/bankruptcy checks for some roles. **High.** |
+
+Sources: [Hays, undated; accessed 20 November 2026](https://www.hays.com.au/career-advice/resumes-cover-letters/how-to-write-a-resume); [SEEK, 28 July 2026](https://au.seek.com/career-advice/article/how-long-should-a-resume-be); [Victorian Government, undated; accessed 20 November 2026](https://liveinmelbourne.vic.gov.au/work/find-a-job-in-melbourne/how-to-apply-for-a-job-in-melbourne); [NAB application process, undated; accessed 20 November 2026](https://www.nab.com.au/about-us/careers/apply-for-job).
+
+Do not write “security cleared”, “APRA approved” or “eligible for all banking checks” merely because she currently works in financial services. A background check is not a transferable government security clearance. For these target roles, the retrieved evidence establishes employer checks, not a universal clearance requirement. **Medium — recommendation; universal requirement unconfirmed.**
+
+### 2.3 Twenty-plus years with one employer
+
+**Recommended structure: a grouped employer heading with distinct role blocks.** For each recent role, retain the employer name on the title line or immediately below it. This gives humans the progression story while keeping each appointment intelligible when text is extracted. In application forms, enter separate employment records where the form permits. **Medium — inference** from parsing requirements and this career's structure; no source proves one grouping format always ranks better.
+
+Give roughly the last 10–15 years the most space, especially recent PO and leadership appointments. Compress earlier work into a clearly labelled early-career section; expand an older role if it supplies a requirement missing from recent experience. These are relevance decisions, not rules for hiding age. **Medium — recommendation**, consistent with [Hays's guidance to remove irrelevant history, undated; accessed 20 November 2026](https://www.hays.com.au/career-advice/resumes-cover-letters/how-to-write-a-resume).
+
+Show change through facts:
+
+- Different business areas, products, customer groups or operating models.
+- Increasing decision scope, team size, budget or delivery complexity.
+- Specific promotions, competitive appointments or secondments, where true.
+- Recent learning and use of current tools, with an example of application.
+
+**Medium — inference.** AHRI/AHRC's 2025 research found both positive stereotypes about older workers and negative assumptions about adaptability and technology. A recent delivery example addresses those concerns more credibly than describing herself as “adaptable”. [AHRI/AHRC, July 2025](https://www.ahri.com.au/resources/hr-research/older-and-younger-workers-report-2025).
+
+Omit graduation years where optional and irrelevant. Do not change employment dates, invent gaps or imply she spent 20 years as a PO. The employer's full-history/background-check form should receive the full accurate history it requests. **Medium — integrity and relevance recommendation.**
+
+
+</research>
+
+<confirmed_facts>
+# Confirmed facts: Hannah Okoye (an invented person, for evaluation only)
+
+Everything here was confirmed by Hannah. Nothing else is known about her work.
+
+## Contact
+- Hannah Okoye, Brisbane, QLD. Mobile 0400 000 000. hannah.okoye@example.com. linkedin.com/in/hannah-okoye-example
+- Australian citizen.
+
+## Employer
+- Kestrel Bank, Brisbane, since February 2009. All of her roles have been at Kestrel Bank.
+
+## Roles
+| Title | Dates | Notes |
+|---|---|---|
+| Product Owner, Disputes Workflow | Aug 2024 – present | A move from operations into product |
+| Operations Manager, Payments Disputes | Mar 2020 – Aug 2024 | Promotion. 3 team leaders reported to her; 31 staff in total across 2 sites; about 2,400 disputes a month |
+| Team Leader, Disputes Operations | Sep 2015 – Mar 2020 | Promotion. 9 direct reports |
+| Disputes Officer | Jun 2012 – Sep 2015 | |
+| Customer Service Officer | Feb 2009 – Jun 2012 | |
+
+## Current role (Product Owner, Disputes Workflow)
+- She owns the backlog for Beacon, Kestrel's internal case-management tool for card payment disputes. About 140 staff use it.
+- It is one of two backlogs in a 10-person squad. She does not own the other backlog or the squad.
+- She reports to the Head of Payments Product.
+- She writes the user stories and acceptance criteria. The squad works in 2-week sprints.
+- Tools: Jira, Confluence, Power BI.
+- She moved a change that auto-fills merchant details ahead of a dashboard that managers had asked for, after case data showed staff were retyping merchant details on about 70% of cases. In the quarter after release, average handling time fell from 18 minutes to 14 minutes.
+- She SUPPORTED the bank's rollout of a new fraud-alert SMS. Her part was writing the disputes team's process and the training for the 140 staff. She did not lead or deliver the rollout.
+- She COORDINATED user acceptance testing for 4 releases. The QA team ran the tests.
+- Auto-categorisation of new disputes is in build and has not been released. The business case FORECASTS that it will cut manual triage by 30%. Nothing has been measured.
+
+## Operations Manager, Payments Disputes
+- She introduced a daily report of ageing disputes. Disputes older than 45 days fell from about 310 to about 90 over 6 months.
+- She restructured rosters across the 2 sites. No result was measured.
+- Card disputes cost Kestrel about $3.2 million a year in chargeback losses. THIS FIGURE IS INTERNAL ONLY. Hannah does not want it on anything that leaves Kestrel Bank.
+
+## Team Leader, Disputes Operations
+- She coached 2 disputes officers into team leader roles.
+
+## Other
+- As an operator she worked within Visa and Mastercard chargeback timeframes. She has never owned or delivered a card scheme mandate change.
+- No formal qualifications. She completed Kestrel's internal Product Fundamentals course in 2025.
+- Her reason for moving to product, in her words: "I was tired of working around the tool. I wanted to fix it."
+
+</confirmed_facts>
+
+<job_ad>
+# Product Owner, Card Disputes — Lantern Bank (Sydney or Brisbane)
+
+Lantern Bank is rebuilding how customers dispute a card transaction. You will own the backlog for our disputes squad.
+
+## You will
+- Own and prioritise the product backlog for the disputes squad, balancing customer impact, risk and effort.
+- Lead discovery with frontline disputes staff and customers.
+- Write user stories and acceptance criteria and accept work each sprint.
+- Work with Risk and Operations so that controls are built into each change.
+
+## Required
+- Experience as a Product Owner in an agile squad.
+- Backlog prioritisation using data.
+- Card disputes or chargeback operations experience.
+- Experience delivering card scheme mandate changes (Visa or Mastercard).
+- Stakeholder management across operations and risk.
+
+## Desirable
+- A product or agile certification.
+- Jira and Confluence.
+
+Applications close 5 December 2026. Apply through the Lantern Bank careers site.
+
+</job_ad>
+
+<option_A>
+# HANNAH OKOYE
+
+Brisbane, QLD | 0400 000 000 | hannah.okoye@example.com | linkedin.com/in/hannah-okoye-example | Australian citizen
+
+## Professional summary
+
+I am the Product Owner for Beacon, the case-management tool that about 140 staff at Kestrel Bank use to work card payment disputes. I own its product backlog in an agile squad, write the user stories and acceptance criteria, and prioritise from case data. I came to product from card disputes operations, where I worked within Visa and Mastercard chargeback timeframes and went on to manage 31 staff, so I know where a tool slows a disputes officer down. One prioritisation call of mine was followed by average handling time falling from 18 minutes to 14.
+
+## Key skills
+
+Product ownership: backlog prioritisation using data; writing user stories and acceptance criteria; coordinating user acceptance testing with a QA team
+Card disputes operations: managing disputes teams across 2 sites; working within Visa and Mastercard chargeback timeframes; reducing aged disputes through daily reporting
+People and change: coaching disputes officers into team leader roles; writing process and training for frontline disputes staff
+Tools: Jira, Confluence, Power BI
+
+## Professional experience
+
+### Kestrel Bank, Brisbane | Feb 2009 – Present
+
+I started in customer service, moved into disputes in 2012 and was promoted twice there, to team leader and then to operations manager. I moved into product in 2024 because I was tired of working around the disputes tool and wanted to fix it.
+
+#### Product Owner, Disputes Workflow | Kestrel Bank | Aug 2024 – Present
+
+I own one of the 2 backlogs in a 10-person squad that works in 2-week sprints, and I report to the Head of Payments Product.
+
+- Moved a change that auto-fills merchant details ahead of a dashboard that managers had asked for, after case data showed staff were retyping merchant details on about 70% of cases. In the quarter after release, average handling time fell from 18 minutes to 14.
+- Coordinated user acceptance testing for 4 releases, with the QA team running the tests.
+- Supported the bank's rollout of a new fraud-alert SMS by writing the disputes team's process and the training for the 140 staff.
+- Auto-categorisation of new disputes is in build and not yet released. The business case forecasts that it will cut manual triage by 30%.
+
+#### Operations Manager, Payments Disputes | Kestrel Bank | Mar 2020 – Aug 2024
+
+I managed disputes operations through 3 team leaders, with 31 staff across 2 sites handling about 2,400 disputes a month.
+
+- Introduced a daily report of ageing disputes. Disputes older than 45 days fell from about 310 to about 90 over 6 months.
+- Restructured rosters across the 2 sites.
+
+#### Team Leader, Disputes Operations | Kestrel Bank | Sep 2015 – Mar 2020
+
+I led 9 disputes officers.
+
+- Coached 2 disputes officers into team leader roles.
+
+#### Disputes Officer | Kestrel Bank | Jun 2012 – Sep 2015
+
+#### Customer Service Officer | Kestrel Bank | Feb 2009 – Jun 2012
+
+## Professional development
+
+Product Fundamentals, Kestrel Bank internal course, 2025
+
+</option_A>
+
+<option_B>
+# Hannah Okoye
+
+Brisbane, QLD · 0400 000 000 · hannah.okoye@example.com · linkedin.com/in/hannah-okoye-example · Australian citizen
+
+## Summary
+
+Product Owner for a card disputes case-management tool, with 12 years in disputes operations before that: disputes officer, team leader, then operations manager for a 31-person team handling about 2,400 disputes a month. I moved into product in 2024 to fix the tool my teams had been working around, and I prioritise its backlog from case data.
+
+## Experience
+
+### Kestrel Bank, Brisbane (February 2009 – present)
+
+**Product Owner, Disputes Workflow** · August 2024 – present
+
+Own the backlog for Beacon, the bank's internal case-management tool for card payment disputes, used by about 140 staff. It is one of two backlogs in a 10-person agile squad working in 2-week sprints. Report to the Head of Payments Product.
+
+- Prioritised a change that auto-fills merchant details ahead of a dashboard requested by managers, after case data showed staff were retyping merchant details on about 70% of cases. Average handling time fell from 18 minutes to 14 minutes in the quarter after release.
+- Write the user stories and acceptance criteria for the Beacon backlog, managed in Jira and Confluence, with Power BI for case data.
+- Coordinated user acceptance testing for 4 releases, working with the QA team who ran the tests.
+- Supported the bank's rollout of a new fraud-alert SMS by writing the disputes team's process and the training for 140 staff.
+- Currently in build: auto-categorisation of new disputes, forecast in the business case to cut manual triage by 30% (not yet released).
+
+**Operations Manager, Payments Disputes** · March 2020 – August 2024
+
+Promoted to run card disputes operations across 2 sites: 31 staff, including 3 team leaders reporting to me, handling about 2,400 disputes a month.
+
+- Introduced a daily report of ageing disputes. Disputes older than 45 days fell from about 310 to about 90 over 6 months.
+- Restructured rosters across the 2 sites.
+
+**Team Leader, Disputes Operations** · September 2015 – March 2020
+
+Promoted to lead a team of 9 disputes officers.
+
+- Coached 2 disputes officers into team leader roles.
+
+**Disputes Officer** · June 2012 – September 2015
+
+Handled card disputes within Visa and Mastercard chargeback timeframes.
+
+**Customer Service Officer** · February 2009 – June 2012
+
+## Skills
+
+- **Product:** backlog ownership and prioritisation from case data, user stories and acceptance criteria, 2-week sprints, UAT coordination
+- **Card disputes:** chargeback operations under Visa and Mastercard timeframes, ageing and backlog management, process and training design
+- **Leadership:** managed 31 staff across 2 sites through 3 team leaders; coaching staff into leadership roles
+- **Tools:** Jira, Confluence, Power BI
+
+## Training
+
+- Product Fundamentals, Kestrel Bank internal course, 2025
+
+</option_B>
+
+Two complete résumés written for this person for the job ad below. Which one would you send? Use the research above as what is known about how a résumé will be parsed, ranked and read. Judge on three things: (1) accuracy against the confirmed facts, including whether anything is overstated or should not leave her employer; (2) how it reads to a busy person and how safely the research says software will parse and rank it; (3) how well it suits this ad without claiming what she has not done.
+
+Answer in exactly this format and nothing else:
+ACCURACY: A or B or TIE, then one sentence
+READS: A or B or TIE, then one sentence
+SUITS: A or B or TIE, then one sentence
+IMPROVE_A: the single change that would most improve option A, in one sentence
+IMPROVE_B: the single change that would most improve option B, in one sentence
+VERDICT: A or B or TIE

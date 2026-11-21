@@ -1,0 +1,6 @@
+🫥 ACCURACY: A — Both omit the internal loss figure and describe Hannah’s SMS and testing responsibilities accurately, but B assigns specific uses to Jira, Confluence and Power BI that she hasn’t confirmed.  
+READS: B — B gets the reader to the backlog decision sooner, while A’s repeated employer name may help software associate each role with Kestrel, and the research establishes no ranking advantage for either.  
+SUITS: B — B shows data-led prioritisation in the Product Owner role and chargeback experience in the officer role, though Hannah lacks the required scheme mandate delivery experience and neither résumé evidences stakeholder management across Risk and Operations.  
+IMPROVE_A: Cut the handling-time figures from the summary so the reader encounters them once, alongside the decision and the quarter in which the improvement was measured.  
+IMPROVE_B: Keep the user stories and acceptance criteria in the Product Owner bullet and leave the three tools in Skills, where they can be listed without inferring how Hannah used them.  
+VERDICT: B

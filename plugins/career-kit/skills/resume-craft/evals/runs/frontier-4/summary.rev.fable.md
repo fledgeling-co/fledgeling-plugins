@@ -1,0 +1,6 @@
+ACCURACY: TIE, both stay inside the confirmed facts, leave out the internal $3.2 million figure and claim no scheme mandate delivery, though A is slightly more candid in saying her backlog is one of two in the squad.
+READS: A, at about 95 words it sits near the 60–90-word profile the research recommends and a busy reader finishes it, while B runs to about 165 words in four dense sentences even though its named terms (two-week sprints, Jira, Confluence, Visa and Mastercard) give software more to match.
+SUITS: B, it evidences the ad's "backlog prioritisation using data" with a measured result (handling time 18 to 14 minutes), covers the desirable Jira and Confluence, and places her honestly next to the scheme requirement by saying she worked within Visa and Mastercard chargeback timeframes, without claiming a mandate change.
+IMPROVE_A: Add the measured outcome of the auto-fill decision, average handling time falling from 18 to 14 minutes in the quarter after release, since the prioritisation story currently stops before its result.
+IMPROVE_B: Cut it to about 90 words by moving the ageing-report result and the two-site detail down into the Operations Manager role block, keeping the Product Owner evidence and the Visa and Mastercard line.
+VERDICT: B

@@ -1,0 +1,6 @@
+ACCURACY: A, because every proposed line stays inside the confirmed facts and it brackets auto-categorisation as a question, while B says she meets four of five required items despite no risk evidence, writes "currently building auto-categorisation" without her part being confirmed, and invents that the 9 reports were disputes officers and the 2 coached came from them.
+READS: B, because it opens with a three-point verdict and runs at about half the length, while A makes a busy reader wade through a line-by-line cold read, raw lint output and tool notes that mean nothing to Hannah.
+SUITS: A, because it grades the ad honestly as 3 met, 1 partly met and 1 not met, places the ad's phrases where the evidence sits, warns that the mandate gap may cost her in ranking, and says to count Product Owner years from August 2024 on the form.
+IMPROVE_A: Cut the lint output, the tooling notes and the cold-read table (which section 3 largely repeats) so the review is the short version, the overclaim table, the ad fit, the proposed wording and the questions.
+IMPROVE_B: Correct the claims that go beyond the facts by changing "meets four of five" to three met and one partly met, turning the auto-categorisation bullet into a question about her part, and rewording the Team Leader line to "9 direct reports; coached 2 disputes officers into team leader roles".
+VERDICT: A

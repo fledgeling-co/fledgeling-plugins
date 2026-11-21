@@ -68,10 +68,10 @@ Write the sections in this order, under these headings, in one column of plain t
 | Section | Its job | Length | Test |
 | --- | --- | --- | --- |
 | Name and contact line | How to reach them and their right to work | Name, then 1 line | Is every item plain text in the body, and is anything personal there that no employer needs? |
-| Professional summary | Who they are in the target role's terms, what makes them different, proof they deliver now | 60 to 100 words, 1 paragraph | Could this paragraph sit on someone else's résumé? Then it has failed |
+| Professional summary | Who they are in the target role's terms, which of the ad's required items they hold, what makes them different, at most one proof, naming the decision | 60 to 90 words, 1 paragraph | Could this paragraph sit on someone else's résumé? Then it has failed |
 | Key skills | Things they can do | 2 to 4 labelled lines | Is each item an ability, and which line below shows it? |
 | Professional experience: employer heading | Where they have worked and how they moved | 1 line, plus 1 or 2 sentences when several roles sit under one employer | Are the start date and each move true and visible? |
-| Current role | Exactly what they own, how the work runs, and what happened because of them | Scope paragraph of 1 to 3 sentences, then 3 to 5 bullets | Is each bullet one thing that happened, with a detail only they would know? |
+| Current role | Exactly what they own, how the work runs, and what happened because of them | Scope line of 1 or 2 sentences, then 3 to 5 bullets | Is each bullet one thing that happened, with a detail only they would know? |
 | Roles in the last 10 to 12 years | The depth the summary claims | Scope line with scale, then 1 to 4 bullets | Does this role show something the summary says? |
 | Earlier roles | That the ladder exists | Title, employer and dates; at most 1 line | Would a reader miss this line if it were cut? |
 | Education and certifications | Qualifications actually held | 1 line each | Is there something to list? Leave the section out when there is not |
@@ -123,9 +123,11 @@ date or a figure (R, C). `references/tailoring.md` covers internal, external and
    experience has to carry, so they are easier to write true once it exists.
 4. Read the whole document top to bottom as the hiring manager would, in under a minute. Cut
    any fact stated twice in full: the summary names a proof in a clause and the bullet tells it,
-   and a scope paragraph does not repeat the summary. Paragraphs are where a first-person résumé
-   gets heavy, so keep each scope paragraph to 3 sentences or fewer and let the bullets carry
-   the detail.
+   and a scope line does not repeat the summary. Paragraphs are where a first-person résumé gets
+   heavy, so keep each scope line to 2 sentences or fewer and let the bullets carry the detail.
+   Then check the summary against the ad: it names two or three of the required items the
+   person holds, in the ad's words, and each of those is shown again in a scope line or a
+   bullet of the current or previous role.
 5. Run the lint and fix what it finds:
 
 ```bash
@@ -142,20 +144,39 @@ on, and write only what was asked.
 ## Reviewing
 
 A request to review is a review. Report findings with proposed wording and change nothing until
-the person says to apply them (C). In this order:
+the person says to apply them (C).
 
-1. **Cold read.** Read it as the hiring manager would and quote each sentence you stumbled on,
-   with the reason. Do this before checking any rule; a review that checks only consistency
-   passes copy that reads badly (C).
-2. **Section by section.** For each of the 8 sections in the table: does it do its job, does it
-   pass its test, and what exact wording would fix it, using only facts already in the
-   document or supplied with it.
-3. **Overclaim check** against the facts supplied: a stronger verb than confirmed, an expected
-   outcome written as achieved, a figure whose noun changed, one piece of work counted twice.
-4. **What is missing** from the career that the documents supplied show and the résumé omits.
-5. **Lint output**, quoted.
+Read first, before checking any rule: go through the document as the hiring manager would and
+note each sentence you stumbled on and why. A review that checks only consistency passes copy
+that reads badly (C). Then check each of the 8 sections against its job and its test, check for
+the four kinds of drift against the facts supplied, look for what the career shows that the
+résumé omits, and run the lint.
 
-Write the review as a file when it runs past 40 lines, with the sections above as its headings.
+Write the review for someone who will act on it in ten minutes. Blind judges preferred a shorter
+review that ended in a usable draft over a longer one that showed its working (evals). The file
+has these 6 parts, in this order, and runs to 80 lines or fewer:
+
+1. **Verdict**, in 3 lines or fewer: whether to send it, and the two or three things that
+   matter most.
+2. **Overclaims**: a table of each line that states more than the facts support, with the fact
+   and the wording that fits it.
+3. **What reads badly or is missing**: the sentences you stumbled on and the section faults,
+   each in one line with its fix. Merge a point that appears under two headings into one.
+4. **How it fits the ad**: each required item as shown, partly shown or not shown. For an item
+   not shown, say in one line how to meet it honestly outside the résumé, in a cover letter or
+   at interview, and what nearby experience the person does have.
+5. **Proposed wording**: one clean, copy-ready version of the résumé's changed sections, using
+   only facts already supplied. It contains no brackets and no unconfirmed material, so it
+   could be sent as it stands.
+6. **Questions for the person**: each missing fact as one question, with what it would add and
+   where. Six blind verdicts out of six asked for these to sit outside the draft, so a draft
+   can never go out with a placeholder in it (evals).
+
+Keep out of the file: the lint's raw output (state its error count in one line and fold its
+findings into part 3), a per-section restatement of each job and test, and claims about
+research or ranking tools. When a figure is restricted, such as one marked internal only, refer
+to it as "the internal-only figure" and do not repeat the number anywhere in the review, quotes
+included, so the review itself is safe to forward.
 
 ## Working with the rest of career-kit
 

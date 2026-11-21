@@ -38,19 +38,32 @@ Sydney, NSW | 0400 000 000 | name@example.com | linkedin.com/in/name | Australia
 
 ## 2. Professional summary
 
-One paragraph, 60 to 100 words (R). It is the part most likely to be read by a person and the
-part an AI summary is most likely to be built from, so it has to make the case alone.
+One paragraph, 60 to 90 words (R, evals). It is the part most likely to be read by a person and
+the part an AI summary is most likely to be built from, so it has to make the case alone, and it
+has to be short enough that the reader reaches the roles.
 
 Write it in this order:
 
 1. **Who they are now**, in the target role's terms: the current title and what they own, with
    one figure for scale (R, C).
-2. **What makes them different** from another person with the same title. For someone who moved
+2. **What the role requires that they hold.** Name two or three of the ad's required items in
+   the ad's own words, as things they do: "I write the user stories and acceptance criteria for
+   2-week sprints". Cover the kinds of requirement the ad has: the role itself, the method, and
+   the domain (an ad for card disputes wants to see chargeback operations named). This is where
+   a reader and a ranking tool look first for the match, and a summary that spends its words
+   elsewhere reads well and suits the ad badly (R, evals). Each item named here is also shown
+   in the current or previous role, as a scope line or a bullet; a claim that lives only in
+   the summary and the skills has no evidence under it (R, evals).
+3. **What makes them different** from another person with the same title. For someone who moved
    between functions, this is usually where they came from and what that lets them see (C).
-3. **Proof they deliver in the current role**: one or two things that happened, each named in a
-   clause, each of which a bullet below describes (R, C). The summary points at the proof and the
-   bullet tells it; the same story told in full in both places is the first thing a reader
-   skims past.
+4. **At most one proof**, and it names the decision: what they did and why, in a clause. "I put
+   a merchant auto-fill ahead of a requested dashboard because staff were retyping details on
+   most cases." A proof that points without naming, such as "one such call" or "a
+   prioritisation decision of mine", reads as evasion; five blind verdicts of six asked for
+   the decision itself (evals). In a full résumé the bullet carries the figures and the
+   summary does not repeat them. When the summary stands alone, as a profile or a form field,
+   give the result figure too. When the paragraph would pass 90 words, cut this sentence
+   before anything in parts 1 to 3.
 
 What stays out, and why:
 
@@ -109,7 +122,9 @@ how much it holds, and let the two tests above decide what goes in.
 Several roles at one employer go under one employer heading, with each role dated separately
 below it (R). Follow the heading with one or two first-person sentences: where they started, how
 many times they were promoted or moved, and a positive reason for the most recent move (R, C).
-If the summary already gave the reason for the move, leave it out here.
+If the summary already gave the reason for the move, leave it out here: one sentence of
+progression is enough, and a second telling of the career is the first thing a reader skips
+(evals).
 Recognition that belongs to no single role can go here, worded as what was actually awarded and
 to whom; a team award is a team award (C).
 
@@ -132,17 +147,25 @@ order, every time. Repeating the employer costs a human reader nothing and keeps
 intelligible when a parser detaches it from the heading above (R). Keep the title exactly as
 the employer records it; where it is obscure, add a truthful functional gloss after a dash (R).
 
-**Scope paragraph**, first person, present tense, one to three sentences and under about 50
-words: what exactly they own, inside what structure (team size, who they answer to), and how the
-work runs. Leave out anything the summary or the employer sentences already said, such as what
-the product is or how many people use it; a reader meets those lines seconds apart. Work that is
-still in build, with a forecast and no result, is one short bullet at the end or is left out. Ongoing duties live here: "I write the user stories and acceptance criteria" (C). State
-direct reports separately from the size of a squad or team they work in but do not manage (R).
+**Scope line**, first person, present tense, one or two sentences and under about 35 words:
+what exactly they own, inside what structure (team size, who they answer to), and how the work
+runs. Leave out anything the summary or the employer sentences already said, such as what the
+product is or how many people use it; a reader meets those lines seconds apart. Ongoing duties
+live here: "I write the user stories and acceptance criteria" (C). State direct reports
+separately from the size of a squad or team they work in but do not manage (R). A reader scans
+for the bullets, so the scope line is the frame and the bullets carry the evidence (evals).
+
+Work that is still in build goes in its own last bullet, marked as not yet released, with a
+forecast worded as a forecast. Leave it out when space is short.
 
 **Then 3 to 5 bullets** (R). Each bullet is one thing that happened:
 
 - the situation in a clause, what they did, and what resulted;
 - a detail only they would know, such as a system name, a volume, a trade-off they made (R, C);
+- for the current role, one bullet or the scope line for each required item the summary or
+  the key skills named, so the ad's terms sit in dated evidence. List those items before you
+  finish and find each one under a role; a method or a tool that appears only in the skills
+  list has nothing under it (R, evals);
 - a figure where one was confirmed. Where no result was measured, give the scope instead (how
   many people, sites, releases) and write no result figure (R);
 - two sentences are fine when the second carries the result. One idea per bullet.
@@ -205,7 +228,7 @@ Melbourne, VIC | 0400 000 000 | priya.nair@example.com | linkedin.com/in/priya-n
 
 ## Professional summary
 
-I am the Product Owner for the claims lodgement journey at Harbour Mutual, used by about 9,000 customers a month. I came to product from the claims floor, where I led a team of 12 assessors, so I know which steps customers abandon and why. In product I have shipped 3 releases, and I put a duplicate-claims fix first when call volumes showed what the duplicates were costing.
+I am the Product Owner for the claims lodgement journey at Harbour Mutual, used by about 9,000 customers a month. I write the user stories and acceptance criteria and prioritise the backlog from call and claims data. I came to product from the claims floor, where I led 12 assessors, so I know which steps customers abandon and why. I put a duplicate-claims fix first when call data showed how many lodgements were being made twice.
 
 ## Key skills
 
@@ -221,7 +244,7 @@ I started as a claims assessor and was promoted twice before moving into product
 
 #### Product Owner, Claims Lodgement | Harbour Mutual | Feb 2024 – Present
 
-I own the backlog for the online lodgement journey in an 8-person squad, and I work to the Head of Claims Product. I write the user stories and acceptance criteria and accept each release.
+I own the lodgement backlog in an 8-person squad and work to the Head of Claims Product.
 
 - Moved a fix for duplicate claims ahead of a planned photo-upload feature after call data showed about 400 duplicate lodgements a month. Duplicates fell to about 60 a month within 2 releases.
 - Took the lodgement backlog through 3 releases, coordinating the testing that the assurance team ran before each one.
@@ -237,8 +260,8 @@ I led 12 assessors handling motor claims.
 #### Claims Assessor | Harbour Mutual | Mar 2012 – Jul 2018
 ```
 
-What the example shows: the summary names the current role, the difference (the claims floor)
-and two proofs that the bullets carry; every skill has a line that shows it; "coordinating the
+What the example shows: the summary names the current role, two things the role requires, the
+difference (the claims floor) and one proof as a clause, which the first bullet tells in full; every skill has a line that shows it; "coordinating the
 testing that the assurance team ran" keeps the scope exact; the third bullet has no result
 figure because none was measured; there is no education section because the invented person has
 nothing to list.

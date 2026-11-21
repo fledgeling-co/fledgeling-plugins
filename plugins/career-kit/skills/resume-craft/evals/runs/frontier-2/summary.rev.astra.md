@@ -1,0 +1,6 @@
+🫥 ACCURACY: TIE — Both protect the internal loss figure, but A credits the ageing report with reducing old cases and B credits auto-fill with cutting handling time when Hannah confirmed only before-and-after figures.  
+READS: B — Its shorter sentences make her one-backlog remit easier to grasp, and the research gives no basis for predicting a parsing or ranking advantage from either paragraph alone.  
+SUITS: A — The 70% retyping figure explains why she deferred the managers’ dashboard, and Jira and Confluence match the ad, though neither summary demonstrates the required scheme mandate delivery or work with Risk.  
+IMPROVE_A: Move the final operations sentence into her employment history so the summary ends with her backlog decision and the handling time observed after release.  
+IMPROVE_B: Rewrite the final sentence as “I prioritised merchant-details auto-fill over a requested dashboard after case data showed staff retyping those details on about 70% of cases, and average handling time fell from 18 minutes to 14 in the quarter after release.”  
+VERDICT: B

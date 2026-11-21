@@ -1,0 +1,6 @@
+ACCURACY: A, because it deletes the restricted figure and every overstated role, scope, and result claim, while B's replacement wording says she is “currently building” auto-categorisation although her part in it is unconfirmed and its verdict counts stakeholder work across risk as met despite no confirmed risk work.
+READS: A, because its complete single-column draft uses conventional headings, contact details in the body, and a grouped employer with the employer repeated on each dated role line, making it faster to scan and safer to parse than B's longer review and fragmented blockquoted snippets.
+SUITS: A, because it ties the merchant auto-fill evidence and disputes history directly to the ad while plainly naming the scheme-mandate gap and risk as only partly shown, rather than B claiming four of five requirements met and adding unsupported auto-categorisation work.
+IMPROVE_A: Add an explicit fit note and interview point on Lantern's customer-facing discovery and accepting work each sprint, because Beacon is internal-facing and neither duty is confirmed yet.
+IMPROVE_B: Delete the “currently building auto-categorisation” bullet until Hannah confirms her actual part, then reintroduce it only as in-build work with the 30 percent clearly labelled a forecast.
+VERDICT: A
