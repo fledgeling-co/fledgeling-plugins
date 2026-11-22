@@ -145,6 +145,11 @@ python3 scripts/build_form.py --spec questions.json --out questions.html \
     --title "Jane Doe — résumé questions" --key jane-resume-v1
 ```
 
+When the person sends free-text feedback, check your reading before rewriting anything: one
+question per note, quoting it, with your readings as options to tap and nothing pre-selected.
+Put the general rules you drew from it back to them as a tick list. `references/questions-form.md`
+has the shape.
+
 An example the person selects and leaves unchanged is their answer. A suggested default they
 never touched is weaker: before printing a figure or an outcome that rests on one, ask. When a
 ticked option and the note beside it disagree, ask one follow-up instead of choosing a
@@ -237,6 +242,11 @@ before recording a failure, and treat the result as interim until every lane has
 on majority agreement; the person's own decisions outrank every reviewer. Stop when the
 remaining edits are the panel's own wording.
 
+Once a round of the person's corrections is in, ask which other lines do not represent their
+work. For the lines they flag, recommend wording grounded in the research on how hiring
+managers read (stage 2), with the source beside each suggestion. The person asked for this
+step in the source session; a panel's taste is not a reason to change their words.
+
 Depth, including how to write a brief and how to tally: `references/panels.md`.
 
 ## 9. Research and write the interview guide
@@ -276,7 +286,9 @@ Depth: `references/project-record.md`.
   change anything, explain why" ask for an answer. Give the real cause, including a brief or
   a check of your own that produced the problem, and change nothing until asked.
 - When they correct something, find the rule behind the fault and apply it to every section
-  and every document, and say what you kept as well as what you changed.
+  and every document, and say what you kept as well as what you changed. Put the rule back to
+  them to confirm: a rule they confirm is a standing decision, and one they leave unconfirmed
+  is your reading, not theirs.
 
 **The work**
 

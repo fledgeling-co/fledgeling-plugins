@@ -66,6 +66,9 @@ What each role family reads for (R):
 - Ask which figures may leave the organisation and which may be public, before writing either
   copy. A count that is fine on an internal application can breach a confidentiality rule on a
   public page (C).
+- Internal performance language is softened on a public copy, like a restricted figure: a
+  red, amber or green status or a performance improvement plan becomes "from missed to met
+  service levels". The person chose that wording for their own public copy (C).
 - The public copy is the same document with those changes, kept in step with the source. After
   a fact changes in one copy, check the others and say which you changed (C).
 - An internal reader's familiarity with the person's name is not familiarity with their work.

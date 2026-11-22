@@ -60,6 +60,11 @@ themselves are evidenced in `../../resume-craft/references/evidence.md`.
 | Join on a held pose, and measure a skip | The person reported frame skips while the character was thinking. Frame-to-frame difference across the join was 1.41 against 0.4 to 0.5 either side: the first clip was still moving when it reached its last frame and the second started from rest |
 | Fit the length in the script, never in the edit | A 20-second sequence was cut to 14 by speeding it up 1.35 times, cutting inside two clips and cross-fading one join. The person described each of those as a skip |
 | A contact sheet is not a viewing | Every clip was checked from tiled frames and reported as correct. The person, watching, found the rushed pace, the skips and the missing pause after the wave |
+| Check your reading of free-text feedback before rewriting | On 22 November 2026 the person sent about fourteen notes. A page of 25 questions, each quoting a note with the readings as options and nothing pre-selected, came back with every question answered. Two of her answers chose a reading the drafts had not considered: work split into the part she supported and the part that was hers |
+| Put the rules you drew back to the person | Seven rules drawn from her notes were offered as a tick list; she ticked four. The other three stayed the skill's defaults, and her own answers on two verbs went the other way from one of them |
+| Offer an old document's lines back as a tick list | Her note said "review original resume copy"; offered its four lines for one role, she took three back |
+| An unchanged example is often the floor | A selected example about missed service levels stood for two rounds; her own words described a red-to-green turnaround over a six-month plan |
+| After corrections, ask which other lines do not represent the work, and offer research-backed wording | The person asked for this step herself, and chose it for the lines she had flagged |
 
 ## What this skill changed from the session
 

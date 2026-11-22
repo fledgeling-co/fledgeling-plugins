@@ -77,6 +77,17 @@ is mentioned:
 | Watched performance of people who report elsewhere | Oversaw | Managed, led |
 | Owns one part of a team's work | Own [the named part] | Own the team's [whole thing] |
 
+**A mixed piece of work takes a verb for each part.** One person supported a contract
+negotiation and did the service-level uplift inside it herself; another reviewed the cause of a
+fault and recommended a fix that others built. Ask which part was theirs, then write "I
+supported the negotiations; the uplift to the service levels was my work" and "reviewed the
+root cause and recommended the reconciliation the team built". A single verb would have
+claimed the negotiation or hidden the uplift. A note from the person that says "implemented"
+or "negotiated" is the prompt to ask (C).
+
+Scope verbs drift down as well as up. "Recommended stricter measures" stood in every draft
+where the person had negotiated the uplift into the contracts (C).
+
 Reviewers in one engagement caught "shipped" where the truth was "supported", "runs" where it
 was "coordinates" and "led" where it was "coordinated", on separate rounds (C). When
 `../career-kit/scripts/facts_lint.py --verbs` is available, run it to list candidates.
@@ -91,6 +102,16 @@ Check a draft for each by name. A figure check catches none of the last three (C
 3. **A figure whose noun changed.** "About 20,000 staff" when the fact is 20,000 users.
 4. **One piece of work counted more than once.** A conflict audit, a risk decision and a
    remediation that were one job, written as three bullets.
+
+Two neighbours of these are worth checking by name as well (C):
+
+- **A setting that changed.** A bullet about one channel's process moved under a later role and
+  kept "the phone channel" when the work had been in the branches. The source line said the
+  branches became "consistent with" the phone channel, and the comparison had been read as the
+  setting.
+- **One program across two roles.** A telephony and workforce-system migration showed up as a
+  platform move in one role and as subject-matter work in the next. It is one program: tell
+  each role's part once, and do not let a reader count two.
 
 Related measurement rules from the research (R): 82% to 94% is 12 percentage points, not 12%;
 say whether a saving was realised or forecast; say whether a result was theirs or the team's;
@@ -132,6 +153,16 @@ fact has an obvious next question:
 | "It went well" or "it was adopted" | How could you tell? | A measure, or an honest "nothing was tracked" |
 | A change they made | What was it like before? | The contrast that makes the change readable |
 | A bullet that stops at the action | What was different afterwards? | The second half of the bullet, or its scale if nothing was measured |
+| A role's duties | What was the role for, who did you support, and what were you measured on? | A scope line about purpose, in place of the duty mentioned most recently |
+| Any role | What else did you deliver that you are proud of? | Achievements no question reached |
+| "Implemented", "negotiated", "delivered" in a note | Which part of it was yours? | The exact verb for each part |
+| A number taken from an old document | Of what: people or seats, users or staff? | The noun the number belongs to |
+
+In one engagement a minor duty the person mentioned in passing became the headline of a role
+whose real job was service, onboarding and efficiency within a budget; a delivery and a
+supplier turnaround from red to green had no line at all until the person wrote them into her
+own feedback; and a headcount of 1,400 people sat in every draft as 1,400 seats, the noun from
+her own old résumé. None of the four was asked about (C).
 
 Ask these when you first meet the fact, not at the end. Write the line with what is known
 meanwhile, and leave a red placeholder where the answer will go ("…under one way of working,
@@ -311,6 +342,10 @@ describes what happened in it (R).
 - Explain nothing the reader already knows. Before glossing a name, ask whether the person
   hiring for this role would recognise it. Widely used products, well-known companies and
   standard methods need no gloss: Excel, Jira, Microsoft Copilot, Scrum, a major bank (C).
+- Describe a mechanism by what it protects or achieves. "The controls that keep duties
+  separate" is a mechanism; "controls that keep our people and customers safe" is what a
+  hiring manager outside the function values. The person's part goes with it: designing and
+  delivering the controls, not maintaining them (C).
 - Capitalise what the organisation capitalises (Release Train, Definition of Done) and keep
   "agile" lower case.
 

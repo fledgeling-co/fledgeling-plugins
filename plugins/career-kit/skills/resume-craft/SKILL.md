@@ -93,11 +93,11 @@ Write the sections in this order, under these headings, in one column of plain t
 | Section | Its job | Limit (R) | Test |
 | --- | --- | --- | --- |
 | Name and contact line | How to reach them and their right to work | Name, then 1 or 2 lines | Is everything plain text in the body, and is anything there that no employer needs? |
-| Professional summary | What they are responsible for now, which of the ad's requirements they hold, what makes them different, and the judgement their work turns on | 60 to 90 words; the research allows 100 | Could this paragraph sit on someone else's résumé? Could each sentence begin "Usually"? |
+| Professional summary | What they are responsible for now, named so a reader outside their team understands it, which of the ad's requirements they hold, what makes them different, and the judgement their work turns on | 60 to 90 words; the research allows 100 | Could this paragraph sit on someone else's résumé? Could each sentence begin "Usually"? |
 | Key skills | What they are unusually good at, as abilities that carry to another role | 2 to 4 labelled lines, plus a tools line | Is each item an ability, true in their next job, missing from most résumés with the same title, and shown by a line below? |
 | Employer heading | Where they have worked and how they moved | 1 line, plus 1 or 2 sentences when several roles sit under one employer | Are the start date and each move true and visible? |
 | Current role | Exactly what is theirs, then what happened because of them | Scope line of 1 or 2 sentences; 3 to 5 bullets | Is each bullet one thing that happened, ending on what it changed? |
-| Roles in the last 10 to 12 years | The depth the summary claims | Scope line with scale; 2 to 4 bullets, fewer as roles get older | Does this role show something the summary says? |
+| Roles in the last 10 to 12 years | The depth the summary claims | Scope line with purpose and scale; 2 to 4 bullets, fewer as roles get older | Does this role show something the summary says? Does its scope line say what the role was for? |
 | Earlier roles | That the ladder exists | Title, employer, dates; at most 1 line | Would a reader miss this line if it were cut? |
 | Education and certifications | Qualifications actually held | 1 line each | Is there something to list? Leave the section out when there is not |
 
@@ -147,6 +147,12 @@ cost a page.
   work is not the team's work. People who know the real scope read the résumé.
 - Check for four kinds of drift: a stronger verb than they confirmed, an expected result
   written as achieved, a figure whose noun changed, and one piece of work counted twice.
+- Give each part of a mixed piece of work its own verb: "I supported the negotiations; the
+  uplift to the service levels was my work". One verb for the whole either claims the part they
+  supported or undersells the part that was theirs.
+- Where each achievement happened is a fact. A bullet moved to another role keeps its old
+  context words, and a comparison ("consistent with the phone channel") is easily misread as
+  the setting. One program that ran across two roles is told once in each, as that role's part.
 
 **Worth reading**
 
@@ -154,6 +160,12 @@ cost a page.
   what mattered, say what was at stake, put the scale beside the action, and end on what
   changed and not on the admin. The verb, the figures and the result stay exactly as
   confirmed; the order, the emphasis and the context are yours to choose.
+- Show judgement and authority more than process: what they decided, under what delegated
+  authority, and when they chose to escalate. Milestones, dependencies, risks and issues read
+  as administration.
+- The person judges which of their examples is strongest. An example they call weak and cannot
+  replace comes out; a bullet count is never the reason to keep it. When it was the only line
+  showing a requirement the summary names, say which requirement loses its evidence, and ask.
 - One headline, one support. Each bullet makes its point in the first sentence and carries at
   most one supporting fact, the one that most changes what the reader thinks of the person.
   How it was done, with which tools and through which process goes, unless that is the point.
@@ -167,6 +179,10 @@ cost a page.
 - Each sentence has one reading. Say who does each thing and in what order.
 - Every word tells this reader something. Explain an internal name in a few words on first
   use; explain nothing they already know.
+- Describe a mechanism by what it protects or achieves, and give the person's part in it:
+  "designing and delivering controls that keep our people and customers safe", not "the
+  controls that keep duties separate". A reader outside the function values a purpose on
+  sight; a mechanism needs explaining.
 - Plain verbs, the local spelling, numerals for counts. The register that reads as generic or
   machine-written is listed in `references/voice.md`, and the lint fails on it (R).
 
@@ -256,7 +272,8 @@ parts.
    not shown, how to meet it honestly outside the résumé.
 5. **Proposed wording**: one copy-ready version of the changed sections, from facts already
    supplied, with a red placeholder wherever a better line is waiting on an answer.
-6. **Questions for the person**: one per placeholder, with what the answer would add.
+6. **Questions for the person**: one per placeholder, with what the answer would add, and a
+   last one asking which other lines do not represent their work.
 
 Keep out of the review: the lint's raw output, a restatement of each section's job, and claims
 about research or ranking tools. Refer to a restricted figure as "the internal-only figure"

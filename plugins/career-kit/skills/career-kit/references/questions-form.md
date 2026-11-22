@@ -65,6 +65,39 @@ Fast forms invite agreement. In that third form eleven of fifteen optional notes
 unchanged example saying, in effect, "happy with your suggestion". Do not offer an example that
 only agrees; it carries no information and it will be tapped.
 
+## Checking you understood their feedback
+
+A person's own notes on a draft are the best input an engagement gets, and the easiest to
+misread. "Remove the specific product" had two readings; "uplifted the SLAs through negotiation"
+could mean she led the negotiation or did the uplift inside one; "this was branch" corrected a
+setting the drafts had carried for days. Check the reading before rewriting anything.
+
+- **One question per note.** Quote the note in the question's "why" line, state your reading,
+  and offer the plausible readings as options, with "Something else (say in the note)" and a
+  notes box. Pre-select nothing: an untouched default would read as agreement.
+- **Offer no tap-to-fill examples.** On a check page every example is either an invented fact or
+  a line that only agrees.
+- **Where a verb could mean either, split the work into parts.** "I supported the negotiations,
+  and the uplift to the service levels was my work" and "I reviewed the cause and the change
+  was made by others on my recommendation" were each chosen over a single verb.
+- **Ask the noun of every number and whether two pieces of work are one.** People or seats; the
+  same program seen from two roles, or two programs.
+- **Where a note points at an old document**, such as "review my original résumé", offer its
+  lines back word for word as a tick list. The person took three of four back.
+- **Put the rules you drew from the notes back as a tick list.** A ticked rule becomes a
+  standing decision for every section and document. An unticked one is your reading and is not
+  recorded as theirs. In the source session the person ticked four of seven.
+- **End with two questions:** which other lines do not represent their work, and whether they
+  want wording suggestions, backed by research on how hiring managers read, for the lines they
+  flag.
+
+A note with no tick is an answer, and for wording questions it was the usual one: both summary
+wording questions came back as "Something else" with the person's own sentence. Every one of 25
+questions was answered.
+
+The page saves as the person goes, and people download it before they finish. Treat the latest
+download as superseding an earlier one, and compare the two before reading either.
+
 ## When the tick and the text disagree
 
 One answer ticked "drop this claim" and wrote a note that supported the claim. Do not pick a
@@ -78,6 +111,12 @@ exists so you can see which answers were selected, not so you can discount them.
 session fifteen answers came back as unchanged examples and were treated as unverified; the
 person had selected them because they were accurate, and their relay said so. Ask before
 treating a selection as a non-answer.
+
+It is often the least they did, though. In the source session an unchanged example, "missed
+service levels were picked up sooner", stood in the résumé for two rounds; the person's own
+words, when she wrote some, were "from red to green across a six-month performance improvement
+plan". In a later round, show example-text answers back and invite the person's own words,
+results first.
 
 ## Placeholders and questions are the same list
 

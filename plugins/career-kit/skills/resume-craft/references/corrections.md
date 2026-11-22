@@ -72,6 +72,16 @@ cutting, and re-run the section's test afterwards.
 | "Do not write for a keyword search" | A term that is there only because the ad uses it | The ad's phrase where it is true, once, in a sentence that shows it |
 | Scope verbs are fixed | A stronger verb | The work itself; "supported" is still worth a bullet |
 | A restricted figure stays off public copies | The figure on those copies | The figure on the internal copy, and the work it measured everywhere |
+| "Remove the specific product… so more transferable" | A niche product named in the summary | The platform or field, in the summary; the product, in the role below |
+| "Long career in banking" | A career told only as a list of functions | The industry and the practice, named, with the functions after them |
+| "Controls that keep [our people and customers] safe" | The mechanism as the point ("keep duties separate") | The control, what it protects, and the person's part in designing and delivering it |
+| "The prioritising example is weak" (and no better one to hand) | Keeping a weak example to make up a count | The requirement it showed: if nothing else shows it, say so and ask |
+| "Continuity plan was a minor aspect of the role" | A minor duty as a role's headline | What the role was for, who it served and what it was measured on |
+| "This was branch, not the phone channel, and a continuation of point 6" | A setting carried from another role or read from a comparison; one program as two bullets | Every true part, in one bullet, in the right setting |
+| "Reword to be action-oriented" | A passive outcome with no actor | The exact verb: "reviewed the cause and recommended the change others made", not "implemented" |
+| "Uplifted the service levels through negotiation" | "Recommended" for work that was theirs | "Supported" for the negotiation; each part its own verb |
+| "Multi-channel is relevant to indicate complexity" | Dropping complexity markers to shorten a scope line | Channels, brands, inbound and outbound: what makes the scale hard |
+| "A 1,400-head contact centre" | A noun carried from an old document (seats) | The person's own noun, confirmed |
 
 ## Over-corrections found on audit
 
@@ -92,6 +102,7 @@ stayed.
 | Each skill was rewritten to describe a bullet | Each skill needs a proving line | The skill's general form |
 | The skills were stripped to what any holder of the title does | "Make it more general" | The person's strengths |
 | An award the person had listed as theirs was written as a bare fact about a project | A rule about form never licenses a new claim | The plain implication of their own answer, and the one warm sentence in the section |
+| A supplier bullet said "recommended stricter measures" through every draft | Scope verbs are fixed, applied as caution | The uplift to the contracts, which was the person's own work |
 
 The common cause: the most recent instruction was treated as the only one. Earlier decisions,
 the research's requirements and the section's job were not re-checked after each change.

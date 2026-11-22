@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## Unreleased
+
+Decisions from a fifth round on the source engagement, 22 November 2026, in which the person sent
+free-text notes on the résumé and a page of 25 questions checked how they had been read.
+
+- `resume-craft`: the summary names the platform or field and the industry, not a niche product;
+  a mechanism is described by what it protects and the person's part in it; a scope line says
+  what the role was for, who it served and what it was measured on, with complexity as part of
+  scale; judgement and authority are shown more than process; each part of a mixed piece of work
+  takes its own verb; where an achievement happened is a fact, and one program across two roles
+  is told once in each; an example the person calls weak and cannot replace comes out, with the
+  requirement it showed raised. New questions to ask of a role, eleven correction rows, and the
+  summary example in `sections.md` no longer uses the mechanism wording the person rejected.
+- `resume-craft` `tailoring.md`: internal performance language is softened on public copies.
+- `career-kit`: check your reading of free-text feedback before rewriting, with one question per
+  note and nothing pre-selected; put the rules you drew back to the person as a tick list, and
+  record only the ticked ones as theirs; after a round of corrections, ask which other lines do
+  not represent their work and recommend wording for those from the research on how hiring
+  managers read.
+- Not re-run: the evals.
+
 ## 0.5.0
 
 `career-kit:resume-craft` reviewed and rebuilt as a whole, after a day of piecemeal additions.

@@ -65,7 +65,10 @@ has to be short enough that the reader reaches the roles.
 Write it in this order:
 
 1. **What they are responsible for now**, in the target role's terms, with one figure that sizes
-   that responsibility (R, C). Open with the responsibility and let the title ride along: "As
+   that responsibility (R, C). Name it at the level a reader outside their team understands:
+   the platform or the field, not the niche product inside it, which belongs to the role below.
+   "Product Owner working on the claims platform" carries further than the name of one
+   backlog (C). Open with the responsibility and let the title ride along: "As
    Product Owner for claims lodgement, I am responsible for how about 9,000 customers a month
    lodge a claim." A summary that opens "I am the Product Owner for X, which has 9,000 users"
    gives a label and a fact about X; the title is already on the role line, and the figure has
@@ -81,12 +84,15 @@ Write it in this order:
 3. **What makes them different** from another person with the same title. For someone who moved
    between functions, this is usually where they came from and what that lets them see (C).
    For someone with a long career, it is usually the span: say the range of work behind them
-   in one clause, most recent first, in words and without headcounts. "I came to product from
-   branch operations, after a long career across lending, collections and frontline service."
+   in one clause, most recent first, in words and without headcounts, and name the industry and
+   the practice it was spent in. "I came to product from branch operations, after a long career
+   in banking across lending, collections and frontline service." A list of functions alone
+   leaves the reader to guess the industry (C).
    One past job stands for one past job; it does not stand for a career (C).
 4. **The judgement the work turns on**, in one sentence that is true every week: the trade-off
    they keep having to make, or the question they ask of each piece of work. "Most of my work
-   is weighing simpler access for staff against the controls that keep duties separate." The
+   is weighing simpler access for staff against designing controls that keep our people and
+   customers safe." Say what the control protects, not how it works (C). The
    strongest single example of it is then the first bullet of the current role, where it has
    its context and its figures. When the paragraph would pass 90 words, cut this sentence
    before anything in parts 1 to 3.
@@ -301,8 +307,17 @@ Test: is each bullet one thing that happened, with a detail only they would know
 
 ## 6. Roles in the last 10 to 12 years
 
-Each gets a role line, a scope line that gives scale, and 1 to 4 bullets of what changed because
-they were there (R). Two to four for the role before the current one, fewer as the roles get
+Each gets a role line, a scope line that gives purpose and scale, and 1 to 4 bullets of what
+changed because they were there (R).
+
+The scope line says what the role was for, who it served, and what the person was measured on
+("I supported the head of the channel to deliver its service objectives across lending and
+transactions, over phone and chat, for service quality within the assigned budget"), then its
+scale and what made it complex: several channels or brands, inbound and outbound work, in-house
+and outsourced sites. Complexity markers are scale, not decoration; one person asked for
+"multi-channel" back because it indicates the complexity of the work (C). Check the noun of
+every number: people or seats, staff or users. A duty the person mentioned in passing is not the
+scope line; ask what the role was for (C). Two to four for the role before the current one, fewer as the roles get
 older.
 
 These roles carry the breadth the summary claims. If the summary says they came from
