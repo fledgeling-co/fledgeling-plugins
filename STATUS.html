@@ -456,14 +456,14 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
 <script type="application/json" id="report-data">
 {
  "project": "fledgeling-plugins",
- "updated": "2026-11-22T04:10:00+00:00",
+ "updated": "2026-11-22T04:40:00+00:00",
  "verdict": {
   "token": "done",
-  "number": "9 of 9",
+  "number": "10 of 10",
   "unit": "changes made and checked",
-  "headline": "Both design skills now carry the 2026–27 trends and the four defaults to avoid",
-  "run_label": "design-craft 1.6.0 · ux-craft 2.7.0",
-  "head_sha": "263673b"
+  "headline": "Both design skills carry the 2026–27 trends and now fall back to agent-browser",
+  "run_label": "design-craft 1.6.1 · ux-craft 2.7.1",
+  "head_sha": "c1b5472"
  },
  "tasks": [
   {
@@ -472,60 +472,76 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "origin": "asked for",
    "stage": "checked",
    "outcome": "done",
-   "note": "Dossier run, 7 X searches, 17 videos, primary pages"
+   "note": "Dossier run, 7 X searches, 17 videos, primary pages",
+   "version": "c1b5472"
   },
   {
    "id": "DT-2",
    "title": "design-craft trend list rewritten for 2026–27",
    "origin": "asked for",
    "stage": "code written",
-   "outcome": "done"
+   "outcome": "done",
+   "version": "c1b5472"
   },
   {
    "id": "DT-3",
    "title": "Fourth default look and late-2026 tells added to the slop check",
    "origin": "asked for",
    "stage": "code written",
-   "outcome": "done"
+   "outcome": "done",
+   "version": "c1b5472"
   },
   {
    "id": "DT-4",
    "title": "Six new aesthetic worlds and three recipe files",
    "origin": "asked for",
    "stage": "code written",
-   "outcome": "done"
+   "outcome": "done",
+   "version": "c1b5472"
   },
   {
    "id": "DT-5",
    "title": "Direction, motion and depth guidance updated",
    "origin": "asked for",
    "stage": "code written",
-   "outcome": "done"
+   "outcome": "done",
+   "version": "c1b5472"
   },
   {
    "id": "DT-6",
    "title": "ux-craft generative-UI and agent guidance updated",
    "origin": "asked for",
    "stage": "code written",
-   "outcome": "done"
+   "outcome": "done",
+   "version": "c1b5472"
   },
   {
    "id": "DT-7",
    "title": "Onboarding, forms, mobile and legal dates updated in ux-craft",
    "origin": "asked for",
    "stage": "code written",
-   "outcome": "done"
+   "outcome": "done",
+   "version": "c1b5472"
   },
   {
    "id": "DT-8",
    "title": "Versions, changelogs and marketplace entries bumped",
    "origin": "planned",
    "stage": "code written",
-   "outcome": "done"
+   "outcome": "done",
+   "version": "c1b5472"
   },
   {
    "id": "DT-9",
    "title": "Root changelog written and site catalogue regenerated",
+   "origin": "asked for",
+   "stage": "code written",
+   "outcome": "done",
+   "version": "c1b5472"
+  },
+  {
+   "id": "DT-10",
+   "title": "agent-browser made the fallback browser in both skills",
    "origin": "asked for",
    "stage": "code written",
    "outcome": "done"
@@ -539,6 +555,14 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "counts": "64/64",
    "state": "done",
    "kind": "build"
+  },
+  {
+   "name": "agent-browser does what Obscura cannot",
+   "command": "agent-browser probe on a loopback fixture",
+   "exit_code": 0,
+   "counts": "10/10",
+   "state": "done",
+   "kind": "design"
   },
   {
    "name": "design-craft's lint proves every rule can fire",
@@ -603,8 +627,8 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "score": 50,
    "severity": "medium",
    "file_line": "plugins/design-craft/skills/design-craft/SKILL.md (Environment notes)",
-   "claim": "design-craft forbids Playwright, which your instructions now name as the fallback browser",
-   "state": "needs-work"
+   "claim": "design-craft banned a second browser; agent-browser is now the fallback",
+   "state": "done"
   },
   {
    "id": "DT-F2",
@@ -640,6 +664,10 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
   }
  ],
  "not_checked": [
+  {
+   "axis": "agent-browser on pseudo-elements, SVG boxes, radios, frame timing",
+   "why_not": "Not part of the 22 Nov probe."
+  },
   {
    "axis": "A design built with the updated skills",
    "why_not": "No design was generated this session to try the changes."
@@ -695,12 +723,6 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
  ],
  "needs_you": [
   {
-   "ask": "Should design-craft allow Playwright as a fallback?",
-   "kind": "decision",
-   "waiting_since": "2026-11-22T03:56:36+00:00",
-   "one_line": "The skill bans it; your instructions call it the sanctioned fallback."
-  },
-  {
    "ask": "Check the xAI console for a stray research job",
    "kind": "decision",
    "waiting_since": "2026-11-18T01:03:01+00:00",
@@ -721,9 +743,9 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
  ],
  "git": {
   "branch": "main",
-  "commits_ahead": 1,
+  "commits_ahead": 0,
   "worktree_clean": false,
-  "pushed": false
+  "pushed": true
  },
  "armed": [
   {

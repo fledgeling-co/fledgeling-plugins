@@ -1,3 +1,9 @@
+## 1.6.1 - 2026-11-22
+
+- **agent-browser is the fallback browser.** When Obscura refuses, times out, or can't measure something, the skill now switches to Vercel's agent-browser instead of marking the check "not checked". On this machine it runs CSS animation, loads web fonts, applies print and reduced-motion, takes full-page captures at a set pixel density, and films a take with a contact sheet. The motion, print, PDF and video-export procedures say how to use it, and every reading names the engine that produced it. Playwright, Puppeteer, chrome-devtools-mcp and browser-use stay out.
+
+Note: those capabilities come from one probe on 22 November with agent-browser 0.43.0, recorded in `evidence.md` §13. Pseudo-element styles, SVG bounding boxes, native radio rendering and frame timing were not tested.
+
 ## 1.6.0 - 2026-11-22
 
 - **Trends refreshed for 2026–27.** `current-moves.md` now carries what changed between late August and November 2026 and what the 2027 forecasts expect: type with axes that do a job (a roundness axis that softens the letters instead of every card), collage and poster composites, archive and scanned material, a real human hand, whimsy with a job, 2027 colour (one luminous accent on a calm neutral; greens and earth tones), and the CSS that now ships in every browser or works as an enhancement (scroll-driven animation, view transitions, squircle corners, a styled native select, anchor-positioned indicators, staggering by position). Each row says how strong its source is, and forecasts are marked as predictions of what clients will ask for, not reasons on their own.

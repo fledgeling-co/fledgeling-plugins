@@ -214,3 +214,7 @@ Sources read for 2.7.0, from the same sweep as design-craft `references/evidence
 - **Law dates** (`platform`/legal): the European Accessibility Act applies from 28 June 2025; the DOJ interim final rule of 20 April 2026 (91 FR 20902) moved ADA Title II web compliance to 26 April 2027 and 26 April 2028 with WCAG 2.1 AA unchanged, as reported by Jackson Lewis and others (no ada.gov page was read); the W3C's WCAG 3.0 page reads "Working Draft, 10 September 2026".
 
 What this does not show: none of these sources measures whether an interview-style onboarding, a mascot, an intent bar or a styled select improves completion, trust or speed. They establish what is shipping and what practitioners are arguing about; the canon still supplies the reasons.
+
+## The fallback engine — added 2026-11-22
+
+agent-browser (Vercel, `agent-browser` 0.43.0 over Chrome for Testing) is the fallback when Obscura refuses or cannot measure a criterion, at the user's direction. The capabilities this skill cites — HTML constraint validation enforced, a native `<dialog>` closed by a real Escape, animation running, reduced-motion emulation applied — come from the single probe recorded in design-craft `references/evidence.md` §13, on this machine, `n=1`. Native radio rendering was not part of that probe.

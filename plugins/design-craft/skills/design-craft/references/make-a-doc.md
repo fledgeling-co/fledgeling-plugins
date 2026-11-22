@@ -82,7 +82,7 @@ The negative delay skips to the end; `fill-mode: both` holds the final keyframe.
 
 ### Verify it rather than assuming it — and know what this engine cannot verify
 
-**In the recorded Obscura build, print and reduced-motion emulation did not work.** `Emulation.setEmulatedMedia` is accepted and inert (measured 13 Aug 2026), so `matchMedia('print')` stays false and a "print pass" run through Obscura returns the screen rendering with a clean result. That is the exact collision `visual-verification.md` Phase 0 rule 4 exists to prevent, so when that limitation reproduces, use the following source checks and inspect the actual exported PDF:
+**In the recorded Obscura build, print and reduced-motion emulation did not work.** `Emulation.setEmulatedMedia` is accepted and inert (measured 13 Aug 2026), so `matchMedia('print')` stays false and a "print pass" run through Obscura returns the screen rendering with a clean result. That is the exact collision `visual-verification.md` Phase 0 rule 4 exists to prevent. Run the print pass in agent-browser instead: its `pdf <file>` command applied `@media print` in the 22 Nov 2026 probe (a print-only line appeared and a screen-only line did not). When neither engine is available, use the following source checks and inspect the actual exported PDF:
 
 - **The structural fix above makes the fallback explicit.** Written with the resting style as the final style, `animation: none` yields the settled design *by construction* — there is nothing to emulate. Prefer the invert, then inspect the export; source structure alone does not prove its rendered result.
 - **Use a static source check when emulation is unavailable**: list every rule that sets `opacity` under 0.05, `visibility: hidden`, a near-zero `scale`, or a fully-dashed SVG stroke as a **resting** state, and check each one is inside `@keyframes` rather than on the selector. `scripts/design-lint.py`'s `reveal-blank` check does exactly this and fails at major. Each hit is content that will be missing from the PDF.
@@ -112,7 +112,7 @@ When exporting an existing design (a deck, a scrolling page) rather than authori
 
 ## Phase 5: PDF export (when the user wants a file, not a dialog)
 
-If the user wants an actual `.pdf`, use an available, permitted browser or PDF renderer that supports the document's print requirements. The commands below are Obscura examples from the original environment; discover the current interface before using them and do not treat those historical tool restrictions as global.
+If the user wants an actual `.pdf`, the commands below are the Obscura routes. agent-browser is the fallback and the simpler one when web fonts matter: serve the document, `agent-browser --session <name> open <url>`, then `agent-browser --session <name> pdf <file>.pdf`, and open the result.
 
 Two routes, in order of preference:
 
@@ -126,7 +126,7 @@ obscura serve --port 9222 &
 # then send Page.printToPDF with printBackground:true, paperWidth:8.5, paperHeight:11
 ```
 
-Serve the document over HTTP first (`python3 -m http.server`) and pass the served URL — `file://` breaks relative `@font-face` and image URLs, and the PDF then bakes in fallback fonts and missing images permanently. The recorded Obscura build did not load web fonts. Check the current renderer and exported file: if it substitutes a font, report that limit or use an available renderer that preserves the face. Do not claim a fallback solely from the historical observation.
+Serve the document over HTTP first (`python3 -m http.server`) and pass the served URL — `file://` breaks relative `@font-face` and image URLs, and the PDF then bakes in fallback fonts and missing images permanently. The recorded Obscura build did not load web fonts; agent-browser did in the 22 Nov 2026 probe. Check the exported file either way: if it substitutes a font, report that limit or export through agent-browser. Do not claim a fallback solely from the historical observation.
 
 Wait for the page to settle before printing (network idle plus a short delay for any JS that lays out content).
 

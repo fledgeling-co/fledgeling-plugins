@@ -190,7 +190,7 @@ For the visual layer of an artifact (aesthetic direction, spacing systems, motio
 Follow `references/review-playbook.md` for the full protocol. The contract in brief:
 
 - **Scope first.** Review what the user pointed at, or recent changes — never the whole codebase uninvited.
-- **Look at the thing, and know what your engine can and cannot see.** Where a live URL or runnable app exists, render it before reviewing source. Discover the current permitted browser and its capabilities. The playbook's Obscura limitations are dated observations, not global tool restrictions; apply them when reproduced. Its recorded blind spots deserve attention — a native radio input renders as *nothing* through it, which looks exactly like a missing affordance, and form UX is this skill's core territory. The full trap list, and the rule that a check which cannot measure must say so rather than reporting zero, are at the top of the playbook.
+- **Look at the thing, and know what your engine can and cannot see.** Where a live URL or runnable app exists, render it before reviewing source. Start with Obscura; when it refuses, times out, or cannot measure what the review needs, use agent-browser (Vercel's CLI over Chrome for Testing) as the fallback, and name which engine produced each reading. The playbook's Obscura limitations are dated observations; apply them when reproduced. Its recorded blind spots deserve attention — a native radio input renders as *nothing* through it, which looks exactly like a missing affordance, and form UX is this skill's core territory. The full trap list, and the rule that a check which cannot measure must say so rather than reporting zero, are at the top of the playbook.
 - **Multi-reading pass** (scanning, interaction, heuristics, structure, mobile, accessibility, psychology, ethics), collapsed into one prioritized report — findings that several readings catch rank higher.
 - **Evidence discipline.** Every finding: location (file:line / screen / element) → what's wrong → what it should be → why it matters (mechanism, cited honestly). Fixes are pasteable — real values, real copy — not "consider improving".
 - **Show the fix shipped.** After the filter pass, for each Blocker or High whose fix is a pattern choice, run Mobbin checkpoint **U3** (`references/mobbin-evidence.md`) — one search per finding, at most three per review — and cite one or two shipped examples by `mobbin_url` after the fix. A finding shown beside the products that already solve it is harder to dismiss than a principle.
@@ -257,7 +257,7 @@ It supplements the manual pass and does not replace it: it catches a class, not 
 | Rendered-UI review with deterministic gates, as the last pass before a human looks | `design-review:design-review` |
 | Research strategy, interviews, discovery synthesis | the research-strategy and discovery skills |
 | Code-quality/security/perf review of the same files | `code-review:code-review` (UX findings here, code findings there) |
-| Render or measure a page | Discover the permitted browser and verify its measurement capabilities; see the playbook's recorded engine limits |
+| Render or measure a page | Obscura first, agent-browser as the fallback; design-craft `references/visual-verification.md` Phase 0 has agent-browser's measured capabilities and the playbook has Obscura's recorded limits |
 
 ## References
 

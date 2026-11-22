@@ -16,7 +16,7 @@ The full protocol for UX reviews of web/mobile UIs, layouts, flows, and emails. 
 
 **Choose a currently available, permitted browser.** The commands and limits below describe Obscura in the original August 2026 environment; they do not prohibit other tools or establish current behavior. Read the relevant tool interface before using these examples. `obscura fetch <url> --screenshot page.png`, `--eval "<expr>"`, `--dump text|html|markdown|links`; `obscura serve --port <n>` for CDP when a driver is needed. **Localhost is blocked by default** — anything on `127.0.0.1`, a `192.168.*` host or a local dev server needs `--allow-private-network` or it fails as an SSRF block that looks like a dead server.
 
-These recorded blind spots produced false findings. When one reproduces in the current engine, report that criterion as **not checked**, or use a permitted engine that can measure it:
+These recorded blind spots produced false findings. When one reproduces, measure that criterion in **agent-browser**, the fallback (`agent-browser --session <name> open <url>`, then `snapshot`, `eval`, `screenshot --full`, `press`, `set media`); on 22 Nov 2026 it enforced HTML constraint validation, closed a native `<dialog>` on Escape, ran animation and applied reduced-motion emulation. Report the criterion as **not checked** only when neither engine can measure it:
 
 | What you might check | What actually happens | So |
 |---|---|---|

@@ -1,3 +1,7 @@
+## 2.7.1 - 2026-11-22
+
+- **agent-browser is the fallback browser.** A review starts in Obscura and moves to Vercel's agent-browser when Obscura refuses or can't measure a criterion, such as form validation, a dialog closing on Escape, or reduced motion. A criterion is marked "not checked" only when neither browser can measure it.
+
 ## 2.7.0 - 2026-11-22
 
 - **Generative UI as it ships now.** A2UI reached 1.0 on 11 November, and MCP Apps puts third-party UI inside Claude, ChatGPT, VS Code and Microsoft 365 Copilot. The guidance covers what that changes: a generated picker that checks availability as you choose needs its live states like any form, the same agent can render in hosts that draw it differently (so the plain-text fallback has to carry the answer), and actions started from embedded UI go through the host's approval rather than a second one of your own. An intent bar speeds up a stable layout; it does not replace one.
