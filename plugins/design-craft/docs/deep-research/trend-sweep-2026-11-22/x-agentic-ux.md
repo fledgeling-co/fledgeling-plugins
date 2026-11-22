@@ -1,0 +1,21 @@
+I'll search X for late-2026 design posts on agentic and AI-native UX, then pull threads where replies add something.
+
+The first pass is mostly launch posts and listicles. Next I’ll narrow to designers and product teams, and open the threads that actually argue a pattern.
+
+- https://x.com/signulll/status/2098535895691641107 — @signulll — 11 Sep 2026 — 1,015 likes — The default loop is language in, then text, voice, or a generated interface out, on every device and agent.
+- https://x.com/alexdanilowicz/status/2098515682631483504 — @alexdanilowicz — 11 Sep 2026 — 28 likes — Generative UI will not be the end state, because people still need layouts they can describe to each other, fast pages, and tasks that stay visual.
+- https://x.com/ctatedev/status/2101022101750571357 — @ctatedev — 18 Sep 2026 — 7,791 likes — Useful generative UI is instant and built from your components, your actions, and your design system.
+- https://x.com/mignano/status/2101814236943188470 — @mignano — 20 Sep 2026 — 923 likes — The interface still earns trust, brand, and engagement, even if many teams are parking AI inside existing messengers.
+- https://x.com/rabi_guha/status/2108238432355123572 — @rabi_guha — 8 Oct 2026 — 2,562 likes — ChatGPT’s agent emits a small language that a server compiles and the client draws with native components, so the model never ships raw code.
+- https://x.com/ahmadafterhours/status/2108325993979277417 — @ahmadafterhours — 8 Oct 2026 — 1,177 likes — Apps and dashboards drop away: a screen is generated when you ask, reshapes as you talk, and then disappears.
+- https://x.com/dr_cintas/status/2111100206963921295 — @dr_cintas — 16 Oct 2026 — 38 likes — The interface after the chat wrapper is a conductor that paces voice, a live canvas, and memory, and resumes after a side question.
+- https://x.com/provisionalidea/status/2115243851010998692 — @provisionalidea — 28 Oct 2026 — 337 likes — Experts reduced to rubber-stamping an agent are in an interface designed for deference, which is a product choice.
+- https://x.com/preetsuthar17/status/2115689337140789507 — @preetsuthar17 — 29 Oct 2026 — 278 likes — Use the agent as QA on empty states, long labels, keyboard order, and light and dark, and keep design judgment with the person.
+- https://x.com/rabi_guha/status/2117632138564821137 — @rabi_guha — 3 Nov 2026 — 33 likes — Claude’s dashboards have the model write HTML and JavaScript, while a runtime fills the numbers so each reader does not need another model call.
+- https://x.com/yuchenping/status/2118017931519078609 — @yuchenping — 4 Nov 2026 — 14,871 likes — Text and voice are an early stage; the next interface is a live video agent you can face and embed inside ordinary apps.
+- https://x.com/rauchg/status/2118856239719608353 — @rauchg — 7 Nov 2026 — 2,775 likes — Generative UI piped from the model into Slack and Teams will become the main way people interact with agents.
+- https://x.com/GabiDev98/status/2119060310384365669 — @GabiDev98 — 7 Nov 2026 — 124 likes — An intent search bar should replace dashboards, tabs, and filters, with a decisions API assembling the view.
+- https://x.com/GoogleCloudTech/status/2120563165557571629 — @GoogleCloudTech — 11 Nov 2026 — 744 likes — A2UI 1.0 is a stable open protocol for generative UI on web, phones, wearables, TVs, and other surfaces. Linked article not opened.
+- https://x.com/chowtato/status/2120661852736893101 — @chowtato — 11 Nov 2026 — 55 likes — An agent that books or starts checkout before an explicit yes is trading approval for speed, and that gap will matter in disputes.
+
+These posts treat language as the way in and a bounded interface as the way out: the model picks from a design system or catalog, or an intent query assembles a view, and a payment or booking needs its own yes. One camp generates that surface per turn and throws it away, inside chat or in place of apps; another keeps stable shared layouts so people can still direct each other by where something sits, and so speed, brand, and repeated tasks survive. A further line puts a face-to-face video agent after voice, while replies on the same threads keep keyboards, calendars, and deterministic controls for high-bandwidth work; end-user onboarding barely shows up, and the design-engineer post that touches it uses the agent to stress empty states.

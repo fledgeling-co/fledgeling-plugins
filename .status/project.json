@@ -1,72 +1,96 @@
 {
  "project": "fledgeling-plugins",
- "updated": "2026-11-21T00:14:23+00:00",
+ "updated": "2026-11-22T04:10:00+00:00",
  "verdict": {
   "token": "done",
-  "number": "51 of 52",
-  "unit": "resume-craft checks passed, against 43 of 52 without it",
-  "headline": "career-kit is installable; outside judges preferred the no-skill résumé three times",
-  "run_label": "career-kit 0.4.0 · pushed b65a837",
-  "head_sha": "b65a837"
+  "number": "9 of 9",
+  "unit": "changes made and checked",
+  "headline": "Both design skills now carry the 2026–27 trends and the four defaults to avoid",
+  "run_label": "design-craft 1.6.0 · ux-craft 2.7.0",
+  "head_sha": "263673b"
  },
  "tasks": [
   {
-   "id": "CK-1",
-   "title": "resume-craft skill, five references and research corpus written",
-   "origin": "planned",
-   "stage": "code written",
-   "outcome": "done",
-   "version": "b65a837"
-  },
-  {
-   "id": "CK-2",
-   "title": "Lint for résumé structure and voice",
-   "origin": "planned",
-   "stage": "code written",
-   "outcome": "done",
-   "version": "b65a837"
-  },
-  {
-   "id": "CK-3",
-   "title": "Tested against the same tasks with no skill",
-   "origin": "planned",
-   "stage": "checked",
-   "outcome": "done",
-   "version": "b65a837"
-  },
-  {
-   "id": "CK-4",
-   "title": "Icon and banner made and signed off",
+   "id": "DT-1",
+   "title": "Researched Aug–Nov 2026 trends and 2027 forecasts",
    "origin": "asked for",
    "stage": "checked",
    "outcome": "done",
-   "version": "b65a837"
+   "note": "Dossier run, 7 X searches, 17 videos, primary pages"
   },
   {
-   "id": "CK-5",
-   "title": "Plugin registered in the marketplace and the README",
+   "id": "DT-2",
+   "title": "design-craft trend list rewritten for 2026–27",
    "origin": "asked for",
-   "stage": "pushed",
-   "outcome": "done",
-   "version": "b65a837"
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "DT-3",
+   "title": "Fourth default look and late-2026 tells added to the slop check",
+   "origin": "asked for",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "DT-4",
+   "title": "Six new aesthetic worlds and three recipe files",
+   "origin": "asked for",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "DT-5",
+   "title": "Direction, motion and depth guidance updated",
+   "origin": "asked for",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "DT-6",
+   "title": "ux-craft generative-UI and agent guidance updated",
+   "origin": "asked for",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "DT-7",
+   "title": "Onboarding, forms, mobile and legal dates updated in ux-craft",
+   "origin": "asked for",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "DT-8",
+   "title": "Versions, changelogs and marketplace entries bumped",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "DT-9",
+   "title": "Root changelog written and site catalogue regenerated",
+   "origin": "asked for",
+   "stage": "code written",
+   "outcome": "done"
   }
  ],
  "gates": [
   {
-   "name": "Résumé lint tests itself",
-   "command": "resume_lint.py --self-test",
-   "exit_code": 0,
-   "counts": "3/3",
-   "state": "done",
-   "kind": "tests"
-  },
-  {
-   "name": "Catalogue builds with the plugin registered",
+   "name": "Catalogue builds and versions agree",
    "command": "node site/scripts/build-catalogue.mjs",
    "exit_code": 0,
    "counts": "64/64",
    "state": "done",
    "kind": "build"
+  },
+  {
+   "name": "design-craft's lint proves every rule can fire",
+   "command": "design-lint.py --selftest",
+   "exit_code": 0,
+   "counts": "40/40",
+   "state": "done",
+   "kind": "tests"
   },
   {
    "name": "Skill names in the repo all resolve",
@@ -77,23 +101,71 @@
    "kind": "lint"
   },
   {
-   "name": "Icon sheet complete and past the bar",
-   "command": "audit_sheet.py check",
+   "name": "Voice check on the four new files",
+   "command": "agent_voice_lint.py --format skill",
    "exit_code": 0,
-   "counts": "21/21",
+   "counts": "4/4",
    "state": "done",
    "kind": "lint"
   },
   {
-   "name": "Banner sized, sourced and signed off",
-   "command": "banner_sheet.py check",
+   "name": "Voice check on the twelve edited files",
+   "command": "agent_voice_lint.py --format skill",
+   "exit_code": 1,
+   "counts": "9/12",
+   "state": "needs-work",
+   "kind": "lint"
+  },
+  {
+   "name": "ux-craft's Gemini notes quote sources exactly",
+   "command": "verify_quotes.py gemini.md",
+   "exit_code": 0,
+   "counts": "23/23",
+   "state": "done",
+   "kind": "lint"
+  },
+  {
+   "name": "design-craft's Gemini notes quote sources exactly",
+   "command": "verify_quotes.py gemini.md",
+   "exit_code": 1,
+   "counts": "18/19",
+   "state": "needs-work",
+   "kind": "lint"
+  },
+  {
+   "name": "Tables in the six edited files line up",
+   "command": "column count per table row",
    "exit_code": 0,
    "counts": "6/6",
    "state": "done",
-   "kind": "lint"
+   "kind": "build"
   }
  ],
  "findings": [
+  {
+   "id": "DT-F1",
+   "score": 50,
+   "severity": "medium",
+   "file_line": "plugins/design-craft/skills/design-craft/SKILL.md (Environment notes)",
+   "claim": "design-craft forbids Playwright, which your instructions now name as the fallback browser",
+   "state": "needs-work"
+  },
+  {
+   "id": "DT-F2",
+   "score": 35,
+   "severity": "medium",
+   "file_line": "plugins/design-craft/skills/design-craft/gemini.md",
+   "claim": "quotes \"all states accessible\" as Google's wording, and the source does not say it",
+   "state": "needs-work"
+  },
+  {
+   "id": "DT-F3",
+   "score": 25,
+   "severity": "low",
+   "file_line": "ai-slop-check.md, frontend-aesthetic-direction.md, checklists.md",
+   "claim": "seven older lines fail the voice check's vague-word rule",
+   "state": "needs-work"
+  },
   {
    "id": "CK-F1",
    "score": 70,
@@ -113,6 +185,22 @@
  ],
  "not_checked": [
   {
+   "axis": "A design built with the updated skills",
+   "why_not": "No design was generated this session to try the changes."
+  },
+  {
+   "axis": "Whether any 2027 trend helps users",
+   "why_not": "Sources are forecasts, posts and videos; none measured it."
+  },
+  {
+   "axis": "The X posts themselves",
+   "why_not": "Read through Grok's search tool, not opened directly."
+  },
+  {
+   "axis": "design-craft's eval suite",
+   "why_not": "Not run; it rewrites the committed scorecard and the lint did not change."
+  },
+  {
    "axis": "Icon material against the image it was copied from",
    "why_not": "The scorer needs torch, which is not installed."
   },
@@ -127,6 +215,18 @@
  ],
  "not_done": [
   {
+   "action": "A broader Dossier research run",
+   "reason": "Every Dossier call timed out, so the sweep was run by hand.",
+   "what_would_unblock": "Dossier answering again.",
+   "size": "minutes"
+  },
+  {
+   "action": "Add Pantone's 2027 colour to the trend list",
+   "reason": "Pantone announces on 1–3 December.",
+   "what_would_unblock": "The announcement.",
+   "size": "minutes"
+  },
+  {
    "action": "Design and reading review of the banner",
    "reason": "Reused the family banner layout instead.",
    "size": "under an hour"
@@ -138,6 +238,12 @@
   }
  ],
  "needs_you": [
+  {
+   "ask": "Should design-craft allow Playwright as a fallback?",
+   "kind": "decision",
+   "waiting_since": "2026-11-22T03:56:36+00:00",
+   "one_line": "The skill bans it; your instructions call it the sanctioned fallback."
+  },
   {
    "ask": "Check the xAI console for a stray research job",
    "kind": "decision",
@@ -159,9 +265,9 @@
  ],
  "git": {
   "branch": "main",
-  "commits_ahead": 0,
+  "commits_ahead": 1,
   "worktree_clean": false,
-  "pushed": true
+  "pushed": false
  },
  "armed": [
   {
@@ -172,6 +278,29 @@
    "green": 1,
    "sha": "b65a837",
    "armed": true
+  }
+ ],
+ "artifacts": [
+  {
+   "path": "plugins/design-craft/skills/design-craft/references/current-moves.md",
+   "kind": "md",
+   "contains": "The dated 2026–27 trend list and the defaults to avoid.",
+   "open_first": true
+  },
+  {
+   "path": "plugins/design-craft/docs/deep-research/trend-sweep-2026-11-22/README.md",
+   "kind": "md",
+   "contains": "Raw X and YouTube research notes."
+  },
+  {
+   "path": "plugins/design-craft/CHANGELOG.md",
+   "kind": "md",
+   "contains": "What 1.6.0 changes, in plain words."
+  },
+  {
+   "path": "plugins/ux-craft/CHANGELOG.md",
+   "kind": "md",
+   "contains": "What 2.7.0 changes, in plain words."
   }
  ]
 }

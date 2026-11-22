@@ -4,6 +4,16 @@ Notable changes to the plugins in this marketplace. Newest first.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); each plugin carries its own version in its `plugin.json`, and this file records what moved and why.
 
+## 2026-11-22
+
+### design-craft 1.6.0: trends refreshed for 2026–27
+
+`current-moves.md` is rewritten as at 22 November 2026, with a strength and status on every row and a new `forecast` tier for vendor trend reports. It now covers type with axes that do a job (a roundness axis that softens letters instead of every card), collage and poster composites, archive and scanned material, a real human hand, whimsy with a job, 2027 colour (one luminous accent on a calm neutral; greens and earth tones, with the warning that earth on cream is the premium-consumer default renamed), and the CSS now in every engine or usable as enhancement: scroll-driven animation (Baseline 27 October), view transitions, `corner-shape: squircle`, a styled native `<select>`, anchor-positioned indicators and `sibling-index()` stagger. The slop check gains a fourth default look, the soft-glass showcase (frosted glass over a grainy gradient, a bento of fake UI tiles, one big radius everywhere, a highlighted hero word, an arrow in the button), the stock hero, dashboard and mobile compositions, the shell AI products share, and the fonts that arrive when Inter is ruled out. `aesthetic-worlds.md` grows from 24 to 30 worlds with a new group (archive, photomontage, handmade, picture-book whimsy, expressive tonal, bitmap), each naming its easier fake version, plus three recipe files. Motion and depth add interruptible springs, a pause test for motion-heavy pages, the iOS 27 Liquid Glass retune, soft raised surfaces and WebGPU coverage. Sources were a Dossier run, seven X searches through the Grok CLI, 17 YouTube transcripts and the primary platform and forecast pages; `evidence.md` §12 records each with its limits, and the raw notes are in `docs/deep-research/trend-sweep-2026-11-22/`.
+
+### ux-craft 2.7.0: generative UI as it ships, agents that spend, onboarding beyond the form
+
+`ai-product-ux.md` tracks A2UI 1.0 (11 November) and MCP Apps hosts: a generated picker that checks availability needs its live states, a surface that renders in several hosts has to work as plain text in the plainest one, and actions started from embedded UI go through the host's approval. Purchases an agent makes take a fresh yes each time, an approval screen with a lone Approve button is named as training deference, and an intent bar is placed as an accelerator over a stable layout. Onboarding gains a short interview and a drafted setup as alternatives to the profile form, with a matching flow-variety axis and the AI-assistant shell named as the default to vary from. Smaller changes: style the native select before rebuilding it, iOS 27 and Material 3 Expressive in the mobile platform grammar, the current legal dates in the accessibility checklist (ADA Title II moved to April 2027 and 2028; WCAG 3 still a draft), and key facts as live text on Persuade pages because AI assistants read and cite them.
+
 ## 2026-11-15
 
 ### motion-craft 0.1.0: new plugin

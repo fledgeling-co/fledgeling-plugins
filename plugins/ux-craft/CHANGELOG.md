@@ -1,3 +1,12 @@
+## 2.7.0 - 2026-11-22
+
+- **Generative UI as it ships now.** A2UI reached 1.0 on 11 November, and MCP Apps puts third-party UI inside Claude, ChatGPT, VS Code and Microsoft 365 Copilot. The guidance covers what that changes: a generated picker that checks availability as you choose needs its live states like any form, the same agent can render in hosts that draw it differently (so the plain-text fallback has to carry the answer), and actions started from embedded UI go through the host's approval rather than a second one of your own. An intent bar speeds up a stable layout; it does not replace one.
+- **Agents that spend money or get rubber-stamped.** A booking or purchase an agent makes takes a fresh yes each time, and a standing rule shows its cap, its spend and where to revoke it. An approval screen with a lone Approve button trains people to stop reading, so put the agent's evidence beside the decision and offer real alternatives.
+- **Onboarding beyond the profile form.** Two credible alternatives: a short interview whose answers change a live preview, or a setup the product drafts from something you import and you edit. Flow variety gains a matching axis, and the AI-assistant shell (history sidebar, centred prompt box, suggestion chips, sparkle) is named as the default to vary from. A mascot is fine with a specific drawing and a job; the generic blob with a face is the tell.
+- **Smaller updates.** Style the native select before rebuilding it (now in Chrome and Safari). Mobile platform grammar covers the iOS 27 Liquid Glass slider and Material 3 Expressive, now stable. The accessibility checklist carries the current legal dates (ADA Title II moved to April 2027 and 2028; WCAG 3 is still a draft). Persuade pages write their key facts as live text, because AI assistants read and cite them.
+
+Note: the agentic and onboarding patterns come from shipped protocols and practitioner debate in late 2026, recorded in `references/evidence.md`. None of the sources measures their effect on completion or trust.
+
 ## 2.6.0 - 2026-11-15
 
 - **Mobbin in every mode.** Real shipped flows before the step list is written; the two hardest states before the state grid is filled; one or two shipped examples cited beside each serious review finding (three searches at most per review); and a count behind any "users expect X" claim, e.g. "4 of the 5 checkouts I opened do this". It works without design-craft installed.

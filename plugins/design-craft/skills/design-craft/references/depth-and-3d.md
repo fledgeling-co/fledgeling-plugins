@@ -70,6 +70,10 @@ Glassmorphism is one blur away from slop. It works only when there is **somethin
 
 Rules: the 1px light border and inset top highlight are what make it read as material rather than smudge; text on glass needs a contrast fallback (`@supports not (backdrop-filter: blur(1px))` → solid surface); maximum one glass layer stack — glass on glass on glass is unreadable; keep blurred areas small (backdrop-filter is expensive full-viewport). Two rules from Apple's material system carry over: **glass cannot sample glass** — adjacent glass elements (a toolbar's buttons, a chip row) share one glass region rather than each blurring independently, or they render visibly inconsistent; and **prominence comes from tint opacity**, not from stacking a second blur — a more important glass surface gets a stronger background tint, same blur. System-material tints (light/dark-adaptive translucency) beat fixed rgba values when the page supports both themes.
 
+**Follow the iOS 27 retune, not the iOS 26 launch.** At WWDC 2026 Apple made Liquid Glass more opaque by default, added a darkened edge and brighter specular highlights, and gave users a slider from ultra-clear to fully tinted. Transparency is now set per surface: decorative layers stay clear, controls that carry text go nearly solid, temporary overlays keep the strongest glass. Three consequences. A web approximation follows that hierarchy and stays labelled as an approximation; open-source web ports exist and run poorly on Safari and mobile, so measure before shipping one. For Apple-platform work, use the system components, which inherit reduce-transparency and increase-contrast for free, and ask for them by name ("the native SwiftUI tab view") rather than asking for something glassy, which sends an agent off to build a custom glass component. And test every asset at both ends of the user's slider, because the user now chooses the material.
+
+**Soft, raised surfaces** sit between rung 1 and rung 3: soft-shadow buttons and raised cards lit from the same source as the elevation system, with text contrast held at 4.5:1. Envato's 2027 forecast calls the look "soft interfaces". Neumorphism, a same-colour extrusion at around 1.5:1, is its failure mode on any control a user has to find.
+
 ## Phase 5: CSS 3D (rung 4)
 
 Real perspective, no library. Set `perspective` on the **parent** (600–1200px; smaller = more dramatic), `transform-style: preserve-3d` on the moving element.
@@ -99,7 +103,7 @@ Use CSS scroll-driven animations (see `motion-design.md` Phase 5) — no scroll-
 
 ## Phase 7: Real-time 3D (rung 6) — WebGL/Three.js
 
-Only when the object is the content: product configurators, data sculptures, brand centerpieces. Prefer **one 3D moment** (a hero canvas) over 3D scattered through the page.
+Only when the object is the content: product configurators, data sculptures, brand centerpieces. Prefer **one 3D moment** (a hero canvas) over 3D scattered through the page. WebGPU now ships in Chrome, Safari 26 and Firefox (141 on Windows, 147 on Apple-silicon Macs), with coverage that still varies by system, so a WebGPU scene keeps a WebGL or static fallback. A shader hero earns more when it reacts to a real state change (a sign-up, a completed step) than when it idles; one that makes the interface harder to read has failed regardless of how it looks.
 
 - Pin the CDN import and version (import map, `three@0.170.0` or current), `<canvas>` sized to its container, `renderer.setPixelRatio(Math.min(devicePixelRatio, 2))`.
 - **Cheap materials, rich lighting:** `MeshStandardMaterial` + an environment map (`RoomEnvironment`) + one key light beats complex geometry with flat lighting. Soft shadows via a single `directionalLight` with tuned shadow radius.

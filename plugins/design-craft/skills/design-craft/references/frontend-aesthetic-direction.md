@@ -31,7 +31,7 @@ Ask the user (or confirm if they've stated):
 
 **Widen the world, then trawl shipped UI.** On a free aesthetic axis, run `references/aesthetic-ideation.md` first — it invokes `trawl:trawl` so the seven candidates are not one model sampling itself. Then trawl real shipped UI (`references/mobbin-trawl.md`). Subject-mining and ideation supply the *world*; Mobbin supplies the *mechanics* — how dense a real screen of this type is, what surfaces exist that a spec never lists, which parts shipped products leave deliberately plain. Two or three Mobbin searches, images opened, a took/left ledger that includes the ideation lines. A direction built on only one of those sources is half-derived: a beautiful world at the wrong density, or a competent screen that could belong to anyone.
 
-**Candidate sources.** The range map below remains the in-file list. `references/aesthetic-worlds.md` is the wider anchored catalogue (24 worlds in five groups, plus premium-consumer palette rotations). After a shortlist exists, load at most two files from `references/aesthetic-worlds/`. `references/current-moves.md` is the dated 2026 permission list; read a row's strength and status before treating it as current. Pull candidates from at least two groups of the worlds table, not from one row of the range map three times. Consecutive greenfield commissions, including across sessions via `references/diversity-ledger.md`, may not share a winning family, display face, topology, signature, or palette family unless product truth or an explicit request overrides it.
+**Candidate sources.** The range map below remains the in-file list. `references/aesthetic-worlds.md` is the wider anchored catalogue (30 worlds in six groups, plus premium-consumer palette rotations). After a shortlist exists, load at most two files from `references/aesthetic-worlds/`. `references/current-moves.md` is the dated 2026–27 permission list; read a row's strength and status before treating it as current, and treat a `forecast` row as a prediction of what clients will ask for, never as a reason on its own. Pull candidates from at least two groups of the worlds table, not from one row of the range map three times. Consecutive greenfield commissions, including across sessions via `references/diversity-ledger.md`, may not share a winning family, display face, topology, signature, or palette family unless product truth or an explicit request overrides it.
 
 ### Name the rut, then derive past it
 
@@ -82,12 +82,15 @@ Real variety is picked from a map, not hoped for. Each family names its tokens s
 | **Playful / toy** | Rounded sans (Nunito-class), chunky weights | Saturated pastels, 2–3 hues | Pill everything, springy motion, sticker shadows |
 | **Terminal / hacker** | Mono everywhere | Black/green or black/amber, scanline grain | Box-drawing chars, blinking cursor, log aesthetics |
 | **Retro-futurist / Y2K** | Extended/condensed pairings, chrome effects | Gradients earned: chrome, iridescent mesh | Outlines, starbursts, pixel dither, marquee energy |
-| **Organic / soft** | Low-contrast humanist faces | Earth tones, blurred mesh backgrounds | Blob masks, grain, hand-feel spacing irregularity |
+| **Organic / soft** | Low-contrast humanist faces | Earth tones, blurred mesh backgrounds | Blob masks, grain, hand-feel spacing irregularity (a blob with a face is the AI-product default, not this family) |
 | **Industrial / utilitarian** | DIN/Univers-class, all-caps labels | Concrete neutrals, safety-orange accent | Rulers, specs, stencils, exposed metadata (ISO-style) |
+| **Hand & archive** | Archival serif or typewriter + plain grotesk, or lettering made by hand and scanned | Scanned paper stock, ink, one stamp colour | Real scans with catalogue lines, visible process; never CSS paper or model-drawn wobble |
+| **Collage / photomontage** | Two or three display families chosen by one rule + a quiet text face | Photography-led, one or two spot inks | Real cut-outs, type over and under image, one deliberate collision per view |
+| **Expressive tonal** | Variable sans with a roundness or width axis | Tonal palette from one seed colour, saturated containers | Shape morphing that reports state, radii mixed by role, springs with small overshoot |
 
 These are starting points to remix, not costumes: pull one family's type with another's surface treatment when the brief supports it. For named anchors and a spread across material families, read `references/aesthetic-worlds.md` — load the matching group, not the whole table. Match implementation complexity to the vision — maximalism needs elaborate effects executed fully; minimalism needs restraint and precision. Half-committed is the only wrong dose.
 
-Two rows carry a warning: **Neo-grotesque product (dark neutral + one electric/acid accent)** and **Editorial/literary** are the looks current models reach for unprompted on dev-tool and creative briefs respectively — choosing them requires the same stated reason the warm-editorial combination does (see `ai-slop-check.md` §9's three-look family).
+Two rows carry a warning: **Neo-grotesque product (dark neutral + one electric/acid accent)** and **Editorial/literary** are the looks current models reach for unprompted on dev-tool and creative briefs respectively — choosing them requires the same stated reason the warm-editorial combination does. The Neo-grotesque row's surface kit (glass panels, glow accents, one radius) taken whole and laid over a bento of faux UI is the fourth default, the soft-glass showcase. `ai-slop-check.md` §9 lists all four looks by their parts.
 
 ## Phase 3: Commit to the system — make it concrete
 
@@ -106,7 +109,9 @@ Pick **specific** fonts (not "a sans-serif"):
 
 Avoid the overused defaults — Inter, Roboto, Arial, bare system stacks, and the silent serif-display defaults (Fraunces, Playfair Display, Georgia-as-display). Add **Space Grotesk** to that list: it is the face this model reaches for unprompted when told to "pick something distinctive", which makes it the opposite of distinctive. The tell for any of them is that you arrived at the name before you had a reason — a font chosen because the direction called for it can be defended in one sentence ("a typewriter mono, because the product is a log reader"); a font chosen by gravity can't. Pick something with intent: a humanist sans (Söhne, Suisse), a modern serif (Tiempos, GT Sectra), an editorial classic (Tiempos Headline, Canela), a typewriter mono (JetBrains Mono, IBM Plex Mono), a geometric sans (Visby), depending on the mood.
 
-If the user might not have access to a paid foundry, suggest the closest free alternative (e.g. "Inter is overused, but Söhne is paid — try Söhne for production, or Albert Sans / Geist as free alternatives").
+If the user might not have access to a paid foundry, suggest the closest free alternative with its reason (e.g. "Inter is overused, but Söhne is paid — try Söhne for production, or Allo (OFL) as a free warm UI sans whose roundness axis can soften the interface without rounding every card"). Geist and its neighbours are now part of the default cluster (`ai-slop-check.md` §5), so they need a reason of their own rather than serving as the free fallback. Geist Serif is predicted to become the next default display serif; reach for it only with a sentence that names why.
+
+**Choose a variable face for an axis that does a job.** Roundness (`ROND` in Allo; roundness in Google Sans Flex) carries friendliness in the letters instead of the containers; optical size separates display from text inside one family; grade adjusts weight for dark mode without reflowing. A variable face whose axes never move is a static font with a larger file.
 
 Commit to a type scale (sizes, weights, line heights). 1–2 families maximum. **When pairing two faces, pair on a contrast axis** — serif + sans, geometric + humanist, display + text — or use one family in multiple weights. Never pair similar-but-not-identical faces (two geometric sans, two humanist sans): the near-match reads as a mistake, not a choice.
 
@@ -172,6 +177,8 @@ The density choice is felt as much as seen — it's a major part of the aestheti
 - **Sharp** (radius 0–2px) — utilitarian, brutalist, editorial
 - **Soft** (radius 4–8px) — typical modern product
 - **Pill / fully-rounded** (radius 9999px on buttons; 12–16px on cards) — playful, friendly, consumer
+- **Mixed by role** — pill for the primary action and chips, larger radii for containers, small radii for inputs and dense lists. One large radius on every element is the 2026 sameness designers complain about, so let the radius say what a thing is.
+- **Squircle** — `corner-shape: squircle` over a `border-radius` fallback (Chromium-only in stable as at Nov 2026). The same radius value reads slightly smaller as a squircle, and the curve will not match Figma's corner smoothing.
 
 Shadows similarly: sharp / soft / none. Commit to one elevation system, not a mix.
 
@@ -197,7 +204,7 @@ Avoid hand-drawn SVG illustrations.
 
 - **Quiet** — minimal motion, transitions only on state changes (200ms ease)
 - **Expressive** — entrance animations, scroll-driven reveals, view transitions
-- **Playful** — overshoots, springs, micro-interactions on hover
+- **Playful** — springs with small overshoot, micro-interactions on hover. Keep the springs interruptible and the bounce low: heavy bounce on every control reads amateur to designers in late 2026.
 
 Commit to one mode; mixed motion modes feel unintentional. Whatever the mode, spend the budget in one place: **a single well-orchestrated page load with staggered reveals creates more delight than scattered micro-interactions.** Implement per `motion-design.md` (tokens, easing curves, choreography).
 
@@ -205,7 +212,8 @@ Commit to one mode; mixed motion modes feel unintentional. Whatever the mode, sp
 
 - **Flat** — borders and background contrast only
 - **Elevated** — a tokenized shadow/elevation system
-- **Textured** — grain, mesh gradients, glass, image treatments
+- **Soft / raised** — soft-shadow buttons and raised cards from one light source, with the contrast floor held (the 2027 "soft interfaces" forecast; neumorphism at 1.5:1 is its failure)
+- **Textured** — grain, mesh gradients, glass, image treatments; texture that records a real event (a scan, a fold) beats a noise filter laid over everything
 - **Dimensional** — CSS 3D moments or a WebGL centerpiece
 
 Commit alongside the motion mode; implement per `depth-and-3d.md` (the technique ladder, budgets, and fallbacks). Texture is the cheapest "designed, not generated" signal — and the easiest to overdose.

@@ -1,0 +1,21 @@
+I'll search X for late-2026 colour-of-the-year announcements and how product teams are actually using colour.
+
+The first pass is mostly jokes and interiors press. I'll tighten the queries to designers, product teams, and the named 2027 colours.
+
+- https://x.com/_evanblass_/status/2121092936486285571 — @_evanblass_ — 13 Nov 2026 — 46 likes — He posts Pantone 2027 as PANTONE 14-4812 Aqua Splash, extending his early Cloud Dancer call, and a reply still puts the official reveal on 3 December.
+- https://x.com/sunroom_taro/status/2121933984615780372 — @sunroom_taro — 15 Nov 2026 — 7 likes — He says WGSN and Coloro have announced Luminous Blue, a deep vivid blue that can read slightly purple, while Pantone and JAFCA are still to come.
+- https://x.com/shirin_artt/status/2120801057131442351 — @shirin_artt — 12 Nov 2026 — 11 likes — A designer treats luminous blue as the 2027 colour and says it is already showing up in clothing, interiors, makeup, and graphics.
+- https://x.com/dezeen/status/2097741597618094526 — @dezeen — 9 Sep 2026 — 11 likes — Dezeen reports Dulux’s 2027 colour of the year as sage green.
+- https://x.com/FTrendsetter/status/2110687024634052905 — @FTrendsetter — 15 Oct 2026 — 5 likes — Fashion Trendsetter names Benjamin Moore’s 2027 colour as Webster Green HC-130.
+- https://x.com/Forbes/status/2093896530487038229 — @Forbes — 30 Aug 2026 — 24 likes — Forbes says Behr’s 2027 colour of the year is grounded in fertile earth tones.
+- https://x.com/HouseBeautiful/status/2123189632879702106 — @HouseBeautiful — 18 Nov 2026 — 21 likes — House Beautiful calls IKEA’s 2027 colour, slugged in the link as Wild Fig, deeper and sweeter than a typical neutral.
+- https://x.com/Moto/status/2117232787849928729 — @Moto — 2 Nov 2026 — 533 likes — Motorola’s Signature 27 offers two Pantone finishes, Capulet Olive and Coal Smoke, as organic shades with refined finishes.
+- https://x.com/madebygoogle/status/2100668983590412573 — @madebygoogle — 17 Sep 2026 — 375 likes — Google introduces its 2026 colours with Hibiscus, an assertive pink it ties to retro-futurism.
+- https://x.com/chalaska/status/2112068740506636353 — @chalaska — 19 Oct 2026 — 2,049 likes — A design engineer says to tint every surface and text from one brand hue, and a product designer replies that the result went monotonous and lost contrast.
+- https://x.com/twoclipping/status/2103273003555402193 — @twoclipping — 24 Sep 2026 — 12,875 likes — His UI-motion brief allows black and white or a single accent and bans gradients on interface chrome.
+- https://x.com/w__h_/status/2105081111428952348 — @w__h_ — 29 Sep 2026 — 1,866 likes — He names a live graphic-design current of flat vectors, outlined type, gradients, and high-contrast palettes, and a reply traces it from DIY event graphics into musician artwork.
+- https://x.com/basit_designs/status/2122045801769930820 — @basit_designs — 15 Nov 2026 — 127 likes — A design engineer says a recent gradient collection sits well on app UI.
+- https://x.com/dr_cintas/status/2108660755578925102 — @dr_cintas — 9 Oct 2026 — 29 likes — His product-design prompt bans purple and blue-to-purple gradients and specifies one dominant colour plus one accent used sparingly.
+- https://x.com/Danielgbright/status/2123718020405027197 — @Danielgbright — 20 Nov 2026 — 5 likes — A brand studio ships ink and warm paper as the base, with seven pre-planned hues so later accent requests are not improvised.
+
+The announcement posts cluster on greens and earth — Dulux sage, Benjamin Moore Webster Green, Behr’s fertile earth, Motorola’s olive and coal, IKEA’s sweeter non-neutral — and on a deep blue, WGSN/Coloro’s Luminous Blue, with Aqua Splash circulating as a Pantone leak ahead of a 3 December date in the replies. Product and brand posts converge on a small system, one hue carried through the interface or one spare accent on black, white, or warm paper, and they single out purple-to-blue gradients as the generic look to retire. The split is whether that restraint holds: a designer who tried the single-hue tint scale reported monotone screens and failed contrast, graphic and app-UI posts are using gradients anyway, motion briefs keep gradients off chrome, and a named dopamine palette does not appear in the posts that cleared the like floor.

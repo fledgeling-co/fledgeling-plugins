@@ -8,6 +8,8 @@ Mobbin's `search_flows` already supplies shipped sequences (`plugins/design-craf
 
 Write one line: the steps this category always ships. Example for a SaaS trial: `hero CTA → social proof → 3 features → 3-step how-it-works → pricing → FAQ → final CTA`.
 
+For an AI assistant, the late-2026 default is a shell rather than a sequence: `sidebar of past sessions → centred prompt box → four suggestion chips → sparkle icon → answer stream`. A product designer's widely shared post in Nov 2026 describes AI products converging on it. Name it the same way when the product is an assistant.
+
 That line is now banned as the unexamined first answer. You may still ship it if the user took the category-standard exit, or if analytics show that sequence converts. Both need a stated reason.
 
 ## Axes that actually change a flow
@@ -21,6 +23,7 @@ Pick **one** primary axis to vary. Five rearrangements of the same 3-step wizard
 | **Orientation** | Feature list, then how-it-works | Object or job first: show the artifact, then the steps that produce it |
 | **Recovery** | Happy path only | Empty, partial, and resume designed as first-class steps, not afterthoughts |
 | **Device** | Desktop wizard shrunk | Thumb-zone primary action; fewer fields; camera / wallet / passkeys where the platform has them |
+| **Setup authorship** | The user fills a profile form before any value | A short interview whose answers change a live preview, or a setup the product drafts from an import and the user edits (`flows-and-forms.md` § First-run) |
 
 The alternate must still pass the trunk test (where am I, what can I do, what happens next) and non-negotiable 1 (one primary action). Variety that hides the next step is a defect, not a direction.
 

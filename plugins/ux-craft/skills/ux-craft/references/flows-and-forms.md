@@ -27,6 +27,8 @@ Users don't finish flows in one sitting — they get interrupted, switch devices
 
 The first encounter has the least context, the least investment, and the lowest friction tolerance. Value first: show what the product does (populated sample data, a preview of the outcome) before demanding setup — sample data doubles as a mental model of what "full" looks like. Teach by doing with just-in-time guidance at the moment a feature becomes relevant — never a 5-slide tour (universally skipped) or mandatory profile completion before any value. The first task should deliver a real win, and reveal complexity only as the user demonstrates readiness.
 
+Two setup shapes have become credible alternatives to the profile form, and both still obey the rule above. **A short interview**: three to five questions, each answer visibly changing a live preview of the product, each skippable, all editable later from settings, with real value on screen by the third question. A character can host it when it has a job (asking, reacting to the answer); designers praise mascot-run interviews as first impressions and also call the generic blob mascot an AI tell, so the character is specific to the product or absent. **A drafted setup**: import what the user already has (a calendar, a CV, a repository), propose the configuration, and let them accept or edit it — the input rules in `ai-product-ux.md` apply, so preview before commit, mark what was generated, and never overwrite what they entered.
+
 ## Forms
 
 Forms are where users exchange value with the product; every needless field is friction taxed against the goal.
@@ -47,6 +49,8 @@ Forms are where users exchange value with the product; every needless field is f
 - Cross-field rules ("end date after start date") on submit; on a failed submit, focus the first invalid field and, for multiple errors, show a summary at top with anchor links (WCAG).
 
 **Error messages**: what went wrong + how to fix it, adjacent to the field, `aria-describedby`-linked, never color-only, never blaming. See ux-writing.md for tone.
+
+**Style the native `<select>` before replacing it.** `appearance: base-select` (on both the `select` and `::picker(select)`) lets a real select carry the brand — custom options, images, the chosen value shown in the button — while keeping keyboard behaviour, the form value and the accessibility tree. It ships in Chrome and Edge 135+ and Safari 27 (Sept 2026); Firefox shows the classic control, so wrap the styles in `@supports (appearance: base-select)` and treat the classic select as a finished state rather than a broken one. A JavaScript dropdown rebuilt from `div`s is now the choice that needs a reason.
 
 **`novalidate` removes a state machine; it does not remove the need for one.** Turning off native validation to control the styling is routine. Shipping nothing in its place is the defect, and its signature is that the *only reachable state is the terminal one*. Measured on a real contact form: submit three empty fields and you land on "Not sent — your text is still in the field above" when there is no text in any field. No field-level error, no required marker, no distinction at all between empty, invalid and submitted. Drive **empty submit** on every form as a matter of course; a form whose empty submit and valid submit produce the same screen has one state, and it is the wrong one.
 

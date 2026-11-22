@@ -1,3 +1,12 @@
+## 1.6.0 - 2026-11-22
+
+- **Trends refreshed for 2026–27.** `current-moves.md` now carries what changed between late August and November 2026 and what the 2027 forecasts expect: type with axes that do a job (a roundness axis that softens the letters instead of every card), collage and poster composites, archive and scanned material, a real human hand, whimsy with a job, 2027 colour (one luminous accent on a calm neutral; greens and earth tones), and the CSS that now ships in every browser or works as an enhancement (scroll-driven animation, view transitions, squircle corners, a styled native select, anchor-positioned indicators, staggering by position). Each row says how strong its source is, and forecasts are marked as predictions of what clients will ask for, not reasons on their own.
+- **Four default looks, not three.** The slop check adds the soft-glass showcase — frosted glass over a grainy gradient, a bento of fake UI tiles, one big radius on everything, a highlighted hero word, an arrow in the button — plus the stock hero (pill badge, giant centred headline, grey subtitle, two buttons, dark glow), the stock dashboard and mobile home, and the default shell AI products share. The fonts that arrive when Inter is ruled out (Geist, Manrope, DM Sans, Instrument Sans) now need a reason too.
+- **Six new worlds and three recipes.** Archive and ephemera, photomontage and collage, handmade proof of process, picture-book whimsy, expressive tonal (Material 3 Expressive, now stable) and bitmap. Each names the fake version that is easier to build, because building it is the failure. Recipe files for archive, collage and expressive tonal.
+- **Motion and depth catch up.** Interruptible springs with small overshoot, a pause test for motion-heavy pages, the iOS 27 Liquid Glass retune (glass that varies by surface, plus a user slider you now design for), soft raised surfaces with the contrast held, and WebGPU in all three engines with a fallback kept.
+
+Note: the trend sources are practitioner posts on X, YouTube transcripts and vendor forecasts, recorded with their limits in `evidence.md` §12. None of them measures whether a trend works. Browser support is as at 22 November 2026, and Pantone names its 2027 colour on 1–3 December, after this release.
+
 ## 1.5.0 - 2026-11-15
 
 - **Taste, tools, direction, dial.** Greenfield work now runs in four named stages. You pick, the model builds; it no longer re-rolls "be creative" until something sticks.

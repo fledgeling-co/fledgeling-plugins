@@ -32,7 +32,8 @@ Respect the platform the user's muscle memory was trained on (Jakob's law at the
 | Primary action | Prominent button in content or nav bar | FAB or prominent button |
 | Menus/pickers | Native action sheets, context menus | Native menus, bottom sheets |
 | Type system | SF/Dynamic Type text styles | Roboto/Material type roles |
-| Press feedback | Highlight/opacity | Ripple (state layers) |
+| Press feedback | Highlight/opacity | Ripple (state layers); shape change on press in Material 3 Expressive |
+| Materials | Liquid Glass through system bars and controls; on iOS 27 the user sets transparency from ultra-clear to tinted | Material 3 Expressive, stable in Compose Material 3 1.5.0 (18 Nov 2026): tonal surfaces, shape morphing, spring motion |
 
 Cross-platform rules regardless of OS:
 - Bottom nav is for **top-level destinations only** — never nest sub-navigation there; max 5 items, always labeled (icon-only nav kills discoverability).
@@ -40,6 +41,7 @@ Cross-platform rules regardless of OS:
 - **Deep-link every key screen** — notifications, shares, and emails land people mid-app.
 - Current tab/location visibly marked; don't mix tab + drawer + bottom-nav at the same hierarchy level.
 - Prefer **native controls and modals** over reimplementations (they get accessibility, dynamic type, and platform behavior for free); customize only where brand genuinely requires it.
+- **The platform's material comes with its components.** On iOS 27 the system tab bar, toolbars and controls carry Liquid Glass with reduce-transparency and increase-contrast already handled; a hand-built glass layer loses both and fights the user's transparency setting. Test text legibility at both ends of that setting, because the user, not the designer, now chooses how clear the glass is. On Android, the Expressive components carry the springs and shape changes; a hand-rolled bounce does not.
 
 ## Mobile forms & input
 

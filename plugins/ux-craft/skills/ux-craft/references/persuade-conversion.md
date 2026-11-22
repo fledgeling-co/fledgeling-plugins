@@ -68,6 +68,8 @@ Write benefit first, then the proof or mechanism. Specific beats category langua
 - One primary action label reused in nav, hero, and footer.
 - Headlines name an outcome a visitor could disagree with.
 
+**The page has a second reader.** AI assistants now summarise and cite pages when people compare options, so the claims a buyer needs — what this is, who it is for, the price or the factors that move it — belong in live text near the top, not only inside an image, a video or an animation. Tabular facts go in a real table. This is the same discipline the trunk test asks for, and it is also what a screen reader gets. Practitioner advice from late 2026; no study here measures its effect on citation.
+
 `references/ux-writing.md` still owns the words. This file does not add a second copy register.
 
 ## What never changes here
