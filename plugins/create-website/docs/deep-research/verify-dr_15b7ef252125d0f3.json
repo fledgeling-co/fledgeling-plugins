@@ -1,0 +1,12 @@
+{
+ "result": {
+  "content": [
+   {
+    "type": "text",
+    "text": "Fabrication check: ATTENTION. 1 of 63 citations do not exist (1 dead, 0 malformed).\nReachability: 98% opened directly (62/63).\n  live 62 \u00b7 not_found 1 \u00b7 blocked 0 \u00b7 unreachable 0 \u00b7 invalid 0 \u00b7 unverified 0\n  \u26a0 Citations that do not resolve at all. Treat the claims attached to them as unconfirmed until checked by hand.\n  Note: neither number means the source SUPPORTS the claim it is attached to. That still needs a reader.\n### 2 claim(s) cite a source that did not resolve\nEach of these has at least one source that did resolve, so the claim is not unsupported, only thinner than it looks.\n1. \ud83d\udfe1 \"Sufficient techniques include C39, the `prefers-reduced-motion` query. [W3C quickref, 2.3.3](https://www.w3.org/WAI/WCAG22/quickref/#animation-from-interactions) [W3C technique C39, 2 Jul 2026](https://www.w3.org/WAI/WCAG21/Techniques/css/C39) The criterion is AAA, so it is not required for a typical AA conformance claim. 2.2.2 is Level A and already covers motion that starts on scroll-into-view a\"\n   - Did not resolve: `https://gsap.com/docs/v3/GSAP/gsap.matchMedia(`\n   - Confirm the claim against the sources that DID resolve; 1 of 4 did not.\n2. \ud83d\udfe1 \"Still the policy MDN cites | https://developer.chrome.com/blog/autoplay |\n| Safari autoplay requires `playsinline` plus muted or no audio; pauses off-screen | Apple | Current article (fetched 22 Nov 2026) | Platform documentation | https://developer.apple.com/documentation/webkit/delivering-video-content-for-safari |\n| H.264 MP4 for static files; GIFs up to 12\u00d7 bandwidth and 2\u00d7 energy | Apple | Sa\"\n   - Did not resolve: `https://gsap.com/docs/v3/GSAP/gsap.matchMedia(`\n   - Confirm the claim against the sources that DID resolve; 1 of 33 did not.\n> [!NOTE]\n> Dossier has no web search and cannot check these itself; that is what your own search tool is for. What it can do is tell you WHICH claims need it, rather than handing you a list of broken URLs and a list of claims and leaving you to join them.\nCitations that did not resolve:\n\n- **not_found** (404), https://gsap.com/docs/v3/GSAP/gsap.matchMedia("
+   }
+  ]
+ },
+ "jsonrpc": "2.0",
+ "id": 2
+}

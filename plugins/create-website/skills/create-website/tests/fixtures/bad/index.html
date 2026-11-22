@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Fixture: bad</title>
+<style>
+@keyframes spin { to { transform: rotate(360deg) } }
+.spin { animation: spin 3s linear infinite; }
+.wide { width: 2000px; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/gsap/dist/gsap.min.js"></script></head>
+<body>
+<section data-section="hero"><h1 class="spin">Bowls</h1>
+<video autoplay loop width="1280" height="720" src="media/hero.mp4"></video>
+<img src="media/missing.jpg"></section>
+<section data-section="pricing" class="wide"><p>Revenue last year: 1.2 million</p></section>
+<div class="review-tool" data-review-tool><button>Effect A</button><button>Effect B</button></div>
+<canvas id="c"></canvas>
+<script>const gl = document.getElementById("c").getContext("webgl"); gl.clearColor(0,0,0,1);</script>
+</body></html>

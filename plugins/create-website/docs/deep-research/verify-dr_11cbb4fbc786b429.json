@@ -1,0 +1,12 @@
+{
+ "result": {
+  "content": [
+   {
+    "type": "text",
+    "text": "Fabrication check: ATTENTION. 1 of 65 citations do not exist (1 dead, 0 malformed).\nReachability: 98% opened directly (64/65).\n  live 64 \u00b7 not_found 1 \u00b7 blocked 0 \u00b7 unreachable 0 \u00b7 invalid 0 \u00b7 unverified 0\n  \u26a0 Citations that do not resolve at all. Treat the claims attached to them as unconfirmed until checked by hand.\n  Note: neither number means the source SUPPORTS the claim it is attached to. That still needs a reader.\n### 1 claim(s) cite a source that did not resolve\nEach of these has at least one source that did resolve, so the claim is not unsupported, only thinner than it looks.\n1. \ud83d\udfe1 \"web search: \nweb search: https://ai.google.dev/gemini-api/docs/video\nweb search: \nweb search: https://aistudio.google.com/docs/omni\nweb search: \nweb search: https://aistudio.google.com/docs/pricing\nweb search: \nweb search: https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html\nweb search: \nweb search: https://threejs.org/manual/en/responsive.html\nweb search: \nweb search: site\"\n   - Did not resolve: `https://threejs.org/manual/en/responsive.html`\n   - Confirm the claim against the sources that DID resolve; 1 of 10 did not.\n> [!NOTE]\n> Dossier has no web search and cannot check these itself; that is what your own search tool is for. What it can do is tell you WHICH claims need it, rather than handing you a list of broken URLs and a list of claims and leaving you to join them.\nCitations that did not resolve:\n\n- **not_found** (404), https://threejs.org/manual/en/responsive.html"
+   }
+  ]
+ },
+ "jsonrpc": "2.0",
+ "id": 2
+}

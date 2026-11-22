@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fixture: good</title>
+<style>
+:root { --bg: #F4F1EA; --ink: #1d1b18; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.5 system-ui, sans-serif; }
+section { min-height: 80vh; padding: 64px 16px; box-sizing: border-box; }
+.hero video, .hero img { width: 100%; max-width: 960px; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s, transform .5s; }
+.reveal.in { opacity: 1; transform: none; }
+@keyframes drift { from { transform: translateX(-8px) } to { transform: translateX(8px) } }
+.drift { animation: drift 4s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .drift { animation: none; }
+}
+canvas, .scene-fallback { width: 100%; max-width: 640px; aspect-ratio: 4 / 3; display: block; }
+</style></head>
+<body>
+<section class="hero" data-section="hero" id="hero">
+  <h1 class="reveal">A studio that throws bowls by hand</h1>
+  <video autoplay muted playsinline poster="media/hero-poster.jpg" preload="metadata">
+    <source src="media/hero-phone.mp4" type="video/mp4" media="(max-width: 600px)">
+    <source src="media/hero.mp4" type="video/mp4">
+  </video>
+</section>
+<section data-section="classes" id="classes"><h2 class="reveal drift">Classes</h2><p class="reveal">Three kinds, every week.</p></section>
+<section data-section="scene" id="scene-section">
+  <canvas id="scene" aria-label="A turning bowl, drawn in 3D"></canvas>
+  <img class="scene-fallback" src="media/scene-still.jpg" alt="The finished bowl at rest" hidden>
+</section>
+<script>
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")));
+document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+const v = document.querySelector("video");
+if (reduce) { v.removeAttribute("autoplay"); v.pause(); }
+const c = document.getElementById("scene");
+const gl = c.getContext("webgl");
+if (!gl || reduce) { c.hidden = true; document.querySelector(".scene-fallback").hidden = false; }
+else { gl.clearColor(0.95, 0.94, 0.92, 1); gl.clear(gl.COLOR_BUFFER_BIT); }
+</script>
+</body></html>

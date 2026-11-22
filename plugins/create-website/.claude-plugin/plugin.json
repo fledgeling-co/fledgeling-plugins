@@ -1,0 +1,9 @@
+{
+  "name": "create-website",
+  "description": "Build a complete multi-section website from a brief: a personal, portfolio, studio, small-business, event or product marketing site with a generated hero image, an optional generated video hero or real-time 3D scene, and motion through every section that still works under reduced motion, without WebGL and on touch. Picks the site's world with one trawl:trawl pass, takes a shipped Mobbin reference for each section, builds through design-craft:design-craft and ux-craft:ux-craft, checks the plan, the files and a four-pass scrolled browser capture with bundled scripts, and deploys only on the person's say-so after checking every path, video range requests and the custom domain's states. Use for \"build me a website\", \"a portfolio site with a video hero\", or \"a landing page with scroll animation and a 3D hero\".",
+  "version": "0.1.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  }
+}
