@@ -145,10 +145,11 @@ didn't trigger; the next round should include the studio task again.
   to this session, so three free members ran instead (Gemini, Codex, Grok), costing $0. A Claude
   member failed to run. Citation checks: 84 of 89, 64 of 65 and 62 of 63 resolved; claims that
   leaned on a dead link were re-sourced or dropped. Exports are in `docs/deep-research/`.
-- **Icon.** Built through `create-mac-icon:create-mac-icon`; the hand-authored layered master
-  ships at 11 of 12. Its blind panel couldn't run (Grok's CLI wasn't signed in, the OpenAI key
-  was refused, and Claude is the generator's own family), so the icon was promoted on
-  measurements alone. Five billed image calls; the image tool returns no price, so the runner
-  estimated about $0.85 to $1.10.
+- **Icon.** Built through `create-mac-icon:create-mac-icon`, which scored the hand-authored
+  layered master highest (11 of 12) and the raster takes at 6 to 8. You chose raster take 2
+  (`icon-engineC-raster-44d606`) to ship instead, so `icon.png` and the banner use it; the
+  master stays in `assets/icon.svg`. The icon's blind panel couldn't run (Grok's CLI wasn't
+  signed in, the OpenAI key was refused, and Claude is the generator's own family). Five billed
+  image calls; the image tool returns no price, so the runner estimated about $0.85 to $1.10.
 - **Self-test.** `scripts/self_test.sh` proves each check can fail on a planted fault: 30 cases,
   all passing.
