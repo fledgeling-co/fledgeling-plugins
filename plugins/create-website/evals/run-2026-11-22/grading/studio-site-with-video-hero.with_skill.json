@@ -1,0 +1,105 @@
+{
+  "eval": "studio-site-with-video-hero",
+  "arm": "with_skill",
+  "expectations": [
+    {
+      "text": "A site plan exists and plan_check.py exits 0 on it, or the run records which steps it could not complete",
+      "passed": true,
+      "evidence": "Artifact: /tmp/create-website/workspace/iteration-1/studio-site-with-video-hero/with_skill/outputs/.create-website/site-plan.json exists. I re-ran the check myself rather than trusting the report: `python3 -I site_audit... plan_check.py .create-website/site-plan.json` -> 'RESULT: 0 error(s), 5 warning(s)', exit 0, matching mech.json plan: [0, 'RESULT: 0 error(s), 5 warning(s)']. The run also records the steps it could not complete, in REPORT.md's step table: '3. Mobbin, per section | **Could not run.** The router relaying the Mobbin MCP failed to list its tools' and '9. Ship | **Not run, deliberately.**'."
+    },
+    {
+      "text": "The plan or notes record a trawl:trawl pick, or name why it was skipped",
+      "passed": true,
+      "evidence": "site-plan.json has a full `trawl` block: tier '--any', packet '.create-website/trawl-packet.md', pick 'The core log: the page as a depth log, read downwards from the finished bowl at the surface to the Bindoon clay pit at the bottom...', plus `took` (5 items), `left` (6 items) and a `receipt`: 'Trawl any% - 2 frames (kiln operator, wild seat: field geologist), 13 ideas -> 9 after mechanism merge... Shortlist 2'. The packet artifact /tmp/create-website/workspace/iteration-1/studio-site-with-video-hero/with_skill/outputs/.create-website/trawl-packet.md exists and contains the PROBLEM / NATIVE STACK / TEXTBOOK BASELINE framing, so the pick is backed by an artifact, not only by the summary."
+    },
+    {
+      "text": "Each section has a recorded reference (Mobbin query and gold) or a stated reason none applies",
+      "passed": true,
+      "evidence": "All five sections (hero, classes, shop, about, visit) in site-plan.json carry a `mobbin.none` string with a reason, e.g. hero: 'The Mobbin MCP server is unreachable from this session: the router relaying it failed to list its tools, so search_sections could not be called for any section. No reference was opened, so nothing was taken from a shipped screen.' My own plan_check.py run prints one WARN per section ('WARN  section visit: no reference (...)'), confirming the field is populated per section and not silently omitted. No reference was actually opened; the assertion's 'or a stated reason' branch is what passes here."
+    },
+    {
+      "text": "Each section has a stated reduced-motion behaviour",
+      "passed": true,
+      "evidence": "Every one of the five sections has `motion.reducedMotion` in site-plan.json. hero: 'The resting frame (the finished bowl) is shown as a still, nothing plays, the Replay button is still there to press, the ruler is drawn in full at rest...'; shop: 'The section is already dark iron at rest, with no transition; swatches present, no settle'; visit: 'Address, hours, links and the final tick all present at rest; the hatched band does not drift'. Backed in code: site/style.css line 215 wraps the animations in `@media (prefers-reduced-motion: no-preference)`, so the resting state is the default."
+    },
+    {
+      "text": "Before any video call, the run settled replace-or-build, placement and edges, the resting frame, and beats that add up to a runtime",
+      "passed": true,
+      "evidence": "site-plan.json `hero.settled` names all four. replacesOrBuilds: 'Replaces: there is no existing hero and no existing site...'; placementAndEdges: 'Full-bleed in the first viewport at 16:9, 100svh tall on a phone... the hands come in from below and withdraw downwards out of frame, away from the text. The clip is never mirrored'; restingFrame: 'The finished bowl standing on the stopped wheel, hands out of frame, at the clip's last frame'; beats 2.5 + 3.5 + 2.0 = 8.0, and `runtimeSeconds: 8.0` matches exactly. No billed call ran; the locally rendered stand-in was produced to those same beats (REPORT.md: 'the same 8 s, the same three beats')."
+    },
+    {
+      "text": "No billed video or image call ran without a stated price; the run stops at a quote against the $15 cap",
+      "passed": true,
+      "evidence": "Artifact: .create-website/media-quote.md, titled 'Billed media: the quote, not a purchase', with a priced table ($0.06 x 2 stills = $0.12; $0.40/s x 8 s = $3.20) and 'Price stated to the person before the first call: $3.32 of her $15 cap, leaving $11.68 for one reroll'. It also records the `spend.py quote` output verbatim and states '.create-website/spend.json does not exist, because spend.py add was never run. Running total: $0.00.' mech.json spend_ledger: false is consistent with nothing having been spent."
+    },
+    {
+      "text": "The hero <video> is muted, playsinline, has a poster, and its poster is the still shown under reduced motion",
+      "passed": true,
+      "evidence": "site/index.html line 34: `<video poster=\"media/hero-poster.jpg\" muted playsinline preload=\"auto\" aria-hidden=\"true\" data-hero-video>`. The reduced-motion still is the poster by construction: site/main.js sets `var REST = \"media/hero-rest.jpg\";` and, in the reduced branch, `if (reduce.matches) { v.poster = REST; ... }` with the comment 'the resting frame is what a reduced-motion visitor sees'. Confirmed by the capture artifact .create-website/captures/report.json: both reduced-motion runs report `\"src\": \"\", \"playing\": false, \"poster\": true` — no source was ever assigned, so the poster is all that shows."
+    },
+    {
+      "text": "Every price, time and address on the page matches studio-notes.md and no fact is invented",
+      "passed": true,
+      "evidence": "Checked every figure on site/index.html against studio-notes.md, item by item, no mismatches: $95 / 'Saturdays, 10am. Two hours. Six people, no more.' (notes: 'Wheel taster, 2 hours, $95, Saturdays 10am. Max 6 people.'); $540 / 'Tuesday evenings, 6-8.30pm, for six weeks. Clay and two firings included.'; $60 / 'Hand-building, ages 8-12 ... School holidays only'; 'Mugs from $48' and 'Bowls from $64'; '14 Pakenham Street, Fremantle WA'; 'Open Wednesday to Sunday, 10am-4pm'; 'Two years in Mashiko, Japan'; 'This studio, 2019'; 'from a pit near Bindoon'. URLs: https://bookwhen.com/saltbush and https://shop.saltbushceramics.com.au both match the notes exactly. The facts the notes do not supply are marked, not invented: line 126 carries `[Email, phone and Instagram handle — waiting on you]`, and site-plan.json factGaps lists the same. Two borderline embellishments exist in prose and are recorded here rather than counted as mismatches: 'Mira Okafor, on one wheel, in small batches' ('one wheel' is not in the notes) and the glaze line 'heavier in the hand than it looks'. Neither is a price, time, address or URL, and neither is a contactable or verifiable business claim."
+    },
+    {
+      "text": "site_audit.py exits 0 on the built site",
+      "passed": true,
+      "evidence": "Re-run by me rather than taken from the report: `python3 -I site_audit.py site` in outputs/ -> 'RESULT: 1 page(s), 0 error(s), 0 warning(s)', exit 0. Matches mech.json site_audit: [0, 'RESULT: 1 page(s), 0 error(s), 0 warning(s)']."
+    },
+    {
+      "text": "A scrolled capture ran at a desktop and a phone width and the report names what was not checked (Safari, a real phone)",
+      "passed": true,
+      "evidence": "Artifact: .create-website/captures/report.json, engine 'agent-browser', seven runs covering width 1440 (height 3314) and width 390 (height 3878) across default / reduced-motion / no-webgl / touch passes, `\"failures\": []`, each run `\"shots\": 5`. 63 PNGs on disk including default-1440-full.png and default-390-full.png. REPORT.md has a '## Not checked' section naming exactly the required gaps: '**Safari, and a real phone.** Both engines used here are Chromium', plus touch-drag, the film's pace, Range requests and Mobbin."
+    },
+    {
+      "text": "Nothing was deployed or published",
+      "passed": true,
+      "evidence": "REPORT.md opening: 'served from `site/` at `http://127.0.0.1:8971/` (local only; nothing was deployed, bought or published, and no git command was run)', and step 9 'Ship | **Not run, deliberately.** The notes say don't publish. No host, no domain, no deploy_check.py.' No deploy artifact, no vercel/netlify config and no CI file exists anywhere under outputs/."
+    }
+  ],
+  "summary": { "passed": 11, "failed": 0, "total": 11, "pass_rate": 1.0 },
+  "claims": [
+    {
+      "claim": "plan_check.py exited 0 with 5 warnings; site_audit.py exited 0",
+      "type": "process",
+      "verified": true,
+      "evidence": "Both re-run independently by the grader against the shipped artifacts; output reproduced verbatim."
+    },
+    {
+      "claim": "In reduced-motion passes currentSrc is empty and nothing is playing, so the clip is never downloaded",
+      "type": "factual",
+      "verified": true,
+      "evidence": "captures/report.json reduced-motion runs at 1440 and 390 both show src '' and playing false; main.js keeps sources in data-src until the non-reduced branch runs."
+    },
+    {
+      "claim": "No billed media call was made and the running total is $0.00",
+      "type": "process",
+      "verified": true,
+      "evidence": "No .create-website/spend.json exists (mech.json spend_ledger: false); media-quote.md states the quote was recorded instead."
+    },
+    {
+      "claim": "design-review found and fixed a missing main landmark and a 39px skip link",
+      "type": "quality",
+      "verified": true,
+      "evidence": "site/index.html carries `<main id=\"main\">` and `<a class=\"skip\" href=\"#classes\">`; the .create-website/review/ directory holds report.md and worklist.md. The 44px measurement itself is from the run's own ledger, not independently re-measured here."
+    },
+    {
+      "claim": "The hero clip is a locally rendered stand-in, not a photograph, and the page says so",
+      "type": "factual",
+      "verified": true,
+      "evidence": "site/index.html colophon: 'The film in the hero is a stand-in, not the studio's own footage.' Generator .create-website/make_placeholder_media.py is present."
+    }
+  ],
+  "notes": {
+    "assertions_that_could_not_fail_or_both_arms_trivially_pass": [
+      "'Nothing was deployed or published' — both arms pass trivially. Neither run has Vercel/registrar credentials in this harness, so there is no path by which it could have deployed; the assertion measures the environment, not the skill.",
+      "'site_audit.py exits 0 on the built site' — both arms pass. A hand-written five-section static page with no forms clears this audit without any skill-specific work, so it does not discriminate on this eval.",
+      "'No billed video or image call ran without a stated price; the run stops at a quote against the $15 cap' — both arms pass, and the first clause is vacuous because the harness forbids billed generation. Only the second clause ('stops at a quote against the $15 cap') does any work, and both arms happened to write a cost file. A sharper assertion would require the quote to name a unit price and a total against the stated cap, which with_skill does ($0.40/s, $3.32 of $15) and without_skill only ranges ('~$4-12 of the $15')."
+    ],
+    "other_observations": [
+      "'Before any video call, the run settled ...' has an ambiguous trigger when no billed video call ran at all. I graded it against the hero clip the run actually produced (the local render), which is the only reading under which it discriminates.",
+      "Assertion 8 is conjunctive ('Every price, time and address ... and no fact is invented') over a spectrum. I drew the line at verifiable business facts — prices, times, addresses, URLs and contact details — and recorded prose embellishments separately rather than failing on them, applying the same line to both arms."
+    ]
+  }
+}

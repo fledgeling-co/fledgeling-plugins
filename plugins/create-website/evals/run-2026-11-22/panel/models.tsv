@@ -1,0 +1,6 @@
+lane	model	effort	fallback
+fable	claude-fable-5-2	medium	
+astra	gpt-6.2-astra	medium	
+argon	gemini-4-argon-medium	medium	gemini-4-neon-xhigh
+carbon	gemini-4-carbon-medium	medium	
+wonder-full	muse-wonder-full-1.0	high	

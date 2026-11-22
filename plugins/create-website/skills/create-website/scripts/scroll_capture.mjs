@@ -29,7 +29,10 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
-const [url, outdir, ...rest] = process.argv.slice(2);
+const [url, outArg, ...rest] = process.argv.slice(2);
+// Absolute, always: agent-browser 0.43.0 given a relative dot-prefixed path wrote every PNG into
+// its own temp directory and reported success, so a capture run produced no files and passed.
+const outdir = outArg ? path.resolve(outArg) : outArg;
 if (!url || !outdir) {
   console.error("usage: node scroll_capture.mjs <url> <outdir> [--widths 1440,390] [--selectors css] [--engine auto|agent-browser|playwright]");
   process.exit(2);
@@ -108,7 +111,10 @@ function agentBrowserEngine() {
           errors,
           targets: () => JSON.parse(evalJS(targetsJS(selectors))),
           scrollTo: (from, goal) => evalJS(scrollJS(from, goal)),
-          shot: (file, full) => ab(["screenshot", ...(full ? ["--full"] : []), file]),
+          shot: (file, full) => {
+            ab(["screenshot", ...(full ? ["--full"] : []), file]);
+            if (!fs.existsSync(file)) throw new Error(`screenshot reported success but ${file} does not exist`);
+          },
           metrics: () => JSON.parse(evalJS(metricsJS)),
           // `errors` prints nothing when the page threw nothing, and one "✗ <message>" line (plus
           // indented stack lines) per uncaught exception.

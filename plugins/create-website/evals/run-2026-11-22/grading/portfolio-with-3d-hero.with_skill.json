@@ -1,0 +1,94 @@
+{
+  "eval": "portfolio-with-3d-hero",
+  "arm": "with_skill",
+  "expectations": [
+    {
+      "text": "The plan records the 3D source (three-scene, generated-image, css-depth or mesh-generator) and why",
+      "passed": true,
+      "evidence": "Artifact: /tmp/create-website/workspace/iteration-1/portfolio-with-3d-hero/with_skill/outputs/.create-website/site-plan.json, `hero.threeD.source`: 'three-scene', with `why`: 'The brief asks for an object that rotates as you scroll, and the direction makes the cut the content: the visitor sees the solid open along a travelling cutting plane and sees the same mass from three sides, which is three states a single still cannot hold. A still carries the composition but not the relationship between the outside hairline and the black mass inside, which is the page's whole thesis.' `tool` records the exact build: 'three.js 0.170.0, vendored locally at site/vendor/three-0.170.0.module.min.js (692 KB)'. plan_check.py exited 0 on this file (mech.json plan: [0, 'RESULT: 0 error(s), 8 warning(s)'])."
+    },
+    {
+      "text": "If a WebGL canvas is created, the code checks availability and shows a still fallback when it is missing",
+      "passed": true,
+      "evidence": "Code, not summary: site/js/hero-scene.js lines 31-34 gate construction — `if (!canvas || !shell) keepStill(\"no-canvas\"); else if (reduced.matches) keepStill(\"reduced-motion\"); else if (!WebGL.isWebGL2Available()) keepStill(\"no-webgl2\"); else start();` — and `keepStill()` sets `data-state=\"still\"` and calls `canvas?.remove()`. The still ships in the markup rather than being swapped in: site/index.html lines 75-80 put `<img class=\"object__still\" id=\"hero-still\" src=\"media/hero-still.png\" alt=\"A section drawing of a solid block...\">` inside `#hero-object`, with the comment 'The canvas replaces it only once a frame has rendered; reduced motion, no WebGL 2 and a lost context all leave the still.' Confirmed visually: I opened .create-website/captures/no-webgl-1440-01-hero.png and the hero shows the still drawing with the headline, scale rail and 'See the work' action intact."
+    },
+    {
+      "text": "If a WebGL canvas is created, setPixelRatio is capped at 2 or lower",
+      "passed": true,
+      "evidence": "site/js/hero-scene.js line 120: `renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));`. It is the only setPixelRatio call in the file. mech.json dpr_capped: true."
+    },
+    {
+      "text": "If a WebGL canvas is created, rendering pauses when the canvas is off-screen or the tab is hidden",
+      "passed": true,
+      "evidence": "Both conditions, in the frame loop itself. site/js/hero-scene.js line 156: `if (!onScreen || document.hidden) return;` — placed after `requestAnimationFrame(frame)` so the loop continues but no frame is drawn. `onScreen` is driven by an IntersectionObserver on the hero shell (lines 190-194, rootMargin '140px') and `visibilitychange` (line 197) re-dirties on return. mech.json offscreen_pause: true."
+    },
+    {
+      "text": "If a WebGL canvas is created, a webglcontextlost handler shows the still",
+      "passed": true,
+      "evidence": "site/js/hero-scene.js lines 175-182: `canvas.addEventListener(\"webglcontextlost\", (e) => { e.preventDefault(); alive = false; shell.setAttribute(\"data-fallback\", \"context-lost\"); shell.setAttribute(\"data-state\", \"still\"); shell.removeAttribute(\"data-scene\"); });` — the same `data-state=\"still\"` that reveals the shipped `<img>`. A matching `webglcontextrestored` handler resizes and resumes. mech.json contextlost: true."
+    },
+    {
+      "text": "The canvas is aria-hidden or named, with any controls in HTML",
+      "passed": true,
+      "evidence": "site/index.html line 80: `<canvas id=\"hero-canvas\" aria-hidden=\"true\"></canvas>`. The controls are real HTML buttons outside it, lines 84-85: `<button type=\"button\" data-turn=\"-1\" aria-label=\"Turn the drawing one face anticlockwise\">` and its clockwise pair. The plan records the intent (`hero.threeD.guards`: 'canvas is aria-hidden decoration; every heading, link and action is HTML outside it' and 'two buttons turn the solid a third of a turn each way, so the turn is reachable without a drag and without a scroll (WCAG 2.5.7)'), and the markup matches it."
+    },
+    {
+      "text": "Under prefers-reduced-motion the 3D rotation and scroll effects stop and all content is visible",
+      "passed": true,
+      "evidence": "Three places agree. (1) The scene never starts: hero-scene.js line 32 `else if (reduced.matches) keepStill(\"reduced-motion\")`, and lines 203-212 tear it down and dispose the renderer if the preference is switched on mid-visit. (2) Scroll effects stop: site/js/site.js line 11, `if (reduced || !steps.length || !rows.length || !(\"IntersectionObserver\" in window)) return;` — the scale rail does not move. (3) Content is visible by default rather than revealed: site/css/site.css line 971 wraps the `.reveal` animation in `@media (prefers-reduced-motion: no-preference)`, so the resting state is the un-animated one. Confirmed by artifact: .create-website/captures/report.json reduced-motion runs at 1440 and 390 both report `\"stuck\": []` and `\"errors\": []`."
+    },
+    {
+      "text": "No wheel or touchmove preventDefault and no normalizeScroll is used",
+      "passed": true,
+      "evidence": "Grepped the run's own source (excluding the vendored three.js build): the only `preventDefault` in site/js/ is hero-scene.js line 176, inside the `webglcontextlost` handler, which is correct and unrelated to scrolling. No `normalizeScroll`, no `wheel` listener and no `touchmove` listener anywhere in site/js/ or the HTML. Scroll listeners are registered passive: `window.addEventListener(\"scroll\", readScroll, { passive: true })`. mech.json wheel_preventDefault_or_normalize: false."
+    },
+    {
+      "text": "Case-study metrics, clients or quotes that the prompt did not supply are marked as gaps, not invented",
+      "passed": true,
+      "evidence": "Scanned all four pages for percentages and bracketed markers. There is not one invented figure: `grep -oE '[0-9]+(\\.[0-9]+)?%' index.html work/*.html` returns nothing. Every unsupplied fact is a visible marker instead — work/banking-app.html, work/hospital-wayfinding.html and work/bike-share-kiosk.html each carry `[your role]`, `[year]`, `[team]` and `[the figures you are willing to publish — waiting on you]`; index.html carries `[your name]`, `[where you are]`, `[years]`, `[projects]`, `[you@domain]` and `[your availability — waiting on you]`. Visible in the capture too: no-webgl-1440-01-hero.png shows `[your name]` and `[where you are]` rendered on the page. The plan records the rule up front — site.copy: 'every line traced to sample copy or a marked gap; no invented client, figure or quote'."
+    },
+    {
+      "text": "The no-WebGL capture pass shows the fallback and reports no uncaught exception",
+      "passed": true,
+      "evidence": "Artifact rather than summary: .create-website/captures/report.json contains two runs with `\"pass\": \"no-webgl\"` (widths 1440 and 390), each `\"webgl\": false`, `\"errors\": []`, `\"stuck\": []`, `\"shots\": 5`, and the file ends `\"failures\": []`. I opened .create-website/captures/no-webgl-1440-01-hero.png myself: it shows the still section drawing inside the hero frame with the turn buttons, scale rail and headline — the fallback, not an empty canvas. mech.json capture.passes includes 'no-webgl' with failures: 0."
+    }
+  ],
+  "summary": { "passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0 },
+  "claims": [
+    {
+      "claim": "three.js is vendored locally so the page makes no CDN request at runtime",
+      "type": "factual",
+      "verified": true,
+      "evidence": "site/vendor/three-0.170.0.module.min.js and site/vendor/WebGL-0.170.0.js exist; hero-scene.js imports `../vendor/three-0.170.0.module.min.js`, not a URL."
+    },
+    {
+      "claim": "The hero effect went through three built-and-discarded iterations",
+      "type": "process",
+      "verified": false,
+      "evidence": "site-plan.json effects[0] records iterations: 3 with a per-iteration account ('iteration 1 was a machined prism with brass collars - built, captured and discarded'), but the discarded captures were not retained, so only the final state is checkable."
+    },
+    {
+      "claim": "Rendering is on demand — no frame unless the scroll moved or the damping is still settling",
+      "type": "factual",
+      "verified": true,
+      "evidence": "hero-scene.js line 162 `if (!dirty) return;` with `dirty` set only by readScroll, resize, IntersectionObserver re-entry and context restore."
+    },
+    {
+      "claim": "site_audit.py passes on all four pages",
+      "type": "process",
+      "verified": true,
+      "evidence": "Re-run by me: `python3 -I site_audit.py site --deploy` -> 'RESULT: 4 page(s), 0 error(s), 0 warning(s)'."
+    }
+  ],
+  "notes": {
+    "assertions_that_could_not_fail_or_both_arms_trivially_pass": [
+      "'No wheel or touchmove preventDefault and no normalizeScroll is used' — both arms pass, and neither had any reason to hijack scroll: both drive rotation from scrollY with a passive listener, which is the obvious implementation. The assertion only bites against a GSAP/Lenis-style build that neither arm attempted.",
+      "'If a WebGL canvas is created, setPixelRatio is capped at 2 or lower' — both arms pass with the identical one-liner `Math.min(window.devicePixelRatio || 1, 2)`. This is the standard three.js idiom, so it is close to a free pass for any competent run.",
+      "'The canvas is aria-hidden or named, with any controls in HTML' — both arms pass, and the second clause is vacuous for without_skill, which creates no canvas controls at all. An assertion phrased 'any controls' cannot fail a run that has none."
+    ],
+    "other_observations": [
+      "The four conditional WebGL assertions are not equally discriminating: availability-check, context-loss and the reduced-motion stop separated the arms, while the DPR cap and off-screen pause did not.",
+      "mech.json for this eval records site_audit [1, 'RESULT: 4 page(s), 1 error(s), 0 warning(s)'] for the without_skill arm, which I could not reproduce: both `site_audit.py site` and `site_audit.py site --deploy` return 0 errors on that tree today. No assertion depends on it, but the mech result should not be cited as evidence without re-running it."
+    ]
+  }
+}

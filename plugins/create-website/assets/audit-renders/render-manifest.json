@@ -1,0 +1,68 @@
+{
+  "takes": {
+    "arrowB": {
+      "source": "icon-engineB-arrow-eb5ef2.svg",
+      "kind": "svg",
+      "source_sha256": "e3bf7399464eb51fbfec4cd55a0e860328564bc81b1c421f5f0773ef619c5800",
+      "source_mtime": 1795341423.335592,
+      "rendered_at": 1795342366.6860642
+    },
+    "draftA": {
+      "source": "icon-engineA-draft-r00.png",
+      "kind": "png",
+      "source_sha256": "104def3e42a3e45638d1f662cbed2027cce2c2b8c2cc5faa3437b634d342f136",
+      "source_mtime": 1795342366.1107428,
+      "rendered_at": 1795342366.8166049
+    },
+    "master": {
+      "source": "icon.svg",
+      "kind": "svg",
+      "source_sha256": "d30f3add726363bf2d5311efd40261dd56ce200f00a2418f123b7b674703fd19",
+      "source_mtime": 1795342317.2708225,
+      "rendered_at": 1795342367.161887
+    },
+    "rasterC1": {
+      "source": "icon-engineC-raster-4397a7.png",
+      "kind": "raster-mask",
+      "source_sha256": "e6108d1bb16e6dcfaf68886c3b13430fd66b9442b1a0d9bab6b831bd95d826ae",
+      "source_mtime": 1795341423.338435,
+      "rendered_at": 1795342367.480596
+    },
+    "rasterC2": {
+      "source": "icon-engineC-raster-44d606.png",
+      "kind": "raster-mask",
+      "source_sha256": "f0a3690b0880a558af5100ecbd80bc720653bdbe6fdcdc91ad6b0b591945d349",
+      "source_mtime": 1795341423.3443031,
+      "rendered_at": 1795342367.779217
+    },
+    "rasterC3": {
+      "source": "icon-engineC-raster-ab01f2.png",
+      "kind": "raster-mask",
+      "source_sha256": "c6edb2d0c59335ba266e288e42cc0577e319617ae782294e9ffdb11a7bb66071",
+      "source_mtime": 1795341423.3502657,
+      "rendered_at": 1795342368.101852
+    },
+    "rasterC4": {
+      "source": "icon-engineC-raster-114146.png",
+      "kind": "raster-mask",
+      "source_sha256": "930ed81dda9fd215c07c6f1dd5521f0a4a6bad55dd20a05db8613abbecff60f1",
+      "source_mtime": 1795341656.527325,
+      "rendered_at": 1795342368.3981
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

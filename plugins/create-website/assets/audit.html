@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>create-website icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+  .loop { margin-top: 28px; max-width: 900px; }
+  .loop table { min-width: 0; }
+  .loop td, .loop th { padding: 8px 14px; font-size: 12px; }
+  .loop td { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<h1>create-website icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "The parting stack" — Tahoe gel-glass, porcelain register · one shared spec through three engines · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <tr>
+    <td class="take ship">master · icon.svg<small>hand-authored layered SVG, Engine A after ten fidelity rounds — SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/master-1024.png" width="160" height="160" alt="master hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/master-256.png" width="128" height="128" alt="master at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/master-128.png" width="64" height="64" alt="master at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/master-96.png" width="48" height="48" alt="master at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/master-64.png" width="32" height="32" alt="master at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/master-32.png" width="16" height="16" alt="master at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/master-32.png" width="96" height="96" alt="master 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Three page sections registered in plan and parted along the z-axis, the gap widening upward, hero in ember. Checks 1–4 all pass on these renders: clipped to the family squircle with nothing baked outside it; object 660px wide (64% of the tile) and optically centred; the filled silhouette is nameable as a parting stack; at 32px the centre column still reads three bands at 0.45 / 0.75 / 0.27 and at 16px the ember cap carries it. Four named layer groups (bg / mid / fg / highlight) and identity carried by shape and value, so #10 holds. <strong>Fails #7</strong> on one element: the stone section measures 1.1:1 against the porcelain ground, which is a value relationship it survives only by being flanked by the ember above and the graphite below. Ember 3.06:1, whole object 3.26:1.</td>
+  </tr>
+
+  <tr>
+    <td class="take">draftA · icon-engineA-draft-r00.png<small>the Engine A first draft, before the loop — reference row</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/draftA-1024.png" width="160" height="160" alt="draftA hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/draftA-256.png" width="128" height="128" alt="draftA at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/draftA-128.png" width="64" height="64" alt="draftA at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/draftA-96.png" width="48" height="48" alt="draftA at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/draftA-64.png" width="32" height="32" alt="draftA at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/draftA-32.png" width="16" height="16" alt="draftA at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/draftA-32.png" width="96" height="96" alt="draftA 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">Kept so the loop's work is visible rather than asserted. It loses on #5 and #8: every face gradient was hung on the inverse of the key, so each section is lit from its shaded quarter, and the contact shadow covered the whole of the surface it fell on, which reads as a dull face rather than a cast shadow. The headline bar on the hero is a grey smear by 128px, costing #4. All three defects were found by measuring this render against the reference, not by looking at it.</td>
+  </tr>
+
+  <tr>
+    <td class="take">arrowB · icon-engineB-arrow-eb5ef2.svg<small>Arrow 2 vector take, Engine B</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/arrowB-1024.png" width="160" height="160" alt="arrowB hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/arrowB-256.png" width="128" height="128" alt="arrowB at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/arrowB-128.png" width="64" height="64" alt="arrowB at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/arrowB-96.png" width="48" height="48" alt="arrowB at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/arrowB-64.png" width="32" height="32" alt="arrowB at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/arrowB-32.png" width="16" height="16" alt="arrowB at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/arrowB-32.png" width="96" height="96" alt="arrowB 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Loses on #1, which is non-negotiable: it bakes its own square cream ground, so the tile ships with square corners beside squircle siblings. Its plan is a symmetric diamond rather than a page-shaped rectangle, which reads as a generic layers mark and not as sections of a page, and its depth comes from flat two-stop gradients with no contact shadow between the slabs, costing #8. What it contributed: it is the independent confirmation that the registered-stack composition survives at 32px, and its tighter slab thickness informed the master's 32px wall.</td>
+  </tr>
+
+  <tr>
+    <td class="take">rasterC1 · icon-engineC-raster-4397a7.png<small>GPT Image 2.6 Sunburst, corpus-referenced — Engine C take 1</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/rasterC1-1024.png" width="160" height="160" alt="rasterC1 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/rasterC1-256.png" width="128" height="128" alt="rasterC1 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/rasterC1-128.png" width="64" height="64" alt="rasterC1 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/rasterC1-96.png" width="48" height="48" alt="rasterC1 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/rasterC1-64.png" width="32" height="32" alt="rasterC1 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/rasterC1-32.png" width="16" height="16" alt="rasterC1 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/rasterC1-32.png" width="96" height="96" alt="rasterC1 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">The material is the best thing in this set and the proportions are the worst: the slabs are nearly as deep as they are wide and thick enough to read as bars of soap, so the subject becomes a layer cake rather than a page coming apart. The sections also walk right as they rise instead of staying registered, which says "separate cards". Shipped as a flat raster it would re-create #10 outright. It set the brief for takes 3 and 4 and it is where the hero's lit-corner-to-shaded-corner ramp was first measured.</td>
+  </tr>
+
+  <tr>
+    <td class="take">rasterC2 · icon-engineC-raster-44d606.png<small>GPT Image 2.6 Sunburst — Engine C take 2</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/rasterC2-1024.png" width="160" height="160" alt="rasterC2 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/rasterC2-256.png" width="128" height="128" alt="rasterC2 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/rasterC2-128.png" width="64" height="64" alt="rasterC2 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/rasterC2-96.png" width="48" height="48" alt="rasterC2 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/rasterC2-64.png" width="32" height="32" alt="rasterC2 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/rasterC2-32.png" width="16" height="16" alt="rasterC2 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/rasterC2-32.png" width="96" height="96" alt="rasterC2 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">7 / 12</td>
+    <td class="verdict">The camera dropped almost to the slabs' own plane, so the top faces foreshorten away and the stack reads as three bars seen edge-on — the one thing the subject cannot afford, since a page section has to show its page. The stack also runs within 80px of the tile edge, costing #2, and the embossed headline it was asked for came back as a machined slot. Its contribution is the thin-slab proportion the master uses.</td>
+  </tr>
+
+  <tr>
+    <td class="take">rasterC3 · icon-engineC-raster-ab01f2.png<small>GPT Image 2.6 Sunburst — Engine C take 3, the material target</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/rasterC3-1024.png" width="160" height="160" alt="rasterC3 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/rasterC3-256.png" width="128" height="128" alt="rasterC3 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/rasterC3-128.png" width="64" height="64" alt="rasterC3 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/rasterC3-96.png" width="48" height="48" alt="rasterC3 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/rasterC3-64.png" width="32" height="32" alt="rasterC3 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/rasterC3-32.png" width="16" height="16" alt="rasterC3 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/rasterC3-32.png" width="96" height="96" alt="rasterC3 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">8 / 12</td>
+    <td class="verdict">The take that won the material read, and the one the master's plan geometry was fitted to: width axis (565, 142), depth axis (231, −142), both dropping by the same 142, which is why its left and right corners sit level. It loses on #2 — the stack is 78% of the tile where the grid puts it at 64% — on #9, for a heavy grey corner vignette that the porcelain register does not have, and on #7, since its ember lit face sits at 1.6:1 against its own ground. Flat raster, so #10 fails by construction. Everything it got right is now in the master; the three things it got wrong were held against it.</td>
+  </tr>
+
+  <tr>
+    <td class="take">rasterC4 · icon-engineC-raster-114146.png<small>GPT Image 2.6 Sunburst — Engine C take 4, the loop reference</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/rasterC4-1024.png" width="160" height="160" alt="rasterC4 hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/rasterC4-256.png" width="128" height="128" alt="rasterC4 at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/rasterC4-128.png" width="64" height="64" alt="rasterC4 at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/rasterC4-96.png" width="48" height="48" alt="rasterC4 at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/rasterC4-64.png" width="32" height="32" alt="rasterC4 at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/rasterC4-32.png" width="16" height="16" alt="rasterC4 at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/rasterC4-32.png" width="96" height="96" alt="rasterC4 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">6 / 12</td>
+    <td class="verdict">Asked for take 3's material on the icon grid with the vignette dropped, it delivered both and then added what nobody asked for: a badge, rows of pseudo-text and an image placeholder baked into every face. That is #12 outright, it takes the palette to five hues against #6, and the rows are mud by 32px. It is still the loop's reference, because scale and ground register matter more to a delta-based gate than content does — scored against take 3 the same unchanged master read 0.44 / 0.40 / 0.36, and against this one 0.59 / 0.62 / 0.67.</td>
+  </tr>
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship master (icon.svg).</strong> It is the only take that is a real layered SVG — four named groups over a swappable ground, geometry and material as constants in <code>build_icon.py</code> — so it survives Dark, Clear and Tinted where every raster here fails #10 by construction. Checks 1–4 were audited on the renders above rather than imagined, and the material was rebuilt from the raster by measurement: the light bearing, the three value bands, the contact-shadow depth and its displacement were each fitted against the reference and each moved a measured number. Known liabilities to revisit: the stone section measures 1.1:1 against the porcelain ground and reads only because the ember above and the graphite below flank it, which is the same liability deck-craft published for its three porcelain plates; the blind panel could not reach a verdict, because the grok lane is unauthenticated on this machine and the OpenAI lane's key was refused by the secrets broker, so the shipping take is promoted on measurements and one excluded in-family vote and wants a human eye before it is treated as settled; the loop's own reference carries baked UI content, so the 1024 composite plateaus near 0.58 and is not comparable with other commissions in this marketplace; and on the shelf this device sits near deck-craft's fanned slides and clarify's drawn card, separated by registration, by the value ladder and by a gap that grows upward rather than a fan that spreads sideways.</div>
+
+<div class="loop">
+  <h2 style="font-size:15px;color:#d7e3e7;margin:0 0 8px">What the fidelity loop did</h2>
+  <p style="color:#a9bec5;font-size:13px;max-width:900px;margin:0 0 12px">Ten rounds, full metric tier (torch + lpips installed for this commission, so material was actually measured at 256 and 1024 rather than guessed at). Composite per size against the Engine C take 4 reference; r02 is the re-baseline where the reference changed and the artwork did not.</p>
+  <table>
+    <tr><th scope="col">round</th><th scope="col">edit class</th><th scope="col">gate</th><th scope="col">1024</th><th scope="col">256</th><th scope="col">128</th><th scope="col">32</th><th scope="col">16</th></tr>
+    <tr><td>r00</td><td>baseline, vs take 3</td><td>—</td><td>0.4448</td><td>0.4140</td><td>0.3688</td><td>0.7746</td><td>0.8461</td></tr>
+    <tr><td>r01</td><td>light bearing re-hung on the key</td><td>REJECT</td><td>0.4439</td><td>0.4038</td><td>0.3636</td><td>0.7743</td><td>0.8466</td></tr>
+    <tr><td>r02</td><td>re-baseline, vs take 4</td><td>—</td><td>0.5859</td><td>0.6212</td><td>0.6654</td><td>0.8990</td><td>0.8905</td></tr>
+    <tr><td>r03</td><td>value bands</td><td>REJECT</td><td>0.5886</td><td>0.6229</td><td>0.6682</td><td>0.9009</td><td>0.8960</td></tr>
+    <tr><td>r04</td><td>value bands, base held dark</td><td>ACCEPT</td><td>0.5863</td><td>0.6252</td><td>0.6684</td><td>0.8984</td><td>0.8933</td></tr>
+    <tr><td>r05</td><td>contact shadows deepened</td><td>ACCEPT</td><td>0.5855</td><td>0.6265</td><td>0.6714</td><td>0.8947</td><td>0.8894</td></tr>
+    <tr><td>r06</td><td>shadow displacement corrected</td><td>ACCEPT</td><td>0.5817</td><td>0.6232</td><td>0.6682</td><td>0.8925</td><td>0.8902</td></tr>
+    <tr><td>r07</td><td>headline bar removed</td><td>ACCEPT</td><td>0.5810</td><td>0.6228</td><td>0.6685</td><td>0.8924</td><td>0.8901</td></tr>
+    <tr><td>r08</td><td>ground pool tightened</td><td>ACCEPT</td><td>0.5810</td><td>0.6228</td><td>0.6665</td><td>0.8912</td><td>0.8895</td></tr>
+    <tr><td>r09</td><td>stone band lifted</td><td>ACCEPT</td><td>0.5808</td><td>0.6247</td><td>0.6663</td><td>0.8898</td><td>0.8895</td></tr>
+    <tr><td>r10</td><td>shadow opacity eased for 32px</td><td>ACCEPT</td><td>0.5845</td><td>0.6266</td><td>0.6690</td><td>0.8939</td><td>0.8922</td></tr>
+  </table>
+  <p style="color:#a9bec5;font-size:13px;max-width:900px;margin:12px 0 0">Two rounds are worth reading as cases rather than rows. r01 fixed a defect measured on the reference itself — every face lit from its shaded quarter — and the gate rejected it at −0.0161, because brightening the left of an object smaller than the reference's lands on the reference's background; that rejection is what bought the reference change in r02. r03 moved the net composite up by +0.0146 and was rejected on the 32px self-contrast floor, which is the floor doing exactly its job: converging the base section onto the reference's much lighter slate flattened the spread at the size where the stack has to read as three things. Both are recorded with their numbers in <code>loop-runs/</code>.</p>
+</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, era coherence, variant robustness, personality, no-text) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by <code>python3 ../../create-mac-icon/skills/create-mac-icon/scripts/audit_sheet.py render .</code> (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its <code>check</code> subcommand.</div>
+</body>
+</html>

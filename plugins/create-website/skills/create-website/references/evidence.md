@@ -94,6 +94,7 @@ Three kinds of source, marked in the tables:
 | Report domain states separately; live only at HTTPS 200 | [session] "Set" and "working" were minutes apart; the old parking record was served after the change. [research] Vercel and Netlify domain docs: ownership verification does not prove DNS, and certificate issuance follows DNS verification |
 | Stale AAAA, CAA and proxy interception stall certificates | [research] Vercel domain troubleshooting; Let's Encrypt challenge types. Gemini member |
 | Credentials only from the secrets broker | [session] career-kit rule; the user's standing instruction |
+| A missing tool is checked before it is reported missing | [session] career-kit evidence: a deliverable shipped saying the reference and image tools were unavailable while the router was healthy. This skill's own build hit the same "session belongs to another process" failure on 22 November 2026, and a single-process client reached Mobbin and media-gen-pro |
 
 ## Conflicts the research left open
 
@@ -117,3 +118,14 @@ Three kinds of source, marked in the tables:
 No member measured a real site on real phones. The per-feature cost to LCP, INP and CLS, dropped
 frames, thermals and battery remain unmeasured, as do the latency of the video models. No paid
 generation endpoint was exercised during the research.
+
+## Rules added from the first evaluation (22 November 2026)
+
+| Rule | What happened |
+|---|---|
+| A summary line is a claim about every item under it | A blind judge found "Three ways in, six people at a time" in a with-skill build, where the notes capped only the taster class at six |
+| A persistent signature device collapses on a phone | A judge measured a 64 px depth ruler fixed down a 375 px phone screen in a with-skill build |
+| The person's checklist speaks in their terms | A judge marked down a with-skill deploy checklist that told the owner to run internal scripts and referred to her in the third person |
+| Capture output paths are absolute and every PNG is checked to exist | A with-skill run passed a relative dot-prefixed directory; agent-browser wrote the PNGs elsewhere and the capture reported success |
+| CSS url() inside a data URI is not a file | `site_audit.py` flagged `url(%23n)`, an SVG filter reference inside a data URI, in a baseline build |
+| Check a missing tool with `router_call.py` before reporting it missing | Both with-skill builds wrote `mobbin.none` for every section while the router was healthy |

@@ -5,8 +5,8 @@
     python3 spend.py add    --ledger .create-website/spend.json --what "hero clip 1" --model veo-3.1 --unit second --price 0.40 --units 8
     python3 spend.py total  --ledger .create-website/spend.json [--cap 20]
 
-quote  print what a call will cost and what the total becomes, without recording it. Say this to the
-       person before the first billed clip or image set.
+quote  print what a call will cost and what the total becomes, and record the quote apart from
+       spend. Say this to the person before the first billed clip or image set.
 add    record a call that ran, and print the new running total. Say the total after each call.
 total  print the running total; with --cap, exit 1 when the total has reached the cap the person
        set, so the next billed call waits for them.
@@ -55,7 +55,13 @@ def main():
             json.dump(led, open(a.ledger, "w"), indent=2)
             print(f"recorded {a.what}: {a.units:g} {a.unit}(s) of {a.model} at ${a.price:.2f} = ${cost:.2f}. Running total ${total(led):.2f}")
         else:
-            print(f"{a.what}: {a.units:g} {a.unit}(s) of {a.model} at ${a.price:.2f} = ${cost:.2f}. Total would become ${total(led) + cost:.2f}")
+            # A quote is recorded apart from spend, so the ledger shows the price was stated first.
+            led.setdefault("quotes", []).append({"at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                                                 "what": a.what, "model": a.model, "unit": a.unit, "price": a.price,
+                                                 "units": a.units, "cost": cost})
+            os.makedirs(os.path.dirname(os.path.abspath(a.ledger)), exist_ok=True)
+            json.dump(led, open(a.ledger, "w"), indent=2)
+            print(f"quoted {a.what}: {a.units:g} {a.unit}(s) of {a.model} at ${a.price:.2f} = ${cost:.2f}. Total would become ${total(led) + cost:.2f}")
         return 0
     tot = total(led)
     print(f"{len(led['entries'])} billed call(s), running total ${tot:.2f}" + (f" of a ${a.cap:.2f} cap" if a.cap else ""))

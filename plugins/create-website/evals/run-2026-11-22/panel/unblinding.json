@@ -1,0 +1,26 @@
+{
+  "studio-site-with-video-hero-1": {
+    "A": "without_skill",
+    "B": "with_skill"
+  },
+  "studio-site-with-video-hero-2": {
+    "A": "with_skill",
+    "B": "without_skill"
+  },
+  "portfolio-with-3d-hero-1": {
+    "A": "with_skill",
+    "B": "without_skill"
+  },
+  "portfolio-with-3d-hero-2": {
+    "A": "without_skill",
+    "B": "with_skill"
+  },
+  "deploy-unlisted-and-domain-1": {
+    "A": "without_skill",
+    "B": "with_skill"
+  },
+  "deploy-unlisted-and-domain-2": {
+    "A": "with_skill",
+    "B": "without_skill"
+  }
+}

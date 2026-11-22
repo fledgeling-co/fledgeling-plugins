@@ -95,3 +95,11 @@ the old parking record for its TTL after the authoritative servers are correct, 
 right after a change is not final; check again before reporting it.
 
 When the tools at hand cannot do a step, say which step and what would unblock it.
+
+## Writing to the person
+
+The reply and any checklist the person receives speak in their terms: what is public, what is
+protected, what it costs, what they need to decide. Keep script names, state numbers and file
+paths from this skill's run in `.create-website/`, not in the person's checklist. In a test run a
+blind judge marked a deploy checklist down for telling the owner to run internal scripts and for
+talking about her in the third person.

@@ -1,0 +1,100 @@
+{
+  "eval": "portfolio-with-3d-hero",
+  "arm": "without_skill",
+  "expectations": [
+    {
+      "text": "The plan records the 3D source (three-scene, generated-image, css-depth or mesh-generator) and why",
+      "passed": false,
+      "evidence": "No plan artifact exists: mech.json plan: [null, 'no site-plan.json'], and the only non-site file under /tmp/create-website/workspace/iteration-1/portfolio-with-3d-hero/without_skill/outputs/ is REPORT.md plus tools/gen-assets.mjs. REPORT.md describes what was built ('A faceted brass core inside a glass shell, inside a wire cage... three.js r0.169.0, exact pinned version, ES module from cdn.jsdelivr.net') but never records a choice among sources with a reason. The nearest thing is assumption 6, 'Had generation been available, the brief would have been: nothing. Photographic hero imagery would have fought the 3D object' — a reason for declining generated imagery, written after the build, not a recorded source decision."
+    },
+    {
+      "text": "If a WebGL canvas is created, the code checks availability and shows a still fallback when it is missing",
+      "passed": false,
+      "evidence": "Half of it holds. Availability is checked, loosely, by construction in a try/catch — site/assets/js/hero.js lines 17-28: `try { renderer = new THREE.WebGLRenderer({...}); } catch (err) { canvas.remove(); return; }`. But there is no still. The file's own header comment says what happens instead: 'Falls back silently to the CSS gradient behind the canvas if WebGL or the module is unavailable.' REPORT.md repeats it: 'the stage carries a CSS gradient behind the canvas, so a failed WebGL context, a blocked CDN or JS off leaves a composed dark hero with the headline intact.' site/index.html lines 34-46 confirm `.hero__stage` holds only `<canvas id=\"hero-canvas\">` and `.hero__copy` — no `<img>`, and no hero still exists in site/assets/img/ (the six SVGs there are case-study plates). A reader with no WebGL gets a gradient where the subject of the page should be."
+    },
+    {
+      "text": "If a WebGL canvas is created, setPixelRatio is capped at 2 or lower",
+      "passed": true,
+      "evidence": "site/assets/js/hero.js line 30 and again in the resize path at line 138: `renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));`. Both call sites are capped. mech.json dpr_capped: true. REPORT.md also measures the result: 'canvas.width = 2880 at DPR 2'."
+    },
+    {
+      "text": "If a WebGL canvas is created, rendering pauses when the canvas is off-screen or the tab is hidden",
+      "passed": true,
+      "evidence": "The off-screen half is implemented, which is what the assertion's 'or' requires. site/assets/js/hero.js lines 187-192: `let visible = true; new IntersectionObserver((entries) => { visible = entries[0].isIntersecting; dirty = true; }, { rootMargin: \"120px\" }).observe(hero);` and the frame loop at line 198 begins `requestAnimationFrame(frame); if (!visible) return;`. mech.json offscreen_pause: true. Noting for accuracy: there is no `visibilitychange` handler, so the hidden-tab case relies on the browser throttling requestAnimationFrame rather than on the page."
+    },
+    {
+      "text": "If a WebGL canvas is created, a webglcontextlost handler shows the still",
+      "passed": false,
+      "evidence": "No such handler exists. `grep -n 'contextlost|contextrestored' site/assets/js/hero.js` returns nothing, and the string appears nowhere in site/assets/js/. mech.json contextlost: false. A lost context therefore leaves a frozen or blank canvas with no recovery and no still to fall back to — and as above, the page ships no still at all."
+    },
+    {
+      "text": "The canvas is aria-hidden or named, with any controls in HTML",
+      "passed": true,
+      "evidence": "site/index.html line 36: `<canvas id=\"hero-canvas\" aria-hidden=\"true\"></canvas>`. All hero content is HTML beside it, lines 38-45: the `<h1 class=\"hero__title\" id=\"hero-title\">`, the subheading and the three `hero__meta` spans. The second clause is vacuous here — the run creates no canvas controls of any kind (no turn buttons, no keyboard affordance), so the rotation is reachable only by scrolling or a pointer drag."
+    },
+    {
+      "text": "Under prefers-reduced-motion the 3D rotation and scroll effects stop and all content is visible",
+      "passed": false,
+      "evidence": "Content is visible — site/assets/css/main.css lines 394-396, `@media (prefers-reduced-motion: reduce) { .js [data-reveal] { opacity: 1; transform: none; transition: none; } }` — but the 3D rotation does not stop. In site/assets/js/hero.js, `reduced` only zeroes the idle drift and skips redundant frames: line 210 `const idle = reduced ? 0 : t * 0.055;` and line 207 `if (!moving && !dirty && reduced) return;  // fully static under reduced motion`. The scroll driver is untouched: `progress` is still written by the scroll listener (line 160 `progress = p;`, line 173 `window.addEventListener(\"scroll\", readProgress, { passive: true })`), and lines 212-219 still apply it — `rig.rotation.y = shown * Math.PI * 2.3 + idle; rig.rotation.x = Math.sin(shown * Math.PI) * 0.62 + py * 0.12; core.rotation.y = -shown * Math.PI * 1.1;` and four more. So a reduced-motion visitor scrolling the page still gets just over two full revolutions of a five-part counter-rotating object. The comment 'fully static under reduced motion' is accurate only while the visitor is not scrolling, and the run's own check recorded the weaker claim: REPORT.md, 'Reduced motion ... Reveals bypassed, hero still renders, idle rotation off'."
+    },
+    {
+      "text": "No wheel or touchmove preventDefault and no normalizeScroll is used",
+      "passed": true,
+      "evidence": "`grep -rn 'normalizeScroll|preventDefault|wheel|touchmove' site/assets/js/ site/*.html` returns no matches at all. Scroll and pointer listeners are registered passive (`window.addEventListener(\"scroll\", readProgress, { passive: true })`, line 173; pointermove at line 180-184 likewise). Native scrolling is intact. mech.json wheel_preventDefault_or_normalize: false."
+    },
+    {
+      "text": "Case-study metrics, clients or quotes that the prompt did not supply are marked as gaps, not invented",
+      "passed": false,
+      "evidence": "The pages are full of invented figures presented as results. case-banking-app.html meta description: 'Mistaken-payment reports fell 34% in the pilot cohort.' case-hospital-wayfinding.html: 'Questions at the main reception desk fell 41%.' case-bike-share-kiosk.html: 'Median unassisted hire fell from 2m 10s to 38s.' A scan for percentages returns 34%, 41%, 44%, 61%, 12%, 22%, 6%, 71%, 60%, 58%, 17%, 19% across the three case pages and the home page, none supplied by the prompt. The identity is fabricated too: 'the site is written for a fictional designer — *Maren Avelo*, Lisbon, studio@marenavelo.example', shipped on the page as 'Based in Lisbon' and 'Available Q2 2027'. The run states the problem plainly in REPORT.md assumption 2 — '**Case-study content is invented.** Metrics (-34%, -41%, 38s), team shapes, durations and quotes are plausible fabrications... they are not real results' — but the assertion asks for them to be marked as gaps rather than invented, and on the page there is no marker: a reader sees '34%', not a placeholder."
+    },
+    {
+      "text": "The no-WebGL capture pass shows the fallback and reports no uncaught exception",
+      "passed": false,
+      "evidence": "No no-WebGL pass was run and no capture artifact exists: mech.json capture: {'pngs': 0}, and no PNG or capture report is present anywhere under outputs/. REPORT.md's check table lists 'Hero actually renders', 'Rotation is scroll-driven', 'JS errors', 'Reduced motion' and others, but nothing that disables WebGL; its 'Not checked' section names 'Real iOS/Android devices, Safari and Firefox... and sustained frame rate under load' and does not mention the no-WebGL path either. The fallback claim in REPORT.md ('a failed WebGL context... leaves a composed dark hero with the headline intact') is asserted, never exercised."
+    }
+  ],
+  "summary": { "passed": 4, "failed": 6, "total": 10, "pass_rate": 0.4 },
+  "claims": [
+    {
+      "claim": "Under prefers-reduced-motion idle drift is off and frames are only drawn when the user actually scrolls",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Literally true of the code (idle = 0, redundant frames skipped) — but it concedes that frames ARE drawn when the user scrolls, which is the behaviour the reduced-motion assertion rules out. The claim is accurate and the design it describes is the defect."
+    },
+    {
+      "claim": "The hero never initialised because of a temporal dead zone throw, found and fixed during the checks",
+      "type": "process",
+      "verified": true,
+      "evidence": "Consistent with the shipped file: in hero.js the state declarations (`let dirty`, `let visible`) now sit above their use. The fix is in the code; the discovery narrative itself rests on the run's summary, as no console artifact was retained."
+    },
+    {
+      "claim": "Contrast: body 17.3:1, muted 7.9:1, brass 8.9:1, all computed from source hex",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Reported as prose with no measurement artifact. The related fix is visible — `--fg-dim` is no longer #6d7684 — but the ratios cannot be checked from what was kept."
+    },
+    {
+      "claim": "Metrics on the case studies are fabrications and replacing them is the first editing pass",
+      "type": "quality",
+      "verified": true,
+      "evidence": "REPORT.md assumption 2 states it; the pages ship the numbers unmarked, so the disclosure lives only in a file the site's reader never sees."
+    },
+    {
+      "claim": "three.js is loaded from cdn.jsdelivr.net",
+      "type": "factual",
+      "verified": true,
+      "evidence": "hero.js line 8: `import * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js\";` — a runtime third-party request, and one more path on which the hero silently becomes a gradient."
+    }
+  ],
+  "notes": {
+    "assertions_that_could_not_fail_or_both_arms_trivially_pass": [
+      "'No wheel or touchmove preventDefault and no normalizeScroll is used' — both arms pass. Neither attempted a scroll-hijacking library, so there was nothing for this to catch.",
+      "'If a WebGL canvas is created, setPixelRatio is capped at 2 or lower' — both arms pass with the same standard three.js one-liner; it is close to a free pass.",
+      "'The canvas is aria-hidden or named, with any controls in HTML' — both arms pass, and for this arm the second clause cannot fail: it builds no canvas controls at all, so 'any controls in HTML' is satisfied by their absence. A run that makes the rotation reachable only by scroll scores the same as one that ships labelled turn buttons."
+    ],
+    "other_observations": [
+      "The reduced-motion assertion is the sharpest one in this eval: it caught a defect that the run's own check passed ('idle rotation off') because the check tested the idle animation and not the scroll driver.",
+      "No assertion covers whether the hero's 3D dependency is loaded from a third party at runtime, which this arm does. A blocked or slow CDN drops the page's entire subject with no still behind it, and nothing in the eval sees that."
+    ]
+  }
+}

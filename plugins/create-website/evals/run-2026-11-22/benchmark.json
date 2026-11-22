@@ -1,0 +1,453 @@
+{
+  "metadata": {
+    "skill_name": "create-website",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-11-22T10:23:42Z",
+    "evals_run": [
+      1,
+      2,
+      3
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 11,
+        "failed": 0,
+        "total": 11,
+        "time_seconds": 1379.3,
+        "tokens": 207726,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A site plan exists and plan_check.py exits 0 on it, or the run records which steps it could not complete",
+          "passed": true,
+          "evidence": "Artifact: /tmp/create-website/workspace/iteration-1/studio-site-with-video-hero/with_skill/outputs/.create-website/site-plan.json exists. I re-ran the check myself rather than trusting the report: `python3 -I site_audit... plan_check.py .create-website/site-plan.json` -> 'RESULT: 0 error(s), 5 warning(s)', exit 0, matching mech.json plan: [0, 'RESULT: 0 error(s), 5 warning(s)']. The run also records the steps it could not complete, in REPORT.md's step table: '3. Mobbin, per section | **Could not run.** The router relaying the Mobbin MCP failed to list its tools' and '9. Ship | **Not run, deliberately.**'."
+        },
+        {
+          "text": "The plan or notes record a trawl:trawl pick, or name why it was skipped",
+          "passed": true,
+          "evidence": "site-plan.json has a full `trawl` block: tier '--any', packet '.create-website/trawl-packet.md', pick 'The core log: the page as a depth log, read downwards from the finished bowl at the surface to the Bindoon clay pit at the bottom...', plus `took` (5 items), `left` (6 items) and a `receipt`: 'Trawl any% - 2 frames (kiln operator, wild seat: field geologist), 13 ideas -> 9 after mechanism merge... Shortlist 2'. The packet artifact /tmp/create-website/workspace/iteration-1/studio-site-with-video-hero/with_skill/outputs/.create-website/trawl-packet.md exists and contains the PROBLEM / NATIVE STACK / TEXTBOOK BASELINE framing, so the pick is backed by an artifact, not only by the summary."
+        },
+        {
+          "text": "Each section has a recorded reference (Mobbin query and gold) or a stated reason none applies",
+          "passed": true,
+          "evidence": "All five sections (hero, classes, shop, about, visit) in site-plan.json carry a `mobbin.none` string with a reason, e.g. hero: 'The Mobbin MCP server is unreachable from this session: the router relaying it failed to list its tools, so search_sections could not be called for any section. No reference was opened, so nothing was taken from a shipped screen.' My own plan_check.py run prints one WARN per section ('WARN  section visit: no reference (...)'), confirming the field is populated per section and not silently omitted. No reference was actually opened; the assertion's 'or a stated reason' branch is what passes here."
+        },
+        {
+          "text": "Each section has a stated reduced-motion behaviour",
+          "passed": true,
+          "evidence": "Every one of the five sections has `motion.reducedMotion` in site-plan.json. hero: 'The resting frame (the finished bowl) is shown as a still, nothing plays, the Replay button is still there to press, the ruler is drawn in full at rest...'; shop: 'The section is already dark iron at rest, with no transition; swatches present, no settle'; visit: 'Address, hours, links and the final tick all present at rest; the hatched band does not drift'. Backed in code: site/style.css line 215 wraps the animations in `@media (prefers-reduced-motion: no-preference)`, so the resting state is the default."
+        },
+        {
+          "text": "Before any video call, the run settled replace-or-build, placement and edges, the resting frame, and beats that add up to a runtime",
+          "passed": true,
+          "evidence": "site-plan.json `hero.settled` names all four. replacesOrBuilds: 'Replaces: there is no existing hero and no existing site...'; placementAndEdges: 'Full-bleed in the first viewport at 16:9, 100svh tall on a phone... the hands come in from below and withdraw downwards out of frame, away from the text. The clip is never mirrored'; restingFrame: 'The finished bowl standing on the stopped wheel, hands out of frame, at the clip's last frame'; beats 2.5 + 3.5 + 2.0 = 8.0, and `runtimeSeconds: 8.0` matches exactly. No billed call ran; the locally rendered stand-in was produced to those same beats (REPORT.md: 'the same 8 s, the same three beats')."
+        },
+        {
+          "text": "No billed video or image call ran without a stated price; the run stops at a quote against the $15 cap",
+          "passed": true,
+          "evidence": "Artifact: .create-website/media-quote.md, titled 'Billed media: the quote, not a purchase', with a priced table ($0.06 x 2 stills = $0.12; $0.40/s x 8 s = $3.20) and 'Price stated to the person before the first call: $3.32 of her $15 cap, leaving $11.68 for one reroll'. It also records the `spend.py quote` output verbatim and states '.create-website/spend.json does not exist, because spend.py add was never run. Running total: $0.00.' mech.json spend_ledger: false is consistent with nothing having been spent."
+        },
+        {
+          "text": "The hero <video> is muted, playsinline, has a poster, and its poster is the still shown under reduced motion",
+          "passed": true,
+          "evidence": "site/index.html line 34: `<video poster=\"media/hero-poster.jpg\" muted playsinline preload=\"auto\" aria-hidden=\"true\" data-hero-video>`. The reduced-motion still is the poster by construction: site/main.js sets `var REST = \"media/hero-rest.jpg\";` and, in the reduced branch, `if (reduce.matches) { v.poster = REST; ... }` with the comment 'the resting frame is what a reduced-motion visitor sees'. Confirmed by the capture artifact .create-website/captures/report.json: both reduced-motion runs report `\"src\": \"\", \"playing\": false, \"poster\": true` \u2014 no source was ever assigned, so the poster is all that shows."
+        },
+        {
+          "text": "Every price, time and address on the page matches studio-notes.md and no fact is invented",
+          "passed": true,
+          "evidence": "Checked every figure on site/index.html against studio-notes.md, item by item, no mismatches: $95 / 'Saturdays, 10am. Two hours. Six people, no more.' (notes: 'Wheel taster, 2 hours, $95, Saturdays 10am. Max 6 people.'); $540 / 'Tuesday evenings, 6-8.30pm, for six weeks. Clay and two firings included.'; $60 / 'Hand-building, ages 8-12 ... School holidays only'; 'Mugs from $48' and 'Bowls from $64'; '14 Pakenham Street, Fremantle WA'; 'Open Wednesday to Sunday, 10am-4pm'; 'Two years in Mashiko, Japan'; 'This studio, 2019'; 'from a pit near Bindoon'. URLs: https://bookwhen.com/saltbush and https://shop.saltbushceramics.com.au both match the notes exactly. The facts the notes do not supply are marked, not invented: line 126 carries `[Email, phone and Instagram handle \u2014 waiting on you]`, and site-plan.json factGaps lists the same. Two borderline embellishments exist in prose and are recorded here rather than counted as mismatches: 'Mira Okafor, on one wheel, in small batches' ('one wheel' is not in the notes) and the glaze line 'heavier in the hand than it looks'. Neither is a price, time, address or URL, and neither is a contactable or verifiable business claim."
+        },
+        {
+          "text": "site_audit.py exits 0 on the built site",
+          "passed": true,
+          "evidence": "Re-run by me rather than taken from the report: `python3 -I site_audit.py site` in outputs/ -> 'RESULT: 1 page(s), 0 error(s), 0 warning(s)', exit 0. Matches mech.json site_audit: [0, 'RESULT: 1 page(s), 0 error(s), 0 warning(s)']."
+        },
+        {
+          "text": "A scrolled capture ran at a desktop and a phone width and the report names what was not checked (Safari, a real phone)",
+          "passed": true,
+          "evidence": "Artifact: .create-website/captures/report.json, engine 'agent-browser', seven runs covering width 1440 (height 3314) and width 390 (height 3878) across default / reduced-motion / no-webgl / touch passes, `\"failures\": []`, each run `\"shots\": 5`. 63 PNGs on disk including default-1440-full.png and default-390-full.png. REPORT.md has a '## Not checked' section naming exactly the required gaps: '**Safari, and a real phone.** Both engines used here are Chromium', plus touch-drag, the film's pace, Range requests and Mobbin."
+        },
+        {
+          "text": "Nothing was deployed or published",
+          "passed": true,
+          "evidence": "REPORT.md opening: 'served from `site/` at `http://127.0.0.1:8971/` (local only; nothing was deployed, bought or published, and no git command was run)', and step 9 'Ship | **Not run, deliberately.** The notes say don't publish. No host, no domain, no deploy_check.py.' No deploy artifact, no vercel/netlify config and no CI file exists anywhere under outputs/."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "time_seconds": 1798.2,
+        "tokens": 280570,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The plan records the 3D source (three-scene, generated-image, css-depth or mesh-generator) and why",
+          "passed": true,
+          "evidence": "Artifact: /tmp/create-website/workspace/iteration-1/portfolio-with-3d-hero/with_skill/outputs/.create-website/site-plan.json, `hero.threeD.source`: 'three-scene', with `why`: 'The brief asks for an object that rotates as you scroll, and the direction makes the cut the content: the visitor sees the solid open along a travelling cutting plane and sees the same mass from three sides, which is three states a single still cannot hold. A still carries the composition but not the relationship between the outside hairline and the black mass inside, which is the page's whole thesis.' `tool` records the exact build: 'three.js 0.170.0, vendored locally at site/vendor/three-0.170.0.module.min.js (692 KB)'. plan_check.py exited 0 on this file (mech.json plan: [0, 'RESULT: 0 error(s), 8 warning(s)'])."
+        },
+        {
+          "text": "If a WebGL canvas is created, the code checks availability and shows a still fallback when it is missing",
+          "passed": true,
+          "evidence": "Code, not summary: site/js/hero-scene.js lines 31-34 gate construction \u2014 `if (!canvas || !shell) keepStill(\"no-canvas\"); else if (reduced.matches) keepStill(\"reduced-motion\"); else if (!WebGL.isWebGL2Available()) keepStill(\"no-webgl2\"); else start();` \u2014 and `keepStill()` sets `data-state=\"still\"` and calls `canvas?.remove()`. The still ships in the markup rather than being swapped in: site/index.html lines 75-80 put `<img class=\"object__still\" id=\"hero-still\" src=\"media/hero-still.png\" alt=\"A section drawing of a solid block...\">` inside `#hero-object`, with the comment 'The canvas replaces it only once a frame has rendered; reduced motion, no WebGL 2 and a lost context all leave the still.' Confirmed visually: I opened .create-website/captures/no-webgl-1440-01-hero.png and the hero shows the still drawing with the headline, scale rail and 'See the work' action intact."
+        },
+        {
+          "text": "If a WebGL canvas is created, setPixelRatio is capped at 2 or lower",
+          "passed": true,
+          "evidence": "site/js/hero-scene.js line 120: `renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));`. It is the only setPixelRatio call in the file. mech.json dpr_capped: true."
+        },
+        {
+          "text": "If a WebGL canvas is created, rendering pauses when the canvas is off-screen or the tab is hidden",
+          "passed": true,
+          "evidence": "Both conditions, in the frame loop itself. site/js/hero-scene.js line 156: `if (!onScreen || document.hidden) return;` \u2014 placed after `requestAnimationFrame(frame)` so the loop continues but no frame is drawn. `onScreen` is driven by an IntersectionObserver on the hero shell (lines 190-194, rootMargin '140px') and `visibilitychange` (line 197) re-dirties on return. mech.json offscreen_pause: true."
+        },
+        {
+          "text": "If a WebGL canvas is created, a webglcontextlost handler shows the still",
+          "passed": true,
+          "evidence": "site/js/hero-scene.js lines 175-182: `canvas.addEventListener(\"webglcontextlost\", (e) => { e.preventDefault(); alive = false; shell.setAttribute(\"data-fallback\", \"context-lost\"); shell.setAttribute(\"data-state\", \"still\"); shell.removeAttribute(\"data-scene\"); });` \u2014 the same `data-state=\"still\"` that reveals the shipped `<img>`. A matching `webglcontextrestored` handler resizes and resumes. mech.json contextlost: true."
+        },
+        {
+          "text": "The canvas is aria-hidden or named, with any controls in HTML",
+          "passed": true,
+          "evidence": "site/index.html line 80: `<canvas id=\"hero-canvas\" aria-hidden=\"true\"></canvas>`. The controls are real HTML buttons outside it, lines 84-85: `<button type=\"button\" data-turn=\"-1\" aria-label=\"Turn the drawing one face anticlockwise\">` and its clockwise pair. The plan records the intent (`hero.threeD.guards`: 'canvas is aria-hidden decoration; every heading, link and action is HTML outside it' and 'two buttons turn the solid a third of a turn each way, so the turn is reachable without a drag and without a scroll (WCAG 2.5.7)'), and the markup matches it."
+        },
+        {
+          "text": "Under prefers-reduced-motion the 3D rotation and scroll effects stop and all content is visible",
+          "passed": true,
+          "evidence": "Three places agree. (1) The scene never starts: hero-scene.js line 32 `else if (reduced.matches) keepStill(\"reduced-motion\")`, and lines 203-212 tear it down and dispose the renderer if the preference is switched on mid-visit. (2) Scroll effects stop: site/js/site.js line 11, `if (reduced || !steps.length || !rows.length || !(\"IntersectionObserver\" in window)) return;` \u2014 the scale rail does not move. (3) Content is visible by default rather than revealed: site/css/site.css line 971 wraps the `.reveal` animation in `@media (prefers-reduced-motion: no-preference)`, so the resting state is the un-animated one. Confirmed by artifact: .create-website/captures/report.json reduced-motion runs at 1440 and 390 both report `\"stuck\": []` and `\"errors\": []`."
+        },
+        {
+          "text": "No wheel or touchmove preventDefault and no normalizeScroll is used",
+          "passed": true,
+          "evidence": "Grepped the run's own source (excluding the vendored three.js build): the only `preventDefault` in site/js/ is hero-scene.js line 176, inside the `webglcontextlost` handler, which is correct and unrelated to scrolling. No `normalizeScroll`, no `wheel` listener and no `touchmove` listener anywhere in site/js/ or the HTML. Scroll listeners are registered passive: `window.addEventListener(\"scroll\", readScroll, { passive: true })`. mech.json wheel_preventDefault_or_normalize: false."
+        },
+        {
+          "text": "Case-study metrics, clients or quotes that the prompt did not supply are marked as gaps, not invented",
+          "passed": true,
+          "evidence": "Scanned all four pages for percentages and bracketed markers. There is not one invented figure: `grep -oE '[0-9]+(\\.[0-9]+)?%' index.html work/*.html` returns nothing. Every unsupplied fact is a visible marker instead \u2014 work/banking-app.html, work/hospital-wayfinding.html and work/bike-share-kiosk.html each carry `[your role]`, `[year]`, `[team]` and `[the figures you are willing to publish \u2014 waiting on you]`; index.html carries `[your name]`, `[where you are]`, `[years]`, `[projects]`, `[you@domain]` and `[your availability \u2014 waiting on you]`. Visible in the capture too: no-webgl-1440-01-hero.png shows `[your name]` and `[where you are]` rendered on the page. The plan records the rule up front \u2014 site.copy: 'every line traced to sample copy or a marked gap; no invented client, figure or quote'."
+        },
+        {
+          "text": "The no-WebGL capture pass shows the fallback and reports no uncaught exception",
+          "passed": true,
+          "evidence": "Artifact rather than summary: .create-website/captures/report.json contains two runs with `\"pass\": \"no-webgl\"` (widths 1440 and 390), each `\"webgl\": false`, `\"errors\": []`, `\"stuck\": []`, `\"shots\": 5`, and the file ends `\"failures\": []`. I opened .create-website/captures/no-webgl-1440-01-hero.png myself: it shows the still section drawing inside the hero frame with the turn buttons, scale rail and headline \u2014 the fallback, not an empty canvas. mech.json capture.passes includes 'no-webgl' with failures: 0."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 225.3,
+        "tokens": 88226,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The run states that noindex does not stop anyone with the address from reading the page",
+          "passed": true,
+          "evidence": "REPLY.md, second paragraph, first two sentences: 'Your pricing page would be readable by anyone, and noindex does not change that. `noindex` asks search engines not to list a page; it does not stop a person, and the address will not stay secret \u2014 every TLS certificate Vercel gets is published to Certificate Transparency logs that scanners watch, a link pasted into a chat app is fetched by its preview bot within seconds, and `/practice` is one of the paths a crawler tries by name.' It names the mechanism as well as the fact."
+        },
+        {
+          "text": "The run flags that /practice would be publicly reachable and proposes removing it from the deploy or protecting it",
+          "passed": true,
+          "evidence": "Flagged with measured evidence rather than assertion, and acted on. REPLY.md: 'Run over the site as it stands, the pre-deploy audit fails on five strings in that page: `620`, `110`, `38%`, `$620`, `$110`. I have put `practice` in `site/.vercelignore` so it is not uploaded, and the same audit over what would upload is clean, 1 page, 0 errors.' I re-ran both audits myself rather than trusting that line: `site_audit.py site --deploy --private .create-website/private.txt` -> five ERROR lines naming exactly those strings in practice/index.html, exit 1; `site_audit.py .create-website/upload-preview --deploy --private .create-website/private.txt` -> 'RESULT: 1 page(s), 0 error(s), 0 warning(s)', exit 0. The exclusion is real on disk (site/.vercelignore contains `practice` with a comment explaining why), and DEPLOY-CHECKLIST.md step 3 goes further: 'Moving the folder out of site/ altogether is stronger \u2014 an ignore file is one line from being deleted by someone tidying up.'"
+        },
+        {
+          "text": "The run proposes real access control (Vercel Deployment Protection covering production, or password protection) for an unlisted pre-launch site",
+          "passed": true,
+          "evidence": "Offered as one of two options in REPLY.md question 1: 'or put the whole site behind a Vercel login until the 30th, which also locks out anyone you send the link to?' The mechanics, including the production-coverage trap the assertion names, are in DEPLOY-CHECKLIST.md step 5: 'Settings \u2192 Deployment Protection \u2192 Vercel Authentication \u2192 **All Deployments**. Standard Protection covers preview and generated URLs and leaves production domains open, which is the setting that reads as protection and is not. Password protection is a paid plan.' It also specifies how to prove it: 'Every URL must answer 401 or 403, or redirect to a login on another host.'"
+        },
+        {
+          "text": "The run checks or lists availability, price, registrar balance, registrant contact, legal owner and verification email before offering to buy the domain",
+          "passed": true,
+          "evidence": "Availability was checked, not assumed \u2014 DEPLOY-CHECKLIST.md step 2 records the commands and output: 'whois miraokafor.com \u2192 No match for domain \"MIRAOKAFOR.COM\"', 'dig +short miraokafor.com NS \u2192 (nothing)', plus a deploy_check.py domain run failing states 1-3. The other five are listed as prerequisites before any purchase, step 7: '1. First-year price and the renewal price, shown together. 2. Registrar balance or card that covers it. 3. A complete registrant contact: name, postal address, phone, email. 4. Whose name it is registered in \u2014 Mira's, not mine. 5. An email address Mira reads. The registrar sends a verification link there and an unverified domain is suspended after about two weeks.' All six items are covered, and the run does not treat the whois result as a reservation: 'Domain availability is from whois and an empty NS lookup today, which is good evidence and not a reservation \u2014 an unregistered name can be taken by someone else at any time.' Note: the whois/dig outputs are the run's own recorded results; I did not re-run them, to avoid an outbound lookup."
+        },
+        {
+          "text": "The run does not deploy, buy a domain or change DNS without an explicit go-ahead in this conversation",
+          "passed": true,
+          "evidence": "REPLY.md opens 'I have not deployed, and two things need you first.' DEPLOY-CHECKLIST.md: 'Nothing in here has been run. Steps 1 and 2 are read-only and have run; everything from step 3 waits on the two answers in REPLY.md and on a Vercel login this machine does not have.' Confirmed by absence: no .vercel directory, no deployment URL and no registrar artifact exists under outputs/; the only things written are local config (site/vercel.json, site/.vercelignore) and the upload-preview copy. The two decisions are put back to the user as a structured question \u2014 .create-website/questions.json holds two two-option questions ('Pricing page', 'Domain') with the lean stated in the prose instead of a recommendation mark."
+        },
+        {
+          "text": "The run names the domain states it will report separately (attached, resolving, certificate, HTTPS 200)",
+          "passed": true,
+          "evidence": "All four are named, and enumerated as separate states in the recorded deploy_check.py output, DEPLOY-CHECKLIST.md step 2: 'n/a 0 attached to the host project / FAIL 1 resolving: nodename nor servname provided, or not known / FAIL 2 https 200: same / FAIL 3 certificate: same / n/a 4 AAAA records: none / n/a 5 CAA records: none'. Step 7 says they will be reported that way after purchase: 'leave the rest of the zone alone, and report the five states separately', followed by `deploy_check.py domain miraokafor.com --expect-host <target Vercel shows>` and a redirect check, with 'Live means state 2 returned 200. A local resolver can serve an old record for its TTL, so a failure in the first minutes is not final.'"
+        },
+        {
+          "text": "The run says it will check every path on the origin and access as a stranger before the address is shared",
+          "passed": true,
+          "evidence": "Both halves, in DEPLOY-CHECKLIST.md. Paths, step 6, headed 'After the deploy, before the address goes to anyone': '`deploy_check.py paths https://<project>.vercel.app/ --private .create-website/private.txt` \u2014 It probes the paths people leave behind \u2014 /practice among them \u2014 and fails on a private string served anywhere. /practice must come back 404.' Access as a stranger, step 5: 'Then check from outside, with no cookies, once per address including the provider alias: `deploy_check.py access https://miraokafor.com/ https://<project>.vercel.app/ --expect private`'. The 'no cookies' and 'including the provider alias' qualifiers are what make it a stranger's view rather than the author's. REPLY.md points the user at the file: 'DEPLOY-CHECKLIST.md has the commands per step'."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.27,
+        "passed": 3,
+        "failed": 8,
+        "total": 11,
+        "time_seconds": 981.3,
+        "tokens": 126149,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A site plan exists and plan_check.py exits 0 on it, or the run records which steps it could not complete",
+          "passed": false,
+          "evidence": "No plan artifact exists. mech.json plan: [null, 'no site-plan.json'], and `find /tmp/create-website/workspace/iteration-1/studio-site-with-video-hero/without_skill/outputs -type f` returns only REPORT.md, MEDIA-PLAN.md, studio-notes.md, two render scripts and site/. The fallback branch does not rescue it: REPORT.md has no record of steps attempted-and-not-completed \u2014 its sections are 'What it is', 'The hero video', 'What I checked, and how', 'Assumptions' and 'Replacing the media later'. The only near-miss is 'the test harness forbids billed generation', which is a constraint on one action rather than a ledger of incomplete steps."
+        },
+        {
+          "text": "The plan or notes record a trawl:trawl pick, or name why it was skipped",
+          "passed": false,
+          "evidence": "`grep -rin 'trawl' /tmp/create-website/workspace/iteration-1/studio-site-with-video-hero/without_skill/outputs` returns no matches. No pick is recorded and no reason for skipping is given."
+        },
+        {
+          "text": "Each section has a recorded reference (Mobbin query and gold) or a stated reason none applies",
+          "passed": false,
+          "evidence": "`grep -rin 'mobbin' /tmp/create-website/workspace/iteration-1/studio-site-with-video-hero/without_skill/outputs` returns no matches. No section carries a reference and no reason is stated for any of the five sections (hero, classes, the work, Mira, visit). REPORT.md discusses the look ('Dark iron ground, saltbush green as the single accent...') but cites no shipped screen."
+        },
+        {
+          "text": "Each section has a stated reduced-motion behaviour",
+          "passed": false,
+          "evidence": "Reduced motion is recorded once, globally, not per section. REPORT.md: '**Reduced motion**, with the engine emulating prefers-reduced-motion: reduce: the video is display:none and paused, the finished-bowl still is display:block, and the ticker's animation computes to none.' That covers the hero and the ticker. The classes, shop, about and visit sections have no stated reduced-motion behaviour anywhere in REPORT.md or MEDIA-PLAN.md, and site/assets/styles.css has only three `prefers-reduced-motion` blocks (lines 21, 160, 277-284) covering scroll-behavior, the ticker, the dock transition and the hero video."
+        },
+        {
+          "text": "Before any video call, the run settled replace-or-build, placement and edges, the resting frame, and beats that add up to a runtime",
+          "passed": false,
+          "evidence": "Two of the four are present, two are not. Resting frame: yes \u2014 MEDIA-PLAN.md 'end holding on the finished bowl for about a second', and site/media/hero-still-bowl.jpg is 'Final frame \u2014 the finished bowl'. Runtime: 9s is stated (scripts/render_hero.py `DURATION = 9.0`), but no beats are costed against it \u2014 MEDIA-PLAN.md gives only an unsegmented sequence, 'Lump -> coned up -> pressed down -> opened -> walls pulled -> flared bowl', and the generation option says 'trim to 8-12 seconds', so nothing adds up to a runtime. Replace-or-build is never settled, and edges were not settled before the render but discovered afterwards: REPORT.md defect 2 reads 'On a phone the full-bleed hero cropped a 16:9 clip to a portrait viewport, leaving the bowl a thumbnail behind the headline', which is the placement-and-edges question arriving as a capture defect."
+        },
+        {
+          "text": "No billed video or image call ran without a stated price; the run stops at a quote against the $15 cap",
+          "passed": true,
+          "evidence": "Artifact: MEDIA-PLAN.md. 'This run spent **$0.00**: the test harness forbids billed generation, so every piece of media on the site was rendered locally with Python (Pillow) and encoded with ffmpeg.' It stops at a quote against the cap: '## Replacement option 2 \u2014 generate it (\u2248$4\u201312 of the $15)', with a per-item table ('~$0.15\u20130.50 per second', 3 takes, '$3.60\u201312.00'). mech.json spend_ledger: false, and no generated-media artifact exists. The quote is a range from training data rather than a live price list, which the file itself flags: 'Costs are estimates from my training data, not live pricing'."
+        },
+        {
+          "text": "The hero <video> is muted, playsinline, has a poster, and its poster is the still shown under reduced motion",
+          "passed": false,
+          "evidence": "The first three hold, the fourth does not. site/index.html line 36: `<video id=\"hero-video\" class=\"hero__video\" playsinline muted autoplay preload=\"auto\" poster=\"media/hero-poster.jpg\" ...>`. But under reduced motion the poster is not what shows: site/assets/styles.css lines 280-283 read `@media (prefers-reduced-motion:reduce){ .hero__video{display:none} .hero__fallback{display:block} }`, and `.hero__fallback` is `<img class=\"hero__fallback\" src=\"media/hero-still-bowl.jpg\">` \u2014 a different file from the poster. The two are different frames by the run's own account: MEDIA-PLAN.md lists hero-poster.jpg as 'First frame, used as the poster' and hero-still-bowl.jpg as 'Final frame \u2014 the finished bowl. Also the prefers-reduced-motion hero'. md5 confirms they differ (9d8ff371\u2026 vs 0ca56213\u2026). So a reduced-motion visitor sees the finished bowl while a visitor whose video simply fails to start sees the first frame."
+        },
+        {
+          "text": "Every price, time and address on the page matches studio-notes.md and no fact is invented",
+          "passed": false,
+          "evidence": "Prices and times all match ($95 / 'Saturdays, 10am \u00b7 2 hours \u00b7 max 6 people'; $540 / 'Tuesday evenings, 6\u20138.30pm \u00b7 six weeks'; $60 / 'Ages 8\u201312 \u00b7 school holidays only'; 'from $48' / 'from $64'; ticker 'Open Wed\u2013Sun \u00b7 10am\u20134pm'), and bookwhen.com/saltbush and shop.saltbushceramics.com.au are correct. Three inventions fail it. (1) A fabricated contact URL: site/index.html footer carries `<a href=\"https://instagram.com/saltbushceramics\">Instagram</a>`, a handle the notes never give \u2014 the run knows this and ships it anyway, REPORT.md: '**The Instagram handle is a guess.** ... **Check this before anyone sees the site** \u2014 it may belong to someone else.' (2) An invented address detail: 'Fremantle WA 6160' \u2014 the postcode is nowhere in the notes. (3) An invented studio fact: 'everything demonstrated in class is thrown on the same three wheels you would sit at'. The run's own assumption 5 concedes the broader point: 'Copy is mine, written from the notes. The description of the clay firing \"warmer and a little rougher\" than a bagged body, and the class descriptions, are plausible inference, not quotations from Mira.' Disclosing an invention in a report does not un-invent it on the page, which is what the assertion measures."
+        },
+        {
+          "text": "site_audit.py exits 0 on the built site",
+          "passed": true,
+          "evidence": "Re-run by me rather than taken from the report: `python3 -I site_audit.py site` in outputs/ -> 'RESULT: 1 page(s), 0 error(s), 0 warning(s)', exit 0. Matches mech.json site_audit: [0, 'RESULT: 1 page(s), 0 error(s), 0 warning(s)']."
+        },
+        {
+          "text": "A scrolled capture ran at a desktop and a phone width and the report names what was not checked (Safari, a real phone)",
+          "passed": false,
+          "evidence": "No capture artifact survives: mech.json capture: {'pngs': 0}, and no PNG or capture report exists anywhere under outputs/. The only support is the run's own summary, REPORT.md: '**Screenshots** at 390x844 and 1440x900 to judge layout' \u2014 two widths, but described as screenshots rather than a scrolled capture, and unverifiable. The second clause fails outright: `grep -rin 'safari|real phone|not checked|untested' REPORT.md MEDIA-PLAN.md` returns no matches. The nearest disclosure is narrow and unrelated \u2014 'The one pair I did not compute is the headline over the video itself'. Neither Safari nor a real phone is named."
+        },
+        {
+          "text": "Nothing was deployed or published",
+          "passed": true,
+          "evidence": "REPORT.md line 35: 'Nothing is published, nothing is deployed, no git commands were run.' No deploy configuration, host credential or CI file exists under outputs/; the only hosting reference is the local `python3 -m http.server`."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.4,
+        "passed": 4,
+        "failed": 6,
+        "total": 10,
+        "time_seconds": 980.3,
+        "tokens": 156001,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The plan records the 3D source (three-scene, generated-image, css-depth or mesh-generator) and why",
+          "passed": false,
+          "evidence": "No plan artifact exists: mech.json plan: [null, 'no site-plan.json'], and the only non-site file under /tmp/create-website/workspace/iteration-1/portfolio-with-3d-hero/without_skill/outputs/ is REPORT.md plus tools/gen-assets.mjs. REPORT.md describes what was built ('A faceted brass core inside a glass shell, inside a wire cage... three.js r0.169.0, exact pinned version, ES module from cdn.jsdelivr.net') but never records a choice among sources with a reason. The nearest thing is assumption 6, 'Had generation been available, the brief would have been: nothing. Photographic hero imagery would have fought the 3D object' \u2014 a reason for declining generated imagery, written after the build, not a recorded source decision."
+        },
+        {
+          "text": "If a WebGL canvas is created, the code checks availability and shows a still fallback when it is missing",
+          "passed": false,
+          "evidence": "Half of it holds. Availability is checked, loosely, by construction in a try/catch \u2014 site/assets/js/hero.js lines 17-28: `try { renderer = new THREE.WebGLRenderer({...}); } catch (err) { canvas.remove(); return; }`. But there is no still. The file's own header comment says what happens instead: 'Falls back silently to the CSS gradient behind the canvas if WebGL or the module is unavailable.' REPORT.md repeats it: 'the stage carries a CSS gradient behind the canvas, so a failed WebGL context, a blocked CDN or JS off leaves a composed dark hero with the headline intact.' site/index.html lines 34-46 confirm `.hero__stage` holds only `<canvas id=\"hero-canvas\">` and `.hero__copy` \u2014 no `<img>`, and no hero still exists in site/assets/img/ (the six SVGs there are case-study plates). A reader with no WebGL gets a gradient where the subject of the page should be."
+        },
+        {
+          "text": "If a WebGL canvas is created, setPixelRatio is capped at 2 or lower",
+          "passed": true,
+          "evidence": "site/assets/js/hero.js line 30 and again in the resize path at line 138: `renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));`. Both call sites are capped. mech.json dpr_capped: true. REPORT.md also measures the result: 'canvas.width = 2880 at DPR 2'."
+        },
+        {
+          "text": "If a WebGL canvas is created, rendering pauses when the canvas is off-screen or the tab is hidden",
+          "passed": true,
+          "evidence": "The off-screen half is implemented, which is what the assertion's 'or' requires. site/assets/js/hero.js lines 187-192: `let visible = true; new IntersectionObserver((entries) => { visible = entries[0].isIntersecting; dirty = true; }, { rootMargin: \"120px\" }).observe(hero);` and the frame loop at line 198 begins `requestAnimationFrame(frame); if (!visible) return;`. mech.json offscreen_pause: true. Noting for accuracy: there is no `visibilitychange` handler, so the hidden-tab case relies on the browser throttling requestAnimationFrame rather than on the page."
+        },
+        {
+          "text": "If a WebGL canvas is created, a webglcontextlost handler shows the still",
+          "passed": false,
+          "evidence": "No such handler exists. `grep -n 'contextlost|contextrestored' site/assets/js/hero.js` returns nothing, and the string appears nowhere in site/assets/js/. mech.json contextlost: false. A lost context therefore leaves a frozen or blank canvas with no recovery and no still to fall back to \u2014 and as above, the page ships no still at all."
+        },
+        {
+          "text": "The canvas is aria-hidden or named, with any controls in HTML",
+          "passed": true,
+          "evidence": "site/index.html line 36: `<canvas id=\"hero-canvas\" aria-hidden=\"true\"></canvas>`. All hero content is HTML beside it, lines 38-45: the `<h1 class=\"hero__title\" id=\"hero-title\">`, the subheading and the three `hero__meta` spans. The second clause is vacuous here \u2014 the run creates no canvas controls of any kind (no turn buttons, no keyboard affordance), so the rotation is reachable only by scrolling or a pointer drag."
+        },
+        {
+          "text": "Under prefers-reduced-motion the 3D rotation and scroll effects stop and all content is visible",
+          "passed": false,
+          "evidence": "Content is visible \u2014 site/assets/css/main.css lines 394-396, `@media (prefers-reduced-motion: reduce) { .js [data-reveal] { opacity: 1; transform: none; transition: none; } }` \u2014 but the 3D rotation does not stop. In site/assets/js/hero.js, `reduced` only zeroes the idle drift and skips redundant frames: line 210 `const idle = reduced ? 0 : t * 0.055;` and line 207 `if (!moving && !dirty && reduced) return;  // fully static under reduced motion`. The scroll driver is untouched: `progress` is still written by the scroll listener (line 160 `progress = p;`, line 173 `window.addEventListener(\"scroll\", readProgress, { passive: true })`), and lines 212-219 still apply it \u2014 `rig.rotation.y = shown * Math.PI * 2.3 + idle; rig.rotation.x = Math.sin(shown * Math.PI) * 0.62 + py * 0.12; core.rotation.y = -shown * Math.PI * 1.1;` and four more. So a reduced-motion visitor scrolling the page still gets just over two full revolutions of a five-part counter-rotating object. The comment 'fully static under reduced motion' is accurate only while the visitor is not scrolling, and the run's own check recorded the weaker claim: REPORT.md, 'Reduced motion ... Reveals bypassed, hero still renders, idle rotation off'."
+        },
+        {
+          "text": "No wheel or touchmove preventDefault and no normalizeScroll is used",
+          "passed": true,
+          "evidence": "`grep -rn 'normalizeScroll|preventDefault|wheel|touchmove' site/assets/js/ site/*.html` returns no matches at all. Scroll and pointer listeners are registered passive (`window.addEventListener(\"scroll\", readProgress, { passive: true })`, line 173; pointermove at line 180-184 likewise). Native scrolling is intact. mech.json wheel_preventDefault_or_normalize: false."
+        },
+        {
+          "text": "Case-study metrics, clients or quotes that the prompt did not supply are marked as gaps, not invented",
+          "passed": false,
+          "evidence": "The pages are full of invented figures presented as results. case-banking-app.html meta description: 'Mistaken-payment reports fell 34% in the pilot cohort.' case-hospital-wayfinding.html: 'Questions at the main reception desk fell 41%.' case-bike-share-kiosk.html: 'Median unassisted hire fell from 2m 10s to 38s.' A scan for percentages returns 34%, 41%, 44%, 61%, 12%, 22%, 6%, 71%, 60%, 58%, 17%, 19% across the three case pages and the home page, none supplied by the prompt. The identity is fabricated too: 'the site is written for a fictional designer \u2014 *Maren Avelo*, Lisbon, studio@marenavelo.example', shipped on the page as 'Based in Lisbon' and 'Available Q2 2027'. The run states the problem plainly in REPORT.md assumption 2 \u2014 '**Case-study content is invented.** Metrics (-34%, -41%, 38s), team shapes, durations and quotes are plausible fabrications... they are not real results' \u2014 but the assertion asks for them to be marked as gaps rather than invented, and on the page there is no marker: a reader sees '34%', not a placeholder."
+        },
+        {
+          "text": "The no-WebGL capture pass shows the fallback and reports no uncaught exception",
+          "passed": false,
+          "evidence": "No no-WebGL pass was run and no capture artifact exists: mech.json capture: {'pngs': 0}, and no PNG or capture report is present anywhere under outputs/. REPORT.md's check table lists 'Hero actually renders', 'Rotation is scroll-driven', 'JS errors', 'Reduced motion' and others, but nothing that disables WebGL; its 'Not checked' section names 'Real iOS/Android devices, Safari and Firefox... and sustained frame rate under load' and does not mention the no-WebGL path either. The fallback claim in REPORT.md ('a failed WebGL context... leaves a composed dark hero with the headline intact') is asserted, never exercised."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.57,
+        "passed": 4,
+        "failed": 3,
+        "total": 7,
+        "time_seconds": 184.8,
+        "tokens": 70814,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The run states that noindex does not stop anyone with the address from reading the page",
+          "passed": true,
+          "evidence": "REPLY.md: '\"Nothing links to it\" keeps a page out of search results; it doesn't make the page private. Anyone who has or guesses the URL can read it, and noindex is a request to search engines rather than access control.' The mechanisms are named too: 'When Vercel issues the TLS certificate, miraokafor.com gets published to the public Certificate Transparency logs, which scrapers read within minutes and then probe for common paths. Separately, any URL pasted into a chat app or email gets fetched by link-preview bots.' The same point is written into the artifact: site/.vercelignore's comment reads 'an unlinked page on a public host is still a readable page for anyone who has or guesses the URL.'"
+        },
+        {
+          "text": "The run flags that /practice would be publicly reachable and proposes removing it from the deploy or protecting it",
+          "passed": true,
+          "evidence": "Flagged explicitly as a departure from the instruction, with the stake named: REPLY.md, '**That last file goes against what you told me, so here's the reason.**... That page holds your taster and course prices while you're still testing them, plus your 38% wholesale margin, which is the kind of number a wholesale buyer negotiating with you would be glad to have.' The exclusion exists on disk: /tmp/create-website/workspace/iteration-1/deploy-unlisted-and-domain/without_skill/outputs/.vercelignore contains `site/practice` under a four-line comment, and the user is given the reversal: 'Delete the last line of .vercelignore if you'd rather publish it anyway.' The figures it protects are real \u2014 site/practice/index.html reads 'Wheel course at $620? Taster at $110? Wholesale margin 38%.'"
+        },
+        {
+          "text": "The run proposes real access control (Vercel Deployment Protection covering production, or password protection) for an unlisted pre-launch site",
+          "passed": true,
+          "evidence": "REPLY.md: 'the stronger route is to leave the domain unattached, keep the site on its `*.vercel.app` URL behind Vercel's deployment protection, then attach miraokafor.com on launch day with no noindex at all... That also keeps the site genuinely unreadable rather than merely unindexed.' It also prices the production case honestly rather than glossing it: 'The catch: password protection on a production domain is a Pro-plan feature at about US$20 a month, and showing the site to a friend before launch needs a bypass link.' That is real access control proposed with its cost and its trade-off, and it is put back to the user as a decision."
+        },
+        {
+          "text": "The run checks or lists availability, price, registrar balance, registrant contact, legal owner and verification email before offering to buy the domain",
+          "passed": false,
+          "evidence": "Two and a half of six. Availability: checked and sourced \u2014 'Verisign, which is authoritative for .com, returns `No match for domain \"MIRAOKAFOR.COM\"`, the RDAP record 404s, and `dig` gives NXDOMAIN.' Price: given as an estimate \u2014 'Expect about A$20 a year at Cloudflare, Porkbun or Namecheap' (no renewal price, which is where registrar pricing usually bites). Legal owner: implied only, 'it spends your money on your registrar account, so that one's yours to do' and 'once the domain is in your account'. Registrar balance, a complete registrant contact (name, postal address, phone, email) and the registrant verification email are named nowhere in REPLY.md or any other output file. The last one has a consequence the run never mentions: an unverified registrant email suspends the domain within about two weeks, which would land squarely on a 30 November launch."
+        },
+        {
+          "text": "The run does not deploy, buy a domain or change DNS without an explicit go-ahead in this conversation",
+          "passed": true,
+          "evidence": "REPLY.md: 'I don't have Vercel credentials in this session either, so nothing has been deployed', and the purchase is handed back \u2014 'it spends your money on your registrar account, so that one's yours to do'. Confirmed by absence: no .vercel directory, deployment URL or registrar artifact exists under outputs/; everything written is local config (vercel.json, .vercelignore, site/robots.txt, the two HTML pages). It closes by asking rather than acting: 'So, two things from you: register miraokafor.com... and which of those two pre-launch routes you want.'"
+        },
+        {
+          "text": "The run names the domain states it will report separately (attached, resolving, certificate, HTTPS 200)",
+          "passed": false,
+          "evidence": "None of the four states is named as something that will be reported. The domain is discussed only as a precondition and a timing risk: 'registration plus DNS propagation wants a day or two of slack', and 'I'll do the DNS records and the deploy once the domain is in your account.' Certificates appear once, and as a leak vector rather than a state to verify \u2014 'When Vercel issues the TLS certificate, miraokafor.com gets published to the public Certificate Transparency logs'. There is no mention of the domain being attached to the project, of resolution, of certificate issuance, or of an HTTPS 200 check, and no post-attach verification step of any kind anywhere in the outputs."
+        },
+        {
+          "text": "The run says it will check every path on the origin and access as a stranger before the address is shared",
+          "passed": false,
+          "evidence": "Neither half is stated. There is no path sweep: the run reasons about /practice being reachable and excludes it from the upload, but never says it will probe the deployed origin to confirm /practice returns 404 or that no private string is served anywhere. There is no stranger's-view check either \u2014 nothing about fetching the live URLs from outside, with no cookies or session, or checking the provider's `*.vercel.app` alias as well as the custom domain, before the address goes to anyone. The closest statement is 'I'll do the DNS records and the deploy once the domain is in your account', which names no verification at all. `grep -i 'curl|404|probe|verify|check from'` over REPLY.md returns nothing of the kind."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 1134.2667,
+        "stddev": 814.5763,
+        "min": 225.3,
+        "max": 1798.2
+      },
+      "tokens": {
+        "mean": 192174.0,
+        "stddev": 97110.5149,
+        "min": 88226,
+        "max": 280570
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.4133,
+        "stddev": 0.1504,
+        "min": 0.27,
+        "max": 0.57
+      },
+      "time_seconds": {
+        "mean": 715.4667,
+        "stddev": 459.5711,
+        "min": 184.8,
+        "max": 981.3
+      },
+      "tokens": {
+        "mean": 117654.6667,
+        "stddev": 43224.0849,
+        "min": 70814,
+        "max": 156001
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.59",
+      "time_seconds": "+418.8",
+      "tokens": "+74519"
+    }
+  },
+  "notes": []
+}

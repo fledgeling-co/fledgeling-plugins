@@ -72,6 +72,9 @@ identity (wordmarks, illustration style, a signature colour) under `left`.
 
 Every sentence comes from the person's material. Where a fact is missing, leave a marked gap
 (`[opening hours — waiting on you]`) and list it in the report, rather than writing a plausible
-one. When a fact changes, find every place on the site that restates it in the same sitting; a
+one. A heading or summary line is a claim about every item under it. "Three ways in, six people at a
+time" told a blind judge that every class was capped at six when the notes capped only one; write
+the summary from the items, then check it against each. When a fact changes, find every place on
+the site that restates it in the same sitting; a
 figures row, a timeline tag and a heading each restate facts in a form a search for the original
 wording will not find, so read the page.

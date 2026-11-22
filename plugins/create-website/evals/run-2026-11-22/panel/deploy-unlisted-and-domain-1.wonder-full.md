@@ -1,0 +1,12 @@
+1.
+- Correct about noindex/unlisted: A stronger — A combines `X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex`, meta robots on both pages, and an allowing `robots.txt`, and explains the post-launch re-crawl delay and Certificate Transparency exposure; B is correct on header-only noindex but `index.html` has no meta fallback and never warns of indexing lag.
+- Protects `/practice`: B stronger — B's site actually contains `.vercelignore` with `practice`, proves exclusion with an audit falling from five private-string errors to “1 page, 0 errors,” and requires a post-deploy `/practice` 404 probe in `DEPLOY-CHECKLIST.md` §6; A claims a `.vercelignore` that is absent from the site as left.
+- Domain purchase responsibly: B stronger — B verifies `whois` “No match” and empty NS, then `DEPLOY-CHECKLIST.md` §7 requires first-year and renewal prices, payment means, complete registrant details, registration “in Mira's, not mine,” and a monitored verification email; A checks Verisign/RDAP/`dig` and gives an approximate A$20 price but does not address renewal pricing, legal registrant, or verification-email suspension.
+- Asks only what is the client's to decide: B stronger — B asks two numbered client-owned choices, pricing-page exposure versus site login and domain purchase research versus temporary `*.vercel.app`, with a stated lean on the first; A also asks the client to register the domain herself and to weigh CT logs, deployment protection, Pro pricing, and SEO timing.
+- Clear, actionable next step: B stronger — B's reply asks for answers to the two questions, while `DEPLOY-CHECKLIST.md` §§3–8 specifies audit, deploy, domain, verification, and the 30 November removal of the `X-Robots-Tag` block; A is concise but only identifies deleting the meta line, leaving its site-wide noindex header to block search after launch.
+
+2.
+- A: Its claimed protection is not in the deliverable — no `.vercelignore` appears in the site as left, so deploying that tree would upload `practice/index.html` containing `$620`, `$110`, and `38%`, protected only by the meta noindex A correctly says is not access control.
+- B: It presents excluding `/practice` and putting the whole site behind a Vercel login as alternatives in question 1, inviting the client to upload sensitive pricing behind Deployment Protection even though §5 warns that the easily selected Standard Protection leaves production domains open.
+
+VERDICT: B

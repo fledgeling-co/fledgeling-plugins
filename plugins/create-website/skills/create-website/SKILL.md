@@ -90,8 +90,10 @@ including one outside the category) and M2 (one gold per section type, `limit` 4
 the images; a result you did not open was not used. Write each section's `mobbin` block: the
 query, how many results you opened, the gold, what you took in measurable terms (first-viewport
 element count, frame, type sizes, where the focal object sits) and what you left. Adjacent
-sections take different golds. Without the Mobbin server, write `"none": "<reason>"` per section
-and say so in the report.
+sections take different golds. When the `mobbin` tools are missing from the session, run
+`python3 scripts/router_call.py --list mobbin` before concluding they are unavailable; it reaches
+a healthy router from one process and saves result images under `.create-website/refs/` for you
+to open. Only when that fails too, write `"none": "<reason>"` per section and say so in the report.
 
 ### 4. Build the plain site first
 
@@ -99,7 +101,9 @@ Build through `design-craft:design-craft` and `ux-craft:ux-craft` together, one 
 time against its gold (design-craft's M5 side-by-side). Ship the content, navigation and calls
 to action as semantic HTML with still imagery before any motion is added, so every enhancement
 that later fails leaves a usable page. The hero's still (the poster, or the 3D fallback render)
-exists from this step on.
+exists from this step on. Lay each section out at 390 px wide as well as desktop: a signature
+device that stays on screen (a rail, a ruler, a fixed gutter) collapses or moves on a phone,
+because a 64 px rail on a 375 px screen spent a sixth of the width in a test build.
 
 ### 5. Motion through every section
 
@@ -186,5 +190,11 @@ Put anything waiting on the person last: a choice, a credential, a verification 
   "The audit passed" and "I looked at captures X and Y" are two claims; keep them apart.
 - **Never route around a refusal.** When a model refuses a prompt or an image, report it and the
   choices; trying another model is the person's call.
+- **A missing tool is a finding to check, not a conclusion.** When `mobbin` or `media-gen-pro`
+  tools are absent from the session, find out whether the server is down or only this session's
+  link to the router dropped ("session belongs to another process"). `scripts/router_call.py`
+  initialises and calls from one process, which reaches a healthy router; use it for
+  `media-gen-pro` too. A career-kit run shipped a deliverable saying the reference and image tools
+  were unavailable when they were not, and both of this skill's first test builds did the same.
 - **Credentials come from the secrets broker** or the owner's explicit say-so, and never enter the
   page, the plan or a brief.

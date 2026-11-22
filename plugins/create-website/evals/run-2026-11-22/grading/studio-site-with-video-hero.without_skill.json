@@ -1,0 +1,99 @@
+{
+  "eval": "studio-site-with-video-hero",
+  "arm": "without_skill",
+  "expectations": [
+    {
+      "text": "A site plan exists and plan_check.py exits 0 on it, or the run records which steps it could not complete",
+      "passed": false,
+      "evidence": "No plan artifact exists. mech.json plan: [null, 'no site-plan.json'], and `find /tmp/create-website/workspace/iteration-1/studio-site-with-video-hero/without_skill/outputs -type f` returns only REPORT.md, MEDIA-PLAN.md, studio-notes.md, two render scripts and site/. The fallback branch does not rescue it: REPORT.md has no record of steps attempted-and-not-completed — its sections are 'What it is', 'The hero video', 'What I checked, and how', 'Assumptions' and 'Replacing the media later'. The only near-miss is 'the test harness forbids billed generation', which is a constraint on one action rather than a ledger of incomplete steps."
+    },
+    {
+      "text": "The plan or notes record a trawl:trawl pick, or name why it was skipped",
+      "passed": false,
+      "evidence": "`grep -rin 'trawl' /tmp/create-website/workspace/iteration-1/studio-site-with-video-hero/without_skill/outputs` returns no matches. No pick is recorded and no reason for skipping is given."
+    },
+    {
+      "text": "Each section has a recorded reference (Mobbin query and gold) or a stated reason none applies",
+      "passed": false,
+      "evidence": "`grep -rin 'mobbin' /tmp/create-website/workspace/iteration-1/studio-site-with-video-hero/without_skill/outputs` returns no matches. No section carries a reference and no reason is stated for any of the five sections (hero, classes, the work, Mira, visit). REPORT.md discusses the look ('Dark iron ground, saltbush green as the single accent...') but cites no shipped screen."
+    },
+    {
+      "text": "Each section has a stated reduced-motion behaviour",
+      "passed": false,
+      "evidence": "Reduced motion is recorded once, globally, not per section. REPORT.md: '**Reduced motion**, with the engine emulating prefers-reduced-motion: reduce: the video is display:none and paused, the finished-bowl still is display:block, and the ticker's animation computes to none.' That covers the hero and the ticker. The classes, shop, about and visit sections have no stated reduced-motion behaviour anywhere in REPORT.md or MEDIA-PLAN.md, and site/assets/styles.css has only three `prefers-reduced-motion` blocks (lines 21, 160, 277-284) covering scroll-behavior, the ticker, the dock transition and the hero video."
+    },
+    {
+      "text": "Before any video call, the run settled replace-or-build, placement and edges, the resting frame, and beats that add up to a runtime",
+      "passed": false,
+      "evidence": "Two of the four are present, two are not. Resting frame: yes — MEDIA-PLAN.md 'end holding on the finished bowl for about a second', and site/media/hero-still-bowl.jpg is 'Final frame — the finished bowl'. Runtime: 9s is stated (scripts/render_hero.py `DURATION = 9.0`), but no beats are costed against it — MEDIA-PLAN.md gives only an unsegmented sequence, 'Lump -> coned up -> pressed down -> opened -> walls pulled -> flared bowl', and the generation option says 'trim to 8-12 seconds', so nothing adds up to a runtime. Replace-or-build is never settled, and edges were not settled before the render but discovered afterwards: REPORT.md defect 2 reads 'On a phone the full-bleed hero cropped a 16:9 clip to a portrait viewport, leaving the bowl a thumbnail behind the headline', which is the placement-and-edges question arriving as a capture defect."
+    },
+    {
+      "text": "No billed video or image call ran without a stated price; the run stops at a quote against the $15 cap",
+      "passed": true,
+      "evidence": "Artifact: MEDIA-PLAN.md. 'This run spent **$0.00**: the test harness forbids billed generation, so every piece of media on the site was rendered locally with Python (Pillow) and encoded with ffmpeg.' It stops at a quote against the cap: '## Replacement option 2 — generate it (≈$4–12 of the $15)', with a per-item table ('~$0.15–0.50 per second', 3 takes, '$3.60–12.00'). mech.json spend_ledger: false, and no generated-media artifact exists. The quote is a range from training data rather than a live price list, which the file itself flags: 'Costs are estimates from my training data, not live pricing'."
+    },
+    {
+      "text": "The hero <video> is muted, playsinline, has a poster, and its poster is the still shown under reduced motion",
+      "passed": false,
+      "evidence": "The first three hold, the fourth does not. site/index.html line 36: `<video id=\"hero-video\" class=\"hero__video\" playsinline muted autoplay preload=\"auto\" poster=\"media/hero-poster.jpg\" ...>`. But under reduced motion the poster is not what shows: site/assets/styles.css lines 280-283 read `@media (prefers-reduced-motion:reduce){ .hero__video{display:none} .hero__fallback{display:block} }`, and `.hero__fallback` is `<img class=\"hero__fallback\" src=\"media/hero-still-bowl.jpg\">` — a different file from the poster. The two are different frames by the run's own account: MEDIA-PLAN.md lists hero-poster.jpg as 'First frame, used as the poster' and hero-still-bowl.jpg as 'Final frame — the finished bowl. Also the prefers-reduced-motion hero'. md5 confirms they differ (9d8ff371… vs 0ca56213…). So a reduced-motion visitor sees the finished bowl while a visitor whose video simply fails to start sees the first frame."
+    },
+    {
+      "text": "Every price, time and address on the page matches studio-notes.md and no fact is invented",
+      "passed": false,
+      "evidence": "Prices and times all match ($95 / 'Saturdays, 10am · 2 hours · max 6 people'; $540 / 'Tuesday evenings, 6–8.30pm · six weeks'; $60 / 'Ages 8–12 · school holidays only'; 'from $48' / 'from $64'; ticker 'Open Wed–Sun · 10am–4pm'), and bookwhen.com/saltbush and shop.saltbushceramics.com.au are correct. Three inventions fail it. (1) A fabricated contact URL: site/index.html footer carries `<a href=\"https://instagram.com/saltbushceramics\">Instagram</a>`, a handle the notes never give — the run knows this and ships it anyway, REPORT.md: '**The Instagram handle is a guess.** ... **Check this before anyone sees the site** — it may belong to someone else.' (2) An invented address detail: 'Fremantle WA 6160' — the postcode is nowhere in the notes. (3) An invented studio fact: 'everything demonstrated in class is thrown on the same three wheels you would sit at'. The run's own assumption 5 concedes the broader point: 'Copy is mine, written from the notes. The description of the clay firing \"warmer and a little rougher\" than a bagged body, and the class descriptions, are plausible inference, not quotations from Mira.' Disclosing an invention in a report does not un-invent it on the page, which is what the assertion measures."
+    },
+    {
+      "text": "site_audit.py exits 0 on the built site",
+      "passed": true,
+      "evidence": "Re-run by me rather than taken from the report: `python3 -I site_audit.py site` in outputs/ -> 'RESULT: 1 page(s), 0 error(s), 0 warning(s)', exit 0. Matches mech.json site_audit: [0, 'RESULT: 1 page(s), 0 error(s), 0 warning(s)']."
+    },
+    {
+      "text": "A scrolled capture ran at a desktop and a phone width and the report names what was not checked (Safari, a real phone)",
+      "passed": false,
+      "evidence": "No capture artifact survives: mech.json capture: {'pngs': 0}, and no PNG or capture report exists anywhere under outputs/. The only support is the run's own summary, REPORT.md: '**Screenshots** at 390x844 and 1440x900 to judge layout' — two widths, but described as screenshots rather than a scrolled capture, and unverifiable. The second clause fails outright: `grep -rin 'safari|real phone|not checked|untested' REPORT.md MEDIA-PLAN.md` returns no matches. The nearest disclosure is narrow and unrelated — 'The one pair I did not compute is the headline over the video itself'. Neither Safari nor a real phone is named."
+    },
+    {
+      "text": "Nothing was deployed or published",
+      "passed": true,
+      "evidence": "REPORT.md line 35: 'Nothing is published, nothing is deployed, no git commands were run.' No deploy configuration, host credential or CI file exists under outputs/; the only hosting reference is the local `python3 -m http.server`."
+    }
+  ],
+  "summary": { "passed": 3, "failed": 8, "total": 11, "pass_rate": 0.27 },
+  "claims": [
+    {
+      "claim": "Screenshots were taken at 390x844 and 1440x900 and two layout bugs were found from them",
+      "type": "process",
+      "verified": false,
+      "evidence": "Plausible and consistent with the CSS (the hero does switch to a 16:10 band on phones), but no capture artifact was retained — mech.json capture: {'pngs': 0} — so this rests entirely on the run's own summary."
+    },
+    {
+      "claim": "Lowest contrast pair is 6.07:1, body text 13.5:1, all pass WCAG AA",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Computed from source colours by the run and reported only as prose; no measurement artifact exists to check it against. REPORT.md itself exempts the one risky pair: 'The one pair I did not compute is the headline over the video itself'."
+    },
+    {
+      "claim": "The hero video is 9 seconds, 216 frames, rendered with Pillow and encoded with ffmpeg at $0",
+      "type": "factual",
+      "verified": true,
+      "evidence": "scripts/render_hero.py sets `FPS = 24`, `DURATION = 9.0`, `NFRAMES = int(FPS * DURATION)` = 216; site/media/throwing-a-bowl.mp4 (198KB) and .webm (147KB) are present; no spend ledger exists."
+    },
+    {
+      "claim": "The Instagram handle is a guess that may belong to someone else",
+      "type": "quality",
+      "verified": true,
+      "evidence": "REPORT.md assumption 1 says so, and index.html ships the link regardless — the disclosure is accurate and the decision to ship it anyway is the defect."
+    }
+  ],
+  "notes": {
+    "assertions_that_could_not_fail_or_both_arms_trivially_pass": [
+      "'Nothing was deployed or published' — both arms pass trivially; the harness supplies no credentials, so there is no path to failure.",
+      "'site_audit.py exits 0 on the built site' — both arms pass. A hand-written static page clears it without skill-specific work.",
+      "'No billed video or image call ran without a stated price; the run stops at a quote against the $15 cap' — both arms pass, and the first clause is vacuous because billed generation is forbidden by the harness. Only the 'stops at a quote against the cap' clause discriminates, and it does so weakly: a range from training data ('≈$4–12 of the $15') scores the same as a per-unit quote against a live price list."
+    ],
+    "other_observations": [
+      "Three assertions (plan, trawl, Mobbin) are pure artifact-existence checks against skill-specific procedure. They fail this arm for the expected reason — no skill, no procedure — rather than because the site is worse, so they measure conformance rather than outcome.",
+      "The strongest discriminators on this eval were the two outcome assertions: the poster/reduced-motion-still identity (a real behavioural defect, two different frames on two different failure paths) and the invented-fact check (a fabricated Instagram URL shipped on the page)."
+    ]
+  }
+}

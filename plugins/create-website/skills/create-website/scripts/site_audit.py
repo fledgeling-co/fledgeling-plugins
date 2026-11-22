@@ -113,7 +113,18 @@ class Page(HTMLParser):
             self.review.append("<!-- review-tool -->")
 
 
+DATA_URI = re.compile(r"""url\(\s*(['"]?)data:.*?\1\s*\)""", re.S | re.I)
+
+
+def css_refs(text):
+    """url() references in CSS, ignoring data URIs and anything nested inside one: an inline SVG
+    noise filter carries url(%23n), which is a fragment inside the data URI and not a file."""
+    return CSS_URL.findall(DATA_URI.sub("", text))
+
+
 def local_path(root, page_dir, ref):
+    if unquote(ref).startswith("#"):
+        return None
     u = urlparse(ref)
     if u.scheme in ("http", "https", "data", "mailto", "tel", "javascript") or ref.startswith("//") or ref.startswith("#"):
         return None
@@ -139,7 +150,7 @@ def audit(root, deploy=False, private=()):
     css_text = "\n".join(open(f, encoding="utf-8", errors="replace").read() for f in files if f.endswith(".css"))
     for f in files:
         if f.endswith(".css"):
-            for ref in CSS_URL.findall(open(f, encoding="utf-8", errors="replace").read()):
+            for ref in css_refs(open(f, encoding="utf-8", errors="replace").read()):
                 p = local_path(root, os.path.dirname(f), ref)
                 if p and not os.path.exists(p):
                     errors.append(f"{os.path.relpath(f, root)}: url({ref}) does not resolve")
@@ -155,7 +166,7 @@ def audit(root, deploy=False, private=()):
             p = local_path(root, os.path.dirname(f), ref)
             if p and not os.path.exists(p):
                 errors.append(f"{rel}: {kind} '{ref}' does not resolve")
-        for ref in CSS_URL.findall("\n".join(pg.inline_css)):
+        for ref in css_refs("\n".join(pg.inline_css)):
             p = local_path(root, os.path.dirname(f), ref)
             if p and not os.path.exists(p):
                 errors.append(f"{rel}: inline url({ref}) does not resolve")

@@ -2,6 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Fixture: good</title>
 <style>
+  body::before { content: ""; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.8'/%3E%3C/filter%3E%3Crect width='9' height='9' filter='url(%23n)'/%3E%3C/svg%3E"); }
 :root { --bg: #F4F1EA; --ink: #1d1b18; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.5 system-ui, sans-serif; }
 section { min-height: 80vh; padding: 64px 16px; box-sizing: border-box; }

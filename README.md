@@ -157,6 +157,14 @@ Turns raw project briefs and codebase reality into trace-verified PRDs and bespo
 
 <br clear="left" />
 
+<a href="plugins/create-website/README.md"><img src="plugins/create-website/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [create-website](plugins/create-website/README.md)
+
+Builds a whole website from a brief, one section at a time. One trawl run picks the site's world, every section takes a shipped reference, and the motion through the page still works under reduced motion, without WebGL and on a phone. It can make the hero an image, a short generated video or a 3D scene, states the price before any billed clip, and deploys only when you say so, after checking every path the address serves.
+
+<br clear="left" />
+
 <a href="plugins/mac-craft/README.md"><img src="plugins/mac-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [mac-craft](plugins/mac-craft/README.md)
