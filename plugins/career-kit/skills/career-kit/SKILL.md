@@ -121,6 +121,9 @@ Read their résumé through `pdftotext` without `-layout` as well as with it. Wi
 roughly what a parser sees, and a two-column design that reads correctly to a person comes out
 interleaved.
 
+A second review, of the rewritten résumé, takes the same shape; `references/review-page.md`
+covers cropping a one-column page, publishing it privately and counting its claims first.
+
 Depth: `references/review-page.md`.
 
 ## 4. Decide what can be decided, then ask well about the rest
@@ -144,6 +147,10 @@ questions:
 python3 scripts/build_form.py --spec questions.json --out questions.html \
     --title "Jane Doe — résumé questions" --key jane-resume-v1
 ```
+
+When they will answer on a phone, `scripts/build_paged_form.py` builds the same spec as one
+question per screen. When a recommendation is wanted on each question, mark it with its reason
+and select nothing; where only the person can know, say so instead.
 
 When the person sends free-text feedback, check your reading before rewriting anything: one
 question per note, quoting it, with your readings as options to tap and nothing pre-selected.
@@ -296,6 +303,10 @@ Depth: `references/project-record.md`.
   surfaces you looked at and which you did not.
 - Distrust a phrase that has survived many drafts, and a check that cannot fail.
 - Keep a short list of what is waiting on whom, and repeat it at the end of each report.
+- When someone asks why a fact was removed, find out which copy they read and whether the fact
+  exists in any source before changing anything. In the source session a figure "removed" was
+  on the internal copy and absent from the public ones by the person's rule, and a count asked
+  about had never been in any answer.
 - Start long jobs in the background, carry on with work that does not depend on them, and
   queue a new instruction against work that is in flight.
 - Route status and long outputs to files. Chat replies stay at two to four lines with a path.
@@ -308,8 +319,9 @@ Depth: `references/project-record.md`.
 | `scripts/make_docx.py` | Styled Word file matching the PDF; needs `python-docx` |
 | `scripts/make_variants.py` | One facts file plus a variant spec to a draft per role family, with page counts |
 | `scripts/facts_lint.py` | Gate: every figure in an output traces to the confirmed-facts file |
-| `scripts/build_form.py` | The question page: defaults, sources, tap-to-fill examples, copy and download |
-| `scripts/crop_snippets.py` | Evidence crops from a source PDF with highlighter marks baked in |
+| `scripts/build_form.py` | The question page: defaults, sources, tap-to-fill examples, recommended marks, copy and download |
+| `scripts/build_paged_form.py` | The same spec as one question per screen for a phone, with Now and Suggested panels and Send |
+| `scripts/crop_snippets.py` | Evidence crops from a source PDF with highlighter marks baked in; warns on a partly marked phrase |
 | `scripts/run_panel.sh` | Review panel with reversed-order briefs, wrapping decision-panel's runner |
 | `scripts/shoot.mjs` | Chrome over CDP: scrolled screenshots, overflow check, console errors |
 | `scripts/mcp_call.py` | Call one router MCP tool over HTTP when the session's own link has dropped |

@@ -109,6 +109,12 @@ would have turned a tool failure into a silent "no".
 
 Report it as a failure, and tally the lanes that answered.
 
+A lane can also fail for the account rather than the run. On 24 November 2026 one lane returned
+HTTP 403, "This service has been disabled in this account for violation of Terms of Service",
+on two consecutive runs, and another reported a usage limit with its reset date. Re-run once;
+when the error names the account, tell the person in one line, because no retry fixes it and the
+next panel will meet it too.
+
 ## A quiet lane is not yet a failed lane
 
 One lane in the source session stopped after a one-line preamble, was recorded as failed and
@@ -142,6 +148,23 @@ delegate a panel run, ask for the lanes' reasons quoted, and read them before ed
   ruled out, record the panel's position and keep the person's.
 - Log what you declined and why, in the project notes. A declined finding that leaves no trace
   gets re-raised by the next panel.
+
+## Several small decisions in one run
+
+When the decision is twenty linked small ones on one evidence base, such as which answer to
+recommend on each question of a form, one brief with a table to fill per item, tallied by hand,
+served better than twenty runs: three lanes agreed on 18 of 22 items and split 2 to 1 on the
+rest, so no second round was needed. Number the items exactly as the artefact numbers them. One
+brief called the summary question 19 when the form had it at 16, and every lane had to correct
+it.
+
+## Send the proposals, not only the edits
+
+A review's proposed wording reaches the person as soon as it is on a page or a form, so it gets
+the panel's drift check before then. In the source session two proposed lines went onto a
+published review page and a live form with drift from the person's confirmed words: a purpose
+she had worded herself replaced with one she had rejected, and two phrases she had confirmed
+separately merged into one. Only the panel run on the form caught them.
 
 ## When to stop
 

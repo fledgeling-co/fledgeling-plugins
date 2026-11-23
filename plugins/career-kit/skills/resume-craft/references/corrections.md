@@ -82,6 +82,12 @@ cutting, and re-run the section's test afterwards.
 | "Uplifted the service levels through negotiation" | "Recommended" for work that was theirs | "Supported" for the negotiation; each part its own verb |
 | "Multi-channel is relevant to indicate complexity" | Dropping complexity markers to shorten a scope line | Channels, brands, inbound and outbound: what makes the scale hard |
 | "A 1,400-head contact centre" | A noun carried from an old document (seats) | The person's own noun, confirmed |
+| "The same piece of work" (two bullets) | Telling one piece of work twice, or naming its parties twice inside one bullet | Every true part in one bullet, each party once, placed where it fits whole on a page |
+| "Compliance improved" (for "compliance monitoring results") | A phrase that leaves the reader unsure what improved | The person's answer, in their noun |
+| "Channel Manager, November 2013" | A descriptive title and a remembered date where the record differs | The official title and date; the plain description in the scope line |
+| "Add a line on how I use Copilot" | Crediting one tool with work the person gave two tools | "AI tools like Copilot", with the check on the output they described |
+| "Something else": "Calls were more likely which would have caused wait times impacts" | Reading a one-clause correction as acceptance of a whole rewrite | The correction, applied to the line as last approved |
+| "Too early to tell" (whether a change cut issues) | An expected result written as achieved ("reducing the risk") | The purpose ("to reduce the risk") |
 
 ## Over-corrections found on audit
 

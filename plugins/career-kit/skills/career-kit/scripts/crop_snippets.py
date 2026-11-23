@@ -73,12 +73,19 @@ def crop(image, words, box, out_path, highlight=(), pad=10, colour=(255, 205, 0,
     marks = 0
     for phrase in highlight:
         for occurrence in hits(words, phrase):
-            for (a, b, c, d) in occurrence:
-                if a >= x0 - 2 and c <= x1 + 2 and b >= y0 - 2 and d <= y1 + 2:
-                    draw.rounded_rectangle((a * SCALE - 3, b * SCALE - 2,
-                                            c * SCALE + 3, d * SCALE + 2),
-                                           radius=4, fill=colour)
-                    marks += 1
+            inside = [(a, b, c, d) for (a, b, c, d) in occurrence
+                      if a >= x0 - 2 and c <= x1 + 2 and b >= y0 - 2 and d <= y1 + 2]
+            for (a, b, c, d) in inside:
+                draw.rounded_rectangle((a * SCALE - 3, b * SCALE - 2,
+                                        c * SCALE + 3, d * SCALE + 2),
+                                       radius=4, fill=colour)
+                marks += 1
+            # A phrase that wraps past the box edge loses its outside lines' marks silently,
+            # and the crop still passes the no-marks check. Say so.
+            if inside and len(inside) < len(occurrence):
+                print(f"WARN {os.path.basename(out_path)}: {phrase!r} is marked on "
+                      f"{len(inside)} of its {len(occurrence)} lines; widen the box or anchor "
+                      f"its edge on the phrase", file=sys.stderr)
     im = Image.alpha_composite(im, overlay).convert("RGB")
     crop_box = (max(0, int(x0 * SCALE - pad)), max(0, int(y0 * SCALE - pad)),
                 min(W, int(x1 * SCALE + pad)), min(H, int(y1 * SCALE + pad)))

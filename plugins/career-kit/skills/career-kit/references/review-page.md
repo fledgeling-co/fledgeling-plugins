@@ -39,6 +39,36 @@ Check the rendered page with `design-review:design-review` at desktop and phone 
 handing it over. The common defects are a grid that overflows on a phone — fixed with
 `grid-template-columns: minmax(0, 1fr)` — and text contrast under 4.5:1 on muted captions.
 
+## A second review, of the rewritten résumé
+
+The same page shape serves a review of the résumé after the rewrite: verdict, the page sketches
+with pins, findings tagged fix first, worth fixing, check and keep, the fit against each ad,
+the proposed wording built to show it still fits, the questions, and what could not be checked.
+Five things the source session learned building one:
+
+- **Cut the crops from the public copy when the page will be published**, so no internal-only
+  figure can reach it, and make the build fail if contact details or a restricted figure reach
+  the visible text. Match on text with styles, scripts and inlined images stripped: CSS font
+  weights (`600`) match a restricted headcount in the source and not on the page.
+- **Show a full-width crop at full width.** A one-column résumé crops at the page's width, and
+  placed beside a mock its type renders at about 5px. Put each crop across the card, up to about
+  780px, with the mock beneath it.
+- **Anchor each crop on its first and last phrase, with about 7px of padding.** Bullets sit
+  about 8px apart at 150 dpi, so a 10px pad shows a sliver of the neighbours. A highlight
+  phrase that wraps past the box loses its last line's mark without failing the run;
+  `crop_snippets.py` now warns when it does.
+- **Draw the page sketches from `pdftotext -bbox` coordinates** rather than by eye, and make
+  each pin at least 24px so it meets the target-size minimum.
+- **Count every claim before publishing it.** The source session's page said two ads named a
+  tool (one did) and four asked about AI (three), and called two dates inferred that an earlier
+  round had confirmed. Grep the ads for each count and search every answer file before calling a
+  fact unconfirmed. When an error turns up later, correct the page and the written review and say
+  so in the reply.
+
+To share it privately, publish at an unguessable path with a `noindex` tag, link it from
+nowhere, and tell the person it is unlisted rather than password-protected. Fetch the live copy
+and compare it with the build.
+
 ## What a review of a LinkedIn profile looks for
 
 Dates that disagree with the résumé; a headline that is out of date, or a string of keywords

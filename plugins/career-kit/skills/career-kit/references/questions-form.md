@@ -22,6 +22,22 @@ python3 scripts/build_form.py --spec questions.json --out questions.html \
     --title "Jane Doe — résumé questions" --key jane-resume-v1
 ```
 
+### On a phone: one question per screen
+
+When the person answers on a phone, build the same spec with `scripts/build_paged_form.py`: a
+start screen, one question per screen with progress and Download in the header, and a review
+screen whose Send answers opens the phone's share sheet. A wording question whose "why" reads
+"Now: … Suggested: … Why: …" shows the current line and the suggestion as two panels. In the
+source session the person asked for this format after answering round five on a phone, and
+rounds six and seven came back complete within a day.
+
+```bash
+python3 scripts/build_paged_form.py --spec questions.json --out questions.html \
+    --title "Jane Doe — résumé questions" --key jane-resume-r2-v1 \
+    --download-name jane-answers-round-two.txt --send-to Sam \
+    --intro "What this round is for." --intro "How to answer."
+```
+
 ## Four things that make a question answerable
 
 **A suggested default, marked and sourced.** Where their documents already imply an answer,
@@ -97,6 +113,56 @@ questions was answered.
 
 The page saves as the person goes, and people download it before they finish. Treat the latest
 download as superseding an earlier one, and compare the two before reading either.
+
+## Recommending an answer
+
+When the person asking for the form wants a recommendation on each question, mark it and select
+nothing. In the spec, set the option's second slot to `"recommended"` and give the question a
+`"rec"` string; both builders show a Recommended label and the reason, and the transcript tags a
+chosen recommendation `[the recommended answer]`. A pre-selected option the person never reads
+becomes a confirmed fact, which is the reason all three lanes of the source session's panel gave
+for choosing a label over a pre-tick.
+
+- **Recommend only from what the person has said.** Where an earlier answer settles it, the
+  reason quotes the answer. Where only they can know (what changed, whether two things were one
+  piece of work, what they meant), give no recommendation and say so: the reason reads "Only you
+  know this", with what they have and have not told you.
+- **Where their own documents disagree, recommend checking the record**, such as an HR system,
+  not one of the two versions.
+- **Take recommendations from a panel** (`decision-panel:decision-panel`) given the whole fact
+  base and the research, one brief covering every question with a table to fill. The panel also
+  checks the questions themselves; in the source session it found faults in 8 of 21.
+
+It did not stop the person saying what she knew. She chose the recommendation on 10 of 12
+marked questions and overrode the other two with facts she had, and on the 9 marked "only you
+know" she answered with substance, including the answer that merged two bullets into one.
+
+## The "why" line is copy, and gets the same checks
+
+The line under each question states facts about the person, and a wrong one either misleads
+the answer or teaches them the form is careless. In the source session a panel found eight
+misstatements in 21 "why" lines: "your largest team" for a team of 9 when she had led 12+; "the
+only role with no result" for a role with one; "the delivery roles look for" a requirement one
+ad named; a location attributed to a document that gave only dates. Check each "why" against the
+fact files as you would a résumé line.
+
+- **Attach no benefit to one answer.** "If they are the same work, the line it frees brings your
+  whole role onto page 1" rewards one choice; state the consequence for the document in the
+  report, not in the question.
+- **Say where a quoted fact came from** when it came from example text the person selected
+  ("in round two you chose a suggested answer saying…"), so they can correct it.
+- **Before calling a line form example text, check the answers file.** Three lines put to the
+  relay as "form examples" in round six were the person's own typed words, and the question had
+  to be asked again.
+
+## "Something else" with a note
+
+On a wording question, "Something else" and a short note usually correct one part of the
+suggestion. It does not accept the rest. Apply exactly what the note says to the line as the
+person last approved it, and leave everything else. In the source session the note "Calls were
+more likely which would have caused wait times impacts" came back on a question offering a
+rewritten opening and bullet; a broad reading that applied the whole rewrite with the
+correction was reversed by both reviewing lanes, because nothing in the answer accepted it.
 
 ## When the tick and the text disagree
 

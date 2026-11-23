@@ -19,7 +19,16 @@ Only what a model cannot infer from the repo:
 ## `PROJECT-NOTES.md` — the facts and the history
 
 - **Who and what**: the person, who relays for them, the goal, the target roles.
-- **Confirmed facts**, with the file that holds each round of their verbatim answers.
+- **Confirmed facts**, with the file that holds each round of their verbatim answers. Keep this
+  section current in place: when a round changes a fact, change its line and name the round, as
+  well as appending the round's own section. In the source session a stale line ("end dates
+  inferred") survived a later round that confirmed them, and a review written from it called
+  two confirmed dates unconfirmed.
+- **Facts that do not exist**, when someone asks for one: "no source gives a count of
+  renegotiations (asked 24 November)". Without it, the next session searches again or invents.
+- **How the person answers**: how fast, on what device, which option they use to correct
+  something, what they decline to give, how often they took a recommendation. It is the brief
+  for the next form.
 - **Standing decisions and the keep list**: every term they asked for, wording they approved
   or rejected, what stays off public copies, and the path of the keep file the lint checks.
 - **Departures from the research**, each with the research's figure, the document's figure

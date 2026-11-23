@@ -65,6 +65,17 @@ themselves are evidenced in `../../resume-craft/references/evidence.md`.
 | Offer an old document's lines back as a tick list | Her note said "review original resume copy"; offered its four lines for one role, she took three back |
 | An unchanged example is often the floor | A selected example about missed service levels stood for two rounds; her own words described a red-to-green turnaround over a six-month plan |
 | After corrections, ask which other lines do not represent the work, and offer research-backed wording | The person asked for this step herself, and chose it for the lines she had flagged |
+| A recommendation is a label and a reason, never a pre-selected answer | Asked to recommend an answer on each of 21 questions, three lanes chose a label over a pre-tick, 3 to 0. The person took the recommendation on 10 of 12 marked questions, overrode two with facts she knew, and answered all 9 "only you know" questions with substance (23–24 November 2026) |
+| The "why" line gets the same fact check as the copy | A panel found misstatements in 8 of 21 "why" lines of a form already published, including "your largest team" for a team of 9 beside a team of 12+ |
+| Read "Something else" with a note narrowly | A rewrite was applied on the strength of a one-line note that corrected one clause; both reviewing lanes reversed it |
+| Check a line is form text before calling it so | Three lines put to the relay as form examples in round six were the person's typed words; the question had to be asked again |
+| One phone form, one question per screen | The person asked for it after round five; rounds six and seven came back complete within a day |
+| Reorder before cutting to fit | A merged bullet that did not fit the end of page one left three lines empty and made three pages; moving it up the role restored two pages with no word cut |
+| Count a review's claims before publishing | A published review said two ads named a tool (one did), four asked about AI (three), and two confirmed dates were inferred, from a stale line in the notes |
+| Send proposed wording to the panel before it reaches the person | Two proposed lines on a published page and a live form drifted from her confirmed words; only the panel on the form caught them |
+| Keep the confirmed-facts section current in place | A stale "end dates inferred" line outlived the round that confirmed them and misled a review |
+| An account-level lane failure is reported, not retried | A lane returned a Terms of Service 403 twice and another a usage limit; both were reported once and the panel ran on the lanes that answered |
+| Before changing anything after "why was X removed", check which copy was read | The figure asked about was on the internal copy and absent from public ones by the person's rule; the count asked about was in no source |
 
 ## What this skill changed from the session
 

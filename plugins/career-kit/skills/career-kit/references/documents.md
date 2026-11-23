@@ -82,6 +82,19 @@ h2, h3 { break-after: avoid }
 li, h3 + p { break-inside: avoid }
 ```
 
+Because a list item does not break, a bullet too long for the space left on a page moves whole
+to the next page and leaves the space empty. In the source session a merged 100-word bullet left
+three empty lines at the foot of page one and pushed the document to three pages; moving it up
+the role, to where it fitted whole, brought it back to two pages without cutting a word. Reorder
+before cutting.
+
+When cutting, find the lines that cost most first. `pdftotext -layout resume.pdf - | awk 'NF>0
+&& NF<=4'` lists lines of four words or fewer, and a few words cut from that paragraph saves the
+whole line. A cut that does not remove a whole line changes nothing, so check where the last
+line of the final page sits (`pdftotext -bbox`) after each one. Cut words the person did not
+give, such as a repeated noun or an article, before any phrase they confirmed, and list every
+trim in the reply.
+
 Resolve an overflow by cutting ranked content, never by shrinking type or margins. Take the
 type sizes and margins from the research for the person's market and set them in both
 builders together.

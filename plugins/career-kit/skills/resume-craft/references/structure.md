@@ -120,6 +120,12 @@ One employer heading, each role dated separately beneath it, most recent first (
   employers already credit older workers with loyalty and reliability. The résumé needs to show
   current tools, current methods and recent results (R).
 - **Leave graduation years off** older qualifications and date recent learning (R).
+- **Print the official title** from the employment record, and put any plainer description in
+  the scope line. In the source session "Manager, IVR Channel" became "Channel Manager", the
+  title on the HR record and on LinkedIn, with "the IVR channel" in its scope line (C).
+- **A corrected date can overlap the role before it.** When a start date moves earlier, flag the
+  overlap and ask for the record; do not move the other role's date to close it, because that
+  date is a fact too (C).
 
 In an application form, enter each role as its own employment record even when the résumé
 groups them, and count time in the target kind of role, not total tenure, when a screening

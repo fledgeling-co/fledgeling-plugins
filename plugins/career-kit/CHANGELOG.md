@@ -2,6 +2,36 @@
 
 ## Unreleased
 
+Decisions from rounds six and seven on the source engagement, 23–24 November 2026: a second,
+visual review of the rewritten résumé published as a private page, a 21-question phone form with
+recommended answers chosen by a panel, and the person's answers applied and reviewed.
+
+- `career-kit`: `scripts/build_paged_form.py`, the phone form (one question per screen, Now and
+  Suggested panels, Send through the share sheet), from the same spec as `build_form.py`. Both
+  builders take a `"recommended"` option and a per-question `"rec"` reason: labelled, never
+  pre-selected, and tagged in the transcript. `crop_snippets.py` warns when a wrapped phrase is
+  only partly highlighted.
+- `career-kit` `questions-form.md`: recommending an answer (from the person's own words, "only
+  you know" where it is theirs, check the record where their documents disagree, from a panel);
+  the "why" line is fact-checked like copy; no benefit attached to one answer; a quoted fact's
+  source is named; "Something else" with a note is read narrowly; a line is checked against the
+  answers file before it is called form text.
+- `career-kit` `review-page.md`: a second review of the rewritten résumé — crops from the public
+  copy with a build-time gate on visible text, full-width crops at full width, crops anchored on
+  phrases with tight padding, sketches from PDF coordinates, claims counted before publishing,
+  and private publishing at an unlisted path.
+- `career-kit` `panels.md`: account-level lane failures are reported, not retried; several small
+  decisions in one run with a per-item table; proposed wording goes to the panel before it reaches
+  the person. `documents.md`: reorder before cutting to fit, and cut by wrap-over lines.
+  `project-record.md`: keep the confirmed facts current in place, record facts that do not exist,
+  and keep a note of how the person answers. `SKILL.md`: check which copy was read before acting on
+  "why was this removed".
+- `resume-craft`: every edit, including a grammar or space edit, gets the four drift checks;
+  proposed wording keeps confirmed phrases verbatim and is checked against the corrections log;
+  a review counts its claims about the ads; the official title is printed and a corrected date's
+  overlap is flagged, not closed. Six correction rows and their evidence.
+- Not re-run: the evals.
+
 Decisions from a fifth round on the source engagement, 22 November 2026, in which the person sent
 free-text notes on the résumé and a page of 25 questions checked how they had been read.
 

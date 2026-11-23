@@ -34,7 +34,10 @@ unchanged examples, were treated as unverified, and the person's relay overturne
                    ["Example answer one", "Example answer two"]]]}
     ]}
 
-An option is [label, "suggested" or "", source note]. A field is [label, prefilled value,
+An option is [label, "suggested", "recommended" or "", source note]. "suggested" pre-selects the
+option; "recommended" labels it and selects nothing, and the question's "rec" string is shown as
+the reason (with no recommended option, as "No recommendation: <rec>", for a fact only the person
+knows). A chosen recommendation is tagged "[the recommended answer]" in the transcript. A field is [label, prefilled value,
 source note, [examples]]. A field becomes a textarea when its label is over 60 characters or
 asks for a sentence, a result or an outcome.
 """
@@ -124,7 +127,10 @@ Q.forEach((q,i)=>{
     h+=`<label class="o"><input type="${q.multi?"checkbox":"radio"}" name="q${i}" id="${id}"`
       +`${on?" checked":""}><span>${esc(o[0])}`
       +`${o[1]==="suggested"?'<span class="rec">suggested</span>':""}`
+      +`${o[1]==="recommended"?'<span class="rec">recommended</span>':""}`
       +`${o[2]?`<span class="src">${esc(o[2])}</span>`:""}</span></label>`});
+  if(q.rec){const r=(q.options||[]).findIndex(o=>o[1]==="recommended");
+    h+=`<p class="why">${r>=0?"Why we recommend "+String.fromCharCode(65+r)+": ":"No recommendation: "}${esc(q.rec)}</p>`}
   (q.fields||[]).forEach((f,j)=>{
     const id=`q${i}f${j}`, v=id in A?A[id]:(f[1]||"");
     h+=`<div class="f"><label for="${id}"><span>${esc(f[0])}`
@@ -145,7 +151,7 @@ function collect(){
     const lines=[];
     (q.options||[]).forEach((o,j)=>{const e=document.getElementById(`q${i}o${j}`);
       A[e.id]=e.checked;
-      if(e.checked)lines.push("  [x] "+o[0]+(o[1]==="suggested"&&!T[i]?"  [suggested default, not touched]":""))});
+      if(e.checked)lines.push("  [x] "+o[0]+(o[1]==="suggested"&&!T[i]?"  [suggested default, not touched]":"")+(o[1]==="recommended"?"  [the recommended answer]":""))});
     (q.fields||[]).forEach((f,j)=>{const e=document.getElementById(`q${i}f${j}`);
       A[e.id]=e.value; const v=e.value.trim();
       if(v){const tag=(EX[e.id]||[]).some(x=>x.trim()===v)?"  [example text, unchanged]":"";

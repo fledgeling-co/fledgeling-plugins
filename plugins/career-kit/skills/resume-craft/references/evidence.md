@@ -129,6 +129,16 @@ outrank both.
 | Ask what the role was for, what else they delivered, and the noun of each number | Same round: two achievements reached the résumé only through the person's own feedback, and a headcount sat in every draft with the noun from her old résumé |
 | Internal performance language is softened on a public copy | Same round: asked whether a red-to-green turnaround could go on public copies, the person chose "softened" |
 
+## From the seventh round of the source engagement (24 November 2026)
+
+| Rule | What happened | Kind |
+| --- | --- | --- |
+| Check every edit for drift, including grammar and space edits | A grammar fix changed "to clearly defined measures" to "setting" them, and a space cut dropped a second AI tool; both reviewing lanes caught each | Correction |
+| Proposed wording keeps confirmed phrases verbatim | A review proposed "to avoid paying for complex builds" over her own "to reduce the cost of tech debt", which an earlier round had chosen over "avoiding", and merged "service objectives" with "service quality" | Correction |
+| Count a review's claims against the ads | "Named in two ads" was one; "four of the five" was three | Correction |
+| Print the official title; flag an overlap, do not close it | The person gave "Channel Manager, November 2013" for a role printed as "Manager, IVR Channel, January 2014"; the new start overlaps the previous role's end by a month, pending her HR record | Correction |
+| Two bullets that are one piece of work become one | She confirmed the risk-conflict bullet and the branch-verification bullet were the same work; the merged bullet named the agreement twice until a reviewer pointed it out | Correction |
+
 ## Inferences of this skill's own
 
 Nothing quoted supports these directly; they follow from the rules above.

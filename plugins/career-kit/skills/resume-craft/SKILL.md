@@ -147,6 +147,10 @@ cost a page.
   work is not the team's work. People who know the real scope read the résumé.
 - Check for four kinds of drift: a stronger verb than they confirmed, an expected result
   written as achieved, a figure whose noun changed, and one piece of work counted twice.
+  Check every edit for them, including one made for grammar or space: "uplifted the service
+  levels to clearly defined measures" became "setting" them, which made the person the one who
+  set contract penalties, and "with Copilot" dropped a second tool she had named for the same
+  task.
 - Give each part of a mixed piece of work its own verb: "I supported the negotiations; the
   uplift to the service levels was my work". One verb for the whole either claims the part they
   supported or undersells the part that was theirs.
@@ -274,6 +278,12 @@ parts.
    supplied, with a red placeholder wherever a better line is waiting on an answer.
 6. **Questions for the person**: one per placeholder, with what the answer would add, and a
    last one asking which other lines do not represent their work.
+
+Proposed wording keeps the person's confirmed phrases word for word, except where the finding
+is about that phrase, and gets the four drift checks and a check against the corrections log
+before it leaves you. One review proposed a purpose the person had already rejected, and merged
+two phrases she had confirmed separately. Count each claim about the ads with a search of their
+text, and search every answer file before calling a fact unconfirmed.
 
 Keep out of the review: the lint's raw output, a restatement of each section's job, and claims
 about research or ranking tools. Refer to a restricted figure as "the internal-only figure"
