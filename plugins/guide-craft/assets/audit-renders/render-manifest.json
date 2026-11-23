@@ -1,0 +1,54 @@
+{
+  "takes": {
+    "engineA-handauthored": {
+      "source": "icon-engineA-handauthored.svg",
+      "kind": "svg",
+      "source_sha256": "d7e722934ad8a8d4cd6c975eff13db918a662e0d07f934a1a3037cd75473a18d",
+      "source_mtime": 1795433946.1749258,
+      "rendered_at": 1795433947.1653771
+    },
+    "engineB-arrow-8e0869": {
+      "source": "icon-engineB-arrow-8e0869.svg",
+      "kind": "svg",
+      "source_sha256": "b147e6dcc23e0374e142a5224896f4db4dbb063d8334aff82d0310a657708430",
+      "source_mtime": 1795433589.8873317,
+      "rendered_at": 1795433947.3459032
+    },
+    "engineC-raster-23173b-masked": {
+      "source": "icon-engineC-raster-23173b-masked.png",
+      "kind": "png",
+      "source_sha256": "40cd4dfceefc79b975358f0063c28537de2fb482852be8bf7b5e551875b89ac5",
+      "source_mtime": 1795433590.6118674,
+      "rendered_at": 1795433947.5118232
+    },
+    "engineC-raster-d56987-2-masked": {
+      "source": "icon-engineC-raster-d56987-2-masked.png",
+      "kind": "png",
+      "source_sha256": "ee75e58a10eefd4a76f8efcd6807a407e5254f114c86e5c5a2a8d9fcf20e10d0",
+      "source_mtime": 1795433591.3679204,
+      "rendered_at": 1795433947.677742
+    },
+    "master": {
+      "source": "icon.png",
+      "kind": "png",
+      "source_sha256": "251686f379efebfcc181fe0eeab4225157373e047e030bfab596ab138d69884f",
+      "source_mtime": 1795433946.5757658,
+      "rendered_at": 1795433947.782549
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

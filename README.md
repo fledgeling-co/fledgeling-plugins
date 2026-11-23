@@ -6,7 +6,7 @@
 Built and used daily by <a href="https://github.com/lprhodes">Luke Rhodes</a>; shipped when they've earned it.</p>
 
 <p align="center">
-  <img alt="52 skills" src="https://img.shields.io/badge/skills-52-C4622D">
+  <img alt="66 skills" src="https://img.shields.io/badge/skills-66-C4622D">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-6B665D">
 </p>
 
@@ -130,6 +130,14 @@ Explains a hard idea as an interactive page you can poke at, and makes you commi
 ### [generate-investor-portal](plugins/generate-investor-portal/README.md)
 
 Builds a shareholder portal out of a company's own documents. Its main job is refusing to invent anything: a figure with no traceable source is blocked outright, and a number that genuinely is not available is labelled as missing rather than guessed.
+
+<br clear="left" />
+
+<a href="plugins/guide-craft/README.md"><img src="plugins/guide-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [guide-craft](plugins/guide-craft/README.md)
+
+Builds a live-service game season guide across web, native SwiftUI iOS, and a briefing-first voice assistant from one audited dataset. It picks the right data plane for eight game genres (proxied official APIs, local deck and build codecs, Cargo frame wikis, or clean-room lab testing), fixes tier-promotion and hotfix stats bias, and gates Apple 4.1(c), nine publisher IP policies, HTML validity, and voice payload caps before anything ships.
 
 <br clear="left" />
 

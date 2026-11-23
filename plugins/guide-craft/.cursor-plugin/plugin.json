@@ -1,0 +1,11 @@
+{
+  "name": "guide-craft",
+  "description": "Build a multi-surface live-service season guide (static multi-page website, native SwiftUI iOS companion app, and voice/audio briefing) from one audited dataset across eight game genres: shooters, MOBAs, fighting games, CCGs, ARPGs, MMOs, extraction shooters, and sim racing. Runs a nine-stage pipeline covering multi-source research and consensus auditing, genre-appropriate data ingestion across four tiers (proxied official APIs, client-side deck/build/loadout codecs and UDP telemetry, Cargo frame wikis, and clean-room lab testing), statistical validity (tier-baseline subtraction, hotfix partitioning, Wilson lower bounds), Apple Guideline 4.1(c)/4.2/5.2 and nine-publisher IP compliance, bespoke web and iOS visual craft with Metal/Canvas shaders, and briefing-first voice endpoints with blind transcription QA. Ships four zero-dependency Python gates (check_html.py, audit_sources.py, check_briefing.py, check_compliance.py). Use when building a game meta guide, patch companion, loadout builder, frame-data app, or season field manual.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  },
+  "logo": "assets/icon-256.png",
+  "skills": "skills"
+}

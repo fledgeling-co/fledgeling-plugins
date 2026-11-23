@@ -1,0 +1,101 @@
+{
+  "skill_name": "guide-craft",
+  "evals": [
+    {
+      "id": 1,
+      "name": "shooter-season-blueprint-and-gates",
+      "prompt": "Build a Season 2 multiplayer field guide plan, single-source dataset schema, and web/iOS architecture for a PC tactical shooter (Battlefield-class), including a live voice assistant and narrated briefings, without touching real deployments yet.",
+      "expected_output": "Season-first Brief IA (not settings-first), multi-page web + 5-tab iOS + non-scrolling voice cover architecture, additive JSON schema with null for untested numbers, briefing-first live voice under 16,384 tokens, explicit publisher compliance check, and all 4 bundled gate scripts wired into the build.",
+      "files": [],
+      "assertions": [
+        "Opens Brief on Current Meta, season state, sentiment, favourite maps, and dated news rather than performance settings.",
+        "Specifies one single-source dataset exporting identically to web HTML, iOS JSON (additive Optional schema, null not empty string), and voice briefing.",
+        "Includes a briefing-first voice design under 16,384 tokens with Haiku delegation fallback and explicit out-of-match legal boundary.",
+        "Names concrete mechanical gates: check_html.py, audit_sources.py, check_briefing.py, check_compliance.py, and standalone swiftc decode harness.",
+        "Separates multiplayer from campaign/sister modes and cites publisher IP/monetization constraints before naming or shipping."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "moba-riot-api-and-statistical-validity",
+      "prompt": "Design the data pipeline, statistical ranking logic, and App Store release plan for an unofficial League of Legends Season 16 iOS companion app with paid subscriptions and live in-match enemy ultimate timers.",
+      "expected_output": "Refuses or removes live enemy ultimate timers (banned by Riot Mar 2025) and game memory reads (blocked Oct 2026), requires backend-proxied Riot Production API key (never embedded in binary, never public on Personal key), requires free tier + Legal Jibber Jabber disclaimer + Apple 4.1(c)-compliant original name, and fixes rank-bracket/72h lookahead skew + composite patch/hotfix partitioning + Wilson lower bound with n>=50 floor.",
+      "files": [],
+      "assertions": [
+        "Flags and removes live enemy ultimate timers and client memory access citing Riot's 2025–2026 bans.",
+        "Requires backend-proxied Riot Production API key (never embedded in SwiftUI binary, never public on Personal key) plus free tier alongside subscriptions and exact Legal Jibber Jabber disclaimer.",
+        "Enforces Apple Guideline 4.1(c) by choosing an original app name without Riot trademarks and avoiding official art in App Store screenshots.",
+        "Implements bracket-adjusted win rates (or pre-match lobby bucketing) to eliminate 72-hour promotion lookahead bias, composite (client_version, hotfix_date) partitioning, and 95% Wilson lower-bound sorting with n>=50 display floor.",
+        "Runs check_compliance.py and audit_sources.py to verify compliance and telemetry floors."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "card-autobattler-deckstrings-and-hotfixes",
+      "prompt": "Create a Season 14 Hearthstone and TFT companion web + iOS guide spec covering deck/comp sharing, tracker stats, and server-side balance hotfixes.",
+      "expected_output": "Uses client-side Hearthstone Base64 varint deckstring codec paired with visual cards, prohibits TFT Legend/Augment win rates per Riot TFT policy, flags Blizzard's ban on paid tiers and 30-day data TTL, separates PC opt-in tracker skew (+5 pp) from official telemetry, and keys partitions by (client_version, balance_hotfix_timestamp).",
+      "files": [],
+      "assertions": [
+        "Specifies Hearthstone Base64 varint DBF-ID deckstrings alongside visual cards for mobile usability.",
+        "Explicitly forbids displaying TFT Legend or Legend-based Augment win rates per Riot TFT policy.",
+        "Flags Blizzard's ban on paid tiers/ads and 30-day API data TTL.",
+        "Tags PC opt-in tracker data separately, centers colour scales on cohort mean, and partitions data by (client_version, balance_hotfix_timestamp) so unversioned server hotfixes do not poison rolling windows.",
+        "Distinguishes Improvement When Drawn (IWD) or Monte Carlo combat odds from raw win rate."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "fighting-game-capcom-takedown-adversarial",
+      "prompt": "We want to ship a $4.99/month paid iOS app called 'Street Fighter 6 Ultimate Hitbox & Frame Pro' with ©CAPCOM in the footer, pulling SF6 hitboxes extracted from the game client.",
+      "expected_output": "Adversarial refusal/redesign: blocks all five policy violations (Apple 4.1(c) trademark in name, >30-char name, Capcom Nov 2025 non-commercial ban, Capcom explicit prohibition on ©CAPCOM notation, and Oct 2026 Capcom takedown of modified-client SF6 hitboxes), pivoting to a clean-room free fan guide using MediaWiki Cargo frame tables and original branding.",
+      "files": [],
+      "assertions": [
+        "Rejects the app name on both Apple 4.1(c) trademark grounds and Apple's 30-character limit.",
+        "Rejects modified-client SF6 hitbox extraction citing Capcom's October 2026 takedown of Ultimate Frame Data.",
+        "Rejects paid subscriptions and removes ©CAPCOM notation citing Capcom's November 2025 Fan Content Guidelines.",
+        "Proposes clean-room alternatives: MediaWiki Extension:Cargo (action=cargoquery) frame tables with Lab provenance badge, Classic vs Modern control stratification, and original branding.",
+        "Verifies the revised manifest with check_compliance.py (exiting 0 after fixes and 1 on the original proposal)."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "arpg-poe-ladder-bias-and-pob-codec",
+      "prompt": "Build a Path of Exile 2 league guide site and mobile companion showing 'true population build popularity', real cleared trade prices from the public stash API, and instant build export.",
+      "expected_output": "Corrects both data misconceptions (PoE2 ladder caps at top 1,000 XP survivors, not league population; public stash API is delayed 5 min and lists asks, not cleared trades, requiring outlier filtering), implements client-side PoB Base64 zlib XML + PoE2 .build JSON codecs, honors GGG OAuth 2.1 User-Agent, dynamic X-Rate-Limit-* headers, 1-read/keypress rule, non-commercial policy, and mandatory GGG disclaimer.",
+      "files": [],
+      "assertions": [
+        "Badges ladder builds as Top 1,000 XP Ladder (survivor snapshot) rather than population popularity.",
+        "Distinguishes listed public stash asks (5-min delay) from cleared trades and specifies outlier/price-fix filtering.",
+        "Implements client-side PoB URL-safe Base64 zlib XML and PoE2 .build JSON handling plus AI JSON prompt export.",
+        "Includes GGG OAuth 2.1 User-Agent, dynamic X-Rate-Limit-* handling, non-commercial posture, and exact GGG non-affiliation disclaimer."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "balance-patch-update-two-agent-workflow",
+      "prompt": "A mid-season balance patch just dropped for our existing season guide: three weapons were buffed, two nerfed, and creator tier lists haven't updated yet. Update the guide cleanly without breaking the iOS app or inflating audio spend.",
+      "expected_output": "Runs two-agent split (read-only research change list with AS_AT set to patch date + generator-only file-fenced apply pass), lets official numbers + firing-range tests flip picks at medium confidence without polling the owner, overrides stale third-party build-card TTKs centrally, checks --dry narration cost before regenerating only changed hash-cached clips, verifies with Scribe, and runs check_html.py + swiftc decode harness + check_briefing.py.",
+      "files": [],
+      "assertions": [
+        "Separates read-only patch research change list from file-fenced generator-only edits and sets AS_AT to the patch date.",
+        "Promotes data-proven picks at lowered confidence instead of polling the owner, and overrides stale stat-site build-card metrics centrally.",
+        "Previews audio regeneration cost via --dry and regenerates only hash-changed clips, verified by Scribe transcription.",
+        "Runs check_html.py, check_briefing.py, and standalone swiftc JSON decode harness after export."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "visual-polish-and-mobile-surface-craft",
+      "prompt": "Design the visual system, native SwiftUI polish, and visual QA loop for a Destiny 2 season companion app (web + iOS) using Bungie's API.",
+      "expected_output": "Routes to design-craft + ux-craft + duo-craft + Mobbin 4-archetype Take/Leave trawl, derives a game-native 4-step shadowless tonal palette with 2-accent cap and banned list, specifies tactile native craft (Metal shaders, MotionTilt, Vision cutouts, 3D inspect, rolling numbers, haptics) rather than a WKWebView (Apple 4.2), caches Bungie /Manifest/ locally (<=25 req/s), flags Bungie's commercial/ad ban without written permission, and defines desktop/mobile/Duo contact-sheet visual QA.",
+      "files": [],
+      "assertions": [
+        "Routes through design-craft:design-craft, ux-craft:ux-craft, duo-craft:duo-craft, and a Mobbin 4-archetype Take/Leave table.",
+        "Derives a game-native 4-step shadowless tonal system with <=2 hot-accent cap and explicit banned list (no glass content cards, no emoji, no purple/neon slop).",
+        "Specifies native interactive craft (Metal shaders, CoreMotion tilt, Vision cutouts, rolling numeric transitions, haptics, reduced-motion fallbacks) clearing Apple Guideline 4.2.",
+        "Caches Bungie /Manifest/ locally under <=25 req/s and flags Bungie's ban on ad/IAP revenue without written permission.",
+        "Specifies multi-pass visual contact-sheet critique (1440/390 px, no-JS, scroll_capture.mjs, Duo displays, muted Mac simulator)."
+      ]
+    }
+  ]
+}
