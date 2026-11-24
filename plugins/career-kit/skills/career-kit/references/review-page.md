@@ -39,6 +39,19 @@ Check the rendered page with `design-review:design-review` at desktop and phone 
 handing it over. The common defects are a grid that overflows on a phone — fixed with
 `grid-template-columns: minmax(0, 1fr)` — and text contrast under 4.5:1 on muted captions.
 
+## A page explaining the layout
+
+When the person asks why the résumé looks as it does, a page answers better than a reply: each
+layout choice, how settled it is (the standard, inside the standard's range, common advice, or a
+choice made here), and where it came from. Cite each claim with a numbered button that opens a
+card holding the publisher, the date, the source's own sentence, which report cited it and a link,
+and repeat the sources as a numbered list at the end for print and for a reader without
+JavaScript. Use the HTML `popover` attribute for the cards, place each one beside its number
+without covering it, and make it a bottom sheet on a phone. Check every quotation against its page
+first (`research.md`, The digest); checking found three errors on the source session's page, one of
+them its claim that the heading sizes and margins came from no source. A page that may be shared
+names neither the person nor their employer.
+
 ## A second review, of the rewritten résumé
 
 The same page shape serves a review of the résumé after the rewrite: verdict, the page sketches

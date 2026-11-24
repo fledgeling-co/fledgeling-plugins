@@ -8,8 +8,14 @@ Needs python-docx, which is usually not on the system interpreter:
 
 Portals ask for .docx and parse it; people read the PDF. Both come from one Markdown file
 so a figure cannot differ between them. The styling here mirrors build_resume.py's CSS:
-Arial 10pt, A4 with 16mm side margins, navy headings with a rule under each, a right tab
-stop for dates, and a PAGE/NUMPAGES field footer.
+Arial 10.5pt on EXACT 13pt lines, A4 with 20mm side margins, navy headings with a rule under
+each, a right tab stop for dates, and a PAGE/NUMPAGES field footer.
+
+Line spacing is exact points, never a multiple. Word's "1.15" is about 1.32x the type size for
+Arial while the PDF's CSS 1.15 is 1.15x; in the source session that difference ran the Word file
+to three pages while the PDF held two, and only opening the file in Word showed it. Word adds
+space-after and space-before together where CSS collapses margins, so each space_before below is
+the CSS gap less the space_after of the paragraph that usually precedes it.
 
 Arial rather than a brand font on purpose: in the source session `pdffonts` showed the
 specified Aptos and Calibri were not installed and the document had silently fallen back,
@@ -35,15 +41,16 @@ FONT = "Arial"
 d = Document()
 s = d.sections[0]
 s.page_width, s.page_height = Mm(210), Mm(297)
-s.left_margin = s.right_margin = Mm(16)
-s.top_margin, s.bottom_margin, s.footer_distance = Mm(13), Mm(15), Mm(7)
+s.left_margin = s.right_margin = Mm(20)
+s.top_margin, s.bottom_margin, s.footer_distance = Mm(18), Mm(18), Mm(8)
+LH = Pt(13)
 st = d.styles["Normal"]
-st.font.name, st.font.size, st.font.color.rgb = FONT, Pt(10), INK
+st.font.name, st.font.size, st.font.color.rgb = FONT, Pt(10.5), INK
 st.element.rPr.rFonts.set(qn("w:eastAsia"), FONT)
 st.paragraph_format.space_before = Pt(0)
-st.paragraph_format.space_after = Pt(4.5)
-st.paragraph_format.line_spacing = 1.12
-W = Mm(210 - 32)
+st.paragraph_format.space_after = Pt(6)
+st.paragraph_format.line_spacing = LH
+W = Mm(210 - 40)
 
 def run(p,t,bold=False,color=None,size=None):
     # <Missing Thing> marks information nobody has supplied yet. It is set in red.
@@ -65,7 +72,8 @@ def border(p, color=RULE, sz=5):
 def titled(parts, size, space_before, emp=False):
     p = d.add_paragraph()
     p.paragraph_format.space_before = Pt(space_before)
-    p.paragraph_format.space_after = Pt(2.5)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.line_spacing = Pt(15) if emp else LH
     p.paragraph_format.tab_stops.add_tab_stop(W, WD_TAB_ALIGNMENT.RIGHT)
     p.paragraph_format.keep_with_next = True
     date = parts[-1] if len(parts) > 1 else ""
@@ -77,7 +85,7 @@ def titled(parts, size, space_before, emp=False):
         # Non-breaking spaces: Word wrapped "May 2025 - Present" across two lines otherwise.
         run(p, "\t" + date.replace(" ", " "), color=INK2)
 
-title, after_h1, in_skills = a.name, False, False
+title, after_h1, in_skills, prev_role = a.name, False, False, False
 for line in open(a.src).read().splitlines():
     if not line.strip():
         continue
@@ -87,35 +95,41 @@ for line in open(a.src).read().splitlines():
         if lvl == 1:
             title = title or t
             p = d.add_paragraph(); p.paragraph_format.space_after = Pt(4)
+            p.paragraph_format.line_spacing = Pt(26)
             run(p, t, bold=True, color=ACCENT, size=22); after_h1 = True
         elif lvl == 2:
             in_skills = t.lower() == "key skills"
             p = d.add_paragraph()
-            p.paragraph_format.space_before = Pt(11)
-            p.paragraph_format.space_after = Pt(5)
+            p.paragraph_format.space_before = Pt(8)
+            p.paragraph_format.space_after = Pt(6)
+            p.paragraph_format.line_spacing = Pt(16)
             p.paragraph_format.keep_with_next = True
-            r = run(p, t.upper(), bold=True, color=ACCENT, size=10.2)
+            r = run(p, t.upper(), bold=True, color=ACCENT, size=13)
             sp = OxmlElement("w:spacing"); sp.set(qn("w:val"), "18")
             r._r.get_or_add_rPr().append(sp)
             border(p)
         else:
-            titled([x.strip() for x in t.split("|")],
-                   11.5 if lvl == 3 else 10.5, 3 if lvl == 3 else 10, emp=(lvl == 3))
+            # A role heading straight after another (the one-line earliest roles) sits close.
+            before = 0 if lvl == 3 or prev_role else 3.5
+            titled([x.strip() for x in t.split("|")], 12 if lvl == 3 else 10.5, before, emp=(lvl == 3))
+            prev_role = lvl == 4
         continue
+    prev_role = False
     if line.startswith("- "):
         p = d.add_paragraph(style="List Bullet")
-        p.paragraph_format.space_after = Pt(3)
+        p.paragraph_format.space_after = Pt(4.5)
         p.paragraph_format.left_indent = Mm(4.6)
         p.paragraph_format.first_line_indent = Mm(-4.6)
-        p.paragraph_format.line_spacing = 1.12
+        p.paragraph_format.line_spacing = LH
         run(p, line[2:]); continue
     if after_h1:
-        p = d.add_paragraph(); p.paragraph_format.space_after = Pt(8)
+        p = d.add_paragraph(); p.paragraph_format.space_after = Pt(6)
+        p.paragraph_format.line_spacing = Pt(14)
         run(p, line.replace(" | ", "   ·   "), color=INK2, size=10); after_h1 = False; continue
     p = d.add_paragraph()
     if in_skills and re.match(r"^[A-Z][A-Za-z ,]+: ", line):
         k, v = line.split(": ", 1)
-        p.paragraph_format.space_after = Pt(3.5)
+        p.paragraph_format.space_after = Pt(5)
         run(p, k + ": ", bold=True); run(p, v)
     else:
         run(p, line)

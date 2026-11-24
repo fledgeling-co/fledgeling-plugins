@@ -60,6 +60,14 @@ summary, the number of bullets per role, the page count, the type sizes and marg
 type for a portal. The documents are built to those and may later be judged against them, so a
 departure has to be a decision somebody made.
 
+Quote a source only from its own page. A report's quotation is a lead, not a quote: in the
+source session one report quoted a recruiter as saying "months as well as years", which its page
+does not say, and another attributed a type specification to a recruiter whose page gave other
+sizes. Before a quotation reaches anything the person or an employer reads, open the page, copy
+the sentence, and record the date you checked it. Where a page cannot be opened, because it builds
+its text in the browser or refuses the request, say so beside the quote and give the wording as
+the report's.
+
 Keep the digest's claim tags, because stage 3's review page cites them: a finding whose "why it
 matters" points at a four-lane verified claim is worth more than one pointing at a single
 report, and the reader can see the difference.

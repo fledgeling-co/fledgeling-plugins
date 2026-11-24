@@ -188,7 +188,9 @@ python3 scripts/build_resume.py resume.md resume.html "Footer title"
 who wants several. Treat its output as a draft to read and rewrite whole.
 
 After each build, look at the page images. A page count says nothing about a second page that
-is half empty, a role line that has wrapped, or a font that fell back. Upload the Word file to
+is half empty, a role line that has wrapped, or a font that fell back. Check the Word file's page
+count in Word itself, because Word lays the same text out differently from the PDF, and set
+spacing from the middle of the research's ranges (`references/documents.md`, Type and spacing). Upload the Word file to
 application portals, which parse it, and send the PDF to people. A Google Doc version has not
 been built by this skill in practice: check which document connector the runtime offers,
 create the document from the same Markdown, and say that the step has no prior run behind it.

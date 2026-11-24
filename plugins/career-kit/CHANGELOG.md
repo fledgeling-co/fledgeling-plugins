@@ -1,6 +1,21 @@
 # CHANGELOG
 
-## Unreleased
+## 0.6.0
+
+Typography and density, and citations, from the source engagement on 24 November 2026: the
+résumé's spacing moved from the dense end of each research range to its middle, the Word file
+was found at three pages in Word while the PDF held two, and a layout explainer gained cited
+source cards.
+
+- `career-kit` builders: `build_resume.py` and `make_docx.py` default to Arial 10.5pt on exact 13pt
+  lines, 4.5pt between bullets, 6pt after paragraphs, 13pt section headings with 14pt above, 20 mm
+  side and 18 mm top and bottom margins. Word line spacing is exact points, not a multiple, and its
+  space-before values allow for Word adding the previous space-after where CSS collapses margins.
+- `career-kit` `documents.md`: Type and spacing (the middle of each range, the Word "1.15" trap, a
+  page count checked in Word or LibreOffice); `SKILL.md` points at it from the build step.
+- `career-kit` `research.md`: quote a source only from its own page; a report's quotation is a lead.
+  `review-page.md`: a page explaining the layout, with numbered source cards.
+- `resume-craft` `SKILL.md`: two pages at readable spacing; cut words rather than spacing.
 
 Decisions from rounds six and seven on the source engagement, 23–24 November 2026: a second,
 visual review of the rewritten résumé published as a private page, a 21-question phone form with

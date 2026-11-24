@@ -99,6 +99,44 @@ Resolve an overflow by cutting ranked content, never by shrinking type or margin
 type sizes and margins from the research for the person's market and set them in both
 builders together.
 
+## Type and spacing
+
+The builders' defaults sit in the middle of the Australian research's ranges and of typesetting
+guidance for reading: Arial 10.5pt on exact 13pt lines (1.24 times the type), 4.5pt between
+bullets, 6pt after paragraphs, 13pt section headings with 14pt above, and margins of 20 mm at the
+sides and 18 mm at top and bottom. The research gives Arial, Calibri or Aptos at 10.5 to 11pt,
+13 to 14pt headings, Word line spacing of 1.05 to 1.15 and margins of 1.8 to 2.2 cm; typesetting
+guidance gives a line height of 1.2 to 1.45 times the type. For another market, take the ranges
+from that market's research and choose from their middle.
+
+Choose the middle of each range, not the end that fits more words. In the source session every
+value had drifted to its dense end, each one defensible alone: lines 1.15 times the type, 3pt
+between bullets, margins at the floor, both pages full to the margin. Together they made a page a
+skimming reader struggles with, and the person helping asked about density only after the layout
+had been through seven rounds. Moving every value to the middle cost about a tenth of the lines,
+which came out of the drafter's words first; at 11pt the same spacing would have cost a quarter.
+At 10.5pt a line across 170 mm holds about 95 characters, above the 90 that reading guidance
+allows; inside the research's size and margin ranges it cannot get lower, so leave it and say so.
+
+Set line spacing in points, the same number in both builders. Word's "1.15" multiple is about
+1.32 times the type size for Arial, while CSS's 1.15 is 1.15 times, so one number gave the Word
+file lines 16% taller than the PDF's, and it opened in Word at three pages while the PDF held two.
+Word also adds one paragraph's space-after to the next one's space-before where CSS collapses the
+two margins, so `make_docx.py` sets each space-before as the CSS gap less the usual space-after.
+
+Check the Word file's page count in Word, or in LibreOffice where Word is absent; the PDF says
+nothing about how Word lays the same text out, and a python-docx file records no page count of its
+own. Word's sandbox on macOS opens files inside its container without a permission prompt:
+
+```bash
+C=~/Library/Containers/com.microsoft.Word/Data/check && mkdir -p $C && cp resume.docx $C/
+osascript -e 'tell application "Microsoft Word"' -e "open POSIX file \"$C/resume.docx\"" \
+  -e "save as active document file name \"$C/resume.pdf\" file format format PDF" \
+  -e 'quit saving no' -e 'end tell'
+pdfinfo $C/resume.pdf | grep Pages                 # then delete $C
+soffice --headless --convert-to pdf resume.docx    # LibreOffice, where Word is absent
+```
+
 ## Reading the built page
 
 ```bash
@@ -128,6 +166,6 @@ the document from the same Markdown so the facts cannot diverge, and say which r
 
 1. Run `../resume-craft/scripts/resume_lint.py --keep keep.txt resume.md`, and
    `scripts/facts_lint.py` for figures.
-2. Rebuild the PDF and the Word file together.
+2. Rebuild the PDF and the Word file together, and check both page counts, the Word file's in Word.
 3. Look at the page images.
 4. Check the other documents for the fact you changed.

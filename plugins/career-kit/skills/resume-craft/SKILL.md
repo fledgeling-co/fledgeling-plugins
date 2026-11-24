@@ -302,4 +302,6 @@ between two wordings or structures to `decision-panel:decision-panel`.
 Deliver what was asked at the scope intended: a request for a summary gets a summary, with a
 one-line note if another section contradicts it. Do the reading, judging and writing yourself;
 this is one document at a time and needs no subagent. The résumé is two pages unless the
-person's market says otherwise.
+person's market says otherwise, and two pages at readable spacing: when a document fits only by
+pulling line spacing, bullet gaps or margins below the middle of their ranges, cut words instead,
+the drafter's before the person's (`../career-kit/references/documents.md`, Type and spacing).

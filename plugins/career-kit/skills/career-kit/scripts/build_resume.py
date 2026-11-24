@@ -76,32 +76,37 @@ for ln in open(a.src).read().splitlines():
 if ul: body.append("</ul>")
 
 name = a.name or title
+# Type and spacing: inside the AU research ranges (Arial 10.5-11pt; 13-14pt headings; Word line
+# spacing 1.05-1.15; 18-22 mm margins) and inside typesetting guidance for reading (line height
+# 1.2-1.45x the type). Line height is in points so make_docx.py can set the same EXACT value:
+# Word's "1.15" multiple is about 1.32x the type for Arial, where CSS's 1.15 is 1.15x.
 CSS = """
-@page{size:A4;margin:13mm 16mm 15mm;@bottom-center{content:"__NAME__  ·  page " counter(page)
+@page{size:A4;margin:18mm 20mm 18mm;@bottom-center{content:"__NAME__  ·  page " counter(page)
  " of " counter(pages);font:8.5pt Arial,sans-serif;color:#3D4350}}
 :root{--ink:#16181D;--ink2:#3D4350;--rule:#B9BEC8;--accent:__ACCENT__}
 *{box-sizing:border-box}
 html{background:#E9EBEF}
-body{margin:0;color:var(--ink);font:10pt/1.4 Arial,"Helvetica Neue",Helvetica,sans-serif;
+body{margin:0;color:var(--ink);font:10.5pt/13pt Arial,"Helvetica Neue",Helvetica,sans-serif;
  -webkit-print-color-adjust:exact;print-color-adjust:exact}
-.sheet{width:210mm;min-height:297mm;margin:10mm auto;background:#fff;padding:13mm 16mm 15mm;
+.sheet{width:210mm;min-height:297mm;margin:10mm auto;background:#fff;padding:18mm 20mm 18mm;
  box-shadow:0 1px 4px rgba(0,0,0,.18)}
 h2,h3{break-after:avoid}li,h3+p{break-inside:avoid}h3.role+p{break-after:avoid}
-h1{font-size:22pt;line-height:1.1;margin:0 0 2mm;letter-spacing:.01em;color:var(--accent)}
-.contact{margin:0 0 4mm;color:var(--ink2);font-size:10pt}
-h2{font-size:10.2pt;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);
- margin:4mm 0 1.8mm;padding-bottom:1mm;border-bottom:.6pt solid var(--rule)}
-h3{margin:3.6mm 0 1mm;font-size:10.5pt;display:flex;justify-content:space-between;gap:6mm;
+h1{font-size:22pt;line-height:26pt;margin:0 0 4pt;letter-spacing:.01em;color:var(--accent)}
+.contact{margin:0 0 4pt;color:var(--ink2);font-size:10pt;line-height:14pt}
+h2{font-size:13pt;line-height:16pt;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);
+ margin:14pt 0 6pt;padding-bottom:3pt;border-bottom:.6pt solid var(--rule)}
+h3{margin:8pt 0 3pt;font-size:10.5pt;line-height:13pt;display:flex;justify-content:space-between;gap:6mm;
  align-items:baseline}
-h3.emp{font-size:11.5pt;margin-top:1mm}
+h3.emp{font-size:12pt;line-height:15pt;margin-top:2pt}
+h3.role+h3.role{margin-top:3pt}
 h3 .org{font-weight:400;color:var(--ink2);white-space:nowrap}
 h3 .date,.line .date{font-weight:400;color:var(--ink2);white-space:nowrap}
-p{margin:0 0 1.6mm}
-.skill{margin-bottom:1.2mm}
-.line{display:flex;justify-content:space-between;gap:6mm;margin-bottom:1mm}
+p{margin:0 0 6pt}
+.skill{margin-bottom:5pt}
+.line{display:flex;justify-content:space-between;gap:6mm;margin-bottom:3pt}
 .line span:first-child{font-weight:600}
-ul{margin:0 0 1mm;padding-left:4.6mm}
-li{margin-bottom:1.1mm}
+ul{margin:0 0 4pt;padding-left:4.6mm}
+li{margin-bottom:4.5pt}
 mark.todo{background:#FFE36E;color:#16181D;padding:0 .6mm;border-radius:.6mm}
 .gap{color:#C00000;font-weight:700}
 .banner{width:210mm;margin:8mm auto 0;font:13px/1.5 system-ui,sans-serif;color:#3D4350;
