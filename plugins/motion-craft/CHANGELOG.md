@@ -1,3 +1,11 @@
+## 0.5.0 - 2026-11-24
+
+Different ideas from a little context. Asked for "something creative", a model hands back a reworded copy of its default film; the research behind trawl found about 95 % of 4,000 ideas sampled from one model to be duplicates.
+
+- **New `ideas.md`.** Step 2 now widens a one-line request into the subject's world, freezes the film every agent would make from it, diverges through `trawl:trawl` (any% tier by default, standard for launches or when asked for more), and converges on three storylines that beat the default and differ on at least three of five axes, two of them from device families earlier films in the project did not use.
+- **A device bank of eleven families**, each traced to films measured for this skill: one thing never cut, the product's own gesture, a process from empty to done, the problem shown, a number made physical, form as the idea, a medium as the world, the mechanism drawn, a montage of real output, a character or small world, the work and the human.
+- **Delegation**: the trawl branches join the optional cold review as the only places the skill spawns agents.
+
 ## 0.4.0 - 2026-11-24
 
 What makes a film look made rather than generated, from six more sources: the motlab, AI-Video-Factory and motion-educator repositories, 240 films made with Claude on prompt-motion.com with their prompts, 21 product films motionflare.ai made from websites, and Caruso's films and interface loops. The method and the measurements are in `docs/research/motion-sources-2026-11/`, summarised in `evidence.md` §9.

@@ -49,7 +49,7 @@ Then score the subject's personality on five sliders from −2 to +2, each with 
 
 ## 4. Three storylines, then one
 
-Write three storylines into `STORYLINES.md`. They are three films, not three palettes: each has its own **device** (what the story is), **form** (how the camera and cuts carry it) and **world** (where it happens). Draft five or more one-line pairings first and keep the three that differ most; make one of them the bold one you would not have picked first.
+Write three storylines into `STORYLINES.md`. They are three films, not three palettes: each has its own **device** (what the story is), **form** (how the camera and cuts carry it) and **world** (where it happens). Generate them per `ideas.md`: widen the request, freeze the default film, diverge through `trawl:trawl` or eight or more one-line pairings drawn from its device bank, and keep the three that beat the default and differ most; make one of them the bold one you would not have picked first.
 
 Devices: a moment in someone's day; a character or cursor does the work; the feature happening to a recognisable image in the first half second; the result first, then pull back to where it came from; one object travelling across apps; life before and after; type carrying the argument; one number earned and made physical; a question with the input inside it ("What if you could make a video from your ⟨website⟩?"); the object is the explanation.
 

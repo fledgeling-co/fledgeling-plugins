@@ -5,9 +5,9 @@
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> motion-craft</h1>
 
 <p align="center">
-  <img alt="Version 0.4.0" src="https://img.shields.io/badge/version-0.4.0-D33C21">
+  <img alt="Version 0.5.0" src="https://img.shields.io/badge/version-0.5.0-D33C21">
   <img alt="Making: video" src="https://img.shields.io/badge/making-video-434A55">
-  <img alt="References: 11" src="https://img.shields.io/badge/references-11-756E60">
+  <img alt="References: 12" src="https://img.shields.io/badge/references-12-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
 
@@ -20,7 +20,7 @@ I built it because I wanted what Claude Motion does and didn't have access to it
 Ask for a one-liner like "turn this CSV into a 15 second vertical clip" and most agents produce the same film: a dark or cream background, small type fading up in the middle, every scene entering the same way. Five of the creators I took transcripts from show that film and call it out. This skill moves the decisions forward so that film doesn't get made:
 
 1. **Real material first.** It reads the product, collects the real logo, screens, colours and numbers into `materials/`, and writes down the three to five facts the film has to get across.
-2. **Three storylines, then one.** Each differs in device, form and world, names the one element it carries across every cut, and comes with its first two seconds written out. It stops for you to pick unless you've told it not to.
+2. **Many ideas, then three, then one.** Even from a one-line request it widens the subject into its world, writes down the film every agent would make, and moves away from it through isolated ideation branches (`trawl:trawl`) and a bank of eleven device families measured from real films. The three storylines it keeps each differ in device, form and world, names the one element it carries across every cut, and comes with its first two seconds written out. It stops for you to pick unless you've told it not to.
 3. **A spec in numbers.** Every adjective becomes a figure, there's a banned-defaults list, a rhythm sheet and a beat map in `timeline.json`. Picture and sound both read that one file.
 4. **Hardest shot first**, at full resolution with final type, before the easy scenes get built around it, then a finishing pass: motion blur, 60 fps for interface and camera-led films, grain, light and depth.
 5. **Sound** from a vendored copy of claude-motion's stdlib-only Python engine, or from recorded effects placed by their audible onset, mastered to −14 LUFS and placed against the same beat map.
@@ -70,6 +70,7 @@ Needs Node (for `npx hyperframes`), ffmpeg and Python 3. The first render downlo
 | File | Without it |
 |---|---|
 | `direction.md` | The film starts as code, so it ends up as the default film |
+| `ideas.md` | A one-line request gets the same film every agent makes, and asking again gets a reworded copy |
 | `story-and-rhythm.md` | Scenes arrive at the same pace and the payoff lands on nothing |
 | `craft.md` | Every element shares one ease, titles get shrunk instead of cut, transitions happen for no reason |
 | `formats.md` | A vertical clip gets laid out like a 16:9 film with the sides cropped off |

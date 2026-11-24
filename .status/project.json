@@ -1,13 +1,13 @@
 {
   "project": "fledgeling-plugins",
-  "updated": "2026-11-24T16:05:00+11:00",
+  "updated": "2026-11-24T16:40:00+11:00",
   "verdict": {
-    "token": "in-flight",
-    "number": "11 of 11",
+    "token": "done",
+    "number": "12 of 12",
     "unit": "reference files updated or added",
-    "headline": "motion-craft 0.4.0 is written and passes the checks, but is not committed or tested on a film yet",
-    "run_label": "motion-craft 0.4.0 · uncommitted",
-    "head_sha": "8783ec6"
+    "headline": "motion-craft 0.5.0 adds idea generation; 0.4.0 and 0.5.0 are pushed, not yet tested on a film",
+    "run_label": "motion-craft 0.5.0 · pushed",
+    "head_sha": "044f8a4"
   },
   "tasks": [
     {
@@ -52,10 +52,11 @@
       "id": "MC-6",
       "title": "Commit and push 0.4.0",
       "origin": "planned",
-      "stage": "not started",
-      "outcome": "stuck",
-      "blocked_by": "owner's go-ahead",
-      "waiting_hours": 0
+      "stage": "code written",
+      "outcome": "done",
+      "blocked_by": "",
+      "waiting_hours": 0,
+      "note": "pushed 044f8a4"
     },
     {
       "id": "MC-7",
@@ -65,6 +66,13 @@
       "outcome": "stuck",
       "blocked_by": "owner's go-ahead on cost",
       "waiting_hours": 0
+    },
+    {
+      "id": "MC-8",
+      "title": "Different ideas from a one-line request (ideas.md, trawl)",
+      "origin": "carried over",
+      "stage": "code written",
+      "outcome": "done"
     }
   ],
   "gates": [
@@ -88,7 +96,7 @@
       "name": "Writing rules pass on every skill file",
       "command": "agent_voice_lint.py --format skill",
       "exit_code": 0,
-      "counts": "12/12",
+      "counts": "13/13",
       "state": "done",
       "kind": "design"
     },
@@ -162,12 +170,6 @@
   ],
   "not_done": [
     {
-      "action": "Commit and push motion-craft 0.4.0",
-      "reason": "Not asked to commit; another session has uncommitted work in the same checkout.",
-      "what_would_unblock": "Your go-ahead.",
-      "size": "minutes"
-    },
-    {
       "action": "Blind eval of 0.4.0 against a plain film",
       "reason": "Costly: about 35 minutes and 350,000 tokens a brief.",
       "what_would_unblock": "Your go-ahead on the cost.",
@@ -194,17 +196,17 @@
       "one_line": "Skipped at push; the next digest draft will pick it up as new."
     },
     {
-      "ask": "Commit and push motion-craft 0.4.0, and run its eval?",
+      "ask": "Run the motion-craft eval against a plain film?",
       "kind": "decision",
       "waiting_since": "2026-11-24T05:05:00+00:00",
-      "one_line": "Written and checked; the eval costs about an hour and 700,000 tokens."
+      "one_line": "About an hour and 700,000 tokens for the two briefs."
     }
   ],
   "git": {
     "branch": "main",
     "commits_ahead": 0,
     "worktree_clean": false,
-    "pushed": false
+    "pushed": true
   },
   "armed": [],
   "artifacts": [
