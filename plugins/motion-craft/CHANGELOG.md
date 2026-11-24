@@ -1,3 +1,19 @@
+## 0.4.0 - 2026-11-24
+
+What makes a film look made rather than generated, from six more sources: the motlab, AI-Video-Factory and motion-educator repositories, 240 films made with Claude on prompt-motion.com with their prompts, 21 product films motionflare.ai made from websites, and Caruso's films and interface loops. The method and the measurements are in `docs/research/motion-sources-2026-11/`, summarised in `evidence.md` §9.
+
+- **One carrier and one signature device.** Every storyline names the shape, object or colour it hands across every seam, and every film records the subject's own signature graphic (Stripe's ribbon, Raycast's light bars) as its ground, carrier or hook. The best-received gallery films and all 21 motionflare films are built this way (`direction.md` §2, §4-5; binding rule 7).
+- **A finishing pass, `craft.md` §9.** Motion blur on, 60 fps for interface and camera-led films, 2-4 % grain, one soft light and a sweep over the final mark, a living ground and two or three depth layers. Launch, vertical and demo films now default to 60 fps (`formats.md`).
+- **Six looks written as numbers, new `looks.md`**: brand motif ground, fine-art backdrop, product glass, interface in space, graphite stage, monochrome editorial.
+- **The default named.** Undirected prompts give a dark, fast-cut montage (12.9 cuts a minute, 27 % light frames, against 6.0 and 62 % from long directed prompts), and the showreel default joins the banned list with shockwave rings, camera shake, a selection-box highlight and motion connected to nothing (`story-and-rhythm.md` §4, `direction.md` §5).
+- **Craft.** Screen-studio framing at 50-70 % of the frame width; a 3-5 % push through holds carried into the next shot; nothing appearing from nowhere; exits before entries; flood-and-contract, shape-becomes-the-shot and foreground-through-camera transitions; word-swap, decode and mask-roll headlines; font choice by vibe (`craft.md` §3-6).
+- **Interface staging.** The agent card narrated by a status pill, with skeleton filler and a human approval, and Caruso and motionflare added to the house styles (`saas-films.md` §3, §12).
+- **Sound.** Recorded effects placed by audible onset, peak or end through the new `scripts/sfx/samples.py`, levels by role, spacing limits and pitch variation (`sound.md` §3-4).
+- **Review.** Full-rate strips around every transition, the new `scripts/pop_scan.py` for single-frame pops and dead stretches, a carrier, finish and look row, evidence before each verdict, and a verification format for a second cold pass (`review.md`).
+- **Engine.** Six browser traps from the gallery's gotchas, and HyperFrames' motion-blur attributes and checks (`engine.md` §4, §7).
+
+These rules have not yet been run through `evals/`.
+
 ## 0.3.0 - 2026-11-16
 
 What a production run taught once other models reviewed it frame by frame. The run was seven 25-32 s product films, reviewed twice by a four-family panel and once by Sonnet 5.5 under be-my-witness. One series, so each change is an observed failure with its fix (`evidence.md` §8).

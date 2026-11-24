@@ -5,9 +5,9 @@
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> motion-craft</h1>
 
 <p align="center">
-  <img alt="Version 0.2.0" src="https://img.shields.io/badge/version-0.2.0-D33C21">
+  <img alt="Version 0.4.0" src="https://img.shields.io/badge/version-0.4.0-D33C21">
   <img alt="Making: video" src="https://img.shields.io/badge/making-video-434A55">
-  <img alt="References: 10" src="https://img.shields.io/badge/references-10-756E60">
+  <img alt="References: 11" src="https://img.shields.io/badge/references-11-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
 
@@ -20,11 +20,11 @@ I built it because I wanted what Claude Motion does and didn't have access to it
 Ask for a one-liner like "turn this CSV into a 15 second vertical clip" and most agents produce the same film: a dark or cream background, small type fading up in the middle, every scene entering the same way. Five of the creators I took transcripts from show that film and call it out. This skill moves the decisions forward so that film doesn't get made:
 
 1. **Real material first.** It reads the product, collects the real logo, screens, colours and numbers into `materials/`, and writes down the three to five facts the film has to get across.
-2. **Three storylines, then one.** Each differs in device, form and world, and comes with its first two seconds written out. It stops for you to pick unless you've told it not to.
+2. **Three storylines, then one.** Each differs in device, form and world, names the one element it carries across every cut, and comes with its first two seconds written out. It stops for you to pick unless you've told it not to.
 3. **A spec in numbers.** Every adjective becomes a figure, there's a banned-defaults list, a rhythm sheet and a beat map in `timeline.json`. Picture and sound both read that one file.
-4. **Hardest shot first**, at full resolution with final type, before the easy scenes get built around it.
-5. **Sound** from a vendored copy of claude-motion's stdlib-only Python engine, mastered to −14 LUFS and placed against the same beat map.
-6. **Review from frames**, not vibes: HyperFrames' `check` craft findings, contact sheets, a 360 px phone sheet, ranges around every transition, and the measured cuts compared against the rhythm sheet.
+4. **Hardest shot first**, at full resolution with final type, before the easy scenes get built around it, then a finishing pass: motion blur, 60 fps for interface and camera-led films, grain, light and depth.
+5. **Sound** from a vendored copy of claude-motion's stdlib-only Python engine, or from recorded effects placed by their audible onset, mastered to −14 LUFS and placed against the same beat map.
+6. **Review from frames**, not vibes: HyperFrames' `check` craft findings, contact sheets, a 360 px phone sheet, every frame around each transition, a scan for single-frame pops, and the measured cuts compared against the rhythm sheet.
 7. **Handover**: the MP4, a running Studio preview, and a `REVIEW.md` that says what was measured and what nobody checked.
 
 Edits after delivery go through composition variables and stable element ids, so "make the second number bigger" changes that one element instead of the whole scene.
@@ -42,7 +42,9 @@ A few of the defaults, each with its source in `references/evidence.md`:
 | Transitions | 3-5 kinds a film, each caused by something on screen; at most a third hard cuts |
 | Pace | something on screen changes every 1-3 s; a walkthrough can hold one shot 20 s or more on that basis |
 | Burst | 5-8 cuts in five seconds at 30-60 % of the length, for an energetic launch or feed film only |
-| Interface | zoomed 1.5-3x until working text reaches 2.6 % of the short side; whole-window shots only to orient |
+| Interface | zoomed 1.5-3x until working text reaches 2.6 % of the short side and the control fills 50-70 % of the width; whole-window shots only to orient |
+| Carrier | one shape, object or colour handed across every cut |
+| Finish | motion blur on fast moves, 60 fps for interface and camera-led films, 2-4 % grain, two or three depth layers |
 | End card | the ask on screen as text, the mark held still for 3-5 s |
 | Loudness | −14 LUFS, true peak at or below −1 dBTP |
 
@@ -52,7 +54,7 @@ HyperFrames runs locally and free. Its sign-in, cloud, publish, share and paid t
 
 ## How it was tested
 
-Two briefs, each run with and without the skill, then judged blind by four model families who saw contact sheets without knowing which was which. The first round went against the skill: the plainer films said more, and judges preferred them overall on both briefs, even though the skill's films won on craft. The rules that came out of that loss (every must-carry fact on screen, no empty quarter of the frame, a "does a plain version say more?" review question) are in the skill now. In the second round the data clip won 4-0 and the launch film tied 2-2. On the launch film the plain film still made the stronger case: it showed the problem on screen where mine put a caption on it. That rule went in afterwards and hasn't been tested yet. The full record, including what the assertions can't tell apart, is in [`evals/EVALS.md`](evals/EVALS.md).
+Two briefs, each run with and without the skill, then judged blind by four model families who saw contact sheets without knowing which was which. The first round went against the skill: the plainer films said more, and judges preferred them overall on both briefs, even though the skill's films won on craft. The rules that came out of that loss (every must-carry fact on screen, no empty quarter of the frame, a "does a plain version say more?" review question) are in the skill now. In the second round the data clip won 4-0 and the launch film tied 2-2. On the launch film the plain film still made the stronger case: it showed the problem on screen where mine put a caption on it. That rule went in afterwards and hasn't been tested yet, and neither have the 0.4.0 rules (the carrier, the finishing pass, the looks). The full record, including what the assertions can't tell apart, is in [`evals/EVALS.md`](evals/EVALS.md).
 
 ## Install
 
@@ -71,6 +73,7 @@ Needs Node (for `npx hyperframes`), ffmpeg and Python 3. The first render downlo
 | `story-and-rhythm.md` | Scenes arrive at the same pace and the payoff lands on nothing |
 | `craft.md` | Every element shares one ease, titles get shrunk instead of cut, transitions happen for no reason |
 | `formats.md` | A vertical clip gets laid out like a 16:9 film with the sides cropped off |
+| `looks.md` | A film with no brand look of its own lands on the dark, fast-cut default every undirected prompt produces |
 | `saas-films.md` | A product walkthrough gets cut like a trailer, and its interface is too small to read on a phone |
 | `engine.md` | A render comes out differently twice, or silent with no error |
 | `sound.md` | Sound gets judged by ear, which the agent doesn't have |
@@ -80,4 +83,4 @@ Needs Node (for `npx hyperframes`), ffmpeg and Python 3. The first render downlo
 
 ## Credit
 
-The sound engine is vendored from [claude-motion](https://github.com/whaleyxbt/claude-motion) (MIT), with its licence alongside. Craft numbers draw on HyperFrames' own motion-graphics guidance (Apache-2.0), the huashu motion repos, and roughly twenty creator walkthroughs whose transcripts and measured cut timings are recorded in `references/evidence.md`. The SaaS film guidance comes from 48 shipped product films by Claude, Harvey and Muse, each one transcribed, sampled frame by frame and measured; the method and every film's findings are in [`docs/research/saas-film-corpus/`](docs/research/saas-film-corpus/). The engine choice and the testing plan were each settled by a four-family decision panel; both records are in [`docs/decisions/`](../../docs/decisions/) at the repo root.
+The sound engine is vendored from [claude-motion](https://github.com/whaleyxbt/claude-motion) (MIT), with its licence alongside. Craft numbers draw on HyperFrames' own motion-graphics guidance (Apache-2.0), the huashu motion repos, and roughly twenty creator walkthroughs whose transcripts and measured cut timings are recorded in `references/evidence.md`. The SaaS film guidance comes from 48 shipped product films by Claude, Harvey and Muse, each one transcribed, sampled frame by frame and measured; the method and every film's findings are in [`docs/research/saas-film-corpus/`](docs/research/saas-film-corpus/). The 0.4.0 craft draws on [motlab](https://github.com/staryone/motlab) (MIT or Apache-2.0), [AI-Video-Factory](https://github.com/ersinkoc/AI-Video-Factory) (MIT) and [motion-educator](https://github.com/zeative/motion-educator) (MIT), paraphrased rather than copied, and on measurements of 240 films on [prompt-motion.com](https://prompt-motion.com), 21 films from [motionflare.ai](https://motionflare.ai/showcase) and the films and interface loops on [getcaruso.com](https://www.getcaruso.com/en-au); the record is in [`docs/research/motion-sources-2026-11/`](docs/research/motion-sources-2026-11/). The engine choice and the testing plan were each settled by a four-family decision panel; both records are in [`docs/decisions/`](../../docs/decisions/) at the repo root.

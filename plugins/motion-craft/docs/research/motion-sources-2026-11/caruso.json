@@ -1,0 +1,231 @@
+{
+ "measured": "2026-11-24",
+ "films": [
+  {
+   "file": "home-112s.mp4",
+   "dur": 112.233333,
+   "w": 1920,
+   "h": 1080,
+   "fps": 30.0,
+   "audio": true,
+   "cuts": 4,
+   "cuts_per_min": 2.1,
+   "median_shot": 3.37,
+   "longest_shot": 88.9,
+   "first_cut": 14.067,
+   "max_cuts_5s": 2,
+   "longest_static_s": 7.0,
+   "static_share": 0.738,
+   "light_share": 0.98,
+   "lum_median": 240.7,
+   "colourfulness": 2.0,
+   "motion_median": 0.1,
+   "page": "https://www.getcaruso.com/en-au"
+  },
+  {
+   "file": "home-75s.mp4",
+   "dur": 75.443,
+   "w": 2560,
+   "h": 1440,
+   "fps": 30.0,
+   "audio": true,
+   "cuts": 1,
+   "cuts_per_min": 0.8,
+   "median_shot": 37.72,
+   "longest_shot": 74.7,
+   "first_cut": 74.7,
+   "max_cuts_5s": 1,
+   "longest_static_s": 4.5,
+   "static_share": 0.782,
+   "light_share": 0.99,
+   "lum_median": 239.3,
+   "colourfulness": 4.0,
+   "motion_median": 0.1,
+   "page": "https://www.getcaruso.com/en-au"
+  }
+ ],
+ "loops": [
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/investor-relations-teams",
+   "canvas": 1,
+   "size": [
+    640,
+    676
+   ],
+   "recorded_s": 14.1,
+   "longest_static_s": 5.5,
+   "static_share": 0.95,
+   "motion_median": 0.0,
+   "light_share": 0.01,
+   "colourfulness": 28.9
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/investor-relations-teams",
+   "canvas": 3,
+   "size": [
+    1312,
+    561
+   ],
+   "recorded_s": 14.9,
+   "longest_static_s": 6.3,
+   "static_share": 0.919,
+   "motion_median": 0.01,
+   "light_share": 1.0,
+   "colourfulness": 22.5
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/investor-relations-teams",
+   "canvas": 5,
+   "size": [
+    702,
+    448
+   ],
+   "recorded_s": 14.9,
+   "longest_static_s": 13.4,
+   "static_share": 0.959,
+   "motion_median": 0.11,
+   "light_share": 1.0,
+   "colourfulness": 2.9
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/investor-relations-teams",
+   "canvas": 7,
+   "size": [
+    702,
+    448
+   ],
+   "recorded_s": 14.1,
+   "longest_static_s": 5.1,
+   "static_share": 0.864,
+   "motion_median": 0.14,
+   "light_share": 1.0,
+   "colourfulness": 8.5
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/investor-relations-teams",
+   "canvas": 9,
+   "size": [
+    702,
+    448
+   ],
+   "recorded_s": 14.1,
+   "longest_static_s": 7.3,
+   "static_share": 0.9,
+   "motion_median": 0.16,
+   "light_share": 1.0,
+   "colourfulness": 1.2
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/investor-relations-teams",
+   "canvas": 11,
+   "size": [
+    640,
+    570
+   ],
+   "recorded_s": 14.9,
+   "longest_static_s": 3.9,
+   "static_share": 0.892,
+   "motion_median": 0.0,
+   "light_share": 1.0,
+   "colourfulness": 14.4
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/investor-relations-teams",
+   "canvas": 17,
+   "size": [
+    416,
+    324
+   ],
+   "recorded_s": 14.1,
+   "longest_static_s": 3.7,
+   "static_share": 0.864,
+   "motion_median": 0.19,
+   "light_share": 1.0,
+   "colourfulness": 13.2
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/investor-relations-teams",
+   "canvas": 19,
+   "size": [
+    416,
+    324
+   ],
+   "recorded_s": 14.1,
+   "longest_static_s": 4.5,
+   "static_share": 0.879,
+   "motion_median": 0.16,
+   "light_share": 1.0,
+   "colourfulness": 13.4
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/investor-relations-teams",
+   "canvas": 21,
+   "size": [
+    1312,
+    561
+   ],
+   "recorded_s": 14.9,
+   "longest_static_s": 3.8,
+   "static_share": 0.75,
+   "motion_median": 0.1,
+   "light_share": 0.98,
+   "colourfulness": 22.1
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/private-equity",
+   "canvas": 1,
+   "size": [
+    640,
+    676
+   ],
+   "recorded_s": 14.9,
+   "longest_static_s": 6.3,
+   "static_share": 0.953,
+   "motion_median": 0.0,
+   "light_share": 0.06,
+   "colourfulness": 30.2
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/private-equity",
+   "canvas": 3,
+   "size": [
+    702,
+    448
+   ],
+   "recorded_s": 14.1,
+   "longest_static_s": 3.5,
+   "static_share": 0.757,
+   "motion_median": 0.21,
+   "light_share": 1.0,
+   "colourfulness": 2.5
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/private-equity",
+   "canvas": 5,
+   "size": [
+    702,
+    448
+   ],
+   "recorded_s": 14.1,
+   "longest_static_s": 7.9,
+   "static_share": 0.886,
+   "motion_median": 0.02,
+   "light_share": 1.0,
+   "colourfulness": 6.8
+  },
+  {
+   "page": "https://www.getcaruso.com/en-au/solutions/private-equity",
+   "canvas": 7,
+   "size": [
+    632,
+    474
+   ],
+   "recorded_s": 14.1,
+   "longest_static_s": 3.3,
+   "static_share": 0.714,
+   "motion_median": 0.12,
+   "light_share": 0.81,
+   "colourfulness": 13.0
+  }
+ ]
+}

@@ -71,6 +71,15 @@ The scaffold loads GSAP from a CDN. Copy it into the project so renders do not d
 14. GSAP 3 has no `className` tween; swap a class with `tl.set(el, { attr: { class: '…' } }, t)`.
 15. The lint rejects a template literal inside `querySelector`; reach a child through an element you already hold, `el.querySelector('.label')`.
 
+Six browser traps recorded in the gotchas of the long prompts on prompt-motion.com, each from a render that went wrong:
+
+16. No `will-change` on anything the camera scales, or its text renders blurry.
+17. Never put `opacity` or `filter` on a `preserve-3d` element: it flattens and both faces show. Fade its wrapper instead.
+18. A child set to `visibility: visible` shows through a hidden parent; use `inherit`.
+19. Measure text only after the fonts have loaded, or every layout built from the measurement is off.
+20. A card or phone that fades out shows whatever is behind it mid-fade; fade it into the ground or haze colour first, and go transparent only at the very end.
+21. Heavy blur can erase a shape entirely; if a frame looks empty, lower the blur until the shape still reads.
+
 Intended overflow, overlap or crop is declared on the narrowest element (`data-layout-allow-overflow`, `data-layout-allow-overlap`, `data-layout-bleed="true"`) so the layout audit can still see everything else.
 
 ## 5. One clock for picture, sound and review
@@ -103,7 +112,9 @@ Claude Motion's value is that a finished film stays editable: a tweaks panel lis
 <skill>/scripts/hf.sh render --start 8 --end 14 -o out/range.mp4       # re-render one stretch
 ```
 
-Name the file after the film, never `output.mp4`. `--fps` defaults to the root's `data-fps`, else 30. Add `data-motion-blur="on"` to the composition root for fast 2D moves when the look calls for blur.
+Name the file after the film, never `output.mp4`. `--fps` defaults to the root's `data-fps`, else 30; set `data-fps="60"` for any film led by interface motion or a moving camera (`craft.md` §9).
+
+Motion blur is opt-in. Put `data-motion-blur="on"` on the composition root of any film with whips, pushes or slides; `data-motion-blur-shutter` sets the shutter angle (HyperFrames' default is 240°; 180° gives a crisper smear) and `data-motion-blur-samples` the samples a frame (default at least 32). `check` reports `motion_blur_filter_fallback`, `motion_blur_no_movers` and `motion_blur_unverified`; read each. The default `filter` tier only softens turns and zooms and gives a mover's own `clip-path` hard edges, so check a full-rate strip across the fastest move (`review.md` §1). `--page-motion-blur off` renders without it for a quick draft.
 
 ## 8. Tools worth reaching for
 
@@ -116,4 +127,4 @@ Name the file after the film, never `output.mp4`. `--fps` defaults to the root's
 
 ## 9. When the user declines HyperFrames
 
-When the user does not want the vendor CLI, or it cannot run (no Node, offline, a locked-down machine), fall back to design-craft:design-craft's plain timeline engine in its `references/make-an-animation.md`: one self-contained HTML file whose every frame is a pure function of t, exported by seeking `window.__animStage.setTime()` and piping screenshots into ffmpeg. Everything in `direction.md`, `story-and-rhythm.md`, `craft.md` and `sound.md` applies unchanged; the review loses `check`, `snapshot` and `audio`, so build contact sheets with ffmpeg (`reference-films.md` §2 recipe, pointed at your own render) and measure loudness with `ebur128` (`sound.md` §6). Say in REVIEW.md which route rendered the film.
+When the user does not want the vendor CLI, or it cannot run (no Node, offline, a locked-down machine), fall back to design-craft:design-craft's plain timeline engine in its `references/make-an-animation.md`: one self-contained HTML file whose every frame is a pure function of t, exported by seeking `window.__animStage.setTime()` and piping screenshots into ffmpeg. Everything in `direction.md`, `story-and-rhythm.md`, `craft.md` and `sound.md` applies unchanged; the review loses `check`, `snapshot` and `audio`, so build contact sheets with ffmpeg (`reference-films.md` §2 recipe, pointed at your own render) and measure loudness with `ebur128` (`sound.md` §7). Say in REVIEW.md which route rendered the film.

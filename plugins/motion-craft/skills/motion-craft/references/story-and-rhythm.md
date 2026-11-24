@@ -50,6 +50,10 @@ Measured with `hyperframes measure cuts`: Anthropic's Claude Motion launch has 8
 
 Product walkthroughs and explainers are paced by change inside the shot rather than by cuts. Across 48 SaaS product films measured on 2026-11-16 the median film cuts 5.7 times a minute with a 4.7 s median shot, holds its longest shot for 31 s, and changes something on screen every 1.3 s; only 7 of the 48 have a burst. `saas-films.md` §1 gives the numbers by film type; use them instead of the launch cadence when the film's job is to show a product working.
 
+Short launch films made from a product's website take the same shape at 15-30 s. Of the 21 that motionflare.ai shows, 13 have two hard cuts or fewer: one continuous take carries a run of chapters, each a headline and a product panel swapping in place every 3-5 s, on the brand's own moving ground (`looks.md` §1).
+
+**A fast montage on a dark ground is the model's default, not a style.** Measured across the 240 films on prompt-motion.com (2026-11-24), the 136 made from prompts of 26 words or fewer cut 12.9 times a minute on a median 2.9 s shot with 27 % light frames; the 24 made from prompts of 100 words or more, which name a concept, a beat grid and a banned list, cut 6.0 times a minute on a median 6.4 s shot with 62 % light frames. The 73 films made from one viral 26-word showreel prompt or a close variant of it cut 24 times a minute. Choose montage when the story is "look how much", not because nothing else was decided.
+
 ## 5. Draw the energy curve
 
 Before the beat map, score each stretch of a few seconds from 0 to 10 and check the shape:
@@ -75,7 +79,7 @@ An event is anything the eye or ear registers as new: a cut, an element landing,
 | Peak or montage | 4-8 | ½-1 beat per shot |
 | Resolve, mark | 1-2 | hold ≥ 1.5 s on the mark |
 
-Underneath it: nothing stays unchanged for longer than about two bars (roughly 3-4 s) except a planned stop. Something new every 2-4 s across the film; a new layout every bar when there is music. In long-form talking-head work, a professional editor's rule of thumb is a change every 1-3 s (IFL9MLPDN_U).
+Underneath it: nothing stays unchanged for longer than about two bars (roughly 3-4 s) except a planned stop. Something new every 2-4 s across the film; a new layout every bar when there is music. In long-form talking-head work, a professional editor's rule of thumb is a change every 1-3 s (IFL9MLPDN_U). A beat-led film can go denser: the best-received long prompts on prompt-motion.com write "120 BPM, 7 bars, something happens on every beat" and land the hero zoom exactly on the drop, which works when each beat's event is a step of the carrier rather than a new scene.
 
 ## 7. Contrast schedule
 

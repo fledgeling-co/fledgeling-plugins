@@ -4,25 +4,25 @@ Pick the row from the request, then read its section. Each section adds to `dire
 
 | Request | Section | Default canvas and length |
 |---|---|---|
-| Launch, feature, promo, ad | §1 | 1920×1080 at 30 fps, 20-45 s |
+| Launch, feature, promo, ad | §1 | 1920×1080 at 60 fps, 15-45 s |
 | Explainer, tutorial, walkthrough | §2 | 1920×1080 at 30 fps, 30-90 s, narrated |
 | Data story from a CSV, dashboard or report | §3 | 1920×1080 at 30 fps, 15-45 s |
 | Logo sting, title card, kinetic line | §4 | 1920×1080 at 30 fps, 3-10 s |
 | Lower third, callout, caption overlay | §5 | 1920×1080 at 30 fps, 4-10 s, transparent |
-| Vertical social clip, reel, short | §6 | 1080×1920 at 30 fps, 15-45 s |
-| Product demo of a real app or site | §7 | 1920×1080 at 30 or 60 fps, 15-60 s |
+| Vertical social clip, reel, short | §6 | 1080×1920 at 60 fps, 15-45 s |
+| Product demo of a real app or site | §7 | 1920×1080 at 60 fps, 15-60 s |
 | 3D object, simulation, particles, fly-through | §8 | 1080×1350 or 1920×1080 at 60 fps, 15-30 s |
 | Remake another film's rhythm on a new subject | `reference-films.md` | match the reference |
 
-60 fps suits fast UI and camera-heavy films; 30 fps is the default for everything else.
+60 fps is the default for launch, vertical and demo films, which are led by interface motion and a moving camera: 20 of the 21 product films motionflare.ai made from websites render at 60. 30 fps stays the default for narrated explainers, data stories, stings and overlays, and for any film long enough that render time matters.
 
 ## 1. Launch and promo
 
-The beat table in `story-and-rhythm.md` §2 is the default shape; hybrid is the default route. The film is made of the product: real interface captures rebuilt to move, real outputs, real numbers (`direction.md` §2). Every selling point that matters gets its own shot; a price or a key number gets a card of its own rather than tiny type at the end (Cft-TBQv_Y4's comparison). End on the mark, carried in and held 2-3 s; a URL is optional. Music and hits by default. A launch film about a software product also follows `saas-films.md`: most measured product launches are 45-90 s music-led feature films paced by change inside the shot, not by a cut every 2-3 s.
+The beat table in `story-and-rhythm.md` §2 is the default shape; hybrid is the default route. The film is made of the product: real interface captures rebuilt to move, real outputs, real numbers (`direction.md` §2). Every selling point that matters gets its own shot; a price or a key number gets a card of its own rather than tiny type at the end (Cft-TBQv_Y4's comparison). End on the mark, carried in and held 3 s, with the ask as text (`saas-films.md` §10). Music and hits by default. A 15-30 s launch film made from a website works as one continuous take of feature chapters on the brand's moving signature ground, a headline and a product panel swapping every 3-5 s (`looks.md` §1). A launch film about a software product also follows `saas-films.md`: most measured product launches are 45-90 s music-led feature films paced by change inside the shot, not by a cut every 2-3 s.
 
 ## 2. Explainer
 
-Narration leads (`sound.md` §1). Measured narrated product explainers run 90-232 s at about 167 spoken words a minute, cut 3-9 times a minute, and restart attention with a 1-5-word chapter card every product area (`saas-films.md` §1, §3). One concrete example is worked through from start to finish; a question the viewer would ask opens each section. Pick the visual grammar by what is being explained: a mechanism or derivation as a diagram that builds and transforms (the 3Blue1Brown family: one canvas, objects morphing rather than cutting); a process as an object travelling through stations; a history as one timeline the camera travels along; numbers as a data story (§3). Long holds are correct while the viewer reads or the picture moves on its own; the camera stays still then. Subtitles for vertical, 4:5 and square deliveries; none by default on 16:9.
+Narration leads (`sound.md` §1). Measured narrated product explainers run 90-232 s at about 167 spoken words a minute, cut 3-9 times a minute, and restart attention with a 1-5-word chapter card every product area (`saas-films.md` §1, §3). One concrete example is worked through from start to finish; a question the viewer would ask opens each section. Pick the visual grammar by what is being explained: a mechanism or derivation as a diagram that builds and transforms (the 3Blue1Brown family: one canvas, objects morphing rather than cutting); a process as an object travelling through stations; a history as one timeline the camera travels along; numbers as a data story (§3). Long holds are correct while the viewer reads or the picture moves on its own; the camera makes no visible move then, beyond a slow 3-5 % push (`craft.md` §5). Subtitles for vertical, 4:5 and square deliveries; none by default on 16:9.
 
 ## 3. Data story
 
@@ -48,7 +48,7 @@ A lower third, callout, caption group or bug meant to sit on footage. Render wit
 
 ## 7. Product demo
 
-Use Benji Taylor's Stageshow method: a staged, simplified copy of the real screen made only for the film, with real words only where the story is (3-7 real strings) and quiet filler bars elsewhere, a cursor that moves in shallow arcs timed by distance with visible presses, one action told in 3-5 beats over 10-16 s, and a loop whose last frame matches its first. When the demo shows a real or full-size interface, push 1.5-3x onto the control in use so its text reaches 2.6 % of the frame's short side, and show the whole window only to orient (`saas-films.md` §5). design-craft:design-craft's `references/product-demo.md` carries the full procedure for a demo embedded in a page; here the same demo is one shot inside a film, and the film's rhythm, sound and review apply to it.
+Use Benji Taylor's Stageshow method: a staged, simplified copy of the real screen made only for the film, with real words only where the story is (3-7 real strings) and quiet filler bars elsewhere, a cursor that moves in shallow arcs timed by distance with visible presses, one action told in 3-5 beats over 10-16 s, and a loop whose last frame matches its first. Caruso's product loops are a measured instance (getcaruso.com, 2026-11-24): about 1 s between steps, a cursor that ticks one checkbox at a time, a status pill above the card narrating in present tense, status chips that turn green as each check passes, and a button that turns green with a check when pressed (`saas-films.md` §3). When the demo shows a real or full-size interface, push 1.5-3x onto the control in use so its text reaches 2.6 % of the frame's short side, and show the whole window only to orient (`saas-films.md` §5). design-craft:design-craft's `references/product-demo.md` carries the full procedure for a demo embedded in a page; here the same demo is one shot inside a film, and the film's rhythm, sound and review apply to it.
 
 ## 8. 3D, simulation and particles
 

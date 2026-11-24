@@ -45,6 +45,7 @@ Openers that showed the problem rather than naming it: the user's typed complain
 - **The hero moment sits at 56 % of the length (35-71 %).** It is usually the finished output arriving, not a transition.
 - **One invented scenario, carried everywhere.** Films that used invented interface made it read as real work by running one business, named people and one set of numbers across every screen: Huckleberry and Teo on tiles, board, chat and Gantt [YUYeHMsqbmY]; 58,500 and 6,500 in both heading and chart [YewAJPawE7I]; one repo, one bug and PR #128 through a four-minute tutorial [-OH1y7CjIew]. Use one scenario with names and numbers that recur on at least four surfaces.
 - **The agent action in three beats.** A typed request on screen, a status tile of about 2 s naming the work ("Analyzing data…"), then the result with a specific number [YUYeHMsqbmY, G3vwVsh9RtU]. Without voiceover, the status label is the narration [We8BTITLvb4 changes one present-tense chip every 2-3 s].
+- **One card, narrated by a status pill.** Caruso's agent loops (getcaruso.com, recorded 2026-11-24) keep one card in place and let a pill above it narrate in present tense, a new phrase about every 1.5 s: "Picking an agent…", "Trust Onboarding", "Adding related parties…", "Screening parties…", "Added task". The card changes state underneath it: a trust deed uploaded, its details with a PENDING chip, three related parties stacking in, each gaining a green VERIFIED chip with a spinner on the one still running, then a task "Approve Thompson Family Trust" assigned to a named person, whose Approve button the cursor presses and which turns green. One entity and its named people run through the whole loop, and grey skeleton bars stand in for everything the story does not need.
 - **A human decision in the middle of the machine's work**, paid off by the tagline: "i like D" among generated variants [5qt_aGyAsKk]; a person steering a running task once, on screen [tYOI-WoLS_o]. Claude's taglines then name the split: "Claude makes it. You steer it." [To5nrYqvR44, bVXiNb9RyyI, en0GuyhieQk].
 - **Chapters as cards.** Long films restart attention with a text-only card of 1-5 words before each product area, held 2-4 s [ydIT4EdLK54, tYOI-WoLS_o], sometimes previewed as a numbered index first [Jw6l1jgNVw8]. A music-led film without voice can repeat one title template as a chorus: "AI that ___ for you", six times [We8BTITLvb4].
 - **Bookends.** Close on, or rhyme with, the opening frame: the same flip [4tlIHJqGiRc], the same lockup move [_Qxh2NZcWuY], the opening card reached by a fade through grey [TVbOAMAxC4Y], the same dark wordmark frame at 0 s and 99 s [arDCe_F8vfk].
@@ -131,7 +132,7 @@ Claude's own films use the cream ground and serif display that `direction.md` §
 - **Voice.** 25 films are music-only; 23 carry speech (11 presenters on camera, 8 voiceovers, 3 customer testimonials, 1 presenter with voiceover). Narrated films run at 167 words a minute (151-178). Two voice-led tutorials carry no music bed at all [-OH1y7CjIew, mQZB0l-rhxE].
 - **Cuts follow the story, not the beat.** In 36 of 46 measurable films, the share of cuts landing within 0.12 s of a strong sound onset is less than 0.10 above what chance would give. Where picture and music meet, it is at a music section change: a reveal on the return of section B [XNbc2HhL7J4], cuts on section boundaries [dUIuvfP2j2c], a zoom-out at a section change [mTzRvY38xGw]. Put the reveal and the hero on a section change of the track.
 - **A silent tail.** 23 films end with at least 1 s of silence, the music stopping 1.2-2.5 s before the end under the logo [YewAJPawE7I, XNbc2HhL7J4]. A silent tail pulls integrated loudness down: one film's −13.6 LUFS short-term peak measured −15.4 integrated [YUYeHMsqbmY], so master the whole file, tail included.
-- **Loudness is not a reference here.** Integrated loudness runs −15.8 LUFS (−17.2 to −14.1), from −25.7 to −11.2; 15 films sit within a decibel of −14; true peak exceeds −1 dBTP in 18 and 0 dBTP in 9. Keep binding rule 9 (−14 LUFS, true peak at or below −1 dBTP) as the delivery spec and treat these masters as the miss to avoid.
+- **Loudness is not a reference here.** Integrated loudness runs −15.8 LUFS (−17.2 to −14.1), from −25.7 to −11.2; 15 films sit within a decibel of −14; true peak exceeds −1 dBTP in 18 and 0 dBTP in 9. Keep the binding loudness rule in SKILL.md (−14 LUFS, true peak at or below −1 dBTP) as the delivery spec and treat these masters as the miss to avoid.
 
 ## 10. Endings
 
@@ -153,14 +154,16 @@ Check every film against these, in this order, because each appeared in the owne
 7. A stretch with nothing changing outruns 4 s: the longest static run is 6 s at the median and reaches 30 s.
 8. A must-carry line inside the interface never reaches a frame whole: pushed past, or under a composer bar or the caption band (§5, from the production run in `evidence.md` §8).
 
-## 12. Three house styles
+## 12. Five house styles
 
 Borrow the method, never the trade dress (`reference-films.md` §3).
 
-| | Claude | Harvey | Muse |
-|---|---|---|---|
-| Ground | warm cream, terracotta and sage fields; warmth +6 | white and near-black in alternation; saturation 0.015 | white studio and pale gradients; the most saturated (0.20) |
-| Type | serif display, one coral accent, hand-drawn underlines | serif wordmark, word-by-word headlines on blank ground | humanist sans titles beside a plush mascot |
-| Device | presenter plus product, labelled cursors, one invented business | left-rail title with interface beside it, ground flips, an orbit motif | customer interviews around one phone demo |
-| Pace | 8.1 cuts a minute | 3.9 cuts a minute, long continuous takes | 10 cuts a minute |
-| Close | two-sentence tagline, typed; mark held 3.3 s | "AI Tailored for Law" and the wordmark; held 4.1 s | icon, wordmark and store badges on black; held 3.9 s |
+| | Claude | Harvey | Muse | Caruso | motionflare.ai |
+|---|---|---|---|---|---|
+| Ground | warm cream, terracotta and sage fields; warmth +6 | white and near-black in alternation; saturation 0.015 | white studio and pale gradients; the most saturated (0.20) | warm off-white; fine-art paintings of architecture behind interface cards; dark teal heroes | the brand's own motif, moving (ribbon, light bars, keycap grid) |
+| Type | serif display, one coral accent, hand-drawn underlines | serif wordmark, word-by-word headlines on blank ground | humanist sans titles beside a plush mascot | serif display, one lavender accent word, chapter words typed with a caret | flush-left 2-3-line headline beside the product |
+| Device | presenter plus product, labelled cursors, one invented business | left-rail title with interface beside it, ground flips, an orbit motif | customer interviews around one phone demo | one agent card narrated by a status pill, skeleton filler, a human approval | one continuous take of feature chapters, a stat row from the site |
+| Pace | 8.1 cuts a minute | 3.9 cuts a minute, long continuous takes | 10 cuts a minute | 0.8-2.1 cuts a minute; still for 74-78 % of the runtime | median 2 cuts a film; 15 or 30 s at 60 fps |
+| Close | two-sentence tagline, typed; mark held 3.3 s | "AI Tailored for Law" and the wordmark; held 4.1 s | icon, wordmark and store badges on black; held 3.9 s | one claim line, then the wordmark on lavender, then on dark | mark, line, the product's own two buttons and the URL; held about 3 s |
+
+Caruso's calm suits a finance audience, but its homepage films stand still for 7.0 s and 4.5 s at a stretch, past the 4 s ceiling in §1; borrow its register and keep a slow push or the next row arriving through every hold.

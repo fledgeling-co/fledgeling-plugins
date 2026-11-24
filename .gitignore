@@ -42,3 +42,8 @@ plugins/*/assets/fidelity-runs/
 # Uncompressed originals of the shipped icons and banners (the repo carries
 # compressed copies at the same dimensions).
 plugins/*/assets/originals/
+
+# Downloaded source films and contact sheets behind a plugin's research record:
+# about 3 GB for motion-craft's 2026-11 study. Kept locally so the measurements can be
+# re-run; the record itself (README and the .jsonl measurements) stays tracked.
+plugins/*/docs/research/*/media/

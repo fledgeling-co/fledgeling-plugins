@@ -10,7 +10,7 @@ Collect, in this order, and write one line each into `BRIEF.md`:
 
 1. **What it is**, in the user's words, and the one thing the viewer must remember after the film ends, in the viewer's words rather than a slogan.
 2. **Where it plays**, which fixes the canvas: 16:9 1920×1080 for a site, YouTube or a keynote; 9:16 1080×1920 for Reels, TikTok and Shorts; 4:5 1080×1350 or 1:1 for a feed; a seamless loop for a landing-page hero or README GIF; a transparent overlay for footage.
-3. **Length as a range**, from the story (a feature launch is usually 20-45 s, a logo sting 3-8 s, an overlay 4-10 s, an explainer 30-90 s). A length in the request is a ceiling, never padding.
+3. **Length as a range**, from the story (a feature launch is usually 15-45 s, a logo sting 3-8 s, an overlay 4-10 s, an explainer 30-90 s). A length in the request is a ceiling, never padding.
 4. **Sound mode**: sound-led (music and hits; narration only if asked), or must-read-muted (feeds autoplay silent; every line readable without sound).
 5. **Narration**: none, a voice the user records, or generated speech. Settle it once; the default is none.
 6. **Real material**, gathered before any design (step 2).
@@ -27,6 +27,7 @@ A film about a product is made of the product. Before any direction, fill `mater
 - The brand's colours and typefaces as values read from its site or code, and the font files themselves in `assets/fonts/`.
 - Real numbers with their source; for a data story, the CSV or dashboard itself.
 - Photos, avatars and thumbnails that appear inside the film: the project's own first, then openly licensed images (record source and licence), never grey boxes.
+- **The signature device**: the one graphic or gesture only this subject has, read from its site, app or past campaigns. In the 21 films motionflare.ai made from product websites, each was built on one: Stripe's gradient ribbon sweeps through the film and returns on the end card, Raycast's diagonal red light bars are the ground of every shot, Cal.com's keycap grid backs each scene, Midjourney opens on its own `/imagine` command, Notion's illustrated characters pop in beside each feature, Caruso sets its interface over fine-art paintings. Write the device into `materials.md` with where you saw it; it becomes the ground, the carrier or the hook (`looks.md` §1). A subject with no device of its own gets one from its product's core gesture (the tap, the drag, the command it is used through), never from a stock motif.
 
 Material you cannot get becomes a visibly labelled placeholder on the replacement list, and the gap is named in the first message. Screenshots from someone's machine can show private names and messages: crop or mask them.
 
@@ -54,7 +55,7 @@ Devices: a moment in someone's day; a character or cursor does the work; the fea
 
 Forms: one continuous take; an object-to-object chain where every shot ends on the thing that opens the next; an endless zoom into a detail that becomes the next world; a flight through one world; cut on the beat; match cuts on one held shape; split screen collapsing to one pane; one frame that keeps rebuilding itself.
 
-Each storyline says, in at most eight lines: its name and a real reference it resembles ("a Linear changelog", "an Apple bumper", "Kurzgesagt"), never adjectives; the first two seconds exactly; its beats in one line; its look in one line (ground, type, the one material, the palette with where each colour came from); its route (continuous, montage or hybrid, see `story-and-rhythm.md`); and its risk ("needs real UI captures"). At most one of the three is a 3D direction, so the user always has depth to choose and always has something else. Every storyline carries every must-carry fact from step 1; a storyline that can only work by leaving facts out is a mood piece, and loses to a plain film that says more.
+Each storyline says, in at most nine lines: its name and a real reference it resembles ("a Linear changelog", "an Apple bumper", "Kurzgesagt"), never adjectives; the first two seconds exactly; its beats in one line; its **carrier**, the one shape, object or colour that is on screen at every seam and that each transition hands over (one button that morphs through a dozen interface states, one photograph that travels from a grid to a lock screen to a print on a wall, Stripe's ribbon, an orange dot that becomes a graph and then a circle); its look in one line (ground, type, the one material, the palette with where each colour came from, or an entry from `looks.md`); its route (continuous, montage or hybrid, see `story-and-rhythm.md`); and its risk ("needs real UI captures"). The carrier is what the best-received films share: on prompt-motion.com the second most-liked film is one shape that never cuts (12,103 likes), and the most-liked launch film is one continuous take of one photograph (`evidence.md` §9). At most one of the three is a 3D direction, so the user always has depth to choose and always has something else. Every storyline carries every must-carry fact from step 1; a storyline that can only work by leaving facts out is a mood piece, and loses to a plain film that says more.
 
 Put your recommendation first with its reason in one clause. When the user is there, stop until they pick; users often mix by layer ("A's composition with C's feeling"), so keep look, structure and rhythm as separate lines that can recombine. When they asked for the file or for no stops, take your recommendation, build it, and name the other two in one line each at handover.
 
@@ -73,13 +74,18 @@ LOOK:    ground (hex, texture and amount), ink, one accent and where it may appe
          the medium (paper, product UI, glass, clay, 3D studio, photographs) with its numbers;
          light: shadow offset, blur and opacity; grain %, vignette %
 CARRY:   the numbered must-carry facts from BRIEF.md, each mapped to the shot that shows it and its hold
+CARRIER: the one shape, object or colour handed across every seam, and what it becomes in each shot
+SIGNATURE: the subject's signature device from materials.md and where it appears (ground, carrier, hook, end card)
 OBJECTS: every thing the viewer must recognise, with the details that make it read without a label
 MOTION:  eases by role as named curves; springs as damping ratio; durations and staggers in frames
+FINISH:  motion blur shutter, grain %, depth layers, light, fps (craft.md §9)
 SHOTS:   one line per shot: frame range, the one hero move, what the viewer reads and for how long,
-         the sound, and the object that carries the eye into the next shot
+         the sound, the object that carries the eye into the next shot, and why the shot exists
 BANNED:  the defaults below, plus anything this film must not become
 QA:      the frames to check and what each must show
 ```
+
+A shot whose "why" you cannot write in a clause does not belong in the film; cut it rather than decorate it (prompt-motion's fix guide: "If Claude can't say why a beat exists, the beat doesn't belong").
 
 Turning words into numbers: **premium** becomes a material with numbers (satin paper with 2 % grain, a product on a seamless sweep with a 0.55-opacity contact shadow); **modern** becomes a camera and a type system (a 30-frame push on one ease, a display face at 9 % of frame height with −2 % tracking); **clean** becomes a grid and a ration (12 columns, 96 px margins, the accent on one word per shot); **dynamic** becomes cuts on the beat and a layout change every bar; **playful** becomes springs at damping ratio 0.45-0.6 on position and scale only; **cinematic** becomes a lens and a light (a 35 mm framing, key light upper left, rim from behind, 6 % vignette).
 
@@ -88,16 +94,21 @@ Turning words into numbers: **premium** becomes a material with numbers (satin p
 These are where generated video lands when nothing else is decided. Each is banned unless the brand's own material or the user's reference uses it, and then only as they use it:
 
 - a black or dark-navy void with small elements floating in its middle;
-- glow, bloom, neon, lens flares, glowing orbs and rings, floating decorative particles;
+- glow, bloom, neon, lens flares, glowing orbs and rings, floating decorative particles, shockwave rings, RGB split, camera shake, grid floors and flashing backgrounds; glow is allowed on a thing that is light in the story (a beam, a screen, a sun), where it explains rather than decorates;
 - purple or blue gradients, mesh gradients, glass cards;
 - the cream or off-white paper ground with a serif display, italic accent words, numbered "01 / 02" labels, small monospace caps labels and pill-shaped chips; Anthropic's Opus 5.5 prompting guide names this exact set as the model's default look;
+- the showreel default: an off-white or near-black ground flooded in turn with saturated orange, cobalt and lime, a giant heavy grotesk in capitals, a lone dot motif and small readouts in every corner; AI-Video-Factory's director policy names it "the common AI look", and all five runs of the gallery's most-copied 26-word prompt sampled for this skill land on it;
 - everything centred; everything fading in at once; every element fading and sliding up;
 - text that moves while it is read; titles that keep drifting after they land;
 - cross-dissolves between scenes (cDb-wPq0Iyk: "it looks cheap");
 - corner labels, frame borders, corner brackets and HUD readouts as decoration;
+- a highlight box behind a word, which reads as a text selection; mark the word with colour or weight instead;
+- motion that is not connected to anything on screen: a burst, sweep or ring that comes from nothing and goes nowhere;
 - three cards in a row, KPI grids, a title over a dimmed screenshot;
 - a typing prompt box as the opening shot with nothing else on screen;
 - the logo docked small in a corner, and a frame 0 that is black, empty or a lone logo.
+
+On prompt-motion.com, the 16 of 230 prompts that carried a banned list like this one included four of the 20 most-liked videos, and their median was 56 likes against 7 for the gallery. People who write banned lists also write longer prompts, so the list alone does not explain the gap.
 
 After the first render, name every default it used anyway, from this list or not, add each to the film's BANNED line, and fix them before anything else. The guide's own advice for the same problem is to "check which styles the first result used instead, and extend the list".
 
@@ -116,5 +127,8 @@ Users rarely say what they want before they see it, and the first render is usua
 | "boring" | redraw the energy curve (`story-and-rhythm.md` §3): a burst, a stop, a peak |
 | "I couldn't read that" | hold 0.5 s + 0.3 s per word; cut words before shrinking type |
 | "make it more premium" | one material with numbers, fewer elements, more shot-scale contrast |
+| "it looks cheap" or "amateur" | apply the finish in `craft.md` §9 (motion blur, grain, depth, light), then check the look against `looks.md` |
+| "it feels static" | a 3-5 % camera push through every hold, carried into the next shot's starting zoom (`craft.md` §5) |
+| "the transitions feel off" | name the second and the two shapes, then hand one shape across the seam (`craft.md` §6) |
 
 When a fix needs to give something up (a line shortened, a shot dropped), say what was given up.

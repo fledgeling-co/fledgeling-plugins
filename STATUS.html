@@ -456,269 +456,178 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
 <script type="application/json" id="report-data">
 {
  "project": "fledgeling-plugins",
- "updated": "2026-11-22T04:40:00+00:00",
+ "updated": "2026-11-24T16:05:00+11:00",
  "verdict": {
-  "token": "done",
-  "number": "10 of 10",
-  "unit": "changes made and checked",
-  "headline": "Both design skills carry the 2026–27 trends and now fall back to agent-browser",
-  "run_label": "design-craft 1.6.1 · ux-craft 2.7.1",
-  "head_sha": "c1b5472"
+  "token": "in-flight",
+  "number": "11 of 11",
+  "unit": "reference files updated or added",
+  "headline": "motion-craft 0.4.0 is written and passes the checks, but is not committed or tested on a film yet",
+  "run_label": "motion-craft 0.4.0 · uncommitted",
+  "head_sha": "8783ec6"
  },
  "tasks": [
   {
-   "id": "DT-1",
-   "title": "Researched Aug–Nov 2026 trends and 2027 forecasts",
-   "origin": "asked for",
-   "stage": "checked",
-   "outcome": "done",
-   "note": "Dossier run, 7 X searches, 17 videos, primary pages",
-   "version": "c1b5472"
-  },
-  {
-   "id": "DT-2",
-   "title": "design-craft trend list rewritten for 2026–27",
-   "origin": "asked for",
-   "stage": "code written",
-   "outcome": "done",
-   "version": "c1b5472"
-  },
-  {
-   "id": "DT-3",
-   "title": "Fourth default look and late-2026 tells added to the slop check",
-   "origin": "asked for",
-   "stage": "code written",
-   "outcome": "done",
-   "version": "c1b5472"
-  },
-  {
-   "id": "DT-4",
-   "title": "Six new aesthetic worlds and three recipe files",
-   "origin": "asked for",
-   "stage": "code written",
-   "outcome": "done",
-   "version": "c1b5472"
-  },
-  {
-   "id": "DT-5",
-   "title": "Direction, motion and depth guidance updated",
-   "origin": "asked for",
-   "stage": "code written",
-   "outcome": "done",
-   "version": "c1b5472"
-  },
-  {
-   "id": "DT-6",
-   "title": "ux-craft generative-UI and agent guidance updated",
-   "origin": "asked for",
-   "stage": "code written",
-   "outcome": "done",
-   "version": "c1b5472"
-  },
-  {
-   "id": "DT-7",
-   "title": "Onboarding, forms, mobile and legal dates updated in ux-craft",
-   "origin": "asked for",
-   "stage": "code written",
-   "outcome": "done",
-   "version": "c1b5472"
-  },
-  {
-   "id": "DT-8",
-   "title": "Versions, changelogs and marketplace entries bumped",
+   "id": "MC-1",
+   "title": "Study six sources: three repos, 240 gallery films, 21 product films, Caruso",
    "origin": "planned",
    "stage": "code written",
    "outcome": "done",
-   "version": "c1b5472"
+   "note": "measurements in docs/research/motion-sources-2026-11"
   },
   {
-   "id": "DT-9",
-   "title": "Root changelog written and site catalogue regenerated",
-   "origin": "asked for",
-   "stage": "code written",
-   "outcome": "done",
-   "version": "c1b5472"
-  },
-  {
-   "id": "DT-10",
-   "title": "agent-browser made the fallback browser in both skills",
-   "origin": "asked for",
+   "id": "MC-2",
+   "title": "Six looks written as numbers (looks.md)",
+   "origin": "planned",
    "stage": "code written",
    "outcome": "done"
+  },
+  {
+   "id": "MC-3",
+   "title": "Carrier, signature device and finishing pass in the procedure",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done"
+  },
+  {
+   "id": "MC-4",
+   "title": "Pop scan script for single-frame jumps",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "tested on 3 films"
+  },
+  {
+   "id": "MC-5",
+   "title": "Recorded sound effects placed on their beats",
+   "origin": "planned",
+   "stage": "code written",
+   "outcome": "done",
+   "note": "test clicks within 5 ms"
+  },
+  {
+   "id": "MC-6",
+   "title": "Commit and push 0.4.0",
+   "origin": "planned",
+   "stage": "not started",
+   "outcome": "stuck",
+   "blocked_by": "owner's go-ahead",
+   "waiting_hours": 0
+  },
+  {
+   "id": "MC-7",
+   "title": "Run the two eval briefs against 0.4.0",
+   "origin": "planned",
+   "stage": "not started",
+   "outcome": "stuck",
+   "blocked_by": "owner's go-ahead on cost",
+   "waiting_hours": 0
   }
  ],
  "gates": [
   {
-   "name": "Catalogue builds and versions agree",
-   "command": "node site/scripts/build-catalogue.mjs",
+   "name": "Skill references resolve",
+   "command": "python3 scripts/check_skill_references.py",
    "exit_code": 0,
-   "counts": "64/64",
+   "counts": "89/89",
    "state": "done",
    "kind": "build"
   },
   {
-   "name": "agent-browser does what Obscura cannot",
-   "command": "agent-browser probe on a loopback fixture",
+   "name": "Site catalogue builds",
+   "command": "node site/scripts/build-catalogue.mjs",
    "exit_code": 0,
-   "counts": "10/10",
+   "counts": "66/66",
+   "state": "done",
+   "kind": "build"
+  },
+  {
+   "name": "Writing rules pass on every skill file",
+   "command": "agent_voice_lint.py --format skill",
+   "exit_code": 0,
+   "counts": "12/12",
    "state": "done",
    "kind": "design"
   },
   {
-   "name": "design-craft's lint proves every rule can fire",
-   "command": "design-lint.py --selftest",
+   "name": "Pop scan finds a known cut",
+   "command": "python3 scripts/pop_scan.py linear.mp4",
    "exit_code": 0,
-   "counts": "40/40",
+   "counts": "1/1",
    "state": "done",
    "kind": "tests"
   },
   {
-   "name": "Skill names in the repo all resolve",
-   "command": "scripts/check_skill_references.py",
+   "name": "Recorded effects land on their beats",
+   "command": "hf.sh audio on a 3-click test mix",
    "exit_code": 0,
-   "counts": "87/87",
+   "counts": "3/3",
    "state": "done",
-   "kind": "lint"
+   "kind": "tests"
   },
   {
-   "name": "Voice check on the four new files",
-   "command": "agent_voice_lint.py --format skill",
-   "exit_code": 0,
-   "counts": "4/4",
-   "state": "done",
-   "kind": "lint"
-  },
-  {
-   "name": "Voice check on the twelve edited files",
-   "command": "agent_voice_lint.py --format skill",
-   "exit_code": 1,
-   "counts": "9/12",
-   "state": "needs-work",
-   "kind": "lint"
-  },
-  {
-   "name": "ux-craft's Gemini notes quote sources exactly",
-   "command": "verify_quotes.py gemini.md",
-   "exit_code": 0,
-   "counts": "23/23",
-   "state": "done",
-   "kind": "lint"
-  },
-  {
-   "name": "design-craft's Gemini notes quote sources exactly",
-   "command": "verify_quotes.py gemini.md",
-   "exit_code": 1,
-   "counts": "18/19",
-   "state": "needs-work",
-   "kind": "lint"
-  },
-  {
-   "name": "Tables in the six edited files line up",
-   "command": "column count per table row",
-   "exit_code": 0,
-   "counts": "6/6",
-   "state": "done",
-   "kind": "build"
+   "name": "Films made with 0.4.0 beat a plain film",
+   "command": "evals/ two briefs, blind panel",
+   "counts": "0/0",
+   "state": "unmeasured",
+   "kind": "sign-off"
   }
  ],
  "findings": [
   {
-   "id": "DT-F1",
+   "id": "MC-F1",
    "score": 50,
    "severity": "medium",
-   "file_line": "plugins/design-craft/skills/design-craft/SKILL.md (Environment notes)",
-   "claim": "design-craft banned a second browser; agent-browser is now the fallback",
+   "file_line": "scripts/pop_scan.py",
+   "claim": "tiny frame differences printed in exponent form were read as large jumps",
    "state": "done"
   },
   {
-   "id": "DT-F2",
+   "id": "MC-F2",
    "score": 35,
-   "severity": "medium",
-   "file_line": "plugins/design-craft/skills/design-craft/gemini.md",
-   "claim": "quotes \"all states accessible\" as Google's wording, and the source does not say it",
-   "state": "needs-work"
-  },
-  {
-   "id": "DT-F3",
-   "score": 25,
    "severity": "low",
-   "file_line": "ai-slop-check.md, frontend-aesthetic-direction.md, checklists.md",
-   "claim": "seven older lines fail the voice check's vague-word rule",
-   "state": "needs-work"
+   "file_line": "references/saas-films.md:135",
+   "claim": "the loudness rule was cited by a number that pointed at the wrong rule",
+   "state": "done"
   },
   {
-   "id": "CK-F1",
-   "score": 70,
-   "severity": "high",
-   "file_line": "plugins/career-kit/EVALS.md",
-   "claim": "outside judges preferred the no-skill complete résumé in all three rounds",
-   "state": "needs-work"
-  },
-  {
-   "id": "CK-F2",
+   "id": "MC-F3",
    "score": 40,
    "severity": "medium",
-   "file_line": "skills/resume-craft/evals/grade.py",
-   "claim": "the count-of-years check misses \"14 years in disputes\"",
-   "state": "needs-work"
+   "file_line": "references/craft.md §5",
+   "claim": "a slow push on holds was listed as a fault while three sources use it",
+   "state": "done"
   }
  ],
  "not_checked": [
   {
-   "axis": "agent-browser on pseudo-elements, SVG boxes, radios, frame timing",
-   "why_not": "Not part of the 22 Nov probe."
+   "axis": "A film made with 0.4.0",
+   "why_not": "No eval run yet; each brief takes about 35 minutes."
   },
   {
-   "axis": "A design built with the updated skills",
-   "why_not": "No design was generated this session to try the changes."
+   "axis": "How the films feel at full speed",
+   "why_not": "Every source film was judged from still frames by one model."
   },
   {
-   "axis": "Whether any 2027 trend helps users",
-   "why_not": "Sources are forecasts, posts and videos; none measured it."
+   "axis": "Sound",
+   "why_not": "Measured, never heard."
   },
   {
-   "axis": "The X posts themselves",
-   "why_not": "Read through Grok's search tool, not opened directly."
-  },
-  {
-   "axis": "design-craft's eval suite",
-   "why_not": "Not run; it rewrites the committed scorecard and the lint did not change."
-  },
-  {
-   "axis": "Icon material against the image it was copied from",
-   "why_not": "The scorer needs torch, which is not installed."
-  },
-  {
-   "axis": "resume-craft on a second person",
-   "why_not": "One invented candidate, one run per task."
-  },
-  {
-   "axis": "career-kit's first skill against no skill",
-   "why_not": "Never benchmarked; EVALS.md says so."
+   "axis": "Gallery popularity",
+   "why_not": "Taken as the site orders it; likes were not re-fetched."
   }
  ],
  "not_done": [
   {
-   "action": "A broader Dossier research run",
-   "reason": "Every Dossier call timed out, so the sweep was run by hand.",
-   "what_would_unblock": "Dossier answering again.",
+   "action": "Commit and push motion-craft 0.4.0",
+   "reason": "Not asked to commit; another session has uncommitted work in the same checkout.",
+   "what_would_unblock": "Your go-ahead.",
    "size": "minutes"
   },
   {
-   "action": "Add Pantone's 2027 colour to the trend list",
-   "reason": "Pantone announces on 1–3 December.",
-   "what_would_unblock": "The announcement.",
-   "size": "minutes"
-  },
-  {
-   "action": "Design and reading review of the banner",
-   "reason": "Reused the family banner layout instead.",
-   "size": "under an hour"
-  },
-  {
-   "action": "Refresh the portfolio manifest entry",
-   "reason": "Not run this session.",
-   "size": "minutes"
+   "action": "Blind eval of 0.4.0 against a plain film",
+   "reason": "Costly: about 35 minutes and 350,000 tokens a brief.",
+   "what_would_unblock": "Your go-ahead on the cost.",
+   "size": "about an hour"
   }
  ],
  "needs_you": [
@@ -739,46 +648,39 @@ th[aria-sort="ascending"] button.sort, th[aria-sort="descending"] button.sort { 
    "kind": "decision",
    "waiting_since": "2026-11-21T00:14:23+00:00",
    "one_line": "Skipped at push; the next digest draft will pick it up as new."
+  },
+  {
+   "ask": "Commit and push motion-craft 0.4.0, and run its eval?",
+   "kind": "decision",
+   "waiting_since": "2026-11-24T05:05:00+00:00",
+   "one_line": "Written and checked; the eval costs about an hour and 700,000 tokens."
   }
  ],
  "git": {
   "branch": "main",
   "commits_ahead": 0,
   "worktree_clean": false,
-  "pushed": true
+  "pushed": false
  },
- "armed": [
-  {
-   "check": "Résumé lint",
-   "mutation": "fed it a résumé with 16 planted faults",
-   "case_reddened": "all 16 checks fired",
-   "red": 16,
-   "green": 1,
-   "sha": "b65a837",
-   "armed": true
-  }
- ],
+ "armed": [],
  "artifacts": [
   {
-   "path": "plugins/design-craft/skills/design-craft/references/current-moves.md",
+   "path": "plugins/motion-craft/docs/research/motion-sources-2026-11/README.md",
    "kind": "md",
-   "contains": "The dated 2026–27 trend list and the defaults to avoid.",
+   "contains": "What was studied, how, the measurements and what changed.",
    "open_first": true
   },
   {
-   "path": "plugins/design-craft/docs/deep-research/trend-sweep-2026-11-22/README.md",
+   "path": "plugins/motion-craft/skills/motion-craft/references/looks.md",
    "kind": "md",
-   "contains": "Raw X and YouTube research notes."
+   "contains": "Six looks written as numbers.",
+   "open_first": false
   },
   {
-   "path": "plugins/design-craft/CHANGELOG.md",
+   "path": "plugins/motion-craft/CHANGELOG.md",
    "kind": "md",
-   "contains": "What 1.6.0 changes, in plain words."
-  },
-  {
-   "path": "plugins/ux-craft/CHANGELOG.md",
-   "kind": "md",
-   "contains": "What 2.7.0 changes, in plain words."
+   "contains": "What 0.4.0 changed, rule by rule.",
+   "open_first": false
   }
  ]
 }
