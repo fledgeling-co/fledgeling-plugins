@@ -1,0 +1,12 @@
+/* The brand lockup: one spec, loaded by the films (build.py copies it into each project) and by the site's pages.
+   Sized by font-size alone: every placement sets font-size and nothing else (60 px on the opener and the end slide,
+   58 px in the architecture node, 44 px in a short's lockup bar, 22-24 px in a page header).
+   Measured from the brand's own site by pixel rows at 3x: the mark's top sits at the wordmark's ascenders and its
+   tail .21-.22 em below the baseline, so everything aligns on the baseline, never on centres. */
+.k-lock { font-size: 60px; display: inline-flex; align-items: baseline; gap: .4em; color: var(--lk-ink, #0A1733); line-height: 1; }
+.k-lock .mk { display: block; flex: none; width: .93em; height: .86em; position: relative; top: .22em; }
+.k-lock .wm { font: 600 1em/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; }
+.k-lock .sep { flex: none; width: .035em; height: .72em; background: var(--lk-hair, #C9CED8); position: relative; top: .04em; margin: 0 .04em; }
+.k-lock .pn { font: 500 .7em/1 "Inter Tight", sans-serif; letter-spacing: -0.005em; color: var(--lk-pn, #5C6371); }
+/* On a dark ground. Check each part of the mark against every ground it sits on: a tint picked for one vanishes on another. */
+.on-dark .k-lock { --lk-ink: #FFFFFF; --lk-hair: rgba(232,238,248,.34); --lk-pn: #AEB9D0; }

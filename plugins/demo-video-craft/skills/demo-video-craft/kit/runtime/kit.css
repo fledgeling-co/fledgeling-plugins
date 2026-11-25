@@ -1,0 +1,163 @@
+/* demo-video-craft starter kit: the films' own chrome over the host frames in frame.css. The lockup is not here:
+   it lives in the series' lockup.css, which the films and the site both load, so it has one source. */
+@font-face { font-family: "Inter Tight"; src: url("fonts/InterTight.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Inter"; src: url("fonts/Inter.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+
+:root {
+  --g-bg: #F6F7F9; --g-ink: #12151C; --g-ink2: #3F4654; --g-muted: #646B79; --g-rule: #E4E6EB;
+  --g-navy: #0A1733; --g-accent: #1F3FA6; --g-ok: #16774A; --g-bad: #B42318; --g-review: #DCE4F6;
+  --g-float: 0 2px 4px rgba(18,21,28,.06), 0 16px 32px -12px rgba(18,21,28,.22);
+  --g-win: 0 2px 6px rgba(18,21,28,.06), 0 40px 80px -30px rgba(10,23,51,.38);
+  /* The client's own theme, for the deck and documents the assistant builds for them (.jslide, .jdoc): take the mark
+     colour from the client's logo file and the ink from its wordmark. Example values; replace per series. */
+  --cl-mark: #2F6B4F; --cl-mark-2: #24563F; --cl-tint: #E6F0EA; --cl-ground: #F4F4F4; --cl-ink: #141414;
+}
+
+/* A scene root: the brand ground, nothing else */
+.k-sc { position: absolute; inset: 0; overflow: hidden; background: var(--g-bg); }
+.k-sc *, .k-sc *::before, .k-sc *::after { transition: none !important; animation: none !important; }
+
+/* An assistant window at its own 1440 x 900 size; the camera moves it */
+.k-win { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; border-radius: 14px; overflow: hidden; isolation: isolate;
+  box-shadow: var(--g-win); background: #fff; transform-origin: 0 0; }
+
+/* The host frame at film size: flex, so the side panel can grow while the sidebar folds */
+.k-win > .k-cf { display: flex; width: 1440px; height: 900px; border-radius: 0; box-shadow: none; border: 0; }
+.k-cf .cf-side { width: 232px; flex: none; overflow: hidden; white-space: nowrap; }
+.k-cf .cf-main { flex: 1 1 0; min-width: 0; }
+.k-cf .cf-convo { overflow: hidden; padding-top: 14px; }
+.k-cf .cf-col { position: relative; }
+.k-cf .cf-panel { display: block; width: 0; flex: none; overflow: hidden; border-left: 1px solid var(--c-rule); }
+.k-cf .cf-pin { width: 600px; height: 100%; display: flex; flex-direction: column; }
+.k-cf.k-open .cf-side { width: 0; }
+.k-cf.k-open .cf-panel { width: 600px; }
+.k-cf .cf-composer .ph.typed { color: var(--c-ink); white-space: nowrap; overflow: hidden; }
+.k-cf .cf-composer .typed + .ph, .k-cf .cf-composer .ph + .typed:empty { display: none; }
+.k-cf .cf-composer .ph + .typed { margin-top: -22px; background: #fff; position: relative; }
+.k-cf .dc-more { display: block; padding: 10px 16px; font: 600 13.5px var(--sans); color: var(--accent); border-bottom: 1px solid #ECEAE4; }
+.k-cf .dc-hidden { display: none; }
+.k-cf .pv-acts { display: flex; gap: 8px; margin-top: 14px; }
+.k-cf .pv-foot { font-size: 12.5px; color: #6A6D75; margin-top: 12px; }
+.k-cf .dc-quote small { display: block; margin-top: 6px; font-size: 12.5px; color: #6A6D75; }
+
+/* ChatGPT, drawn as ChatGPT draws itself (illustrative); the product's cards are the same in both */
+.k-cf[data-app="chatgpt"] { --c-bg: #FFFFFF; --c-side: #F9F9F9; --c-rule: #E6E6E6; --c-ink: #0D0D0D; --c-muted: #5D5D5D; --c-bubble: #F3F3F3; --c-send: #0D0D0D; }
+.k-cf[data-app="chatgpt"] .cf-word { font: 600 19px/1 var(--sans); letter-spacing: -.01em; padding: 6px 10px 18px; }
+.k-cf[data-app="chatgpt"] .cf-say { font: 400 16px/1.6 var(--sans); }
+.k-cf[data-app="chatgpt"] .cf-composer { border-radius: 26px; }
+.k-cf[data-app="chatgpt"] .cf-composer .send { border-radius: 50%; }
+.k-cf[data-app="chatgpt"] .cf-tool { background: #F7F7F7; border-color: #E6E6E6; }
+
+/* An artifact Claude built: the deck, a document */
+.k-art { background: #fff; border: 1px solid #E2DFD6; border-radius: 12px; overflow: hidden; max-width: 680px; }
+.k-art-h { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-bottom: 1px solid #ECEAE4; font-size: 13.5px; color: #3A3832; }
+.k-art-h svg { width: 16px; height: 16px; color: #6B675E; flex: none; }
+.k-art-h b { font-weight: 600; color: #1C1B19; }
+.k-art-h .pill { margin-left: auto; font: 600 12px/1 var(--sans); padding: 5px 8px; border-radius: 6px; }
+.jslide { margin: 14px; aspect-ratio: 16 / 9; background: #fff; border-radius: 6px; border: 1px solid #E3E0D8; overflow: hidden; display: flex; flex-direction: column; }
+.jhead { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: var(--cl-mark); color: #fff; }
+.jlogo { display: inline-flex; align-items: center; gap: 8px; font: 600 13px/1 var(--display); letter-spacing: .01em; }
+.jlogo i { width: 14px; height: 14px; border-radius: 3px 8px; background: var(--cl-mark); display: inline-block; }
+.jhead .jlogo { color: #fff; }
+.jq { font: 600 19px/1 var(--display); letter-spacing: -.01em; }
+.jtiles { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 18px 8px; background: var(--cl-ground); }
+.jt { background: #fff; border-radius: 6px; padding: 10px 12px; border-top: 3px solid var(--cl-mark); }
+.jt small { display: block; font: 600 11px/1.2 var(--sans); color: #55605A; text-transform: uppercase; letter-spacing: .04em; }
+.jt b { display: block; font: 700 30px/1.15 var(--display); color: var(--cl-mark); letter-spacing: -.02em; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.jt em { display: block; font: 500 12px/1.2 var(--sans); color: #55605A; font-style: normal; margin-top: 2px; }
+.jfoot { font-size: 11px; color: #55605A; padding: 4px 18px 10px; background: var(--cl-ground); }
+.jstrip { display: flex; gap: 8px; padding: 0 14px 14px; }
+.jth { flex: 1; border: 1px solid #E3E0D8; border-radius: 4px; overflow: hidden; font-size: 9.5px; color: #55605A; }
+.jth i { display: block; height: 22px; background: var(--cl-mark); }
+.jth span { display: block; padding: 4px 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.jth.on { outline: 2px solid var(--cl-mark); outline-offset: 1px; }
+.jdoc { margin: 14px; padding: 18px 22px; border: 1px solid #E3E0D8; border-radius: 6px; font: 400 15px/1.6 var(--sans); color: var(--cl-ink); background: #fff; }
+.jdoc-h { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #55605A; border-bottom: 2px solid var(--cl-mark); padding-bottom: 8px; margin-bottom: 12px; }
+.jdoc-h .jlogo { color: var(--cl-mark); }
+.jdoc p + p { margin-top: 8px; }
+.jdoc .jq2 { font-weight: 700; color: var(--cl-mark); margin-top: 12px; }
+.jdoc .jsrc { font-size: 12px; color: #55605A; border-top: 1px solid #E3E0D8; padding-top: 8px; margin-top: 12px; }
+.jdoc .jdl { font: 600 11px/1 var(--sans); text-transform: uppercase; letter-spacing: .05em; color: #55605A; margin-bottom: 10px; }
+.jdoc sup { font: 600 10px var(--sans); color: var(--cl-mark); }
+
+.k-ghost { position: absolute; left: 0; top: 0; z-index: 48; display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #fff; border: 1px solid #D9D5CA;
+  border-radius: 10px; box-shadow: 0 10px 28px -10px rgba(0,0,0,.35); font: 600 15px var(--sans); color: #1C1B19; white-space: nowrap; }
+.k-ghost svg { width: 18px; height: 18px; color: #6B675E; }
+
+/* One card alone on the ground, for the overview's run of abilities */
+.k-solo { position: absolute; left: 0; top: 0; width: 640px; }
+.k-solo .dc { max-width: none; box-shadow: var(--g-float); }
+.k-solo .cf-by { margin-bottom: 8px; }
+.k-solo-app { display: inline-flex; font: 600 13px/1 var(--sans); color: var(--g-ink2); background: #fff; border: 1px solid var(--g-rule); border-radius: 6px; padding: 6px 9px; margin-bottom: 12px; }
+
+/* Words appearing one at a time inside a reply */
+.sw { display: inline; }
+
+/* The hand */
+.k-cursor { position: absolute; left: 0; top: 0; width: 40px; height: 40px; z-index: 50; pointer-events: none; margin: -5px 0 0 -7px; color: var(--g-navy);
+  filter: drop-shadow(0 4px 8px rgba(10,23,51,.28)); transform-origin: 7px 5px; }
+
+/* The evidence grammar, drawn over the text it marks */
+.k-ink { position: absolute; left: 0; top: 0; z-index: 40; pointer-events: none; }
+.k-ink.ok { background: var(--g-ok); border-radius: 1px; }
+.k-ink.bad { background-repeat: repeat-x; background-size: 10px 6px; }
+.k-ink.review { background: rgba(31,63,166,.13); border-radius: 3px; mix-blend-mode: multiply; }   /* a tint behind the words, not a box over them */
+
+/* Captions: smaller and steadier than round 1. A whole clause at a time, one fixed band, a fade and no movement */
+#caps { position: absolute; inset: 0; pointer-events: none; }
+.k-cap { position: absolute; left: 0; right: 0; bottom: 36px; display: flex; justify-content: center; }
+.k-cap span { display: inline-block; max-width: 1240px; padding: 9px 18px 10px; border-radius: 8px; background: rgba(10,23,51,.90);
+  color: #fff; font: 500 28px/1.3 "Inter", sans-serif; letter-spacing: -0.005em; text-align: center; }
+
+/* An identity label on the stage: who acts, in which assistant */
+.k-label { position: absolute; left: 0; top: 0; z-index: 70; display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 8px;
+  background: #fff; border: 1px solid var(--g-rule); box-shadow: var(--g-float); font: 500 19px/1.2 "Inter", sans-serif; color: var(--g-ink2); white-space: nowrap; }
+.k-label b { font-weight: 600; color: var(--g-navy); }
+.k-label i { width: 9px; height: 9px; border-radius: 50%; background: var(--g-accent); display: inline-block; }
+
+/* Titles on the ground */
+.k-title { position: absolute; font: 600 78px/1.06 "Inter Tight", sans-serif; letter-spacing: -0.03em; color: var(--g-navy); }
+.k-chip { position: absolute; display: inline-flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 12px; background: #fff;
+  border: 1px solid var(--g-rule); box-shadow: var(--g-float); font: 600 34px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; color: var(--g-navy); white-space: nowrap; }
+
+
+/* The product page's own resets, which frame.css leaves to the page */
+.k-cf ul, .k-solo ul { margin: 0; padding: 0; list-style: none; }
+.k-cf p, .k-cf h4, .k-solo p, .k-art p { margin: 0; }
+.k-cf svg, .k-solo svg, .k-art svg { display: block; }
+
+/* The window press ring */
+.k3-ring { position: absolute; left: 0; top: 0; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%; z-index: 49; border: 2px solid rgba(31,63,166,.5); pointer-events: none; }
+.k-cf .dc-row[data-focus="1"], .k-cf .pv-row[data-focus="1"] { position: relative; z-index: 2; background: #fff; box-shadow: 0 6px 18px -8px rgba(18,21,28,.32); border-radius: 8px; }
+.k-cf .dc-row, .k-cf .pv-row { transform-origin: 50% 50%; }
+/* identity labels at reading size */
+.k-label { font-size: 22px; padding: 11px 18px; }
+/* A short's last 3.2 s: the lockup bar over a scrim band (the band carries data-layout-ignore in lock.html) */
+.k-lockband { position: absolute; left: 0; right: 0; bottom: 0; height: 260px; background: linear-gradient(to bottom, rgba(246,247,249,0), rgba(246,247,249,.94) 46%, #F6F7F9 70%); }
+.k-lockup { position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); display: flex; align-items: baseline; gap: 24px; padding: 16px 22px 16px 26px; background: #fff;
+  border: 1px solid var(--g-rule); border-radius: 16px; box-shadow: var(--g-float); white-space: nowrap; }
+.k-lockup .k-lock { font-size: 44px; }
+.k-lockup .k-cta { font: 600 28px/1 "Inter", sans-serif; color: #fff; background: var(--g-accent); border-radius: 10px; padding: 15px 22px; }
+.k-lockup .k-url { font: 500 28px/1 "Inter", sans-serif; color: var(--g-navy); }
+/* Claude's composer is as wide as its thread, centred under it */
+.k-cf .cf-composer { width: calc(100% - 56px); max-width: 712px; margin: 0 auto 18px; }
+
+/* Rows carry their own marks (K.ink parents each mark to its row) */
+.k-cf .dc-row, .k-cf .pv-row, .k-cf .dc-quote, .k-cf .dc-lead > div { position: relative; }
+
+/* The client's deck and documents: white ground, the client's mark and wordmark, rules in the mark colour, figures in
+   the wordmark ink (never in the product's green: a checked figure is not a good one) */
+.k-art-h .pill { color: var(--cl-mark-2); background: var(--cl-tint); }
+.jhead { background: #fff; color: var(--cl-ink); border-bottom: 3px solid var(--cl-mark); }
+.jhead .jlogo, .jdoc-h .jlogo { color: var(--cl-ink); }
+.jlogo svg.full { display: block; width: 127px; height: 18px; }
+.jdoc-h .jlogo svg.full { width: 99px; height: 14px; }
+.jq, .jt b, .jdoc .jq2 { color: var(--cl-ink); }
+.jth.on { outline-color: var(--cl-ink); }
+
+/* the assistants' own marks, when the series uses them (series.json host_marks), wherever the films name them */
+.k-cf .cf-word { display: flex; align-items: center; gap: 9px; }
+.k-cf .cf-word svg.lg { width: 22px; height: 22px; flex: none; color: #0D0D0D; }
+.k-solo-app { align-items: center; gap: 7px; }
+.k-solo-app svg.lg { width: 16px; height: 16px; color: #0D0D0D; }
+.k-label svg.lg { width: 24px; height: 24px; flex: none; color: #0D0D0D; }

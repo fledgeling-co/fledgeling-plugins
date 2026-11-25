@@ -1,0 +1,9 @@
+{
+  "voice": {"id": "cgSgspJ2msm6clMCkdW9", "model": "elevenlabs/eleven-v4"},
+  "lines": [
+    {"id": "v1", "film": "O", "text": "[upbeat] Bring your company record into the AI tools you already use."},
+    {"id": "v2", "film": "O", "text": "Acme Record keeps every filing, release and deck current, and hands each one to Claude and ChatGPT with its source."},
+    {"id": "v3", "film": "O", "text": "Ask for a check, and every figure in your draft is set against what you filed."},
+    {"id": "q1", "film": "K01", "text": "[upbeat] Catch the figure that doesn't match before anyone else does: Acme Record checks your deck against the filed release and fixes it in one click."}
+  ]
+}

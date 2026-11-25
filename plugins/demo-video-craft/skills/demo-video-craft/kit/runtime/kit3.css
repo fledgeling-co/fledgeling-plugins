@@ -1,0 +1,66 @@
+/* demo-video-craft starter kit: the stage and its components (with kit.css and frame.css). */
+.k3 { position: absolute; width: max-content; transform-origin: 50% 50%; will-change: transform, filter, opacity; }
+/* a component is authored at its natural size and enlarged with zoom, so its text is laid out, not stretched */
+.k3z { position: relative; }
+.k3-cursor { position: absolute; left: 0; top: 0; width: 46px; height: 46px; z-index: 80; pointer-events: none;
+  filter: drop-shadow(0 4px 8px rgba(10,23,51,.28)); transform-origin: 8px 6px; margin: -6px 0 0 -8px; color: var(--g-navy); }
+.k3-ring { position: absolute; left: 0; top: 0; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; z-index: 79;
+  border: 2px solid rgba(31,63,166,.55); pointer-events: none; }
+.k3-ghost { position: absolute; left: 0; top: 0; z-index: 78; display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: #fff;
+  border: 1px solid #D9D5CA; border-radius: 12px; box-shadow: 0 14px 34px -12px rgba(0,0,0,.35); font: 600 22px var(--sans); color: #1C1B19; white-space: nowrap; }
+.k3-ghost svg { width: 24px; height: 24px; color: #6B675E; }
+
+/* Components standing alone on the ground */
+.k3 .dc { max-width: none; box-shadow: 0 2px 4px rgba(18,21,28,.05), 0 22px 44px -18px rgba(18,21,28,.28); }
+.k3 .cf-composer { margin: 0; width: 760px; box-shadow: 0 2px 4px rgba(18,21,28,.05), 0 22px 44px -18px rgba(18,21,28,.28); }
+.k3 .cf-composer .ph { font-size: 16px; }
+.k3 .k3-typed { color: var(--c-ink); font-size: 16px; min-height: 22px; margin-top: -22px; background: #fff; position: relative; }
+.k3-caret { display: inline-block; width: 2px; height: 1.05em; background: var(--accent); margin-left: 2px; vertical-align: -0.16em; }
+.k3 .cf-user { max-width: 680px; background: #EEEBE2; }
+.k3 .cf-tool { width: 640px; background: #F6F4EE; }
+.k3 .cf-say { width: 640px; }
+.k3 .k-art { box-shadow: 0 2px 4px rgba(18,21,28,.05), 0 22px 44px -18px rgba(18,21,28,.28); }
+.k3-panel { width: 560px; background: #fff; border: 1px solid #E2DFD6; border-radius: 14px; overflow: hidden;
+  box-shadow: 0 2px 4px rgba(18,21,28,.05), 0 22px 44px -18px rgba(18,21,28,.28); }
+.k3-panel .cf-pbody { padding: 18px; font-size: 14px; }
+.k3 .dc-row, .k3 .pv-row { transform-origin: 50% 50%; background: #fff; }
+.k3 .dc-row[data-focus="1"], .k3 .pv-row[data-focus="1"] { position: relative; z-index: 2; box-shadow: 0 6px 18px -8px rgba(18,21,28,.32); border-radius: 8px; }
+.k3-app { display: inline-flex; align-items: center; gap: 10px; font: 600 15px/1 var(--sans); color: #3F4654; background: #fff; border: 1px solid #E4E6EB;
+  border-radius: 8px; padding: 8px 12px; white-space: nowrap; }
+.k3-app i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+/* A chapter or opening line in the interface face: complete from its first frame, one accent word */
+.k3-title { font: 600 80px/1.1 "Inter Tight", sans-serif; letter-spacing: -0.03em; color: var(--g-navy); text-align: center; text-wrap: balance; }
+.k3-title .w { display: inline-block; }
+.k3-title .acc { color: var(--g-accent); }
+.k3-title.left { text-align: left; }
+
+/* The carousel: cards in a row, the track moves */
+.k3-track { position: absolute; left: 0; top: 0; display: flex; gap: 120px; align-items: center; }
+.k3-track > * { flex: none; width: 640px; }
+.k3-track .k-solo { position: relative; width: 640px; }
+
+.k3-app.big { font: 600 30px/1 "Inter", sans-serif; gap: 14px; padding: 19px 26px; border-radius: 12px; box-shadow: 0 2px 4px rgba(18,21,28,.05), 0 14px 30px -14px rgba(18,21,28,.25); }
+.k3-app.big i { width: 16px; height: 16px; border-radius: 5px; }
+.k3-ph { visibility: hidden; }
+/* The architecture: the sources, the product, the AI tools */
+.k3-col { display: flex; flex-direction: column; gap: 32px; }
+.k3-col.r { align-items: flex-end; }
+.k3-col.l { align-items: flex-start; }
+.k3-src { display: inline-flex; align-items: center; gap: 14px; font: 600 28px/1 "Inter", sans-serif; color: #1F2633; background: #fff; border: 1px solid #E4E6EB;
+  border-radius: 14px; padding: 19px 26px; white-space: nowrap; box-shadow: 0 2px 4px rgba(18,21,28,.05), 0 14px 30px -14px rgba(18,21,28,.22); }
+.k3-src svg { width: 26px; height: 26px; color: var(--g-accent); flex: none; }
+.k3-head { font: 600 24px/1 "Inter", sans-serif; color: #646B79; letter-spacing: .02em; white-space: nowrap; }
+.k3-node { display: flex; flex-direction: column; align-items: center; gap: 16px; background: #fff; border: 1px solid #DCE1EA; border-radius: 20px; padding: 30px 38px;
+  box-shadow: 0 2px 6px rgba(18,21,28,.06), 0 30px 60px -24px rgba(10,23,51,.35); }
+.k3-node .k-lock { font-size: 58px; }
+.k3-node small { font: 500 22px/1.2 "Inter", sans-serif; color: #646B79; }
+.k3-wires { position: absolute; left: 0; top: 0; pointer-events: none; overflow: visible; }
+.k3-wire { fill: none; stroke: #BFC7D6; stroke-width: 2.5; }
+.k3-dot { fill: var(--g-accent); }
+
+/* the hosts' marks on the stage, when the series uses them */
+.k3-app svg.lg { width: 20px; height: 20px; flex: none; color: #0D0D0D; }
+.k3-app.big svg.lg { width: 34px; height: 34px; }
+.k3-head { display: inline-flex; align-items: center; gap: 12px; }
+.k3-head svg.lg { width: 32px; height: 32px; flex: none; }
