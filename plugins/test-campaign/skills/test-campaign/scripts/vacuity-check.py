@@ -37,6 +37,14 @@ blind pass. A flag overrides a declared root; it is not the only place a root
 can live, because a root that lives only on a command line drifts from the
 vocabulary silently and the drift reads as a thorough pass.
 
+campaign.json can declare providerPaths with a root relative to the campaign
+directory and an include list of paths under that root. It adds exact file
+lookups for explicit provider paths. Symbol lookup stays under sourceRoot.
+
+Use --swift-syntax or campaign.json blindSwiftSyntax to resolve Swift brace
+sites with SwiftParser from the active local toolchain. A failed parse leaves
+coverage incomplete. Test sources are parsed without compiling or running them.
+
   python3 vacuity-check.py <dir> --gate
   python3 vacuity-check.py <dir> --tests crates --source crates --gate
   python3 vacuity-check.py <dir> --seed-strengthen REQ-001
@@ -44,13 +52,19 @@ vocabulary silently and the drift reads as a thorough pass.
 from __future__ import annotations
 
 import argparse
+from contextlib import redirect_stdout
 import hashlib
 import json
 import os
 import re
+import shutil
+import stat
+import subprocess
 import sys
+import tempfile
 from collections import Counter
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+from typing import NamedTuple
 
 EFFECT_CLASSES = ("subprocess", "outbound-socket", "inbound-socket", "packet-filter",
                   "multicast", "filesystem-write", "device", "ipc", "none")
@@ -337,12 +351,67 @@ SKIP_DIRS = {"node_modules", "target", "dist", "build", "out", "vendor", "Pods",
 TEST_MARKERS = ("test", "spec", "fixture", "mock", "e2e", "bench")
 
 
+def provider_relative_path(value: str) -> PurePosixPath:
+    parts = value.removeprefix("./").split("/")
+    if "\\" in value or "\0" in value or any(part in {"", ".", ".."} for part in parts):
+        raise ValueError(f"invalid relative provider path {value!r}")
+    return PurePosixPath(*parts)
+
+
+def provider_path_mode(path: Path) -> int:
+    # lstat each component before going farther so a symlink does not move a
+    # provider lookup into another tree, even when its final target exists.
+    for directory in reversed(path.parents):
+        if not stat.S_ISDIR(directory.lstat().st_mode):
+            return 0
+    return path.lstat().st_mode
+
+
+class ProviderPaths:
+    """Explicit file claims from a separate root, with no symbol lookup there."""
+
+    def __init__(self, campaign_dir: Path, config: dict):
+        if not isinstance(config, dict) or set(config) != {"root", "include"}:
+            raise ValueError("providerPaths must contain root and include")
+        root, include = config["root"], config["include"]
+        if (not isinstance(root, str) or not root.strip() or
+                not isinstance(include, list) or not include or
+                not all(isinstance(entry, str) for entry in include)):
+            raise ValueError("providerPaths requires a root and a non-empty list of relative paths")
+        self.root = Path(os.path.abspath(campaign_dir / root))
+        if not stat.S_ISDIR(provider_path_mode(self.root)):
+            raise ValueError("providerPaths root must be an existing directory without symlinks")
+        self.entries: dict[PurePosixPath, bool] = {}
+        for value in include:
+            entry = provider_relative_path(value)
+            if any(entry == existing or entry in existing.parents or existing in entry.parents
+                   for existing in self.entries):
+                raise ValueError(f"overlapping providerPaths entry {value!r}")
+            path = self.root.joinpath(*entry.parts)
+            mode = provider_path_mode(path)
+            if not (stat.S_ISREG(mode) or stat.S_ISDIR(mode)):
+                raise ValueError(f"providerPaths entry {value!r} must be a file or directory without symlinks")
+            self.entries[entry] = stat.S_ISDIR(mode)
+
+    def covers(self, path: PurePosixPath) -> bool:
+        return any(path == entry or (is_dir and entry in path.parents)
+                   for entry, is_dir in self.entries.items())
+
+    def has_file(self, claim: PurePosixPath) -> bool:
+        path = self.root.joinpath(*claim.parts)
+        try:
+            return stat.S_ISREG(provider_path_mode(path))
+        except OSError:
+            return False
+
+
 class SourceIndex:
     """Every path under the declared root, and the production source among them."""
 
-    def __init__(self, root: Path, origin: str = ""):
+    def __init__(self, root: Path, origin: str = "", provider_paths: ProviderPaths | None = None):
         self.root = root
         self.origin = origin
+        self.provider_paths = provider_paths
         self.paths: set[str] = set()
         self.production: list[Path] = []
         for dirpath, dirnames, filenames in os.walk(root):
@@ -427,20 +496,37 @@ def provider_targets(provider: str) -> tuple[list[str], list[str]]:
 
 def resolve_provider(provider: str, index: SourceIndex) -> tuple[bool, str]:
     paths, syms = provider_targets(provider)
+    scoped_paths = index.provider_paths
+    scoped_claim = False
     for c in paths:
+        if scoped_paths is not None:
+            try:
+                claim = provider_relative_path(c)
+            except ValueError:
+                scoped_claim = True
+                continue
+            if scoped_paths.covers(claim):
+                scoped_claim = True
+                if scoped_paths.has_file(claim):
+                    return True, f"scoped path {c}"
+                continue
         if index.has_path(c):
             return True, f"path {c}"
-    for sym in syms:
-        if index.has_symbol(sym):
-            return True, f"symbol {sym}"
+    if not scoped_claim:
+        for sym in syms:
+            if index.has_symbol(sym):
+                return True, f"symbol {sym}"
     parts = []
     if paths:
         parts.append("no file at " + " or ".join(repr(c) for c in paths))
-    if syms:
+    if syms and not scoped_claim:
         parts.append("no production source contains " + " or ".join(repr(s) for s in syms))
     if not parts:
         parts.append("it names neither a path nor a symbol")
-    return False, f"{'; '.join(parts)} under {index.root}"
+    roots = str(index.root)
+    if scoped_claim:
+        roots += f" and configured providerPaths under {scoped_paths.root}"
+    return False, f"{'; '.join(parts)} under {roots}"
 
 
 def find_root(d: Path, raw: str) -> Path | None:
@@ -781,8 +867,80 @@ def swift_body_spans(source: str) -> dict:
     return result
 
 
+class SwiftBraces(NamedTuple):
+    calls: dict[int, int]
+    parens: dict[int, int]
+    blocks: set[int]
+
+
+def swift_brace_indices(sources: dict[Path, str]) -> dict[Path, SwiftBraces]:
+    """Parse snapshots with the active toolchain. Returned offsets are UTF-8 bytes."""
+    if not sources:
+        return {}
+    sdk_args = []
+    if sys.platform == "darwin":
+        compiler = subprocess.check_output(["/usr/bin/xcrun", "--sdk", "macosx", "--find", "swiftc"],
+                                           stderr=subprocess.PIPE, timeout=10).decode().strip()
+        sdk = subprocess.check_output(["/usr/bin/xcrun", "--sdk", "macosx", "--show-sdk-path"],
+                                      stderr=subprocess.PIPE, timeout=10).decode().strip()
+        sdk_args = ["-sdk", sdk]
+    else:
+        compiler = shutil.which("swiftc")
+    if not compiler:
+        raise ValueError("swiftc is unavailable")
+    host = Path(compiler).resolve().parent.parent / "lib/swift/host"
+    if not (host / "SwiftParser.swiftmodule").is_dir():
+        raise ValueError("the active Swift toolchain does not ship SwiftParser")
+    script = Path(__file__).resolve().with_name("swift-brace-index.swift")
+    with tempfile.TemporaryDirectory(prefix="vacuity-swift-syntax-") as tmp:
+        source = Path(tmp) / script.name
+        source.write_bytes(script.read_bytes())
+        binary = Path(tmp) / "swift-brace-index"
+        subprocess.run([compiler, *sdk_args, "-I", str(host), "-L", str(host), "-Xlinker", "-rpath",
+                        "-Xlinker", str(host), "-module-cache-path", str(Path(tmp) / "modules"),
+                        str(source), "-o", str(binary)], check=True, capture_output=True, timeout=45)
+        run = subprocess.run([str(binary)], input=json.dumps(list(sources.values())).encode(),
+                             check=True, capture_output=True, timeout=30)
+
+    report = json.loads(run.stdout)
+    if (not isinstance(report, dict) or type(report.get("schema")) is not int or report["schema"] != 1
+            or not isinstance(report.get("files"), list) or len(report["files"]) != len(sources)):
+        raise ValueError("invalid Swift brace index report")
+    indices = {}
+    for (f, text), entry in zip(sources.items(), report["files"]):
+        if (not isinstance(entry, dict) or type(entry.get("valid")) is not bool
+                or not isinstance(entry.get("calls"), list) or not isinstance(entry.get("blocks"), list)):
+            raise ValueError("invalid Swift brace index file record")
+        if not entry["valid"]:
+            continue
+        encoded = text.encode("utf-8")
+
+        def is_opening(offset):
+            return type(offset) is int and 0 <= offset < len(encoded) and encoded[offset:offset + 1] == b"{"
+
+        calls, parens = {}, {}
+        for call in entry["calls"]:
+            if not isinstance(call, dict):
+                raise ValueError("invalid Swift trailing closure record")
+            brace, end = call.get("brace"), call.get("end")
+            if (not is_opening(brace) or brace in calls or type(end) is not int
+                    or not brace < end <= len(encoded) or encoded[end - 1:end] != b"}"):
+                raise ValueError("invalid Swift trailing closure bounds")
+            calls[brace] = end
+            paren = call.get("paren")
+            if paren is not None:
+                if (type(paren) is not int or not 0 <= paren < brace or paren in parens
+                        or encoded[paren:paren + 1] != b"("):
+                    raise ValueError("invalid Swift closure argument bounds")
+                parens[paren] = end
+        if not all(is_opening(brace) and brace not in calls for brace in entry["blocks"]):
+            raise ValueError("invalid Swift code block bounds")
+        indices[f] = SwiftBraces(calls, parens, set(entry["blocks"]))
+    return indices
+
+
 def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
-               scopes: list[dict] | None = None) -> dict:
+               scopes: list[dict] | None = None, *, swift_syntax: bool = False) -> dict:
     """After the last mutating call in a test body, does any reader appear?
 
     Name-based and deliberately generous: a reader called for an unrelated
@@ -822,23 +980,52 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
     # rule (a name seen more than once is a helper), over every file in the corpus.
     corpus_calls: Counter = Counter()
     scanned: dict[Path, dict] = {}
+    swift_sources, swift_read_errors = {}, {}
     for f in files:
         try:
             text = f.read_text(encoding="utf-8", errors="strict" if f.suffix == ".swift" else "replace")
-        except (OSError, UnicodeError):
+        except (OSError, UnicodeError) as error:
+            if f.suffix == ".swift":
+                swift_read_errors[f] = type(error).__name__
             continue
         if f.suffix == ".swift":
+            swift_sources[f] = text
             scanned[f] = swift_body_spans(text)
         masked = scanned[f]["masked"] if f in scanned else text
         corpus_calls.update(re.findall(r"(?<![A-Za-z0-9_])([A-Za-z_]\w*)\s*\(", masked))
+    trailing_patterns = [(verb, re.compile(r"(?<![A-Za-z0-9_])" + re.escape(verb) + r"\w*\s*\{"))
+                         for verb in mutators]
+    indices = {}
+    syntax_error = None
+    if swift_syntax:
+        parser_inputs = {f: swift_sources[f] for f, scan in scanned.items() if not scan["diagnostics"]}
+        try:
+            indices = swift_brace_indices(parser_inputs)
+        except (OSError, ValueError, subprocess.SubprocessError) as error:
+            if isinstance(error, subprocess.CalledProcessError):
+                # Stdout is the wire data and may be malformed. Use the tool's
+                # bounded diagnostic instead of printing any of the input.
+                syntax_error = (error.stderr or b"").decode("utf-8", "replace").strip().splitlines()[:1]
+                syntax_error = syntax_error[0] if syntax_error else f"tool exit {error.returncode}"
+            else:
+                syntax_error = str(error)
+        if syntax_error:
+            not_measured.append(f"Swift syntax analysis unavailable ({syntax_error})")
+        else:
+            for f in parser_inputs.keys() - indices.keys():
+                not_measured.append(f"{f}:1 — SwiftParser could not establish a complete syntax tree")
+                swift_partial_files.add(f)
+
+    swift_trailing_calls = swift_trailing_parens = swift_noncall_blocks = 0
     for f in files:
         is_swift = f.suffix == ".swift"
         swift_files += int(is_swift)
+        if f in swift_read_errors:
+            not_measured.append(f"{f}:1 — Swift source could not be read ({swift_read_errors[f]})")
+            continue
         try:
-            src = f.read_text(encoding="utf-8", errors="strict" if is_swift else "replace")
-        except (OSError, UnicodeError) as error:
-            if is_swift:
-                not_measured.append(f"{f}:1 — Swift source could not be read ({type(error).__name__})")
+            src = swift_sources[f] if is_swift else f.read_text(encoding="utf-8", errors="replace")
+        except (OSError, UnicodeError):
             continue
         original_src = src
         swift = scanned[f] if is_swift else None
@@ -849,6 +1036,8 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
             swift_measured += 1
             swift_bodyless += swift["bodyless"]
             src = swift["masked"]
+        brace_index = indices.get(f)
+        swift_bytes = original_src.encode("utf-8") if brace_index is not None else None
         for v in mutators:
             if v not in seen_verbs and re.search(
                     r"(?<![A-Za-z0-9_])" + re.escape(v) + r"\w*\s*\(", src):
@@ -896,24 +1085,36 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                     row.get("classification") == "attributed-helper" for row in body_scopes):
                 continue
             examined += 1
-            if swift is not None:
-                # Without Swift's expression grammar `write { ... }` may be a
-                # trailing-closure call or a conditional reading a property.
-                # Report the ambiguity instead of silently omitting a possible
-                # mutation or manufacturing one from a property reference.
-                possible = set()
-                for verb in mutators:
-                    matches = list(re.finditer(
-                        r"(?<![A-Za-z0-9_])" + re.escape(verb) + r"\w*\s*\{", body))
-                    if matches:
-                        seen_verbs.add(verb)
-                        possible.update((m.start(), m.end()) for m in matches)
-                for start, _ in sorted(possible):
-                    line = original_src.count('\n', 0, swift["blocks"][i]["bodyStart"] + start) + 1
-                    not_measured.append(f"{f}:{line} — possible mutator-shaped trailing closure "
-                                        "or conditional requires Swift syntax analysis")
-                    swift_partial_files.add(f)
             calls = []
+            closure_ends = {}
+            if swift is not None:
+                possible = {}
+                for verb, pattern in trailing_patterns:
+                    for match in pattern.finditer(body):
+                        possible.setdefault((match.start(), match.end()), []).append(verb)
+                body_start = swift["blocks"][i]["bodyStart"]
+                for (start, end), verbs in sorted(possible.items()):
+                    if brace_index is not None:
+                        brace = len(original_src[:body_start + end - 1].encode("utf-8"))
+                        if brace in brace_index.blocks:
+                            swift_noncall_blocks += 1
+                            continue
+                        if brace in brace_index.calls and not implicit_member(body, start):
+                            closure_end = len(swift_bytes[:brace_index.calls[brace]].decode("utf-8")) - body_start
+                            if end <= closure_end <= len(body):
+                                calls.extend((start, end, verb) for verb in verbs)
+                                closure_ends[start] = closure_end
+                                seen_verbs.update(verbs)
+                                swift_trailing_calls += 1
+                                continue
+                    # Keep the uncertainty when the parser cannot establish
+                    # whether the brace belongs to a call or to another construct.
+                    seen_verbs.update(verbs)
+                    line = original_src.count('\n', 0, body_start + start) + 1
+                    reason = ("possible mutator-shaped trailing closure or conditional requires Swift syntax analysis"
+                              if not syntax_error else f"Swift syntax analysis unavailable ({syntax_error})")
+                    not_measured.append(f"{f}:{line} — {reason}")
+                    swift_partial_files.add(f)
             for v in mutators:
                 # `(?<![A-Za-z0-9_])` is load-bearing. Without it a verb that is a
                 # substring of a longer identifier fires: `record` matched inside
@@ -927,6 +1128,13 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                     if swift is not None and implicit_member(body, m.start()):
                         continue
                     calls.append((m.start(), m.end(), v))
+                    if brace_index is not None and m.start() not in closure_ends:
+                        paren = len(original_src[:body_start + m.end() - 1].encode("utf-8"))
+                        if paren in brace_index.parens:
+                            closure_end = len(swift_bytes[:brace_index.parens[paren]].decode("utf-8")) - body_start
+                            if m.end() <= closure_end <= len(body):
+                                closure_ends[m.start()] = closure_end
+                                swift_trailing_parens += 1
             if calls:
                 mutating += 1
             ignored: set[tuple[int, int, str]] = set()
@@ -958,8 +1166,14 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
                 elif ignored:
                     scoped_only_bodies += 1
                 continue
-            tail = body[last:]
-            if any(re.search(re.escape(rd) + r"\w*", tail) for rd in readers):
+            closure_end = max((closure_ends.get(call[0], -1) for call in observable), default=-1)
+            if closure_end > last:
+                # A read in a callback does not establish a read after the
+                # call, including additional trailing and nested closures.
+                has_read = has_reader_call(body[closure_end:], readers)
+            else:
+                has_read = any(re.search(re.escape(rd) + r"\w*", body[last:]) for rd in readers)
+            if has_read:
                 reread += 1
             else:
                 location = f"{f}:{swift['blocks'][i]['line']}" if swift is not None else str(f)
@@ -1023,6 +1237,8 @@ def pass_blind(root: Path, mutators: tuple[str, ...], readers: tuple[str, ...],
             "swiftPartialFiles": len(swift_partial_files),
             "swiftUnmeasuredFiles": swift_files - swift_measured,
             "swiftTestEntries": swift_entries,
+            "swiftTrailingCalls": swift_trailing_calls, "swiftTrailingParens": swift_trailing_parens,
+            "swiftNoncallBlocks": swift_noncall_blocks,
             "swiftExcludedHelpers": swift_helpers, "swiftBodylessRequirements": swift_bodyless,
             "scopeFindings": scope_errors, "scopedCounts": scoped_counts,
             "scopeRecords": len(scopes), "scopedOnlyBodies": scoped_only_bodies,
@@ -1082,73 +1298,60 @@ def _census_clear(d: Path, index: "SourceIndex | None" = None) -> bool:
 
 # ── entry ───────────────────────────────────────────────────────────────────
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("dir")
-    ap.add_argument("--tests", help="Root to scan for the blind-mutation pass, e.g. 'crates'. "
-                                    "OVERRIDES campaign.json `testRoot`; it does not replace it "
-                                    "as the place the root lives.")
-    ap.add_argument("--source", help="Root of production source, for resolving each declared "
-                                     "`provider`. OVERRIDES campaign.json `sourceRoot`.")
-    ap.add_argument("--mutator", action="append", default=[],
-                    help="A verb that changes state. Repeatable; ADDS to the campaign's "
-                         "vocabulary and the defaults.")
-    ap.add_argument("--reader", action="append", default=[],
-                    help="A verb that reads state. Repeatable; ADDS to the campaign's "
-                         "vocabulary and the defaults.")
-    ap.add_argument("--only", action="store_true",
-                    help="Use only the verbs passed on the command line, ignoring the "
-                         "campaign's vocabulary and the defaults.")
-    ap.add_argument("--gate", action="store_true",
-                    help="Exit 1 when any pass finds something.")
-    ap.add_argument("--seed-strengthen", metavar="REQ-ID",
-                    help="Prove the census can fail, then restore the registry.")
-    args = ap.parse_args()
-    d = Path(args.dir).resolve()
-    campaign = load(d, "campaign", {})
+class PassCoverage(NamedTuple):
+    population: int | None
+    findings: int
+    complete: bool
 
+
+def source_index(d: Path, campaign: dict, args: argparse.Namespace) -> tuple[SourceIndex | None, bool]:
     # The census root. A provider is only a claim until something resolves it,
     # and resolving it needs to know where production source is. A flag overrides
     # the declaration; neither is invented when both are absent, because guessing
     # a root is how the blind pass came to report 32 findings about a tree that
     # was not the campaign's.
     index = None
-    coverage_incomplete = False
+    source_valid = True
     src_origin = ""
     raw_source = args.source or campaign.get("sourceRoot") or ""
+    provider_paths = None
+    if "providerPaths" in campaign:
+        try:
+            if not raw_source:
+                raise ValueError("providerPaths supplements an existing sourceRoot")
+            provider_paths = ProviderPaths(d, campaign["providerPaths"])
+        except (OSError, ValueError) as error:
+            source_valid = False
+            print(f"providers:  NOT RESOLVED — invalid providerPaths: {error}")
     if raw_source:
         src_origin = "--source" if args.source else "campaign.json sourceRoot"
         src_root = find_root(d, str(raw_source))
         if src_root is None:
-            coverage_incomplete = True
+            source_valid = False
             print(f"providers:  NOT RESOLVED — {raw_source!r} ({src_origin}) does not exist. "
                   f"A root that is not there resolves nothing, and nothing resolved is not "
                   f"nothing to resolve.")
         else:
-            index = SourceIndex(src_root, src_origin)
+            index = SourceIndex(src_root, src_origin, provider_paths)
 
-    if args.seed_strengthen:
-        return seed_strengthen(d, args.seed_strengthen, index)
+    return index, source_valid
 
-    reqs = requirements(d)
-    if not reqs:
-        print("No requirements in the registry. A vacuity check over nothing is clean "
-              "for the same reason an empty campaign is: there is nothing to read.")
-        return 1 if args.gate else 0
 
-    total, unclassed = pass_unclassed(reqs)
-    declared, uncensused, named, resolved = pass_uncensused(reqs, index)
-
-    print(f"unclassed:  examined={total} findings={len(unclassed)}")
-    for line in unclassed[:20]:
+def report_unclassed(reqs: list[dict]) -> PassCoverage:
+    total, findings = pass_unclassed(reqs)
+    print(f"unclassed:  examined={total} findings={len(findings)}")
+    for line in findings[:20]:
         print(f"  · {line}")
-    print(f"uncensused: examined={declared} findings={len(uncensused)}")
-    for line in uncensused[:20]:
+    return PassCoverage(total, len(findings), True)
+
+
+def report_uncensused(reqs: list[dict], index: SourceIndex | None, source_valid: bool) -> PassCoverage:
+    declared, findings, named, resolved = pass_uncensused(reqs, index)
+    print(f"uncensused: examined={declared} findings={len(findings)}")
+    for line in findings[:20]:
         print(f"  · {line}")
     if declared:
         if index is None:
-            coverage_incomplete = True
             print(f"  providers: {named} of {declared} named, 0 resolved — NOT CHECKED. "
                   f"Declare `sourceRoot` in campaign.json or pass --source <root>; until "
                   f"one of them says where production source is, a provider is a string "
@@ -1156,7 +1359,12 @@ def main() -> int:
         else:
             print(f"  providers: {named} of {declared} named, {resolved} resolved under "
                   f"{index.root} ({index.origin}, {len(index.production)} production file(s))")
+    return PassCoverage(declared, len(findings), source_valid and (not declared or index is not None))
 
+
+def report_blind(d: Path, campaign: dict, args: argparse.Namespace) -> PassCoverage:
+    coverage_incomplete = False
+    examined = None
     blind_findings: list[str] = []
     blind_scopes, scope_load_findings = load_blind_scopes(d, campaign.get("blindScopeFile"))
     # The corpus root belongs beside the vocabulary that has to agree with it.
@@ -1211,7 +1419,8 @@ def main() -> int:
                       "and a pass that matches nothing returns clean.")
                 muts = rds = ()
             if muts and rds:
-                res = pass_blind(root, muts, rds, blind_scopes)
+                use_swift_syntax = args.swift_syntax or campaign.get("blindSwiftSyntax") is True
+                res = pass_blind(root, muts, rds, blind_scopes, swift_syntax=use_swift_syntax)
                 if res["swiftFiles"]:
                     print(f"  Swift: files={res['swiftFiles']} measured-files={res['swiftMeasuredFiles']} "
                           f"unmeasured-files={res['swiftUnmeasuredFiles']} "
@@ -1219,6 +1428,10 @@ def main() -> int:
                           f"explicit-test-entries={res['swiftTestEntries']} "
                           f"called-helpers-excluded={res['swiftExcludedHelpers']} "
                           f"bodyless-protocol-requirements={res['swiftBodylessRequirements']}")
+                    if use_swift_syntax:
+                        print(f"  Swift parser: trailing-calls={res['swiftTrailingCalls']} "
+                              f"parenthesized-trailing-calls={res['swiftTrailingParens']} "
+                              f"noncall-blocks={res['swiftNoncallBlocks']}")
                     if res["scopeRecords"]:
                         counts = ", ".join(f"{key}={value}" for key, value in
                                            sorted(res["scopedCounts"].items()))
@@ -1251,6 +1464,7 @@ def main() -> int:
                                       f"{len(seen)} of {len(claimed)} declared mutator(s) "
                                       f"appear anywhere under it"]
                 else:
+                    examined = res["examined"]
                     blind_findings = res["findings"]
                     print(f"blind:      examined={res['examined']} mutating={res['mutating']} "
                           f"re-read-after={res['reread']} blind={len(blind_findings)}")
@@ -1280,13 +1494,78 @@ def main() -> int:
                           "0 test blocks recognised; an empty measured population cannot clear.")
                     blind_findings.append(f"the blind pass recognised 0 test blocks in {res['files']} "
                                           f"file(s) under {root} — a result over an empty population")
+    return PassCoverage(examined, len(blind_findings), not coverage_incomplete)
 
-    findings = len(unclassed) + len(uncensused) + len(blind_findings)
-    coverage = "incomplete" if coverage_incomplete else "complete"
-    print(f"\nvacuity: requirements={total} external={declared} findings={findings} coverage={coverage}")
-    if args.gate and (findings or coverage_incomplete):
-        return 1
-    return 0
+
+def report_coverage(d: Path, campaign: dict, args: argparse.Namespace) -> dict:
+    index, source_valid = source_index(d, campaign, args)
+    reqs = requirements(d)
+    # This registry drives both execution and the report. A new pass gets a
+    # coverage row even if it does not run because the registry has no inputs.
+    passes = (
+        ("unclassed", None, lambda: report_unclassed(reqs)),
+        ("uncensused", "sourceRoot", lambda: report_uncensused(reqs, index, source_valid)),
+        ("blind", "testRoot", lambda: report_blind(d, campaign, args)),
+    )
+    rows = []
+    if not reqs:
+        print("No requirements in the registry. A vacuity check over nothing is clean "
+              "for the same reason an empty campaign is: there is nothing to read.")
+    for name, needs, run in passes:
+        result = run() if reqs else PassCoverage(None, 0, False)
+        rows.append({"name": name, "needs": needs, **result._asdict()})
+
+    findings = sum(row["findings"] for row in rows)
+    complete = all(row["complete"] for row in rows)
+    if reqs:
+        declared = sum(req.get("effect") in EXTERNAL for req in reqs)
+        coverage = "complete" if complete else "incomplete"
+        print(f"\nvacuity: requirements={len(reqs)} external={declared} findings={findings} coverage={coverage}")
+    return {"schema": 1, "passes": rows, "complete": complete, "findings": findings}
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("dir")
+    ap.add_argument("--tests", help="Root to scan for the blind-mutation pass, e.g. 'crates'. "
+                                    "OVERRIDES campaign.json `testRoot`; it does not replace it "
+                                    "as the place the root lives.")
+    ap.add_argument("--source", help="Root of production source, for resolving each declared "
+                                     "`provider`. OVERRIDES campaign.json `sourceRoot`.")
+    ap.add_argument("--mutator", action="append", default=[],
+                    help="A verb that changes state. Repeatable; ADDS to the campaign's "
+                         "vocabulary and the defaults.")
+    ap.add_argument("--reader", action="append", default=[],
+                    help="A verb that reads state. Repeatable; ADDS to the campaign's "
+                         "vocabulary and the defaults.")
+    ap.add_argument("--only", action="store_true",
+                    help="Use only the verbs passed on the command line, ignoring the "
+                         "campaign's vocabulary and the defaults.")
+    ap.add_argument("--gate", action="store_true",
+                    help="Exit 1 when any pass finds something or coverage is incomplete.")
+    ap.add_argument("--swift-syntax", action="store_true",
+                    help="Use the active local SwiftParser for ambiguous brace sites in Swift tests.")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--seed-strengthen", metavar="REQ-ID",
+                      help="Prove the census can fail, then restore the registry.")
+    mode.add_argument("--coverage-json", action="store_true",
+                      help="Report every scanner pass and its coverage as versioned JSON.")
+    args = ap.parse_args()
+    d = Path(args.dir).resolve()
+    campaign = load(d, "campaign", {})
+
+    if args.seed_strengthen:
+        index, _ = source_index(d, campaign, args)
+        return seed_strengthen(d, args.seed_strengthen, index)
+
+    if args.coverage_json:
+        with redirect_stdout(sys.stderr):
+            report = report_coverage(d, campaign, args)
+        print(json.dumps(report))
+    else:
+        report = report_coverage(d, campaign, args)
+    return int(args.gate and (bool(report["findings"]) or not report["complete"]))
 
 
 if __name__ == "__main__":

@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 SCRIPT = Path(__file__).resolve().parents[1] / 'skills/test-campaign/scripts/vacuity-check.py'
 REPO = Path(__file__).resolve().parents[3]
@@ -23,12 +24,12 @@ class SwiftBodies(unittest.TestCase):
         self.assertEqual(row['version'], manifest['version'])
 
     def scan(self, source, extras=None, mutators=('write', 'store'), scopes=None,
-             readers=('read', 'load', 'expect')):
+             readers=('read', 'load', 'expect'), *, swift_syntax=False):
         with tempfile.TemporaryDirectory(prefix='swift-body-tests-') as directory:
             root = Path(directory)
             (root / 'ExampleTests.swift').write_text(source)
             for name, text in (extras or {}).items(): (root / name).write_text(text)
-            return SCAN.pass_blind(root, mutators, readers, scopes)
+            return SCAN.pass_blind(root, mutators, readers, scopes, swift_syntax=swift_syntax)
 
     def scope(self, source, call, classification='failure-sentinel'):
         parsed = SCAN.swift_body_spans(source)['blocks'][0]
@@ -441,6 +442,37 @@ class SwiftBodies(unittest.TestCase):
         result = self.scan(source, mutators=('write',), readers=('read',))
         self.assertEqual(len(result['notMeasured']), 2)
         self.assertTrue(all('trailing closure' in item for item in result['notMeasured']))
+
+    def test_swift_parser_offsets_distinguish_code_blocks_and_require_a_later_read(self):
+        source = (
+            '@Test func callbackOnly() { let label = "é"; writer.write { read() } }\n'
+            '@Test func laterRead() { writer.write() { read() }; read() }\n'
+            '@Test func property() { if writer.write { read() } }\n'
+        )
+        def offset(character):
+            return len(source[:character].encode("utf-8"))
+        first = source.index('{ read() }')
+        parenthesized = source.index('()', source.index('writer.write()'))
+        second = source.index('{ read() }', parenthesized)
+        third = source.index('{ read() }', second + 1)
+        index = SCAN.SwiftBraces({offset(first): offset(first + len('{ read() }'))},
+                                {offset(parenthesized): offset(second + len('{ read() }'))},
+                                {offset(third)})
+        with patch.object(SCAN, 'swift_brace_indices', side_effect=lambda files: dict.fromkeys(files, index)):
+            result = self.scan(source, swift_syntax=True)
+        self.assertEqual(result['notMeasured'], [])
+        self.assertEqual(self.names(result), ['callbackOnly'])
+        self.assertEqual(result['reread'], 1)
+        self.assertEqual((result['swiftTrailingCalls'], result['swiftTrailingParens'],
+                          result['swiftNoncallBlocks']), (1, 1, 1))
+
+    def test_swift_parser_unavailable_preserves_incomplete_coverage(self):
+        source = '@Test func callback() { writer.write { read() } }'
+        with patch.object(SCAN, 'swift_brace_indices', side_effect=ValueError('test toolchain unavailable')):
+            result = self.scan(source, swift_syntax=True)
+        self.assertTrue(result['notMeasured'])
+        self.assertTrue(all('test toolchain unavailable' in item for item in result['notMeasured']))
+        self.assertEqual(result['swiftTrailingCalls'], 0)
 
     def test_comments_strings_and_nested_declarations_are_not_trailing_calls(self):
         source = ('''@Test func example() {
