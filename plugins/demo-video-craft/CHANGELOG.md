@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 - 2026-11-25
+
+The kit now rebuilds the series it came from. `kit/reference/` holds that series' 36 screens and ten-film table, ported unchanged, and `new_series.py --reference` starts from it. Rebuilt with nothing but the kit and the series' own voice and music files, its ten films measure a mean SSIM (structural similarity, 1.0 is identical) of 0.9994-0.9998 against the published files, lowest frame 0.9985 (`evals/run_reference.sh`). The self-test checks the ten film lengths against the published ones.
+
+The kit now works for any product, not only one shown inside a chat app: frames for the product's own browser window, desktop window or phone; typing into any field (`typein`); any canvas size, including 9:16, where the camera frames into the area TikTok, Reels and Shorts all leave clear and the opener and end slide have portrait layouts; and captions cut from the narration's own word timings. `engine/render.py` runs step 6 in one command (build, render once, remux, check sizes, publish only on a pass), and `site/build_site.py` builds the overview and shorts pages, posters and share image from `site.json`. The example series has four films: a short in Claude, one in the product's own browser window, a 9:16 one on a phone, and the overview.
+
+New script `compare_films.py` measures a rebuild against published files frame by frame. `delivery.py` now catches a voiced cut that carries the master's sound by comparing momentary loudness; the byte comparison it replaced always differed across encoders, so it could never fail. `gateway_audio.py --dry-run` prices a batch before anything is sent. 57 self-test cases across nine scripts.
+
+The references now agree with the kit where they had drifted (the press ring is 64 px; where the limiter, the pace factors and the label switch live), and `gemini.md` carries the extra steps for a run on Gemini: a count for each categorical scope, the four binding numbers no script reads back, and the file each skill call has to leave.
+
 ## 0.2.0 - 2026-11-25
 
 Ships the source series' engine as a starter kit (`skills/demo-video-craft/kit/`): the window runtime (K.play) and the stage runtime (K3.stage), the film table's machinery (step helpers, the overview's opening and end slide, the pace function, the settling push, the length gate), the screen builder, the build with its narration gates, and the score. Brand and content are taken out; an example series builds, checks clean and renders (`evals/run_kit_example.sh`). `new_series.py` starts a series from it.

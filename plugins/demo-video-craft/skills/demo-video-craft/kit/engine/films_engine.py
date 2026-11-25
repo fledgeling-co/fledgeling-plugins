@@ -242,9 +242,9 @@ def _intro_portrait(lock, headline, apps, sources, head_left, head_right, node_c
         C('srcs', '<div class="k3-col c" style="gap:22px">' + ''.join(f'<span class="k3-src k3-hide" id="s{k + 1}"><svg aria-hidden="true"><use href="#i-{i}"/></svg>{t}</span>'
                                                     for k, (i, t) in enumerate(sources)) + '</div>', x=468, y=600, shown=True),
         C('node', '<div class="k3-node" id="nd">' + lock.replace('class="k-lock"', 'class="k-lock" style="opacity:0"', 1)
-          + f'<small>{node_caption}</small></div>', x=468, y=960),
-        C('ht', f'<div class="k3-head">{head_right}</div>', x=468, y=1110),
-        C('tools', '<div class="k3-row small">' + ''.join(chip(nm, mk, f'p{k + 1}', 'k3-ph') for k, (nm, mk) in enumerate(apps)) + '</div>', x=468, y=1195, shown=True),
+          + f'<small>{node_caption}</small></div>', x=468, y=930),
+        C('ht', f'<div class="k3-head">{head_right}</div>', x=468, y=1218),   # under the hosts, clear of the wires
+        C('tools', '<div class="k3-row small">' + ''.join(chip(nm, mk, f'p{k + 1}', 'k3-ph') for k, (nm, mk) in enumerate(apps)) + '</div>', x=468, y=1140, shown=True),
     ]
     steps = [
         *[[round(0.25 + 0.13 * k, 2), 'in', f'#ch{k + 1}', {'y': 14, 'dur': 0.5}] for k in range(n)],

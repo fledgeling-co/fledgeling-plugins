@@ -1,8 +1,9 @@
 #!/bin/bash
-# The starter kit, end to end on its example series: start a series (fetching the pinned fonts and GSAP), write the
-# screens and the film table, build both films without voice, check them, render the short, make its voiced cut and
-# gate it. Exit 0 only when every step does. Needs python3, node (npx), ffmpeg, network for the fetch, and
-# MOTION_CRAFT_SCRIPTS pointing at motion-craft's scripts/ folder.
+# The kit, end to end on its example series: start a series (fetching the pinned fonts and GSAP), write the screens
+# and the film table, build all four films without voice (a short in Claude, one in the product's own browser window,
+# a 9:16 one on a phone, and the overview), check each, then render two shorts through render.py, which stages them
+# and stops: a voiced cut without a voice is not published. Exit 0 only when every step does. Needs python3, node
+# (npx), ffmpeg, network for the fetch, and MOTION_CRAFT_SCRIPTS pointing at the scripts folder of motion-craft.
 set -euo pipefail
 E="$(cd "$(dirname "$0")" && pwd)"
 S="$(cd "$E/../skills/demo-video-craft/scripts" && pwd)"
@@ -13,13 +14,14 @@ python3 "$S/new_series.py" "$T" --fetch > /dev/null
 cd "$T"
 python3 states.py > /dev/null
 python3 films.py
-for f in O K01; do
+for f in O K01 K02 K03; do
   python3 _kit/engine/build.py . "$f" --mute-only > "build-$f.log"
   (cd "films/$f" && "$HF" check --json > "../../check-$f.json" 2>&1)
   python3 "$E/hf_check_ok.py" "check-$f.json"
 done
-mkdir -p out
-(cd films/K01 && "$HF" render -q delivery -o "$T/out/acme-K01.mp4" > ../../render.log 2>&1)
-python3 "$S/delivery.py" remux --master out/acme-K01.mp4 --audio films/K01/assets/sound_vo.wav --out out/acme-K01-vo.mp4 > /dev/null
-python3 "$S/delivery.py" check --dir out --prefix acme --films K01
+python3 _kit/engine/render.py . --films K01,K03 --mute-only
+for f in K01 K03; do
+  printf '%s %s ' "$f" "$(ffprobe -v error -show_entries stream=width,height -of csv=p=0:s=x -select_streams v:0 "staging/acme-$f.mp4")"
+  python3 "$MOTION_CRAFT_SCRIPTS/pop_scan.py" "staging/acme-$f.mp4" --json | python3 -c "import json,sys; d=json.load(sys.stdin); print(f\"pops {d['pops']}, still runs {d['still_runs']}\")"
+done
 echo "kit example: PASS ($T)"

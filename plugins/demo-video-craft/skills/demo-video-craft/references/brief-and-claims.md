@@ -83,12 +83,13 @@ One row per capability the series shows or says:
 ## 4. The fictional company
 
 Use one invented customer across every screen, so the series reads as one business rather than a set of mockups.
-Put it in `scenario.json`: the company, its ticker and exchange, five or six named people with roles, two or three
+Put it in `states.py`, its one source, as the names and figures every screen draws from: the company, its ticker and exchange, five or six named people with roles, two or three
 named counterparties, and one set of figures for the period shown.
 
 - Check the name and ticker are free against the exchange's own register: SEC's `company_tickers.json` for US
   listings, the ASX company list for Australian ones. No real listed company may share the name.
-- Reuse the same names and figures on at least four surfaces. The corpus films that did this read as real work.
+- Reuse the same names and figures in the overview and at least three shorts. The corpus films that did this read as
+  real work.
 - Make the scenario match the audience's market: a US audience gets a US-listed company, earnings, SEC filings and
   analyst calls, in US English.
 
@@ -103,7 +104,7 @@ detail is now an invented fact about a company whose shareholders can read it.
 - **Every figure, date and holder comes from the filings, and `SOURCES.md` comes first.** For a US listing,
   `scripts/edgar.py` lists the filings (`filings <ticker> --forms 8-K,10-Q`; earnings are 8-Ks with items 2.02 and
   9.01), extracts the release from its Exhibit 99.1 (`release <ticker> <accession> -o q2.txt`; the financial tables
-  are in thousands, so $2,471.6M reads as `2,471,603`) and reads every Schedule 13G cover page (`holders <ticker>`;
+  are in thousands, so $1,204.5M reads as `1,204,532`) and reads every Schedule 13G cover page (`holders <ticker>`;
   XML pages since 2024 parse, older HTML and text pages print the URL to read). Set `SEC_USER_AGENT` to a name and a
   generic contact. Write `SOURCES.md` with each figure, its document, page and accession number before any screen
   changes: the source run wrote it last, after screens, renders and posters had been made from a scratch file.
@@ -120,8 +121,8 @@ detail is now an invented fact about a company whose shareholders can read it.
   appear, with roles instead of people ("the CFO", "a shareholder", "a top-20 holder", "answered by management") and
   figures from the filings. A real executive never appears saying something they did not say.
 - **The demo patterns that worked.** An ownership write-up still quoting a holder's old 13G percent, against its newest
-  13G/A: one holder's 10.05% (2024) had become no shares (2026), its holding now reported by an affiliated
-  adviser at 7.22%. A draft with two digits of one figure swapped against the filed release (463.7 against 453.7). A draft stating the new outlook before the release is filed. A draft still quoting last quarter's
+  13G/A: one holder's 9.8% (2024) had become no shares (2026), its holding now reported by an affiliated adviser at
+  6.9%. A draft with two digits of one figure swapped against the filed release (318.4 against 381.4). A draft stating the new outlook before the release is filed. A draft still quoting last quarter's
   range after it was revised.
 - **A checked figure is not a good one.** Ink a real company's adverse figure neutral (`lead()` class `chk`); green
   is for "matches its source". Check every green figure's sign before rendering.
@@ -135,7 +136,7 @@ detail is now an invented fact about a company whose shareholders can read it.
   naming it; the screens show the company. One disclosure line on the page names the company, says every figure
   comes from its filings and the drafts are illustrative, and credits the trademarks.
 - **Take the brand from the company's own logo file**, usually linked from its corporate or investor site, and theme
-  the deck and documents from it (`picture.md` §7).
+  the deck and documents from it (`picture.md` §3b).
 
 ## 5. Names and pronunciation
 

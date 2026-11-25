@@ -8,20 +8,27 @@ from and when to move it.
 ## 0. Start from the kit
 
 `scripts/new_series.py <dir> --fetch` copies the kit into `<dir>/_kit/` and an example series beside it (see
-`kit/README.md`). Replace the example's scenario, screens and workflows; keep the engine. How close a new series comes
-to the source run depends on the engine's values (fills, eases, holds, the pace function) far more than on prose, and
-the source run's first round, built from prose, came out with 12-16 px text and a 54 s opening scene.
+`kit/README.md`): a short in Claude, one in the product's own browser window, and a 9:16 one on a phone. Replace the
+example's scenario, screens and workflows; keep the engine. How close a new series comes to the source run depends on
+the engine's values (fills, eases, holds, the pace function) far more than on prose: the source run's first round,
+built from prose, came out with 12-16 px text and a 54 s opening scene.
+
+`--reference` starts from the source series itself instead: its ten films' screens and film table, ported onto the kit
+unchanged, which the kit rebuilds at a mean SSIM of 0.9994-0.9998 against the published files (`kit/reference/README.md`).
+Read its `films.py` for any step this file describes: every op in the grammar is used there in a published film.
 
 ## 1. The film table
 
 Keep the whole series in one data file the build reads (`films.py`, summarised in `SERIES.md` for people), so one
 edit rebuilds every film: in the source run the shorts' retiming and every fix to all nine went through one table.
 Per film: `id`, title and the outcome line; scenes in order, each with its own length and its steps in scene seconds;
-effect beats (`pop`, `click`, `whoosh`, `chime`); voice placements `[line, scene, offset]`; switches `lockbar` (the
-short's 3.2 s lockup bar; the overview carries none) and `labels`; and `tempo`, the narration's own speed (ffmpeg
-`atempo`, 0.92-1.08; line ends become duration / tempo, and past 1.08 shorten the line instead).
+effect beats (`pop`, `click`, `whoosh`, `chime`); voice placements `[line, scene, offset]`; and its switches:
+`lockbar` (the short's 3.2 s lockup bar; the overview carries none), `tempo` (the narration's own speed through ffmpeg
+`atempo`, 0.92-1.08; line ends become duration / tempo, and past 1.08 shorten the line instead), `limit` (0.6 for a film
+whose voiced cut overshoots its true peak after AAC: `render.py` remuxes it through the limiter on every render),
+`size` (a 9:16 short is `[1080, 1920]`; the default is `series.json`'s `size`), and `captions` (§6c).
 
-**The pace factor** sits at the top of the table and slows a film by dwelling rather than by moving through syrup.
+**The pace factors** live in `series.json` (`pace`) and slow a film by dwelling rather than by moving through syrup.
 `films_engine.pace()` scales step times, scene lengths, effect beats, voice offsets, typing ends, label holds and dot
 flows by the full factor; per-op durations (found through `DUR_AT`, each op's duration argument) by at most 1.25x;
 entrances, exits, travel and wire draws by at most 1.2x. The opener takes its own factor. Start at 1.3 for the
@@ -84,6 +91,20 @@ height back (round 1 used 1920x860 at y 452). `K.frame` fills a target to a frac
 0.9. That puts body text at about 27-28 px at 1080p. Frame by a measured selector, clamped to the window's edges,
 never by a fixed rect; a whole window appears only to orient, at 1.12 for 2-4 s.
 
+### 3a. Frames for any product
+
+- **Inside a chat host**: `E.frame('claude' | 'chatgpt', …)`. Another chat host (Gemini, Copilot) is one
+  `E.register_host()` call plus its tokens in `theme.css`.
+- **In its own interface**: `E.app(body, kind='browser' | 'desktop' | 'phone')` draws the product's own window around
+  its own markup. Mark the list whose children arrive by index with `data-items` and its scrolling region with
+  `data-viewport`; every window op (arrive, scroll, ink, wheel, click, count, swap) then works as it does in a chat.
+  Typing into the product's own fields is `type_in(t, el('#field'), text)`: 52 characters a second, 0.6 s hold.
+  A phone app is `win(…, size=(430, 932), phone=True)` on a 9:16 film (§6b).
+- **A host that is not a chat** (an inbox, a spreadsheet, a team chat with channels) is drawn as `app()` holding that
+  host's own lookalike markup, styled in `theme.css`.
+- **The series' look** is `theme.css`: the ground, ink and accent tokens, the client's colours, and the product's own
+  screen styles. The kit's defaults are the source series'.
+
 ### 3b. A real client's theme
 
 When the screens show a real company (`brief-and-claims.md` §4b), the deck and documents the assistant builds for it
@@ -107,9 +128,8 @@ The grammar that served the source run, taken from a calm finance-sector referen
   push over 0.5 s and leaves the same way in 0.3 s; never a hard cut.
 - **The cursor** is a navy arrow with a 2.6 px white keyline and `drop-shadow(0 4px 8px rgba(10,23,51,.28))`, 40 px in
   a window and 46 px on the stage. It glides in a shallow arc (x on `power2.inOut`, y on `power1.inOut`, 0.6-0.75 s)
-  only toward what it is about to use, and presses: the control to 0.965 for 0.09 s, back over 0.22 s, with a ring of
-  56 px (64 on the stage), 2 px at 50 % of the accent, from scale 0.2 and opacity 0.6 to 1 and 0 over 0.5 s
-  `power2.out`.
+  only toward what it is about to use, and presses: the control to 0.965 for 0.09 s, back over 0.22 s, with a 64 px
+  ring, 2 px at 55 % of the accent, from scale 0.2 and opacity 0.6 to 1 and 0 over 0.5 s `power2.out`.
 - **Focus** (`wheel`): the focused row scales to 1.025 over 0.42 s with a `0 6px 18px -8px` shadow; the others take
   opacity `max(.3, 1 - .36d)` and blur `min(2.2, .9d)` px by their distance d. Every focus gets its release
   (`unwheel`): a row left lifted was the most repeated contact-sheet defect.
@@ -164,6 +184,26 @@ result under the lockup bar: a 260 px scrim band (the ground at 0 → 0.94 by 46
 `data-layout-ignore` with its reason), a white bar 40 px from the bottom with radius 16, the lockup at 44 px and the ask
 and URL at 28 px, the band in over 0.5 s and the bar over 0.6 s `expo.out`. No end card repeating the headline.
 
+### 6b. A 9:16 film
+
+Set the film's `size` to `[1080, 1920]`; a series can mix a 16:9 overview with vertical shorts. On that canvas the
+camera frames into the area TikTok, Reels and Shorts all leave clear of their own buttons and captions, about x
+120-780 and y 290-1250 (`hf.sh check` reports anything outside it as `outside_safe_zone`), centred at x 468, not the
+frame's centre. `intro_scene(…, portrait=True)` and `outro_scene(…, portrait=True)` lay the opener and end slide out
+inside it (the sources above, the node, the hosts in a row below, one trunk and a fan of wires running down), and the
+lockup bar rises into it. A phone app suits the format: `win(…, size=(430, 932), phone=True)`, oriented at 1.0 and
+pushed into card by card. `outside_safe_zone` on surrounding context the camera is not framing is expected while it
+pushes into a phone; on the framed card, the lockup bar or the end slide it is a defect.
+
+### 6c. Captions, when the owner asks for them
+
+Set `captions: True` on the film. `build.py` cuts the narration's own word timings into clauses (split at punctuation
+once a clause has 14 characters, at most 42, a short tail merged up to 46), shows each in one band 36 px from the bottom
+(Inter 500 28px/1.3 on navy at 0.90, radius 8, at most 1240 px wide, fading in over 0.12 s and out over 0.10 s), and
+reserves the band so the camera frames above it. Captions are picture, so both cuts carry them, and they need the
+voice: build without `--mute-only`. The source run had them in round 1 and removed them in round 3 ("Remove the
+narrator and subtitles").
+
 **The poster frame** is never the headline frame: the page already shows the title and the play button covers its
 middle. Take the overview's from the architecture and each short's 0.5 s before its lockup bar (duration - 3.7 s).
 
@@ -188,8 +228,9 @@ three more places.
   off the links on the source run's pages and about 5 px off the button text in every short, and the owner's note was
   "this alignment is bad". Measure a baseline inside the text: a zero-size inline-block appended to a flex container
   becomes a centred flex item and reports the box's centre instead (wrap the text node first).
-- **Check it where it is seen**: `delivery.py sheet --at <time> --crop <x,y,w,h>` on the rendered opener, the node, the
-  end slide and a short's bar, and the page headers at 2x. When the lockup changes, `series_lint.py retired --term
+- **Check it where it is seen**: `delivery.py sheet --file <film>.mp4 --at <time> --crop <x,y,w,h> --out crop.png`
+  (the crop in 0-1 fractions of the frame) on the rendered opener, the node, the end slide and a short's bar, and the
+  page headers at 2x. When the lockup changes, `series_lint.py retired --term
   <old hex>` over every kit, generator and page source must find nothing.
 
 ## 8. HyperFrames traps from production
@@ -209,7 +250,8 @@ Each of these cost a debugging round:
   ("no .pv"): give the state its panel.
 - A camera that travels between two windows needs both inside its canvas: widen `.k-cam` (2940 px for two).
 - `hf.sh check --json` prints text after the JSON; parse with `json.JSONDecoder().raw_decode`. Its
-  `container_overflow` on `div.k-cam` during a push is the camera doing its job; every other overflow is a defect.
+  `container_overflow` on `div.k-cam` during a push is the camera doing its job, as is `panel_out_of_canvas` on a
+  window pushed past the frame; every other overflow is a defect.
 - GSAP owns an element's transform: a `gsap.set` that names `xPercent: 0` cancels a CSS `translateX(-50%)`. Every
   short's lockup bar in the source run sat with its left edge at the frame's centre for two rounds because of it.
 - A stage `to` step's `dur` and `ease` are the step's: the kit strips them before passing the rest to GSAP, which

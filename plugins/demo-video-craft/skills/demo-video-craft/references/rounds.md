@@ -32,7 +32,7 @@ The owner reviews by watching and by screenshot, and quotes the exact words on s
 - **"Still wrong" means a second place.** When a note comes back, assume the fix landed in one copy and the thing
   lives in another: the films as well as the pages, the poster and share image as well as the video, the menu page
   as well as the overview page. In the source run the lockup was fixed on the pages, then "the video versions of
-  the logo + guardian text is still wrong" sent the fix into the films, and only a URL check found the menu poster
+  the logo + [product] text is still wrong" sent the fix into the films, and only a URL check found the menu poster
   and the share image still showing the old one.
 - **Check the result where the viewer sees it**: a crop of a rendered frame, the live page after deploy, the
   share image itself. A changed stylesheet is not a changed video.
@@ -48,7 +48,7 @@ The owner reviews by watching and by screenshot, and quotes the exact words on s
 
 ## 3. Expect reversals, and build for them
 
-Three reversals from the source run, each answered by a knob that existed before the note:
+Seven reversals from the source run, each answered by a knob that existed before the note, or should have:
 
 | Earlier note | Later note | The knob |
 |---|---|---|

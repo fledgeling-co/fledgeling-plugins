@@ -1,8 +1,13 @@
 # The video site
 
-Step 7. A small static site is enough: a menu page, an overview page with the lead video and the shorts, and
-whatever product pages the series supports. One build script renders every page from shared head, nav and footer,
-so a fix to a label or a lockup lands on every page at once.
+Step 7. A small static site is enough: an overview page with the lead video and the shorts, a shorts page, and
+whatever product pages the series supports. `_kit/site/build_site.py <series> --posters` renders both video pages
+from shared head, nav and footer, so a fix to a label or a lockup lands on every page at once. It is the source
+series' own page, player and modal code, driven by `site.json`: the site's address and the ask's link, the nav, each
+film's description, the shorts' order, each page's heading, lede and share text, the footer's disclosure, and the
+poster times. It writes the posters and share image from the current films, `vercel.json` (videos revalidate on
+every request, pages are never cached, nothing is indexed) and `robots.txt` when they are absent. A menu page or a
+features page is written beside it, by hand or through design-craft, and joins the same `site_urls.py` check.
 
 ## 1. Pages
 
@@ -62,8 +67,8 @@ and cursor. The rules the source run's owner settled:
   0.55 opacity with a 0.4 px blur.
 - Tool lines narrate in the present tense; the evidence marks (`ev-ok` underline, `ev-bad` wave, `ev-src` tint) are the
   films' marks in one shared CSS source.
-- Cover the product: take its record's "where each feature works" table as the list, and give every uncovered row a
-  demo in the same scenario.
+- When the owner asks for the product to be covered in full, take its record's "where each feature works" table as
+  the list; otherwise list the uncovered rows in the report rather than building them.
 - **Run every tour to its end** in a real browser before shipping: start a probe on `window.__probe`, poll for
   `window.__probeOut` every 30 s rather than awaiting it (a minutes-long eval times out), and require each tour's last
   card, its open panel and zero `window` errors. The source run found a tour that played a card that did not exist,
@@ -76,7 +81,8 @@ and cursor. The rules the source run's owner settled:
   (`delivery.py sheet`), and pick. Never the headline frame and never a frame with half a caption. The source's
   defaults: the overview from the architecture (6.6 s), each short 0.5 s before its lockup bar.
 - The share image is 1200 x 630 from the overview's poster frame: `scale=1200:-2,crop=1200:630:0:<(round(1200 x H/W)
-  - 630)/2>`, which is 22 for 16:9. Its URL goes through the same `ver()` helper as every video, never as a literal.
+  - 630)/2>`, which is 22 for 16:9. Its URL goes through the same versioning as every video (`build_site.py`'s `ver()`, or
+  `site_urls.py version` for a page written by hand), never as a literal.
 - **When the picture changes, regenerate every poster and the share image**, not only the ones you edited: after a
   switch to a real company all ten posters and the share image still showed the fictional one. When only a branded
   element changed, list which posters contain it and regenerate those plus the share image.
@@ -84,7 +90,8 @@ and cursor. The rules the source run's owner settled:
 ## 5. File names and caches
 
 - **A published name never changes**, because someone may already have linked to it. Keep every shared name in
-  `published.txt`; `delivery.py check --published` fails when one disappears.
+  `published.txt` (the video file names: `delivery.py check --published` fails when one disappears); posters and the
+  share image keep their names too, and `site_urls.py check` sees them.
 - **A republished file needs a new URL.** Every page reference carries `?v=` plus the first 10 hex digits of the
   file's SHA-1 (`site_urls.py version`). A corrected voice line kept playing the old reading for this reason, and
   looked like a voice bug.

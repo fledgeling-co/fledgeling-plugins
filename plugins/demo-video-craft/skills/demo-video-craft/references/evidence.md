@@ -38,7 +38,7 @@ example series (two films built, checked, and one rendered and gated).
 | Live HTML of the product's kit, not screenshots | [run] round 1 onward; pushes of 2-3x stayed sharp, and copy fixes were text edits |
 | Blur-in arrivals, navy cursor with press ring, growth from source | [run] owner: "Take more of the motion animation feel and effects and use of mouse from the [reference] film"; measured from that film's frames |
 | The lockup measured from the brand's site by pixel rows | [run] the first pass put the mark high with a washed-out front colour; owner: "did you even look at this?" |
-| One fictional company, figures on ≥ 4 surfaces | [corpus] the invented-scenario films [YUYeHMsqbmY, YewAJPawE7I, -OH1y7CjIew]. [run] a fictional Nasdaq-listed company, name and ticker checked free in SEC's ticker file |
+| One scenario, its names and figures in the overview and at least three shorts | [corpus] the invented-scenario films [YUYeHMsqbmY, YewAJPawE7I, -OH1y7CjIew]. [run] a fictional Nasdaq-listed company, name and ticker checked free in SEC's ticker file |
 | Show only what is built; owner overrides recorded | [run] one short re-scripted because its feature was partly built; the owner chose to show rules a round earlier held back |
 | No timing or percentage claims without a measurement | [run] no measure of time saved existed in the product record; the owner's "in minutes" kept as an open claims item |
 | Respell only the voice input, specific rules first, for the voice's accent | [run] owner: "it should sound like "clord""; "Clord" was replaced by "Clawd" before anyone listened, because a US voice says every r; a two-word name said as a possessive; the first attempt fixed the brand alone and the possessive never fired on one line |
@@ -54,7 +54,7 @@ example series (two films built, checked, and one rendered and gated).
 | Real click for sound-on autoplay | [run] a scripted `.click()` played nothing on the live site; a driver's real click played |
 | Focus the modal wrapper, not the video | [run] with focus on the video, the arrow keys seeked instead of stepping shorts |
 | Leave internal apparatus off prospect pages | [run] owner: "Determine what else likely shouldn't be shown to a potential client", after removing requirement counts, status and assistant lists |
-| Read the whole queue before rendering | [run] four rounds gained a note mid-task |
+| Read the whole queue before rendering | [run] five rounds gained a note mid-task |
 | Say what nobody checked | [run] every round's report: nobody had listened to the sound or watched at full speed |
 | Lengthen the scene's hold when a line outruns its frame | [run] owner: "What the narrator/voiceover says doesn't align/line up with what's on screen in the overview"; fixed by four offsets and the intro growing from 8.6 to 11.5 s |
 | A line may run at most 0.1 s past its scene | [run] round 5's v2 ran 0.09 s into the next scene with the next line well clear, accepted; anything larger was a re-placement |
@@ -72,4 +72,4 @@ example series (two films built, checked, and one rendered and gated).
 | One English variant, no switch | [run] a UK/US switch was asked for, shipped, and removed about 40 minutes later: "Remove the english toggle … just stick to us english" |
 | A real company: every figure sourced, nothing invented, `SOURCES.md` first | [run] owner: "Update the videos and website to use a real company"; demos built on an invented acquisition and a "said privately" line were rebuilt around public facts; the sources file was written last, after the screens |
 | Ask before a real company goes on a public page | [run] the owner chose "Keep it public" against a recommendation to gate it |
-| Compare files before re-voicing | [run] "still says "Diologue Guardian""; the live and local files had identical SHA-1s, and the browser was replaying a copy cached under `max-age=86400` |
+| Compare files before re-voicing | [run] "still says "[the old reading]""; the live and local files had identical SHA-1s, and the browser was replaying a copy cached under `max-age=86400` |

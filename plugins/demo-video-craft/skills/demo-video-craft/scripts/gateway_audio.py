@@ -5,7 +5,7 @@
     gateway_audio.py speech  --voice ID --text "..." --out line.mp3 [--model elevenlabs/eleven-v4] [--respell r.json]
     gateway_audio.py words   --audio line.mp3 --out line.json
     gateway_audio.py music   --prompt "..." --seconds 27 --out bed.mp3 [--model elevenlabs/music-v2.5] [--dry-run]
-    gateway_audio.py respell --rules respell.json "Diolog Guardian works in Claude"
+    gateway_audio.py respell --rules respell.json "Acme Record works in Claude"
     gateway_audio.py --self-test
 
 The key is read from AI_GATEWAY_API_KEY and never printed or written anywhere. Every paid call prints what it
@@ -19,8 +19,8 @@ duration, the script text and the spoken text) and <id>.txt (the cache key). A l
 spoken text, voice or model changes, so re-running after editing one line costs one line.
 
 Respelling changes what the voice is sent, never what the captions or pages say. Rules apply in file order, so put
-the specific rule before the general one: "Diolog Guardian" -> "Dialogue's Guardian" has to run before
-"Diolog" -> "Dialogue", or the possessive never fires.
+the specific rule before the general one: "Acme Record" -> "Ackmee's Record" has to run before "Acme" -> "Ackmee",
+or the possessive never fires.
 """
 import argparse
 import base64
@@ -185,14 +185,14 @@ def lines(script, out_dir, rules, only, dry_run=False):
 
 
 def self_test():
-    rules = [[r'\bDiolog Guardian\b', 'Dialogue’s Guardian'], [r'\bDiolog', 'Dialogue'], [r'\bClaude\b', 'Clawd']]
+    rules = [[r'\bAcme Record\b', 'Ackmee’s Record'], [r'\bAcme', 'Ackmee'], [r'\bClaude\b', 'Clawd']]
     cases = [
-        ('specific rule before general', respell('Diolog Guardian works in Claude.', rules),
-         'Dialogue’s Guardian works in Clawd.'),
-        ('reversed order loses the possessive', respell('Diolog Guardian', list(reversed(rules))), 'Dialogue Guardian'),
+        ('specific rule before general', respell('Acme Record works in Claude.', rules),
+         'Ackmee’s Record works in Clawd.'),
+        ('reversed order loses the possessive', respell('Acme Record', list(reversed(rules))), 'Ackmee Record'),
         ('a word containing the name is untouched', respell('Claudette', rules), 'Claudette'),
-        ('captions drop tags and keep real names', caption_text('[upbeat] Diolog Guardian works in Claude.'),
-         'Diolog Guardian works in Claude.'),
+        ('captions drop tags and keep real names', caption_text('[upbeat] Acme Record works in Claude.'),
+         'Acme Record works in Claude.'),
         ('a spoken-text change changes the cache key',
          cache_key('v', 'm', 'a') != cache_key('v', 'm', 'b'), True),
     ]

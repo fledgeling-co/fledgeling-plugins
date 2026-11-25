@@ -28,6 +28,14 @@ HOST_WORD = {'claude': 'Claude', 'chatgpt': 'ChatGPT'}
 COMPOSER = {'claude': 'Reply to Claude', 'chatgpt': 'Ask anything'}
 
 
+def register_host(app, word, nav, composer):
+    """Add a chat host beside Claude and ChatGPT: its name in the sidebar, its nav rows [(icon, label[, 'on'])] and its
+    composer's placeholder. Give it tokens in theme.css: .k-cf[data-app=\"<app>\"] { --c-bg; --c-side; --c-rule; --c-ink;
+    --c-muted; --c-bubble; --c-send }, and its mark as marks/<app>.svg when the series uses host marks. A host that is not
+    a chat (an inbox, a spreadsheet, a team chat with channels) is drawn as app() with its own markup instead."""
+    HOST_WORD[app], NAV[app], COMPOSER[app] = word, nav, composer
+
+
 def configure(product, who, host_marks=False, model='Opus 5.5'):
     """product: the name the host shows on tool lines and the panel. who: {key: (initials, name, plan)}, the person
     signed in to each window, by role ('Investor relations', 'CFO · Enterprise'): company plus role overflowed the

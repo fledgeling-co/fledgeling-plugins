@@ -99,7 +99,21 @@ def self_test():
         (s / 'series.json').write_text(json.dumps(cfg))
         r = subprocess.run([sys.executable, 'films.py'], cwd=s, capture_output=True, text=True)
         assert r.returncode != 0 and 'outside 22-25 s' in r.stderr, r.stderr[-400:]
-    print('new_series: 10 checks passed')
+        # the example's own-interface and vertical shorts, and the label switch
+        k3 = json.loads((s / 'films' / 'K03' / 'plan.json').read_text())
+        assert k3['size'] == [1080, 1920], k3['size']
+        k2 = (s / 'films' / 'K02' / 'compositions' / 'clip.html').read_text()
+        assert '"typein"' in k2, 'the own-app short should type into the product\'s field'
+        # the reference series: its film table reproduces the published lengths exactly
+        r = create(Path(d) / 'reference', fetch=False, reference=True)
+        out = subprocess.run([sys.executable, 'films.py'], cwd=r, capture_output=True, text=True)
+        assert out.returncode == 0, out.stderr[-600:]
+        got = {f: round(sum(x['dur'] for x in json.loads((r / 'films' / f / 'plan.json').read_text())['scenes']), 1)
+               for f in ('O', 'K02', 'K03', 'K04', 'K05', 'K06', 'K07', 'K08', 'K09', 'K10')}
+        want = {'O': 101.0, 'K02': 24.9, 'K03': 25.0, 'K04': 23.5, 'K05': 24.6, 'K06': 24.4, 'K07': 21.3, 'K08': 21.1, 'K09': 24.4, 'K10': 21.8}
+        assert got == want, f'the reference lengths drifted from the published films: {got}'
+        assert json.loads((r / 'films' / 'K07' / 'plan.json').read_text())['limit'] == 0.6
+    print('new_series: 14 checks passed')
 
 
 if __name__ == '__main__':

@@ -8,9 +8,9 @@
 One overview and a set of shorts, each muted and voiced from a single render, kept in step through every round of notes.</p>
 
 <p align="center">
-  <img alt="Version 0.2.0" src="https://img.shields.io/badge/version-0.2.0-D33C21">
+  <img alt="Version 0.3.0" src="https://img.shields.io/badge/version-0.3.0-D33C21">
   <img alt="Skill: demo video series" src="https://img.shields.io/badge/skill-demo_video_series-434A55">
-  <img alt="Scripts: 8, each with a self-test" src="https://img.shields.io/badge/scripts-8_self--tested-756E60">
+  <img alt="Scripts: 9, each with a self-test" src="https://img.shields.io/badge/scripts-9_self--tested-756E60">
   <img alt="Ships a starter kit" src="https://img.shields.io/badge/starter_kit-included-434A55">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
@@ -31,7 +31,7 @@ It also ships the source series' engine as a **starter kit**. How close a new se
 
 `demo-video-craft:demo-video-craft` runs a series through nine steps, routing each to the skill that already owns it:
 
-1. **Brief and claims.** It reads the product's own record first and writes down what is actually built. Anything unbuilt stays off screen. It picks one fictional company, checks the name and ticker are free on the exchange's register, and reuses its people and figures on every screen.
+1. **Brief and claims.** It reads the product's own record first and writes down what is actually built. Anything unbuilt stays off screen. It picks one fictional company, checks the name and ticker are free on the exchange's register, and reuses its people and figures on every screen. When the owner names a real company instead, every figure, date and holder comes from its filings, and nothing is invented about it.
 2. **Plan with motion-craft, on the kit.** `new_series.py` copies the kit and a small example series into a new folder. Three storylines for the overview and one shared grammar for the shorts, all in a single film table with a **pace factor** and a **label switch** built in from the start. Owners change both, and in the source run one went from "pick up the pace" to "very fast, hard to keep track" in two rounds.
 3. **Words** through the brand's own voice skill: second person, outcome first, at most 130 spoken words for the overview and one line of 24-35 words per short.
 4. **Picture first.** Scenes are timed to the picture and the narration is placed afterwards, so one render serves both cuts. When the product lives inside another app (a Claude or ChatGPT connector, say), the films stay inside a lookalike of that app, with the product's own screens rebuilt as live HTML so the camera can push in 3x and stay sharp.
@@ -43,7 +43,11 @@ It also ships the source series' engine as a **starter kit**. How close a new se
 
 ## What it ships with
 
-The starter kit in `skills/demo-video-craft/kit/`: the window and stage runtimes, the film table's pace and hold machinery, the screen builder, the build and the score, with an example series that builds, checks and renders. And eight Python scripts, each with `--self-test`, which builds its own fixtures and proves the check fails on a known-bad case.
+The starter kit in `skills/demo-video-craft/kit/`: the window and stage runtimes, the film table's pace and hold machinery, the screen builder, the build and the score, a one-command render-and-publish step, and the site builder. It works for a product shown inside a chat app or in its own browser window, desktop window or phone, at 16:9 or 9:16, with captions cut from the narration's own word timings when a film asks for them.
+
+Two series come with it. The **example** is a fictional product in four films: a short inside Claude, one in its own browser window, a 9:16 one on a phone, and the overview. The **reference** is the series this skill was built from, its 36 screens and ten films ported unchanged, which the kit rebuilds almost frame for frame. Read its film table to see how any shot in the published series was made.
+
+And nine Python scripts, each with `--self-test`, which builds its own fixtures and proves the check fails on a known-bad case. A `gemini.md` carries the extra steps for a run on Gemini.
 
 | Script | What it does |
 |---|---|
@@ -54,21 +58,23 @@ The starter kit in `skills/demo-video-craft/kit/`: the window and stage runtimes
 | `site_urls.py` | Every video, poster and share-image reference on every page carries `?v=` and the hash of the file now on disk |
 | `gateway_audio.py` | Narration, word timings and music through the gateway, with respellings applied in order and the cost printed before you spend more |
 | `duck.py` | The music bed's gain curve under the narration |
+| `compare_films.py` | Measures a rebuilt film against the published one frame by frame, and shows where a re-render changed |
 | `edgar.py` | A real US-listed client's figures, filing dates and holders from SEC EDGAR, when the owner wants a real company on screen |
 
 ## Does it actually work?
 
 **No comparison against working without the skill has been run.** For this release the owner chose mechanical checks only, so there is no blind taste test and no report card yet. What has been verified:
 
-- All eight self-tests pass, 49 cases between them. Run `evals/run_mechanical.sh` to repeat it.
-- The kit's example series builds, checks and renders from a clean start: two films, 0 errors in HyperFrames' check, a 20.3 s short at 1080p60 with 0 pops and 0 still frames, `delivery: PASS 1/1`. That's `evals/run_kit_example.sh`.
+- **The kit rebuilds the series it came from almost frame for frame.** Rebuilt with nothing but the kit and the series' own voice and music files, the ten films measure a mean SSIM of 0.9994-0.9998 against the published files, where 1.0 is identical, and no frame falls below 0.9985. That's `evals/run_reference.sh`.
+- All nine self-tests pass, 57 cases between them. Run `evals/run_mechanical.sh` to repeat it.
+- The kit's example series builds, checks and renders from a clean start: four films with 0 errors in HyperFrames' check, and a 16:9 short and a 9:16 short rendered with 0 pops and 0 still frames. That's `evals/run_kit_example.sh`.
 - `delivery.py check` on the source run's finished files: **PASS 10/10**, every pair sharing one picture, every file at -14.0 LUFS with true peak between -1.1 and -2.6 dBTP.
 - `site_urls.py check` on the source run's live site found **3 stale references** nobody had noticed: the share image on two pages and the menu page's poster, all carrying no hash after their files had been replaced. After the fix it reads 70 of 70 current.
 - Building the kit, and measuring the way the skill now asks, found two faults in the source run's own published films: every short's closing lockup bar sat off centre, and the lockup sat off its neighbouring text's baseline in every short and on every page header (6.7 px on one page). Both were fixed and republished. `delivery.py publish` then held back the whole set while one voiced cut measured +1.3 dBTP, and published 9 of 9 once it was fixed.
 - `series_lint.py serif` on the source run's kit found 10 serif declarations still on disk after the owner had asked for every serif to go; the films rendered in sans only because later rules overrode them.
 - Writing `duck.py` found a bug in the source run's own mixing logic: when two narration lines sat less than about 0.9 s apart, the bed crept back up under the first one. The script merges those dips, and a self-test case holds it there.
 
-The source run was a real one: an AI connector that works inside Claude and ChatGPT, made for one US advisory firm over five rounds on 24-25 November 2026, ending with a 1:41 overview and nine shorts of 21-25 s, the last round on a real US-listed company's public filings. Fifteen agents read the whole session, about 12,300 lines, to find what this version adds. `evals/evals.json` carries the four prompts that would settle the open question. [EVALS.md](EVALS.md) has the detail.
+The source run was a real one: an AI connector that works inside Claude and ChatGPT, made for one US advisory firm over five rounds on 24-25 November 2026, ending with a 1:41 overview and nine shorts of 21-25 s, the last round on a real US-listed company's public filings. Fifteen agents read the whole session, about 12,300 lines, to find what this version adds. `evals/evals.json` carries the six prompts that would settle the open question. [EVALS.md](EVALS.md) has the detail.
 
 ## What it won't do without asking
 

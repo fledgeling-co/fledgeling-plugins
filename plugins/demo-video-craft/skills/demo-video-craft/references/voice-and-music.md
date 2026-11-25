@@ -11,7 +11,7 @@ the audio is made through Vercel AI Gateway, and how it is mixed through motion-
 - **The picture carries the specifics.** Names, figures, times and which assistant is open are on screen; the line
   does not repeat them. Each line names the on-screen card that proves it; a line with no card is cut or reworded.
   Give the voice skill each short's full picture list, so the line describes the outcome rather than the screen.
-- **Budgets.** The overview: at most 130 spoken words, about nine lines of 15-21 words. A short: one line of 24-35
+- **Budgets.** The overview: at most 130 spoken words, about nine lines averaging 14 words (10-19). A short: one line of 24-35
   words (the source run's last round ran 31-35 words, 9.6-12.0 s), placed 0.5-3 s in so it ends well before the
   result's hold does. ElevenLabs v4 speaks 155-177 words a minute with about 0.10 s of silence before speech and
   0.18 s after, so 130 words is about 50 s and 30 words about 11 s. Expect a first draft at about four times the
@@ -46,6 +46,7 @@ Find the key by its variable name without printing it, then check the balance an
 grep -rl --include='.env*' '^AI_GATEWAY_API_KEY=' . 2>/dev/null      # which files hold it; the value is never printed
 set -a; . <(grep -E '^AI_GATEWAY_API_KEY=' <that file>); set +a
 curl -s https://ai-gateway.vercel.sh/v1/credits -H "Authorization: Bearer $AI_GATEWAY_API_KEY"    # the balance
+python3 scripts/gateway_audio.py lines --script lines.json --out-dir voice --respell respell.json --dry-run   # the cost
 python3 scripts/gateway_audio.py lines --script lines.json --out-dir voice --respell respell.json [--only K03]
 ```
 
@@ -55,8 +56,8 @@ per 1,000 characters, Scribe US$0.000061 a second, music US$0.0025 a second; `GE
 and prices. A nine-line re-voice of shorts cost about US$0.14.
 
 - **Respell for the voice's accent.** The owner's "clord" is non-rhotic; a US voice says every r it is given, so
-  "Clord" became "Clawd". Order rules specific first ("Diolog Guardian" → "Dialogue's Guardian" before "Diolog" →
-  "Dialogue").
+  "Clord" became "Clawd". Order rules specific first ("Acme Record" → "Ackmee's Record" before "Acme" → "Ackmee"),
+  or the possessive never fires.
 - **Read the brand name back from Scribe's words** and flag where it merges with what follows: Scribe heard a
   possessive as "Dialogues view". Scribe writes back what it expects to hear, so it cannot confirm a pronunciation;
   ask for a listen of one line per respelling and record who listened.
@@ -102,8 +103,9 @@ ffmpeg -i music/overview.wav -af ebur128=metadata=1,ametadata=print:key=lavfi.r1
 
 Nobody has heard a new bed, so read its short-term loudness every 3 s (the second command): find gaps and dips, and
 check the decay lands inside the end slide (the source's overview bed fell from -17 to -44 LUFS over its last 6 s, on
-the slide). When the owner declines paid music, the fallback is a procedural bed from motion-craft's synth: 112 BPM,
-I-V-vi-IV, drums entering after two bars, silent over the last 1.2 s.
+the slide). When the owner declines paid music, set `beds` to `"procedural"`: the kit's score plays the source run's round 2
+groove (112 BPM, I-V-vi-IV in D, drums from bar 3, silent over the last 1.2 s), ducked by the same curve. `null`
+plays effects only.
 
 ## 6. The mix
 
@@ -114,7 +116,8 @@ I-V-vi-IV, drums entering after two bars, silent over the last 1.2 s.
   full level, the same effects.
 
 `duck.py`'s constants: the dip starts 0.25 s before a line over a 0.3 s ramp, holds to 0.35 s after it and recovers
-over 0.6 s; two lines under 0.9 s apart share one dip, or the bed swells between them; the bed fades in over 0.25 s and
+over 0.6 s; two lines whose gap is under 1.5 s share one dip (the lead and tail take 0.6 s of it, and a dip and
+recovery need 0.9 s more), or the bed swells between them; the bed fades in over 0.25 s and
 out over the last 1.6 s. Those levels are an 8.9 dB duck (20 log10 of 0.28 / 0.10) and put the voice about 11 dB over
 the bed; the first mix with the paid beds, 0.55 ducked to 0.30 (5.3 dB), left the voice about 1 dB over it. Compute
 the depth from the curve before mixing and keep it at 8.5 dB or more.
@@ -128,7 +131,7 @@ one owner called them noise.
 Master both mixes to -14 LUFS with true peak at or below -1 dBTP, and measure on the encoded files: motion-craft masters
 to a -2.0 dB ceiling, and the AAC encode still added up to 0.9 dB, once taking a -2.4 dBTP mix to +1.3 dBTP.
 `delivery.py remux --limit 0.6` puts a limiter ahead of the encoder (that file then measured -3.5 dBTP at -14.3 LUFS);
-record which films need it in `SERIES.md`, because the next re-render needs it again.
+give that film `limit: 0.6` in `films.py`, so `render.py` applies it on every render, and say why in `SERIES.md`.
 
 ## 7. What the numbers cannot tell you
 

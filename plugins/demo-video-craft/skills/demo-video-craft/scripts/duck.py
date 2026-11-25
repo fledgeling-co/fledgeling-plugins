@@ -10,8 +10,8 @@ narration about 11 dB over the bed (-23 against -34 LUFS before mastering). At t
 level and the voice was only about 1 dB over it. The muted master uses the same bed with no spans, so it plays at
 0.28 throughout.
 
-The dip starts 0.25 s before a line and recovers 0.35 s after it over 0.6 s, so the bed never swells between two
-lines closer than about a second. The bed fades in over 0.25 s and out over the last 1.6 s.
+The dip starts 0.25 s before a line and recovers 0.35 s after it over 0.6 s; two lines whose gap is under 1.5 s share
+one dip, so the bed never swells between them. The bed fades in over 0.25 s and out over the last 1.6 s.
 """
 import json
 import sys
