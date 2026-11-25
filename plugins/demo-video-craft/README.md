@@ -8,7 +8,7 @@
 One overview and a set of shorts, each muted and voiced from a single render, kept in step through every round of notes.</p>
 
 <p align="center">
-  <img alt="Version 0.3.0" src="https://img.shields.io/badge/version-0.3.0-D33C21">
+  <img alt="Version 0.3.1" src="https://img.shields.io/badge/version-0.3.1-D33C21">
   <img alt="Skill: demo video series" src="https://img.shields.io/badge/skill-demo_video_series-434A55">
   <img alt="Scripts: 9, each with a self-test" src="https://img.shields.io/badge/scripts-9_self--tested-756E60">
   <img alt="Ships a starter kit" src="https://img.shields.io/badge/starter_kit-included-434A55">

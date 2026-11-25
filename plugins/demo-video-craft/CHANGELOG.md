@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1 - 2026-11-26
+
+The plugin installs. Its Claude manifest carried two fields from the Cursor manifest, `logo` and `"skills": "skills"`, and Claude Code refuses a `skills` path that does not start with `./`, so every version from 0.1.0 failed to install with "invalid manifest file". Both are gone; `skills/` is found by default, as in every other plugin here, and `claude plugin validate plugins/demo-video-craft` now passes.
+
 ## 0.3.0 - 2026-11-25
 
 The kit now rebuilds the series it came from. `kit/reference/` holds that series' 36 screens and ten-film table, ported unchanged, and `new_series.py --reference` starts from it. Rebuilt with nothing but the kit and the series' own voice and music files, its ten films measure a mean SSIM (structural similarity, 1.0 is identical) of 0.9994-0.9998 against the published files, lowest frame 0.9985 (`evals/run_reference.sh`). The self-test checks the ten film lengths against the published ones.
