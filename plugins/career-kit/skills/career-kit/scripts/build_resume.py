@@ -16,6 +16,7 @@ Markdown subset:
     - bullet
     Label: text               (inside a "Key skills" section) bold label, inline text
     <Missing Thing>           renders in red, where information has not been supplied yet
+    ==suggested text==        renders on yellow: a figure or result the person has not confirmed
     [anything in brackets]    renders as a yellow highlight (the earlier gap marker)
 
 Highlighted brackets are the gap marker. They print, deliberately: an unconfirmed figure
@@ -33,6 +34,9 @@ a = ap.parse_args()
 def inline(t):
     t = html.escape(t)
     t = re.sub(r"\[([^\]]+)\]", r'<mark class="todo">[\1]</mark>', t)
+    # ==text== marks a suggested figure or result the person has not confirmed. It prints on
+    # yellow, so a draft carrying one cannot pass for a finished document.
+    t = re.sub(r"==(.+?)==", r'<mark class="ph">\1</mark>', t)
     # <Missing Thing> marks information nobody has supplied yet. It prints in red.
     return re.sub(r"&lt;([^&\n/][^&\n]{1,70}?)&gt;", r'<span class="gap">&lt;\1&gt;</span>', t)
 
@@ -76,38 +80,41 @@ for ln in open(a.src).read().splitlines():
 if ul: body.append("</ul>")
 
 name = a.name or title
-# Type and spacing: inside the AU research ranges (Arial 10.5-11pt; 13-14pt headings; Word line
-# spacing 1.05-1.15; 18-22 mm margins) and inside typesetting guidance for reading (line height
-# 1.2-1.45x the type). Line height is in points so make_docx.py can set the same EXACT value:
-# Word's "1.15" multiple is about 1.32x the type for Arial, where CSS's 1.15 is 1.15x.
+# Type and spacing: the corporate layout from the AU layout research of 25 Nov 2026 (Arial or
+# Calibri 11pt; 14pt bold sentence-case section headings; 20 mm margins on every side; 20pt name)
+# with 2pt of leading (Tinker), 3pt between bullets and 12pt before each section heading. No
+# Australian source gives a number for line spacing or margins. Line height is in points so
+# make_docx.py can set the same EXACT value: Word's "1.15" multiple is about 1.32x the type for
+# Arial, where CSS's 1.15 is 1.15x.
 CSS = """
-@page{size:A4;margin:18mm 20mm 18mm;@bottom-center{content:"__NAME__  ·  page " counter(page)
+@page{size:A4;margin:20mm;@bottom-center{content:"__NAME__  ·  page " counter(page)
  " of " counter(pages);font:8.5pt Arial,sans-serif;color:#3D4350}}
 :root{--ink:#16181D;--ink2:#3D4350;--rule:#B9BEC8;--accent:__ACCENT__}
 *{box-sizing:border-box}
 html{background:#E9EBEF}
-body{margin:0;color:var(--ink);font:10.5pt/13pt Arial,"Helvetica Neue",Helvetica,sans-serif;
+body{margin:0;color:var(--ink);font:11pt/13pt Arial,"Helvetica Neue",Helvetica,sans-serif;
  -webkit-print-color-adjust:exact;print-color-adjust:exact}
-.sheet{width:210mm;min-height:297mm;margin:10mm auto;background:#fff;padding:18mm 20mm 18mm;
+.sheet{width:210mm;min-height:297mm;margin:10mm auto;background:#fff;padding:20mm;
  box-shadow:0 1px 4px rgba(0,0,0,.18)}
 h2,h3{break-after:avoid}li,h3+p{break-inside:avoid}h3.role+p{break-after:avoid}
-h1{font-size:22pt;line-height:26pt;margin:0 0 4pt;letter-spacing:.01em;color:var(--accent)}
+h1{font-size:20pt;line-height:24pt;margin:0 0 4pt;letter-spacing:.01em;color:var(--accent)}
 .contact{margin:0 0 4pt;color:var(--ink2);font-size:10pt;line-height:14pt}
-h2{font-size:13pt;line-height:16pt;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);
- margin:14pt 0 6pt;padding-bottom:3pt;border-bottom:.6pt solid var(--rule)}
-h3{margin:8pt 0 3pt;font-size:10.5pt;line-height:13pt;display:flex;justify-content:space-between;gap:6mm;
+h2{font-size:14pt;line-height:17pt;color:var(--accent);
+ margin:12pt 0 4pt;padding-bottom:3pt;border-bottom:.6pt solid var(--rule)}
+h3{margin:7pt 0 2pt;font-size:10.5pt;line-height:13pt;display:flex;justify-content:space-between;gap:6mm;
  align-items:baseline}
 h3.emp{font-size:12pt;line-height:15pt;margin-top:2pt}
 h3.role+h3.role{margin-top:3pt}
-h3 .org{font-weight:400;color:var(--ink2);white-space:nowrap}
-h3 .date,.line .date{font-weight:400;color:var(--ink2);white-space:nowrap}
-p{margin:0 0 6pt}
-.skill{margin-bottom:5pt}
+h3 .org{font-weight:400;color:var(--ink2);white-space:nowrap;font-size:10pt}
+h3 .date,.line .date{font-weight:400;color:var(--ink2);white-space:nowrap;font-size:10pt}
+p{margin:0 0 5pt}
+.skill{margin-bottom:4pt}
 .line{display:flex;justify-content:space-between;gap:6mm;margin-bottom:3pt}
 .line span:first-child{font-weight:600}
 ul{margin:0 0 4pt;padding-left:4.6mm}
-li{margin-bottom:4.5pt}
+li{margin-bottom:3pt}
 mark.todo{background:#FFE36E;color:#16181D;padding:0 .6mm;border-radius:.6mm}
+mark.ph{background:#FFE36E;color:inherit;padding:0}
 .gap{color:#C00000;font-weight:700}
 .banner{width:210mm;margin:8mm auto 0;font:13px/1.5 system-ui,sans-serif;color:#3D4350;
  background:#FFF6CC;border:1px solid #E5C94A;border-radius:6px;padding:10px 14px}

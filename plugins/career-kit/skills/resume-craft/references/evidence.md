@@ -6,7 +6,8 @@ Two kinds of source, kept apart because they are different kinds of claim.
 `../../../docs/deep-research/`, cited by letter: **C** Codex, **A** OpenAI, **P** Perplexity,
 **O** Claude Opus, **G** Gemini. They describe one market in one month. A rule marked R is as
 good as the reports' own sources, and where they marked a recommendation as their inference,
-this file says so.
+this file says so. Two layout reports followed on 25 November 2026: **LG** Gemini and **LP**
+Perplexity, on the layout, type and spacing of a résumé for the corporate Australian market.
 
 **C, the corrections.** Things one person and the family member relaying for her said about
 drafts in a single engagement on 20 November 2026, recorded in career-kit's
@@ -75,7 +76,7 @@ outrank both.
 | `Mon YYYY – Mon YYYY` dates | C, A, O, G; Hays via O | R |
 | Word to portals, text PDF to people | G, O firmly; C, A say keep both and follow the form | R, with a dissent |
 | Two pages by default | Inside every report's range: C two with a third if needed, A three then two, O two with three as a ceiling, G 2.5 to 3, P three | R; the reports disagree |
-| Type 10.5 to 11pt, headings 13 to 14pt, margins 18 to 22 mm | G; correction: first builds at 10pt and 13 mm held too many words | Both |
+| Type 11pt, headings 14pt bold in sentence case, margins 20 mm | LG, LP; G gave 10.5 to 11pt and 13 to 14pt; correction: first builds at 10pt and 13 mm held too many words | Both; replaces 10.5pt and 13pt capitals (25 November 2026) |
 | Look at the built page | Correction: a fixed-height page cut bullets with a correct page count | Correction |
 | Write the document whole, by hand | Correction: five résumés assembled from fragments were read by nobody as documents | Correction |
 | Use the ad's phrase once in the summary or skills and once in context | O; C and A in general terms | R |
@@ -138,6 +139,21 @@ outrank both.
 | Count a review's claims against the ads | "Named in two ads" was one; "four of the five" was three | Correction |
 | Print the official title; flag an overlap, do not close it | The person gave "Channel Manager, November 2013" for a role printed as "Manager, IVR Channel, January 2014"; the new start overlaps the previous role's end by a month, pending her HR record | Correction |
 | Two bullets that are one piece of work become one | She confirmed the risk-conflict bullet and the branch-verification bullet were the same work; the merged bullet named the agreement twice until a reviewer pointed it out | Correction |
+
+## From the layout research and the source engagement (25 November 2026)
+
+| Rule | What happened, or the source | Kind |
+| --- | --- | --- |
+| Three accepted layouts, chosen by who reads first | LG and LP independently: corporate through a hiring system, public sector, two-column page one for a PDF sent to a person | R |
+| 11pt body, 14pt sentence-case headings, 20 mm margins | LG's banking layout; LP; a federal jobs department ("Calibri or Arial in size 11"), SEEK's templates measured at Arial 11pt, a university guide ("11 or 12"), Tinker's favourite size; the Style Manual on sentence case | R |
+| Line spacing and margins are an inference | No Australian source gives a number; LG marks its values as inference; Tinker found two points of leading fastest | R, held loosely |
+| Check the example on a cited page, not only its words | SEEK's ATS page links templates whose sidebars are Word tables; its formatting article recommends two columns on page one; two vendor pages had no example at all | Correction |
+| 11pt costs words the person gave | At the same spacing, 11pt ran one résumé 112 mm onto a third page against 10.5pt's 59 mm. Both lanes of a panel chose 10.5pt, held by reordering or 5 to 8 lines of cuts; the person helping chose 11pt with about 20 lines cut | Correction; the person's choice |
+| Trims take the drafter's words, checked against every source | A trims panel found four cuts that changed her meaning and two phrases filed as the drafter's that were hers | Correction |
+| A phrase the person chose to keep stays, even after a cut is approved | A shortening of her summary was approved; both reviewing lanes found it removed wording she had marked "keep it as it is" a round earlier, and it went back | Correction |
+| A cut must remove a printed line | A compressed employer paragraph lost eight words and stayed at six lines; a split bullet took the current role past the brief's five bullets and cost the line the cuts had freed | Correction |
+| A fictional exemplar shows the research's shape | Written to the research for a made-up person and compared, it showed where the real résumé spent lines on framing and white space; none of its facts transfer | Correction |
+| Unconfirmed suggestions print on yellow | Asked to make figures up for the person to correct, the session marked them `==text==`, kept them out of every public copy, and dropped one that would have cost a third page | Correction |
 
 ## Inferences of this skill's own
 

@@ -58,7 +58,10 @@ Sydney, NSW | 0400 000 000 | name@example.com | linkedin.com/in/name | Australia
 ## 2. Professional summary
 
 One paragraph, 60 to 90 words (evals); the research's range is 60 to 100, which is the limit
-when the résumé will be judged against it (R). It is the part most likely to be read by a person and
+when the résumé will be judged against it (R). Count its printed lines as well as its words. The
+corporate layout asks for three or four lines (LG); at 11pt across 170 mm a line holds about 15
+words, so four lines is about 60 words, and 100 words prints as eight lines, twice that. When the
+summary runs past five lines, cut part 4 first and say how many lines it prints. It is the part most likely to be read by a person and
 the part an AI summary is most likely to be built from, so it has to make the case alone, and it
 has to be short enough that the reader reaches the roles.
 
@@ -336,7 +339,8 @@ true start date stays in the heading (R).
 ## 8. Education and certifications
 
 One line each: the qualification and institution; the certification's full name with its
-acronym, the issuer, and the year or status.
+acronym, the issuer, and the year or status. In the corporate layout the order after experience
+is education, then certifications and training, then the referees line if there is one (LG).
 
 - Include the section only when there is something to list. An empty or padded section is worse
   than none (C).
@@ -352,7 +356,7 @@ acronym, the issuer, and the year or status.
 
 | Left out by default | Add it when |
 | --- | --- |
-| Referees | The employer asks. "Referees available on request" is acceptable and spends a line |
+| Referees | The employer asks, or the layout is the public-sector one, which wants two named referees. Otherwise "Referees: available on request" is acceptable (a federal careers guide says so, checked 25 November 2026) and spends a line; leave it off a full page, and for an internal move expect the current manager to be called anyway (LG, LP, C) |
 | Professional development | There is dated learning from the last three years that the target role cares about |
 | Awards, memberships, volunteering | It shows something the target role asks for and no role above shows it |
 | A projects or achievements page | Not added. It pulls outcomes away from the role where they happened and pushes recent work off page one |

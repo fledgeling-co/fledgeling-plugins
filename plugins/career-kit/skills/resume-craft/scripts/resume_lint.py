@@ -154,7 +154,8 @@ PERSONAL = [
 ]
 CLEARED = re.compile(r"\b(security cleared|probity cleared|police check(ed)?|apra approved|"
                      r"eligible for (all )?(banking|background) checks)\b", re.I)
-GAP = re.compile(r"\[[^\]\n]{2,}\](?!\()|<[^<>\n/!][^<>\n]{1,70}>")
+# Gap markers: [old style], <Missing Thing>, and ==suggested text== the person has not confirmed.
+GAP = re.compile(r"\[[^\]\n]{2,}\](?!\()|<[^<>\n/!][^<>\n]{1,70}>|==[^=\n]+==")
 
 
 def words(text):
@@ -548,7 +549,7 @@ def lint(text, voice="first", summary_range=(60, 90), allow_gaps=False, year=Non
     total = len(words(re.sub(r"^#+ ", "", body_text, flags=re.M)))
     r.info(f"{total} words, {len(all_bullets)} bullets")
     if total > 1100:
-        r.warn("length", f"{total} words is more than two pages usually hold at 10.5pt")
+        r.warn("length", f"{total} words is more than two pages usually hold at 11pt")
     low_text = re.sub(r"\s+", " ", text.lower())
     for term in keep:
         if term.lower() not in low_text:
@@ -612,6 +613,12 @@ def run_self_test():
     else:
         ok = False
         print("FAIL gaps: <placeholder> should fail the lint unless --allow-gaps is given")
+    sg = good.replace("was promoted twice", "was promoted ==twice==", 1)
+    if "gaps" in lint(sg, year=2026).codes() and not lint(sg, year=2026, allow_gaps=True).errors:
+        print("ok   an unconfirmed ==suggestion== is an error, and a warning with --allow-gaps")
+    else:
+        ok = False
+        print("FAIL gaps: ==suggestion== should fail the lint unless --allow-gaps is given")
     vg = good.replace("- Coached 3 assessors into senior roles.", "- Coordinated 5 to 10 changes to the claims process for 12 assessors.", 1)
     if "vague-range" in lint(vg, year=2026).codes() and "vague-range" not in rg.codes():
         print("ok   vague-range fires on '5 to 10 changes', and not on good.md")
@@ -695,7 +702,7 @@ def main():
     ap.add_argument("--summary-words", default="60-90",
                     help="accepted summary length as min-max (default 60-90)")
     ap.add_argument("--allow-gaps", action="store_true",
-                    help="report <placeholder> and [gap] markers as warnings, for a draft going to the person")
+                    help="report <placeholder>, ==suggestion== and [gap] markers as warnings, for a draft going to the person")
     ap.add_argument("--keep", metavar="FILE",
                     help="a file of terms that must stay in the résumé, one per line: words "
                          "the person asked for and the ad's required phrases they hold")

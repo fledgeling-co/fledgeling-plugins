@@ -166,6 +166,16 @@ published review page and a live form with drift from the person's confirmed wor
 she had worded herself replaced with one she had rejected, and two phrases she had confirmed
 separately merged into one. Only the panel run on the form caught them.
 
+## Review an approved change too
+
+The person helping can approve a change that the person's own record has already ruled out. On
+25 November 2026 a shorter summary sentence was approved; both lanes of the panel on the change
+found it removed wording the person had marked "keep it as it is" a round earlier, and it went
+back. Put every approved wording change to a panel before it reaches a build anyone else sees,
+ask each lane to compare the changed line with the person's own words and quote what it lost,
+and end the brief with a verdict line per change (keep, amend, or revert by number), so the
+tally is per change rather than per document.
+
 ## When to stop
 
 Stop when the remaining edits are the panel's own wording, or when a round raises only points

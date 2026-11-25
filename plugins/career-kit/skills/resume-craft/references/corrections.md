@@ -88,6 +88,9 @@ cutting, and re-run the section's test afterwards.
 | "Add a line on how I use Copilot" | Crediting one tool with work the person gave two tools | "AI tools like Copilot", with the check on the output they described |
 | "Something else": "Calls were more likely which would have caused wait times impacts" | Reading a one-clause correction as acceptance of a whole rewrite | The correction, applied to the line as last approved |
 | "Too early to tell" (whether a change cut issues) | An expected result written as achieved ("reducing the risk") | The purpose ("to reduce the risk") |
+| "Set the body at 11pt and hold two pages" | Shrinking spacing or margins to fit | Every confirmed phrase: cut the drafter's words first, the person's only with approval, and only where a cut removes a printed line |
+| "Keep her voice" (after approving a shorter summary sentence) | A shortened sentence the person had marked "keep it as it is" | Her chosen verbs and nouns, whole; the space found elsewhere or not at all |
+| "Make one up, she can confirm later" | An invented figure presented as fact, or carried to a public copy | The figure, highlighted yellow as `==text==` in the internal copy only, with the question it stands for recorded |
 
 ## Over-corrections found on audit
 

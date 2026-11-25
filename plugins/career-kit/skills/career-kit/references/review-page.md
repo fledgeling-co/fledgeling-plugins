@@ -52,6 +52,19 @@ first (`research.md`, The digest); checking found three errors on the source ses
 them its claim that the heading sizes and margins came from no source. A page that may be shared
 names neither the person nor their employer.
 
+Check each cited page's own example too, not only its sentence (`research.md`, The digest). The
+source session's page said no source recommended a different layout; opening every cited page
+found a job board article recommending two columns on page one and two of its three templates
+with a sidebar, and the page now says so and cites them for what they show. Lay out the accepted
+layouts as a table with the one chosen marked, and label each choice with how settled it is,
+keeping the line spacing and margins under "a choice made here" where no source gives a number.
+
+Link a fictional exemplar from the page when one exists (resume-craft, The document): page
+previews, three or four things to look for in it, and the PDF. Each page of the exemplar says it
+is fictional, and the page names what is invented so no reader takes its figures as a benchmark.
+Copy the PDF and its previews beside the page in the build, and into the app's assets when the
+page is exported.
+
 ## A second review, of the rewritten résumé
 
 The same page shape serves a review of the résumé after the rewrite: verdict, the page sketches

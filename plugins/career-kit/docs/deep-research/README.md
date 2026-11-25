@@ -15,3 +15,25 @@ by the letter below. No report contains a real person's details.
 All six runs were read in full before the skill was written. Citations inside the reports were
 not re-opened for this skill; the careers-site checks recorded in `au-banking-2026.md` were made
 directly on 20 November 2026 during the source engagement.
+
+## Layout and typography, 25 November 2026
+
+Two more reports on a second brief: the layout, structure, type, size, line spacing and margins
+of a résumé for the corporate Australian market in 2026, and whether there is one accepted layout
+or several. `resume-craft/references/evidence.md` cites them as LG and LP.
+
+| Letter | File | Produced by | Sources | Notes |
+| --- | --- | --- | --- | --- |
+| LG | `gemini-au-resume-layout-2026.md` | Gemini Deep Research in a signed-in Chrome, started through Dossier | 31 | Text read from the page's accessibility tree, because copy and export were unavailable; line breaks are approximate and citation chips appear as fragments. Marks its exact spacing values as its own inference |
+| LP | `perplexity-au-resume-layout-2026.md` (+ `.sources.md`) | Perplexity Sonar Deep Research through Dossier (`dr_8007ed40c67f61d3`), about $4 | 20 | Strongest on government guidance and the legibility research; leans on one employer's own CV guide |
+
+Both found three accepted layouts rather than one: corporate through a hiring system, public
+sector, and a two-column first page only for a PDF sent straight to a person. Neither found an
+Australian source that gives a number for line spacing or margins.
+
+Every page cited for a layout claim was then opened and its own example checked against the
+claim. Two did not match: SEEK's ATS-tips page links three "ATS-optimised" templates, two of which
+build a sidebar from Word tables (measured: Arial 11pt, 12.7 mm margins, 16 to 18pt headings), and
+SEEK's formatting article recommends two columns on page one. One employer's own published CV
+guide said "a CV can be 3-4 pages long" and asked for "plenty of white space"; read the target
+employer's own guide where it has one.

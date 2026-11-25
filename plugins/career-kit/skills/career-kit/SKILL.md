@@ -93,9 +93,11 @@ Depth: `references/intake.md`.
 ## 2. Gather the right research
 
 Four subjects, each of which changes the documents: résumé conventions in the person's
-country; conventions in their industry; the specific target employers (which applicant
-tracking system each runs, the vocabulary in their current ads, how they interview, their
-stated values); and how automated screening works now.
+country, including the accepted layouts, type sizes and spacing; conventions in their industry;
+the specific target employers (which applicant tracking system each runs, the vocabulary in
+their current ads, how they interview, their stated values, any CV guide of their own); and how
+automated screening works now. Research the layout and type before the first build, not after
+the copy has settled.
 
 Run three or more independent research lanes and reconcile them into one digest where every
 claim carries the lanes that support it. Check anything the lanes disagree on directly
@@ -189,8 +191,11 @@ who wants several. Treat its output as a draft to read and rewrite whole.
 
 After each build, look at the page images. A page count says nothing about a second page that
 is half empty, a role line that has wrapped, or a font that fell back. Check the Word file's page
-count in Word itself, because Word lays the same text out differently from the PDF, and set
-spacing from the middle of the research's ranges (`references/documents.md`, Type and spacing). Upload the Word file to
+count in Word itself, because Word lays the same text out differently from the PDF. The
+builders default to the corporate Australian layout: Arial 11pt on exact 13pt lines, 14pt
+sentence-case headings, a 20pt name and 20 mm margins (`references/documents.md`, Type and
+spacing). A figure the person helping asks you to suggest rather than ask for goes in as
+`==text==`, which both builders print on yellow; keep it out of every public copy. Upload the Word file to
 application portals, which parse it, and send the PDF to people. A Google Doc version has not
 been built by this skill in practice: check which document connector the runtime offers,
 create the document from the same Markdown, and say that the step has no prior run behind it.

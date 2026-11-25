@@ -86,14 +86,17 @@ fact.
 
 ## The document, top to bottom
 
-Write the sections in this order, under these headings, in one column of plain text (R).
-`references/structure.md` covers format, length, long tenure and files, and
+Write the sections in this order, under these headings in sentence case, in one column of
+plain text (R). This is the corporate layout, for an application through a hiring system;
+Australian guidance accepts two others, for the public sector and for a PDF sent straight to a
+person, and `references/structure.md` says when each applies. It also covers format, length,
+type, long tenure and files, and
 `references/sections.md` has each section in depth with a worked example.
 
 | Section | Its job | Limit (R) | Test |
 | --- | --- | --- | --- |
 | Name and contact line | How to reach them and their right to work | Name, then 1 or 2 lines | Is everything plain text in the body, and is anything there that no employer needs? |
-| Professional summary | What they are responsible for now, named so a reader outside their team understands it, which of the ad's requirements they hold, what makes them different, and the judgement their work turns on | 60 to 90 words; the research allows 100 | Could this paragraph sit on someone else's résumé? Could each sentence begin "Usually"? |
+| Professional summary | What they are responsible for now, named so a reader outside their team understands it, which of the ad's requirements they hold, what makes them different, and the judgement their work turns on | 60 to 90 words, about 4 to 6 printed lines; the research allows 100 | Could this paragraph sit on someone else's résumé? Could each sentence begin "Usually"? |
 | Key skills | What they are unusually good at, as abilities that carry to another role | 2 to 4 labelled lines, plus a tools line | Is each item an ability, true in their next job, missing from most résumés with the same title, and shown by a line below? |
 | Employer heading | Where they have worked and how they moved | 1 line, plus 1 or 2 sentences when several roles sit under one employer | Are the start date and each move true and visible? |
 | Current role | Exactly what is theirs, then what happened because of them | Scope line of 1 or 2 sentences; 3 to 5 bullets | Is each bullet one thing that happened, ending on what it changed? |
@@ -103,7 +106,13 @@ Write the sections in this order, under these headings, in one column of plain t
 
 Left out by default: a photo, date of birth, marital status, street address, a count of years
 of experience, a career objective, referee names, skill bars, and any claim to be "cleared"
-for background checks (R).
+for background checks (R). "Referees: available on request" is acceptable where there is room.
+
+**To see the research's shape on its own,** write a short résumé for a made-up person in the
+same market, built to every default here, and compare it with the real one. In the source
+session that comparison showed which framing paragraphs and bullets spent lines the research
+would not, and where the real page had no white space left. Borrow its shape, never its facts,
+and say on every page of it that the person and employers are fictional.
 
 **Each section speaks at its own level.** A résumé makes claims near the top and proves them
 further down. The summary is about the person whatever the job. A skill is an ability that
@@ -243,6 +252,10 @@ python3 scripts/resume_lint.py --keep keep.txt path/to/resume.md          # exit
 python3 scripts/resume_lint.py --allow-gaps --keep keep.txt path/to/draft.md   # a draft with <placeholders>
 ```
 
+When the person helping asks for a figure to be suggested rather than asked for, write it as
+`==about 200==`: the builders print it on yellow and the lint treats it as a gap. It goes in the
+internal copy only, never in a public copy, and the reply names each one as a question.
+
 6. Reply in 12 lines or fewer: the path; each placeholder as a question, most valuable first;
    each requirement the résumé does not meet; each departure from a limit, with whose decision
    it was.
@@ -302,6 +315,7 @@ between two wordings or structures to `decision-panel:decision-panel`.
 Deliver what was asked at the scope intended: a request for a summary gets a summary, with a
 one-line note if another section contradicts it. Do the reading, judging and writing yourself;
 this is one document at a time and needs no subagent. The résumé is two pages unless the
-person's market says otherwise, and two pages at readable spacing: when a document fits only by
-pulling line spacing, bullet gaps or margins below the middle of their ranges, cut words instead,
-the drafter's before the person's (`../career-kit/references/documents.md`, Type and spacing).
+person's market says otherwise, at 11pt with 14pt headings and 20 mm margins for Australia: when
+a document fits only by pulling the type, line spacing, bullet gaps or margins below their
+defaults, cut words instead, the drafter's before the person's, and only where the cut removes a
+printed line (`../career-kit/references/documents.md`, Type and spacing).

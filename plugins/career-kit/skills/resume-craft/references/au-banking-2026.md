@@ -2,20 +2,23 @@
 
 The one market this skill has research for. Read it when the person is applying to an
 Australian bank or financial-services employer. Every line is from six research reports with a
-cut-off of 19 to 20 November 2026, held in `../../../docs/deep-research/`; hiring systems and ads
+cut-off of 19 to 20 November 2026 and two layout reports of 25 November 2026, held in
+`../../../docs/deep-research/`; hiring systems and ads
 change, so re-check anything a decision rests on.
 
 ## Conventions
 
 | Item | Convention | Note |
 | --- | --- | --- |
-| Length | Two pages; a third only for evidence a role asks for | Hays says about two; SEEK allows two to five for senior people; the reports recommend between two and three |
+| Layout | The corporate one: one column, through the bank's portal | The layout research found three accepted layouts by channel; see `structure.md`, Which layout |
+| Length | Two pages; a third only for evidence a role asks for | Hays says about two; SEEK allows two to five for senior people; the reports recommend between two and three. One bank group's own CV guide allows three to four pages |
+| Type | Arial or Calibri 11pt; 14pt bold sentence-case headings; 20 mm margins; exact 13pt lines | The layout research of 25 November 2026; no source gives line spacing or margins, so those are an inference |
 | Paper | A4 | |
 | Spelling | Australian: organisation, prioritise, behaviour | An exact-term search may not match an American variant |
 | Personal details | Name, city and state, mobile, email, one web address | No photo, date of birth, marital status or street address |
 | Work rights | "Australian citizen" or the true status on the contact line | Employers filter on it; complete the same field on SEEK and on forms |
 | Referees | Left off; "Referees available on request" is acceptable | Use "referees", the local word. Internally, expect the current manager to be asked |
-| Summary | 60 to 100 words | Hays gives 50 to 150 |
+| Summary | 60 to 100 words; three or four printed lines in the corporate layout | Hays gives 50 to 150 |
 | Background checks | Say nothing about being "cleared" | Banks run their own checks at offer; an industry conduct-check protocol reaches back up to five years, so dates and titles have to match the employer's record |
 | File | Word to bank portals, text-based PDF to people | One system's vendor lists DOCX and not PDF for parsing |
 
@@ -105,3 +108,6 @@ Journey Expert.
 | Dates on early roles | One suggests dropping pre-2011 dates externally; others keep true dates | Keep dates on roles listed in full; one undated "Earlier roles" line is acceptable |
 | Naming regulations | Two reports promote naming them; two say only where the work was done | Only inside a true achievement |
 | How many employers screen with AI | 72% from a job board's survey via secondary sources; 17% from AHRI's own survey | Prefer the primary source |
+| Body size | Two earlier reports 10.5 to 11pt; both layout reports 11pt, 10.5pt "if dense, never <10 pt" | 11pt, held to two pages by cutting; the person may choose 10.5pt to keep more words |
+| Order on page one | Skills before experience (Workforce Australia, a SEEK guide); skills after experience (SEEK's ATS guide); education first (public sector) | Summary, key skills, then experience for the corporate layout |
+| Referees | Public sector wants two named; private sector accepts "available on request" or nothing | Left off unless asked; the line is acceptable where there is room |

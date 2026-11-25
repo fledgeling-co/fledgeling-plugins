@@ -1,5 +1,36 @@
 # CHANGELOG
 
+## 0.7.0
+
+Layout research and a fictional exemplar, from the source engagement on 25 November 2026: two
+reports on the layout, type and spacing of an Australian corporate résumé, every cited page
+opened and its own example checked, the body moved to 11pt held to two pages, and the résumé
+compared with one written to the research for a person who does not exist.
+
+- `career-kit` builders: `build_resume.py` and `make_docx.py` default to the corporate Australian
+  layout: Arial 11pt on exact 13pt lines, 14pt bold section headings in sentence case with 12pt
+  above, a 20pt name, role headings at 10.5pt with the employer and dates at 10pt, 3pt between
+  bullets, 5pt after paragraphs, 20 mm margins on every side. Both print `==text==` on yellow, an
+  unconfirmed suggestion; `make_variants.py`'s fallback CSS follows.
+- `resume-craft` lint: `==text==` is a gap marker, an error unless `--allow-gaps`; a self-test
+  covers it. The length warning names 11pt.
+- `resume-craft` `structure.md`: Which layout (corporate, public sector, direct to a person), the
+  11pt type row and a line-spacing row marked as inference, the length sources including an
+  employer's own guide, and suggestions on yellow. `sections.md`: the summary's printed lines,
+  referees and the order after experience. `au-banking-2026.md`: layout, type, and three more
+  disagreements. `corrections.md`: three corrections. `evidence.md`: the layout reports as LG and
+  LP, and a table of the rules from 25 November.
+- `resume-craft` `SKILL.md`: the layout is the corporate one and others exist; a summary of 4 to
+  6 printed lines; a fictional exemplar to see the research's shape; suggestions on yellow; two
+  pages at 11pt, cutting only where a cut removes a printed line.
+- `career-kit` `documents.md`: Type and spacing rewritten for 11pt, the 10.5 against 11pt trade
+  in measured lines, and a cut checked for a removed line. `research.md`: layout and type as their
+  own subject, the employer's own CV guide, a cited page checked for its example, and a report
+  read from the accessibility tree. `review-page.md`: the example check, a layouts table, and a
+  linked fictional exemplar. `panels.md`: review an approved change too. `SKILL.md` and
+  `evidence.md` follow.
+- `docs/deep-research/`: the two layout reports and a README section on the cited-page check.
+
 ## 0.6.0
 
 Typography and density, and citations, from the source engagement on 24 November 2026: the

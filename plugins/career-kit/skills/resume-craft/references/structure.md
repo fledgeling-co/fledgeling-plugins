@@ -1,8 +1,9 @@
 # Structure, format and length
 
 Read this when laying out a document, fitting it to pages, or handling a long career at one
-employer. **R** marks a default from the research, **C** one from a recorded correction;
-`evidence.md` has the source for each.
+employer. **R** marks a default from the research, **C** one from a recorded correction, and
+**LG** or **LP** one from the layout research of 25 November 2026; `evidence.md` has the source
+for each.
 
 ## The Markdown source
 
@@ -45,6 +46,20 @@ Qualification, Institution
 Write the document out whole, by hand. A script may render and check it; a document assembled
 from sentence fragments by a script is one nobody has read as a document (C).
 
+## Which layout
+
+Australian guidance does not converge on one layout. It splits by who reads the résumé first,
+and each layout shares one column through the body, plain type and newest role first (LG, LP):
+
+| Layout | Use it for | Shape | Length | Type |
+| --- | --- | --- | --- | --- |
+| Corporate, through a hiring system | Banks, large employers and recruiters, uploaded to a portal | One column; no tables, sidebars or text boxes | Two pages; three at executive scope | Arial or Calibri 11pt, 14pt headings, 20 mm margins |
+| Public sector | Government roles with a written pitch or selection criteria | One column; personal details and any clearance first, gaps explained, two named referees | Two to six pages | 11 to 12pt |
+| Direct to a person | A PDF emailed to a recruiter or executive, never uploaded | Two columns on page one only | Two to three pages | 11pt in the main column |
+
+Default to the corporate layout, and say which one you chose when the person's channel is
+different. A two-column page one is acceptable only for a file that no portal will parse (LG).
+
 ## Format
 
 Every employer runs a different hiring system, so the file has to survive all of them (R). The
@@ -54,12 +69,13 @@ résumé always fails.
 | Item | Default | Why |
 | --- | --- | --- |
 | Layout | One column. No tables, text boxes, sidebars, icons, skill bars or photos | Parsers interleave columns and drop text in boxes (R) |
-| Headings | Professional summary, Key skills, Professional experience, Education and certifications | Parsers map standard headings to fields; an inventive heading may not map (R) |
+| Headings | Professional summary, Key skills, Professional experience, Education and certifications, in sentence case | Parsers map standard headings to fields; an inventive heading may not map (R). The Australian Government Style Manual sets headings in sentence case, and no Australian example uses capitals (LG) |
 | Contact details | Plain text in the body, under the name | Text in a Word header or footer can be skipped. A page number in the footer is fine (R) |
 | Dates | `Mon YYYY – Mon YYYY` on every role, `Present` for the current one | Forms and ranking tools compute tenure from them; years alone hide duration (R) |
 | Role line | `Title | Employer | dates`, the same pattern every time | A parser reads each role as its own record (R) |
 | Bullets | A plain hyphen or round bullet | Custom glyphs can extract as stray characters (R) |
-| Type | A standard sans-serif (Arial, Calibri, Aptos), body 10.5 to 11pt, section headings 13 to 14pt, margins 18 to 22 mm | Readable print; resolve overflow by cutting, never by shrinking type (R, C) |
+| Type | Arial or Calibri, body 11pt (10.5pt only for a dense document, never below 10), section headings 14pt bold, name 20pt, margins 20 mm on every side | 11pt is the most-cited size: a federal jobs department, SEEK's own templates, two university guides and the legibility research's favourite size. SEEK puts headings at 14 to 16pt (LG, LP). Resolve overflow by cutting, never by shrinking type (C) |
+| Line spacing | Exact 13pt lines on 11pt type, 3pt between bullets, 12pt before each section heading | No Australian source gives a number. Two points of leading read fastest in Tinker's studies (LP); the spacing values are one report's inference (LG). Say so where the layout is explained (C) |
 | File | Word (.docx) to an application portal, text-based PDF to a person | One vendor lists DOCX and not PDF for parsing; PDF holds its layout when forwarded. Follow the employer's instruction where it gives one (R) |
 | File name | `Firstname-Lastname-Resume-Role.docx` | So the recruiter can find it |
 
@@ -68,9 +84,12 @@ stylesheet and missing from the machine falls back silently (C).
 
 ## Length
 
-Two pages is the default, because it sits inside every source's recommendation for an
-experienced person: one source says about two, another allows two to five for senior people,
-and the research reports themselves range from two to three (R). A third page is for evidence a
+Two pages is the default, because it is the only length inside every source's range: a federal
+jobs department says no more than two, a federal police guide for senior executives a maximum of
+two, Hays about two, Robert Half two to three, a university guide two to four, SEEK one to two and
+up to five for senior people, and the public service two to six (LG, LP). An employer's own
+published guide can differ: one large employer's says "a CV can be 3-4 pages long" and asks for
+"plenty of white space", so read the target employer's guide where it has one (LP). A third page is for evidence a
 specific role asks for, and an internal hiring manager who wants role-by-role depth is the usual
 case (R). The person's market can move this default; see `au-banking-2026.md`.
 
@@ -138,3 +157,11 @@ placed where the answer will go: `<Project Name>`, `<what changed as a result>`.
 print it in red, in the PDF and the Word file. A document with a placeholder in it goes to the
 person and never to an employer; the lint exits non-zero on one unless `--allow-gaps` is given.
 Square brackets are still recognised, for drafts written to the earlier convention (C).
+
+A figure or result the person has not confirmed, written in at the request of the person
+helping so the person can correct it rather than invent it from nothing, goes between double equals signs:
+`Supported access for ==about 200== home lending bankers`. The builders print it on a yellow
+highlight, in the PDF and the Word file, and the lint treats it as a gap. It lives only in the
+internal copy that goes to the person; the public copy, the website and the LinkedIn copy keep
+the confirmed wording until the person answers. Record each one and the question it stands for
+(C).

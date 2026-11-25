@@ -76,6 +76,13 @@ themselves are evidenced in `../../resume-craft/references/evidence.md`.
 | Keep the confirmed-facts section current in place | A stale "end dates inferred" line outlived the round that confirmed them and misled a review |
 | An account-level lane failure is reported, not retried | A lane returned a Terms of Service 403 twice and another a usage limit; both were reported once and the panel ran on the lanes that answered |
 | Before changing anything after "why was X removed", check which copy was read | The figure asked about was on the internal copy and absent from public ones by the person's rule; the count asked about was in no source |
+| Research the layout and type as their own subject, before the first build | Asked after seven rounds, the layout research moved the body to 11pt and the headings to sentence case, and found three accepted layouts by channel |
+| Check what a cited page shows, not only what it says | Three cited pages showed or linked a layout other than the one they were cited for; the explainer had said no source recommended another |
+| Read the target employer's own CV guide | One employer group's guide allowed three to four pages where every public source said about two |
+| Review an approved change with a panel | An approved summary cut removed wording the person had marked "keep it as it is"; both lanes found it and it was reverted |
+| A cut has to remove a printed line | A compressed paragraph lost eight words and no line, and was reverted |
+| Suggested figures print on yellow, in the internal copy only | Asked to make two figures up for the person to correct, the session marked them, kept them off public copies, and dropped one that would have cost a third page |
+| A fictional exemplar shows the research's shape | Comparing one with the real résumé showed where framing spent lines and that both pages had no white space |
 
 ## What this skill changed from the session
 

@@ -94,7 +94,7 @@ for key, v in spec["variants"].items():
         # the styled version was asked for immediately, so prefer --docx-python.
         tmp = os.path.join(a.out, f".{key}.tmp.html")
         out, ul = ['<html><head><meta charset="utf-8"><style>body{font-family:Calibri,Arial;'
-                   'font-size:10.5pt}h1{font-size:20pt}h2{font-size:11pt}'
+                   'font-size:11pt}h1{font-size:20pt}h2{font-size:14pt}'
                    'h3,h4{font-size:10.5pt}</style></head><body>'], False
         for line in md.splitlines():
             if not line.strip():
