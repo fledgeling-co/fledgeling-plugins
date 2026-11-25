@@ -17,7 +17,7 @@ output, then fill the judgement half yourself.
 
 | Field | How you establish it | Why a finding turns on it |
 |---|---|---|
-| Instruction files | `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `CONTRIBUTING.md` at root and per package | Angle N cannot fire without them, and a convention finding must quote the governing rule |
+| Instruction files | `CLAUDE.md`, `AGENTS.md`, `REVIEW.md`, `.cursorrules`, `CONTRIBUTING.md` at root and per package, read from the base ref in PR and branch-range mode (`git show "$BASE:<path>"`) | Angle N cannot fire without them, and a convention finding must quote the governing rule |
 | Workspace layout | `pnpm-workspace.yaml`, `package.json#workspaces`, `turbo.json`, `nx.json`, `lerna.json`, `Cargo.toml` `[workspace]`, `go.work`, `pyproject.toml` | Area targeting, bucketing, and the scope of every cross-package grep |
 | Package manager | The lockfile present: `pnpm-lock.yaml`, `package-lock.json`, `yarn.lock`, `bun.lockb`, `uv.lock`, `Cargo.lock`, `go.sum` | Every command you print for the reader to run has to be the one that works here |
 | Gate commands | The `scripts` block of each touched package, plus the CI workflow | Stage-2 must invoke the repo's own gate, not a tool that happens to be installed |

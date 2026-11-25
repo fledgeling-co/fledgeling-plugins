@@ -5,8 +5,14 @@ The decision procedure, and the cases where it is not obvious.
 ## The procedure
 
 1. **Does the work need this working tree, or a GUI on this Mac?**
-   If no to both, it is a candidate for the errand plane. Most benchmark runs,
-   corpus processing and self-contained builds are.
+   If no to both, it belongs on another machine, and the shape of the work picks which:
+   - a test suite, e2e run or review of a branch that is already pushed → an **egress CI job**;
+   - looking after an open pull request (`shipyard:steward`) → an **egress CI job**, for the
+     trust reason under the egress plane's constraints;
+   - work that needs a long-lived dev stack (a seeded database, a running API) → the
+     repository's **declared remote dev host**, when its `CLAUDE.md` names one;
+   - other self-contained work (benchmark runs, corpus processing, big builds) → the
+     **errand** plane.
 2. **Is the output a judgement rather than an artifact?**
    A verdict, a review, a completeness critique, a second opinion — that is
    `defer:defer`. It costs another vendor's plan headroom and none of this machine's
@@ -53,6 +59,8 @@ Common and usually right:
 | local | exit 75 + JSON | No berth now. Bounded, jittered, retry at your layer. |
 | local | exit 64 | The ask is impossible on this machine at any time. |
 | errand | `denied [kind]` | A named precondition is missing; nothing was started and no idempotency key spent. |
+| egress | the job stays queued, or a step fails connecting to a host | No runner online for the job's labels; or the host is outside the quarantine allowlist (GitHub and the listed package registries only). |
+| remote dev host | the host's own refusal (dAIolog: `dio` reports a down Docker daemon or no headroom) | Pick another host from the registry, or wait; do not fall back to running the stack here unannounced. |
 | proctor | queue wait, then a refusal naming who holds the machine | Another run holds the foreground turn. |
 | defer | lane down (usage limit, empty output file) | Take the next family; report the substitution. |
 
@@ -60,6 +68,23 @@ An empty output file from a CLI lane is a failure even when the exit code is
 zero and the header looks right. That has happened here: `codex` printed a
 correct model header and produced nothing, and separately refused with "Not
 inside a trusted directory" while still exiting cleanly.
+
+## The egress plane's constraints
+
+Four facts decide whether a job can run there at all. Each Mac carries at most two macOS guest VMs
+(Apple's limit), so macOS jobs queue past that. The job cannot reach the LAN, so anything the tests
+need (a database, a queue, an API) starts inside the job. And outbound HTTPS reaches GitHub and the
+listed package registries only, so a job that calls a model API waits until egress allowlists that
+host; until then, keep model-calling review and verify steps on `defer:defer` from this machine and
+send only the execution to egress. And git hooks are not installed in the guest, so a check that
+lives only in a hook never runs on a commit made there; a check the work depends on belongs in CI.
+
+**Work that merges a branch it did not write and then runs that tree's tests runs code from everyone
+who can land changes on that branch.** A steward pass merges the base into a pull request and runs
+its tests; a rebase-and-test does the same. On this Mac that code runs with this user's credentials,
+keychain and working trees. Route such work to egress, whose disposable VM is the point. Run it here
+only in a repository where the owner has said everyone who can land changes on the base is trusted,
+and say in the routing line which of the two applied.
 
 ## Two standing constraints
 

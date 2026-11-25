@@ -260,10 +260,11 @@ downgrade in the artifact, never a silent pass; the egress opt-out is re-grepped
 external call because it is the only kill-switch reaching runners already in motion.
 
 **Runners on Opus 5.5.** Read `model-and-effort.md` §2 and §8 before writing a runner prompt:
-start one effort level lower than the Opus 5 table, treat a runner turn that ends in a progress
-report as a report and let `ORCHESTRATOR.md` and the gates decide done, and name in the prompt the
-early stops an unattended runner should not take. Where the harness can append it, give each
-runner elapsed time against a budget; 5.5 paces itself to it.
+start one effort level lower than the Opus 5 table, and treat a runner turn that ends in a progress
+report as a report, letting `ORCHESTRATOR.md` and the gates decide done. The runner template in
+`references/scheduling-and-concurrency.md` carries the four early stops an unattended runner should
+not take and a time line: a budget from this repository's own runner durations, or elapsed time
+alone until five runs at that plan tier exist. Verifiers get elapsed time and no budget.
 
 **Never strip the pipeline's safeguards to make a runner cheaper.** The sanctioned low-cost
 runner shape is exactly this file's runner prompt with leaner inner waves and cheaper leaf

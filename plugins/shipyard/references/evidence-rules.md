@@ -72,7 +72,12 @@ render.
 Behavioural and visual evidence comes through the repo's browser tooling — Obscura on this
 machine (`obscura serve --port 9222` over CDP, or the obscura MCP; localhost needs
 `--allow-private-network` before the subcommand), or whatever the repo's CLAUDE.md names — with
-the serving ladder for the recurring "worktree isn't served" blocker: (i) serve the worktree app;
+the serving ladder for the recurring "worktree isn't served" blocker: (0) when the repository
+ships a verify skill (`.claude/skills/verify/SKILL.md`, at the root or in the changed package's
+directory), follow its steps to start and exercise the app, taking the file from the integration
+branch; when the branch edits it, grade with the integration branch's version and report the edit,
+so a change cannot redefine how it is checked, and report every step it ran with what was seen;
+(i) serve the worktree app;
 (ii) if already merged to the served branch, verify on the merged stack *before* posting
 behavioural claims; (iii) the browser MCP. For UI verification at scale, the `proctor:proctor` skill
 governs computer/browser use. Two Obscura facts that change verdicts: CSS animations and

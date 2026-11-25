@@ -21,13 +21,15 @@ No single decision was wrong. Nothing was counting them together.
 
 ## What it does
 
-**Routes across five planes**, choosing whichever resource is least scarce right
+**Routes across seven planes**, choosing whichever resource is least scarce right
 now rather than whichever is nearest to hand:
 
 | Plane | Spends |
 |---|---|
 | This Mac, via the wrapper | CPU, RAM, disk |
 | An `anvil errand` container | another machine entirely |
+| An egress CI job on a self-hosted runner | a mesh node's disposable VM |
+| The repo's declared remote dev host | another machine and its long-lived dev stack |
 | A `proctor:proctor` session | a machine-wide foreground turn |
 | `defer:defer` to another model | another vendor's plan headroom |
 | Claude subagents | this session's rate limit and context |

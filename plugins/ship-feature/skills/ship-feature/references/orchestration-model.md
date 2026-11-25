@@ -8,8 +8,8 @@ role; a skill invocation alone never changes the session's model.
 ## 1. One conductor, explicit stage boundaries
 
 Read shipyard's `references/model-lanes.md` before routing. The usual preference
-is GPT-6 for orchestration, Opus 5 for intake/triage/plan, then Gemini 3.8 for
-implementation. Resolve actual supported model IDs and effort values from the
+is GPT-6 for orchestration, Claude Opus (the roster's `opus` alias, the newest Opus)
+for intake/triage/plan, then Gemini 3.8 for implementation. Resolve actual supported model IDs and effort values from the
 current runner; the measured fallback registry does not override this preference.
 
 Keep prerequisite-dependent stages sequential. Plan and design may overlap only

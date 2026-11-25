@@ -281,8 +281,8 @@
     {
       "name": "shipyard",
       "source": "./plugins/shipyard",
-      "description": "The shipyard: the feature-delivery stage skills: intake (rough idea to briefs, with trawl:trawl ideation and Dossier research), triage (readiness with the Sentinel review and decision-gate assumptions), plan (committed plans plus a comprehensive test strategy), design (all-platform interactive mocks gated by design-review:design-review and be-my-witness:be-my-witness), work (worktree build through the agy/grok/codex executor lanes with evidence-typed acceptance), verify (cross-family acceptance against the running app - the only path to Done), and shipyard:gap-fix (the road back from Needs More Work). One tracker adapter covers markdown specs and tasks-MCP boards; shared references carry the model lanes, second-opinion/panel protocol, evidence rules, and the incident ledger.",
-      "version": "0.5.5",
+      "description": "The shipyard: the feature-delivery stage skills: intake (rough idea to briefs, with trawl:trawl ideation and Dossier research), triage (readiness with the Sentinel review and decision-gate assumptions), plan (committed plans plus a comprehensive test strategy), design (all-platform interactive mocks gated by design-review:design-review and be-my-witness:be-my-witness), work (worktree build through the agy/grok/codex executor lanes with evidence-typed acceptance), verify (cross-family acceptance against the running app - the only path to Done), shipyard:gap-fix (the road back from Needs More Work), and steward (looks after an open pull request: merges the base in, fixes checks the change broke, answers small review comments, escalates the rest to the author, never merges). One tracker adapter covers markdown specs and tasks-MCP boards; shared references carry the model lanes, second-opinion/panel protocol, evidence rules, and the incident ledger.",
+      "version": "0.6.0",
       "category": "development"
     },
     {
@@ -296,14 +296,14 @@
       "name": "ship-feature",
       "source": "./plugins/ship-feature",
       "description": "End-to-end feature delivery conductor: one feature from rough idea to merged, cross-family-verified production code by conducting the shipyard stages - intake, triage, plan in parallel with design, work, the deferred loop, shipyard:gap-fix, acceptance-e2e, verify (the only path to Done), and a fail-closed merge with a decided-in-advance rollback. Holds the thread in-session, defers decisions through the second-opinion lanes instead of stalling on questions, and treats every stage artifact as the resumable memory.",
-      "version": "2.4.3",
+      "version": "2.5.0",
       "category": "development"
     },
     {
       "name": "ship-fleet",
       "source": "./plugins/ship-fleet",
       "description": "Backlog-wide feature-delivery orchestrator: surveys everything remaining in a repo's pipeline (specs, plans, briefs, mocks, worktrees, deferred follow-ups), writes ORCHESTRATOR.md and a visual hierarchy before any execution, then conducts dependency-ordered ship-feature:ship-feature runners under a global agent budget - with per-item cross-family verification, serialized merges, executor-lane routing, and a ledger a fresh session can resume the whole fleet from.",
-      "version": "2.9.5",
+      "version": "2.10.0",
       "category": "development"
     },
     {
@@ -473,7 +473,7 @@
     {
       "name": "code-review",
       "description": "A diff review that reports what it could not check. Finds with fourteen named angles that are forbidden from suppressing each other, so two reasons for flagging one line both survive to be judged; verifies with three verdicts, where realistic-but-unproven stays in as PLAUSIBLE rather than being dropped with the noise, and only REFUTED leaves; then closes with a coverage ledger naming every angle, checklist and gate that never ran, and why. Learns the target repository at runtime rather than carrying a hard-coded project map \u2014 gate commands from the package scripts and CI config, frameworks from the installed dependency versions, global controls and cross-package boundaries by grep \u2014 so a candidate naming a framework the repo does not install is refuted from evidence rather than from a constant somebody wrote into a skill. Three depths, each printing its own budget line at the top of the report so what ran is visible rather than inferred; areas and ten focus lenses that compose; checklists for TypeScript, Next.js, NestJS, React Native, frontend/web, security and logic bugs, routed by path and lens; sharding above a size threshold with the fan-out reconciled against the bucket list, because a harness that loses an agent reports the wave complete. One verifier vote rather than a judge panel, on the measurement that panels saturate at about two effective votes. Read-only on source: it reports findings and does not apply fixes. Carries a token-light prepush gate on the outgoing diff.",
-      "version": "1.3.2",
+      "version": "1.4.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"
@@ -562,7 +562,7 @@
     {
       "name": "harbourmaster",
       "description": "Decide where work runs and whether this Mac can carry it yet. Routes across five execution planes \u2014 locally, an anvil errand container, a proctor instrument session, another model via defer:defer, or in-session subagents \u2014 by spending whichever resource is least scarce. Governs the local plane with berth admission held on POSIX file locks the kernel releases on death, refuses in bounded time rather than hanging past a tool timeout, and clamps workloads to a macOS QoS class their children inherit. Detects sustained thermal limiting from per-cluster frequency residency on a chassis where every OS thermal signal is silent, and keeps a cross-project ledger beside ARMADA.md.",
-      "version": "0.7.0",
+      "version": "0.8.0",
       "author": {
         "name": "Fledgeling",
         "email": "lukerhodes27@gmail.com"

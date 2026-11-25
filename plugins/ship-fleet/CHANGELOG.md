@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.10.0 - 2026-11-24
+
+- **Each item is verified as its runner lands**, not after the wave. The scheduling sketch starts a
+  `shipyard:verify` agent the moment a build finishes, so a wave's verdicts arrive at the pace of
+  each item rather than of its slowest member, and the finalize step receives verified items without
+  parking them.
+- **Lane health reaches the runners.** Preflight's recorded lane-availability lines are passed as
+  `args.laneHealth` and appended to every runner and verifier brief, so a lane found down at
+  preflight is not rediscovered by each agent through its own failed call.
+- **The runner brief now does what `SKILL.md` said it should.** It names the four early stops an
+  unattended Opus 5.5 runner should not take and when ending the run is right, and carries a time
+  line: a budget from this repository's own runner durations at the same plan tier (a new `Ran`
+  column in the ledger), or elapsed time alone until five runs exist. Verifiers get elapsed time
+  and no budget, because the model verifies a little less under time pressure.
+- **Runners stop before verify, explicitly.** The brief said "through acceptance-e2e green" and
+  "ready-to-merge", which a literal reader could take as licence to run ship-feature's own verify
+  phase; it now says to stop after phase 6 and report `ready-to-verify`, since the orchestrator
+  starts the fresh verifier.
+- Role text names Claude Opus by the roster's `opus` alias instead of "Opus 5".
+- `gemini.md` refreshed by `geminify:geminify` Mode A: the runner brief's time line and turn-endings
+  block, per-item verify and lane health; the lane receipt reads the roster; `verify_quotes.py` exits 0.
+
 ## 2.9.5
 
 Preflight checks for an answering lane of the model roster's daily tier in place of a pinned `gpt-5.6-sol`; `scripts/roster.py show daily` lists the lanes.

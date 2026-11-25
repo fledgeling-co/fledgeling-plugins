@@ -1,18 +1,15 @@
 # gemini.md — harbourmaster
 
-**Model scope.** The measurements below describe the named earlier models and
-harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
-concrete inputs, bounds and required evidence, but use the current model's supported
-settings. Apply a route-out recommendation only with evidence for the serving
-model or an explicit user policy. The owner's Gemini 3.8 implementation preference
-after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
+**Model scope.** The measurements below describe the named earlier models and harnesses; they
+do not establish Gemini 3.8 failure rates. Keep concrete inputs, bounds and required evidence, and
+apply a route-out only with evidence for the serving model or an explicit user policy.
 
 Read this once, top to bottom, then read `SKILL.md` in full. Nothing here changes which plane work
 belongs on or how a berth is taken — it changes what counts as *deciding*, and what counts as
 *checking*.
 
 harbourmaster is unusual among geminify's targets: most of its requirements are already numbers —
-five planes, four verdicts, 80% of core count, multipliers of 1.00/0.85/0.50/0.25, 20 GiB,
+seven planes, four verdicts, 80% of core count, multipliers of 1.00/0.85/0.50/0.25, 20 GiB,
 kernel pressure level 4, a 60 s dwell, a 180 s clear. **[docs]** That is what the health checklist asks for
 under **Ambiguity**: "Avoid using subjective or relative qualifiers that lack a concrete, measurable
 definition. Instead, provide objective constraints". So the usual work — converting categorical
@@ -26,21 +23,16 @@ exactly like one that was.
 *other* work — two single sessions (n=1 each) plus a 106-task benchmark scoring
 `gemini-3.7-flash` against `claude-opus-5`; and `[derived]`. No `[measured-here]`.
 
-**The tier this evidence is about.** Every measured claim below is flash-tier —
-`gemini-3.7-flash`, plus two sessions on `gemini-3.7-flash-high`. None is measured on the Pro tier
-and none may be projected there; on Pro these overrides stand as `[docs]`-grounded discipline while
-every rate is open. Defaults drift too: **[docs]** "If thinking_level is not specified, Gemini 3
-will default to high", then, from the 3.5 Flash notes, "The default thinking effort is now medium".
+**The tier this evidence is about.** Every measured claim below is flash-tier (`gemini-3.7-flash`,
+plus two sessions on `-high`); on Pro these overrides stand as `[docs]`-grounded discipline while
+every rate is open.
 
 **Unmeasured on this skill:** no Gemini run of harbourmaster at all — no routing decision, no
-berth read, no integration edit. No evidence a `gemini.md` fixes anything on any target, since no
+berth read, no integration edit, and none against the egress, remote-dev-host or base-trust rows
+added in November 2026. No evidence a `gemini.md` fixes anything on any target, since no
 run has been measured with one against the same work without one. And nothing in either source
 covers a model *deciding* rather than building, this skill's primary output — so the rates below
 bound the C9 lane and say nothing about the plane table.
-
-**[docs]** A conditional side-file is itself the **Conflicting internal references** shape:
-"Avoid writing a prompt with non-linear logic or conditionals that require the model to piece
-together fragmented instructions". Hence one pass, and every override names where it lands.
 
 ## Route this skill's own work out, where it should be (C9)
 
@@ -78,19 +70,24 @@ guarded is not choosing wrongly; it is answering after checking one thing.
 |---|---|---|---|---|
 | this Mac | `scripts/pressure.py` | yes | `overall: busy`, disk 72 GiB | 10 berths, 6 held → 4 free |
 | errand node | `anvil errand --check` | yes | `denied errand_ticket_unavailable` | unavailable |
+| egress CI | runners online for the job's labels; branch pushed; macOS guests running (`at most two` per Mac) | n/a | the work needs this working tree | — |
+| remote dev host | the repo's named capacity probe (dAIolog: `dio_capacity`) | yes | primary host has headroom, Docker up | available |
 | proctor | read the foreground queue | n/a | no native app in this work | — |
 | defer | `lane_pick.py --report` | yes | fable clear, codex at limit | one lane open |
 | subagents | none needed | n/a | nothing to search | — |
 
-Report the fraction: `5 of 5 planes assessed, 2 n/a with reasons`. A plane skipped without a reason
-is a plane you did not consider. **[docs]** The `n/a` cell is Google's own remedy for the
+Report the fraction: `7 of 7 planes assessed, 3 n/a with reasons`. A plane skipped without a reason
+is a plane you did not consider. One routing rule is a trust fact rather than a probe: work that
+merges a branch it did not write and runs its tests (a `shipyard:steward` pass) goes to egress unless
+the owner has said everyone who can land on the base is trusted, and the routing line names which
+applied — `steward → egress: no trust statement for this repo`. **[docs]** The `n/a` cell is Google's own remedy for the
 underspecified case: "provide instructions for handling missing data rather than assuming inserted
 data will always be present".
 
 **[measured-family]** In the run this file's family evidence comes from, every *enumerated*
 requirement was delivered — twelve named features, all present — while every requirement named
 *categorically* landed once or not at all: all surfaces → 5, all states → 1, all menus → 0.
-Five named planes is an enumeration; "consider the planes" is not. Weight likewise comes from
+Seven named planes is an enumeration; "consider the planes" is not. Weight likewise comes from
 `references/admission.md`: 1 for a unit test, 2 for a runner, 4 for a suite, 6–8 for a full build.
 
 ## O2. Exit 75 is a retry ceiling, and the skill already wrote it
@@ -187,10 +184,10 @@ caught only because the control was re-run rather than assumed.
 ## O6. `delegation` — keep the cap, take the probe over the question
 
 **Module fired:** `delegation`, 5 triggers. The cap is already written: "cap that fan-out at four;
-a berth check and a routing decision need none." **[docs]** The five planes are a closed set, and
+a berth check and a routing decision need none." **[docs]** The seven planes are a closed set, and
 the remedy for an answer that strays outside the offered options is structural: "you can rephrase
 the instructions as a multiple choice question and ask the model to choose an option." Answer with
-one of the five, named. And on acting rather than asking: "Prefer calling the tool with the
+one of the seven, named. And on acting rather than asking: "Prefer calling the tool with the
 available information over asking the user" — `anvil errand --check` changes nothing and answers in
 one call, so run it rather than asking whether the node is up.
 
@@ -226,13 +223,12 @@ unmeasured on this corpus. **[measured-family]** Paired across 106 tasks, `high`
 24, lost on 24 and tied on 58, mean −1.7 points, so raising the level is not the remedy for anything
 in O1–O7.
 
-**[docs]** And one coupling: "Higher thinking levels encourage the model to use more tools to
-explore and verify, so lowering the level can reduce tool calls." Fewer tool calls is the wrong
-direction here; do not lower the level to save on probes.
+**[docs]** "Higher thinking levels encourage the model to use more tools to explore and verify,
+so lowering the level can reduce tool calls." Do not lower the level to save on probes.
 
 ## What transfers intact
 
-- **The plane table** — five named rows, each with the resource it spends.
+- **The plane table** — seven named rows, each with the resource it spends.
 - **Every threshold is already a number** — 80% of cores, the four multipliers, 20 GiB, kernel
   pressure level 4, 60 s dwell, 180 s clear. **[measured-family]** That is the one bucket where the benchmark gap
   closes: where the brief states a bound, 74.7 against opus's 75.0.
@@ -245,14 +241,10 @@ direction here; do not lower the level to save on probes.
 
 ## What was not written, and why
 
-The scan read 671 lines across `SKILL.md` and five references. Two modules cleared the three-trigger
-threshold — `gate` (5) and `delegation` (5) — and both are written; the other eight did not fire and
-none is written (`visual`, `states`, `platform-values`, `authorship`, `injection`,
-`bounded-constraint`, `count-contract`, `emphasis`). The nearest miss is `platform-values`, which O7
-carries instead, because those values are read from the skill's own references rather than recalled
-from an external design system. Four of the scan's five candidate rows are prose rather than
-deliverable scope and were dropped: the quota row at `SKILL.md:154`, the bounds at `SKILL.md:34`
-and `references/thermal.md:24`, and the relative qualifier at `SKILL.md:221`. The survivor is the
-weight table at `SKILL.md:94`, folded into O1 rather than given a bound ledger of its own —
-`bounded-constraint` did not fire, and a module written for one row is the same defect as a module
-fired on a skill it does not fit.
+Re-scanned 2026-11-25: 750 lines across `SKILL.md` and five references. Three modules cleared the
+three-trigger threshold: `gate` (6) and `delegation` (5) are written; `bounded-constraint` (3) is not,
+because two of its three bound rows are prose (`only one` at `SKILL.md:35`, the weight example at
+`SKILL.md:99`, already in O1) and the third, egress's `at most two` macOS guests per Mac, is folded
+into O1's egress probe: a third macOS job queues. A module written for one row is the same defect as
+one fired on a skill it does not fit. The other seven modules did not fire and none is written;
+`platform-values` is nearest, and O7 carries it. The quota row (`Any check`, `SKILL.md:167`) is prose.

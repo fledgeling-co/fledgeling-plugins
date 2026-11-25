@@ -12,23 +12,20 @@ The family sources are two single sessions (n=1 each) and a 106-task benchmark a
 neither watched a model conduct anything. Every measured rate below is flash-tier (`gemini-3.7-flash`, one session on `-high`) and does
 not project onto Pro, where these overrides hold as `[docs]`-grounded discipline while every number stays open.
 
-**[docs]** The thinking defaults drift inside the family, so a file written against one tier gets a different budget on another: *"If
-thinking_level is not specified, Gemini 3 will default to high."* against, from the 3.5 Flash release notes, *"The default thinking effort
-is now medium, changed from high in Gemini 3 Flash Preview."* Conducting a fleet is what `HIGH` is described as being for — *"multi-step
-planning, verified code generation, or advanced function calling scenarios."* — and 3.7 Flash defaults to `MEDIUM`, uplift unmeasured
-here. It is no remedy for anything below: **[measured-family]** paired across 106 tasks, `high` beat `medium` on 24, lost on 24, tied on
-58, mean **−1.7** points, and the bound-shaped failure share *rose* from 58% to 86% (§2.3).
+**[docs]** Conducting a fleet is what `HIGH` is described as being for — *"multi-step planning, verified code generation, or advanced
+function calling scenarios."* — and 3.7 Flash defaults to `MEDIUM`, uplift unmeasured here. It is no remedy for anything below:
+**[measured-family]** paired across 106 tasks, `high` beat `medium` on 24, lost on 24, tied on 58, mean **−1.7** points, and the
+bound-shaped failure share *rose* from 58% to 86% (§2.3).
 
 **Unmeasured on this skill:** no Gemini run has kept a ledger, filled a slot, resolved a merge conflict or written a runner brief · none
 anywhere has been measured *with* a `gemini.md` against the same work without one · Override 6's rate came from UI assertions, so its
-transfer to `Five concurrent agents` is `[derived]` · Phase 6's reconciliation gate and the 0-of-409 context finding are new since this
-file's last pass and no run has been seen against either · runner roles now follow the user-selected model policy, so Override 2 is about the brief you
+transfer to `Five concurrent agents` is `[derived]` · no run has been seen against Phase 6's reconciliation gate, the 0-of-409 context
+finding, or the three changes since 2026-09-07: each item verified as its runner lands, the runner brief's time line and turn-endings
+block, and the lane-health line passed down · runner roles follow the user-selected model policy, so Override 2 is about the brief you
 write · under `tiered` the binding may seat a Gemini model as a worker, which nothing covers.
 
-**[docs] The self-limitation.** A conditional side file is the shape the checklist warns about: *"Avoid writing a prompt with non-linear
-logic or conditionals that require the model to piece together fragmented instructions from multiple different places in the prompt."* One
-pass, before the skill. **One target, one file:** `ship-fleet` is also in `diolog-plugins`, whose copy is an older 156-line SKILL.md; this
-one is canonical and that mirror is left alone rather than drifted.
+**One target, one file:** `ship-fleet` is also in `diolog-plugins`, as an older 156-line SKILL.md; this copy is canonical and that
+mirror is left alone rather than drifted. Read this file in one pass, before the skill.
 
 ## Routing evidence — scope it to the measured model
 
@@ -37,7 +34,6 @@ capability. Honor the user's selected, supported model after prerequisite artifa
 land; use `defer:defer`'s historical matrix only for an unselected or authorized
 fallback. Retain the acceptance evidence; change approach for an observed failure,
 not an older model's score alone.
-
 
 **[docs]** The health checklist says it outright, under **Task outside of model capabilities**: *"Avoid using prompts that ask the model
 to perform a task for which it has a known, fundamental limitation."* Two of this skill's own deliverables — not its runners' — land in
@@ -113,8 +109,14 @@ constraint.` Its four rows are the denominator, filled here for MOT-0042:
 
 **[docs]** *"We recommend to always include few-shot examples in your prompts."* and *"you can remove instructions from your prompt if
 your examples are clear enough in showing the task at hand."* So the brief ships one filled row of the coverage table it asks for, and the
-two lines the skill says to carry verbatim — the git-identity rule, the never-strip-the-safeguards rule — are copied rather than
-summarised.
+blocks the template carries verbatim are copied rather than summarised: the git-identity rule, the never-strip-the-safeguards rule, the
+`Stop before verify and before merge` rule, and the `How your turns end` paragraph. Fill the `Time:` line from the ledger, not from a
+guess — one of two forms, never both:
+
+```
+Time: started at 1764061200; budget 11400 (p90 of 7 earlier runs at plan tier Standard, from the Ran column).
+Time: started at 1764061200; budget none: elapsed only (3 earlier runs at plan tier Large; five are needed). Time matters here: …
+```
 
 ## Override 3 — every status carries the command that produced it (Operating discipline, Phases 0 and 2, Guardrails)
 
@@ -127,32 +129,29 @@ such a shape.
 quoting the exact applicable information (including policies) when referring to them."* So the header contract ships as receipts, filled:
 
 ```
-codex   09:12 · perl alarm 600 codex exec -m gpt-5.6-sol … → OK; log has reasoning effort: medium
+lanes   09:12 · scripts/roster.py show daily + one probe each → opus up · neon up · grok down (402) · wonder up → args.laneHealth
 slots   09:14 · $HM/berths.py → {"available":6} · budget = min(5, 6, 16÷4) = 4 · measured
 egress  09:12 · grep -rlE 'ANTHROPIC[- ]ONLY|…' CLAUDE.md AGENTS.md … → no hit → lane on
 deaths  11:02 · started 6 − results 5 = 1 → MOT-0051 died; error_rows 0, ignored
 fanout  11:02 · Σ agent durations 4h58m ÷ wall 1h12m = 4.1 → ≥ 1.2, fanned out
+verify  11:40 · MOT-0042 runner returned ready-to-verify 11:39 → startVerify 11:40 (not at wave end)
 reckon  18:20 · reckon.py check docs/reckoning/…/ledger.json → exit 0 · 0/0/0/0
 ```
 
-**A green exit proves what the gate checks, never what it does not.** **[measured-family]** On `COD Dossier` an auditor validated tag
-counts and contrast floors, had no check that its prerequisite artifacts existed, and passed two skipped skill invocations with exit code
-0 (§1.2.2). Here `git branch --merged` proves a merge, not a passing gate; `error_rows: 0` proves nothing at all — 0 error rows across 147
-journals while 146 agents failed to return. So before a row turns `Done`, check the verdict comment exists and record its oracle rung: `a
-verifier that exists but is never invoked verifies nothing`, and a denominator of zero is a gate that never ran rather than a pass.
+**A green exit proves what the gate checks, never what it does not.** **[measured-family]** On `COD Dossier` an auditor passed two
+skipped skill invocations with exit code 0 (§1.2.2). Here `git branch --merged` proves a merge, not a passing gate, and `error_rows: 0`
+sat beside 146 agents that never returned. Before a row turns `Done`, check the verdict comment exists and record its oracle rung.
 
 ## Override 4 — two attempts, then a different move (Phase 5 failure handling, the context contract)
 
 **[docs]** *"On *other* errors, you must change your strategy or arguments, not repeat the same failed call."* The skill's `max 2
 restarts, then park` is the stricter rule; keep it.
 
-**[measured-family]** Both n=1 sessions ran the loop: one invoked a banned, absent tool four consecutive times with nothing changed
-between attempts (§1.1.2); the other hit a 25,000-token `Read` ceiling and retried four times before pivoting to a Python split (§1.2.3).
-`gemini-cli` ships a loop detector whose halt message names *"repetitive tool calls"* (§7.2). Four `ship-fleet` errors look transient and
-are not. **A deep-research doc read `in full, not skimmed`** is §1.2.3's exact file class — chunk or line-range on the *first* capacity
-error. **A held `.ledger.lock`** past ten minutes is arbitration, not a fifth attempt. **An empty codex `-o` file, or a log missing
-`reasoning effort: medium`,** is a lane failure with a clean exit code: log the in-family downgrade in the artifact and the ledger. **A
-runner returning `null`** has its counter already — park at three.
+**[measured-family]** Both n=1 sessions ran the loop: one invoked an absent tool four times with nothing changed (§1.1.2); the other
+retried a 25,000-token `Read` ceiling four times before splitting the file (§1.2.3). Four `ship-fleet` errors look transient and are not:
+**a deep-research doc read `in full, not skimmed`** gets chunked on the *first* capacity error; **a held `.ledger.lock`** past ten
+minutes is arbitration; **an empty output file from any lane** is a lane failure with a clean exit code, logged with its fallback, and a
+lane `args.laneHealth` marked down is not probed again; **a runner returning `null`** parks at three.
 
 ## Override 5 — a named instrument becomes a path in the ledger (Phase 5, Phase 6, Guardrails)
 
@@ -183,10 +182,10 @@ for the OpenAI lane; one rule — `has exactly one soft elevation shadow` — fa
 that passed 37 of its 39 other assertions (§2.2). A bound is violated by what you did not write, so it survives every check of what you
 did.
 
-**Take the smaller of the two numbers the target now carries.** `SKILL.md` states `Five concurrent agents is a correctness limit, not a
-throughput preference` with 92 silent deaths behind it, while `references/orchestrator-artifacts.md`'s resume template and the scheduler
-sketch still say `≤ 8 concurrent runners` and `let slots = 8`. Copying the template writes the older, looser number into the file a fresh
-session resumes from. Five, or berths if lower, and say which.
+**The cap is the smallest of four numbers, and the sketch starts lower still.** `SKILL.md` states `Five concurrent agents is a
+correctness limit, not a throughput preference` with 92 silent deaths behind it; the resume template resolves the cap as the minimum of
+the user's cap, the tool limit, the five-runner policy and measured host capacity; and the scheduler sketch opens at
+`Math.min(2, args.maxRunners)` until `berths.py` answers. Verifiers count against the same slots as runners.
 
 **[docs]** Google asks that *"Ensure that all requirements, constraints, options, and preferences are exhaustively incorporated into your
 plan."*, and supplies the budget instruction directly: *"You have a limited action budget of <n> tool calls. Use them efficiently."* Each
@@ -199,19 +198,19 @@ cap becomes a row read back off what you launched, never off `SKILL.md`:
 | `under 1.2 the wave ran serially` | Σ agent durations ÷ wall clock | 4.1 | yes |
 | `a runner touches only its own <ID>'s files` | `git diff --name-only main...ai/<id>` | 2 shared DS files | **no — fold back** |
 | `max 2 restarts, then park` | the `attempts` map | 3 on MOT-0051 | **no — park it** |
+| `Verifiers get elapsed time and no budget` | `grep -c 'budget [0-9]'` on each verify brief | 0 | yes |
+| `elapsed time alone until five runs at that plan tier exist` | `Ran` rows at the item's tier | 3 rows, budget given | **no — elapsed only** |
 
-Report `2 of 5 bounds within, 3 corrected`. A table filled from the skill rather than from what you launched shows five greens, which is
+Report `3 of 7 bounds within, 4 corrected`. A table filled from the skill rather than from what you launched shows five greens, which is
 the failure itself. **The forks are closed sets:** combine a dependency cycle or ask; slot-refill or batched workflows; retry sharper,
 resume in-worktree, or park. **[docs]** *"you can rephrase the instructions as a multiple choice question and ask the model to choose an
 option."* Record the option chosen.
 
 ## Override 7 — the exit condition is four zeros, not a drained ledger (Phase 6)
 
-`Say the shape of the finish in the report.` The skill measured seven projects it orchestrated in one week, every one reporting its
-backlog implemented and verified, and every one wrong — `49 of 49 merged` counts rows rather than working features. Phase 6 is the only
-place the run's claim is checked by something it did not write, so both commands run, both exit codes go in the header, and `Any of
-unbuilt, broken, unmeasured or undecided above zero is another wave, not a footnote.` `unmeasured` is likeliest to be reported as zero
-without being zero, because a blocked check reads as neither a pass nor a failure.
+`Say the shape of the finish in the report.` Seven projects in one week each reported a backlog implemented and verified, and every one
+was wrong. Both commands run, both exit codes go in the header, and `Any of unbuilt, broken, unmeasured or undecided above zero is
+another wave, not a footnote.` `unmeasured` is the one likeliest to be reported as zero without being zero.
 
 ```
 campaign.py check <dir>        → exit 0   (a stale campaign carries evidence and measures none)
@@ -221,35 +220,31 @@ reckon.py check …/ledger.json  → exit 0 · unbuilt 0 · broken 0 · unmeasur
 
 ## Override 8 — the one thing you render, and the one you judge (Phase 3, Phase 1 mock comparators)
 
-`orchestrator-hierarchy.html` is generated *from* the ledger data, never maintained beside it — one card per ledger row, one edge per
-dependency; open the file, count what rendered, report the fraction against the ledger's counts, and if you author rather than route it,
-check its bounds first (one legend, the `Updated:` stamp). Phase 1's mock comparators ask whether a mock is `more refined than` the app
-preview. **[docs]** *"Ask the model to describe the images before performing the task in the prompt."* and *"To improve the response,
-point out which parts of the image are most relevant to the prompt."* Name what is in each surface — surfaces, states, density — then
-judge; one comparison per mock, both opened, fraction reported, and an unopened mock is `unknown` rather than `not more refined`.
+`orchestrator-hierarchy.html` is generated *from* the ledger data — one card per ledger row, one edge per dependency; open it, count what
+rendered, report the fraction against the ledger. Phase 1's mock comparators ask whether a mock is `more refined than` the app preview.
+**[docs]** *"Ask the model to describe the images before performing the task in the prompt."* Name each surface's states and density,
+then judge; an unopened mock is `unknown` rather than `not more refined`.
 
 ## Override 9 — read, then answer; recall is not the ledger (Resuming, the context contract)
 
-**[measured-family]** §1.2.4 (n=1): asked a question naming three skills, the run answered from memory without loading any of them; §1.1.4
-records a previous-generation published value returned confidently. What goes stale here is `codex-cli 0.145.0+`, the lane model ids, and
-the ~1-hour prompt cache TTL the scheduling reference itself calls an observation, not a guarantee.
+**[measured-family]** §1.2.4 (n=1): asked a question naming three skills, the run answered from memory without loading any of them. What goes stale here is the lane model ids (`roster.py` resolves
+them at call time, so read its output rather than a remembered id) and the ~1-hour prompt cache TTL the scheduling reference itself
+calls an observation, not a guarantee.
 
 **[docs]** *"Your knowledge cutoff date is January 2025."* and, from the strictly-grounded system instruction's last clause, *"If the
 exact answer is not explicitly written in the context, you must state that the information is not available."*
 
 `ship-fleet` states both halves — `ORCHESTRATOR.md exists → never re-survey from scratch` and `After compaction: re-read it, the DESIGN
-md, and the ledger before acting` — and measured what happens when only the second is stated: three compactions in one window, none
-followed by a re-read of any instruction file. Make them ordered steps: read `ORCHESTRATOR.md`, run `git worktree list` and `git branch
---merged`, *then* reconcile. A status you cannot re-derive is unavailable, not zero.
+md, and the ledger before acting`. Make them ordered steps: read `ORCHESTRATOR.md`, run `git worktree list` and `git branch --merged`,
+*then* reconcile. A status you cannot re-derive is unavailable, not zero.
 
 ## Recap
 
 **[docs]** *"Concise repeat of the key points of the prompt, especially the constraints and response format, at the end of the prompt."*
-
 1. Count the backlog before classifying it; report `N of N` at every phase boundary.
-2. Enumerate in the runner brief what `SKILL.md` states categorically, inline what must bind, count both.
+2. Enumerate in the runner brief what `SKILL.md` states categorically, inline what must bind, count both; fill the `Time:` line from the ledger.
 3. Every header field and status carries its command, that command's output and a timestamp.
 4. One retry on a transient error; none on a read ceiling, an empty `-o` file or a held lock.
 5. Each named instrument writes a path into `ORCHESTRATOR.md` that a later step reads.
-6. Fill the bound table from what you launched; five concurrent, not eight.
+6. Fill the bound table from what you launched: five concurrent or fewer, verifiers in the same slots, no budget in a verify brief.
 7. The fleet finishes at four zeros from `reckon`, not at a drained ledger.

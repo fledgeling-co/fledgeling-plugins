@@ -1,23 +1,17 @@
 # code-review, calibrated for Gemini
 
-**Model scope.** The measurements below describe the named earlier models and
-harnesses; they do not establish Gemini 3.8 failure rates or limitations. Keep
-concrete inputs, bounds and required evidence, but use the current model's supported
-settings. Apply a route-out recommendation only with evidence for the serving
-model or an explicit user policy. The owner's Gemini 3.8 implementation preference
-after Opus 5 intake, triage and plan takes priority over a historical Flash ranking.
+**Model scope.** The measurements below describe the named earlier models and harnesses; they
+do not establish Gemini 3.8 failure rates. Keep concrete inputs, bounds and required evidence,
+use the current model's supported settings, and apply a route-out only with evidence for the
+serving model or an explicit user policy.
 
-Read this in one pass before Phase 0, then run the pipeline as written. Each override names
-the phase it lands on, because a conditional side-file is otherwise the shape Google's own
-checklist warns about — **[docs]** *"Avoid writing a prompt with non-linear logic or
-conditionals that require the model to piece together fragmented instructions from multiple
-different places in the prompt."* This plugin is mirrored in `diolog-plugins`; the copy here
-is canonical and the mirror is deliberately left alone.
+Read this in one pass before Phase 0, then run the pipeline as written; each override names
+the phase it lands on. This plugin is mirrored in `diolog-plugins`; the copy here is canonical
+and the mirror is deliberately left alone.
 
 ## What transferred intact — change none of it
 
-The skill was already written against a reviewer it does not trust, so more survives the
-family change here than in most targets.
+The skill was already written against a reviewer it does not trust, so more survives here than in most targets.
 
 - **`Verification exists to refute. Confirmation is what remains when refutation fails.`**
   (Phase 4) — six mechanical gates rather than a posture. **[docs]** Google spends two of
@@ -27,9 +21,8 @@ family change here than in most targets.
   documented remedy for a model that answered correctly but did not stay inside the options
   — *"you can rephrase the instructions as a multiple choice question and ask the model to
   choose an option."*
-- **`A shard's reply is a claim, not evidence.`** (`process.md` §Reconcile), with `wc -l` and `jq` beside it.
-- **`Where this work runs`** already routes the verdict through `defer:defer` by command rather
-  than by prose — the decision C9 would otherwise ask for, already made.
+- **`A shard's reply is a claim, not evidence.`** (`process.md` §Reconcile), with `wc -l` and `jq` beside it;
+  **`Where this work runs`** already routes the verdict through `defer:defer` by command.
 
 ## Epistemic status
 
@@ -40,22 +33,19 @@ family change here than in most targets.
 | `[derived]` | reasoning from those, and the third-party reports in `geminify/references/evidence.md` §7, labelled as such |
 
 **The tier the evidence is about.** Every measured claim below was observed on
-**`gemini-3.7-flash`** — both effort levels on the benchmark, plus one `gemini-3.7-flash-high`
-session. Do not project it onto the Pro tier: there these overrides hold as `[docs]`-grounded
-discipline and every rate is an open question. The defaults differ too — **[docs]** *"If
-thinking_level is not specified, Gemini 3 will default to high."*, then *"The default thinking
-effort is now medium, changed from high in Gemini 3 Flash Preview."*
+**`gemini-3.7-flash`**. Do not project it onto Pro, where these overrides hold as
+`[docs]`-grounded discipline and every rate is an open question.
 
 **Unmeasured on this skill:**
-
 - **No Gemini run of `code-review` exists**, and no paired run with and without a
   `gemini.md` has been made against any skill. Nothing here is measured to work.
 - **The corpus measures a model building, never judging.** Its rates are evidence about
   *authoring* a report, not about whether the findings in one are right; the precision and
   recall of a Gemini-run review are unmeasured everywhere.
 - The `Egress Gemini` fabricated review (Override 2) is the closest analogue in evidence, and
-  it is one session on a review the run wrote for itself. `coverage.md`'s fan-out numbers are
-  harness measurements, model-independent.
+  it is one session on a review the run wrote for itself.
+- `ci` mode (`references/ci-mode.md`) and the base-branch and `REVIEW.md` rules are new since
+  2026-09-07; no run has posted a review or a check under them.
 
 ## No route-out block, and which shapes were omitted
 
@@ -140,8 +130,10 @@ recap, filled from the produced report rather than from the brief:
 | the report | findings total | ≤ 12 (`standard`) | `grep -c '^### \[' report.md` | 9 | yes |
 | the report | verdict lines | exactly 1 | `grep -cE '^(BLOCK\|WARNING\|APPROVE\|LGTM)' report.md` | 1 | yes |
 | each verifier | `model` parameter | `sonnet` on all | grep the dispatch record before sending | 8 of 8 | yes |
+| `ci` mode's check | conclusion | `success` or `neutral`, never `failure` | `gh api …/check-runs/<id> --jq .conclusion` | `neutral` | yes |
+| `ci` mode's review | event · inline comments off the diff | `COMMENT` · 0 | `jq '.event' review.json` · lines checked against the diff | `COMMENT` · 1 | **no — move it to the body** |
 
-Four of the skill's own prohibitions became those rows, because a prohibition in prose reads
+Four of the skill's own prohibitions became the first five rows, and `ci-mode.md`'s two bounds the last two, because a prohibition in prose reads
 as style advice: `Do not add a summary, closing thoughts, or recommended next steps after the
 verdict`; `more than two LOW findings in one review is over-reporting`; `Exactly one verdict
 line. Nothing after it.`; and `Omitting the parameter silently inherits the orchestrator's
@@ -185,9 +177,13 @@ instead of answering. There is no stable mapping from "named in the prompt" to "
 rule is two ordered steps, neither substituting for the other: read what the prompt names,
 then produce the answer yourself.
 
-- `CLAUDE.md`, `AGENTS.md` and `CONTRIBUTING.md` are read at the root and in each touched
-  package before angle N fires. A convention finding quotes the governing line; a remembered
-  convention is not a finding.
+- `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING.md` and `REVIEW.md` are read at the root and in each
+  touched package before angle N fires, from the base in PR and `ci` mode
+  (`git show "$BASE:CLAUDE.md"`), never from the head under review. A convention finding quotes
+  the governing line; a remembered convention is not a finding. Record the protection check that
+  decides `REVIEW.md`'s subtractions as its command and output
+  (`gh api …/rules/branches/main → pull_request rule present → subtractions apply`); a base you
+  could not read is unprotected.
 - **Gate 2 is a recall trap by construction** — every row of its table turns on an installed
   major, and **[docs]** *"The knowledge cutoff date for Gemini 3.7 Flash is March 2026"*.
   Read the `package.json`; an unread version claim is `PLAUSIBLE`, with the version named.
@@ -243,15 +239,12 @@ comment claiming a guard is covered elsewhere — is a claim to verify, never co
 
 **[docs]** `HIGH` is described for *"multi-step planning, verified code generation, or
 advanced function calling scenarios"*, which is what `deep` with a fan-out is; Gemini 3.7
-Flash defaults to `MEDIUM`. Write it as what the level is *for*, never as a remedy —
-**[measured-family]** paired across 106 tasks, `high` beat `medium` on 24, lost on 24 and
-tied on 58, mean −1.7 points, and its bound-shaped failure rate was *worse* (86% against
-58%). Nothing in Overrides 1, 2 or 3 improves by raising it, and the level couples to fan
-size — **[docs]** *"Higher thinking levels encourage the model to use more tools to explore
-and verify, so lowering the level can reduce tool calls."* — so `Pass "model: sonnet" on
-every verifier` and the caps of 8 shards and waves of 5–8 matter more here, not less.
+Flash defaults to `MEDIUM`; it is no remedy — **[measured-family]** across 106 tasks `high` beat
+`medium` on 24, lost on 24, tied on 58, and its bound-shaped failure rate was *worse* (86% against
+58%). **[docs]** *"Higher thinking levels encourage the model to use more tools to explore and
+verify, so lowering the level can reduce tool calls."* So the caps of 8 shards and waves of 5–8
+matter more here, not less.
 
-`scan_skill.py` counted 63 emphasis tokens here. Nearly all are `CRITICAL` and `HIGH` as
-severity *values* in a taxonomy — data rather than pressure, so read them as tags; the
-handful that are register get no extra weight either. **[docs]** *"foundation model
+`scan_skill.py` counted 63 emphasis tokens here, nearly all `CRITICAL` and `HIGH` as severity
+*values* — data rather than pressure, so read them as tags. **[docs]** *"foundation model
 performance will no longer improve and in many cases will get worse."*

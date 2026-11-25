@@ -3,7 +3,7 @@
 Read this once, then `SKILL.md` and `references/orchestration-model.md`. Each override names the rule it lands on.
 
 `ship-feature` is the riskiest shape in this repo for this family, and not because the engineering is hard: ten stages
-under nine headings, each ending in an artifact somebody else reads, and a **fourteen-box** gate in front of the one
+under nine headings, each ending in an artifact somebody else reads, and a **sixteen-box** gate in front of the one
 irreversible act in the run. Nothing the conductor itself emits is compiled; a merge happens because a checklist reads
 green. So the failure to design against is not a worse feature — it is a green box in front of a gate that never ran. This
 is the canonical copy; the `diolog-plugins` mirror is left alone, per geminify's one-target-one-file rule.
@@ -13,20 +13,18 @@ is the canonical copy; the `diolog-plugins` mirror is left alone, per geminify's
 - **Tiers used:** `[docs]`, `[measured-family]`, `[derived]`. No `[measured-here]` — **no Gemini run of `ship-feature` has
   been observed**, at any tier. The `[measured-family]` sources are two single sessions (n=1 each) and a 106-task
   benchmark at two effort levels, all in `geminify/references/evidence.md`; none watched a model conduct a pipeline.
-- **Second pass.** `SKILL.md` now names every stage skill in full (`shipyard:triage`, `test-campaign:test-campaign`) where
-  it wrote bare names. Override 3 carries that; the rest were re-checked against the current file and stand.
+- **Third pass (2026-11-25).** The gate grew from fourteen boxes to sixteen: `The verdict covers the commits being merged`
+  (a `git range-diff` against the verdict's graded commit) and `No change that weakens a rule merges without a person`.
+  The second green e2e run now covers the feature's specs plus whatever failed or retried, and the post-rebase rerun is
+  reused only when three SHAs match. Overrides 1, 2 and 5 carry these; the rest were re-checked and stand.
 - **The tier the evidence is about.** Every measured rate below was observed on `gemini-3.7-flash` (one session on
-  `gemini-3.7-flash-high`) — **flash-tier claims, not to be projected onto the Pro tier**. **[docs]** The defaults drift
-  inside the family: "If thinking_level is not specified, Gemini 3 will default to high." against, from the 3.5 Flash
-  release notes, "The default thinking effort is now medium, changed from high in Gemini 3 Flash Preview." On Pro these
-  overrides stand as `[docs]`-grounded discipline; every `[measured-family]` number is an open question.
+  `-high`): flash-tier claims, not to be projected onto Pro, where these overrides stand as `[docs]`-grounded discipline
+  and every `[measured-family]` number is an open question.
 - **Unmeasured on this skill:** nothing measures Gemini invoking a stage skill and carrying its artifact forward · nothing
   measures a conductor's judgement seams (blocker vs flake, small remainder vs child spec, weak rung vs `unoracled`) · the
   bound-following rate below was measured on UI assertions, so its transfer to `one branch, one merge` is `[derived]` ·
-  and no run has been measured *with* a `gemini.md` against one without.
-- **The self-limitation.** **[docs]** A conditional side file is the shape the health checklist warns about: "Avoid
-  writing a prompt with non-linear logic or conditionals that require the model to piece together fragmented instructions
-  from multiple different places in the prompt." Read it in one pass, up front, never mid-phase.
+  no run has been seen against either new box or the narrowed second e2e run · and no run has been measured *with* a
+  `gemini.md` against one without.
 
 ## Routing evidence — scope it to the measured model
 
@@ -36,13 +34,10 @@ land; use `defer:defer`'s historical matrix only for an unselected or authorized
 fallback. Retain the acceptance evidence; change approach for an observed failure,
 not an older model's score alone.
 
-
-The pipeline's own hands touch code in three places — phase 6's `fix the branch code minimally`, phase 8's rebase conflict
-resolution, and phase 4b re-running `shipyard:work` on a small remainder. Both shapes below are measured far enough behind to hand
-out rather than attempt, and the skill already owns the mechanism: its lane table routes executor slices through `defer
---task implementation --shape <shape>`; what this adds is that the conductor's *own* edits go the same way.
-**[measured-family]** Only those two — four of eight buckets are level or ahead (§2.1), so routing it all out would be
-wrong.
+The pipeline's own hands touch code in three places: phase 6's `fix the branch code minimally`, phase 8's rebase conflict
+resolution, and phase 4b re-running `shipyard:work` on a small remainder. The skill already routes executor slices through
+`defer`; this adds that the conductor's *own* edits go the same way. **[measured-family]** Only these two shapes — four of
+eight buckets are level or ahead (§2.1).
 
 | shape | where it lands in this pipeline | measured |
 |---|---|---|
@@ -53,22 +48,20 @@ wrong.
 python3 <defer>/skills/defer/scripts/lane_pick.py --task implementation --shape brownfield-integration
 ```
 
-**Two shapes omitted, and why.** `static-page` is not this skill's work — the conductor authors no self-contained page,
-and `shipyard:design`'s mocks are that shape on that stage's account. `visual-design` likewise: judging a rendered surface
-belongs to `design-review` and `be-my-witness`, and the corpus abstains on judging. **[docs]** "Avoid using prompts that
+**Omitted:** `static-page` (the conductor authors no page; `shipyard:design`'s mocks are that stage's account) and
+`visual-design` (judging belongs to `design-review` and `be-my-witness`, and the corpus abstains on judging). **[docs]** "Avoid using prompts that
 ask the model to perform a task for which it has a known, fundamental limitation." Conducting is not one of them.
 
 ## What transfers intact
 
 Four rules are already written the way this family needs. **`Never skip a stage; never fake a gate`**, with its sharpest
 clause — `A gate whose pass and whose could-not-run look identical from the outside has not been run` — is
-verification-as-an-instruction already, and the most load-bearing sentence in the file. **`Evidence is what the bundle
-holds, not what the note says about it`**, requiring a path and a value read from it, is the grounding rule stated better
-than most vendor prose. **Phase 4b's decision tree is a closed set** — A nothing outstanding, B small remainder, C child
-spec, `When in doubt, prefer B over C` — which is **[docs]** the multiple-choice remedy exactly: "The response is correct,
-but the model didn't stay within the bounds of the options." Phase 7 adds a second closed set on that pattern: `A
-requirement marked Unverified — no oracle routes back to phase 6, not to gap-fix`. The overrides give these four
-denominators, not new wording.
+verification-as-an-instruction already. **`Evidence is what the bundle holds, not what the note says about it`**,
+requiring a path and a value read from it, is the grounding rule stated better than most vendor prose. **Phase 4b's
+decision tree is a closed set** — A nothing outstanding, B small remainder, C child spec, `When in doubt, prefer B over
+C` — which is **[docs]** the multiple-choice remedy exactly: "The response is correct, but the model didn't stay within
+the bounds of the options." Phase 7 adds a second closed set on that pattern: `A requirement marked Unverified — no
+oracle routes back to phase 6, not to gap-fix`. The overrides give these four denominators, not new wording.
 
 ## The scan
 
@@ -105,14 +98,14 @@ exemplar the rest are measured against:
 | 3 | the oracle `every stage measures against` | 11 criteria from triage | 11 carried into e2e + verify | `11 of 11` |
 | 4 | `every row ✅` on reachability + clause | 6 + 14 = 20 rows | 20, each with typed evidence | `20 of 20 typed` |
 | 5 | `every user flow, every action, every interaction, and every menu` | 4 flows · 11 actions · 6 menus · 3 surfaces × 5 states | 21 AC rows traced | `21 of 21 AC-traced` |
-| 6 | the pre-merge gate, `every box actually checked now` | **14** boxes | 13 green, 1 unrunnable | `13 of 14 — STOP at box 8` |
+| 6 | the pre-merge gate, `every box actually checked now` | **16** boxes | 15 green, 1 unrunnable | `15 of 16 — STOP at box 9` |
 | 7 | `every finding` across the three review gates | 3 gates, 11 findings | 9 fixed, 2 rejected with a reason | `11 of 11 dispositioned` |
 | 8 | re-read at `each phase boundary` | 9 boundaries | 9 re-read from disk | `9 of 9` |
 | 9 | `the oracle rung each piece of evidence stands on` | 11 requirements in verify's table | 9 at a strong rung, 2 `unoracled` | `11 of 11 rung-tagged · 2 → 6a` |
 
 A cell that cannot be filled reads `n/a: <reason>` — **[docs]** "provide instructions for handling missing data rather
 than assuming inserted data will always be present and well-formed." Row 6 is the one to write first: the only row where
-the honest answer `13 of 14` is a **stop** and the plausible answer is a merge. Row 9 is the easiest to fake, a rung being
+the honest answer `15 of 16` is a **stop** and the plausible answer is a merge. Row 9 is the easiest to fake, a rung being
 a word — an `unoracled` case is a requirement returned to phase 6a for an oracle, not a soft pass.
 
 ## Override 2 — every box carries its command, its output, and its prerequisite (phase 8)
@@ -123,7 +116,7 @@ your claims by quoting the exact applicable information (including policies) whe
 **[measured-family]** What fills the vacuum when verification is left to prose (§1.1.2, n=1): a review asserting a browser
 engine as *Engine Verified* when it had failed all four invocation attempts and never ran, and a `100% pass rate on
 contrast` from a probe never executed — measured afterwards at 3.65:1 on every primary button and one glyph at 1.00:1,
-invisible. Five well-formed `PASS` rows, shape specified and procedure not. A fourteen-box checklist in front of a merge
+invisible. Five well-formed `PASS` rows, shape specified and procedure not. A sixteen-box checklist in front of a merge
 is that shape with higher stakes, so the gate is a paste, not a tick. Filled, for `DIO-0412` at phase 8:
 
 ```
@@ -131,11 +124,15 @@ prereq  docs/specs/spec-DIO-0412.md     Developer Review · Progress + Gap-fix n
 prereq  docs/plans/plan-DIO-0412.md     committed 7c21e0d · 14 of 14 AC boxes reconciled
 prereq  design/mocks/DIO-0412/INDEX.md  15 cells, 0 unwaived empty · spec §Verification COMPLETE, lane wire-verified
 $ pnpm --dir $WT typecheck && pnpm lint             → tsc 0 errors · eslint 0 problems
-$ pnpm --dir $WT exec playwright test e2e/DIO-0412 --repeat-each=2   → 42 passed (2 runs) · 0 flaky
+$ pnpm --dir $WT exec playwright test               → run 1, full suite: 318 passed · 1 retried (e2e/inbox.spec.ts)
+$ pnpm --dir $WT exec playwright test e2e/DIO-0412 e2e/inbox.spec.ts   → run 2: 44 passed · 0 flaky
+$ git rev-parse HEAD origin/staging && git merge-base HEAD origin/staging   → 9f3a1c2 · 4be07d1 · 4be07d1, as at run 2 → reused
+$ git range-diff 4be07d1..9f3a1c2 origin/staging..HEAD   → 6 of 6 commits "=" · 0 code commits after the graded head
+box 10  rule files changed: CLAUDE.md (one rule added)  → adds only, none weakened
 $ pnpm --dir $WT exec playwright test --grep @a11y  → 9 passed · axe violations 0
 $ git worktree list | grep -c .worktrees/           → 1
 $ git branch --list 'ai/*'                          → ai/dio-0412
-box 8   S3 sign-off                                 → n/a: not classified S3 at triage
+box 11  S3 sign-off                                 → n/a: not classified S3 at triage
 ```
 
 Two rules a paste enforces and a tick cannot. **A denominator of zero is a gate that never ran** — `0 tests passed` and
@@ -198,11 +195,9 @@ over the `Read` ceiling** takes line-ranged reads on the first refusal. **A reba
 ## Override 5 — cap the spawns; never grade your own pipeline (`## Hard rules`)
 
 `SKILL.md` states the cap plainly: `you spawn only what this file names (the verify agent, the parallel design/plan
-invocations)`. **[measured-family]** A stated maximum is the shape this family exceeds rather than forgets: classifying
-every failing UI assertion by whether it states a bound or asks for a thing, **58%** of Gemini's failures at `medium` and
-**86%** at `high` were bound-shaped, against 8% for opus and 6% for the OpenAI lane; one rule failed on *every* instance
-in its set on a run that passed 37 of 39 other assertions (§2.2). A bound is violated by what you did not write, so it
-survives every check that looks at what you did.
+invocations)`. **[measured-family]** A stated maximum is the shape this family exceeds rather than forgets: **58%** of
+Gemini's failing UI assertions at `medium` and **86%** at `high` were bound-shaped, against 8% for opus (§2.2). A bound is
+violated by what you did not write, so it survives every check that looks at what you did.
 
 **[docs]** Google treats these as a component in their own right — "Restrictions on what the model must adhere to when
 generating a response, including what the model can and can't do." — and asks that "all requirements, constraints,
@@ -215,8 +210,9 @@ central invariant, joined by two prohibitions moved across by hand:
 | `you spawn only what this file names` | agents the conductor spawned | count this run's Task calls | 1 (verify) | yes |
 | `exactly one` feature branch from phase 5 | `ai/*` branches · worktrees | `git branch --list 'ai/*'` · `git worktree list` | 1 · 1 | yes |
 | `three failed rounds parks the item` | verify → gap-fix rounds | count verdict comments on the spec | 2 | yes |
+| after the graded head, `only docs/specs/, docs/plans/ and the ledger` | files changed since the graded commit | `git diff --name-only <graded head>..HEAD` | 2, both `docs/specs/` | yes |
 
-Report `3 of 3 bounds within`. Two more bind without being counts: **`shipyard:verify` runs as a fresh agent** — `its
+Report `4 of 4 bounds within`. Two more bind without being counts: **`shipyard:verify` runs as a fresh agent** — `its
 value is exactly that it does not share your context` — so grading your own pipeline inline deletes the run's only
 independent reading; and **the conducting is never delegated**, since a subagent handed a stage returns a summary and
 loses the thread. **[docs]** At a seam, prefer the tool call — "Prefer calling the tool with the available information
@@ -225,13 +221,10 @@ relevant options for a given situation."
 
 ## Override 6 — the report may not exceed the artifacts (`## Hard rules`)
 
-Everything emitted at the close is prose a human acts on: the merge note, the blocker list, the `Dropped or changed vs
-spec/plan` disclosure, the `Open follow-ups at merge` list, the Reviewing-models line, the S3 acknowledgement. **[docs]**
-Google's strictly-grounded system instruction is meant to be used verbatim, and its last clause binds here: "If the exact
-answer is not explicitly written in the context, you must state that the information is not available." A missing verdict
-is unavailable, never a pass; an unlogged downgrade is a skip; and the wire-verified model id is what goes in the report,
-not the requested one — **[docs]** "Your knowledge cutoff date is January 2025." `Never fabricate an answer to an
-Essential Question` is this clause already; the addition is that it covers the closing report.
+Everything emitted at the close is prose a human acts on: the merge note, the blocker list, the drops disclosure, the
+`Open follow-ups at merge` list, the run's owner, the S3 acknowledgement. **[docs]** "If the exact answer is not explicitly
+written in the context, you must state that the information is not available." A missing verdict is unavailable, never a
+pass; an unlogged downgrade is a skip; and the wire-verified model id goes in the report, not the requested one.
 
 ## Override 7 — `thinking_level`, and what it is not for
 
@@ -248,10 +241,10 @@ conductor whose characteristic error is ticking a box it did not run.
 **[docs]** "Concise repeat of the key points of the prompt, especially the constraints and response format, at the end of
 the prompt."
 
-1. Write the nine-row ledger before phase 1; report `N of N` at phase 8. Row 6 is fourteen boxes; row 9 is oracle rungs.
+1. Write the nine-row ledger before phase 1; report `N of N` at phase 8. Row 6 is sixteen boxes; row 9 is oracle rungs.
 2. Every box is a pasted command and its output, prerequisite before property; a zero denominator is unrun, an
    unrunnable box a stop.
 3. Every stage is a real invocation under its full `plugin:skill` name, whose completion is a path the next phase opens.
 4. One retry on a transient error; none on exit 75, exit 64, a read ceiling or a rebase conflict.
-5. One verify agent, one branch, one worktree, three rounds — read back off git, not off this file.
+5. One verify agent, one branch, one worktree, three rounds, nothing but docs after the graded head — read back off git.
 6. The closing report states as unavailable whatever the artifacts do not carry.

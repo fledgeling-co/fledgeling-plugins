@@ -5,10 +5,10 @@
 <h1 align="center"><img src="assets/icon-256.png" alt="" width="34" valign="middle" /> shipyard</h1>
 
 <p align="center"><strong>Where features get built, stage by stage.</strong><br />
-Seven pipeline skills for Claude Code that take a feature from rough idea to independently verified code, and a status machine where "done" has to be earned by a stranger.</p>
+Eight pipeline skills for Claude Code that take a feature from rough idea to independently verified code and see its pull request through to merge, and a status machine where "done" has to be earned by a stranger.</p>
 
 <p align="center">
-  <img alt="Version 0.5.5" src="https://img.shields.io/badge/version-0.5.5-D33C21">
+  <img alt="Version 0.6.0" src="https://img.shields.io/badge/version-0.6.0-D33C21">
   <img alt="SWE skill: delivery pipeline" src="https://img.shields.io/badge/SWE_skill-delivery_pipeline-434A55">
   <img alt="Report card 37-37 vs 22-37" src="https://img.shields.io/badge/report_card-37%2F37_vs_22%2F37-756E60">
   <img alt="Blind panel 17-4" src="https://img.shields.io/badge/blind_panel-17--4-756E60">
@@ -41,7 +41,7 @@ shipyard is the rebuild. The stages are the same shape a human team would use (i
 
 ## The stages
 
-`shipyard:intake` turns a rough idea into briefs, and proposes the companion features your audience would expect as separate, deletable files. `shipyard:triage` grounds every claim in the actual codebase and converts ambiguity into recorded assumptions rather than questions; access-control defaults are the named exception, because those are genuinely yours to make. `shipyard:plan` writes and commits the build plan plus the test strategy. `shipyard:design` mocks every surface and state for iPhone, iPad, Mac and Web, and doesn't hand off until its review gates pass. `shipyard:work` builds in an isolated worktree and fills evidence tables as it goes. `shipyard:verify` is the stranger: fresh context, re-derives the requirements from the ticket alone, measures the running app, and routes the verdict to a model outside the builder's family. `shipyard:gap-fix` is the road back when verification fails.
+`shipyard:intake` turns a rough idea into briefs, and proposes the companion features your audience would expect as separate, deletable files. `shipyard:triage` grounds every claim in the actual codebase and converts ambiguity into recorded assumptions rather than questions; access-control defaults are the named exception, because those are genuinely yours to make. `shipyard:plan` writes and commits the build plan plus the test strategy. `shipyard:design` mocks every surface and state for iPhone, iPad, Mac and Web, and doesn't hand off until its review gates pass. `shipyard:work` builds in an isolated worktree and fills evidence tables as it goes. `shipyard:verify` is the stranger: fresh context, re-derives the requirements from the ticket alone, measures the running app, and routes the verdict to a model outside the builder's family. `shipyard:gap-fix` is the road back when verification fails. `shipyard:steward` looks after an open pull request: it merges the base in when it conflicts, fixes the checks the change broke, answers small review comments, escalates anything bigger to the author after at most three pushes on one issue, and never merges.
 
 Note: verify is the only stage that can set `Done`. That's the point of it.
 

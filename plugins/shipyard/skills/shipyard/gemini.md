@@ -26,8 +26,8 @@ than read, or a stage quietly performed here rather than handed over.
   skill builds nothing — so **nothing here measures routing accuracy at all**. The overrides are
   about completeness and grounding, where the evidence does speak, and about the one behaviour
   §1.2.4 recorded directly (answering a question about named skills from memory). Also unmeasured:
-  the retry rule on a lookup-shaped skill, and any run measured *with* a `gemini.md` against one
-  without.
+  the retry rule on a lookup-shaped skill, any run measured *with* a `gemini.md` against one
+  without, and the eighth row (`shipyard:steward`, added 2026-11-25), which no run has routed to.
 - **The self-limitation.** **[docs]** A conditional side file is the shape the health checklist
   warns about: *"Avoid writing a prompt with non-linear logic or conditionals that require the model
   to piece together fragmented instructions from multiple different places in the prompt."* Read it
@@ -85,7 +85,7 @@ the answer claims to be complete:
 
 | # | categorical, in the skill's words | denominator | filled | reported |
 |---|---|---|---|---|
-| 1 | `Seven stage skills` in the stages table | 7 | intake · triage · plan · design · work · verify · gap-fix | `7 of 7` |
+| 1 | `Eight stage skills` in the stages table | 8 | intake · triage · plan · design · work · verify · gap-fix · steward | `8 of 8` |
 | 2 | `The status machine (one enum, complete)` | 8 states | (untriaged) · Needs More Info · To Do · Ready for AI · In Progress · Developer Review · Done · Needs More Work | `8 of 8` |
 | 3 | `Every transition requires its artifact` | 8 arrows in the enum | each named with the artifact that gates it | `8 of 8 gated` |
 | 4 | `the shared canon` in `references/` | 8 files in that paragraph + `tracker-adapter.md` | model-lanes · second-opinion-lanes · evidence-rules · test-strategy · executor-lanes · codex-cli · operational-rules · evidence · tracker-adapter | `9 of 9 named` |
@@ -94,7 +94,8 @@ the answer claims to be complete:
 A cell that cannot be filled reads `n/a: <reason>` — **[docs]** *"provide instructions for handling
 missing data rather than assuming inserted data will always be present and well-formed."* Row 2 is
 the one to guard: the skill calls that enum **complete**, so an answer listing six states is not a
-short answer, it is a false one.
+short answer, it is a false one. `shipyard:steward` is in row 1 and in none of rows 2 or 3: it
+works on a pull request and moves no status, so an answer that gives it a status transition is wrong.
 
 **And the tension this creates with the family's default.** **[docs]** *"By default, Gemini 3 models
 provide direct and efficient answers. If you need a more conversational or detailed response, you
@@ -178,7 +179,7 @@ the `Read` ceiling** takes line-ranged reads on the first refusal, not a fourth 
 
 **[docs]** `HIGH` is described as suitable for *"multi-step planning, verified code generation, or
 advanced function calling scenarios."* **This skill is none of those.** It is lookup-shaped: read a
-situation, match it to one of seven rows, name the stage and the artifact. `MEDIUM` — Gemini 3.7
+situation, match it to one of eight rows, name the stage and the artifact. `MEDIUM` — Gemini 3.7
 Flash's default — is the right level here, and the honest note is that raising it buys nothing:
 **[measured-family]** paired across 106 tasks, `high` beat `medium` on 24, lost on 24 and tied on
 58, mean **−1.7 points** (§2.3). **[docs]** *"Higher thinking levels encourage the model to use more
@@ -192,7 +193,7 @@ question, the answer is to hand it to a conductor, not to think harder about it 
 **[docs]** *"Concise repeat of the key points of the prompt, especially the constraints and response
 format, at the end of the prompt."*
 
-1. Seven stages, eight statuses, eight transitions, nine canon files, three conductors — an answer claiming completeness carries the count.
+1. Eight stages, eight statuses, eight transitions, nine canon files, three conductors — an answer claiming completeness carries the count.
 2. Read `tracker-adapter.md`, `model-lanes.md` and `second-opinion-lanes.md` before answering about statuses or lanes; a remembered map is undated.
 3. Read what the prompt names, then answer. Neither substitutes for the other.
 4. Name the stage and its artifact; never produce that artifact here. Exactly one skill sets `Done`.

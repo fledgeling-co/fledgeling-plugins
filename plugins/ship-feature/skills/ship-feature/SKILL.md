@@ -52,7 +52,7 @@ skill's own references: `references/orchestration-model.md` (read first),
 
 ## The orchestration model (the three load-bearing decisions)
 
-1. **Keep one conductor and sequence the stage handoffs.** Run a stage locally or dispatch it to its assigned model with the artifact contract in `references/orchestration-model.md`: normally GPT-6 coordinates, Opus 5 handles intake/triage/plan, and Gemini 3.8 implements. Resolve supported model IDs from the actual runner. **Plan ∥ design** may overlap after triage when their files and decisions are independent. **Verify uses fresh context and a capable family different from the implementation writer.**
+1. **Keep one conductor and sequence the stage handoffs.** Run a stage locally or dispatch it to its assigned model with the artifact contract in `references/orchestration-model.md`: normally GPT-6 coordinates, Claude Opus (the roster's `opus` alias) handles intake/triage/plan, and Gemini 3.8 implements. Resolve supported model IDs from the actual runner. **Plan ∥ design** may overlap after triage when their files and decisions are independent. **Verify uses fresh context and a capable family different from the implementation writer.**
 2. **The pipeline's memory is on disk** — every stage persists its artifact; re-read at each
    boundary rather than trusting transcript memory. That is what makes the run resumable:
    re-enter at the first stage whose artifact is missing or not green.

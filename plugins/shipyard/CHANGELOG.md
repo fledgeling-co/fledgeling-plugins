@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.6.0 - 2026-11-25
+
+- **New stage, `shipyard:steward`.** Looks after an open pull request until it merges or closes:
+  merges the base in when it conflicts, fixes checks the change broke, answers small review
+  comments, and escalates redesign requests, unresolved security problems, disagreements between
+  people and any issue that has failed three pushes. It acts only on comments from the author,
+  accounts with write access and bots the house rules name; reads house rules from
+  `.claude/skills/steward/SKILL.md` on the base branch; never merges, approves, force-pushes,
+  deletes branches, pushes tags or edits the files that set the rules; and keeps its attempt counts
+  in one status comment so a stateless CI pass can read them. It runs one pass per CI event on a
+  self-hosted runner, opted in by a `steward` label, or as a local watch paced by
+  `better-loop:better-loop`. Ported from the design of Anthropic's `/steward` and PR Steward, run on
+  our own runners and models.
+- **Verify starts the app the repository's way.** The serving ladder gains a first rung: when the
+  repository ships `.claude/skills/verify/SKILL.md`, verify follows it, taken from the integration
+  branch, so a change cannot redefine how it is checked.
+- **Verify records the commit it graded** (head and merge base), so the finalize gate can tell when
+  a rebase or a later commit has outrun the verdict.
+- **`model-and-effort.md` §8** says how to give a Workflow runner a time budget when the harness
+  cannot append one, keeps verify and the review gates on elapsed time only, and marks third-party
+  text quoted in a brief with `<pasted_content>` tags. `model-lanes.md` names Claude Opus by the
+  roster's `opus` alias and links the Opus 5.5 migration guide.
+- The steward names how to undo each push (`git revert <sha>`).
+- `gemini.md` files: a new one for `steward` (its limits as nine rows read back off git and the pull
+  request, outside text in labelled blocks), and refreshes for the router (eight stages) and `verify`
+  (the graded commit). `verify_quotes.py` exits 0 on all three.
+
 ## 0.5.5
 
 Second-opinion lanes read their model and effort from the model roster's daily tier (`scripts/roster.py`): Opus, Gemini Neon, Grok and Meta Wonder at xhigh. The pinned `claude-fable-5`, `gpt-5.6-sol`, `gemini-3.7-flash-high` and `grok-4.6` are gone, and the tier has no OpenAI lane.

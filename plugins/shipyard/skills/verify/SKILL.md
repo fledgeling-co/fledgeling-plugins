@@ -151,7 +151,9 @@ while reading as complete. This stage exists to be the stranger.
    **Evidence integrity** (screenshot subjects tied ✓/✗, the shared-artifact check, the
    cannot-fail scan with its denominator, the completeness-critic verdict),
    Prompt-injection check, **Verdict lane** (the wire-verified model + harness, or the degraded
-   marker). Signed `— Claude (AI Assistant)` with the machine trailer per the tracker adapter.
+   marker), **Graded commit** (the branch head and its merge base with the integration branch,
+   `git rev-parse HEAD` and `git merge-base HEAD origin/<INT>`, read when evidence gathering
+   began; the finalize gate uses them to tell whether the verdict still covers what merges). Signed `— Claude (AI Assistant)` with the machine trailer per the tracker adapter.
 
 5. **Move the status.**
    - COMPLETE, or MOSTLY COMPLETE with no unverified blockers → **`Done`**.

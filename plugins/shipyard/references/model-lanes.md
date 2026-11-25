@@ -8,8 +8,8 @@ promise that this harness exposes that model or can switch it in the current ses
 ## Resolve the role before selecting a runner
 
 1. Follow the user's explicit model and provider constraints first. The usual
-   workflow for this project is **GPT-6 for orchestration, Claude Opus 5 for
-   intake, triage and planning, and Gemini 3.8 for implementation after those
+   workflow for this project is **GPT-6 for orchestration, Claude Opus (the model
+   roster's `opus` alias, which resolves to the newest Opus) for intake, triage and planning, and Gemini 3.8 for implementation after those
    artifacts land**. These are role preferences, not a universal capability ranking.
 2. Read the actual session model, available model catalogue, tool schemas and
    project restrictions. Resolve the requested display name to an exact supported
@@ -31,7 +31,7 @@ promise that this harness exposes that model or can switch it in the current ses
 | Work | Preferred role | Boundary |
 |---|---|---|
 | Portfolio/fleet/feature coordination | GPT-6 or the current authorized conductor | Holds dependency map, resolves findings, serializes merges |
-| Intake, triage verdict, plan synthesis | Claude Opus 5 | Produces the full brief/spec/plan and acceptance criteria before implementation |
+| Intake, triage verdict, plan synthesis | Claude Opus (roster `opus` alias) | Produces the full brief/spec/plan and acceptance criteria before implementation |
 | Implementation and scoped fixes | Gemini 3.8 | Receives the committed plan, constraints, allowed files and required checks |
 | Readers and mechanical gates | Current runner or a supported economical lane | Delegate only when the work is sizeable and independent |
 | Acceptance review and final verification | A capable reviewer from a family different from the artifact's writer | Receives requirements and evidence, with no author verdict or build transcript |
@@ -97,7 +97,8 @@ For an Opus 5.5 runner, also apply `model-and-effort.md` §2 (start one effort l
 (unattended runs); do not ask a runner to write out its reasoning, only a short explanation or a
 summary of what it did. Source: [Opus 5.5 prompting](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5).
 
-When editing an API harness, follow the [Opus 5 migration guide](https://platform.claude.com/docs/en/models/opus-5/migration-guide):
+When editing an API harness, follow the [Opus 5.5 migration guide](https://platform.claude.com/docs/en/models/opus-5-5/migration-guide)
+(and the [Opus 5 one](https://platform.claude.com/docs/en/models/opus-5/migration-guide) for older harnesses):
 adaptive thinking is on by default (and cannot be disabled on Opus 5.5); preserve assistant/thinking blocks unchanged
 through tool loops; consume response blocks by type; and verify supported request
 parameters. These API settings are not skill instructions that a runner can enact

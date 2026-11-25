@@ -28,8 +28,8 @@ branches, then continue at the first incomplete item. Rules:
 - Serial-only shared writes: LEDGER.md allocation, this file, shared design tokens,
   and integration-branch merges. Each runner owns one explicit file/worktree scope.
 - Model roles: <user-selected supported roles/IDs/efforts and authorized fallbacks>.
-  Normally GPT-6 coordinates, Opus 5 produces intake/triage/plan, and Gemini 3.8
-  implements after those artifacts land. A skill invocation does not switch models.
+  Normally GPT-6 coordinates, Claude Opus (the roster's `opus` alias) produces
+  intake/triage/plan, and Gemini 3.8 implements after those artifacts land. A skill invocation does not switch models.
 - Routing references: <absolute shipyard model-lanes.md, executor-lanes.md and
   relevant CLI-reference paths>. Read them rather than reconstructing a model list.
 - Stage handoff: objective, brief/spec/plan revisions, DESIGN/mock index, relevant
@@ -52,9 +52,9 @@ Wave 2 (after: <IDs>): …
 Holding pen (external deps / needs input): <ID> — waiting on <what, whom>
 
 ## Ledger
-| ID | Title | Category | Depends on | Deep research | Mock | Lane | Worktree/branch | Status | Notes / outcome |
-|----|-------|----------|------------|---------------|------|------|-----------------|--------|-----------------|
-| MOT-0042 | … | ready-for-work | MOT-0038 | docs/deep-research/<file>.md | design/mocks/html/<file>.html | <actual writer / reviewer> | .worktrees/MOT-0042 · ai/mot-0042 | queued → running → ready-to-merge → merged \| parked(<reason>) | … |
+| ID | Title | Category | Depends on | Deep research | Mock | Lane | Worktree/branch | Ran | Status | Notes / outcome |
+|----|-------|----------|------------|---------------|------|------|-----------------|-----|--------|-----------------|
+| MOT-0042 | … | ready-for-work | MOT-0038 | docs/deep-research/<file>.md | design/mocks/html/<file>.html | <actual writer / reviewer> | .worktrees/MOT-0042 · ai/mot-0042 | <runner start>–<end> (<minutes>, plan tier <tier>) | queued → running → ready-to-verify → verifying → verified → merged \| parked(<reason>) | … |
 
 ## Deferred children discovered mid-fleet
 | Child | Parent | Where it runs | Status |
@@ -73,7 +73,7 @@ Category values come from the survey: `resumable`, `ready-for-work`, `ready-for-
 A **single self-contained HTML file** (inline CSS/JS, no external assets, no build step) that renders the remaining-work hierarchy at a glance:
 
 - **Waves as horizontal bands**, top (ready now) to bottom (most-blocked); the holding pen as a visually distinct final band.
-- **One card per item**: id, title, category badge, lane badge (opus / composer+opus), status colour (queued grey · running blue · ready-to-merge amber · merged green · parked red), and its worktree/branch when live.
+- **One card per item**: id, title, category badge, lane badge (opus / composer+opus), status colour (queued grey · running blue · ready-to-verify, verifying or verified amber · merged green · parked red), and its worktree/branch when live.
 - **Dependency edges** drawn between cards (SVG lines/arrows are fine; a nested indented tree is an acceptable fallback when edges would spaghetti).
 - **Deferred children** nested under their parent card.
 - A small legend + the `Updated:` stamp matching ORCHESTRATOR.md.

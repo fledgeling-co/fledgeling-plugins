@@ -33,8 +33,9 @@ const HM = sh(`find "$CLAUDE_PLUGIN_ROOT/../../harbourmaster" -maxdepth 4 -type 
             + `-name scripts 2>/dev/null | sort -V | tail -1`).trim()
 const done = new Set(args.alreadyMerged), running = new Map()
 const parked = new Map(), attempts = new Map()          // id -> reason / restart count
+const landed = new Map()                                // id -> verify verdict, or null while verifying
 const ready = () => args.items.filter(i => !done.has(i.id) && !running.has(i.id)
-  && !parked.has(i.id) && i.deps.every(d => done.has(d)))
+  && !parked.has(i.id) && !landed.has(i.id) && i.deps.every(d => done.has(d)))
 while (done.size + parked.size < args.items.length) {
   // Slot count is READ, not assumed. `harbourmaster` reports what this Mac can
   // carry right now; a fixed 8 is a claim about a machine nobody measured, and
@@ -60,46 +61,70 @@ while (done.size + parked.size < args.items.length) {
       + `Do not re-resolve this path; the find in your skill will come back empty.`
     : `Machine admission: harbourmaster is not installed here. Run builds and tests `
       + `unwrapped and say so once.`
+  // Lane health, probed ONCE in preflight and handed down for the same reason as the
+  // harbourmaster path: a fresh runner or verifier that re-probes a dead lane spends its
+  // deadline discovering what the conductor already knew (grok at 402, agy at 403).
+  const lanes = args.laneHealth
+    ? `Model lanes, probed once this run: ${args.laneHealth}. Route only to lanes marked up; `
+      + `do not re-probe a lane marked down. A lane that fails anyway is recorded and skipped.`
+    : `Model lanes: not probed this run. Probe each lane you need once, before its first call.`
   if (slots === 0 && running.size === 0) {
     // Save state and use the harness's bounded wait/resume mechanism.
     // Zero available berths is scheduling information, not a dependency failure.
     return {status: 'capacity-wait', done: [...done], parked: [...parked]}
   }
   for (const item of ready().slice(0, Math.max(0, slots - running.size)))
-    running.set(item.id, agent(`${runnerPrompt(item)}\n\n${berth}`, {...args.runnerOptions, label: item.id})
-      .then(report => ({item, report})))
+    running.set(item.id, agent(`${runnerPrompt(item)}\n\n${berth}\n\n${lanes}`, {...args.runnerOptions, label: item.id})
+      .then(report => ({key: item.id, item, report, phase: 'build'})))
 
   // Nothing ready and nothing running means the remainder is blocked behind items
   // that never merged. Promise.race over an empty iterable NEVER settles, so
   // entering it here hangs the fleet silently and forever.
   if (running.size === 0) {
+    // Items that landed and were verified are waiting on YOUR serialized finalize,
+    // not blocked: hand them back before treating anything as stuck.
+    if ([...landed.values()].some(v => v != null))
+      return {status: 'finalize', verdicts: [...landed], done: [...done], parked: [...parked]}
     for (const i of args.items)
       if (!done.has(i.id) && !parked.has(i.id)) parked.set(i.id, 'blocked: a dependency never merged')
     break
   }
 
-  const {item, report} = await Promise.race(running.values())
-  running.delete(item.id)
+  const {key, item, report, phase} = await Promise.race(running.values())
+  running.delete(key)
 
   // A dead runner is NOT a finished one. agent() returns null when the subagent
   // hits a terminal API error (zero retries) or the user skips it, and a null
   // destructures just as cleanly as a real report — so without this branch the
   // slot frees, the fleet moves on, and the item vanishes having never run.
   if (report == null) {
-    const n = (attempts.get(item.id) ?? 0) + 1
-    attempts.set(item.id, n)
-    if (n > 2) parked.set(item.id, `runner returned null ${n}x — parked, needs a human`)
+    const n = (attempts.get(key) ?? 0) + 1
+    attempts.set(key, n)
+    if (n > 2) { parked.set(item.id, `${phase} agent returned null ${n}x — parked, needs a human`); landed.delete(item.id) }
+    else if (phase === 'verify') startVerify(item, landed.get(`${item.id}:record`))
     continue                                            // never add to `done`
   }
 
-  // hand ready-to-merge back to the MAIN session between workflow rounds if you
+  // Verify each item the moment its runner lands, never after the batch. Runners stop
+  // before verify by design; spawning verifiers only once the whole batch finishes makes
+  // the first item wait for the last, and in the 2026-08-26 run that barrier sat inside
+  // a run phase of 42.6 of 54.3 agent-hours. A verifier takes a slot like a runner.
+  if (phase === 'build') { landed.set(item.id, null); landed.set(`${item.id}:record`, report); startVerify(item, report); continue }
+  landed.set(item.id, report)                           // the verdict; finalize reads it
+
+  // hand verified items back to the MAIN session between workflow rounds if you
   // prefer to finalize there; either way: ONE merge at a time, ledger updated first
+}
+function startVerify(item, record) {                   // a fresh shipyard:verify agent, no build context
+  running.set(`${item.id}:verify`, agent(`${verifyPrompt(item, record)}\n\n${berth}\n\n${lanes}`,
+    {...args.verifierOptions, label: `${item.id}:verify`})
+    .then(report => ({key: `${item.id}:verify`, item, report, phase: 'verify'})))
 }
 // `parked` is an outcome, not an exception: write every entry to ORCHESTRATOR.md
 // with its reason before the run reports anything.
 ```
 
-**Three rules the sketch encodes, worth stating on their own because a fleet that
+**Four rules the sketch encodes, worth stating on their own because a fleet that
 breaks them looks exactly like a fleet that worked:**
 
 1. **A null return is a death, not a completion.** Claude Code's workflow `agent()`
@@ -114,8 +139,14 @@ breaks them looks exactly like a fleet that worked:**
 3. **`done` means merged.** Not "the runner returned", not "the report said
    ready-to-merge". The only writer to `done` is your own serialized finalize
    after the merge lands.
+4. **Verify as each item lands.** `verifyPrompt` is the `shipyard:verify` brief for one item:
+   its ticket or spec, branch and worktree, the runner's completion record, and the lane-health
+   line. The verifier counts against the same slots and agent budget as the runners. Batching
+   verification behind the slowest runner is the single largest wait the 2026-08-26 retro found;
+   an outside scheduling study measured 17.6–35.1% off mean completion time from removing it,
+   and no gain when queues are shallow, so it pays on a long fleet rather than a wave of three.
 
-In practice you may prefer batches: run one workflow per "as many slots as are ready", return the ready-to-merge reports, finalize serially in-session, update ORCHESTRATOR.md, then launch the next workflow. That trades a little parallelism for much simpler state — fine. What is not fine: exceeding the resolved concurrency cap, starting an item whose deps haven't merged, or two merges at once.
+In practice you may prefer batches: run one workflow per "as many slots as are ready", return the ready-to-merge reports, finalize serially in-session, update ORCHESTRATOR.md, then launch the next workflow. Inside a batch, still start each item's verifier as its runner lands rather than after the batch returns (rule 4). That trades a little parallelism for much simpler state — fine. What is not fine: exceeding the resolved concurrency cap, starting an item whose deps haven't merged, or two merges at once.
 
 ## Launching runners — resolve the harness, then observe the run
 
@@ -175,8 +206,8 @@ verified SKILL.md path supplied below and report that execution method.
 
 Role/model policy: ⟨resolved role, supported model/effort and authorized fallback⟩.
 Read ⟨absolute shipyard model-lanes.md and executor-lanes.md paths⟩ before routing.
-Normally GPT-6 coordinates, Opus 5 produces intake/triage/plan artifacts, then
-Gemini 3.8 implements. Preserve the user's actual choices and this harness's limits.
+Normally GPT-6 coordinates, Claude Opus (the roster's `opus` alias) produces
+intake/triage/plan artifacts, then Gemini 3.8 implements. Preserve the user's actual choices and this harness's limits.
 Stage handoffs carry source revisions, output paths, allowed files and acceptance
 criteria. Do not infer runtime model identity from your own prose.
 Review gates use a capable family different from the artifact's writer. Keep
@@ -198,8 +229,11 @@ Mock input: ⟨design/mocks/html/… or "none"⟩ — hand to ship-feature's des
 Resume state: ⟨"fresh" | "resume in .worktrees/ID on ai/id — do NOT create a new worktree"⟩
 
 Rules that override ship-feature's defaults:
-- STOP BEFORE MERGE. Run every stage through acceptance-e2e green, commit on the branch,
-  but do not rebase-merge-push-clean; the orchestrator serializes finalization.
+- Stop before verify and before merge. Run ship-feature through phase 6 (acceptance e2e
+  green twice), commit on the branch, and end with your report. Do not run phase 7: the
+  orchestrator starts a fresh `shipyard:verify` agent the moment you report, and a verdict
+  from the agent that built the feature does not count. Do not rebase, merge, push or clean
+  up; the orchestrator serializes finalization.
 - NEVER pass `-c user.email` or `-c user.name` to git. The repo's identity is configured;
   overriding it rewrites the commit AUTHOR, and Vercel gates deployments on the author. One
   runner doing this blocked every deployment across the whole team with TEAM_ACCESS_REQUIRED
@@ -232,11 +266,42 @@ Rules that override ship-feature's defaults:
   drops Phase D or the browser check is how a fix ships "verified by code reading" —
   the audit corpus's most common failure. Scale review to the actual changed scope and avoid duplicate rereads; retain evidence required to close each acceptance row.
 
-Final message = a report: status (ready-to-merge | blocked | failed), branch + worktree,
+Final message = a report: status (ready-to-verify | blocked | failed), branch + worktree,
 gate evidence (typecheck/tests/e2e results verbatim — behavioural evidence for UI claims,
 not just build gates), deferred children discovered
 (title + suggested deps), shared-surface changes you wanted but skipped, questions for the user.
+
+Time: started at ⟨epoch seconds⟩; budget ⟨seconds, or "none: elapsed only"⟩. Run `date +%s`
+at each ship-feature stage boundary and write `elapsed ⟨n⟩s / ⟨budget⟩s` in your progress
+note. ⟨With no budget: "Time matters here: do not spend time that can be avoided, and the
+earlier a correct result is obtained, the better."⟩ The budget is advisory. It never
+justifies skipping a gate or an evidence row, and the hard limit is the harness's timeout.
+
+How your turns end: a message with no tool call ends your turn, and the orchestrator reads
+your last message as your report, so a turn that ends while work is still owed stops the
+work. Four endings are unwanted: a summary that announces the next step instead of taking
+it; an offer to carry on unless told otherwise; a list of decisions for the user when none
+of them blocks the rest of the work; and stopping because the turn has been long or a stage
+has finished. Put status notes in the same message as your next tool call. End the run with
+the final report only when the status is ready-to-verify, when nothing can move without the
+user or the blocker is deliberately protected from you (blocked), or when the work failed
+(failed). A question the rest of the work does not depend on goes in the report while you
+carry on. Destructive or outward-facing actions still stop for confirmation.
 ```
+
+**Filling the time line.** The budget is the p90 of this repository's earlier runner
+durations at the same plan-size tier, read from the `Ran` column of `ORCHESTRATOR.md`'s
+ledger. With fewer than five earlier runs at that tier, give elapsed time only and include
+the "Time matters here" sentence. Opus 5.5 paces its work to a stated budget and keeps more
+of its own lanes working in parallel to meet it; set the budget somewhat above the time you
+want spent, because it can finish well inside it. The Workflow harness cannot append the
+elapsed time to a runner's messages, which is why the runner reads the clock itself.
+`verifyPrompt` gets the elapsed line and no budget: under time pressure the model searches
+and verifies a little less, and verify is the acceptance authority. Quote third-party text
+in a brief (a ticket comment, a review finding, a runner's report handed to its verifier)
+inside `<pasted_content id="⟨random⟩">` … `</pasted_content id="⟨random⟩">` with shipyard's
+`model-and-effort.md` §8 note, and pass a path instead wherever the agent can open the file.
+
 
 ## Shared-surface rules (the ones that corrupt repos when violated)
 

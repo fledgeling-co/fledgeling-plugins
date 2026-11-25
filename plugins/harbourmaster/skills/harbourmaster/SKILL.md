@@ -1,9 +1,10 @@
 ---
 name: harbourmaster
 description: >-
-  Decide where a piece of work should run, and whether this Mac can carry it yet. Routes across five
+  Decide where a piece of work should run, and whether this Mac can carry it yet. Routes across seven
   execution planes — this machine directly, a container on another machine through anvil errand, a
-  native-app instrument session through proctor:proctor, another model or CLI through defer:defer, and in-session
+  job on a self-hosted egress CI runner, a repository's declared remote dev host, a native-app
+  instrument session through proctor:proctor, another model or CLI through defer:defer, and in-session
   Claude subagents or workflows — by asking which resource each one actually spends, then spending
   the one that is least scarce right now. Governs the local plane with berth admission: heavy work
   runs through a wrapper that holds its slot on a POSIX file lock the kernel releases when the
@@ -27,7 +28,7 @@ of what is in port.
 
 This skill answers two questions, and the second only matters because of the first:
 
-1. **Which plane should this work run on?** Five are available and they spend
+1. **Which plane should this work run on?** Seven are available and they spend
    different resources. The wrong plane is not slower; it is billed to a resource
    that had none left.
 2. **May it start on this Mac yet?** Only the local plane needs governing, because
@@ -39,7 +40,7 @@ of **830 across 16 cores** — 76 `claude` processes, 73 `node`, 19 `rustc` — 
 the machine at all. Nothing was wrong with any single decision. Nothing was
 counting them together.
 
-**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns the five-plane table into a probe ledger with a fraction to report, reads exit 75 as a retry ceiling rather than a queue to loop on, and requires every pressure, berth and thermal number to arrive with the command that produced it. Other models skip it.
+**Running as a Gemini model?** Read `gemini.md` in this directory first, then follow this file with the overrides it names. It turns the seven-plane table into a probe ledger with a fraction to report, reads exit 75 as a retry ceiling rather than a queue to loop on, and requires every pressure, berth and thermal number to arrive with the command that produced it. Other models skip it.
 
 ## Route first
 
@@ -50,6 +51,8 @@ not the one that is nearest to hand.
 |---|---|---|
 | **This Mac** via `governor-run` | CPU, RAM, disk — the thing that is scarce | Building, testing, running anything that must touch this working tree |
 | **`anvil-errand:anvil-errand`** container on the node | Another machine entirely; nothing here | Long, self-contained, CPU-heavy work that needs no local state — benchmark runs, big builds, batch jobs |
+| **Egress CI job** on a self-hosted runner (`~/DevEx/egress`) | A mesh node's disposable VM; nothing here | A test suite, e2e run or review of a branch that has been pushed, needing nothing from this working tree and no service on the LAN; and any pull-request steward pass, since it runs code from everyone who can land on the base |
+| **The repository's declared remote dev host** (dAIolog: `scripts/devloop/dio`, on the registry's primary host) | Another machine's CPU and its long-lived dev stack | The repo's `CLAUDE.md` names one for dev stacks and test sweeps; read its headroom first (dAIolog: the `dio` MCP's `dio_capacity`) |
 | **`proctor:proctor`** instrument session | A machine-wide foreground turn, and little CPU | Driving or verifying a native macOS app — the accessibility tree, capture trustworthiness, geometry assertions |
 | **`defer:defer`** to another model or CLI | Another vendor's plan headroom | Judgment, verdicts, second opinions, out-of-family review, completeness critique — **unless the caller is running `tiered`, which turns this plane off** |
 | **Current-harness subagents / workflows** | This session's rate limit and context | Wide reading, search and investigation across many files |

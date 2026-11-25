@@ -15,18 +15,12 @@ complete-looking verdict table whose evidence column was written rather than rea
   of `verify` has been observed**; the family sources are two sessions (n=1 each) and a 106-task
   benchmark, in `geminify/references/evidence.md`.
 - **The tier it is about.** Every measured rate below is `gemini-3.7-flash` (one session on
-  `gemini-3.7-flash-high`) — **flash-tier claims, not to be projected onto Pro**, where the
-  overrides hold as documented discipline and every number is open. **[docs]** The defaults drift
-  inside the family: *"If thinking_level is not specified, Gemini 3 will default to high"* against,
-  from the 3.5 Flash release notes, *"The default thinking effort is now medium, changed from high
-  in Gemini 3 Flash Preview."*
+  `-high`): flash-tier claims, not to be projected onto Pro, where the overrides hold as
+  documented discipline and every number is open.
 - **Unmeasured here, and the sharpest gap:** **both sources watch a model *build* something; neither
   says how well this family *grades* someone else's work**, which is all this stage does. Also
-  unmeasured: the rung ladder, the critic under a Gemini runner, override 6's receipts, and any run
-  measured *with* a `gemini.md` against one without.
-- **The self-limitation.** **[docs]** A conditional side file is the shape the checklist warns about
-  — *"Avoid writing a prompt with non-linear logic or conditionals that require the model to piece
-  together fragmented instructions from multiple different places in the prompt."*
+  unmeasured: the rung ladder, the critic under a Gemini runner, override 6's receipts, the **Graded
+  commit** line added on 2026-11-25, and any run measured *with* a `gemini.md` against one without.
 
 ## No route-out block, and which shapes were omitted
 
@@ -118,11 +112,14 @@ $ npx playwright test e2e/DIO-0412 --repeat-each=2      → 42 passed (2 runs) �
 $ python3 .warrant/cannotfail_scan.py 'e2e/DIO-0412/**' → 31 assertions scanned · 2 candidates (req-07 spec:44 skip)
 $ curl -si localhost:3000/api/invoices/9 -d '{...}'     → 201 · {"id":"inv_9"} · psql row count → 1
 critic  ARTIFACTS_PRESENT 9/9 · ROW_CITES_ARTIFACT 8/9 · SUBJECTS_TIED 6/7 · NO_VISION_VERDICTS pass
-lane    codex gpt-5.6-sol · header 'model: gpt-5.6-sol' + 'reasoning effort: high' grepped · 4.1kB out
+lane    codex <id from runtime metadata, not from the launch flags> · 4.1kB out
+graded  ai/dio-0412 @ 9f3a1c2 · merge base 4be07d1 with origin/staging · read 10:02, before the first capture
 req-05  would run: obscura --allow-private-network fetch http://127.0.0.1:3000/billing → NOT RUN (no serve)
 ```
 
-Four rules the paste enforces and a tick cannot: **a denominator of zero is a gate that never ran**
+Five rules the paste enforces and a tick cannot: **the Graded commit is read before the first capture**, not at posting time, because a SHA read
+after a late commit names a tree the evidence never saw and the finalize gate trusts it; **a
+denominator of zero is a gate that never ran**
 (`0 tests passed` and `no tests found` mean opposite things); **an empty lane output file is a lane
 failure**, which is why the byte count sits on the lane line; **an unexecuted check reads `would
 run: <command>`**, never as ran; and **prove the check can fail** — green from one of the eight
@@ -245,7 +242,7 @@ bound-shaped share of failures *rose* from 58% to 86%.
 format, at the end of the prompt."*
 
 1. Write the nine-row ledger into the bundle before step 2; report `N of N`. Row 8 is the one that vanishes.
-2. Every number in the verdict carries its command and that command's output; an unrun check reads `would run:`.
+2. Every number in the verdict carries its command and that command's output; an unrun check reads `would run:`. The Graded commit is read before the first capture.
 3. Name what is in each capture, then judge it; prove its end-URL and sha256 or it is not evidence.
 4. Five bounds read back off the bundle and git, not off this file. Two probes means two.
 5. Derive the requirement list from the thread before opening the worker's record.

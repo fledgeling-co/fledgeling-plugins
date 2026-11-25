@@ -1,5 +1,33 @@
 # Changelog
 
+## 2.5.0 - 2026-11-24
+
+Two cuts to e2e wall time that keep the evidence:
+
+- **The second green run covers the feature's specs plus anything that failed or retried in the
+  first**, not the whole suite again. The full suite still runs twice when the branch touches what
+  every spec shares: seed data, global fixtures, auth or tenant setup, or the harness config.
+- **The post-rebase e2e rerun is skipped only for a rebase that changed nothing**: the branch head,
+  the integration branch's tip and their merge base must be the same three commits recorded at the
+  last green run, and the finalize report names them. Any difference means rerun.
+
+And one new finalize box: every changed rule file (`CLAUDE.md`, `REVIEW.md`, `.claude/**`,
+`.github/**`, `CODEOWNERS`, hooks, CI config) is listed in the report, and a change that removes or
+loosens a check, rule or protection stops the run at the gate for a person to merge. Adding a rule
+or a check does not.
+
+Also in this release:
+
+- **A verdict covers the commits it graded.** `shipyard:verify` now records the head and merge base
+  it graded, and the finalize gate runs `git range-diff` after the final rebase: a feature patch the
+  conflict resolution changed, or a code commit made after verify, goes back to verify or stops the
+  run. This is Claude Ship's stale-approval rule.
+- The report names the person who started the run as the owner of the merged change.
+- A branch a person takes to a pull request after a stopped run can be handed to
+  `shipyard:steward`.
+- `gemini.md` refreshed for the sixteen-box gate, the narrowed second e2e run and the stale-verdict
+  check; `verify_quotes.py` exits 0.
+
 ## 2.4.2 - 2026-09-01
 
 Refreshes `gemini.md` against a `SKILL.md` that had changed since it was written. Written by the `geminify` Mode A procedure and gated by `verify_quotes.py`.

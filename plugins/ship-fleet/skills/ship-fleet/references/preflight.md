@@ -67,7 +67,8 @@ Report deviations (missing `lib/` server-only boundary, route handlers outside `
 ## 5. Routed lane availability (check once, then refresh when state changes)
 
 Resolve the role policy in shipyard's `references/model-lanes.md`: normally
-GPT-6 coordinates, Opus 5 produces intake/triage/plan, and Gemini 3.8 implements.
+GPT-6 coordinates, Claude Opus (the roster's `opus` alias) produces intake/triage/plan,
+and Gemini 3.8 implements.
 Review gates select capable supported families different from the actual artifact
 writer. No gate depends on Codex specifically, and a model name alone proves no
 family independence or review quality.
@@ -82,7 +83,8 @@ For each selected route, confirm the tool or binary, supported model and effort,
 then run a bounded inert probe. Do not install a missing CLI unprompted. Record
 `<role>: <actual lane> available | unavailable (<reason>) -> <authorized fallback>`
 with the check time. Give runners this resolved state and the actual reference
-paths; they re-read policy before calls and refresh a failed availability probe
+paths, by passing the recorded lines as the fleet's `args.laneHealth`, which
+`scheduling-and-concurrency.md` appends to every runner and verifier brief; they re-read policy before calls and refresh a failed availability probe
 when there is evidence the state may have changed.
 
 CLI mechanics belong in shipyard's `references/executor-lanes.md` and
