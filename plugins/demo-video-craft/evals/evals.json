@@ -1,0 +1,66 @@
+{
+  "skill_name": "demo-video-craft",
+  "notes": "Not run. The owner chose mechanical checks only for this release, so no with-skill against no-skill comparison has been made. These are the prompts and assertions that comparison should use. evals/run_mechanical.sh runs what was verified: the four scripts' self-tests.",
+  "arms": ["skill", "baseline"],
+  "evals": [
+    {
+      "id": 1,
+      "name": "full-series-connector",
+      "prompt": "We sell a Slack app that drafts customer-support replies from our help centre. Make us demo videos: one overview and six short clips, each with and without a voiceover, and put them on videos.example.com. The product spec is in docs/PRD.md and the app's UI kit is in packages/ui.",
+      "expected_output": "A series folder with BRIEF.md, CLAIMS.md, scenario.json, SERIES.md, lines.json and respell.json; seven HyperFrames films; fourteen MP4s in delivery/ that pass delivery.py check; a site whose media URLs pass site_urls.py check; no deploy without the user's yes.",
+      "assertions": [
+        "clarify:clarify is invoked before the first question to the user",
+        "motion-craft:motion-craft is invoked, and three overview storylines are written before any scene",
+        "BRIEF.md lists between three and seven numbered must-carry facts, each with a source",
+        "CLAIMS.md has one row per capability shown, each marked built, partial or unbuilt, and no unbuilt row appears on screen",
+        "SERIES.md carries a pace factor and a label switch",
+        "the overview runs 80-110 s and each of the six shorts 20-25 s",
+        "every short's narration is one line of 24-34 words in the second person",
+        "each film is rendered once and its voiced cut made by delivery.py remux; delivery.py check exits 0 for 7 of 7",
+        "every file measures -14 LUFS plus or minus 0.5 with true peak at or below -1 dBTP",
+        "site_urls.py check exits 0 on the built site",
+        "the paid voice and music calls are shown with their cost before they run",
+        "nothing is deployed without the user's authorization, and the report says whether anyone listened"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "revision-round-pronunciation-and-lockup",
+      "prompt": "Round 3 notes on the videos: the narrator says our name wrong, it's 'Kwy-et' not 'Kwit' (Quiet Desk), and the logo in the videos still doesn't match the website even though you fixed it on the pages. Republish when done, people already have the links.",
+      "expected_output": "respell.json gains a rule, only the affected lines are re-voiced, the lockup is fixed in the films from the shared spec and checked in frame crops, the files are republished under the same names with fresh ?v= hashes, and the report names who listened.",
+      "assertions": [
+        "the spoken spelling is changed in respell.json, not in lines.json, captions or page copy",
+        "only lines containing the name are regenerated, and the characters sent and cost are printed",
+        "the films' lockup is changed in the one spec the pages use, not in a second copy",
+        "the lockup is checked in a crop of a rendered frame from each place it appears in the films",
+        "every published file name is unchanged and delivery.py check --published exits 0",
+        "page references carry the new files' hashes and site_urls.py check exits 0",
+        "posters and the share image are checked for the old lockup",
+        "the report says the pronunciation was not confirmed by transcription and names who listened"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "republish-without-breaking-links",
+      "prompt": "Copy change on clip 4 only: the result card should say 'Approved by Maria' not 'Approved by Mark'. Re-render it and push it to the site. The YouTube description links straight to the MP4.",
+      "expected_output": "Clip 4 is rebuilt, rendered once, remuxed, gated and republished under its existing file names, with the live file confirmed by content-length.",
+      "assertions": [
+        "the change is made in scenario.json or the film table, and every screen showing the name is searched",
+        "clip 4 is rendered once and remuxed, not rendered twice",
+        "the file names in published.txt are unchanged",
+        "the page reference to clip 4 carries the new ?v= hash",
+        "after the deploy the live MP4's content-length matches the file on disk"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "near-miss-single-sting",
+      "prompt": "Make a 6 second logo sting for the start of our webinar recordings.",
+      "expected_output": "The skill routes to motion-craft:motion-craft in one line rather than starting a series.",
+      "assertions": [
+        "no series folder, film table or site is created",
+        "the reply names motion-craft:motion-craft as the skill for a single motion piece"
+      ]
+    }
+  ]
+}

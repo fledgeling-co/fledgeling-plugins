@@ -373,6 +373,17 @@
       "category": "development"
     },
     {
+      "name": "demo-video-craft",
+      "description": "Make a SaaS product's demo video series and publish it: one overview or launch video plus a set of 20-25 s shorts, one workflow each, built picture-first in HyperFrames through motion-craft so every film ships as a muted master and a voiced cut from a single render. Made for products that live inside other apps, such as a Claude or ChatGPT connector, with the product's own interface rebuilt as live HTML inside a frame of the host app. Narration, word timings and an instrumental music bed come from ElevenLabs through Vercel AI Gateway, with spoken respellings kept apart from the written names and the bed ducked under the voice. The videos go up on a small video site with a shorts modal, permanent file names and content-hashed URLs, so a republish never breaks a shared link or serves a stale copy. Four gates check the files themselves: both cuts share one picture, every file masters to -14 LUFS with true peak at or below -1 dBTP, no published name has gone, and every page references the current file. Routes storylines and rendering to motion-craft, pages to design-craft and ux-craft, review to design-review, words to the brand's voice skill, questions to clarify, and the report to status-update. Grounded in a four-round production run of an overview and nine shorts and in motion-craft's study of 48 shipped SaaS product films.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/demo-video-craft",
+      "category": "development"
+    },
+    {
       "name": "deck-craft",
       "description": "Build, review or convert a slide deck across three targets from one body of craft: a self-contained fixed-stage HTML presentation, lecturn.deck/1 JSON with a .pptx round-trip, or an investor deck assembled from a bundled library of 200 slide layouts in 27 families and 21 recipes. Carries its own design layer rather than depending on a general design skill \u2014 a supplied DESIGN.md or token file is binding, a direction is authored on three named axes when no brand exists, and type is sized from a viewing-angle derivation rather than from web habit. Deck-specific narrative discipline: the title sequence written before any slide because the titles read in order are the argument, speaking-versus-reading density as an explicit fork, one idea per slide, and a named slide count treated as a contract. Ships a deterministic preflight gate that runs in a headless browser and is built to be unable to pass silently: the probe carries its own blocker and warning policy plus a stated consequence for every finding, refuses a config key it does not recognise, and echoes its configuration back so the runner can prove the settings that were asked for actually arrived. Only exit 0 is a pass \u2014 a probe that returned nothing, a config that never landed, a check that threw and a run that examined zero slides each get their own code and their own refusal. Regulated decks add per-slide disclosure checks sourced to SEC Regulation G and Item 10(e), the December 2022 Compliance and Disclosure Interpretations on equal-or-greater prominence, and ASIC RG 230; chart integrity covers truncated baselines, dual axes and inverted axes; and given the source document it cross-checks every figure on the deck against it, because fabrication arrives as texture around a real number rather than as an invented headline.",
       "version": "1.17.1",

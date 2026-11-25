@@ -72,7 +72,7 @@ const GROUPS = [
 
 const GROUP_OF = {
   // Making something.
-  "design-craft": "making", "ux-craft": "making", "motion-craft": "making", "mac-craft": "making", "tui-craft": "making", "duo-craft": "making", "home-craft": "making",
+  "design-craft": "making", "ux-craft": "making", "motion-craft": "making", "demo-video-craft": "making", "mac-craft": "making", "tui-craft": "making", "duo-craft": "making", "home-craft": "making",
   "deck-craft": "making", "create-mac-icon": "making", "agent-voice": "making", "create-luke-content": "making",
   "generate-investor-portal": "making", "guide-craft": "making", "create-swe-project": "making", "launch-craft": "making", "career-kit": "making", "create-website": "making",
   eli5: "making", visualization: "making", "create-story": "making",

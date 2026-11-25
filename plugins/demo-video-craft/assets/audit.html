@@ -1,0 +1,123 @@
+<!doctype html>
+<!--
+  icon-audit-template.html — the contact-sheet/audit artifact every icon commission ships.
+  Fill every {{PLACEHOLDER}}; one <tr> per take (copy the row block); losers stay in with their scores.
+  Hard requirements baked in from a design-review pass on a real instance of this page:
+  · retina discipline: render at 2x and display at half (256→128, 128→64, 96→48, 64→32, 32→16 css px) — 1x sources read blurred on every retina screen
+  · the 48px row is not optional: a Finder list and a plugin marketplace tile render at it, and an icon that survives 128 and 16 can still collapse between them
+  · `python3 ../scripts/audit_sheet.py check <dir>` must exit 0 before this sheet counts as delivered. What it gates, each one a mode that shipped silently before it did:
+      - every <img src> resolves, and at least one of them is a local render — a sheet of only remote/data: images resolved "cleanly" while auditing nothing
+      - no unfilled {{...}} placeholder of ANY form, prose ones included — the old regex read only {{ALL_CAPS}} and let the recommendation block and the liabilities field ship literal
+      - every render is NEWER than the master it came from — the fidelity loop changes the master after this sheet is first written, so a stale sheet is the normal failure, not an exotic one
+      - a rubric score of the form "N / 12" is present and the best take clears 10/12, and a "Recommendation: ship" block exists
+      - the 1024 hero is displayed, not merely rendered
+      - a raster take is masked: kind `png` with opaque corners is a square tile beside squircle siblings
+      - the SVG master passes `fidelity.py structure` (no <image> embeds, layer plan present, inside the complexity envelope)
+    FAIL and NOTE both go to stderr; a clean exit does not mean there was nothing to read.
+  · a 16px squint row alone is unreadable; pair it with a pixelated ×6 magnification of the SAME 32px render
+  · the table lives in an .sheet overflow container (min-width on the table) so the page body never scrolls horizontally on mobile
+  · figcaption/muted text stays ≥4.5:1 against the page ground at 11px (#7fa0aa on #0b1418 passes; #5c7a84 does not)
+  · <caption> + scope="col" on every th — it's a data table, treat it as one
+  · every row carries its rubric score and a verdict that names WHY, including the losing takes — a sheet that hides its losers isn't an audit
+  · the recommendation block names the shipping take AND its known liabilities
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>demo-video-craft icon — contact sheet &amp; audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 40px; background: #0b1418; color: #d7e3e7; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  h1 { font-size: 22px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: #7fa0aa; margin-bottom: 32px; }
+  .sheet { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #1c2d33; vertical-align: middle; }
+  th { color: #7fa0aa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .take { font-weight: 650; white-space: nowrap; }
+  .take small { display: block; font-weight: 400; color: #7fa0aa; }
+  /* The flex lives on an inner div, never on the <td>. Two independent
+     commissions hit this: the scoring browser computes display:flex on a table
+     cell and still lays its children out as blocks, so all seven renders stack
+     into a column and every row reads as one tall strip. The sheet looks broken
+     and nothing errors. */
+  .renders { display: flex; align-items: center; gap: 18px; }
+  .renders figure { margin: 0; text-align: center; }
+  .renders img { display: block; background: #08252e; border-radius: 8px; }
+  .renders img.zoom { image-rendering: pixelated; border: 1px solid #1c2d33; }
+  .renders figcaption { color: #7fa0aa; font-size: 11px; margin-top: 4px; }
+  .score { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .ship { color: #ffd98f; }
+  .fail { color: #e0826a; }
+  .verdict { max-width: 420px; color: #a9bec5; }
+  .rec { margin-top: 28px; padding: 18px 20px; border: 1px solid #2a4a54; border-radius: 12px; background: #0e1c22; max-width: 900px; }
+  .rec strong { color: #ffd98f; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rubric { margin-top: 28px; color: #7fa0aa; font-size: 12px; max-width: 900px; }
+</style>
+</head>
+<body>
+<h1>demo-video-craft icon — contact sheet &amp; audit</h1>
+<div class="sub">Direction "The press" · one shared spec, three engines per the create-mac-icon pipeline · every take audited on real renders at 1024 / 128 / 64 / 48 / 32 / 16.</div>
+
+<div class="sheet"><table>
+  <caption class="visually-hidden">Icon variation takes with renders, rubric scores and verdicts</caption>
+  <tr><th scope="col">Take</th><th scope="col">Hero at 1024, then renders at 128 / 64 / 48 / 32 / 16 css px (2&times; retina sources), plus the 16px squint magnified</th><th scope="col">Rubric</th><th scope="col">Verdict</th></tr>
+
+  <!-- ROW BLOCK: one per take. Class the shipping take's cells "ship", any hard-failing take's "fail". -->
+  <tr>
+    <td class="take ship">A · icon.svg<small>hand-authored layered SVG, built by build_icon.py — SHIPS</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/A-1024.png" width="160" height="160" alt="A hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/A-256.png" width="128" height="128" alt="A at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/A-128.png" width="64" height="64" alt="A at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/A-96.png" width="48" height="48" alt="A at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/A-64.png" width="32" height="32" alt="A at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/A-32.png" width="16" height="16" alt="A at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/A-32.png" width="96" height="96" alt="A 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ship">11 / 12</td>
+    <td class="verdict">Passes all four non-negotiable checks on real renders: the exact family squircle, centred, a silhouette that names video plus a press, and at 16px still a dark screen, an orange triangle and a white pointer. One light model from the upper left, graphite plus one vermilion accent on porcelain. Two material rounds carried the raster take's raised bezel, top-edge rim and ember glow on the ground into it; the measurements agreed both rounds improved it (composite +0.04 each). Loses a point on variant robustness: no dark or tinted variant was made or checked.</td>
+  </tr>
+  <!-- /ROW BLOCK -->
+  <!-- ROW BLOCK: one per take. Class the shipping take's cells "ship", any hard-failing take's "fail". -->
+  <tr>
+    <td class="take fail">B · icon-engineB-arrow-b643ea.svg<small>Arrow vector take</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/B-1024.png" width="160" height="160" alt="B hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/B-256.png" width="128" height="128" alt="B at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/B-128.png" width="64" height="64" alt="B at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/B-96.png" width="48" height="48" alt="B at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/B-64.png" width="32" height="32" alt="B at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/B-32.png" width="16" height="16" alt="B at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/B-32.png" width="96" height="96" alt="B 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score fail">9 / 12</td>
+    <td class="verdict">Fails check 1: it fills a square tile and draws the squircle as a faint line inside, so it would sit as a square beside every sibling. Its glossy diagonal sheen across the screen was tried in the master in round 1 and dropped in round 2, where it read as a grey smudge. Heavy outlines on every shape push it toward clip art. Variant robustness not checked.</td>
+  </tr>
+  <!-- /ROW BLOCK -->
+  <!-- ROW BLOCK: one per take. Class the shipping take's cells "ship", any hard-failing take's "fail". -->
+  <tr>
+    <td class="take ">C · icon-engineC-369713.png<small>GPT Image 2.6 Sunburst raster, referenced on apple-06, apple-22, the status-update icon and take A — the material target</small></td>
+    <td><div class="renders">
+      <figure><img src="audit-renders/C-1024.png" width="160" height="160" alt="C hero at 1024px source"><figcaption>hero 1024</figcaption></figure>
+      <figure><img src="audit-renders/C-256.png" width="128" height="128" alt="C at 128px"><figcaption>128</figcaption></figure>
+      <figure><img src="audit-renders/C-128.png" width="64" height="64" alt="C at 64px"><figcaption>64</figcaption></figure>
+      <figure><img src="audit-renders/C-96.png" width="48" height="48" alt="C at 48px"><figcaption>48</figcaption></figure>
+      <figure><img src="audit-renders/C-64.png" width="32" height="32" alt="C at 32px"><figcaption>32</figcaption></figure>
+      <figure><img src="audit-renders/C-32.png" width="16" height="16" alt="C at 16px"><figcaption>16</figcaption></figure>
+      <figure><img class="zoom" src="audit-renders/C-32.png" width="96" height="96" alt="C 16px render magnified"><figcaption>16 &times;6</figcaption></figure>
+    </div></td>
+    <td class="score ">11 / 12</td>
+    <td class="verdict">The richest material of the three: a pillowy raised bezel with a bright top-left rim, the triangle's glow spilling onto the screen and the ground, a glossy pointer with its own cast shadow. Audited on its squircle-masked version; the raw file has opaque black corners. It does not ship because a raster is not an editable master; its material was carried into take A instead. Variant robustness not checked.</td>
+  </tr>
+  <!-- /ROW BLOCK -->
+
+</table></div>
+
+<div class="rec"><strong>Recommendation: ship A (icon.svg).</strong> It passes checks 1-4 on real renders, it is the only take that is both on the family squircle and editable, and its material now carries the raster take's bezel, rim light and ember glow, measured closer to that take after each of two rounds. This is a decorative marketplace icon, so the material is baked in rather than left to Icon Composer. Known liabilities to revisit: the pointer is still flatter than the raster's glossy one; the ember glow on the ground is faint at 256 and gone by 64; the loop stopped after two rounds and no blind judge panel was run, so "closer to the raster" is a measurement, not a verdict; no dark or tinted variant exists.</div>
+
+<div class="rubric">Rubric: the 12-point icon audit from icon-directions.md (mask discipline, grid, silhouette, 16px identity, single light model, palette discipline, figure-ground, depth coherence, focal sizing, variant robustness, texture restraint, era fit) — checks 1–4 non-negotiable, delivery bar ≥10/12. Raster takes audited on their squircle-masked 1024 versions. Renders produced by `python3 create-mac-icon/scripts/audit_sheet.py render assets` (1024 / 256 / 128 / 96 / 64 / 32 sources); verified by its `check` subcommand.</div>
+</body>
+</html>

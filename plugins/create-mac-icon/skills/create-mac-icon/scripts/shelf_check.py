@@ -145,6 +145,14 @@ FLAG = 0.80
 # is wired into site/scripts/check-conformance.mjs, where any genuinely new
 # collision now fails the build.
 DECIDED: dict[frozenset[str], str] = {
+    frozenset(("demo-video-craft", "eli5")): (
+        "0.852. Both are a dark mass on porcelain with the family's one vermilion accent, so the "
+        "16x16 correlation reads the shared value layout. Looked at side by side at 256, 32 and "
+        "16px: the shapes stay apart (a wide flat screen with a white pointer crossing its lower "
+        "edge, against a round drum with a cut-away wedge), and the white pointer is the one "
+        "light mark in the set at 16px. Allowed to stand; the two skills are never offered as "
+        "alternatives to each other. Decided 2026-11-25."
+    ),
     frozenset(("mockup-fidelity", "tui-craft")): (
         "0.860. Both are a dark rounded mass centred on porcelain carrying one small "
         "warm mark, confirmed by rendering them at 16px rather than by trusting the "

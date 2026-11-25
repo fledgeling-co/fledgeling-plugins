@@ -1,0 +1,11 @@
+{
+  "name": "demo-video-craft",
+  "description": "Make a SaaS product's demo video series and publish it: one overview or launch video plus a set of 20-25 s shorts, one workflow each, built picture-first in HyperFrames through motion-craft so every film ships as a muted master and a voiced cut from a single render. Made for products that live inside other apps, such as a Claude or ChatGPT connector, with the product's own interface rebuilt as live HTML inside a frame of the host app. Narration, word timings and an instrumental music bed come from ElevenLabs through Vercel AI Gateway, with spoken respellings kept apart from the written names and the bed ducked under the voice. The videos go up on a small video site with a shorts modal, permanent file names and content-hashed URLs, so a republish never breaks a shared link or serves a stale copy. Four gates check the files themselves: both cuts share one picture, every file masters to -14 LUFS with true peak at or below -1 dBTP, no published name has gone, and every page references the current file. Routes storylines and rendering to motion-craft, pages to design-craft and ux-craft, review to design-review, words to the brand's voice skill, questions to clarify, and the report to status-update. Grounded in a four-round production run of an overview and nine shorts and in motion-craft's study of 48 shipped SaaS product films.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Fledgeling",
+    "email": "lukerhodes27@gmail.com"
+  },
+  "logo": "assets/icon-256.png",
+  "skills": "skills"
+}

@@ -214,6 +214,14 @@ Short films from code: launch films, explainers, a spreadsheet turned into a ver
 
 <br clear="left" />
 
+<a href="plugins/demo-video-craft/README.md"><img src="plugins/demo-video-craft/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [demo-video-craft](plugins/demo-video-craft/README.md)
+
+A product's demo video series, from brief to a published page: one overview and a set of shorts, each muted and voiced from a single render. It keeps one source for everything that appears in more than one place (the claims, the fictional customer, the lockup, the spoken spellings), renders through motion-craft, and checks the finished files: both cuts share one picture, every file masters to -14 LUFS, and no published link breaks.
+
+<br clear="left" />
+
 ## Checking it before anyone sees it
 
 _Catch the problems while they are still cheap to fix._
