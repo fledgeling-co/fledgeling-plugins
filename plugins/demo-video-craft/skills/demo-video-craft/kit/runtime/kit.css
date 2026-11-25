@@ -21,6 +21,22 @@
 .k-win { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; border-radius: 14px; overflow: hidden; isolation: isolate;
   box-shadow: var(--g-win); background: #fff; transform-origin: 0 0; }
 
+/* The product's own interface, when it is not shown inside a chat host (states_engine.app): a browser or desktop
+   window, or a phone body. The screen inside is the product's own markup; its revealed list carries data-items and
+   its scrolling region data-viewport. */
+.k-win > .k-app { display: flex; flex-direction: column; width: 100%; height: 100%; background: var(--app-bg, #fff); font: 400 15px/1.5 var(--sans); color: var(--g-ink); }
+.k-app-bar { flex: none; display: flex; align-items: center; gap: 14px; height: 52px; padding: 0 18px; background: #F2F3F5; border-bottom: 1px solid var(--g-rule); }
+.k-app-bar .dots { display: flex; gap: 8px; } .k-app-bar .dots i { width: 12px; height: 12px; border-radius: 50%; background: #D6D8DD; display: block; }
+.k-app-bar .url { flex: 1; max-width: 720px; margin: 0 auto; height: 32px; border-radius: 8px; background: #fff; border: 1px solid var(--g-rule); display: flex; align-items: center; gap: 8px; padding: 0 12px; font: 500 14px/1 var(--sans); color: var(--g-ink2); }
+.k-app-bar .url svg { width: 14px; height: 14px; color: var(--g-muted); }
+.k-app-bar .title { font: 600 15px/1 var(--sans); color: var(--g-ink); }
+.k-app-body { flex: 1; min-height: 0; position: relative; overflow: hidden; }
+.k-app [data-viewport] { overflow: hidden; } .k-app [data-items] { position: relative; }
+.k-app [data-typed] { color: var(--g-ink); }
+.k-win.phone { border-radius: 56px; box-shadow: 0 0 0 12px #111318, var(--g-win); }
+.k-win.phone > .k-app { padding-top: 54px; }   /* the status bar's height */
+.k-win.phone > .k-app::before { content: ''; position: absolute; top: 14px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: #111318; }
+
 /* The host frame at film size: flex, so the side panel can grow while the sidebar folds */
 .k-win > .k-cf { display: flex; width: 1440px; height: 900px; border-radius: 0; box-shadow: none; border: 0; }
 .k-cf .cf-side { width: 232px; flex: none; overflow: hidden; white-space: nowrap; }
@@ -103,7 +119,8 @@
 .k-ink.bad { background-repeat: repeat-x; background-size: 10px 6px; }
 .k-ink.review { background: rgba(31,63,166,.13); border-radius: 3px; mix-blend-mode: multiply; }   /* a tint behind the words, not a box over them */
 
-/* Captions: smaller and steadier than round 1. A whole clause at a time, one fixed band, a fade and no movement */
+/* Captions, when the owner asks for them (film table: captions): a whole clause at a time in one fixed band, a fade
+   and no movement. The build reserves the band, so the camera frames above it. */
 #caps { position: absolute; inset: 0; pointer-events: none; }
 .k-cap { position: absolute; left: 0; right: 0; bottom: 36px; display: flex; justify-content: center; }
 .k-cap span { display: inline-block; max-width: 1240px; padding: 9px 18px 10px; border-radius: 8px; background: rgba(10,23,51,.90);
@@ -126,13 +143,15 @@
 .k-cf p, .k-cf h4, .k-solo p, .k-art p { margin: 0; }
 .k-cf svg, .k-solo svg, .k-art svg { display: block; }
 
-/* The window press ring */
-.k3-ring { position: absolute; left: 0; top: 0; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%; z-index: 49; border: 2px solid rgba(31,63,166,.5); pointer-events: none; }
+/* The press ring is .k3-ring in kit3.css (64 px), in windows and on the stage alike: kit3.css loads last. */
 .k-cf .dc-row[data-focus="1"], .k-cf .pv-row[data-focus="1"] { position: relative; z-index: 2; background: #fff; box-shadow: 0 6px 18px -8px rgba(18,21,28,.32); border-radius: 8px; }
 .k-cf .dc-row, .k-cf .pv-row { transform-origin: 50% 50%; }
 /* identity labels at reading size */
 .k-label { font-size: 22px; padding: 11px 18px; }
-/* A short's last 3.2 s: the lockup bar over a scrim band (the band carries data-layout-ignore in lock.html) */
+/* A short's last 3.2 s: the lockup bar over a scrim band (the band carries data-layout-ignore in lock.html). On a 9:16
+   canvas it rises into the platforms' clear area, over a taller scrim. */
+.portrait .k-lockband { height: 1000px; }
+.portrait .k-lockup { bottom: 700px; left: 43.3%; }
 .k-lockband { position: absolute; left: 0; right: 0; bottom: 0; height: 260px; background: linear-gradient(to bottom, rgba(246,247,249,0), rgba(246,247,249,.94) 46%, #F6F7F9 70%); }
 .k-lockup { position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); display: flex; align-items: baseline; gap: 24px; padding: 16px 22px 16px 26px; background: #fff;
   border: 1px solid var(--g-rule); border-radius: 16px; box-shadow: var(--g-float); white-space: nowrap; }

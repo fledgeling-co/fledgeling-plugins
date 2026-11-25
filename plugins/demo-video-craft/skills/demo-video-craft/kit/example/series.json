@@ -1,16 +1,50 @@
 {
-  "product": "Acme Record",
-  "title_prefix": "Acme Record",
-  "lockup": {"wordmark": "acme", "product": "Record"},
-  "cta": "Book a demo",
-  "url": "acme.example",
-  "lang": "en-US",
-  "overview": "O",
-  "fonts": ["400 15px Inter", "600 15px Inter", "600 40px \"Inter Tight\""],
-  "voice": {"lines": "lines.json", "respell": "respell.json", "dir": "voice"},
-  "beds": {"overview": null, "short": null},
-  "host_marks": false,
-  "pace": {"overview": 1.3, "short": 1.22, "intro": 1.15},
-  "lengths": {"overview": [28, 110], "short": [20, 25], "scene_max": 25,
-              "why": "The example's overview carries one workflow. A real series' overview carries five to seven and runs 80-110 s: set its lower bound back to 80."}
+ "product": "Acme Record",
+ "prefix": "acme",
+ "title_prefix": "Acme Record",
+ "lockup": {
+  "wordmark": "acme",
+  "product": "Record"
+ },
+ "cta": "Book a demo",
+ "url": "acme.example",
+ "lang": "en-US",
+ "overview": "O",
+ "fonts": [
+  "400 15px Inter",
+  "600 15px Inter",
+  "600 40px \"Inter Tight\""
+ ],
+ "voice": {
+  "lines": "lines.json",
+  "respell": "respell.json",
+  "dir": "voice"
+ },
+ "beds": {
+  "overview": null,
+  "short": null
+ },
+ "host_marks": false,
+ "pace": {
+  "overview": 1.3,
+  "short": 1.22,
+  "intro": 1.15
+ },
+ "lengths": {
+  "overview": [
+   28,
+   110
+  ],
+  "short": [
+   20,
+   25
+  ],
+  "scene_max": 25,
+  "why": "The example's overview carries one workflow, so it runs about 30 s; a real series' overview carries five to seven and runs 80-110 s: set the lower bound back to 80."
+ },
+ "size": [
+  1920,
+  1080
+ ],
+ "labels": true
 }

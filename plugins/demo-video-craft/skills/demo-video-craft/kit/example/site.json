@@ -1,0 +1,63 @@
+{
+ "origin": "https://videos.acme.example",
+ "ask_url": "https://acme.example/demo",
+ "nav": [
+  [
+   "overview",
+   "/overview",
+   "Overview"
+  ],
+  [
+   "shorts",
+   "/overview#shorts",
+   "Shorts"
+  ]
+ ],
+ "order": [
+  "K01",
+  "K02",
+  "K03"
+ ],
+ "descriptions": {
+  "O": "Acme Record in one video: your company's record flows into Claude, ChatGPT and your workspace, and a deck is checked against the filed release before anyone presents it.",
+  "K01": "Ask Claude to check the Q3 deck against the filed release. One figure differs, the release's own sentence shows why, and one press puts the filed figure in and saves the deck for review.",
+  "K02": "In Acme Record's own dashboard, search for a figure and see every document that states it, each one checked against the filed release.",
+  "K03": "On a phone, the morning's one check that needs you, with the figure that differs and the release that settles it."
+ },
+ "poster_at": {
+  "O": 6.6
+ },
+ "ask": {
+  "title": "See it on your own record",
+  "text": "We set Acme Record up on one quarter of your filings, and you run the same checks on your own deck."
+ },
+ "footer": [
+  "Fernhill Instruments and its figures are fictional. Claude is a trademark of Anthropic; ChatGPT is a trademark of OpenAI.",
+  "&copy; 2026 Acme"
+ ],
+ "pages": {
+  "overview": {
+   "title": "Acme Record overview",
+   "description": "Acme Record in one video: a deck checked against the filed release, inside Claude.",
+   "og": "Your company record, in the AI tools you already use.",
+   "h1": [
+    "Your company record,",
+    "in the AI tools you already use."
+   ],
+   "lede": "The overview follows one check from the request in Claude to the corrected deck, every figure set against the filed release.",
+   "shorts_heading": "Three shorts, one workflow each"
+  },
+  "shorts": {
+   "title": "Acme Record shorts",
+   "description": "Three Acme Record shorts: in Claude, in its own dashboard, and on a phone.",
+   "og": "Three workflows, one short each.",
+   "h1": [
+    "Three shorts,",
+    "one workflow each."
+   ],
+   "lede": "Each short follows one job from the request to its result.",
+   "clips_heading": "From the request to the result",
+   "clips_note": "In Claude, in Acme Record's dashboard, and on a phone"
+  }
+ }
+}

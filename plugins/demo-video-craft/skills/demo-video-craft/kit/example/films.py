@@ -17,10 +17,12 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / '_kit' / 'engine'))
 import states  # noqa: E402
 import states_engine as E  # noqa: E402
-from films_engine import (COMP, apply_pace, ask, btn, ch, el, intro_scene, outro_scene, run, settle_push, u, win,  # noqa: E402
+from films_engine import (COMP, apply_pace, ask, btn, ch, el, intro_scene, outro_scene, run, settle_push, type_in, u, win,  # noqa: E402
                           write_series)
 
 CFG = json.loads((HERE / 'series.json').read_text())
+import films_engine as FE  # noqa: E402
+FE.LABELS = CFG.get('labels', True)          # the label switch, read before any scene is built
 LOCKUP = E.lockup(CFG['lockup']['wordmark'], CFG['lockup']['product'])
 HEADLINE = 'Bring your company <span class="acc">record</span><br>into the AI tools you already use.'
 APPS = [('Claude', '#D97757'), ('ChatGPT', '#0D0D0D'), ('Your workspace', '#1F3FA6')]   # with host_marks: ('Claude', 'claude')
@@ -70,7 +72,36 @@ def k01():
 
 FILMS['K01'] = {'title': 'The figure that didn’t match', 'scenes': [k01()], 'voice': [['q1', 'clip', 0.6]]}
 
+
+# ==== K02: the product's own interface, in a browser window (no chat host) =======================================
+def k02():
+    st, s = type_in(0.5, el('#q'), '41.2%')
+    for k, (rid, kind) in enumerate((('h1', 'ok'), ('h2', 'ok'), ('h3', 'bad'), ('h4', 'ok'))):
+        st += [[round(s + 0.9 + 0.9 * k, 2), 'wheel', el('.dc-row', i=0), k], [round(s + 1.0 + 0.9 * k, 2), 'ink', el(f'#{rid} .t .tx'), kind, 0.45, rid]]
+    st = [[0, 'enter', {'from': 'push', 'dur': 0.55}], *st,
+          [s, 'arrive', '#w1', 0], [s, 'frame', ch(0, p=16), 0.7, 0.8],
+          [s + 4.6, 'unwheel', el('.dc-row', i=0)], [s + 5.0, 'frame', u(el('#h3'), btn(0, 'Fix the call script'), p=16), 0.66, 0.8],
+          [s + 6.0, 'click', btn(0, 'Fix the call script'), {'lead': 0.65}], [s + 6.1, 'inkTo', 'h3', 'ok'],
+          [s + 6.4, 'scroll', '#w1', 1, 0.7], [s + 6.4, 'arrive', '#w1', 1], [s + 6.45, 'frame', ch(1, p=18), 0.7, 0.8],
+          [s + 7.6, 'ink', el('#f2 .t .tx'), 'ok', 0.45], [s + 8.8, 'frame', [0, 0, 1440, 900], 0.9, 1.2]]
+    return win('clip', 'dash', 16.6, {'frame': el('.ac-search', p=[24, 16]), 'fill': 0.6}, st, sfx=[[s + 6.1, 'chime']])
+
+
+# ==== K03: the phone app, on a 1080 x 1920 canvas for a vertical short =============================================
+def k03():
+    st = [[0.3, 'arrive', '#w1', 0], [1.2, 'frame', ch(0, p=12), 0.86, 0.9],
+          [2.2, 'ink', el('.dc-lead b.bad', i=0), 'bad', 0.45, 'pb'], [3.2, 'click', btn(0, 'Use 41.2%'), {'lead': 0.65}], [3.3, 'inkTo', 'pb', 'ok'],
+          [3.6, 'arrive', '#w1', 1], [3.6, 'frame', ch(1, p=14), 0.86, 0.9], [4.6, 'ink', el('#p2 .t .tx'), 'ok', 0.45],
+          [6.0, 'scroll', '#w1', 2, 0.8], [6.0, 'arrive', '#w1', 2], [6.1, 'frame', ch(2, p=14), 0.86, 0.9],
+          [7.2, 'ink', el('#p3 .t .tx'), 'ok', 0.45], [8.6, 'orient', 1.0, 1.1], [10.2, 'frame', ch([1, 2], p=16), 0.82, 1.0]]
+    return win('clip', 'phone', 16.6, {'orient': 1.0}, st, size=(430, 932), phone=True, sfx=[[3.3, 'chime']])
+
+
+FILMS['K02'] = {'title': 'Every document that states the figure', 'scenes': [k02()], 'voice': [['q2', 'clip', 0.6]]}
+FILMS['K03'] = {'title': 'The morning’s one check, on a phone', 'scenes': [k03()], 'voice': [['q3', 'clip', 0.6]], 'size': [1080, 1920]}
+
 # ---- pace, then the final hold, then the projects ------------------------------------------------------------------
+FE.apply_labels(FILMS)
 P = CFG['pace']
 apply_pace(FILMS, CFG['overview'], {'overview': P['overview'], 'short': P['short']}, intro=P['intro'])
 for fid, f in FILMS.items():

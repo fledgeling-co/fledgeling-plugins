@@ -1,0 +1,13 @@
+/* The Diolog Guardian lockup, as diolog.com.au sets its header and guardian.diolog.app's pages share it: the mark, the
+   lowercase "diolog" wordmark in Newsreader 500 at -0.02em, a hairline, then "Guardian" in the interface face.
+   Everything sits on the wordmark's baseline: the mark's top meets the ascenders and its tail drops 0.22 em below the
+   baseline (measured on diolog.com.au by pixel rows at 3x). Sized by font-size alone. */
+@font-face { font-family: "Newsreader"; src: url("fonts/Newsreader.woff2") format("woff2"); font-weight: 200 800; font-display: block; }
+.k-lock { font-size: 60px; display: flex; align-items: baseline; gap: .4em; color: #011837; line-height: 1; }
+.k-lock .mk { display: block; flex: none; width: .93em; height: .86em; position: relative; top: .22em; }
+.k-lock .wm { font: 500 1em/1 "Newsreader", serif; letter-spacing: -0.02em; }
+.k-lock .sep { flex: none; width: .035em; height: .72em; background: #C9CED8; position: relative; top: .04em; margin: 0 .04em; }
+.k-lock .pn { font: 500 .7em/1 "Inter Tight", sans-serif; letter-spacing: -0.005em; color: #5C6371; }
+.on-dark .k-lock, .k-lock.on-dark { color: #FFFFFF; }
+.on-dark .k-lock .sep, .k-lock.on-dark .sep { background: rgba(232,238,248,.34); }
+.on-dark .k-lock .pn, .k-lock.on-dark .pn { color: #AEB9D0; }

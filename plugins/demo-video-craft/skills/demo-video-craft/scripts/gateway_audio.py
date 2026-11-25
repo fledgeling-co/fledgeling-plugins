@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Narration, word timings and music beds through Vercel AI Gateway's ElevenLabs models.
 
-    gateway_audio.py lines   --script lines.json --out-dir voice/ [--respell respell.json] [--only O K02]
+    gateway_audio.py lines   --script lines.json --out-dir voice/ [--respell respell.json] [--only O K02] [--dry-run]
     gateway_audio.py speech  --voice ID --text "..." --out line.mp3 [--model elevenlabs/eleven-v4] [--respell r.json]
     gateway_audio.py words   --audio line.mp3 --out line.json
-    gateway_audio.py music   --prompt "..." --seconds 27 --out bed.mp3 [--model elevenlabs/music-v2.5]
+    gateway_audio.py music   --prompt "..." --seconds 27 --out bed.mp3 [--model elevenlabs/music-v2.5] [--dry-run]
     gateway_audio.py respell --rules respell.json "Diolog Guardian works in Claude"
     gateway_audio.py --self-test
 
@@ -129,14 +129,15 @@ def cache_key(voice, model, spoken):
     return f'{voice}|{model}|{spoken}'
 
 
-def lines(script, out_dir, rules, only):
+def lines(script, out_dir, rules, only, dry_run=False):
     d = json.loads(Path(script).read_text())
     voice, model = d['voice']['id'], d['voice'].get('model', SPEECH_MODEL)
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    jobs = []
+    jobs, skipped, cached = [], 0, 0
     for ln in d['lines']:
         if only and ln.get('film') not in only:
+            skipped += 1
             continue
         spoken = respell(ln['text'], rules)
         key = cache_key(voice, model, spoken)
@@ -146,8 +147,18 @@ def lines(script, out_dir, rules, only):
             if not base.with_suffix('.wav').exists():
                 subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-i', str(base.with_suffix('.mp3')), '-ac', '1',
                                 '-ar', '48000', str(base.with_suffix('.wav'))], check=True)
+            cached += 1
             continue
         jobs.append((ln, spoken, key, base))
+    if dry_run:
+        # speech is priced by character; Scribe by second, estimated at 14 spoken characters a second
+        chars = sum(len(sp) for _, sp, _, _ in jobs)
+        est = chars * PRICE_PER_1K_CHARS / 1000 + chars / 14 * PRICE_PER_SCRIBE_SECOND
+        for ln, sp, _, _ in jobs:
+            print(f'{ln["id"]:8} {len(sp):4} chars  would be generated')
+        print(f'dry run: {len(jobs)} lines to generate, {cached} cached, {skipped} skipped by --only; {chars} characters, '
+              f'about US${est:.2f}. Nothing was sent.')
+        return
 
     def run(job):
         ln, spoken, key, base = job
@@ -163,12 +174,13 @@ def lines(script, out_dir, rules, only):
 
     chars = secs = 0.0
     with ThreadPoolExecutor(6) as ex:
-        for lid, n, dur in ex.map(run, jobs):
+        for lid, n, dur in ex.map(run, jobs):      # a running total, so a failure part-way still says what was bought
             chars += n
             secs += dur
-            print(f'{lid:8} {n:4} chars {dur:6.2f}s')
+            spent = chars * PRICE_PER_1K_CHARS / 1000 + secs * PRICE_PER_SCRIBE_SECOND
+            print(f'{lid:8} {n:4} chars {dur:6.2f}s   spent so far about US${spent:.2f}')
     cost = chars * PRICE_PER_1K_CHARS / 1000 + secs * PRICE_PER_SCRIBE_SECOND
-    print(f'{len(jobs)} lines generated, {len(d["lines"]) - len(jobs)} cached, {int(chars)} characters sent, '
+    print(f'{len(jobs)} lines generated, {cached} cached, {skipped} skipped by --only, {int(chars)} characters sent, '
           f'about US${cost:.2f}')
 
 
@@ -206,6 +218,7 @@ def main():
     p.add_argument('--out-dir', required=True)
     p.add_argument('--respell')
     p.add_argument('--only', nargs='*', default=[])
+    p.add_argument('--dry-run', action='store_true', help='print what would be generated and its cost; send nothing')
     p = sub.add_parser('speech')
     p.add_argument('--voice', required=True)
     p.add_argument('--text', required=True)
@@ -220,12 +233,13 @@ def main():
     p.add_argument('--seconds', type=float, required=True)
     p.add_argument('--out', required=True)
     p.add_argument('--model', default=MUSIC_MODEL)
+    p.add_argument('--dry-run', action='store_true', help='print the cost; send nothing')
     p = sub.add_parser('respell')
     p.add_argument('--rules', required=True)
     p.add_argument('text')
     a = ap.parse_args()
     if a.cmd == 'lines':
-        lines(a.script, a.out_dir, load_rules(a.respell), set(a.only))
+        lines(a.script, a.out_dir, load_rules(a.respell), set(a.only), a.dry_run)
     elif a.cmd == 'speech':
         spoken = respell(a.text, load_rules(a.respell))
         n = speech(a.voice, spoken, a.out, a.model)
@@ -233,6 +247,8 @@ def main():
     elif a.cmd == 'words':
         w = words(a.audio, a.out)
         print(f'{a.out}: {len(w["words"])} words')
+    elif a.cmd == 'music' and a.dry_run:
+        print(f'dry run: {a.seconds:.0f} seconds of {a.model}, about US${a.seconds * PRICE_PER_MUSIC_SECOND:.2f}. Nothing was sent.')
     elif a.cmd == 'music':
         s = music(a.prompt, a.seconds, a.out, a.model)
         print(f'{a.out}: {s:.0f} seconds bought, about US${s * PRICE_PER_MUSIC_SECOND:.2f}')

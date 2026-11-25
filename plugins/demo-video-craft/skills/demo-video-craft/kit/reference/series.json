@@ -1,0 +1,19 @@
+{
+  "product": "Diolog Guardian",
+  "prefix": "guardian3",
+  "title_prefix": "Diolog Guardian",
+  "lockup": {"wordmark": "diolog", "product": "Guardian"},
+  "cta": "Book a demo",
+  "url": "diolog.com.au",
+  "lang": "en-US",
+  "overview": "O",
+  "size": [1920, 1080],
+  "fonts": ["400 15px Inter", "600 15px Inter", "600 40px \"Inter Tight\"", "500 20px Newsreader", "500 17px Newsreader"],
+  "voice": {"lines": "lines.json", "respell": "respell.json", "dir": "voice"},
+  "beds": {"overview": "music/overview.wav", "short": "music/shorts.wav"},
+  "host_marks": true,
+  "labels": true,
+  "pace": {"overview": 1.3, "short": 1.22, "intro": 1.15},
+  "lengths": {"overview": [80, 110], "short": [20, 25], "scene_max": 25},
+  "fetch": [["assets/fonts/Newsreader.woff2", "https://fonts.gstatic.com/s/newsreader/v26/cY9VfjOCX1hbuyalUrK49dLafXjalZCsZBsSBgbNJYQ5ayZC.woff2"]]
+}

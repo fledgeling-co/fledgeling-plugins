@@ -5,7 +5,9 @@
   const K = {};
   // The stage the camera frames into. With no captions it is the whole frame; with a caption band, reserve it
   // (round 1 of the source series used { cx: 960, cy: 452, w: 1920, h: 860 } above a 180 px band).
-  const STAGE = (window.TL && TL.stage) || { cx: 960, cy: 520, w: 1920, h: 1040 };
+  const W = ((window.TL && TL.size) || [1920, 1080])[0], H = ((window.TL && TL.size) || [1920, 1080])[1];
+  const STAGE = (window.TL && TL.stage) || { cx: W / 2, cy: H / 2 - 20, w: W, h: H - 40 };
+  K.W = W; K.H = H;
   K.STAGE = STAGE;
 
   // ---- time: the beat map lives in timeline.json (window.TL), in film seconds ------------------------------------
@@ -94,21 +96,23 @@
     const cx = rect.x + rect.w / 2, cy = rect.y + rect.h / 2;
     let x = (opts.cx || STAGE.cx) - s * cx, y = (opts.cy || STAGE.cy) - s * cy;
     if (!opts.free) {                                   // never show past a window edge once it is larger than the frame
-      if (ww * s >= 1920) x = Math.min(0, Math.max(1920 - ww * s, x));
-      if (wh * s >= 1080) y = Math.min(0, Math.max(1080 - wh * s, y));
+      if (ww * s >= W) x = Math.min(0, Math.max(W - ww * s, x));
+      if (wh * s >= H) y = Math.min(0, Math.max(H - wh * s, y));
     }
     return { x, y, scale: s, transformOrigin: '0 0' };
   };
   K.orient = function (win, s) {                        // the whole window, centred, to orient (2-4 s at most)
     s = s || 1.12;
-    return { x: (1920 - win.offsetWidth * s) / 2, y: (1080 - win.offsetHeight * s) / 2 - 36, scale: s, transformOrigin: '0 0' };
+    return { x: STAGE.cx - win.offsetWidth * s / 2, y: STAGE.cy + 20 - win.offsetHeight * s / 2 - 36, scale: s, transformOrigin: '0 0' };
   };
   K.move = function (tl, win, to, t, dur, ease) {
     tl.to(win, { ...to, duration: dur || 1.1, ease: ease || 'power2.inOut' }, t);
   };
 
   // ---- the thread: messages arrive, the composer types, the thread scrolls -------------------------------------
-  K.items = (win) => [...win.querySelectorAll('.cf-col > *')];
+  // A thread's items arrive by index: a host chat's messages (.cf-col), or any list in the product's own interface
+  // marked data-items (its rows, cards or panels, in reveal order).
+  K.items = (win) => [...win.querySelectorAll('.cf-col > *, [data-items] > *')];
   K.hide = (els) => gsap.set(els, { opacity: 0, y: 14 });
   K.arrive = function (tl, el, t, opts) {
     opts = opts || {};
@@ -125,7 +129,7 @@
   };
   K.type = function (tl, win, text, t, cps) {
     const c = K.composer(win);
-    const dur = text.length / (cps || 34);
+    const dur = text.length / (cps || 52);
     tl.set(c.ph, { opacity: 0 }, t);
     const p = { n: 0 };
     tl.to(p, { n: text.length, duration: dur, ease: 'none', onUpdate: () => { c.typed.textContent = text.slice(0, Math.round(p.n)); } }, t);
@@ -137,7 +141,7 @@
     tl.set(c.ph, { opacity: 1 }, t + 0.05);
   };
   K.scroll = function (tl, win, dy, t, dur) {
-    tl.to(win.querySelector('.cf-col'), { y: -dy, duration: dur || 0.9, ease: 'power2.inOut' }, t);
+    tl.to(win.querySelector('.cf-col, [data-items]'), { y: -dy, duration: dur || 0.9, ease: 'power2.inOut' }, t);
   };
 
   // ---- the hand: a cursor that travels in shallow arcs and presses ---------------------------------------------
@@ -246,7 +250,7 @@
       const items = {}, itemRects = {};
       Object.entries(W).forEach(([k, w]) => { items[k] = K.items(w); itemRects[k] = items[k].map((e) => K.rectOf(e, cam)); });
       const thread = {};
-      Object.entries(W).forEach(([k, w]) => { const t = w.querySelector('.cf-convo'); if (t) thread[k] = K.rectOf(t, cam); });
+      Object.entries(W).forEach(([k, w]) => { const t = w.querySelector('.cf-convo, [data-viewport]'); if (t) thread[k] = K.rectOf(t, cam); });
       // Measure in the layout a target is seen in: with the side panel open, the conversation moves left.
       const opened = (w, fn) => {
         const cf = W[w] && W[w].querySelector('.k-cf');
@@ -332,6 +336,16 @@
             break;
           }
           case 'send': K.send(tl, W[a], t); break;
+          case 'typein': {
+            // [when, 'typein', target, text, end]: type into any field of the product's own interface (a search box, a
+            // form input, a cell). Present at frame 0 when the step opens the scene and ends at once.
+            const e = el(a), end = T(c);
+            if (end - t < 0.05) { (t < 0.02 ? gsap.set : (x, v) => tl.set(x, v, t))(e, { textContent: b, attr: { 'data-typed': '1' } }); break; }
+            const p = { n: 0 };
+            tl.set(e, { attr: { 'data-typed': '1' } }, t);
+            tl.to(p, { n: b.length, duration: end - t, ease: 'none', onUpdate: () => { e.textContent = b.slice(0, Math.round(p.n)); } }, t);
+            break;
+          }
           case 'click': {
             const e = el(a), r = rect(a), lead = (b && b.lead) || 0.8;
             K.point(tl, cursor(), r, t - lead, lead - 0.08);

@@ -47,6 +47,9 @@
 .k3-col { display: flex; flex-direction: column; gap: 32px; }
 .k3-col.r { align-items: flex-end; }
 .k3-col.l { align-items: flex-start; }
+.k3-col.c { align-items: center; }
+.k3-row { display: flex; gap: 22px; justify-content: center; }
+.k3-row.small { gap: 12px; } .k3-row.small .k3-app.big { font-size: 22px; padding: 13px 16px; gap: 10px; } .k3-row.small .k3-app.big svg.lg { width: 24px; height: 24px; }
 .k3-src { display: inline-flex; align-items: center; gap: 14px; font: 600 28px/1 "Inter", sans-serif; color: #1F2633; background: #fff; border: 1px solid #E4E6EB;
   border-radius: 14px; padding: 19px 26px; white-space: nowrap; box-shadow: 0 2px 4px rgba(18,21,28,.05), 0 14px 30px -14px rgba(18,21,28,.22); }
 .k3-src svg { width: 26px; height: 26px; color: var(--g-accent); flex: none; }

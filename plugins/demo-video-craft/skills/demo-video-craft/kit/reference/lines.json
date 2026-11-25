@@ -1,0 +1,98 @@
+{
+ "voice": {
+  "id": "cgSgspJ2msm6clMCkdW9",
+  "model": "elevenlabs/eleven-v4"
+ },
+ "lines": [
+  {
+   "id": "v1",
+   "film": "O",
+   "text": "[upbeat] Bring your company intelligence into the AI tools you already use."
+  },
+  {
+   "id": "v2",
+   "film": "O",
+   "text": "Your client’s filings, earnings materials, decks, investor records and SEC rules flow through Diolog into your AI tools."
+  },
+  {
+   "id": "v3",
+   "film": "O",
+   "text": "Start from last quarter’s deck. Claude updates every figure, and Diolog checks each one against its source."
+  },
+  {
+   "id": "v4",
+   "film": "O",
+   "text": "File a new document, and it joins your client’s record, labeled Unreleased until it’s filed."
+  },
+  {
+   "id": "v5",
+   "film": "O",
+   "text": "Prepare analyst Q&A from filings and past calls, with every source named."
+  },
+  {
+   "id": "v6",
+   "film": "O",
+   "text": "Check an ownership write-up against the newest filings."
+  },
+  {
+   "id": "v7",
+   "film": "O",
+   "text": "With inbox access, draft answers to investors from what your client has published, and send them back to Diolog for review."
+  },
+  {
+   "id": "v8",
+   "film": "O",
+   "text": "File an investor call, and recall what they asked the next time."
+  },
+  {
+   "id": "v9",
+   "film": "O",
+   "text": "[upbeat] And when results land, Diolog Guardian offers the post-earnings brief."
+  },
+  {
+   "id": "q2",
+   "film": "K02",
+   "text": "[upbeat] When your client’s results land, Diolog Guardian offers the post-earnings brief. One press, and you have it drafted, every figure linked to its source, with the analyst Q&A pack already started."
+  },
+  {
+   "id": "q3",
+   "film": "K03",
+   "text": "[upbeat] Draft one answer to five investor questions in minutes. Their names stay in Diolog’s view, Claude writes from what your client has already published, and the draft waits in Diolog for review."
+  },
+  {
+   "id": "q4",
+   "film": "K04",
+   "text": "[upbeat] Keep you and your client on one record, whichever assistant each of you uses. You draft in Claude, your client’s IR team opens the same draft in ChatGPT, and nobody works from an old version."
+  },
+  {
+   "id": "q5",
+   "film": "K05",
+   "text": "[upbeat] Catch the figure that doesn’t match before your client’s CFO says it on the call. Diolog checks the remarks against what your client has filed, and one press puts the filed figure in."
+  },
+  {
+   "id": "q6",
+   "film": "K06",
+   "text": "[upbeat] Prepare your client for the earnings call with an answer ready for every likely question. Diolog drafts the analyst Q&A pack from their filings and past releases, and names the source for each answer."
+  },
+  {
+   "id": "q7",
+   "film": "K07",
+   "text": "[upbeat] Add a new document to your client’s record by dropping it into the chat. It’s labeled Unreleased until it’s filed, and from that moment you can draft from it with its source attached."
+  },
+  {
+   "id": "q8",
+   "film": "K08",
+   "text": "[upbeat] Turn last quarter’s deck into this quarter’s in minutes. You keep the structure, Diolog brings in the new figures, and every number stays linked to the filing it came from."
+  },
+  {
+   "id": "q9",
+   "film": "K09",
+   "text": "[upbeat] Know your client’s ownership write-up is current. Diolog checks every holder against the newest SEC filings, shows you which ones are out of date, and puts them right in one press."
+  },
+  {
+   "id": "q10",
+   "film": "K10",
+   "text": "[upbeat] Walk into every investor call knowing what they asked last time. File the transcript once, confirm it in Diolog, and each question comes back with its timestamp when you need it."
+  }
+ ]
+}

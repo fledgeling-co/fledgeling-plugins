@@ -37,6 +37,7 @@ cfg = json.loads((SERIES / 'series.json').read_text())
 F = SERIES / 'films' / FID
 plan = json.loads((F / 'plan.json').read_text())
 FPS = plan.get('fps', 60)
+W, H = plan.get('size') or [1920, 1080]
 TAG = re.compile(r'\s*\[[a-z][a-z \-]*\]\s*', re.I)
 
 # ---- 1. scenes end to end, each its own length -------------------------------------------------------------------
@@ -91,9 +92,34 @@ if not MUTE_ONLY:
     if bad:
         sys.exit(f'{FID}: the narration does not sit on its picture:\n  ' + '\n  '.join(bad))
 
+# ---- captions, when the film table asks for them: the narration's own words, a clause at a time ---------------------
+chunks = []
+if plan.get('captions'):
+    if not lines:
+        sys.exit(f'{FID}: captions come from the narration\'s word timings; build it with its voice, not --mute-only')
+    for ln in sorted(lines.values(), key=lambda x: x['start']):
+        cur = []
+        for w, s, e in ln['words']:
+            cur.append((w, s, e))
+            text = ' '.join(x[0] for x in cur)
+            if len(text) >= 42 or (w[-1:] in '.,;:?!' and len(text) >= 14):
+                chunks.append([text, cur[0][1], cur[-1][2]])
+                cur = []
+        if cur:
+            text = ' '.join(x[0] for x in cur)
+            if chunks and chunks[-1][2] >= ln['start'] and len(chunks[-1][0]) + len(text) + 1 <= 46:
+                chunks[-1] = [chunks[-1][0] + ' ' + text, chunks[-1][1], cur[-1][2]]
+            else:
+                chunks.append([text, cur[0][1], cur[-1][2]])
+
 bed = (cfg.get('beds') or {}).get('overview' if FID == cfg['overview'] else 'short')
-tl = {'duration': duration, 'fps': FPS, 'fonts': cfg['fonts'], 'voiceDir': str(VO), 'scenes': scenes, 'lines': lines,
-      'beats': beats, 'lock': {'start': lock_start}, 'title': plan['title'], 'bed': str(SERIES / bed) if bed else None}
+tl = {'duration': duration, 'fps': FPS, 'size': [W, H], 'fonts': cfg['fonts'], 'voiceDir': str(VO), 'scenes': scenes, 'lines': lines,
+      'beats': beats, 'lock': {'start': lock_start}, 'title': plan['title'], 'bed': bed if bed == 'procedural' else (str(SERIES / bed) if bed else None)}
+PORTRAIT = H > W
+if PORTRAIT:   # 9:16: the area TikTok, Reels and Shorts all leave clear of their own buttons and captions (hf.sh check)
+    tl['stage'] = {'cx': W * 468 / 1080, 'cy': H * 768 / 1920, 'w': W * 660 / 1080, 'h': H * 940 / 1920}
+if chunks:                                     # reserve the caption band: the camera frames above it
+    tl['stage'] = {'cx': W / 2, 'cy': (H - 180) / 2 - 8, 'w': W, 'h': H - 220}
 (F / 'timeline.json').write_text(json.dumps(tl, indent=1, ensure_ascii=False))
 (F / 'timeline_mute.json').write_text(json.dumps(dict(tl, lines={}), indent=1, ensure_ascii=False))
 subprocess.run([sys.executable, str(MC / 'timeline_js.py'), str(F / 'timeline.json'), str(F / 'assets' / 'timeline.js')], check=True)
@@ -107,6 +133,8 @@ for sub in ('fonts', 'vendor'):
 for f in ('kit.css', 'kit.js', 'frame.css', 'kit3.css', 'kit3.js'):
     shutil.copy(KIT / 'runtime' / f, A / f)
 shutil.copy(SERIES / 'lockup.css', A / 'lockup.css')
+if (SERIES / 'theme.css').exists():          # the series' tokens: ground, ink, accent, the client's colours
+    shutil.copy(SERIES / 'theme.css', A / 'theme.css')
 subprocess.run([sys.executable, str(SERIES / 'states.py')], check=True, cwd=SERIES)
 for comp in (F / 'compositions').glob('*.html'):
     s = comp.read_text()
@@ -121,7 +149,7 @@ import states_engine as E  # noqa: E402
 
 lock_html = E.lockup(cfg['lockup']['wordmark'], cfg['lockup']['product'])
 (F / 'compositions' / 'lock.html').write_text(f'''<template id="lock-template">
-  <div id="lockroot" data-composition-id="lock" data-width="1920" data-height="1080">
+  <div id="lockroot" data-composition-id="lock" data-width="{W}" data-height="{H}">
     <div class="k-lockband" id="lkb" data-layout-ignore="a soft scrim that fades the product under the lockup bar, on purpose"></div>
     <div class="k-lockup" id="lk">{lock_html}
       <div class="k-cta" data-var-text="cta">{cfg["cta"]}</div><div class="k-url" data-var-text="url">{cfg["url"]}</div></div>
@@ -139,20 +167,31 @@ lock_html = E.lockup(cfg['lockup']['wordmark'], cfg['lockup']['product'])
   </div>
 </template>
 ''')
+if chunks:
+    (F / 'compositions' / 'captions.html').write_text(f'''<template id="captions-template">
+  <div id="captionsroot" data-composition-id="captions" data-width="{W}" data-height="{H}">
+    <div id="caps"></div>
+    <script>
+      window.__timelines = window.__timelines || {{}};
+      window.__timelines['captions'] = K.captions(document.getElementById('caps'), {json.dumps(chunks, ensure_ascii=False)});
+    </script>
+  </div>
+</template>
+''')
 icons = E.sprite(KIT / 'runtime', SERIES / 'marks', ['mark'] + (['claude', 'chatgpt'] if cfg.get('host_marks') else []))
 hosts = '\n'.join(
     f'      <div id="{sc["id"]}-host" class="scene clip" data-hf-scene-no-swap="its script measures the live states once, at load" '
     f'data-composition-id="{sc["id"]}" data-composition-src="compositions/{sc["src"]}" data-start="{scenes[sc["id"]]["start"]}" '
-    f'data-duration="{sc["dur"]}" data-track-index="{1 + (i % 2)}" data-width="1920" data-height="1080"></div>' for i, sc in enumerate(plan['scenes']))
+    f'data-duration="{sc["dur"]}" data-track-index="{1 + (i % 2)}" data-width="{W}" data-height="{H}"></div>' for i, sc in enumerate(plan['scenes']))
 LOCK_HOST = (f'      <div id="lock-host" class="scene clip" data-composition-id="lock" data-composition-src="compositions/lock.html" '
-             f'data-start="{lock_start}" data-duration="{round(duration - lock_start, 3)}" data-track-index="3" data-width="1920" data-height="1080"></div>') if lockbar else ''
+             f'data-start="{lock_start}" data-duration="{round(duration - lock_start, 3)}" data-track-index="3" data-width="{W}" data-height="{H}"></div>') if lockbar else ''
 variables = [{'id': 'cta', 'type': 'string', 'label': 'Call to action', 'default': cfg['cta']},
              {'id': 'url', 'type': 'string', 'label': 'Web address', 'default': cfg['url']}]
 (F / 'index.html').write_text(f'''<!doctype html>
-<html lang="{cfg.get("lang", "en-US")}" data-resolution="landscape" data-composition-variables='{json.dumps(variables)}'>
+<html lang="{cfg.get("lang", "en-US")}" data-resolution="{"portrait" if H > W else "landscape"}" data-composition-variables='{json.dumps(variables)}'>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
+    <meta name="viewport" content="width={W}, height={H}" />
     <title>{cfg["title_prefix"]} · {plan["title"]}</title>
     <script src="assets/vendor/gsap.min.js"></script>
     <script src="assets/timeline.js"></script>
@@ -161,18 +200,20 @@ variables = [{'id': 'cta', 'type': 'string', 'label': 'Call to action', 'default
     <link rel="stylesheet" href="assets/frame.css" />
     <link rel="stylesheet" href="assets/kit.css" />
     <link rel="stylesheet" href="assets/kit3.css" />
+{'    <link rel="stylesheet" href="assets/theme.css" />' if (SERIES / 'theme.css').exists() else ''}
     <link rel="stylesheet" href="assets/lockup.css" />
     <style>
       * {{ box-sizing: border-box; }}
-      html, body {{ margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--g-bg); }}
-      #root {{ position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--g-bg); }}
+      html, body {{ margin: 0; width: {W}px; height: {H}px; overflow: hidden; background: var(--g-bg); }}
+      #root {{ position: relative; width: {W}px; height: {H}px; overflow: hidden; background: var(--g-bg); }}
     </style>
   </head>
-  <body data-theme="light" class="embed">
+  <body data-theme="light" class="embed{" portrait" if H > W else ""}">
 {icons}
-    <div id="root" data-composition-id="main" data-start="0" data-duration="{duration}" data-width="1920" data-height="1080" data-fps="{FPS}">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{duration}" data-width="{W}" data-height="{H}" data-fps="{FPS}">
 {hosts}
 {LOCK_HOST}
+{(f'      <div id="captions-host" class="scene clip" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="{duration}" data-track-index="4" data-width="{W}" data-height="{H}"></div>') if chunks else ''}
       <audio id="score" class="clip" src="assets/sound.wav" data-start="0" data-duration="{duration}" data-volume="1"></audio>
     </div>
     <script>
@@ -190,7 +231,7 @@ if SOUND:
     cues.write_text('# The film\'s score from timeline.json; see _kit/engine/score.py.\n'
                     f'import sys\nsys.path.insert(0, {str(KIT / "engine")!r})\nfrom score import score, TARGET_LUFS  # noqa: E402,F401\n')
     if not bed:
-        print(f'{FID}: no music bed in series.json; the score is effects only')
+        print(f'{FID}: no music bed in series.json (beds: a WAV, "procedural" or null); the score is effects only')
     for tlf, out in (('timeline_mute.json', 'sound.wav'), ('timeline.json', 'sound_vo.wav')):
         subprocess.run([sys.executable, '-m', 'sfx', str(cues), '--timeline', str(F / tlf), '--out', str(A / out)], check=True, cwd=MC)
 print(json.dumps({'film': FID, 'duration': duration, 'lock': lock_start if lockbar else None,

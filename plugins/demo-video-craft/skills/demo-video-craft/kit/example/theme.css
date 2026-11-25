@@ -1,0 +1,24 @@
+/* The example series' tokens. The kit's defaults (ground #F6F7F9, navy #0A1733, accent #1F3FA6) stand; set the
+   product's own here. Below: the product's own screens (its dashboard and phone app), which states.py draws. */
+:root { --app-bg: #FFFFFF; }
+
+.ac-dash { display: grid; grid-template-columns: 220px minmax(0, 1fr); height: 100%; }
+.ac-side { background: #F4F6FB; border-right: 1px solid var(--g-rule); padding: 20px 14px; display: flex; flex-direction: column; gap: 4px; font: 500 15px/1 var(--sans); color: var(--g-ink2); }
+.ac-side span { padding: 10px 12px; border-radius: 8px; }
+.ac-side span.on { background: #E6EBF7; color: var(--g-navy); font-weight: 600; }
+.ac-brand { display: flex; align-items: center; gap: 10px; font: 600 17px/1 var(--display); color: var(--g-navy); padding: 4px 8px 18px; }
+.ac-brand svg { width: 22px; height: 20px; }
+.ac-main { display: flex; flex-direction: column; min-width: 0; padding: 24px 32px 0; gap: 20px; }
+.ac-search { display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 16px; border: 1px solid var(--g-rule); border-radius: 10px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+.ac-search svg { width: 18px; height: 18px; color: var(--g-muted); }
+.ac-q { font: 400 16px/1 var(--sans); color: #8A909C; }
+.ac-view { flex: 1; min-height: 0; }
+.ac-list { display: flex; flex-direction: column; gap: 16px; max-width: 720px; }
+.ac-list .dc, .ac-ph-list .dc { max-width: none; }
+
+.ac-phone { display: flex; flex-direction: column; height: 100%; background: #F6F7F9; }
+.ac-ph-head { padding: 12px 22px 14px; display: grid; gap: 4px; }
+.ac-ph-head small { font: 500 14px/1 var(--sans); color: var(--g-muted); }
+.ac-ph-head b { font: 700 32px/1.1 var(--display); color: var(--g-navy); letter-spacing: -.02em; }
+.ac-ph-view { flex: 1; min-height: 0; padding: 0 14px; }
+.ac-ph-list { display: flex; flex-direction: column; gap: 14px; }

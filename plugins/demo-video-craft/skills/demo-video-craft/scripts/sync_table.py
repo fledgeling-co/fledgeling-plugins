@@ -17,7 +17,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-SHOWN = {'type', 'send', 'tool', 'arrive', 'click', 'ink', 'inkTo', 'panel', 'unpanel', 'count', 'stream', 'drag', 'swap',
+SHOWN = {'type', 'typein', 'send', 'tool', 'arrive', 'click', 'ink', 'inkTo', 'panel', 'unpanel', 'count', 'stream', 'drag', 'swap',
          'in', 'moveTo', 'grow', 'flow', 'enter', 'exit', 'label', 'text'}
 
 

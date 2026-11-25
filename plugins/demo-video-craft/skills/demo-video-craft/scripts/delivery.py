@@ -65,6 +65,22 @@ def picture_md5(path):
     return r.stdout.strip() if r.returncode == 0 else None
 
 
+def momentary(path):
+    """Momentary loudness every 100 ms (LUFS), from ffmpeg's EBU R128 meter."""
+    r = run(['ffmpeg', '-nostats', '-i', str(path), '-af', 'ebur128=metadata=1,ametadata=print:key=lavfi.r128.M',
+             '-f', 'null', '-'])
+    return [float(v) for v in re.findall(r'lavfi\.r128\.M=(-?[\d.]+)', r.stderr + r.stdout)]
+
+
+def same_sound(a, b):
+    """True when two files carry the same mix: their momentary loudness differs by under 0.5 LU on average. Compared
+    through the meter rather than the bytes, because the two cuts' audio is encoded by different encoders."""
+    ma, mb = momentary(a), momentary(b)
+    n = min(len(ma), len(mb))
+    pairs = [(x, y) for x, y in zip(ma[:n], mb[:n]) if x > -70 and y > -70]
+    return bool(pairs) and sum(abs(x - y) for x, y in pairs) / len(pairs) < 0.5
+
+
 def size(path):
     r = run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of',
              'csv=p=0:s=x', str(path)])
@@ -103,6 +119,8 @@ def check(d, prefix, films, published, want_size, lufs, tol, tp_max):
             a, b = picture_md5(mute), picture_md5(vo)
             if not a or a != b:
                 problems.append('the two cuts do not share one picture (render once, then remux)')
+            if same_sound(mute, vo):
+                problems.append('the voiced cut has the muted master\'s sound (no narration was mixed in)')
         if problems:
             lines.append(f'  FAIL {fid}: ' + '; '.join(problems))
         else:
@@ -193,12 +211,18 @@ def self_test():
 
         clip('x-A.mp4')
         base_lufs, base_tp = loudness(t / 'x-A.mp4')
-        tp_ceiling = base_tp + 0.5
+        # the good voiced cut carries a different mix at the master's level: the tone, plus a second voice in its second
+        # half, brought to the same integrated loudness
+        run(['ffmpeg', '-loglevel', 'error', '-y', '-f', 'lavfi', '-i',
+             'aevalsrc=0.25*sin(2*PI*440*t)+if(gt(t\\,1)\\,0.6*sin(2*PI*660*t)\\,0):s=48000:d=2', str(t / 'raw.wav')])
+        li, _ = loudness(t / 'raw.wav')
+        run(['ffmpeg', '-loglevel', 'error', '-y', '-i', str(t / 'raw.wav'), '-af', f'volume={base_lufs - li:.2f}dB', str(t / 'tone.wav')])
+        tp_ceiling = max(base_tp, loudness(t / 'tone.wav')[1]) + 1.0   # the fixtures' own peaks, with headroom
         run(['ffmpeg', '-loglevel', 'error', '-y', '-f', 'lavfi', '-i', 'sine=frequency=330:duration=2:sample_rate=48000',
              str(t / 'vo.wav')])
         # the voiced cut gets the same level as the master so the good case passes the loudness checks
         run(['ffmpeg', '-loglevel', 'error', '-y', '-i', str(t / 'x-A.mp4'), '-map', '0:a', str(t / 'same.wav')])
-        remux(t / 'x-A.mp4', t / 'same.wav', t / 'x-A-vo.mp4')
+        remux(t / 'x-A.mp4', t / 'tone.wav', t / 'x-A-vo.mp4')
 
         def gate(films, published=None):
             import contextlib
@@ -210,6 +234,11 @@ def self_test():
 
         rc, out = gate(['A'])
         results.append(('a remuxed pair passes', rc == 0, out))
+
+        clip('x-S.mp4')
+        remux(t / 'x-S.mp4', t / 'same.wav', t / 'x-S-vo.mp4')
+        rc, out = gate(['S'])
+        results.append(('a voiced cut with the master\'s own sound fails', rc == 1 and 'no narration' in out, out))
 
         clip('x-B.mp4')
         rc, out = gate(['B'])

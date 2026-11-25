@@ -1,0 +1,80 @@
+{
+ "origin": "https://guardian.diolog.app",
+ "ask_url": "https://diolog.com.au/book-demo",
+ "nav": [
+  [
+   "features",
+   "/features",
+   "Features"
+  ],
+  [
+   "overview",
+   "/overview",
+   "Overview"
+  ],
+  [
+   "shorts",
+   "/overview#shorts",
+   "Shorts"
+  ]
+ ],
+ "order": [
+  "K02",
+  "K09",
+  "K08",
+  "K06",
+  "K05",
+  "K10",
+  "K07",
+  "K04",
+  "K03"
+ ],
+ "descriptions": {
+  "O": "The connector in one video. Your client’s record flows through Diolog Guardian into Claude, ChatGPT and your enterprise workspace, then seven workflows run in Claude, each a prompt and its result: last quarter’s deck with this quarter’s figures, a new document filed, the analyst Q&A, an ownership check, an inbox answer, a call filed and recalled, and the post-earnings brief.",
+  "K02": "When your client files its quarterly release, Guardian offers the post-earnings brief. One press drafts it against the guidance your client gave, every figure linked to its source, and a second starts the analyst Q&A pack from it.",
+  "K09": "Check an ownership write-up against the newest SEC filings. Two holders are out of date, the ownership view shows their newer Schedule 13G filings, and one press puts the write-up right.",
+  "K08": "Ask for this quarter’s deck the way last quarter’s was built. Claude keeps the structure, Diolog supplies the new figures and your client’s theme, every number stays linked to its source, and the deck is saved to Diolog as a draft.",
+  "K06": "The analyst Q&A pack for your client’s earnings call: 14 likely questions, each answered from the filings with its source named, saved to Diolog as a draft.",
+  "K05": "Your draft of the CFO’s remarks gives income from operations as $463.7 million; the release your client filed says $453.7 million. One press puts the filed figure in, and the remarks come back clean.",
+  "K10": "File an investor call transcript from Claude and confirm it in Diolog’s calls view. Before the next call with that investor, every question comes back with its timestamp.",
+  "K07": "Drop your client’s draft release into the chat and it joins their record, labeled Unreleased until it’s filed. The record view shows it beside the filings, and Claude can quote it straight away.",
+  "K04": "You work in Claude and your client’s IR team works in ChatGPT. The Q&A draft you save to your client’s record is the draft they open.",
+  "K03": "Questions on one theme open in Diolog’s view, where investors’ names stay; Claude drafts the answer from what your client has published, and the draft waits in Diolog for review. This one needs your client’s investor inbox connected and the action switched on."
+ },
+ "poster_at": {
+  "O": 6.6
+ },
+ "ask": {
+  "title": "Start with one client and one past quarter",
+  "text": "Diolog sets up the client’s record from its SEC filings and the materials your firm provides, an admin adds Diolog Guardian to your Claude Enterprise organization, and each task runs twice: once the usual way and once with the record connected."
+ },
+ "footer": [
+  "The client shown is lululemon athletica inc. (Nasdaq: LULU). Every figure, date and holder in these videos comes from its SEC filings for the first and second quarters of fiscal 2026. The drafts, investor questions and holder call are illustrative, and the advisor is fictional. The lululemon name and logo are lululemon’s trademarks. ChatGPT is a trademark of OpenAI. Claude is a trademark of Anthropic.",
+  "&copy; 2026 Diolog"
+ ],
+ "pages": {
+  "overview": {
+   "title": "Diolog Guardian overview",
+   "description": "The Diolog Guardian overview: a client’s Q2 earnings worked in Claude, each figure checked against what it has filed. Shown with a Nasdaq-listed client’s published record.",
+   "og": "A client’s Q2 earnings, worked in Claude with Diolog Guardian.",
+   "h1": [
+    "A client’s Q2 earnings,",
+    "worked in Claude with Diolog Guardian."
+   ],
+   "lede": "The overview follows your client’s second-quarter earnings as you work in Claude: the deck, a new document, the analyst Q&amp;A, an ownership check, an investor answer, a call filed and recalled, and the post-earnings brief. Every figure comes from your client’s own SEC filings.",
+   "shorts_heading": "Nine shorts, one workflow each"
+  },
+  "shorts": {
+   "title": "Diolog Guardian shorts",
+   "description": "Nine Diolog Guardian shorts, one IR workflow each in Claude, from the post-earnings brief to the ownership check. Shown with a Nasdaq-listed client’s published record.",
+   "og": "Nine IR workflows in Claude, one short each.",
+   "h1": [
+    "Nine shorts,",
+    "one workflow each."
+   ],
+   "lede": "Each short follows one job for your client, from the request in Claude to its result, with every figure from its SEC filings.",
+   "clips_heading": "From the request to the result",
+   "clips_note": "Ordered by how often an account lead does the work"
+  }
+ }
+}

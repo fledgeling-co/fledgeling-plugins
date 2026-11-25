@@ -18,6 +18,7 @@ from pathlib import Path
 PRODUCT = {'name': 'Acme Record'}
 WHO = {}
 HOST_MARKS = False
+MODEL = 'Opus 5.5'
 
 NAV = {
     'claude': [('plus', 'New chat'), ('search', 'Search'), ('chat', 'Chats', 1), ('folder', 'Projects'), ('grid', 'Artifacts'), ('clock', 'Scheduled')],
@@ -27,15 +28,15 @@ HOST_WORD = {'claude': 'Claude', 'chatgpt': 'ChatGPT'}
 COMPOSER = {'claude': 'Reply to Claude', 'chatgpt': 'Ask anything'}
 
 
-def configure(product, who, host_marks=False):
+def configure(product, who, host_marks=False, model='Opus 5.5'):
     """product: the name the host shows on tool lines and the panel. who: {key: (initials, name, plan)}, the person
     signed in to each window, by role ('Investor relations', 'CFO · Enterprise'): company plus role overflowed the
     sidebar by 83 px in the source run. host_marks: True when the series' marks/ holds claude.svg and chatgpt.svg."""
     PRODUCT['name'] = product
     WHO.clear()
     WHO.update(who)
-    global HOST_MARKS
-    HOST_MARKS = host_marks
+    global HOST_MARKS, MODEL
+    HOST_MARKS, MODEL = host_marks, model
 
 
 def ic(i, cls=''):
@@ -43,7 +44,9 @@ def ic(i, cls=''):
 
 
 def mark():
-    return '<i><svg viewBox="0 0 108 100" aria-hidden="true"><use href="#i-mark"/></svg></i>'
+    # The product's badge on cards and tool lines sits on its navy square, so it uses the mark drawn for a dark ground
+    # (marks/mark-on-dark.svg; the sprite falls back to mark.svg). The symbol's own viewBox scales it.
+    return '<i><svg aria-hidden="true"><use href="#i-mark-on-dark"/></svg></i>'
 
 
 def badge(b):
@@ -127,7 +130,7 @@ def prow(t, d=None, side='', pid=None):
     return f'<div class="pv-row"{i}><span class="t"><span class="tx">{t}</span></span><span class="side"><span class="tx">{side}</span></span>{dd}</div>'
 
 
-def frame(app, who, title, items, recents=(), panel=None, ptitle='', composer=None, model='Opus 5.5'):
+def frame(app, who, title, items, recents=(), panel=None, ptitle='', composer=None, model=None):
     """A whole assistant window: sidebar, conversation (items, in order: the build hides and arrives them by index),
     composer, and a closed side panel holding the product's view (the 'panel' step opens it)."""
     word = HOST_WORD[app]
@@ -136,6 +139,7 @@ def frame(app, who, title, items, recents=(), panel=None, ptitle='', composer=No
     rec = ''.join(f'<div class="cf-chat{" on" if i == 0 else ""}">{r}</div>' for i, r in enumerate([title, *recents]))
     av, name, plan = WHO[who]
     ph = composer or COMPOSER[app]
+    model = MODEL if model is None else model
     mdl = f'<span class="model">{model}</span>' if app == 'claude' and model else ''
     pb = (f'<section class="cf-panel"><div class="cf-pin"><div class="cf-ph">{mark()}<b>{PRODUCT["name"]}</b><span>{ptitle}</span>'
           f'<span class="cf-x">{ic("x")}</span></div><div class="cf-pbody">{panel}</div></div></section>') if panel else ''
@@ -146,16 +150,32 @@ def frame(app, who, title, items, recents=(), panel=None, ptitle='', composer=No
             f'<span class="chip">{ic("plug")}{PRODUCT["name"]}</span>{mdl}<span class="send">{ic("up")}</span></div></div></div>{pb}</div>')
 
 
+def app(body, kind='browser', url=None, title=None):
+    """The product's own interface in a window, for a product that is not shown inside a chat host. kind: 'browser'
+    (tab dots and the product's URL), 'desktop' (a title bar), or 'phone' (a phone body: give the scene
+    win(..., size=(430, 932))). body is the product's own screen markup: mark the list whose children arrive by index
+    with data-items and its scrolling region with data-viewport, and give fields the steps type into an id."""
+    if kind == 'phone':
+        bar = ''
+    elif kind == 'browser':
+        bar = (f'<div class="k-app-bar"><span class="dots"><i></i><i></i><i></i></span>'
+               f'<span class="url">{ic("lock")}{url or ""}</span></div>')
+    else:
+        bar = f'<div class="k-app-bar"><span class="dots"><i></i><i></i><i></i></span><span class="title">{title or PRODUCT["name"]}</span></div>'
+    return f'<div class="k-app" data-kind="{kind}">{bar}<div class="k-app-body">{body}</div></div>'
+
+
 def solo(app, c, label):
     """One card alone on the ground, labelled with the assistant it came from."""
     m = ic(app, 'lg') if HOST_MARKS else ''
-    return f'<div class="k-solo"><span class="k-solo-app">{m}{label}</span>{c}</div>'
+    return f'<div class="k-solo"><div class="k-solo-app">{m}{label}</div>{by()}{c}</div>'
 
 
-def lockup(wordmark, product, cls='k-lock'):
+def lockup(wordmark, product, cls='k-lock', dark=False):
     """The brand lockup: mark, wordmark, hairline, product name. Styled by the series' lockup.css alone, sized by one
     font-size, so the pages and every placement in the films read one spec."""
-    return (f'<div class="{cls}"><svg class="mk" viewBox="0 0 108 100" aria-hidden="true"><use href="#i-mark"/></svg>'
+    m = 'mark-on-dark' if dark else 'mark'
+    return (f'<div class="{cls}{" on-dark" if dark else ""}"><svg class="mk" aria-hidden="true"><use href="#i-{m}"/></svg>'
             f'<span class="wm">{wordmark}</span><span class="sep"></span><span class="pn">{product}</span></div>')
 
 
@@ -172,13 +192,17 @@ def sprite(runtime_dir, marks_dir, need=()):
             raise SystemExit(f'{f}: needs a viewBox and an <svg> root')
         extra.append(f'    <symbol id="i-{f.stem}" viewBox="{vb.group(1)}">{inner.group(1).strip()}</symbol>')
     have = {f.stem for f in Path(marks_dir).glob('*.svg')}
+    if 'mark' in have and 'mark-on-dark' not in have:      # one mark serves both grounds unless the series draws two
+        src = (Path(marks_dir) / 'mark.svg').read_text()
+        extra.append(f'    <symbol id="i-mark-on-dark" viewBox="{re.search(r"viewBox=.([^\"]+)", src).group(1)}">'
+                     f'{re.search(r"<svg[^>]*>(.*)</svg>", src, re.S).group(1).strip()}</symbol>')
     missing = [n for n in need if n not in have]
     if missing:
         raise SystemExit(f'{marks_dir}: missing {", ".join(m + ".svg" for m in missing)}')
     return base.replace('  <defs>', '  <defs>\n' + '\n'.join(extra), 1)
 
 
-def assert_clean(S, banned):
+def assert_clean(S, banned, substrings=()):
     """Fail when any state carries a banned word or name (case-insensitive, whole word). Use it for every retired
     name, ticker, person, counterparty and period label when a series switches scenario."""
     hits = []
@@ -187,13 +211,16 @@ def assert_clean(S, banned):
         for b in banned:
             if re.search(rf'(?<![\w]){re.escape(b)}(?![\w])', text, re.I):
                 hits.append(f'{sid}: {b}')
+        for b in substrings:                          # spelling stems such as 'colour' or 'organis'
+            if b.lower() in text.lower():
+                hits.append(f'{sid}: {b}')
     if hits:
         raise SystemExit('banned names on screen:\n  ' + '\n  '.join(hits))
 
 
-def write(S, series_dir, banned=()):
+def write(S, series_dir, banned=(), substrings=()):
     series = Path(series_dir)
-    assert_clean(S, banned)
+    assert_clean(S, banned, substrings)
     out = series / 'states'
     out.mkdir(exist_ok=True)
     for sid, html in S.items():

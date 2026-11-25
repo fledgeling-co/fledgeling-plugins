@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Start a demo video series from the skill's starter kit.
 
-    new_series.py <dir> [--fetch]       # copy the kit into <dir>/_kit/ and the example series into <dir>/
+    new_series.py <dir> [--fetch]                 # the kit into <dir>/_kit/, the example series into <dir>/
+    new_series.py <dir> --reference [--fetch]     # the same, with the reference series (the Guardian launch films)
     new_series.py --self-test
 
 Copies kit/runtime and kit/engine (plus duck.py, which the score imports) into <dir>/_kit/, so the series owns its
@@ -22,9 +23,10 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 KIT = HERE.parent / 'kit'
+# The exact files the source series rendered with (Google Fonts' Latin subsets, matched by MD5), so text sets the same
 FETCH = [
-    ('assets/fonts/Inter.woff2', 'https://cdn.jsdelivr.net/npm/@fontsource-variable/inter@5.2.8/files/inter-latin-wght-normal.woff2'),
-    ('assets/fonts/InterTight.woff2', 'https://cdn.jsdelivr.net/npm/@fontsource-variable/inter-tight@5.2.7/files/inter-tight-latin-wght-normal.woff2'),
+    ('assets/fonts/Inter.woff2', 'https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2'),
+    ('assets/fonts/InterTight.woff2', 'https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsH8ahuQ2e8.woff2'),
     ('assets/vendor/gsap.min.js', 'https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js'),
 ]
 
@@ -40,16 +42,19 @@ def copy_tree(src, dst):
         shutil.copy2(f, out)
 
 
-def create(target, fetch):
+def create(target, fetch, reference=False):
     target = Path(target).resolve()
     target.mkdir(parents=True, exist_ok=True)
     copy_tree(KIT / 'runtime', target / '_kit' / 'runtime')
     copy_tree(KIT / 'engine', target / '_kit' / 'engine')
-    if (target / '_kit' / 'engine' / 'duck.py').exists():
-        sys.exit('duck.py already in the series kit')
-    shutil.copy2(HERE / 'duck.py', target / '_kit' / 'engine' / 'duck.py')
-    copy_tree(KIT / 'example', target)
-    for rel, url in FETCH:
+    copy_tree(KIT / 'site', target / '_kit' / 'site')
+    for helper in ('duck.py', 'delivery.py'):          # the score imports duck; render.py imports delivery
+        if (target / '_kit' / 'engine' / helper).exists():
+            sys.exit(f'{helper} already in the series kit')
+        shutil.copy2(HERE / helper, target / '_kit' / 'engine' / helper)
+    copy_tree(KIT / ('reference' if reference else 'example'), target)
+    extra = [tuple(x) for x in json.loads((target / 'series.json').read_text()).get('fetch', [])]
+    for rel, url in FETCH + extra:
         out = target / rel
         if fetch:
             out.parent.mkdir(parents=True, exist_ok=True)
@@ -102,6 +107,6 @@ if __name__ == '__main__':
     if a == ['--self-test']:
         self_test()
     elif a and not a[0].startswith('--'):
-        create(a[0], '--fetch' in a)
+        create(a[0], '--fetch' in a, '--reference' in a)
     else:
         sys.exit(__doc__.split('\n\n')[1])

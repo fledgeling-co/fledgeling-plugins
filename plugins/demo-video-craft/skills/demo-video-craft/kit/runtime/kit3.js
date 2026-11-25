@@ -49,7 +49,7 @@
       const wires = () => {
         if (svg) return svg;
         svg = document.createElementNS(NS, 'svg');
-        svg.setAttribute('class', 'k3-wires'); svg.setAttribute('width', '1920'); svg.setAttribute('height', '1080');
+        svg.setAttribute('class', 'k3-wires'); svg.setAttribute('width', String(K.W)); svg.setAttribute('height', String(K.H));
         root.insertBefore(svg, root.firstChild);
         return svg;
       };
@@ -86,7 +86,7 @@
           }
           case 'type': {
             // [when, 'type', sel, text, {cps}]: fast typing with a caret; the line then holds until something else happens
-            const box = q(a), ph = box.querySelector('.ph'), cps = (c && c.cps) || 30;
+            const box = q(a), ph = box.querySelector('.ph'), cps = (c && c.cps) || 52;
             let ty = box.querySelector('.k3-typed');
             if (!ty) { ty = document.createElement('div'); ty.className = 'k3-typed'; ph.after(ty); }
             const caret = '<i class="k3-caret"></i>';
@@ -227,11 +227,17 @@
             break;
           }
           case 'link': {
-            // [when, 'link', fromSel, toSel, {name, dur, gap}]: a line draws itself from one component's right edge to another's left
+            // [when, 'link', fromSel, toSel, {name, dur, gap, dir}]: a line draws itself from one component's right edge to
+            // another's left, or with dir 'down' from one's bottom to the other's top (a portrait diagram)
             const o = c || {}, A = rects[a], B = rects[b], g = o.gap === undefined ? 12 : o.gap;
-            const x1 = A.x + A.w + g, y1 = A.y + A.h / 2, x2 = B.x - g, y2 = B.y + B.h / 2, mx = (x1 + x2) / 2;
             const p = document.createElementNS(NS, 'path');
-            p.setAttribute('d', 'M' + x1 + ' ' + y1 + ' C' + mx + ' ' + y1 + ' ' + mx + ' ' + y2 + ' ' + x2 + ' ' + y2);
+            if (o.dir === 'down') {
+              const x1 = A.x + A.w / 2, y1 = A.y + A.h + g, x2 = B.x + B.w / 2, y2 = B.y - g, my = (y1 + y2) / 2;
+              p.setAttribute('d', 'M' + x1 + ' ' + y1 + ' C' + x1 + ' ' + my + ' ' + x2 + ' ' + my + ' ' + x2 + ' ' + y2);
+            } else {
+              const x1 = A.x + A.w + g, y1 = A.y + A.h / 2, x2 = B.x - g, y2 = B.y + B.h / 2, mx = (x1 + x2) / 2;
+              p.setAttribute('d', 'M' + x1 + ' ' + y1 + ' C' + mx + ' ' + y1 + ' ' + mx + ' ' + y2 + ' ' + x2 + ' ' + y2);
+            }
             p.setAttribute('class', 'k3-wire');
             wires().appendChild(p);
             const L = p.getTotalLength();

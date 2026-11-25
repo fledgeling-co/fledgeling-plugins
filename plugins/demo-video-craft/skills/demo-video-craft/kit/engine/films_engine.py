@@ -31,6 +31,7 @@ from pathlib import Path
 
 LOCK = 3.2                    # the lockup bar holds over the last 3.2 s of a short
 LBL = [40, 30]                # identity labels: top left, clear of the composer band
+LABELS = True                 # the label switch: series.json "labels"; False drops every label from every film
 CPS = 52                      # typing speed; then a 0.6 s hold so the prompt can be read
 COMP = {'s': '.cf-composer', 'w': '#w1', 'p': [18, 14]}                    # the composer, measured where it sits
 COMP_OPEN = {'s': '.cf-composer', 'w': '#w1', 'p': [18, 14], 'open': True}
@@ -84,6 +85,13 @@ def ask(t, text, w='#w1', hold=0.6, open=False, pre=False):
     return [[t, 'type', w, text, done], [sent, 'click', el('.cf-composer .send', w, open=open), {'lead': 0.6}], [sent + 0.05, 'send', w]], sent + 0.05
 
 
+def type_in(t, target, text, hold=0.6, pre=False):
+    """Type into a field of the product's own interface at CPS, then hold so it can be read; pre=True writes it whole
+    at t. Returns (steps, time the next step can start)."""
+    done = t if pre else round(t + len(text) / CPS, 2)
+    return [[t, 'typein', target, text, done]], round(done + (1.0 if pre else hold), 2)
+
+
 def run(i, msgs, dur, w='#w1'):
     """Arguments for a 'tool' step: the tool line at item i narrates msgs over dur seconds."""
     return {'i': i, 'w': w}, msgs, dur
@@ -98,8 +106,9 @@ class _Kids(HTMLParser):
         self.depth, self.col, self.kids = 0, None, []
 
     def handle_starttag(self, tag, attrs):
-        cls = (dict(attrs).get('class') or '').split()
-        if self.col is None and 'cf-col' in cls:
+        a = dict(attrs)
+        cls = (a.get('class') or '').split()
+        if self.col is None and ('cf-col' in cls or 'data-items' in a):   # a chat thread, or the product's own list
             self.col = self.depth
         elif isinstance(self.col, int) and self.depth == self.col + 1:
             self.kids.append('card' if tag == 'article' or 'k-art' in cls else tag + '.' + '.'.join(cls))
@@ -144,11 +153,15 @@ def sounds(sc, S):
 
 
 # ---- scenes -------------------------------------------------------------------------------------------------------
-def win(sid, state, dur, start, steps, hidden=0, label=None, css='', sfx=(), **kw):
+def win(sid, state, dur, start, steps, hidden=0, label=None, css='', sfx=(), size=None, phone=False, **kw):
     """A window scene: one host window holding `state`, its thread items from `hidden` on hidden until they arrive,
     the camera starting at `start` ({'frame': target, 'fill': f} or {'orient': 1.12})."""
     spec = {'windows': ['#w1'], 'hidden': {'#w1': hidden}, 'start': start, 'steps': steps}
-    if label:
+    if size:                                   # a window that is not the 1440 x 900 host: a phone is (430, 932)
+        kw['size'] = list(size)
+    if phone:
+        kw['phone'] = True
+    if label and LABELS:
         spec['steps'] = [[0.05, 'label', label[0], LBL, label[1]]] + spec['steps']
     return {'id': sid, 'kind': 'win', 'dur': dur, 'windows': [['w1', state]], 'css': css, 'spec': spec, 'sfx': list(sfx), **kw}
 
@@ -166,7 +179,7 @@ def chip(name, mark, cid, cls='k3-hide'):
     return f'<span class="k3-app big {cls}" id="{cid}">{m}{name}</span>'
 
 
-def intro_scene(lock, headline, apps, sources, head_left, head_right, node_caption):
+def intro_scene(lock, headline, apps, sources, head_left, head_right, node_caption, portrait=False):
     """The overview's opening, 11.5 scene seconds (before the intro pace of 1.15): the lockup above the complete
     headline from frame 0 with a row of host chips under it; the headline leaves, the lockup travels into the
     architecture's centre node and the chips travel to their ports; the sources arrive and wire into the node, the
@@ -174,7 +187,11 @@ def intro_scene(lock, headline, apps, sources, head_left, head_right, node_capti
     still; the first chip pushes forward and fills the frame into the first window scene.
 
     lock: lockup HTML. headline: HTML with one <span class="acc">accent</span> word. apps: [(name, mark)] for chip().
-    sources: [(icon, label)], five of them. head_left / head_right: the column headings."""
+    sources: [(icon, label)], five of them. head_left / head_right: the column headings. portrait=True lays the same
+    grammar out for a 1080 x 1920 canvas: the sources above, the node in the middle, the hosts in a row below, joined
+    by one trunk and a fan of wires running down."""
+    if portrait:
+        return _intro_portrait(lock, headline, apps, sources, head_left, head_right, node_caption)
     n = len(apps)
     html = [
         C('lk0', f'<div class="k3-lock0">{lock}</div>', y=196, shown=True),
@@ -215,14 +232,56 @@ def intro_scene(lock, headline, apps, sources, head_left, head_right, node_capti
     return {'id': 'intro', 'kind': 'stage', 'dur': 11.5, 'html': html, 'steps': steps, 'sfx': sfx}
 
 
-def outro_scene(lock, headline, cta, url):
+def _intro_portrait(lock, headline, apps, sources, head_left, head_right, node_caption):
+    n, ns = len(apps), len(sources)
+    html = [
+        C('lk0', f'<div class="k3-lock0" style="font-size:46px">{lock}</div>', x=468, y=420, shown=True),
+        C('t0', f'<div class="k3-title" style="font-size:60px">{headline}</div>', x=468, y=700, w=640, shown=True),
+        C('chips', '<div class="k3-col c" style="gap:18px">' + ''.join(chip(nm, mk, f'ch{k + 1}') for k, (nm, mk) in enumerate(apps)) + '</div>', x=468, y=1080, shown=True),
+        C('hs', f'<div class="k3-head">{head_left}</div>', x=468, y=330),
+        C('srcs', '<div class="k3-col c" style="gap:22px">' + ''.join(f'<span class="k3-src k3-hide" id="s{k + 1}"><svg aria-hidden="true"><use href="#i-{i}"/></svg>{t}</span>'
+                                                    for k, (i, t) in enumerate(sources)) + '</div>', x=468, y=600, shown=True),
+        C('node', '<div class="k3-node" id="nd">' + lock.replace('class="k-lock"', 'class="k-lock" style="opacity:0"', 1)
+          + f'<small>{node_caption}</small></div>', x=468, y=960),
+        C('ht', f'<div class="k3-head">{head_right}</div>', x=468, y=1110),
+        C('tools', '<div class="k3-row small">' + ''.join(chip(nm, mk, f'p{k + 1}', 'k3-ph') for k, (nm, mk) in enumerate(apps)) + '</div>', x=468, y=1195, shown=True),
+    ]
+    steps = [
+        *[[round(0.25 + 0.13 * k, 2), 'in', f'#ch{k + 1}', {'y': 14, 'dur': 0.5}] for k in range(n)],
+        [3.65, 'out', '#t0', {'dur': 0.35}],
+        [3.7, 'moveTo', '#lk0 .k-lock', {'to': '#nd .k-lock', 'dur': 0.75}],
+        [4.45, 'show', '#nd .k-lock'], [4.45, 'to', '#lk0', {'opacity': 0, 'dur': 0.01}],
+        *[[round(3.8 + 0.06 * k, 2), 'moveTo', f'#ch{k + 1}', {'to': f'#p{k + 1}', 'dur': 0.8}] for k in range(n)],
+        [4.05, 'in', '#hs', {'y': 8, 'dur': 0.5}],
+        *[[round(4.1 + 0.14 * k, 2), 'in', f'#s{k + 1}', {'y': 14, 'blur': 8, 'dur': 0.55}] for k in range(ns)],
+        [4.4, 'in', '#node', {'y': 0, 'scale': 0.9, 'dur': 0.6}], [4.65, 'in', '#ht', {'y': 8, 'dur': 0.5}],
+        [4.95, 'link', '#srcs', '#nd', {'name': 'a1', 'dur': 0.5, 'dir': 'down'}],
+        *[[round(5.3 + 0.07 * k, 2), 'link', '#nd', f'#p{k + 1}', {'name': f'b{k + 1}', 'dur': 0.45, 'dir': 'down'}] for k in range(n)],
+        [5.5, 'flow', ['a1'], {'dur': 5.3, 'travel': 0.8, 'every': 0.3}],
+        [6.0, 'flow', [f'b{k + 1}' for k in range(n)], {'dur': 4.8, 'travel': 0.7, 'every': 0.55, 'stagger': 0.12}],
+        *[[round(5.65 + 0.8 * k, 2), 'wheel', '#srcs .k3-src', k, {'dur': 0.4}] for k in range(ns)], [9.85, 'unwheel', '#srcs .k3-src'],
+        [6.3, 'to', '#nd', {'scale': 1.04, 'dur': 0.35, 'ease': 'power2.out'}], [6.7, 'to', '#nd', {'scale': 1, 'dur': 0.4}],
+        [10.05, 'to', '#ch1', {'scale': 1.12, 'dur': 0.45, 'ease': 'power2.out'}],
+        *[[10.05, 'to', f'#ch{k + 1}', {'opacity': 0.35, 'dur': 0.4}] for k in range(1, n)],
+        [10.85, 'to', '#ch1', {'scale': 7, 'opacity': 0, 'filter': 'blur(8px)', 'dur': 0.6, 'ease': 'power3.in'}],
+        *[[10.85, 'out', s, {'dur': 0.4}] for s in ('#srcs', '#node', '#hs', '#ht', *[f'#ch{k + 1}' for k in range(1, n)], '.k3-wires')],
+    ]
+    sfx = [[round(0.25 + 0.13 * k, 2), 'pop'] for k in range(n)] + [[3.8, 'whoosh'], [4.4, 'pop'], [10.85, 'whoosh']]
+    return {'id': 'intro', 'kind': 'stage', 'dur': 11.5, 'html': html, 'steps': steps, 'sfx': sfx}
+
+
+def outro_scene(lock, headline, cta, url, portrait=False):
     """The overview's end slide, 4.4 scene seconds: the lockup at y 330, the opening headline again at y 540, the ask
     at y 760 ("Book a demo" as a button, the URL beside it), each arriving in turn. Give the scene before it an exit."""
     ask = ('<div style="display:flex;align-items:center;gap:30px">'
            f'<span style="font:600 36px/1 Inter,sans-serif;color:#fff;background:var(--g-accent);border-radius:12px;padding:20px 30px">{cta}</span>'
            f'<span style="font:500 36px/1 Inter,sans-serif;color:var(--g-navy)">{url}</span></div>')
-    html = [C('lo', f'<div class="k3-lock0">{lock}</div>', y=330), C('lt', f'<div class="k3-title">{headline}</div>', y=540, w=1560),
-            C('lc', ask, y=760)]
+    if portrait:
+        html = [C('lo', f'<div class="k3-lock0" style="font-size:46px">{lock}</div>', x=468, y=440),
+                C('lt', f'<div class="k3-title" style="font-size:60px">{headline}</div>', x=468, y=720, w=640), C('lc', ask.replace('36px', '28px'), x=468, y=1060)]
+    else:
+        html = [C('lo', f'<div class="k3-lock0">{lock}</div>', y=330), C('lt', f'<div class="k3-title">{headline}</div>', y=540, w=1560),
+                C('lc', ask, y=760)]
     steps = [[0.2, 'in', '#lo', {'y': 12, 'dur': 0.6}], [0.55, 'in', '#lt', {'y': 16, 'dur': 0.65}], [1.05, 'in', '#lc', {'y': 12, 'dur': 0.55}]]
     return {'id': 'outro', 'kind': 'stage', 'dur': 4.4, 'html': html, 'steps': steps, 'sfx': [[0.2, 'pop']]}
 
@@ -242,7 +301,7 @@ def pace(sc, k):
         i = DUR_AT.get(op)
         if i is not None and len(st) > i and isinstance(st[i], (int, float)):
             st[i] = round(st[i] * min(k, 1.25), 2)
-        if op == 'type' and isinstance(st[4], (int, float)):
+        if op == 'type' and len(st) > 4 and isinstance(st[4], (int, float)):
             st[4] = round(st[4] * k, 2)
         if op == 'label' and len(st) > 4 and isinstance(st[4], (int, float)):
             st[4] = round(st[4] * k, 2)
@@ -254,6 +313,16 @@ def pace(sc, k):
             st[3]['dur'] = round(st[3]['dur'] * k, 2)
     sc['dur'] = round(sc['dur'] * k, 1)
     sc['sfx'] = [[round(t * k, 2), kind] for t, kind in sc.get('sfx', [])]
+
+
+def apply_labels(films):
+    """Drop every 'label' step when the switch is off, including labels written straight into a step list."""
+    if LABELS:
+        return
+    for f in films.values():
+        for sc in f['scenes']:
+            steps = sc['spec']['steps'] if sc['kind'] == 'win' else sc['steps']
+            steps[:] = [s for s in steps if s[1] != 'label']
 
 
 def apply_pace(films, overview, factors, intro=1.15):
@@ -287,17 +356,20 @@ def _spec_json(spec):
     return lead + '"steps": [\n   ' + body + '\n  ]}'
 
 
-def window_html(sc):
+def window_html(sc, W=1920, H=1080):
     sid = sc['id']
-    wins = ''.join(f'<div class="k-win" id="{sid}-{w}" style="{sc.get("pos", {}).get(w, "")}"><!--state:{st}--><!--/state:{st}--></div>'
+    ww, wh = sc.get('size', [1440, 900])
+    dims = f'width:{ww}px;height:{wh}px;' if sc.get('size') else ''
+    cls = 'k-win phone' if sc.get('phone') else 'k-win'
+    wins = ''.join(f'<div class="{cls}" id="{sid}-{w}" style="{dims}{sc.get("pos", {}).get(w, "")}"><!--state:{st}--><!--/state:{st}--></div>'
                    for w, st in sc['windows'])
     spec = _spec_json(sc['spec'])
     for w, _ in sc['windows']:
         spec = spec.replace(f'"#{w}"', f'"#{sid}-{w}"')
     return f'''<template id="{sid}-template">
-  <div id="{sid}root" data-composition-id="{sid}" data-width="1920" data-height="1080">
+  <div id="{sid}root" data-composition-id="{sid}" data-width="{W}" data-height="{H}">
     <style>
-      #{sid}root .k-cam {{ position: absolute; left: 0; top: 0; width: 1440px; height: 900px; transform-origin: 0 0; }}
+      #{sid}root .k-cam {{ position: absolute; left: 0; top: 0; width: {ww}px; height: {wh}px; transform-origin: 0 0; }}
       #{sid}root .k-cam > .k-win {{ transform: none; }}
       {sc.get("css", "")}
     </style>
@@ -310,11 +382,11 @@ def window_html(sc):
 '''
 
 
-def stage_html(sc):
+def stage_html(sc, W=1920, H=1080):
     sid = sc['id']
     spec = _spec_json({'steps': sc['steps']})
     return f'''<template id="{sid}-template">
-  <div id="{sid}root" data-composition-id="{sid}" data-width="1920" data-height="1080">
+  <div id="{sid}root" data-composition-id="{sid}" data-width="{W}" data-height="{H}">
     <div class="k-sc">{''.join(sc['html'])}</div>
     <script>
       K3.stage('{sid}', {spec});
@@ -337,6 +409,10 @@ def write_series(films, series_dir, S):
     series = Path(series_dir)
     cfg = json.loads((series / 'series.json').read_text())
     lengths, overview = cfg['lengths'], cfg['overview']
+    if (lengths['overview'], lengths['short']) != ([80, 110], [20, 25]):
+        if not lengths.get('why'):
+            raise SystemExit('series.json lengths differ from the binding 80-110 s overview and 20-25 s shorts; give "why"')
+        print(f'lengths differ from the binding numbers: {lengths["why"]}')
     problems = []
     for fid, f in films.items():
         total = round(sum(sc['dur'] for sc in f['scenes']), 2)
@@ -360,14 +436,15 @@ def write_series(films, series_dir, S):
         (F / 'hyperframes.json').write_text(json.dumps(HYPERFRAMES_JSON, indent=2))
         (F / 'package.json').write_text(json.dumps({'name': f'{fid.lower()}-film', 'private': True, 'type': 'module'}, indent=2))
         (F / 'meta.json').write_text(json.dumps({'id': fid, 'name': f'{cfg["title_prefix"]} · {f["title"]}'}, indent=2))
+        size = f.get('size') or cfg.get('size') or [1920, 1080]
         plan_scenes, steps = [], {}
         for sc in f['scenes']:
-            (F / 'compositions' / f'{sc["id"]}.html').write_text(stage_html(sc) if sc['kind'] == 'stage' else window_html(sc))
+            (F / 'compositions' / f'{sc["id"]}.html').write_text(stage_html(sc, *size) if sc['kind'] == 'stage' else window_html(sc, *size))
             sfx = sc['sfx'] if sc['kind'] == 'stage' else sounds(sc, S)
             plan_scenes.append({'id': sc['id'], 'src': f'{sc["id"]}.html', 'dur': sc['dur'], 'sfx': sorted(sfx)})
             steps[sc['id']] = [s for s in (sc['spec']['steps'] if sc['kind'] == 'win' else sc['steps']) if isinstance(s[0], (int, float))]
         plan = {'fps': 60, 'title': f['title'], 'tempo': f.get('tempo', 1.0), 'lock': LOCK, 'lockbar': f.get('lockbar', True),
-                'scenes': plan_scenes, 'voice': f['voice']}
+                'captions': f.get('captions', False), 'limit': f.get('limit'), 'size': size, 'scenes': plan_scenes, 'voice': f['voice']}
         (F / 'plan.json').write_text(json.dumps(plan, indent=1, ensure_ascii=False))
         (F / 'steps.json').write_text(json.dumps(steps, ensure_ascii=False))
     print(len(films), 'films written to', series / 'films')

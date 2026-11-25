@@ -1,0 +1,4 @@
+/* The reference series' tokens. The kit's defaults are this series' own (ground #F6F7F9, navy #0A1733, accent
+   #1F3FA6, ok #16774A, bad #B42318), so only the client's theme is set here: lululemon's red mark and near-black
+   wordmark, from its logo file, for the deck and documents the assistant builds (.jslide, .jdoc). */
+:root { --cl-mark: #D41935; --cl-mark-2: #A8102A; --cl-tint: #FBE7EA; --cl-ground: #F4F4F4; --cl-ink: #140F0F; }

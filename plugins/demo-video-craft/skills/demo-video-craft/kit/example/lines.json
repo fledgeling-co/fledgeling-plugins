@@ -1,9 +1,38 @@
 {
-  "voice": {"id": "cgSgspJ2msm6clMCkdW9", "model": "elevenlabs/eleven-v4"},
-  "lines": [
-    {"id": "v1", "film": "O", "text": "[upbeat] Bring your company record into the AI tools you already use."},
-    {"id": "v2", "film": "O", "text": "Acme Record keeps every filing, release and deck current, and hands each one to Claude and ChatGPT with its source."},
-    {"id": "v3", "film": "O", "text": "Ask for a check, and every figure in your draft is set against what you filed."},
-    {"id": "q1", "film": "K01", "text": "[upbeat] Catch the figure that doesn't match before anyone else does: Acme Record checks your deck against the filed release and fixes it in one click."}
-  ]
+ "voice": {
+  "id": "cgSgspJ2msm6clMCkdW9",
+  "model": "elevenlabs/eleven-v4"
+ },
+ "lines": [
+  {
+   "id": "v1",
+   "film": "O",
+   "text": "[upbeat] Bring your company record into the AI tools you already use."
+  },
+  {
+   "id": "v2",
+   "film": "O",
+   "text": "Acme Record keeps every filing, release and deck current, and hands each one to Claude and ChatGPT with its source."
+  },
+  {
+   "id": "v3",
+   "film": "O",
+   "text": "Ask for a check, and every figure in your draft is set against what you filed."
+  },
+  {
+   "id": "q1",
+   "film": "K01",
+   "text": "[upbeat] Catch the figure that doesn't match before anyone else does: Acme Record checks your deck against the filed release and fixes it in one click."
+  },
+  {
+   "id": "q2",
+   "film": "K02",
+   "text": "[upbeat] Search your own record for a figure, and Acme Record shows every document that states it, checked against the filed release, with one press to fix the one that's wrong."
+  },
+  {
+   "id": "q3",
+   "film": "K03",
+   "text": "[upbeat] Start the morning with the one check that needs you: the figure that differs, the release that settles it, and the fix, all before the call."
+  }
+ ]
 }
