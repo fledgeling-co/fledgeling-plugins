@@ -1,0 +1,48 @@
+{
+  "skill_name": "changelog",
+  "evals": [
+    {
+      "id": 1,
+      "name": "first-entry-open-work",
+      "prompt": "In ~/Dev/webhook-relay (fixture repo, no CHANGELOG.html yet) I just merged PR #418, which moves webhook retries into Postgres so they survive a restart. Integration tests: 38 passed. The 2k req/s load test did not run and the durable_retries flag is still off in prod; I need to decide when to switch it on. Write the end-of-work report.",
+      "expected_output": "CHANGELOG.html created in the main checkout from the template; one entry with data-remaining=open; plain version free of code and PR numbers; the load test named as not run; the flag decision named as waiting on the owner; page shown by reloading or opening its Chrome tab; a two-line reply.",
+      "files": [],
+      "assertions": [
+        "changelog.py check exits 0 on the page",
+        "the page sits at the main checkout root, not a worktree",
+        "exactly 1 entry, data-remaining=\"open\"",
+        "Achieved technical contains a 'How we know' line quoting 38 passed",
+        "Remaining names the load test as not run and the flag decision as the owner's",
+        "the reply is 2 lines and says a new entry was added"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "small-progress-updates-newest",
+      "prompt": "Same branch as the last changelog entry in webhook-relay: I added 6 more retry tests and fixed a typo in the backoff config. Nothing merged yet. Give me a status update.",
+      "expected_output": "The newest entry is revised in place rather than a new one added; its id and date stay; the timestamp line gains an updated time and a last-updated time; both versions are revised together.",
+      "files": ["fixtures/one-entry/CHANGELOG.html"],
+      "assertions": [
+        "entry count unchanged",
+        "the newest entry's id is unchanged",
+        "the timestamp line has more time elements than before and ends with 'last updated'",
+        "changelog.py check exits 0",
+        "the reply says the newest entry was updated"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "architecture-change-gets-a-visual",
+      "prompt": "Fleet finished in webhook-relay: we replaced the in-process scheduler with a separate worker that reads a queue, all 9 tasks merged, nothing left. Log it.",
+      "expected_output": "A new entry above the previous one with data-remaining=none and 'Nothing remaining.' in both versions; visualization:visualization invoked and its SVG export pasted in a figure.visual after the facets; the diagram files saved under docs/changelog/.",
+      "files": ["fixtures/one-entry/CHANGELOG.html"],
+      "assertions": [
+        "a new entry sits above the earlier one",
+        "data-remaining=\"none\" with 'Nothing remaining.' in both versions",
+        "visualization:visualization was invoked, then invoked with 'export <html-file> svg'",
+        "docs/changelog/<date>-<slug>.html and .svg exist and the svg is inline in a figure.visual",
+        "changelog.py check exits 0"
+      ]
+    }
+  ]
+}

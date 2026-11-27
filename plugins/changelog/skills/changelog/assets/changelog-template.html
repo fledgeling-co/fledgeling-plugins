@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en-AU" data-view="plain">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>{{PROJECT}} changelog</title>
+<meta name="description" content="What {{PROJECT}} has achieved, newest first, in plain terms or in technical detail.">
+<script>
+  /* Set the reading view before first paint so the page never flashes the other one. */
+  (function () {
+    var v = new URLSearchParams(location.search).get('view');
+    if (!v) { try { v = localStorage.getItem('changelog-view'); } catch (e) { v = null; } }
+    if (v === 'technical') document.documentElement.dataset.view = 'technical';
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,700;0,800;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Changelog page shell, from the changelog:changelog skill's template.
+     Add entries; leave this stylesheet alone, so every project's page reads the same. */
+  :root {
+    --ground: oklch(95.4% 0.008 250);
+    --band: oklch(92.6% 0.016 222);
+    --band-dot: oklch(80% 0.03 222 / 0.45);
+    --sheet: oklch(99.4% 0.002 250);
+    --panel: oklch(97.6% 0.005 250);
+    --ink: oklch(23% 0.022 258);
+    --ink-2: oklch(39% 0.022 258);
+    --ink-3: oklch(47% 0.02 258);
+    --rule: oklch(89% 0.01 255);
+    --rule-strong: oklch(80% 0.012 255);
+    --accent: oklch(44% 0.085 195);
+    --accent-tint: oklch(95.6% 0.022 195);
+    --accent-line: oklch(84% 0.05 195);
+    --open: oklch(51% 0.125 60);
+    --open-tint: oklch(96.2% 0.03 75);
+    --code-bg: oklch(93.8% 0.008 255);
+    --plate: #f5f5f5;
+    --shadow: 0 1px 2px oklch(30% 0.03 258 / 0.06), 0 4px 14px oklch(30% 0.03 258 / 0.06);
+    --font: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, sans-serif;
+    --font-code: "Atkinson Hyperlegible Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+    --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+    --radius: 6px;
+    --radius-lg: 10px;
+    --topbar: 60px;
+    --icon-task: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='1.8'%3E%3Ccircle cx='10' cy='10' r='7.5'/%3E%3Ccircle cx='10' cy='10' r='3.5'/%3E%3C/svg%3E");
+    --icon-achieved: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cmask id='m'%3E%3Crect width='20' height='20' fill='white'/%3E%3Cpath d='M6 10.3l2.7 2.7L14.2 7.4' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/mask%3E%3Ccircle cx='10' cy='10' r='8.5' fill='black' mask='url(%23m)'/%3E%3C/svg%3E");
+    --icon-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 2.5a7.5 7.5 0 0 1 0 15z' fill='black'/%3E%3C/svg%3E");
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: oklch(18.5% 0.014 258);
+      --band: oklch(22% 0.022 228);
+      --band-dot: oklch(40% 0.03 222 / 0.5);
+      --sheet: oklch(22.8% 0.016 258);
+      --panel: oklch(25.5% 0.016 258);
+      --ink: oklch(94.5% 0.007 255);
+      --ink-2: oklch(83% 0.012 255);
+      --ink-3: oklch(74% 0.014 255);
+      --rule: oklch(32% 0.016 258);
+      --rule-strong: oklch(41% 0.018 258);
+      --accent: oklch(79% 0.095 190);
+      --accent-tint: oklch(27.5% 0.035 200);
+      --accent-line: oklch(42% 0.06 195);
+      --open: oklch(81% 0.12 75);
+      --open-tint: oklch(28% 0.035 70);
+      --code-bg: oklch(29% 0.016 258);
+      --shadow: 0 0 0 1px oklch(31% 0.016 258), 0 6px 18px oklch(5% 0 0 / 0.35);
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--topbar) + var(--space-4)); }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 400 16px/1.55 var(--font); font-variant-numeric: tabular-nums; }
+  ::selection { background: var(--accent); color: var(--sheet); }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { text-decoration-thickness: 2px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+  p { margin: 0 0 var(--space-3); text-wrap: pretty; }
+  p:last-child { margin-bottom: 0; }
+  ul, ol { margin: 0 0 var(--space-3); padding-left: 1.2em; }
+  li { margin-bottom: var(--space-1); }
+  li:last-child { margin-bottom: 0; }
+  code, kbd, samp { font-family: var(--font-code); font-size: 0.88em; background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 3px; overflow-wrap: anywhere; }
+  pre { font-family: var(--font-code); font-size: 13px; line-height: 1.5; background: var(--code-bg); padding: var(--space-3); border-radius: var(--radius); overflow-x: auto; margin: 0 0 var(--space-3); }
+  pre code { background: none; padding: 0; font-size: inherit; }
+
+  /* One view at a time: plain for anyone, technical for engineers. */
+  html[data-view="plain"] .technical,
+  html[data-view="technical"] .plain { display: none !important; }
+
+  /* Top bar */
+  .topbar { position: sticky; top: 0; z-index: 10; background: color-mix(in oklch, var(--ground) 90%, transparent); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule); }
+  .topbar-inner { max-width: 1320px; margin: 0 auto; min-height: var(--topbar); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-2) var(--space-5); }
+  .brand { font-weight: 700; color: var(--ink); text-decoration: none; display: flex; gap: var(--space-2); align-items: baseline; min-width: 0; }
+  .brand strong { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brand span { color: var(--ink-3); font-weight: 500; }
+  .view-switch { border: 0; margin: 0; padding: 0; display: flex; align-items: center; gap: var(--space-3); }
+  .view-switch legend { float: left; font-size: 14px; font-weight: 500; color: var(--ink-3); margin-right: var(--space-3); padding: 0; }
+  .segments { display: inline-flex; border: 1px solid var(--rule-strong); border-radius: var(--radius); background: var(--sheet); padding: 3px; gap: 2px; }
+  .segments input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .segments label { display: inline-flex; align-items: center; min-height: 36px; padding: 0 var(--space-4); font-size: 14px; font-weight: 700; color: var(--ink-2); border-radius: 4px; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
+  .segments label:hover { background: var(--code-bg); color: var(--ink); }
+  .segments input:checked + label { background: var(--ink); color: var(--sheet); }
+  .segments input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .segments input:active + label { transform: translateY(0.5px); }
+
+  /* Masthead: the project, and four figures read from the entries themselves. */
+  .masthead { background-color: var(--band); background-image: radial-gradient(var(--band-dot) 1px, transparent 1.2px); background-size: 18px 18px; border-bottom: 1px solid var(--rule); }
+  .masthead-inner { max-width: 1320px; margin: 0 auto; padding: var(--space-7) var(--space-5) var(--space-6); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-6); align-items: end; }
+  .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: var(--space-2); }
+  .masthead h1 { font-size: 46px; line-height: 1.08; font-weight: 800; letter-spacing: -0.025em; margin: 0 0 var(--space-3); overflow-wrap: anywhere; }
+  .lede { font-size: 18px; color: var(--ink-2); max-width: 62ch; }
+  .stats { display: grid; grid-template-columns: repeat(2, minmax(150px, auto)); gap: var(--space-2); margin: 0; }
+  .stats > div { background: var(--sheet); border-radius: var(--radius); box-shadow: var(--shadow); padding: var(--space-3) var(--space-4); min-width: 0; }
+  .stats dt { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+  .stats dd { margin: 2px 0 0; font-size: 20px; font-weight: 700; line-height: 1.3; display: flex; align-items: center; gap: var(--space-2); }
+  .stat-dot { width: 14px; height: 14px; flex: none; border-radius: 50%; border: 2px solid var(--open); }
+  .stat-dot.done { background: var(--accent); border-color: var(--accent); }
+
+  /* Page: a timeline rail beside the entries on wide screens, above them on narrow ones. */
+  .page { max-width: 1320px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-8); display: grid; grid-template-columns: 248px minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+  .contents { position: sticky; top: calc(var(--topbar) + var(--space-5)); max-height: calc(100dvh - var(--topbar) - var(--space-7)); overflow-y: auto; }
+  .contents summary { list-style: none; cursor: pointer; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding: var(--space-2) 0 var(--space-2) var(--space-1); }
+  .contents summary::-webkit-details-marker { display: none; }
+  @media (min-width: 1024px) { .contents summary { pointer-events: none; cursor: default; } }
+  .timeline { list-style: none; margin: var(--space-2) 0 0; padding: 0; position: relative; }
+  .timeline::before { content: ""; position: absolute; left: 11px; top: 6px; bottom: 6px; width: 2px; background: var(--rule); border-radius: 1px; }
+  .timeline li { margin: 0; position: relative; }
+  .timeline .month { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); padding: var(--space-3) 0 var(--space-1) 32px; }
+  .timeline .month:first-child { padding-top: 0; }
+  .timeline a { display: grid; gap: 1px; padding: var(--space-2) var(--space-3) var(--space-2) 32px; border-radius: var(--radius); color: var(--ink); text-decoration: none; transition: background-color 0.2s ease; }
+  .timeline a:hover { background: var(--sheet); }
+  .timeline a[aria-current="true"] { background: var(--sheet); box-shadow: var(--shadow); }
+  .timeline .dot { position: absolute; left: 5px; top: 13px; width: 14px; height: 14px; border-radius: 50%; background: var(--ground); border: 2px solid var(--open); }
+  .timeline .dot.done { background: var(--accent); border-color: var(--accent); }
+  .toc-meta { font-size: 13px; color: var(--ink-3); }
+  .toc-title { font-size: 15px; line-height: 1.35; font-weight: 500; }
+
+  /* Entries */
+  .entries { grid-column: 2; display: grid; gap: var(--space-6); min-width: 0; }
+  .empty { display: none; background: var(--sheet); border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: var(--space-7) var(--space-6); }
+  .empty h2 { font-size: 22px; margin: 0 0 var(--space-2); }
+  .empty p { color: var(--ink-2); max-width: 56ch; }
+  .entries:not(:has(.entry)) .empty { display: block; }
+  .entry { container-type: inline-size; background: var(--sheet); border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: var(--space-6); scroll-margin-top: calc(var(--topbar) + var(--space-4)); }
+  .entry-head { max-width: 78ch; margin-bottom: var(--space-5); }
+  .entry-date { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); font-size: 14px; font-weight: 700; color: var(--ink-3); margin-bottom: var(--space-2); }
+  .tag { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); background: var(--accent-tint); padding: 2px 7px; border-radius: 3px; }
+  .entry h2 { font-size: 28px; line-height: 1.22; font-weight: 800; letter-spacing: -0.015em; margin: 0 0 var(--space-3); text-wrap: balance; }
+  .entry h2 a { color: inherit; text-decoration: none; }
+  .entry h2 a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+  .subtitle { font-size: 19px; line-height: 1.5; color: var(--ink-2); margin-bottom: var(--space-3); }
+  .stamps { font-size: 13px; color: var(--ink-3); }
+
+  /* Task / Achieved / Remaining: three columns, Achieved carrying the weight. */
+  .facets { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.45fr) minmax(0, 1fr); gap: var(--space-3); }
+  .facet { background: var(--panel); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: var(--space-4) var(--space-4) var(--space-5); min-width: 0; }
+  .facet h3 { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-3); font-size: 13px; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-2); }
+  .facet h3::before { content: ""; width: 18px; height: 18px; flex: none; background: currentColor; -webkit-mask: var(--icon-task) center / contain no-repeat; mask: var(--icon-task) center / contain no-repeat; }
+  .facet-achieved { background: var(--accent-tint); border-color: var(--accent-line); }
+  .facet-achieved h3 { color: var(--accent); }
+  .facet-achieved h3::before { -webkit-mask-image: var(--icon-achieved); mask-image: var(--icon-achieved); }
+  .entry[data-remaining="open"] .facet-remaining { background: var(--open-tint); border-color: color-mix(in oklch, var(--open) 35%, var(--rule)); }
+  .entry[data-remaining="open"] .facet-remaining h3 { color: var(--open); }
+  .entry[data-remaining="open"] .facet-remaining h3::before { -webkit-mask-image: var(--icon-open); mask-image: var(--icon-open); }
+  .entry[data-remaining="none"] .facet-remaining h3::before { -webkit-mask-image: var(--icon-achieved); mask-image: var(--icon-achieved); }
+  .facet .technical { font-size: 15px; }
+  .facet .plain { font-size: 16.5px; }
+  @container (max-width: 820px) {
+    .facets { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* Visuals from visualization:visualization keep their light paper, so they sit on a plate in both themes. */
+  .visual { margin: var(--space-4) 0 0; }
+  .visual .plate { background: var(--plate); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: var(--space-3); overflow-x: auto; overscroll-behavior-x: contain; }
+  .visual svg { display: block; width: 100%; height: auto; min-width: 520px; }
+  .visual figcaption { font-size: 14px; color: var(--ink-2); margin-top: var(--space-2); }
+
+  .table-wrap { overflow-x: auto; margin: 0 0 var(--space-3); }
+  table { border-collapse: collapse; font-size: 14px; width: 100%; }
+  th, td { text-align: left; padding: 6px var(--space-2); border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-weight: 700; color: var(--ink-2); border-bottom-color: var(--rule-strong); }
+  td.num, th.num { text-align: right; }
+
+  .colophon { grid-column: 2; font-size: 14px; color: var(--ink-3); max-width: 72ch; }
+
+  @media (max-width: 1023px) {
+    .masthead-inner { grid-template-columns: minmax(0, 1fr); }
+    .page { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+    .entries, .colophon { grid-column: 1; }
+    .contents { position: static; max-height: none; overflow: visible; background: var(--sheet); border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: var(--space-2) var(--space-4) var(--space-3); }
+    .contents summary::after { content: " +"; }
+    .contents[open] summary::after { content: " \2212"; }
+  }
+  @media (max-width: 600px) {
+    .topbar-inner { padding: var(--space-2) var(--space-4); }
+    .brand span { display: none; }
+    .view-switch legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .segments label { min-height: 40px; padding: 0 var(--space-3); }
+    .masthead-inner { padding: var(--space-6) var(--space-4) var(--space-5); }
+    .masthead h1 { font-size: 34px; }
+    .lede { font-size: 17px; }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stats dd { font-size: 17px; }
+    .page { padding: var(--space-5) var(--space-4) var(--space-7); }
+    .entry { padding: var(--space-5) var(--space-4); }
+    .entry h2 { font-size: 23px; }
+    .subtitle { font-size: 17px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
+  }
+  @media print {
+    .topbar, .contents { display: none; }
+    body, .masthead { background: #fff; color: #000; } /* lint-ok: pure-bw - print ink on paper */
+    .page { display: block; padding: 0; }
+    .entry { box-shadow: none; border: 1px solid #ccc; break-inside: avoid-page; margin-bottom: 16px; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#top"><strong>{{PROJECT}}</strong><span>changelog</span></a>
+    <fieldset class="view-switch">
+      <legend>Read as</legend>
+      <div class="segments">
+        <input type="radio" name="view" id="view-plain" value="plain" checked><label for="view-plain">Plain</label>
+        <input type="radio" name="view" id="view-technical" value="technical"><label for="view-technical">Technical</label>
+      </div>
+    </fieldset>
+  </div>
+</header>
+
+<section class="masthead" id="top" aria-labelledby="project-name">
+  <div class="masthead-inner">
+    <div>
+      <p class="eyebrow">Changelog</p>
+      <h1 id="project-name">{{PROJECT}}</h1>
+      <p class="lede">What this project has achieved, newest first. Every update is written twice, plainly for anyone and in technical detail for engineers; switch between them at the top.</p>
+    </div>
+    <dl class="stats" data-stats hidden>
+      <div><dt>Entries</dt><dd data-stat="entries"></dd></div>
+      <div><dt>Since</dt><dd data-stat="since"></dd></div>
+      <div><dt>Last updated</dt><dd data-stat="updated"></dd></div>
+      <div><dt>Latest</dt><dd data-stat="latest"></dd></div>
+    </dl>
+  </div>
+</section>
+
+<main class="page">
+  <details class="contents" open>
+    <summary>Timeline <span data-entry-count></span></summary>
+    <nav aria-label="Changelog entries"><ol class="timeline" data-toc></ol></nav>
+  </details>
+
+  <div class="entries">
+    <section class="empty" aria-labelledby="empty-title">
+      <h2 id="empty-title">No entries yet</h2>
+      <p>The first report on this project's work will appear here. Each one says what the work set out to do, what it achieved and what remains.</p>
+    </section>
+    <!-- changelog:entries — insert each new entry directly below this line, so the newest is always first. -->
+  </div>
+
+  <p class="colophon">Entries record what was true when they were last updated. Only the newest entry is ever revised; older ones change only to correct a factual error, with a dated note saying so.</p>
+</main>
+
+<template id="entry-template">
+  <!-- One entry. Copy it below the changelog:entries marker and fill every slot.
+       id: YYYY-MM-DD-<slug>, dated the day the entry was first written (Sydney time).
+       data-remaining: "open" when Remaining lists anything, "none" when it says "Nothing remaining." -->
+  <article class="entry" id="YYYY-MM-DD-slug" data-remaining="open">
+    <header class="entry-head">
+      <p class="entry-date"><time datetime="YYYY-MM-DD">D Month YYYY</time></p>
+      <h2><a href="#YYYY-MM-DD-slug">The outcome, in ten words or fewer</a></h2>
+      <p class="subtitle">First sentence: what was achieved. Second sentence: what it means. Each 25 words or fewer, in words both readers understand.</p>
+      <p class="stamps">Written <time datetime="YYYY-MM-DDTHH:MM+11:00">D Mon YYYY HH:MM</time></p>
+      <!-- After an update the line reads:
+           Written <time …>27 Nov 2026 14:05</time> · updated <time …>27 Nov 16:40</time>, <time …>28 Nov 09:10</time> · last updated <time …>28 Nov 09:10</time> -->
+    </header>
+    <div class="facets">
+      <section class="facet facet-task" aria-label="Task">
+        <h3>Task</h3>
+        <div class="plain"><p>One sentence on what this work set out to do.</p></div>
+        <div class="technical"><p>One or two sentences naming the ticket, spec or branch.</p></div>
+      </section>
+      <section class="facet facet-achieved" aria-label="Achieved">
+        <h3>Achieved</h3>
+        <div class="plain"><p>What someone can now do, see or rely on that they could not before.</p></div>
+        <div class="technical"><p>What works now, with the numbers and the PR or commit.</p><p>How we know: the command, gate verdict or measurement, quoted short.</p></div>
+      </section>
+      <section class="facet facet-remaining" aria-label="Remaining">
+        <h3>Remaining</h3>
+        <div class="plain"><p>What is still to come, and anything waiting on the owner.</p></div>
+        <div class="technical"><ul><li>Each open item, blocked task, missing credential or decision.</li></ul></div>
+      </section>
+    </div>
+    <!-- Optional visual, full width below the columns. class="visual technical" or "visual plain"
+         shows it in one view only; class="visual" shows it in both.
+    <figure class="visual"><div class="plate">PASTE THE EXPORTED SVG HERE</div>
+      <figcaption>What it shows. <a href="docs/changelog/YYYY-MM-DD-slug.html">Open the full diagram</a></figcaption></figure> -->
+  </article>
+</template>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'changelog-view';
+  var radios = Array.prototype.slice.call(document.querySelectorAll('input[name="view"]'));
+
+  function setView(v, persist) {
+    if (v !== 'technical') v = 'plain';
+    root.dataset.view = v;
+    radios.forEach(function (r) { r.checked = r.value === v; });
+    if (!persist) return;
+    try { localStorage.setItem(KEY, v); } catch (e) { /* storage can be unavailable; the view still applies */ }
+    try {
+      var u = new URL(location.href);
+      if (v === 'plain') u.searchParams.delete('view'); else u.searchParams.set('view', v);
+      history.replaceState(null, '', u);
+    } catch (e) { /* some file:// contexts refuse replaceState; the view still applies */ }
+  }
+  setView(root.dataset.view, false);
+  radios.forEach(function (r) { r.addEventListener('change', function () { setView(r.value, true); }); });
+
+  var entries = Array.prototype.slice.call(document.querySelectorAll('.entries > article.entry'));
+  var toc = document.querySelector('[data-toc]');
+  var contents = document.querySelector('.contents');
+  document.querySelector('[data-entry-count]').textContent = entries.length ? '(' + entries.length + ')' : '';
+  if (!entries.length) contents.hidden = true;
+
+  function day(dt, opts) {
+    if (!/^\d{4}-\d{2}-\d{2}/.test(dt || '')) return '';
+    try { return new Date(dt.slice(0, 10) + 'T12:00:00').toLocaleDateString('en-AU', opts); } catch (e) { return ''; }
+  }
+
+  var month = '';
+  entries.forEach(function (entry) {
+    var title = entry.querySelector('h2');
+    var date = entry.querySelector('.entry-date time');
+    var dt = date ? date.getAttribute('datetime') : '';
+    if (entry.querySelectorAll('.stamps time').length > 1) {
+      var tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = 'Updated';
+      entry.querySelector('.entry-date').appendChild(tag);
+    }
+    var m = day(dt, { month: 'long', year: 'numeric' });
+    if (m && m !== month) {
+      month = m;
+      var mh = document.createElement('li');
+      mh.className = 'month';
+      mh.textContent = m;
+      toc.appendChild(mh);
+    }
+    var open = entry.dataset.remaining !== 'none';
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#' + entry.id;
+    var dot = document.createElement('span');
+    dot.className = 'dot' + (open ? '' : ' done');
+    dot.setAttribute('aria-hidden', 'true');
+    var meta = document.createElement('span');
+    meta.className = 'toc-meta';
+    meta.textContent = (day(dt, { day: 'numeric', month: 'short' }) || (date ? date.textContent : '')) + ' · ' + (open ? 'Work remaining' : 'Complete');
+    var t = document.createElement('span');
+    t.className = 'toc-title';
+    t.textContent = title ? title.textContent : entry.id;
+    a.appendChild(dot); a.appendChild(meta); a.appendChild(t);
+    li.appendChild(a);
+    toc.appendChild(li);
+  });
+
+  if (entries.length) {
+    var stats = document.querySelector('[data-stats]');
+    var set = function (k, v) { stats.querySelector('[data-stat="' + k + '"]').textContent = v; };
+    set('entries', String(entries.length));
+    var oldest = entries[entries.length - 1].querySelector('.entry-date time');
+    set('since', oldest ? day(oldest.getAttribute('datetime'), { day: 'numeric', month: 'short', year: 'numeric' }) : '');
+    var stamps = entries[0].querySelectorAll('.stamps time');
+    set('updated', stamps.length ? stamps[stamps.length - 1].textContent : '');
+    var latestOpen = entries[0].dataset.remaining !== 'none';
+    var latest = stats.querySelector('[data-stat="latest"]');
+    var sd = document.createElement('span');
+    sd.className = 'stat-dot' + (latestOpen ? '' : ' done');
+    sd.setAttribute('aria-hidden', 'true');
+    latest.appendChild(sd);
+    latest.appendChild(document.createTextNode(latestOpen ? 'Work remaining' : 'Complete'));
+    stats.hidden = false;
+  }
+
+  var wide = window.matchMedia('(min-width: 1024px)');
+  function syncContents() { if (wide.matches) contents.open = true; }
+  syncContents();
+  wide.addEventListener('change', syncContents);
+
+  if ('IntersectionObserver' in window && entries.length) {
+    var links = {};
+    toc.querySelectorAll('a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+    var io = new IntersectionObserver(function (seen) {
+      seen.forEach(function (s) {
+        if (!s.isIntersecting) return;
+        Object.keys(links).forEach(function (k) { links[k].removeAttribute('aria-current'); });
+        if (links[s.target.id]) links[s.target.id].setAttribute('aria-current', 'true');
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    entries.forEach(function (e) { io.observe(e); });
+  }
+})();
+</script>
+</body>
+</html>

@@ -655,6 +655,17 @@
       "category": "development"
     },
     {
+      "name": "changelog",
+      "description": "Keep each project's progress record as a reverse-chronological CHANGELOG.html page instead of a status message that scrolls away. Every entry has a one-line title, a two-sentence subtitle, written and updated timestamps, and Task, Achieved and Remaining told twice: a plain version for anyone and a technical version with the PR, the counts and the command that proved it, behind a Plain / Technical switch, laid out as three columns on desktop. Small progress updates the newest entry rather than adding a near-duplicate. Diagrams come from visualization:visualization. A bundled checker fails the page on structural defects (14 of 14 self-test rules fire), and the page is shown by reloading its open Chrome tab rather than stacking duplicates. Replaces status-update for reporting.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Fledgeling",
+        "email": "lukerhodes27@gmail.com"
+      },
+      "source": "./plugins/changelog",
+      "category": "development"
+    },
+    {
       "name": "create-story",
       "description": "Write long-form fiction whose paragraphs connect. A story bible, a beat sheet and a per-scene exit state carry the story between scenes; a script assembles the drafter's whole context (bible sections, entry state, beat card, the last two paragraphs) so the window cannot widen; a transition audit fails a scene with an orphan paragraph; and a fresh-context critic reads what the drafter cannot. Built from three deep-research reports on why models keep the plot and lose the thread.",
       "version": "1.1.1",

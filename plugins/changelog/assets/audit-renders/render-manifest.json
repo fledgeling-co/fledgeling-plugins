@@ -1,0 +1,47 @@
+{
+  "takes": {
+    "engineA-hand": {
+      "source": "icon-engineA-hand.svg",
+      "kind": "svg",
+      "source_sha256": "88302e0ab39926cd3e3a9196f45ce97718c019daa3e097909a0f5f17c49287c9",
+      "source_mtime": 1795784684.749876,
+      "rendered_at": 1795784685.350413
+    },
+    "engineB-9a0aa0": {
+      "source": "icon-engineB-9a0aa0.svg",
+      "kind": "svg",
+      "source_sha256": "ee72a5f592c47cf0160e38437fec7e8da37505e540dfccac38c4a50e08da639e",
+      "source_mtime": 1795784586.7275133,
+      "rendered_at": 1795784685.525943
+    },
+    "engineC-66454c-masked": {
+      "source": "icon-engineC-66454c-masked.png",
+      "kind": "png",
+      "source_sha256": "585ff50b0149547739b62c2e74ee36f2a6fa2e52c94cfbce1efd8c41630672ad",
+      "source_mtime": 1795784636.9884806,
+      "rendered_at": 1795784685.692545
+    },
+    "master": {
+      "source": "icon.png",
+      "kind": "png",
+      "source_sha256": "585ff50b0149547739b62c2e74ee36f2a6fa2e52c94cfbce1efd8c41630672ad",
+      "source_mtime": 1795784637.0757434,
+      "rendered_at": 1795784685.859526
+    }
+  },
+  "sizes": [
+    1024,
+    256,
+    128,
+    96,
+    64,
+    32
+  ],
+  "display": {
+    "256": 128,
+    "128": 64,
+    "96": 48,
+    "64": 32,
+    "32": 16
+  }
+}

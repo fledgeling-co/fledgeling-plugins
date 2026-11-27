@@ -451,6 +451,14 @@ A status update in chat is read once and then scrolls away. This writes it as tw
 
 <br clear="left" />
 
+<a href="plugins/changelog/README.md"><img src="plugins/changelog/assets/icon-256.png" align="left" width="110" alt="" /></a>
+
+### [changelog](plugins/changelog/README.md)
+
+A status update in chat scrolls away and a status page only shows today. This keeps one page per project, newest first, where every entry says what the work set out to do, what it achieved and what's left, told twice: plainly for anyone and technically for engineers, with a switch between them. Small progress updates the newest entry, diagrams come from visualization, and the page reloads in the Chrome tab you already have open.
+
+<br clear="left" />
+
 <a href="plugins/stocktake/README.md"><img src="plugins/stocktake/assets/icon-256.png" align="left" width="110" alt="" /></a>
 
 ### [stocktake](plugins/stocktake/README.md) · **Uses multiple models**
