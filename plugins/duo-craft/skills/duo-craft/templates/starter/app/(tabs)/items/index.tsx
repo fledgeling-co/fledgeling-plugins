@@ -52,6 +52,7 @@ function EmbeddedItem({ id }: { id: string }) {
 export default function ItemsScreen() {
   return (
     <DetailPaneLayout
+      handoffTab="items"
       hrefFor={itemHref}
       defaultId={ITEMS[0]?.id ?? null}
       renderDetail={id => (id ? <EmbeddedItem key={id} id={id} /> : <View />)}

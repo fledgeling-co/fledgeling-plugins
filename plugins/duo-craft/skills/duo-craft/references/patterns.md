@@ -51,8 +51,14 @@ What made it work in a real app:
 - **Closing the device on a chosen item pushes it full screen.** State survives the fold; a reader
   should not land back on the list. (`DetailPaneLayout` does this; its test fails without it.)
 - **Each pane gets its own width and its own outer insets.** `PaneWidthContext` makes `useLayout`
-  inside the left pane read 462pt, so the list lays out as the phone screen it is. The right pane
-  stops at the side bar instead of padding for it, and neither pane pads for the fold.
+  inside the left pane read 462pt, so the list lays out as the phone screen it is. Neither pane pads
+  for the fold. The right pane's background runs under the side bar and its content stops before it:
+  versions before 0.7.0 gave that pane a margin, which left the tab host's grey in the 84pt under the
+  bar on every split tab (Egress, 28 November 2026).
+- **Each pane keeps a content margin beside the divider.** In Splice, list margins were measured from
+  the window, so each pane's inner edge got none and the cards ran into the divider ("all of the open
+  screens have no margin beside their content", 28 November 2026). Overriding every margin pushed the
+  detail under the side bar; padding only each pane's inner edge fixed it.
 - **Make detail screens embeddable.** Split the route file into the route (`useLocalSearchParams`)
   and a component taking `{ id }`, and set its options through `RouteOptions` (pattern 11), never
   `<Stack.Screen options>`. `Stack.Toolbar` items inside the embedded screen land in the tab's bar —
@@ -78,11 +84,21 @@ What made it work in a real app:
 - **Opening keeps what is on screen.** The owner's rule (Lookout, 28 November 2026): opening the Duo
   shows the list on the left and whatever was on screen on the right, so a detail open on the closed
   display stays open as the right pane; a list on the closed display opens as the list beside its
-  default detail; closing keeps the detail. They asked for it to be "a native function", and SwiftUI's
-  `NavigationSplitView` with a selection behaves this way in both directions. `DetailPaneLayout` does
-  the closing half (below). Opening with a detail pushed on top of the list does not yet return it to
-  the right pane in React Native: pop the pushed detail and select its id when `split` turns true, and
-  report that pose. Some screens are exceptions, such as a full-bleed viewer; decide per screen.
+  default detail; closing keeps the detail. They asked for it to be "a native function". It applies
+  to every tab that drills down, Settings included: the owner reported the same failure twice that
+  afternoon, in Lookout and in Egress, on a Settings page that opened full screen because Settings was
+  a plain stack. SwiftUI's `NavigationSplitView` with a selection does both directions (seen in Lookout
+  on the Duo simulator). In React Native, `DetailPaneLayout` does the closing half (below), and
+  `components/FoldHandoff.tsx` with `lib/foldHandoff.ts` does the opening half: render
+  `<FoldHandoff routes={{ 'item/[id]': { tab: 'items' } }} initialTab="items" />` once in the root
+  layout and give the list's `DetailPaneLayout` `handoffTab="items"`. On opening it pops a detail
+  pushed directly over its own tab's list and hands its id to that pane. A detail pushed from another
+  tab stays pushed, because the list beside it would not be the one it came from, and so does a screen
+  pushed on top of a detail. expo-router wraps the root stack in a `__root` slot, so the handoff looks
+  for the tabs one level down; Egress's first version looked only at the top, passed its hand-written
+  tests, and did nothing on the device. Built in Egress and seen on the Duo simulator: Settings ›
+  Connection opened closed came back beside the Settings list on unfolding. Some screens are
+  exceptions, such as a full-bleed viewer; decide per screen.
 - **Selecting a row swaps the detail in place.** The sidebar keeps its scroll offset and shows the
   selection as a pill (Settings, Shortcuts, Journal; D22).
 - **The alternative to a default selection is a labelled placeholder** ("No Event Selected",
@@ -362,6 +378,8 @@ and the bar, and nothing in the app has to draw it.
   reported dark while iOS drew the bar light (12 November 2026). The fix calls
   `Appearance.setColorScheme('light' | 'dark')` on every theme change and dropped the "System"
   choice, so the bar, status items and sheets follow the app (SwiftUI: `.preferredColorScheme`).
+  Check every screen in dark mode too: in Egress a hard-coded light colour on a navigation bar left a
+  pale band, one of "a lot of white backgrounds in dark mode" (28 November 2026).
 - **Full-bleed media hides its chrome on a tap.** Closed, a photo or video viewer with no way to hide
   its buttons, or that stops short of the screen, was sent back; its caption and controls overlay the
   picture rather than shrinking it (28 October 2026).

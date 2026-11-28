@@ -59,12 +59,19 @@ open -a "<Xcode 27.1>/Contents/Applications/DeviceHub.app"
 
 Every failed "add device" attempt still creates a simulator, so clean up duplicates afterwards.
 
-Device Hub refuses Accessibility scripting (System Events cannot read its menu bar), and proctor
-cannot attach to it: it lists Device Hub with pid -1 and no windows, and its synthetic clicks re-front
-the app it is attached to first. Set poses with synthetic clicks instead. The owner has asked runs to
-do this themselves rather than hand each pose back ("You can operate the app yourself in future",
-24 November 2026), so say in one line that you are taking the mouse, then do it. What worked on
-Xcode 27.1:
+Set poses yourself. The owner has asked runs to do this rather than hand each pose back ("You can
+operate the app yourself in future", 24 November 2026), and when a run on 28 November reported an
+unfold as unchecked because Device Hub "couldn't be driven from here", the owner answered that it had
+complete control of the computer and proctor. Say in one line that you are taking the mouse, then do
+it. Two routes work on Xcode 27.1:
+
+- **proctor** (`proctor:proctor`): on 28 November it brought Device Hub forward, opened its menus
+  through accessibility, and clicked the device list and the device image, which walked the closed
+  Duo to a pushed screen before the unfold. On 24 November it could not attach (Device Hub listed with
+  pid -1 and no windows), so try it first and fall back when it refuses. Its session can be held by
+  another process ("MCP session belongs to another process") and Device Hub's windows can sit on
+  another desktop Space; bring the window forward before clicking.
+- **The click tool**, when proctor is unavailable:
 
 ```bash
 swiftc -O scripts/click.swift -o <scratch>/click     # from this skill's directory
@@ -78,8 +85,9 @@ screencapture -x -o -l <windowid> dh.png              # Device Hub's window; rea
 - Posting the click needs Accessibility permission. When the agent's process lacks it, launch the
   click through Terminal, which usually holds it: write the activation and the click into a
   `.command` file and `open -a Terminal` that file. Activate Device Hub first
-  (`open -a "<Xcode 27.1>/Contents/Applications/DeviceHub.app"`), or the click lands on whatever is
-  in front.
+  (`open -a "<Xcode 27.1>/Contents/Applications/DeviceHub.app"`), and read the window order right
+  before each click: on 28 November two or three clicks meant for the simulator landed in another
+  app's window that had come to the front.
 - **Other sessions may be using Device Hub.** Open a window of your own (File › New Window), choose
   your simulator in it, and before each click check that the window in front is yours and its title
   names your simulator. Close it with File › Close when you finish, and leave the other windows as

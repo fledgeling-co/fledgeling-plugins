@@ -21,9 +21,10 @@ Where each rule in this skill comes from. Six kinds of source, marked in the tab
   read from 45 Claude Code sessions that invoked this skill between 11 October and 28 November 2026,
   together with the fix that cleared each report (read from the session and the app's code). For
   0.6.0, the messages sent between 04:47 and 08:47 UTC on 28 November in the 6 sessions that had run
-  it, 5 of them among the 45. Dated in each row.
+  it, 5 of them among the 45; for 0.7.0, the iPhone-app messages sent from 08:47 to 14:18 UTC that
+  day in 5 of those sessions. Dated in each row.
 
-## Owner reports on a device (0.5.0 and 0.6.0)
+## Owner reports on a device (0.5.0 to 0.7.0)
 
 | Rule | Source |
 |---|---|
@@ -51,6 +52,13 @@ Where each rule in this skill comes from. Six kinds of source, marked in the tab
 | A tool or form screen puts its controls left and its result right when open | [owner] Tumbler, 28 Nov: the generator left the right side nearly empty ("an odd use of space") |
 | An action inside a screen pushes or presents, never switches tabs | [owner] Bullettime, 28 Nov ("Measure against"); two more rows fixed in the same pass |
 | Own Device Hub window when others share it; Maestro cannot tap the inner display | [owner] Tumbler and Lookout runs, 28 Nov |
+| React Native opening half: `FoldHandoff` pops a detail pushed over its own tab's list and hands it to that pane; tabs found under `__root` | [owner] Egress, 28 Nov (commits `8bbdc0085`, `4a96c4218`): seen on the Duo simulator, Settings › Connection came back beside the Settings list. Ported with a route table passed in; 37/37 template tests pass on Expo SDK 58, including Egress's router-backed test |
+| Every tab that drills down is a split, Settings included | [owner] the same report in Lookout and Egress, 28 Nov; Lookout's fix seen on the Duo simulator in both directions |
+| The right pane's background runs under the side bar | [owner] Egress, 28 Nov (`61adf5e49`): the template's margin left the tab host's grey under the bar; now a test |
+| Each pane pads its inner edge | [owner] Splice, 28 Nov: cards ran into the divider on every open screen |
+| SwiftUI split rows are `NavigationLink` rows; no split view inside a pane | [owner] Lookout, 28 Nov: no chevrons closed on plain selectable rows; an embedded split removed the back button |
+| Dark mode on every screen | [owner] Egress, 28 Nov: "a lot of white backgrounds in dark mode", one a hard-coded light navigation bar |
+| proctor can drive Device Hub; check the window order before raw clicks | [owner] Egress, 28 Nov: the owner pointed the run at proctor, which opened Device Hub's menus and walked the app; the run finished the unfold with proctor and the click tool and saw the result. Stray clicks landed in another app's window |
 | SwiftUI: tile the panes yourself at 669pt portrait; clear a default selection when compact | Tumbler's `TwoPane` and `FoldSelection`, 27 Nov; `templates/swiftui/Fold.swift` adapted from Rex Remote's and typechecked against the iOS 27.1 SDK at deployment targets 17.0 and 27.1 |
 
 ## The platform
