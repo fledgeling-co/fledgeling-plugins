@@ -6,7 +6,7 @@ The skill was built in one session that went on designing the page, writing the 
 
 ## What was verified mechanically
 
-**The checker can fail.** `changelog.py self-test` takes the bundled example page, breaks it in 14 specific ways, and confirms each break produces a failure. It also confirms a freshly created page passes with `--allow-empty`.
+**The checker can fail.** `changelog.py self-test` takes the bundled example page, breaks it in 17 specific ways, and confirms each break produces a failure. It also confirms a freshly created page passes with `--allow-empty`.
 
 ```
 $ python3 skills/changelog/scripts/changelog.py self-test
@@ -25,10 +25,13 @@ $ python3 skills/changelog/scripts/changelog.py self-test
   fires    entry above the marker
   fires    bad id
   fires    no entries
-self-test: 14 of 14 checks fired; bundled example passes with 3 entries
+  fires    a paragraph instead of bullets
+  fires    a fifteen-word bullet
+  fires    five bullets
+self-test: 17 of 17 checks fired; bundled example passes with 3 entries
 ```
 
-The first version of that run had 13 of 14. The duplicate-id rule only compared ids across different diagrams, so a duplicate inside one diagram passed. It now checks every id on the page.
+In 1.1.0 the three sections became short bullets, and three rules were added to hold them there. The first version of the run had 13 of 14. The duplicate-id rule only compared ids across different diagrams, so a duplicate inside one diagram passed. It now checks every id on the page.
 
 **The page finds the main checkout.** `changelog.py path` run inside a linked git worktree returned the main checkout's root, and `init` created the page there rather than in the worktree.
 

@@ -31,6 +31,8 @@ MARKER = "<!-- changelog:entries"
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
 FACETS = ["Task", "Achieved", "Remaining"]
 NOTHING = "Nothing remaining."
+MAX_BULLETS = 4
+MAX_BULLET_WORDS = 14
 PLACEHOLDERS = ["YYYY-MM-DD", "D Month YYYY", "D Mon YYYY", "PASTE THE EXPORTED SVG", "The outcome, in ten words or fewer", "{{PROJECT}}"]
 
 
@@ -267,6 +269,20 @@ def check_text(text, allow_empty=False):
                 body = squash(divs[0].text())
                 if not body:
                     errors.append(f"{where} {label}: the {kind} version is empty")
+                # Each version is a short bullet list, so the page reads at a glance.
+                lists = divs[0].kids("ul")
+                stray = [c for c in divs[0].kids() if c.tag != "ul"]
+                loose = squash("".join(c for c in divs[0].children if isinstance(c, str)))
+                if len(lists) != 1 or stray or loose:
+                    errors.append(f"{where} {label}: the {kind} version must be one `<ul>` of short bullets and nothing else")
+                else:
+                    items = lists[0].kids("li")
+                    if not 1 <= len(items) <= MAX_BULLETS:
+                        errors.append(f"{where} {label}: the {kind} version has {len(items)} bullets; use 1 to {MAX_BULLETS}")
+                    for n, li in enumerate(items, 1):
+                        w = len(words(li.text()))
+                        if w > MAX_BULLET_WORDS:
+                            errors.append(f"{where} {label}: {kind} bullet {n} runs {w} words; the limit is {MAX_BULLET_WORDS}")
                 if kind == "plain":
                     if divs[0].find("code") or divs[0].find("pre"):
                         errors.append(f"{where} {label}: the plain version contains code; that belongs in the technical version")
@@ -403,9 +419,9 @@ def cmd_self_test(_args):
     mutations = [
         ("three-sentence subtitle", lambda t: t.replace("restarts; they wait in a queue and retry for up to a day.", "restarts. They wait in a queue. They retry for up to a day.", 1), "sentence(s)"),
         ("eleven-word title", lambda t: t.replace(">Failed deliveries now retry after a server restart<", ">Failed webhook deliveries now retry automatically after every single server restart<", 1), "the limit is 10"),
-        ("code in the plain version", lambda t: t.replace("<div class=\"plain\"><p>Stop losing webhook", "<div class=\"plain\"><p><code>x</code> Stop losing webhook", 1), "contains code"),
-        ("ticket number in the plain version", lambda t: t.replace("<div class=\"plain\"><p>Stop losing webhook", "<div class=\"plain\"><p>RELAY-212: Stop losing webhook", 1), "ticket number"),
-        ("open entry saying nothing remains", lambda t: t.replace("We still need to prove it holds at peak traffic, and to switch it on for customers. Switching it on needs your go-ahead.", NOTHING, 1), "data-remaining=\"open\""),
+        ("code in the plain version", lambda t: t.replace("<li>Stop losing webhooks when the relay restarts</li>", "<li><code>x</code> Stop losing webhooks</li>", 1), "contains code"),
+        ("ticket number in the plain version", lambda t: t.replace("<li>Stop losing webhooks when the relay restarts</li>", "<li>RELAY-212: stop losing webhooks</li>", 1), "ticket number"),
+        ("open entry saying nothing remains", lambda t: t.replace("<ul><li>Prove it holds at peak traffic</li><li>Switch it on for customers: needs your go-ahead</li></ul>", "<ul><li>" + NOTHING + "</li></ul>", 1), "data-remaining=\"open\""),
         ("missing facet", lambda t: t.replace("<h3>Task</h3>", "<h3>Goal</h3>", 1), "Task, Achieved, Remaining"),
         ("oldest entry first", lambda t: t.replace('id="2026-11-24-signing-keys-rotate"', 'id="2026-11-29-signing-keys-rotate"', 1).replace('<time datetime="2026-11-24">', '<time datetime="2026-11-29">', 1).replace('href="#2026-11-24-signing-keys-rotate"', 'href="#2026-11-29-signing-keys-rotate"', 1), "newest first"),
         ("timestamp without an offset", lambda t: t.replace('datetime="2026-11-24T11:20+11:00"', 'datetime="2026-11-24T11:20"', 1), "UTC offset"),
@@ -415,6 +431,9 @@ def cmd_self_test(_args):
         ("entry above the marker", _move_marker_below_first, "above the changelog:entries marker"),
         ("bad id", lambda t: t.replace('id="2026-11-24-signing-keys-rotate"', 'id="Signing Keys"', 1), "id must be"),
         ("no entries", lambda t: _strip_entries(t), "0 entries examined"),
+        ("a paragraph instead of bullets", lambda t: t.replace('<div class="plain"><ul><li>Stop losing webhooks when the relay restarts</li></ul></div>', '<div class="plain"><p>Stop losing webhooks when the relay restarts.</p></div>', 1), "one `<ul>` of short bullets"),
+        ("a fifteen-word bullet", lambda t: t.replace("<li>Prove it holds at peak traffic</li>", "<li>Prove that it holds up properly at peak traffic on the busiest day of the whole year</li>", 1), "the limit is 14"),
+        ("five bullets", lambda t: t.replace("<li>Any failure opens to show why</li>", "<li>a</li><li>b</li><li>c</li><li>d</li>", 1), "use 1 to 4"),
     ]
     failed = 0
     fresh = TEMPLATE.read_text(encoding="utf-8").replace("{{PROJECT}}", "self-test")

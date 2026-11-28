@@ -170,6 +170,11 @@
   .entry[data-remaining="none"] .facet-remaining h3::before { -webkit-mask-image: var(--icon-achieved); mask-image: var(--icon-achieved); }
   .facet .technical { font-size: 15px; }
   .facet .plain { font-size: 16.5px; }
+  .facet ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+  .facet li { position: relative; margin: 0; padding-left: 18px; line-height: 1.45; }
+  .facet li::before { content: ""; position: absolute; left: 2px; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.45; }
+  .facet-achieved li::before { background: var(--accent); opacity: 0.9; }
+  .entry[data-remaining="open"] .facet-remaining li::before { background: var(--open); opacity: 0.9; }
   @container (max-width: 820px) {
     .facets { grid-template-columns: minmax(0, 1fr); }
   }
@@ -274,18 +279,18 @@
     <div class="facets">
     <section class="facet facet-task" aria-label="Task">
       <h3>Task</h3>
-      <div class="plain"><p>Stop losing webhook deliveries that fail while the relay is restarting.</p></div>
-      <div class="technical"><p>RELAY-212: move the retry schedule from process memory into a durable queue, on branch <code>feat/durable-retries</code>.</p></div>
+      <div class="plain"><ul><li>Stop losing webhooks when the relay restarts</li></ul></div>
+      <div class="technical"><ul><li>RELAY-212: move retries into a durable queue</li><li>Branch <code>feat/durable-retries</code></li></ul></div>
     </section>
     <section class="facet facet-achieved" aria-label="Achieved">
       <h3>Achieved</h3>
-      <div class="plain"><p>A failed delivery is now kept and retried for up to 24 hours, even if the relay restarts in between. In a test with 500 failed deliveries and two restarts, every one arrived.</p></div>
-      <div class="technical"><p>Retries persist in Postgres (<code>delivery_attempts</code>, 1 migration) with exponential backoff capped at 24 h. 14 of 14 retry tasks merged in <a href="#">#418</a>; the worker resumes pending attempts on boot.</p><p>How we know: <code>pnpm test:integration --grep retry</code> → 38 passed; a soak run killed the worker twice mid-backlog and delivered 500 of 500. The load test at 2k req/s did not run.</p></div>
+      <div class="plain"><ul><li>Failed deliveries are kept and retried for 24 hours</li><li>500 of 500 arrived through two restarts</li></ul></div>
+      <div class="technical"><ul><li>Retries persist in Postgres <code>delivery_attempts</code></li><li>14 of 14 tasks merged in <a href="#">#418</a></li><li>Proof: <code>pnpm test:integration --grep retry</code> → 38 passed</li><li>Load test at 2k req/s not run</li></ul></div>
     </section>
     <section class="facet facet-remaining" aria-label="Remaining">
       <h3>Remaining</h3>
-      <div class="plain"><p>We still need to prove it holds at peak traffic, and to switch it on for customers. Switching it on needs your go-ahead.</p></div>
-      <div class="technical"><ul><li>Load test at 2k req/s: not run, needs the staging cluster.</li><li>Feature flag <code>durable_retries</code> is off in production; waiting on the owner to enable it.</li></ul></div>
+      <div class="plain"><ul><li>Prove it holds at peak traffic</li><li>Switch it on for customers: needs your go-ahead</li></ul></div>
+      <div class="technical"><ul><li>Load test at 2k req/s: needs the staging cluster</li><li>Flag <code>durable_retries</code> off in production; waiting on owner</li></ul></div>
     </section>
     </div>
     <figure class="visual"><div class="plate"><svg width="720" height="200" viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ex-retry-title ex-retry-desc"><title id="ex-retry-title">Where a failed delivery goes now</title><desc id="ex-retry-desc">A failed delivery is written to a durable queue, which the worker reads on boot and retries until it succeeds or 24 hours pass.</desc><defs><marker id="ex-retry-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker><marker id="ex-retry-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker></defs><rect width="100%" height="100%" fill="#f5f5f5"/><rect x="24" y="70" width="150" height="60" rx="6" fill="#ffffff" stroke="#bfc0c0"/><text x="99" y="98" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="15" fill="#2d3142">Delivery fails</text><text x="99" y="117" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="12" fill="#4f5d75">customer endpoint 5xx</text><rect x="284" y="62" width="160" height="76" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36"/><text x="364" y="95" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="15" fill="#2d3142">Durable queue</text><text x="364" y="114" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="12" fill="#4f5d75">survives a restart</text><rect x="548" y="70" width="150" height="60" rx="6" fill="#ffffff" stroke="#bfc0c0"/><text x="623" y="98" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="15" fill="#2d3142">Retry</text><text x="623" y="117" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="12" fill="#4f5d75">backoff, up to 24 h</text><line x1="176" y1="100" x2="280" y2="100" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#ex-retry-arrow-accent)"/><line x1="446" y1="100" x2="544" y2="100" stroke="#4f5d75" stroke-width="1.4" marker-end="url(#ex-retry-arrow)"/><path d="M623 132 C623 175, 364 180, 364 142" fill="none" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#ex-retry-arrow)"/><text x="494" y="186" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="12" fill="#4f5d75">fails again: back in the queue</text></svg></div><figcaption>Where a failed delivery goes now. <a href="#">Open the full diagram</a></figcaption></figure>
@@ -301,18 +306,18 @@
     <div class="facets">
     <section class="facet facet-task" aria-label="Task">
       <h3>Task</h3>
-      <div class="plain"><p>Let customers change their signing key without contacting us.</p></div>
-      <div class="technical"><p>RELAY-198: self-serve key rotation with a dual-signature overlap window.</p></div>
+      <div class="plain"><ul><li>Let customers change their signing key themselves</li></ul></div>
+      <div class="technical"><ul><li>RELAY-198: self-serve rotation with a 72 h overlap</li></ul></div>
     </section>
     <section class="facet facet-achieved" aria-label="Achieved">
       <h3>Achieved</h3>
-      <div class="plain"><p>A new "Rotate key" button in settings replaces the key in one step, and both keys are accepted for three days. Support handled 9 rotation requests last month; that number should now be zero.</p></div>
-      <div class="technical"><p>Merged in <a href="#">#402</a>. Deliveries carry both <code>Signature-V1</code> headers during the 72 h overlap.</p><div class="table-wrap"><table><thead><tr><th>Check</th><th class="num">Result</th></tr></thead><tbody><tr><td>Unit tests</td><td class="num">112 / 112</td></tr><tr><td>E2E rotation flow</td><td class="num">6 / 6</td></tr><tr><td>Old-key verification after 72 h</td><td class="num">rejected</td></tr></tbody></table></div></div>
+      <div class="plain"><ul><li>One "Rotate key" button in settings</li><li>Old and new keys both work for three days</li><li>Support handled 9 such requests last month</li></ul></div>
+      <div class="technical"><ul><li>Merged in <a href="#">#402</a></li><li>Both <code>Signature-V1</code> headers sent during the overlap</li><li>Proof: unit 112/112, E2E 6/6, old key rejected after 72 h</li></ul></div>
     </section>
     <section class="facet facet-remaining" aria-label="Remaining">
       <h3>Remaining</h3>
-      <div class="plain"><p>Nothing remaining.</p></div>
-      <div class="technical"><p>Nothing remaining.</p></div>
+      <div class="plain"><ul><li>Nothing remaining.</li></ul></div>
+      <div class="technical"><ul><li>Nothing remaining.</li></ul></div>
     </section>
     </div>
   </article>
@@ -327,18 +332,18 @@
     <div class="facets">
     <section class="facet facet-task" aria-label="Task">
       <h3>Task</h3>
-      <div class="plain"><p>Give customers a simple view of whether their webhooks are arriving.</p></div>
-      <div class="technical"><p>RELAY-176: a delivery-health panel on the dashboard, backed by a 24 h rollup.</p></div>
+      <div class="plain"><ul><li>Show customers whether their webhooks are arriving</li></ul></div>
+      <div class="technical"><ul><li>RELAY-176: delivery-health panel on a 24 h rollup</li></ul></div>
     </section>
     <section class="facet facet-achieved" aria-label="Achieved">
       <h3>Achieved</h3>
-      <div class="plain"><p>Each customer sees three numbers for the last day (arrived, failed, still retrying) and can open any failure to see why it failed.</p></div>
-      <div class="technical"><p>Hourly rollup into <code>delivery_health_hourly</code>; panel shipped in <a href="#">#371</a>. Query p95 is 38 ms on the largest tenant.</p><p>How we know: <code>pnpm test:e2e dashboard</code> → 21 passed; p95 measured over 1,000 loads on staging.</p></div>
+      <div class="plain"><ul><li>Arrived, failed and retrying counts for the last day</li><li>Any failure opens to show why</li></ul></div>
+      <div class="technical"><ul><li>Hourly rollup into <code>delivery_health_hourly</code>; shipped in <a href="#">#371</a></li><li>Query p95 38 ms on the largest tenant</li><li>Proof: <code>pnpm test:e2e dashboard</code> → 21 passed</li></ul></div>
     </section>
     <section class="facet facet-remaining" aria-label="Remaining">
       <h3>Remaining</h3>
-      <div class="plain"><p>Nothing remaining.</p></div>
-      <div class="technical"><p>Nothing remaining.</p></div>
+      <div class="plain"><ul><li>Nothing remaining.</li></ul></div>
+      <div class="technical"><ul><li>Nothing remaining.</li></ul></div>
     </section>
     </div>
   </article>
@@ -363,18 +368,18 @@
     <div class="facets">
       <section class="facet facet-task" aria-label="Task">
         <h3>Task</h3>
-        <div class="plain"><p>One sentence on what this work set out to do.</p></div>
-        <div class="technical"><p>One or two sentences naming the ticket, spec or branch.</p></div>
+        <div class="plain"><ul><li>What this work set out to do</li></ul></div>
+        <div class="technical"><ul><li>Ticket, spec or branch</li></ul></div>
       </section>
       <section class="facet facet-achieved" aria-label="Achieved">
         <h3>Achieved</h3>
-        <div class="plain"><p>What someone can now do, see or rely on that they could not before.</p></div>
-        <div class="technical"><p>What works now, with the numbers and the PR or commit.</p><p>How we know: the command, gate verdict or measurement, quoted short.</p></div>
+        <div class="plain"><ul><li>What someone can now do, see or rely on</li></ul></div>
+        <div class="technical"><ul><li>What works now, with the number and PR</li><li>Proof: the command and its result</li></ul></div>
       </section>
       <section class="facet facet-remaining" aria-label="Remaining">
         <h3>Remaining</h3>
-        <div class="plain"><p>What is still to come, and anything waiting on the owner.</p></div>
-        <div class="technical"><ul><li>Each open item, blocked task, missing credential or decision.</li></ul></div>
+        <div class="plain"><ul><li>What is still to come, or waiting on you</li></ul></div>
+        <div class="technical"><ul><li>Each open item and what it waits on</li></ul></div>
       </section>
     </div>
     <!-- Optional visual, full width below the columns. class="visual technical" or "visual plain"

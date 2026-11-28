@@ -170,6 +170,11 @@
   .entry[data-remaining="none"] .facet-remaining h3::before { -webkit-mask-image: var(--icon-achieved); mask-image: var(--icon-achieved); }
   .facet .technical { font-size: 15px; }
   .facet .plain { font-size: 16.5px; }
+  .facet ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+  .facet li { position: relative; margin: 0; padding-left: 18px; line-height: 1.45; }
+  .facet li::before { content: ""; position: absolute; left: 2px; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.45; }
+  .facet-achieved li::before { background: var(--accent); opacity: 0.9; }
+  .entry[data-remaining="open"] .facet-remaining li::before { background: var(--open); opacity: 0.9; }
   @container (max-width: 820px) {
     .facets { grid-template-columns: minmax(0, 1fr); }
   }
@@ -285,18 +290,18 @@
     <div class="facets">
       <section class="facet facet-task" aria-label="Task">
         <h3>Task</h3>
-        <div class="plain"><p>One sentence on what this work set out to do.</p></div>
-        <div class="technical"><p>One or two sentences naming the ticket, spec or branch.</p></div>
+        <div class="plain"><ul><li>What this work set out to do</li></ul></div>
+        <div class="technical"><ul><li>Ticket, spec or branch</li></ul></div>
       </section>
       <section class="facet facet-achieved" aria-label="Achieved">
         <h3>Achieved</h3>
-        <div class="plain"><p>What someone can now do, see or rely on that they could not before.</p></div>
-        <div class="technical"><p>What works now, with the numbers and the PR or commit.</p><p>How we know: the command, gate verdict or measurement, quoted short.</p></div>
+        <div class="plain"><ul><li>What someone can now do, see or rely on</li></ul></div>
+        <div class="technical"><ul><li>What works now, with the number and PR</li><li>Proof: the command and its result</li></ul></div>
       </section>
       <section class="facet facet-remaining" aria-label="Remaining">
         <h3>Remaining</h3>
-        <div class="plain"><p>What is still to come, and anything waiting on the owner.</p></div>
-        <div class="technical"><ul><li>Each open item, blocked task, missing credential or decision.</li></ul></div>
+        <div class="plain"><ul><li>What is still to come, or waiting on you</li></ul></div>
+        <div class="technical"><ul><li>Each open item and what it waits on</li></ul></div>
       </section>
     </div>
     <!-- Optional visual, full width below the columns. class="visual technical" or "visual plain"

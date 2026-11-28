@@ -14,29 +14,33 @@ Exactly two sentences of 25 words or fewer each. The first says what was achieve
 
 The second sentence is the one most often skipped, and it is the one that tells a non-technical reader why they should care.
 
-## Task
+## Task, Achieved and Remaining are bullets
+
+The owner reads these at a glance, so each version is one `<ul>` of 1 to 4 bullets, each 14 words or fewer. `changelog.py check` enforces both limits. A bullet is a fragment that carries its own subject and number, not a sentence chopped in half: "500 of 500 arrived through two restarts", not "and every one arrived". The story belongs in the title and subtitle; the bullets are the facts.
+
+### Task
 
 What this piece of work set out to do, before it started.
 
-- **Plain**, 1 sentence: the problem in the reader's terms. "Stop losing webhook deliveries that fail while the relay is restarting."
-- **Technical**, 1–2 sentences: the same, with the ticket, spec or branch so a reader can find it. "RELAY-212: move the retry schedule from process memory into a durable queue, on branch `feat/durable-retries`."
+- **Plain**, 1 bullet: the problem in the reader's terms. `Stop losing webhooks when the relay restarts`
+- **Technical**, 1–2 bullets: the ticket, spec or branch so a reader can find it. `RELAY-212: move retries into a durable queue` · `Branch feat/durable-retries`
 
-## Achieved
+### Achieved
 
 What is true now that was not before, and how we know.
 
-- **Plain**, 1–3 sentences: what someone can now do, see or rely on. Keep a number when it means something to this reader ("In a test with 500 failed deliveries and two restarts, every one arrived"), and leave out the ones only an engineer can weigh.
-- **Technical**: what works now with the numbers (tests passing, screens shipped, defects closed, latency moved) and the PR or commit. Then a paragraph that starts "How we know:" and quotes the command, gate verdict or measurement short: `pnpm test:integration --grep retry` → 38 passed. Name any check that did not run as not run. A table earns its place for real tabular data, such as several before-and-after figures; wrap it in `<div class="table-wrap">`.
+- **Plain**, 1–3 bullets: what someone can now do, see or rely on. Keep a number when it means something to this reader (`500 of 500 arrived through two restarts`).
+- **Technical**, 1–4 bullets: what works now with the numbers and the PR or commit, and one bullet that starts `Proof:` with the command or measurement (`Proof: pnpm test:integration --grep retry → 38 passed`). A check that did not run gets its own bullet (`Load test at 2k req/s not run`). Several before-and-after figures go in a table below the facets rather than in bullets.
 
 Two corrections the corpus behind `status-update:status-update` found agents making and later retracting, which apply here too: a check that examined zero items is not a pass, and a test said to guard something that never failed when the code was broken has not been shown to guard it. Report each as what it is.
 
-## Remaining
+### Remaining
 
 What is left, and what is waiting on the owner.
 
-- **Plain**, 1–2 sentences, ending with anything that needs the owner's decision, credential or go-ahead.
-- **Technical**: a list, one item per open task, blocked task, missing credential or decision, each with what it waits on.
-- **When nothing remains**, write "Nothing remaining." in both versions and set `data-remaining="none"` on the article. The heading stays so the absence is stated, and the timeline marks the entry complete.
+- **Plain**, 1–2 bullets, the last naming anything that needs the owner's decision, credential or go-ahead (`Switch it on for customers: needs your go-ahead`).
+- **Technical**: one bullet per open task, blocked task, missing credential or decision, each with what it waits on.
+- **When nothing remains**, the single bullet `Nothing remaining.` in both versions, and `data-remaining="none"` on the article. The heading stays so the absence is stated, and the timeline marks the entry complete.
 
 ## Plain words
 
@@ -61,7 +65,7 @@ The plain version's hardest jargon is ordinary English carrying a private meanin
 | migration | a change to how the data is stored |
 | regression | something that used to work broke |
 
-Meet the length budget by making fewer claims, never by compressing a sentence into a slogan. "Durability is now a first-class concern" explains nothing to the person the plain version is for; "a failed delivery is now kept and retried" does.
+Meet the 14-word limit by making fewer claims per bullet, never by compressing one into a slogan. "Durability now first-class" explains nothing to the person the plain version is for; "Failed deliveries are kept and retried for 24 hours" does.
 
 ## Updating the newest entry
 
@@ -87,19 +91,18 @@ From `assets/example-changelog.html`, whose entries are synthetic:
   <div class="facets">
     <section class="facet facet-task" aria-label="Task">
       <h3>Task</h3>
-      <div class="plain"><p>Let customers change their signing key without contacting us.</p></div>
-      <div class="technical"><p>RELAY-198: self-serve key rotation with a dual-signature overlap window.</p></div>
+      <div class="plain"><ul><li>Let customers change their signing key themselves</li></ul></div>
+      <div class="technical"><ul><li>RELAY-198: self-serve rotation with a 72 h overlap</li></ul></div>
     </section>
     <section class="facet facet-achieved" aria-label="Achieved">
       <h3>Achieved</h3>
-      <div class="plain"><p>A new "Rotate key" button in settings replaces the key in one step, and both keys are accepted for three days. Support handled 9 rotation requests last month; that number should now be zero.</p></div>
-      <div class="technical"><p>Merged in #402. Deliveries carry both <code>Signature-V1</code> headers during the 72 h overlap.</p>
-        <div class="table-wrap"><table>…three checks and their results…</table></div></div>
+      <div class="plain"><ul><li>One "Rotate key" button in settings</li><li>Old and new keys both work for three days</li><li>Support handled 9 such requests last month</li></ul></div>
+      <div class="technical"><ul><li>Merged in #402</li><li>Both <code>Signature-V1</code> headers sent during the overlap</li><li>Proof: unit 112/112, E2E 6/6, old key rejected after 72 h</li></ul></div>
     </section>
     <section class="facet facet-remaining" aria-label="Remaining">
       <h3>Remaining</h3>
-      <div class="plain"><p>Nothing remaining.</p></div>
-      <div class="technical"><p>Nothing remaining.</p></div>
+      <div class="plain"><ul><li>Nothing remaining.</li></ul></div>
+      <div class="technical"><ul><li>Nothing remaining.</li></ul></div>
     </section>
   </div>
 </article>

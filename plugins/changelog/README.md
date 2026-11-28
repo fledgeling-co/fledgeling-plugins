@@ -8,8 +8,8 @@
 A skill for Claude Code that keeps one page per project, adds an entry each time work finishes, and tells every entry twice: plainly for anyone, technically for engineers.</p>
 
 <p align="center">
-  <img alt="Version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-D33C21">
-  <img alt="Checker self-test 14 of 14" src="https://img.shields.io/badge/checker-14%2F14_rules_fire-434A55">
+  <img alt="Version 1.1.0" src="https://img.shields.io/badge/version-1.1.0-D33C21">
+  <img alt="Checker self-test 17 of 17" src="https://img.shields.io/badge/checker-17%2F17_rules_fire-434A55">
   <img alt="Comparative eval: not run" src="https://img.shields.io/badge/comparative_eval-not_run-756E60">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-A9A399">
 </p>
@@ -31,7 +31,7 @@ Every entry has the same parts, in the same place:
 - **A timestamp line**: when it was written, each time it was updated, and when it was last updated.
 - **Task, Achieved and Remaining**, side by side as three columns on a desktop screen and stacked on a phone.
 
-Task, Achieved and Remaining are each written twice. The **plain** version is for a founder, customer or investor: everyday words, no file paths, commands or ticket numbers. The **technical** version carries the PR, the counts and a "How we know:" line quoting the command or measurement that proved it. A switch at the top shows one or the other, never both, and remembers your choice. Plain is the default, because the reader who needs it is the one who won't go looking for a switch.
+Task, Achieved and Remaining are short bullets, 1 to 4 each and 14 words or fewer, so an entry reads at a glance; the title and subtitle carry the story. Each is written twice. The **plain** version is for a founder, customer or investor: everyday words, no file paths, commands or ticket numbers. The **technical** version carries the PR, the counts and a "How we know:" line quoting the command or measurement that proved it. A switch at the top shows one or the other, never both, and remembers your choice. Plain is the default, because the reader who needs it is the one who won't go looking for a switch.
 
 Remaining always ends with anything that's waiting on you: a decision, a credential, a go-ahead. When there's nothing left it says "Nothing remaining." rather than disappearing, so you can see that it's done rather than wonder.
 
@@ -58,7 +58,7 @@ flowchart LR
   F --> G[Two lines in chat]
 ```
 
-`scripts/changelog.py` does the mechanical parts. `init` creates the page in the repo's main checkout (never a worktree, which disappears when its branch merges). `stamp` prints the current Sydney time with its offset. `check` fails the page on anything structural: entries out of order, a title over 10 words, a subtitle that isn't two sentences of 25 words or fewer, a timestamp without an offset, a missing column or version, Remaining disagreeing with its "nothing left" flag, code or ticket numbers in the plain version, leftover template text, or a repeated id.
+`scripts/changelog.py` does the mechanical parts. `init` creates the page in the repo's main checkout (never a worktree, which disappears when its branch merges). `stamp` prints the current Sydney time with its offset. `check` fails the page on anything structural: entries out of order, a title over 10 words, a subtitle that isn't two sentences of 25 words or fewer, a timestamp without an offset, a missing column or version, a column that isn't 1 to 4 bullets of 14 words or fewer, Remaining disagreeing with its "nothing left" flag, code or ticket numbers in the plain version, leftover template text, or a repeated id.
 
 Note: the checker proves the page is well-formed. It can't tell whether the words are true or whether the plain version is genuinely plain; that's still on whoever wrote the entry.
 
@@ -80,4 +80,4 @@ Then finish some work in a project and ask how it went, or say "log this". The f
 
 ## Does it actually work?
 
-The mechanics are verified; the claim that it beats writing the report in chat hasn't been tested yet. The checker's self-test breaks the bundled example page in 14 specific ways and confirms each one fails, and confirms a freshly created page passes. The template was rendered in Chromium at desktop and phone widths, light and dark, in both views. No run has compared Claude with this skill against Claude without it. [EVALS.md](EVALS.md) has the detail and the three tasks that would settle it.
+The mechanics are verified; the claim that it beats writing the report in chat hasn't been tested yet. The checker's self-test breaks the bundled example page in 17 specific ways and confirms each one fails, and confirms a freshly created page passes. The template was rendered in Chromium at desktop and phone widths, light and dark, in both views. No run has compared Claude with this skill against Claude without it. [EVALS.md](EVALS.md) has the detail and the three tasks that would settle it.

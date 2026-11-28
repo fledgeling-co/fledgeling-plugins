@@ -7,7 +7,7 @@ description: Keep a project's progress record as a reverse-chronological CHANGEL
 
 A status report typed into chat scrolls away, and a status page that is overwritten each time shows only the latest state. This skill keeps the third thing: a record of what each project has actually achieved, newest first, that the owner can scroll back through and that a non-technical reader can follow without asking anyone.
 
-Every entry tells one piece of work twice, as a plain version and a technical version of the same three parts: **Task** (what the work set out to do), **Achieved** (what works now, and how we know) and **Remaining** (what is left, and what waits on the owner). The page shows one version at a time behind a Plain / Technical switch, Plain by default, and lays the three parts out as columns on a desktop screen.
+Every entry tells one piece of work twice, as a plain version and a technical version of the same three parts, each a few short bullets: **Task** (what the work set out to do), **Achieved** (what works now, and how we know) and **Remaining** (what is left, and what waits on the owner). The page shows one version at a time behind a Plain / Technical switch, Plain by default, and lays the three parts out as columns on a desktop screen.
 
 What lives where: `assets/changelog-template.html` is the page shell (designed through `design-craft:design-craft` and `ux-craft:ux-craft`; leave its styles alone), `assets/example-changelog.html` is a filled example with three synthetic entries, `scripts/changelog.py` creates, timestamps and checks the page, `scripts/chrome-show.sh` reloads or opens the page in Chrome, `references/entry-writing.md` is how to write each part well, and `references/evidence.md` records where each rule comes from.
 
@@ -58,11 +58,11 @@ Fill every slot. `references/entry-writing.md` covers each one with a worked exa
 | Title (`h2`) | the outcome in 10 words or fewer, on one line |
 | Subtitle | exactly 2 sentences of 25 words or fewer: what was achieved, then what it means, in words both readers follow |
 | Timestamp line | `Written <time>`; after an update, `Written … · updated …, … · last updated …` |
-| Task | plain: 1 sentence · technical: 1–2 sentences naming the ticket, spec or branch |
-| Achieved | plain: 1–3 sentences on what someone can now do, see or rely on · technical: what works with the numbers and the PR or commit, then "How we know:" with the command or measurement |
-| Remaining | plain: 1–2 sentences, including anything waiting on the owner · technical: each open item, blocked task, missing credential or decision. When nothing remains, "Nothing remaining." in both |
+| Task | plain: 1 bullet on what the work set out to do · technical: 1–2 bullets naming the ticket, spec or branch |
+| Achieved | plain: 1–3 bullets on what someone can now do, see or rely on · technical: 1–4 bullets with the numbers and the PR or commit, one of them starting "Proof:" with the command or measurement |
+| Remaining | plain: 1–2 bullets, including anything waiting on the owner · technical: one bullet per open item, blocked task, missing credential or decision. When nothing remains, the single bullet "Nothing remaining." in both |
 
-Aim for 6 to 15 lines of prose across the technical version and roughly half that in the plain one. The plain version is for a founder, customer or investor: everyday words, no file paths, commands, function names, ticket numbers, commit hashes or unexplained acronyms. Keep a number in it when it means something to that reader ("checkout loads in under a second") and leave the rest to the technical version. Both versions describe the same state, so when you update an entry, revise both, the subtitle, and the timestamp line together.
+Task, Achieved and Remaining are written as short bullets so the owner can read an entry at a glance: each version is one `<ul>`, 1 to 4 bullets, each bullet 14 words or fewer, with no full stop unless it is a sentence. Write a bullet as a fragment that carries its own subject and number ("500 of 500 arrived through two restarts"), never a paragraph cut into pieces. The title and subtitle stay as prose; they are where the story is told. The plain version is for a founder, customer or investor: everyday words, no file paths, commands, function names, ticket numbers, commit hashes or unexplained acronyms. Keep a number in it when it means something to that reader ("checkout loads in under a second") and leave the rest to the technical version. Both versions describe the same state, so when you update an entry, revise both, the subtitle, and the timestamp line together.
 
 ### 5. Add a visual where a picture explains the change faster than the prose
 
@@ -81,7 +81,7 @@ The export prefixes each SVG's ids, which is what lets several figures share one
 python3 scripts/changelog.py check <path to CHANGELOG.html>
 ```
 
-Exit 0 is the only pass. It checks the structure: entry order, ids, dates, the title and subtitle limits, timestamps with an offset, the three parts with both versions, Remaining agreeing with `data-remaining`, code and ticket numbers kept out of the plain version, leftover template text, and repeated ids. Fix what it reports and run it again. It cannot tell whether the words are true, which is step 3's job.
+Exit 0 is the only pass. It checks the structure: entry order, ids, dates, the title and subtitle limits, timestamps with an offset, the three parts with both versions as short bullet lists, Remaining agreeing with `data-remaining`, code and ticket numbers kept out of the plain version, leftover template text, and repeated ids. Fix what it reports and run it again. It cannot tell whether the words are true, which is step 3's job.
 
 ### 7. Show the page, reusing its tab
 
