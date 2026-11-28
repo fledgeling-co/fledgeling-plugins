@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## 0.8.0
+
+Looks: the same résumé in several visual treatments, all inside the layout research, after the
+person helping in the source engagement called the finished résumé ugly and chose one of four
+looks for the public copy on 26 November 2026.
+
+- `career-kit` `scripts/looks.py`: seven named looks (`classic`, `calibri-teal`, `aptos-clean`,
+  `arial-roles`, and three new ones: `times-traditional`, `mono-print`, `calibri-slate`) and six
+  named accents. `check_look` refuses a typeface the sources do not name, body outside 10.5–12pt,
+  leading other than 2pt, headings outside 14–16pt or not bold/semibold, a name outside 20–24pt,
+  heading space outside 12–14pt, and any colour under 4.5:1 on white. `test_looks.py` covers it.
+- `build_resume.py` and `make_docx.py` take `--look` and an `--accent` override; the PDF builder
+  takes `--font-dir` for Calibri and Aptos, which are not system fonts on macOS. `classic` is the
+  previous output.
+- `scripts/build_looks.py` and `assets/looks-viewer.html`: build the same Markdown in several
+  looks as HTML, PDF and Word, report each look's page count and embedded fonts, flag a look that
+  runs long or whose typeface fell back, and write a page to compare them (side by side or
+  stacked, tabs and arrow keys, a description block of fixed height).
+- `career-kit` `documents.md`: Offering looks, including rebuilding every copy in the chosen look
+  and counting the Word file's pages in Word. `resume-craft` `structure.md`: Looks, the fixed and
+  open parts of the layout with their ranges.
+
 ## 0.7.0
 
 Layout research and a fictional exemplar, from the source engagement on 25 November 2026: two

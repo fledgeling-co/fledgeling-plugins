@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); eac
 
 ## 2026-11-28
 
+### career-kit 0.8.0: the same résumé in several looks
+
+After the person helping in the source engagement called the finished résumé ugly and picked one of four treatments for the public copy (26 November), career-kit offers named looks that all stay inside its layout research. `scripts/looks.py` defines seven looks and six accents, and `check_look` refuses a typeface the sources do not name, body type outside 10.5–12pt, headings outside 14–16pt, a name outside 20–24pt, or any colour under 4.5:1 on white (`test_looks.py`, 6 tests). `build_resume.py` and `make_docx.py` take `--look` and `--accent`, and `scripts/build_looks.py` builds one Markdown résumé in several looks as HTML, PDF and Word, flags a look that runs long or whose font fell back, and writes a page to compare them. `documents.md` and resume-craft's `structure.md` say how to offer looks and which parts of the layout are fixed.
+
 ### duo-craft 0.6.0: dense lists, keeping the screen across the fold, a full side bar
 
 The messages sent in the 4 hours after 0.5.0, in the 6 sessions that had run duo-craft, added five rules. Rows that carry meters or figures now run the list to the fold: `DetailPaneLayout` and `twoPaneFor` take `listWidth="fold"` and the SwiftUI template takes `.fold`, after the owner found Relay's 320pt list "too narrow, everything looks cramped" (template tests 23/23; `Fold.swift` typechecks against the iOS 27.1 SDK). Opening the Duo keeps what was on screen, with the list beside it, as the owner asked for Lookout; SwiftUI's `NavigationSplitView` does both directions, and the React Native template still does only the closing half, which the skill says. Closed, the side bar holds back and two actions before a ••• menu, so the primary action stays in those two; tool screens such as a password generator put their controls left and their result right; and an action inside a screen pushes or presents rather than switching tabs. `simulator.md` adds a Device Hub window of the run's own when other sessions share it, and notes that Maestro cannot tap the inner display.

@@ -4,7 +4,7 @@
 <h1 align="center"><img src="assets/icon-128.png" alt="" width="34" valign="middle" /> career-kit</h1>
 
 <p align="center">
-  <img alt="Version 0.5.0" src="https://img.shields.io/badge/version-0.5.0-1c7889">
+  <img alt="Version 0.8.0" src="https://img.shields.io/badge/version-0.8.0-1c7889">
   <img alt="Skills: 2" src="https://img.shields.io/badge/skills-2-ee7027">
   <img alt="resume-craft checks: 51 of 52" src="https://img.shields.io/badge/resume--craft_checks-51_of_52-5cc7d6">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8fb3bd">

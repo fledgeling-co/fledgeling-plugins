@@ -194,7 +194,10 @@ is half empty, a role line that has wrapped, or a font that fell back. Check the
 count in Word itself, because Word lays the same text out differently from the PDF. The
 builders default to the corporate Australian layout: Arial 11pt on exact 13pt lines, 14pt
 sentence-case headings, a 20pt name and 20 mm margins (`references/documents.md`, Type and
-spacing). A figure the person helping asks you to suggest rather than ask for goes in as
+spacing). When the person finds the page plain, offer looks instead of restyling by hand:
+`scripts/build_looks.py` builds the same words in up to seven named looks that vary only what the
+research leaves open, with a page to compare them, and the chosen look is rebuilt into every copy
+(`references/documents.md`, Offering looks). A figure the person helping asks you to suggest rather than ask for goes in as
 `==text==`, which both builders print on yellow; keep it out of every public copy. Upload the Word file to
 application portals, which parse it, and send the PDF to people. A Google Doc version has not
 been built by this skill in practice: check which document connector the runtime offers,

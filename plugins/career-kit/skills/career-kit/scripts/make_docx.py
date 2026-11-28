@@ -1,6 +1,10 @@
 """Build a styled Word résumé from the same Markdown the HTML/PDF is built from.
 
-    <python-with-python-docx> make_docx.py <in.md> <out.docx> --name "Jane Doe"
+    <python-with-python-docx> make_docx.py <in.md> <out.docx> --name "Jane Doe" [--look classic]
+        [--accent teal|#1F5F63]
+
+`--look` takes the same ids as build_resume.py (see looks.py), so the Word file and the PDF share
+one typeface, accent, heading treatment and spacing.
 
 Needs python-docx, which is usually not on the system interpreter:
 
@@ -17,11 +21,15 @@ to three pages while the PDF held two, and only opening the file in Word showed 
 space-after and space-before together where CSS collapses margins, so each space_before below is
 the CSS gap less the space_after of the paragraph that usually precedes it.
 
-Arial rather than a brand font on purpose: in the source session `pdffonts` showed the
-specified Aptos and Calibri were not installed and the document had silently fallen back,
-so the two outputs looked different for a reason nobody could see in the Markdown.
+Word resolves a typeface by name, so Calibri and Aptos render wherever Office is installed. The
+PDF builder needs their files (`--font-dir`) because they are not system fonts on macOS: in the
+source session `pdffonts` once showed Aptos and Calibri had silently fallen back to another face,
+so the two outputs looked different for a reason nobody could see in the Markdown. Check the
+fonts that embedded in the PDF and open the Word file in Word for its page count.
 """
-import sys, re, argparse
+import sys, re, argparse, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from looks import get_look
 from docx import Document
 from docx.shared import Pt, Mm, RGBColor
 from docx.enum.text import WD_TAB_ALIGNMENT, WD_ALIGN_PARAGRAPH, WD_COLOR_INDEX
@@ -31,21 +39,25 @@ from docx.oxml import OxmlElement
 ap = argparse.ArgumentParser()
 ap.add_argument("src"); ap.add_argument("out")
 ap.add_argument("--name", default="")
-ap.add_argument("--accent", default="1F2B5B")
+ap.add_argument("--look", default="classic", help="a look id from looks.py")
+ap.add_argument("--accent", default=None, help="override the look's accent (name or hex)")
 a = ap.parse_args()
 
-ACCENT = RGBColor(*bytes.fromhex(a.accent.lstrip("#")))
+L = get_look(a.look, a.accent)
+hexrgb = lambda h: RGBColor(*bytes.fromhex(h.lstrip("#")))
+ACCENT, H2COLOR = hexrgb(L["accent"]), hexrgb(L["h2_color"])
+TITLE = hexrgb(L["title_color"]) if L["title_color"] else None
 INK, INK2, RULE = RGBColor(0x16, 0x18, 0x1D), RGBColor(0x3D, 0x43, 0x50), "B9BEC8"
-FONT = "Arial"
+FONT = L["font"]
 
 d = Document()
 s = d.sections[0]
 s.page_width, s.page_height = Mm(210), Mm(297)
 s.left_margin = s.right_margin = Mm(20)
 s.top_margin, s.bottom_margin, s.footer_distance = Mm(20), Mm(20), Mm(9)
-LH = Pt(13)
+LH = Pt(L["lh"])
 st = d.styles["Normal"]
-st.font.name, st.font.size, st.font.color.rgb = FONT, Pt(11), INK
+st.font.name, st.font.size, st.font.color.rgb = FONT, Pt(L["pt"]), INK
 st.element.rPr.rFonts.set(qn("w:eastAsia"), FONT)
 st.paragraph_format.space_before = Pt(0)
 st.paragraph_format.space_after = Pt(5)
@@ -81,7 +93,7 @@ def titled(parts, size, space_before, emp=False):
     p.paragraph_format.keep_with_next = True
     date = parts[-1] if len(parts) > 1 else ""
     head = parts[:-1] if len(parts) > 1 else parts
-    run(p, head[0], bold=True, size=size)
+    run(p, head[0], bold=True, size=size, color=None if emp else TITLE)
     for x in head[1:]:
         run(p, "  ·  " + x, color=INK2, size=size if emp else 10)
     if date:
@@ -98,18 +110,22 @@ for line in open(a.src).read().splitlines():
         if lvl == 1:
             title = title or t
             p = d.add_paragraph(); p.paragraph_format.space_after = Pt(4)
-            p.paragraph_format.line_spacing = Pt(24)
-            run(p, t, bold=True, color=ACCENT, size=20); after_h1 = True
+            p.paragraph_format.line_spacing = Pt(L["name_size"] + 4)
+            run(p, t, bold=True, color=ACCENT, size=L["name_size"]); after_h1 = True
         elif lvl == 2:
             in_skills = t.lower() == "key skills"
             p = d.add_paragraph()
-            # 12pt above in the CSS, less the 5pt after the paragraph that usually precedes it.
-            p.paragraph_format.space_before = Pt(7)
+            # The look's gap above in the CSS (12pt by default), less the 5pt after the
+            # paragraph that usually precedes it.
+            p.paragraph_format.space_before = Pt(L["gap"] - 5)
             p.paragraph_format.space_after = Pt(4)
-            p.paragraph_format.line_spacing = Pt(17)
+            p.paragraph_format.line_spacing = Pt(L["h2_size"] + 3)
             p.paragraph_format.keep_with_next = True
-            run(p, t, bold=True, color=ACCENT, size=14)   # sentence case, as written
-            border(p)
+            # Word has bold or not; a 600 weight is set as bold (Aptos SemiBold is not a
+            # separate Word weight). Sentence case, as written.
+            run(p, t, bold=True, color=H2COLOR, size=L["h2_size"])
+            if L["rule"]:
+                border(p)
         else:
             # A role heading straight after another (the one-line earliest roles) sits close.
             before = 0 if lvl == 3 or prev_role else 4

@@ -82,6 +82,45 @@ résumé always fails.
 Check which fonts actually embedded in the PDF (`pdffonts file.pdf`). A font named in the
 stylesheet and missing from the machine falls back silently (C).
 
+### Looks: what may vary
+
+A person who calls a correct résumé ugly is usually reacting to the parts the research leaves
+open, so vary those and nothing else. The research fixes one column, sentence-case headings,
+round bullets, contact details in the body, no tables, icons or photo, two pages, and body text
+from 10.5 to 12pt. It leaves open (LG, LP):
+
+| Open | Range | Note |
+| --- | --- | --- |
+| Typeface | Arial, Calibri, Aptos, Times New Roman | The four the sources name. Set Times New Roman at 12pt, because it sets smaller than the others at 11 |
+| Accent | One muted colour, at least 4.5:1 on white | On the name and at most two more roles (headings, job titles). Navy, teal, slate, forest, burgundy and charcoal all measure 7:1 or more and stay distinct in greyscale |
+| Headings | 14 to 16pt, bold or semibold, a light rule under them or none | Never capitals or spaced letters |
+| Name | 20 to 24pt | |
+| Space above headings | 12 to 14pt | More space reads as calmer; it costs lines |
+
+The career-kit builders take these as named looks (`../career-kit/scripts/looks.py`, which
+refuses a value outside the ranges above):
+
+| Look | Typeface | Accent | Headings | Name |
+| --- | --- | --- | --- | --- |
+| `classic` | Arial 11pt | Navy on the name and headings | 14pt bold, rule | 20pt |
+| `calibri-teal` (A) | Calibri 11pt | Teal on the name and job titles | Dark, 14pt bold, light rule, 14pt above | 24pt |
+| `aptos-clean` (B) | Aptos 11pt | Navy on the name and headings | 15pt semibold, no rule | 22pt |
+| `arial-roles` (C) | Arial 11pt | Black name and headings, navy job titles | 14pt bold, rule | 24pt |
+| `times-traditional` (D) | Times New Roman 12pt | Black | 14pt bold, rule | 22pt |
+| `mono-print` (E) | Arial 11pt | Black only, grey rules | 14pt bold, rule | 20pt |
+| `calibri-slate` (F) | Calibri 11pt | Slate blue on the name and headings | 14pt bold, no rule, 14pt above | 22pt |
+
+The first four were built and shown in the source session; the person helping chose A for the
+public copy. D suits readers in law, finance and the public sector who expect a traditional page,
+E suits a résumé that will be printed or photocopied, and F sits between A and B; none of the last
+three has been shown to a person yet. Any look's accent can change (`--accent burgundy`) without
+changing the look.
+
+Show looks with the same words, so the choice is about the page and not the content, and say
+what stays the same in all of them. A look that runs past two pages is a cost the person should
+see, not one to hide: report it with the look rather than dropping it, and resolve it the usual
+way (cut words) only once they have chosen.
+
 ## Length
 
 Two pages is the default, because it is the only length inside every source's range: a federal
