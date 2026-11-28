@@ -31,16 +31,21 @@ CORE = [
     "modules/duo-fold/ios/DuoFold.podspec",
     "modules/duo-fold/ios/DuoFoldModule.swift",
     "lib/fold.ts",
+    "lib/foldHandoff.ts",
     "lib/keyboard.ts",
     "lib/layout.ts",
     "lib/readable.ts",
     "components/DetailPaneLayout.tsx",
+    "components/FoldHandoff.tsx",
     "components/FoldColumns.tsx",
     "components/ScreenTitle.tsx",
 ]
 TESTS = [
     "lib/__tests__/fold.test.ts",
     "lib/__tests__/keyboard.test.tsx",
+    "lib/__tests__/foldHandoff.test.ts",
+    "lib/__tests__/foldHandoffRouter.test.tsx",
+    "components/__tests__/foldHandoff.test.tsx",
     "components/__tests__/detailPaneLayout.test.tsx",
 ]
 STARTER = [

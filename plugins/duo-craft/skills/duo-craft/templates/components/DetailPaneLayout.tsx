@@ -7,6 +7,7 @@ import { SafeAreaInsetsContext, useSafeAreaInsets } from 'react-native-safe-area
 import { useRouter } from 'expo-router';
 
 import { twoPaneForWidth, useFold, useTwoPane, type ListWidth, type TwoPane } from '~/lib/fold';
+import { subscribeHandoff, takeHandoff } from '~/lib/foldHandoff';
 import { PaneWidthContext, systemColor } from '~/lib/layout';
 
 /**
@@ -65,9 +66,22 @@ type Props = {
   renderDetail: (id: string | null) => React.ReactNode;
   /** `fold` when the list's rows carry meters, figures or several values; see `ListWidth`. */
   listWidth?: ListWidth;
+  /**
+   * This list's tab, so a detail pushed on the closed display comes back into this pane when the
+   * device opens (`lib/foldHandoff.ts`, with `FoldHandoff` in the root layout). Without it, opening
+   * leaves a pushed detail pushed.
+   */
+  handoffTab?: string;
 };
 
-export function DetailPaneLayout({ hrefFor, defaultId = null, children, renderDetail, listWidth = 'narrow' }: Props) {
+export function DetailPaneLayout({
+  hrefFor,
+  defaultId = null,
+  children,
+  renderDetail,
+  listWidth = 'narrow',
+  handoffTab,
+}: Props) {
   const router = useRouter();
   const fold = useFold();
   const foldPane = useTwoPane(listWidth);
@@ -103,6 +117,18 @@ export function DetailPaneLayout({ hrefFor, defaultId = null, children, renderDe
     wasSplit.current = pane != null;
   }, [chosenId, hrefFor, pane, router]);
 
+  // Opening the device on a detail pushed from this list brings it into the right pane, chosen,
+  // so closing again pushes it back. The handoff can land before or after this pane splits.
+  useEffect(() => {
+    if (!handoffTab || !pane) return;
+    const take = () => {
+      const id = takeHandoff(handoffTab);
+      if (id) setChosenId(id);
+    };
+    take();
+    return subscribeHandoff(take);
+  }, [handoffTab, pane]);
+
   const value = useMemo(
     () => ({ split: pane != null, selectedId, open, offerDefault }),
     [offerDefault, open, pane, selectedId],
@@ -134,9 +160,10 @@ function Split({
 }) {
   const insets = useSafeAreaInsets();
   const trailing = insets.right;
-  // Each pane owns only its outer edges: the right pane stops at the side bar rather than
-  // padding for it, and neither pads for the fold. Folded, the gap between them clears it;
-  // lying flat, the fold falls inside the detail, as it does in the system's own apps.
+  // Each pane owns only its outer edges, and neither pads for the fold. Folded, the gap between
+  // them clears it; lying flat, the fold falls inside the detail, as it does in the system's own
+  // apps. The right pane's ground runs under the side bar and its content stops before it: a
+  // margin there left the tab host's grey in the 84pt under the bar (Egress, 28 November 2026).
   const leftInsets = useMemo(() => ({ ...insets, right: 0 }), [insets]);
   const rightInsets = useMemo(() => ({ ...insets, left: 0, right: 0 }), [insets]);
   return (
@@ -150,9 +177,7 @@ function Split({
       <View style={{ width: pane.rightX - pane.leftWidth }} />
       <PaneWidthContext.Provider value={Math.max(0, width - trailing - pane.rightX)}>
         <SafeAreaInsetsContext.Provider value={rightInsets}>
-          <View
-            style={[styles.right, { marginRight: trailing }]}
-          >
+          <View testID="detail-pane" style={[styles.right, { paddingRight: trailing }]}>
             {right}
           </View>
         </SafeAreaInsetsContext.Provider>

@@ -125,8 +125,9 @@ python3 scripts/install_templates.py <app-root> --starter   # new app: also the 
 ```
 
 It copies `modules/duo-fold` (Swift, autolinked from `./modules`), `lib/fold.ts` (`useFold`,
-`useTwoPane`), `lib/keyboard.ts` (`useKeyboardLift`), `lib/layout.ts` (`useLayout`,
-`titleTopPadding`, `PaneWidthContext`),
+`useTwoPane`), `lib/foldHandoff.ts` with `components/FoldHandoff.tsx` (opening the Duo brings a
+pushed detail back into its pane), `lib/keyboard.ts` (`useKeyboardLift`), `lib/layout.ts`
+(`useLayout`, `titleTopPadding`, `PaneWidthContext`),
 `components/DetailPaneLayout.tsx`, `FoldColumns.tsx` (with `FoldRows`) and `ScreenTitle.tsx`. It
 rewrites imports to the app's own alias, never overwrites an existing file (a skipped file is yours
 to merge by hand), and on Expo SDK 57 turns on Expo's own scene opt-in — `expo-build-properties`
@@ -137,7 +138,8 @@ With `--starter` it replaces the fresh app's route files (keeping the originals 
 `.duo-craft-backup/`) and changes create-expo-app's `"orientation": "portrait"` to `"default"`: the
 outer display honours the lock and the inner display rotates regardless. An app that keeps regular
 iPhones in portrait while the Duo and iPad turn needs the native rule in pattern 12 instead.
-`--with-tests` adds the three test files; they need `jest-expo` and `@testing-library/react-native`.
+`--with-tests` adds the six test files; they need `jest-expo` and `@testing-library/react-native`,
+and pass 37/37 on Expo SDK 58.
 The templates take colours through `systemColor` in `lib/layout.ts`, never `PlatformColor` at module
 scope: from SDK 58 a fresh app sets `"web": { "output": "server" }`, which loads every route on
 react-native-web while the iOS app builds, and react-native-web has no `PlatformColor`. An app's own
@@ -184,7 +186,10 @@ owner reported on one. The ones that decide most of the result:
   `listWidth="fold"`, because the owner found 320pt cramped for them. Select the first item by
   default, because an empty right half reads as broken. Keep what is on screen across the fold: the
   chosen item goes full screen when the device closes, and a detail open on the closed display
-  becomes the right pane, with the list beside it, when it opens (pattern 2).
+  becomes the right pane, with the list beside it, when it opens. In React Native that takes
+  `FoldHandoff` in the root layout and `handoffTab` on the list. Every tab that drills down is a
+  split, Settings included: the owner reported a Settings page left full screen on opening in two
+  apps (pattern 2).
 - **Closed, the app is a phone app with a side bar.** Rows push with the standard animation, every
   pushed screen has a back item even when nothing is behind it, an action inside a screen pushes or
   presents rather than switching tabs, and no band of colour sits under a transparent header
@@ -216,10 +221,11 @@ owner reported on one. The ones that decide most of the result:
 rather than `xcode-select`, which changes the machine for every project. A Release build embeds
 the JavaScript, so it needs no Metro.
 
-Device Hub is the only way to fold or rotate. Drive it yourself: after a run handed each pose back
-to them, the owner said "You can operate the app yourself in future". `references/simulator.md` has
-the click tool and pose-bar order that work on Xcode 27.1, where proctor cannot attach to Device Hub.
-Say in one line that you are taking the mouse, then set each pose. Device Hub has no control for Split
+Device Hub is the only way to fold or rotate. Drive it yourself, with `proctor:proctor` or the
+bundled click tool: the owner said "You can operate the app yourself in future", and when a run
+reported an unfold as unchecked because Device Hub "couldn't be driven", answered that it had complete
+control of the computer. `references/simulator.md` has both routes and the pose-bar order. Say in one
+line that you are taking the mouse, then set each pose. Device Hub has no control for Split
 View or picture in picture, so report those three poses `not reached` on the simulator.
 
 Open each capture and read it against these ten defects, every one of them reported by the owner on
@@ -228,12 +234,12 @@ region-by-region read when a pose is in doubt.
 
 1. A close, confirm, send, new or share button drawn in the content instead of standing in the side bar.
 2. A side bar with no items on a screen that has actions, side tabs missing at launch, or the primary action hidden in the closed ••• menu.
-3. A strip beside the side bar in a different colour from the screen, in light or in dark.
+3. A strip beside the side bar in a different colour from the screen, or a light surface left in dark mode.
 4. A modal with no close control, gaps or pale corners around a sheet, or a sheet forced full screen.
 5. A focused field or composer under the keyboard or less than 16pt above it.
 6. The open display used as a stretched or centred phone column, or a list too narrow for its rows, with space left unused.
 7. A title missing, or a different size or position from the other tabs.
-8. A row that highlights without pushing, a pushed screen with no back item, an action that switches tabs, a detail lost on unfolding.
+8. A row that highlights without pushing or lacks its chevron, a missing back item, an action that switches tabs, a detail lost on unfolding.
 9. Controls sitting on the bottom edge of the open display, or full-bleed media that cannot hide its chrome.
 10. A menu that closes by itself while the screen updates, or tab icons the wrong size in the side bar.
 

@@ -3,6 +3,7 @@ import React from 'react';
 import { Stack } from 'expo-router';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { FoldHandoff } from '~/components/FoldHandoff';
 import { readableInset } from '~/lib/readable';
 import { useLayout } from '~/lib/layout';
 
@@ -26,10 +27,14 @@ function RootStack() {
   );
 }
 
+/** Pushed details and the tab whose list they belong to, so opening the Duo brings one back into its pane. */
+const HANDOFF_ROUTES = { 'item/[id]': { tab: 'items' } };
+
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <RootStack />
+      <FoldHandoff routes={HANDOFF_ROUTES} initialTab="items" />
     </SafeAreaProvider>
   );
 }

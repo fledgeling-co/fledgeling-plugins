@@ -5,7 +5,7 @@
 Make a React Native or SwiftUI app look right on iPhone Duo, and say which poses you actually saw.
 
 <p align="center">
-  <img alt="Version 0.6.0" src="https://img.shields.io/badge/version-0.6.0-1c7889">
+  <img alt="Version 0.7.0" src="https://img.shields.io/badge/version-0.7.0-1c7889">
   <img alt="Audit checks: 14" src="https://img.shields.io/badge/audit_checks-14-ee7027">
   <img alt="Poses reported: 9" src="https://img.shields.io/badge/poses_reported-9-5cc7d6">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8fb3bd">

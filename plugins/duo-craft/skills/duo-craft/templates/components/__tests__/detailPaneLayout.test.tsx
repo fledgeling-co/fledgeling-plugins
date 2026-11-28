@@ -1,8 +1,12 @@
 import React from 'react';
 
-import { Pressable, Text } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
+
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
+
+import { handOff } from '~/lib/foldHandoff';
 
 import { DetailPaneLayout, useDetailPane } from '../DetailPaneLayout';
 
@@ -50,6 +54,45 @@ const layoutAt = (width: number) =>
   fireEvent(screen.root, 'layout', { nativeEvent: { layout: { x: 0, y: 0, width, height: 800 } } });
 
 describe('DetailPaneLayout', () => {
+  it('runs the right pane under the side bar and keeps its content before it', () => {
+    mockPane = { leftWidth: 320, rightX: 320 };
+    render(
+      <SafeAreaInsetsContext.Provider value={{ top: 0, left: 0, bottom: 0, right: 84 }}>{tree()}</SafeAreaInsetsContext.Provider>,
+    );
+    const style = StyleSheet.flatten(screen.getByTestId('detail-pane').props.style);
+    // A margin left the tab host's grey in the 84pt under the bar.
+    expect(style.paddingRight).toBe(84);
+    expect(style.marginRight).toBeUndefined();
+    expect(style.backgroundColor).toBeDefined();
+  });
+
+  it('takes a detail pushed on the closed display into the right pane when it opens, and pushes it back on closing', () => {
+    const handed = () => (
+      <DetailPaneLayout hrefFor={id => `/company/${id}`} defaultId="co-1" handoffTab="companies" renderDetail={id => <Text>{`Detail ${id}`}</Text>}>
+        <List />
+      </DetailPaneLayout>
+    );
+    const view = render(handed());
+    mockPane = { leftWidth: 320, rightX: 320 };
+    handOff({ tab: 'companies', id: 'co-3' });
+    view.rerender(handed());
+    expect(screen.getByText('Detail co-3')).toBeTruthy();
+    mockPane = null;
+    view.rerender(handed());
+    expect(mockPush).toHaveBeenCalledWith('/company/co-3');
+  });
+
+  it('ignores a handoff meant for another tab', () => {
+    mockPane = { leftWidth: 320, rightX: 320 };
+    handOff({ tab: 'elsewhere', id: 'co-9' });
+    render(
+      <DetailPaneLayout hrefFor={id => `/company/${id}`} defaultId="co-1" handoffTab="companies" renderDetail={id => <Text>{`Detail ${id}`}</Text>}>
+        <List />
+      </DetailPaneLayout>,
+    );
+    expect(screen.getByText('Detail co-1')).toBeTruthy();
+  });
+
   it('pushes the detail screen with one pane, as before', () => {
     render(tree());
     expect(screen.queryByText(/Detail/)).toBeNull();

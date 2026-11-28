@@ -38,6 +38,19 @@ Branch on `tier` and `hasFold`, never on `UIDevice.current.userInterfaceIdiom`: 
   `NavigationSplitView`; closed, tapping a row highlighted it and pushed nothing. Use the split view's
   own selection, or `NavigationLink(value:)` in a `NavigationStack`, and check the push on the closed
   display with a recording, because a still capture cannot show a missing animation.
+- **Split rows are `NavigationLink` rows.** Lookout's Settings and Inbox used plain selectable rows,
+  which drove the split but showed no disclosure chevron on the closed display; the owner asked why
+  (28 November). `NavigationLink(value:)` rows show the chevron closed and the selection highlight open.
+- **Every tab that drills down is a split, Settings included.** Lookout's Settings was a plain stack,
+  so a settings page opened closed stayed full screen when the Duo opened. As a split of categories
+  beside the chosen page it behaved as the owner asked, seen on the Duo simulator: opening on Paired
+  Mac put Settings left and Paired Mac right, closing returned to Paired Mac with its back button.
+- **No split view inside a pane.** A component that brought its own split view into Lookout's right
+  pane removed the back button when closed and added two sidebar buttons when open; the pane got a
+  plain list instead.
+- **Pad each pane's inner edge.** In Splice, list margins came from the window, so the cards in both
+  panes ran into the divider; padding only the inner edges fixed it, where overriding all margins had
+  pushed the detail under the side bar.
 
 ## Bar items (pattern 8)
 
