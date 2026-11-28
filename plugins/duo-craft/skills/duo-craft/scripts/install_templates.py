@@ -31,6 +31,7 @@ CORE = [
     "modules/duo-fold/ios/DuoFold.podspec",
     "modules/duo-fold/ios/DuoFoldModule.swift",
     "lib/fold.ts",
+    "lib/keyboard.ts",
     "lib/layout.ts",
     "lib/readable.ts",
     "components/DetailPaneLayout.tsx",
@@ -39,6 +40,7 @@ CORE = [
 ]
 TESTS = [
     "lib/__tests__/fold.test.ts",
+    "lib/__tests__/keyboard.test.tsx",
     "components/__tests__/detailPaneLayout.test.tsx",
 ]
 STARTER = [
@@ -245,6 +247,8 @@ def self_test() -> int:
         if "Stack" not in open(os.path.join(d, "src", "app", "_layout.tsx")).read() or \
                 open(os.path.join(d, ".duo-craft-backup", "src", "app", "_layout.tsx")).read() != "// the template's own":
             print("self-test: starter did not replace the root layout and keep the original"); ok = False
+        if not os.path.isfile(os.path.join(d, "src", "lib", "keyboard.ts")):
+            print("self-test: keyboard lift not copied"); ok = False
         if not os.path.isfile(os.path.join(d, "src", "app", "(tabs)", "items", "index.tsx")):
             print("self-test: starter not copied"); ok = False
         if "'@/lib/fold'" not in open(os.path.join(d, "src", "components", "FoldColumns.tsx")).read():
