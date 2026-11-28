@@ -8,8 +8,9 @@ Apple's iPhone Duo guidance. The script reports file:line evidence and never edi
     python3 duo_audit.py <project-root> --json     # machine report
     python3 duo_audit.py --self-test               # prove every check can fire, and stay quiet
 
-Severity: error = visibly wrong on iPhone Duo; warn = likely wrong, confirm on the simulator;
-info = a place to look, not a defect (most hidden headers are tabs and modals that are fine).
+Severity: error = visibly wrong on iPhone Duo; warn = likely wrong, open the file and fix it or
+say why it is fine. There is no info tier: in one run the drawn-button screens were filed as info
+and left alone, and they were the first defect the app's owner reported.
 """
 from __future__ import annotations
 
@@ -64,11 +65,24 @@ CHECKS = [
      re.compile(r"width\s*[<>]=?\s*(3[2-9]\d|4[0-4]\d)\b|width\s*===?\s*(375|390|393|402|414|428|430|440)\b"),
      "A breakpoint tuned to iPhone widths misfires on iPhone Duo's 382pt outer and 669/867pt inner "
      "content widths. Use size tiers from the available width."),
-    ("hidden-header-own-buttons", "info",
+    ("hidden-header-own-buttons", "warn",
      re.compile(r"headerShown:\s*false"),
      "A screen that hides the native header and draws its own buttons keeps them out of the vertical "
-     "bar. Prefer native header/toolbar items (with an icon and a title) where the screen has actions."),
+     "bar. Open each one: a screen with actions (close, done, send, share, new) needs its native "
+     "header back with those actions as toolbar items. Tab containers and full-bleed canvases with no "
+     "actions are fine; say so in the report."),
 ]
+
+# A close, confirm or send control drawn as an ordinary view. Native toolbar items are excluded by
+# looking back a few lines for the Toolbar/header element the label belongs to.
+DRAWN_ACTION = re.compile(
+    r"""(accessibilityLabel|title|label)\s*=\s*\{?\s*["'](Close|Done|Cancel|Save|Send|Confirm|Dismiss|Submit)["']""")
+NATIVE_ITEM = re.compile(r"Toolbar\.(Button|Menu)|ToolbarItem|headerRight|headerLeft|unstable_header\w*Items|type:\s*['\"]button['\"]")
+DRAWN_ACTION_WHY = (
+    "A close, confirm or send control drawn as a view stays where it was drawn; on iPhone Duo the "
+    "system moves only native bar items into the side bar. Make it a Stack.Toolbar item with an SF "
+    "Symbol (xmark, checkmark, arrow.up.circle.fill). Fine on Android, and in a pane drawn inside a "
+    "split, which has no bar of its own.")
 
 
 def iter_sources(root: str):
@@ -93,6 +107,8 @@ def scan_sources(root: str) -> list[Finding]:
             for cid, sev, rx, why in CHECKS:
                 if rx.search(line):
                     out.append(Finding(cid, sev, rel, i, line.strip()[:160], why))
+            if DRAWN_ACTION.search(line) and not NATIVE_ITEM.search("\n".join(lines[max(0, i - 7):i])):
+                out.append(Finding("drawn-bar-action", "warn", rel, i, line.strip()[:160], DRAWN_ACTION_WHY))
     return out
 
 
@@ -229,9 +245,6 @@ def report(findings: list[Finding], root: str) -> str:
         by_check.setdefault(f.check, []).append(f)
     for cid, items in by_check.items():
         lines.append(f"\n[{items[0].severity}] {cid} ({len(items)}): {items[0].why}")
-        if items[0].severity == "info":
-            lines.append("  (listed with --json; review the screens that draw their own action buttons)")
-            continue
         for f in items[:12]:
             lines.append(f"  {f.file}:{f.line}  {f.text}")
         if len(items) > 12:
@@ -249,7 +262,8 @@ def self_test() -> int:
                  "if (width > 390) {}\n"
                  "const o = { headerShown: false };\n"
                  "const w = width - insets.left * 2;\n"
-                 "const r = window.width > window.height ? 1 : 0;\n",
+                 "const r = window.width > window.height ? 1 : 0;\n"
+                 "<Pressable accessibilityLabel=\"Close\" onPress={dismiss} />\n",
         "app.json": json.dumps({"expo": {"orientation": "portrait"}}),
         "package.json": json.dumps({"dependencies": {"expo": "~57.0.3"}}),
     }
@@ -257,7 +271,13 @@ def self_test() -> int:
         "b.tsx": "const { width } = useWindowDimensions();\n"
                  "const s = { paddingLeft: insets.left, paddingRight: insets.right };\n"
                  "const t = { paddingTop: titleTopPadding(insets.top) };\n"
-                 "// Dimensions.get('window') is stale, do not use\n",
+                 "// Dimensions.get('window') is stale, do not use\n"
+                 "<Stack.Toolbar placement=\"right\">\n"
+                 "  <Stack.Toolbar.Button\n"
+                 "    icon=\"arrow.up.circle.fill\"\n"
+                 "    accessibilityLabel=\"Send\"\n"
+                 "  />\n"
+                 "</Stack.Toolbar>\n",
         "modules/duo-fold/ios/DuoFoldModule.swift": "reservedRegions(kind: .division)",
         "app.json": json.dumps({"expo": {"plugins": [["expo-build-properties", {"ios": {"enableSceneSupport": True}}]]}}),
         "package.json": json.dumps({"dependencies": {"expo": "~57.0.3"}}),
@@ -273,7 +293,8 @@ def self_test() -> int:
         "func application(_ a: UIApplication, supportedInterfaceOrientationsFor w: UIWindow?)")
     expected_bad = {"stale-dimensions", "symmetric-insets", "title-top-from-inset", "device-branching",
                     "core-safeareaview", "hard-width-breakpoint", "hidden-header-own-buttons",
-                    "orientation-branching", "portrait-lock", "no-fold-signal", "no-scene-lifecycle"}
+                    "orientation-branching", "portrait-lock", "no-fold-signal", "no-scene-lifecycle",
+                    "drawn-bar-action"}
     ok = True
     for label, files, expect in (("bad", bad, expected_bad), ("good", good, set()),
                                  ("phone-portrait-rule", phone_rule, set())):

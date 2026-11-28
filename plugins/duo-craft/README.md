@@ -2,11 +2,11 @@
   <img src="assets/banner.png" alt="duo-craft" width="100%">
 </p>
 <h1 align="center"><img src="assets/icon.svg" alt="" width="34" valign="middle" /> duo-craft</h1>
-Make a React Native app look right on iPhone Duo, and say which poses you actually saw.
+Make a React Native or SwiftUI app look right on iPhone Duo, and say which poses you actually saw.
 
 <p align="center">
-  <img alt="Version 0.4.1" src="https://img.shields.io/badge/version-0.4.1-1c7889">
-  <img alt="Audit checks: 13" src="https://img.shields.io/badge/audit_checks-13-ee7027">
+  <img alt="Version 0.5.0" src="https://img.shields.io/badge/version-0.5.0-1c7889">
+  <img alt="Audit checks: 14" src="https://img.shields.io/badge/audit_checks-14-ee7027">
   <img alt="Poses reported: 9" src="https://img.shields.io/badge/poses_reported-9-5cc7d6">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8fb3bd">
 </p>
@@ -21,10 +21,13 @@ The skill carries the code rather than describing it. It came out of adapting a 
 
 - **A fold module the app owns.** About 150 lines of Swift reading Apple's `reservedRegions` and `UIHingeInteraction`. It needs the iOS 27.1 SDK and fails to compile without it, so it can't quietly report no fold.
 - **List and detail on the open display.** `DetailPaneLayout` keeps your list on the left, in a fixed 320-point column while the Duo lies flat and at the fold once it folds like a book, and renders what it would have pushed on the right, selects the first item so the right half is never blank, and pushes the chosen item full screen when the device closes. It splits on iPad and wide windows too, once the pane is 900 points wide.
-- **Bars that can move to the side.** `NativeTabs` and `Stack.Toolbar` items, because a tab bar or header drawn in a `View` stays where it was drawn, across your content.
+- **Actions in the side bar, sheets the system places.** Close, Done, Send, New and Share as `Stack.Toolbar` items and tabs as `NativeTabs`, because a button drawn in a `View` stays where it was drawn, across your content. That was the defect the owner reported most on a real Duo: 13 times in 5 apps. Sheets are native page sheets, so iOS 27.1 centres them open flat, puts them on one page half folded, and runs them full height with Close in the side bar when closed.
+- **A keyboard lift that works in a pane.** `useKeyboardLift` measures the composer in the window on every keyboard event, because `KeyboardAvoidingView` went stale in a pane on the open Duo and only sometimes cleared the split keyboard.
 - **Insets per side, titles that clear the top.** Each edge pads for its own inset, and titles sit at 59 + 8pt when the top inset is 0. The app this came from was told 20pt was still touching the edge.
 - **The launch crash, fixed Expo's way.** On SDK 57 it turns on `expo-build-properties` with `ios.enableSceneSupport`, which is Expo's own opt-in.
-- **An audit before anything changes.** `duo_audit.py` runs 13 checks for the assumptions that break on a foldable (a stale `Dimensions.get`, symmetric insets, branching on the device model, a locked orientation, no scene delegate) and prints `file:line` for each.
+- **An audit before anything changes.** `duo_audit.py` runs 14 checks for the assumptions that break on a foldable (a stale `Dimensions.get`, symmetric insets, branching on the device model, a locked orientation, no scene delegate, a close or send button drawn as a view) and prints `file:line` for each.
+- **SwiftUI too.** About half the apps this skill has been used on are SwiftUI. `templates/swiftui/Fold.swift` is the fold reader for them, and `references/swiftui.md` maps every rule, with three traps only SwiftUI hit: a split view's list drawn as an overlay in open portrait, a default selection that pushes when the Duo closes, and a toolbar menu that closes whenever the screen updates.
+- **A review list from real reports.** Each capture is read against the ten Duo defects the owner reported on a device after a run had called the screen done, from a strip of the wrong colour beside the side bar to a composer under the keyboard. Mocks are native apps on the Duo simulator, because the side bar, sheets and keyboard are drawn by iOS and an HTML mock can only imitate them.
 - **A starter.** One command turns a fresh `create-expo-app` into a two-pane app with native tabs and a toolbar.
 - **What shipping apps do on the device.** 321 screenshots of 38 apps on a real iPhone Duo, read frame by frame and checked against the pixels, give the layout rules their numbers: where the split keyboard's top edge sits (y 391 open), how wide a sheet opens (653 points, centred on the fold), where bar buttons land, and how wide rows and text run. One finding changed the template: on the flat open display, 21 apps keep the list in a fixed column near 320 points rather than splitting at the fold, so `DetailPaneLayout` now does too.
 

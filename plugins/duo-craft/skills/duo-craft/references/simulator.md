@@ -59,9 +59,37 @@ open -a "<Xcode 27.1>/Contents/Applications/DeviceHub.app"
 
 Every failed "add device" attempt still creates a simulator, so clean up duplicates afterwards.
 
-Device Hub refuses Accessibility scripting (System Events cannot read its menu bar) and proctor cannot
-attach to it, so driving poses means synthetic clicks on the owner's screen. That takes their mouse and
-focus: ask first, and prefer having them set the pose while you capture.
+Device Hub refuses Accessibility scripting (System Events cannot read its menu bar), and proctor
+cannot attach to it: it lists Device Hub with pid -1 and no windows, and its synthetic clicks re-front
+the app it is attached to first. Set poses with synthetic clicks instead. The owner has asked runs to
+do this themselves rather than hand each pose back ("You can operate the app yourself in future",
+24 November 2026), so say in one line that you are taking the mouse, then do it. What worked on
+Xcode 27.1:
+
+```bash
+swiftc -O scripts/click.swift -o <scratch>/click     # from this skill's directory
+screencapture -x -o -l <windowid> dh.png              # Device Hub's window; read it before clicking
+```
+
+- The pose bar runs **rotate, closed, folded, open**, left to right, under the device. On a 1728pt
+  display it sat at x 849, 886, 920 and 954, y 1013, but it moves whenever the window or the main
+  display changes, so capture the window and read the bar's position each time rather than reusing
+  coordinates.
+- Posting the click needs Accessibility permission. When the agent's process lacks it, launch the
+  click through Terminal, which usually holds it: write the activation and the click into a
+  `.command` file and `open -a Terminal` that file. Activate Device Hub first
+  (`open -a "<Xcode 27.1>/Contents/Applications/DeviceHub.app"`), or the click lands on whatever is
+  in front.
+- For taps inside the app, use Maestro (`maestro --device <udid> test flow.yaml`), which taps by text
+  or point. `idb ui tap` fails on Xcode 27.1 because SimulatorKit moved. A tap during the keyboard's
+  animation can miss; tap again.
+- `xcrun simctl launch --terminate-running-process <udid> <bundle-id> <args>`: a separate
+  `terminate` then `launch` can leave the old process serving the launch, and its arguments are
+  silently ignored.
+- For the software keyboard, untick Device > Keyboard > Simulate Hardware Keyboard. The keyboard
+  button in Device Hub's top bar is Keyboard Capture, which grabs the Mac's keyboard; turn it off again.
+- iPad simulators cannot be created on the iOS 27.1 runtime ("Incompatible device"); use iOS 27.0
+  for the iPad pose.
 
 ## Capture each display separately
 

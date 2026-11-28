@@ -1,6 +1,6 @@
 # Evidence
 
-Where each rule in this skill comes from. Five kinds of source, marked in the tables:
+Where each rule in this skill comes from. Six kinds of source, marked in the tables:
 
 - **[measured]** — run here, on 2026-10-10 to 2026-10-12, with Xcode 27.1 RC (27A9274) and the iOS
   27.1 iPhone Duo simulator.
@@ -17,6 +17,34 @@ Where each rule in this skill comes from. Five kinds of source, marked in the ta
 - **[research]** — the Dossier panel of 2026-10-11 (xAI, Perplexity, Gemini members), exported with
   sources to `../../docs/deep-research/`. Each claim used here was checked against a package or a
   build; the ones that failed the check are listed at the end.
+- **[owner]** — what the owner of the apps this skill was used on reported from a real iPhone Duo,
+  read from 45 Claude Code sessions that invoked this skill between 11 October and 28 November 2026,
+  together with the fix that cleared each report (read from the session and the app's code). Dated
+  in each row.
+
+## Owner reports on a device (0.5.0)
+
+| Rule | Source |
+|---|---|
+| Every screen-level action is a native bar item; the audit's drawn-button findings are defects, not notes | [owner] 13 reports in 5 apps, 28 Oct to 27 Nov: Scav (modal close and done, a tick for affirmative actions, camera controls), Fullframe (side-bar buttons misused, an empty side bar), Weft (a sheet's close and primary drawn in the content after `hidden-header-own-buttons` listed 5 screens as info), dAIolog investor app (PDF close, Send and Add a photo, live-voice close, new message), Tumbler (buttons, Invite, Import's Done) |
+| iOS 27.1 places a native page sheet itself: centred card open flat, one page half folded, full height with Close and ✓ in the side bar closed or in portrait; forcing full-screen modals blocked it | [owner] the owner's photos of the App Store on a Duo, 28 Oct; Scav build 34 removed the forced full-screen modals |
+| Gaps around a sheet come from a short form sheet with detents or a square background inside the rounded sheet | [owner] Scav, 28 Oct; fixed by page sheets and by not painting the sheet's content background |
+| Closed, a sheet's close tops the side bar with the primary under it as a prominent button | [owner] Weft, 12 Nov, accepted after the drawn version was rejected; matches [device] D10, D20 (Calendar) |
+| The screen's background runs under the side bar | [owner] 6 reports in 5 apps, 27 Oct to 24 Nov (Scav banner and form, dAIolog onboarding, Fullframe remote desktop, Weft, Rex Remote toolbar); matches [device] D18 |
+| Force the system appearance to the app's theme | [owner] Weft, 12 Nov: a "System" theme left React Native reporting dark while iOS drew the bar light; fixed with `Appearance.setColorScheme` on every change |
+| Lift composers with a window measurement on each keyboard event, 16pt above the keys | [owner] dAIolog, 18 Nov: the input cleared the keyboard "on occasion" with `KeyboardAvoidingView`; `useKeyboardLift` fixed both chat screens (commit `4eb986b51b`), and 8pt was sent back for 16pt (`aa25bc90f8`). The template's test passes 2/2 under jest-expo |
+| A keyboard-avoiding container replaces its child's bottom padding, so a gap set there never shows | [owner] Scav, 28 Oct: buttons stayed on the bottom edge until the gap moved to an inner view |
+| Native titles; a tab root's title hidden where tabs sit on top needs a `titleMenuProvider` | [owner] Scav, 27 to 28 Oct; Apple forum thread 812133; seen fixed on the iPad simulator |
+| A band under a transparent header comes from a scroll view's automatic content insets | [owner] Weft, 12 Nov, closed display |
+| `NativeTabs` `minimizeBehavior="never"` when side tabs vanish at launch | [owner] Scav builds 21–23 on 28 Oct; it stopped after builds 24–25, which also re-laid out the tab bar, so the cause is not isolated |
+| SF Symbol tab icons | [owner] Scav, 27 Oct: custom tab images sat at the wrong size in the side bar |
+| Every top-level screen uses the open display | [owner] Scav, 27 Oct ("a giant iPhone app"); Tumbler, 27 Nov ("a significant amount of wasted space"), fixed with a new list-and-detail hierarchy; Fullframe, 28 Oct (sidebars collapsed with no need) |
+| Closed, rows push and every pushed screen has a back item | [owner] Tumbler, 27 Nov (a placeholder selection swallowed taps; confirmed fixed by a recording); Weft, 12 Nov (screens opened without history had no back item) |
+| A toolbar menu that re-renders closes; make it an `Equatable` view | [owner] Rex Remote, 24 Nov; the menu then stayed open through 9 seconds of updates |
+| Mock as a native app on the Duo simulator; keep the product's look | [owner] six requests for a real-app mock, 12 to 28 Nov ("Use real swift app in simulator for the mock"); dAIolog, 26 Nov ("the aesthetic … seems to have been lost in the app mocks") |
+| Drive Device Hub yourself with a CGEvent click through Terminal; Maestro for in-app taps | [owner] Rex Remote, 24 Nov ("You can operate the app yourself in future"); method measured that day on Xcode 27.1, and reused for Tumbler on 27 Nov |
+| Recapture only screens whose code changed | [owner] Splice and Bullettime, 12 Nov: unchanged screens tested "over and over" |
+| SwiftUI: tile the panes yourself at 669pt portrait; clear a default selection when compact | Tumbler's `TwoPane` and `FoldSelection`, 27 Nov; `templates/swiftui/Fold.swift` adapted from Rex Remote's and typechecked against the iOS 27.1 SDK at deployment targets 17.0 and 27.1 |
 
 ## The platform
 
