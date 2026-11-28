@@ -158,8 +158,9 @@ owner reported on one. The ones that decide most of the result:
   across the content. The owner reported drawn buttons 13 times across 5 apps between 28 October and
   27 November 2026, more than any other defect, including in a run that had been handed this skill.
   Wire every item to its action, because an item with an empty handler is a dead control in the side
-  bar, and put each action in one place. A pane drawn inside a split keeps its actions in its own top
-  row, and Android keeps them inline (pattern 8).
+  bar, and put each action in one place. Closed, the side bar holds back and two actions before the
+  rest fold into a ••• menu, so keep the primary action in those two. A pane drawn inside a split
+  keeps its actions in its own top row, and Android keeps them inline (pattern 8).
 - **Present sheets natively and let iOS place them.** Use the page sheet (`presentation: 'modal'`;
   SwiftUI `.sheet`) with Close and the affirmative action as bar items, and give every modal a way to
   close. iOS 27.1 then does what the App Store does on a Duo: a centred card open flat, one page half
@@ -171,18 +172,23 @@ owner reported on one. The ones that decide most of the result:
   reported a strip of a different colour beside the bar 6 times in 5 apps. When the app chooses light
   or dark itself, force the system's appearance to match, or iOS draws the bar in the other one
   (pattern 16).
-- **Every top-level screen uses the open display.** Decide per screen: list and detail, columns, or a
-  capped column with something beside it. A phone layout stretched or centred across 951pt came back
-  as "a giant iPhone app" and "a significant amount of wasted space" (pattern 17).
+- **Every top-level screen uses the open display.** Decide per screen: list and detail, columns,
+  controls beside their result, or a capped column with something beside it. A phone layout
+  stretched or centred across 951pt came back as "a giant iPhone app" and "a significant amount of
+  wasted space" (pattern 17).
 - **List and detail on the open display, and on any pane at least 900pt wide.** Wrap the tab's list
   in `DetailPaneLayout`; with two panes the right one renders what the list would have pushed. Open and
   flat, the list is a fixed 320pt column and the fold falls inside the detail, as in 21 apps measured
   on a device; folded like a book, the panes divide at the fold. Without a fold it measures the pane,
-  not the window, so iPad's sidebar does not count. Select the first item by default, because an empty
-  right half reads as broken, and push the chosen item full screen when the device closes.
+  not the window, so iPad's sidebar does not count. Rows with meters, figures or several values take
+  `listWidth="fold"`, because the owner found 320pt cramped for them. Select the first item by
+  default, because an empty right half reads as broken. Keep what is on screen across the fold: the
+  chosen item goes full screen when the device closes, and a detail open on the closed display
+  becomes the right pane, with the list beside it, when it opens (pattern 2).
 - **Closed, the app is a phone app with a side bar.** Rows push with the standard animation, every
-  pushed screen has a back item even when nothing is behind it, and no band of colour sits under a
-  transparent header (pattern 18).
+  pushed screen has a back item even when nothing is behind it, an action inside a screen pushes or
+  presents rather than switching tabs, and no band of colour sits under a transparent header
+  (pattern 18).
 - **Lift composers above the split keyboard with `useKeyboardLift`.** The keyboard covers up to 42%
   of the open display and does not resize a sheet. `KeyboardAvoidingView` measures from a stale
   layout in a pane, so the owner saw the input clear the keys only "on occasion"; the hook measures in
@@ -221,13 +227,13 @@ a real Duo after a run had called the screen done. `be-my-witness:be-my-witness`
 region-by-region read when a pose is in doubt.
 
 1. A close, confirm, send, new or share button drawn in the content instead of standing in the side bar.
-2. A side bar with no items on a screen that has actions, or side tabs missing at launch.
+2. A side bar with no items on a screen that has actions, side tabs missing at launch, or the primary action hidden in the closed ••• menu.
 3. A strip beside the side bar in a different colour from the screen, in light or in dark.
 4. A modal with no close control, gaps or pale corners around a sheet, or a sheet forced full screen.
 5. A focused field or composer under the keyboard or less than 16pt above it.
-6. The open display used as a stretched or centred phone column with empty space beside it.
+6. The open display used as a stretched or centred phone column, or a list too narrow for its rows, with space left unused.
 7. A title missing, or a different size or position from the other tabs.
-8. Closed: a row that highlights without pushing, a pushed screen with no back item, a band under the header.
+8. A row that highlights without pushing, a pushed screen with no back item, an action that switches tabs, a detail lost on unfolding.
 9. Controls sitting on the bottom edge of the open display, or full-bleed media that cannot hide its chrome.
 10. A menu that closes by itself while the screen updates, or tab icons the wrong size in the side bar.
 

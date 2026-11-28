@@ -21,11 +21,14 @@ Branch on `tier` and `hasFold`, never on `UIDevice.current.userInterfaceIdiom`: 
 ## List and detail (pattern 2)
 
 - **Landscape, open:** `NavigationSplitView` with
-  `.navigationSplitViewColumnWidth(listColumnWidth(fold))`. The system keeps the list clear of the
-  side bar.
+  `.navigationSplitViewColumnWidth(listColumnWidth(fold))`, or `listColumnWidth(fold, .fold)` for rows
+  with meters or figures. The system keeps the list clear of the side bar. With a selection it also
+  keeps what is on screen across the fold, which is what the owner asked for: a detail open on the
+  closed display becomes the right pane when the Duo opens.
 - **Portrait, open (669pt):** the size class is regular, and `NavigationSplitView` draws its list as
   an overlay at that width. Tile the panes yourself with an `HStack` of a `NavigationStack` list at
-  `listColumnWidth(fold)`, a `Divider`, and the detail (Tumbler, 27 November).
+  `listColumnWidth(fold)`, a `Divider`, and the detail (Tumbler, 27 November). For dense rows, use one
+  column capped at 620pt instead: two panes of about 330pt each were cramped in Relay (28 November).
 - **Closed or a Split View half:** let `NavigationSplitView` collapse to a stack, which pushes.
 - **Selection across the fold:** open, default the selection to the first row so the detail is never
   blank. Closed, a default selection pushes a detail the person never chose, so clear it on the

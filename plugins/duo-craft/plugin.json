@@ -1,6 +1,6 @@
 {
   "name": "duo-craft",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Build or adapt a React Native / Expo or SwiftUI app for iPhone Duo, Apple's foldable iPhone. Ships a native fold module that has run on the Duo simulator and a SwiftUI fold reader, list-and-detail split at the fold, actions as native bar items that stand in the side bar, sheets the system places, per-side safe-area insets, a keyboard lift for the split keyboard, tabletop and Split View handling, Expo's fix for the iOS 27 launch crash, a static audit of the assumptions that break on a foldable, and a starter app. Mocks are native apps on the Duo simulator, each capture is read against the ten defects the owner reported on a real Duo, and every pose ends up in the report as seen, not reached, or not built.",
   "category": "development"
 }

@@ -68,6 +68,21 @@ What made it work in a real app:
   50/50 folded (Mail, Reminders). A fold-aligned split appears only on pages of two equal halves
   (pattern 3). The divider moves when the hinge folds, which Mail does too. Versions before 0.4.0
   split at the fold in both poses to avoid that move, and the reference app still does.
+- **Dense rows run the list to the fold.** 320pt suits plain rows. Rows that carry meters, figures
+  or several values each need `DetailPaneLayout listWidth="fold"` (SwiftUI:
+  `listColumnWidth(fold, .fold)`), which runs the list to the fold, about 476pt, while flat. The owner
+  found Relay's 320pt list of agent accounts "too narrow, everything looks cramped" (28 November
+  2026). In open portrait the same rows got one column capped at 620pt instead of two panes of about
+  330pt each. Both changes went to TestFlight that day and the owner had not reported on them when
+  this was written.
+- **Opening keeps what is on screen.** The owner's rule (Lookout, 28 November 2026): opening the Duo
+  shows the list on the left and whatever was on screen on the right, so a detail open on the closed
+  display stays open as the right pane; a list on the closed display opens as the list beside its
+  default detail; closing keeps the detail. They asked for it to be "a native function", and SwiftUI's
+  `NavigationSplitView` with a selection behaves this way in both directions. `DetailPaneLayout` does
+  the closing half (below). Opening with a detail pushed on top of the list does not yet return it to
+  the right pane in React Native: pop the pushed detail and select its id when `split` turns true, and
+  report that pose. Some screens are exceptions, such as a full-bleed viewer; decide per screen.
 - **Selecting a row swaps the detail in place.** The sidebar keeps its scroll offset and shows the
   selection as a pill (Settings, Shortcuts, Journal; D22).
 - **The alternative to a default selection is a labelled placeholder** ("No Event Selected",
@@ -193,6 +208,11 @@ notes. Treat every screen-level action as a bar item unless it is one of the exc
   y 125 open and y 175 closed, tabs bottom-aligned (D03). Screen actions (back, close, share, more,
   Done) take the top group and keep the same first slot from screen to screen; tabs and creation
   take the bottom group (D06).
+- **Closed, the side bar holds back and two actions.** A third action goes into a ••• overflow, which
+  in one app swallowed the prominent Mark Seen (Lookout on the Duo simulator, 28 November 2026). Rank
+  each screen's actions, keep the primary one visible, and show a contextual action only while it
+  applies: Send appeared only while the person was typing feedback, and Mark Seen took its place
+  otherwise.
 - The first button moves down when the status stack grows (a low-battery banner, a microphone
   indicator), so a control positioned at a fixed y in the bar's column lands on the status items
   (D28). Declare it as a native item instead.
@@ -362,8 +382,11 @@ it. A phone layout stretched or centred across the open display was sent back as
 and the fix in the second app was a new hierarchy (Items, Watchtower, Generator, Settings, each a
 list beside its detail open and a push stack closed), not wider cards. Two more reports in the same
 family: a split with a wide list and a narrow detail where the detail held the content, and a photo
-grid kept to one column in open landscape. Write the decision per screen in the plan, so a reviewer
-can see each screen was considered.
+grid kept to one column in open landscape. A tool or form screen splits too: Tumbler's password
+generator kept its options and result together on the left and left the right side nearly empty ("an
+odd use of space", 28 November 2026); the fix put the options in the left column and the generated
+value, large, with its strength and recent values, on the right. Write the decision per screen in the
+plan, so a reviewer can see each screen was considered.
 
 ## 18. Closed, the app is a phone app with a side bar — *from owner reports*
 
@@ -372,6 +395,9 @@ can see each screen was considered.
   the push with a recording, because a still capture cannot show it.
 - **Every pushed screen has a back item,** including one opened with nothing behind it, from a sheet
   or a deep link: give those a Back item that returns to their tab (12 November 2026).
+- **An action inside a screen pushes or presents; it never switches tabs.** Bullettime's "Measure
+  against" row jumped to another tab, and the owner asked for a push or a modal instead (28 November
+  2026); the run found two more rows doing the same and fixed all three.
 - **No band at the top** (pattern 6) and **no strip beside the bar** (pattern 16).
 
 ## Design before code
