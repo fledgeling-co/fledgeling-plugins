@@ -115,9 +115,15 @@ func tier(width: CGFloat, fold: FoldState) -> Tier {
     return width >= (fold.hasFold ? 900 : 700) ? .expanded : .compact
 }
 
-/// The list column beside a detail: a fixed 320pt while the open display lies flat, as 21 shipping
-/// apps measured on a device do, and up to the fold once it folds like a book.
-func listColumnWidth(_ fold: FoldState) -> CGFloat {
+/// How wide the list runs on the flat open display. `.narrow` is the fixed 320pt column 21 shipping
+/// apps measured on a device use for plain rows. `.fold` runs it to the fold (about 476pt) for rows
+/// that carry meters, figures or several values each, which the owner found cramped at 320pt.
+enum ListWidth { case narrow, fold }
+
+/// The list column beside a detail: `listWidth` while the open display lies flat, and up to the
+/// fold once it folds like a book.
+func listColumnWidth(_ fold: FoldState, _ listWidth: ListWidth = .narrow) -> CGFloat {
     if fold.book, let f = fold.fold { return max(280, f.minX) }
+    if listWidth == .fold, fold.vertical, let f = fold.fold { return max(320, f.midX) }
     return 320
 }

@@ -57,6 +57,12 @@ describe('two panes', () => {
     expect(twoPaneFor(foldGeometry(flat), 951, 669)).toEqual({ leftWidth: 320, rightX: 320 });
   });
 
+  it('runs a dense list to the fold when asked, flat, and still divides at the fold folded', () => {
+    expect(twoPaneFor(foldGeometry(flat), 951, 669, 'fold')).toEqual({ leftWidth: 475.5, rightX: 475.5 });
+    expect(twoPaneFor(foldGeometry(book), 951, 669, 'fold')).toEqual(twoPaneFor(foldGeometry(book), 951, 669));
+    expect(twoPaneFor(foldGeometry(flat), 669, 951, 'fold')).toBeNull();
+  });
+
   it('divides at the fold, with its gap, once the device folds like a book', () => {
     expect(twoPaneFor(foldGeometry(book), 951, 669)).toEqual({ leftWidth: 460, rightX: 491 });
   });

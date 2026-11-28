@@ -83,16 +83,32 @@ export type TwoPane = {
 };
 
 /**
+ * How wide the list runs on the flat open display. `narrow` is the fixed 320pt column most apps
+ * use for plain rows. `fold` runs it to the fold (about 476pt), for rows that carry meters,
+ * figures or several values each: the owner found 320pt "too narrow, everything looks cramped"
+ * for such rows. Folded like a book, both divide at the fold.
+ */
+export type ListWidth = 'narrow' | 'fold';
+
+/**
  * List and detail on a device with a fold, or null for one pane. Needs a fold running top
  * to bottom inside a landscape window at least `TWO_PANE_MIN_WIDTH` wide: the open inner
  * display. Lying flat, the list is a fixed `FLAT_LIST_WIDTH` column meeting the detail at a
  * hairline; folded like a book, the panes divide at the fold with its gap between them.
  * Split View (half the display) and the closed outer display stay single-pane.
  */
-export function twoPaneFor(fold: FoldGeometry, windowWidth: number, windowHeight: number): TwoPane | null {
+export function twoPaneFor(
+  fold: FoldGeometry,
+  windowWidth: number,
+  windowHeight: number,
+  listWidth: ListWidth = 'narrow',
+): TwoPane | null {
   if (fold.verticalFoldX == null) return null;
   if (windowWidth < TWO_PANE_MIN_WIDTH || windowWidth <= windowHeight) return null;
-  if (fold.posture === 'flat') return { leftWidth: FLAT_LIST_WIDTH, rightX: FLAT_LIST_WIDTH };
+  if (fold.posture === 'flat') {
+    const left = listWidth === 'fold' ? fold.verticalFoldX : FLAT_LIST_WIDTH;
+    return { leftWidth: left, rightX: left };
+  }
   const half = fold.gap / 2;
   return { leftWidth: Math.max(0, fold.verticalFoldX - half), rightX: fold.verticalFoldX + half };
 }
@@ -166,8 +182,8 @@ export function useFold(): FoldGeometry {
 }
 
 /** The two-pane split for the current window, or null. */
-export function useTwoPane(): TwoPane | null {
+export function useTwoPane(listWidth: ListWidth = 'narrow'): TwoPane | null {
   const fold = useFold();
   const { width, height } = useWindowDimensions();
-  return twoPaneFor(fold, width, height);
+  return twoPaneFor(fold, width, height, listWidth);
 }

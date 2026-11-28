@@ -80,9 +80,15 @@ screencapture -x -o -l <windowid> dh.png              # Device Hub's window; rea
   `.command` file and `open -a Terminal` that file. Activate Device Hub first
   (`open -a "<Xcode 27.1>/Contents/Applications/DeviceHub.app"`), or the click lands on whatever is
   in front.
+- **Other sessions may be using Device Hub.** Open a window of your own (File › New Window), choose
+  your simulator in it, and before each click check that the window in front is yours and its title
+  names your simulator. Close it with File › Close when you finish, and leave the other windows as
+  they were (Tumbler, 28 November 2026).
 - For taps inside the app, use Maestro (`maestro --device <udid> test flow.yaml`), which taps by text
   or point. `idb ui tap` fails on Xcode 27.1 because SimulatorKit moved. A tap during the keyboard's
-  animation can miss; tap again.
+  animation can miss; tap again. Maestro's taps land in the outer display's coordinates, so they
+  cannot reach the inner display: give the app a launch argument that opens a chosen tab or screen,
+  and capture each one in each open pose that way (Lookout, 28 November 2026).
 - `xcrun simctl launch --terminate-running-process <udid> <bundle-id> <args>`: a separate
   `terminate` then `launch` can leave the old process serving the launch, and its arguments are
   silently ignored.

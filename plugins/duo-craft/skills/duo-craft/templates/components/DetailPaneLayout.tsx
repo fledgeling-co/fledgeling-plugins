@@ -6,7 +6,7 @@ import { SafeAreaInsetsContext, useSafeAreaInsets } from 'react-native-safe-area
 
 import { useRouter } from 'expo-router';
 
-import { twoPaneForWidth, useFold, useTwoPane, type TwoPane } from '~/lib/fold';
+import { twoPaneForWidth, useFold, useTwoPane, type ListWidth, type TwoPane } from '~/lib/fold';
 import { PaneWidthContext, systemColor } from '~/lib/layout';
 
 /**
@@ -63,12 +63,14 @@ type Props = {
   children: React.ReactNode;
   /** The right pane for the selected id. */
   renderDetail: (id: string | null) => React.ReactNode;
+  /** `fold` when the list's rows carry meters, figures or several values; see `ListWidth`. */
+  listWidth?: ListWidth;
 };
 
-export function DetailPaneLayout({ hrefFor, defaultId = null, children, renderDetail }: Props) {
+export function DetailPaneLayout({ hrefFor, defaultId = null, children, renderDetail, listWidth = 'narrow' }: Props) {
   const router = useRouter();
   const fold = useFold();
-  const foldPane = useTwoPane();
+  const foldPane = useTwoPane(listWidth);
   // Without a fold the split is decided by this pane's own width, which on iPad excludes the
   // sidebar. Null until the first layout: one pane renders first, then splits if it fits.
   const [paneWidth, setPaneWidth] = useState<number | null>(null);

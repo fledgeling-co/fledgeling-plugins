@@ -19,10 +19,11 @@ Where each rule in this skill comes from. Six kinds of source, marked in the tab
   build; the ones that failed the check are listed at the end.
 - **[owner]** — what the owner of the apps this skill was used on reported from a real iPhone Duo,
   read from 45 Claude Code sessions that invoked this skill between 11 October and 28 November 2026,
-  together with the fix that cleared each report (read from the session and the app's code). Dated
-  in each row.
+  together with the fix that cleared each report (read from the session and the app's code). For
+  0.6.0, the messages sent between 04:47 and 08:47 UTC on 28 November in the 6 sessions that had run
+  it, 5 of them among the 45. Dated in each row.
 
-## Owner reports on a device (0.5.0)
+## Owner reports on a device (0.5.0 and 0.6.0)
 
 | Rule | Source |
 |---|---|
@@ -44,6 +45,12 @@ Where each rule in this skill comes from. Six kinds of source, marked in the tab
 | Mock as a native app on the Duo simulator; keep the product's look | [owner] six requests for a real-app mock, 12 to 28 Nov ("Use real swift app in simulator for the mock"); dAIolog, 26 Nov ("the aesthetic … seems to have been lost in the app mocks") |
 | Drive Device Hub yourself with a CGEvent click through Terminal; Maestro for in-app taps | [owner] Rex Remote, 24 Nov ("You can operate the app yourself in future"); method measured that day on Xcode 27.1, and reused for Tumbler on 27 Nov |
 | Recapture only screens whose code changed | [owner] Splice and Bullettime, 12 Nov: unchanged screens tested "over and over" |
+| Dense rows run the list to the fold (`listWidth="fold"`, `.fold`); one 620pt column in open portrait | [owner] Relay, 28 Nov: 320pt "too narrow, everything looks cramped"; the wider build went to TestFlight unconfirmed. `fold.test.ts` covers the option (23/23 template tests pass under jest-expo); `Fold.swift` typechecks with it |
+| Opening keeps what is on screen; closing keeps the detail | [owner] Lookout, 28 Nov, stated as the rule to apply across the app's screens; the RN template's opening half is not built |
+| Closed, the side bar holds back and two actions before a ••• overflow | [owner] Lookout on the Xcode 27.1 Duo simulator, 28 Nov: a third action pushed Mark Seen into the overflow |
+| A tool or form screen puts its controls left and its result right when open | [owner] Tumbler, 28 Nov: the generator left the right side nearly empty ("an odd use of space") |
+| An action inside a screen pushes or presents, never switches tabs | [owner] Bullettime, 28 Nov ("Measure against"); two more rows fixed in the same pass |
+| Own Device Hub window when others share it; Maestro cannot tap the inner display | [owner] Tumbler and Lookout runs, 28 Nov |
 | SwiftUI: tile the panes yourself at 669pt portrait; clear a default selection when compact | Tumbler's `TwoPane` and `FoldSelection`, 27 Nov; `templates/swiftui/Fold.swift` adapted from Rex Remote's and typechecked against the iOS 27.1 SDK at deployment targets 17.0 and 27.1 |
 
 ## The platform
