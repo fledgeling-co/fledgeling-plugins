@@ -318,4 +318,6 @@ this is one document at a time and needs no subagent. The résumé is two pages 
 person's market says otherwise, at 11pt with 14pt headings and 20 mm margins for Australia: when
 a document fits only by pulling the type, line spacing, bullet gaps or margins below their
 defaults, cut words instead, the drafter's before the person's, and only where the cut removes a
-printed line (`../career-kit/references/documents.md`, Type and spacing).
+printed line (`../career-kit/references/documents.md`, Type and spacing). Typeface, accent,
+heading treatment, name size and heading space may vary inside the ranges in
+`references/structure.md` (Looks); everything else in the layout stays fixed.

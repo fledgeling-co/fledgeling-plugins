@@ -1,6 +1,13 @@
 """Render a résumé written in a small Markdown subset into print-ready A4 HTML.
 
-    python3 build_resume.py <copy.md> <out.html> [--name "Jane Doe"] [--accent "#1F2B5B"]
+    python3 build_resume.py <copy.md> <out.html> [--name "Jane Doe"] [--look classic]
+        [--accent teal|#1F5F63] [--font-dir <url or path holding the font files>]
+
+`--look` picks one of the named looks in `looks.py` (typeface, accent, heading treatment, name
+size, space above headings), each inside the layout research's bounds; `classic` is the default
+and matches the earlier output. `--accent` overrides the look's accent by name or hex. Calibri
+and Aptos are not system fonts on macOS, so pass `--font-dir` pointing at Word's font folder (or
+an HTTP path serving it) and check with `pdffonts` that the face embedded.
 
 Pages break automatically: the sheet has a min-height of 297mm and no fixed height, so
 content that outgrows one page flows onto the next instead of being clipped. A fixed-height
@@ -22,14 +29,19 @@ Markdown subset:
 Highlighted brackets are the gap marker. They print, deliberately: an unconfirmed figure
 should be impossible to miss rather than plausible prose.
 """
-import re, html, sys, argparse
+import re, html, sys, argparse, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from looks import FONTS, get_look, INK, INK2
 
 ap = argparse.ArgumentParser()
 ap.add_argument("src"); ap.add_argument("out")
 ap.add_argument("--name", default="", help="footer name; defaults to the H1 text")
-ap.add_argument("--accent", default="#1F2B5B")
+ap.add_argument("--look", default="classic", help="a look id from looks.py")
+ap.add_argument("--accent", default=None, help="override the look's accent (name or hex)")
+ap.add_argument("--font-dir", default="", help="URL or path holding Calibri/Aptos files")
 ap.add_argument("--lang", default="en-AU")
 a = ap.parse_args()
+L = get_look(a.look, a.accent)
 
 def inline(t):
     t = html.escape(t)
@@ -80,27 +92,33 @@ for ln in open(a.src).read().splitlines():
 if ul: body.append("</ul>")
 
 name = a.name or title
+FACES = "".join(f'@font-face{{font-family:"{L["font"]}";src:url("{a.font_dir.rstrip("/")}/{f}");'
+                f'font-weight:{w};font-style:{s}}}' for f, w, s in FONTS[L["font"]]) if a.font_dir else ""
+STACK = f'"{L["font"]}",Arial,"Helvetica Neue",Helvetica,sans-serif'
+if L["font"] == "Times New Roman":
+    STACK = '"Times New Roman",Times,serif'
 # Type and spacing: the corporate layout from the AU layout research of 25 Nov 2026 (Arial or
 # Calibri 11pt; 14pt bold sentence-case section headings; 20 mm margins on every side; 20pt name)
 # with 2pt of leading (Tinker), 3pt between bullets and 12pt before each section heading. No
 # Australian source gives a number for line spacing or margins. Line height is in points so
 # make_docx.py can set the same EXACT value: Word's "1.15" multiple is about 1.32x the type for
 # Arial, where CSS's 1.15 is 1.15x.
-CSS = """
+CSS = FACES + """
 @page{size:A4;margin:20mm;@bottom-center{content:"__NAME__  ·  page " counter(page)
- " of " counter(pages);font:8.5pt Arial,sans-serif;color:#3D4350}}
+ " of " counter(pages);font:8.5pt __STACK__;color:#3D4350}}
 :root{--ink:#16181D;--ink2:#3D4350;--rule:#B9BEC8;--accent:__ACCENT__}
 *{box-sizing:border-box}
 html{background:#E9EBEF}
-body{margin:0;color:var(--ink);font:11pt/13pt Arial,"Helvetica Neue",Helvetica,sans-serif;
+body{margin:0;color:var(--ink);font:__PT__pt/__LH__pt __STACK__;
  -webkit-print-color-adjust:exact;print-color-adjust:exact}
 .sheet{width:210mm;min-height:297mm;margin:10mm auto;background:#fff;padding:20mm;
  box-shadow:0 1px 4px rgba(0,0,0,.18)}
 h2,h3{break-after:avoid}li,h3+p{break-inside:avoid}h3.role+p{break-after:avoid}
-h1{font-size:20pt;line-height:24pt;margin:0 0 4pt;letter-spacing:.01em;color:var(--accent)}
+h1{font-size:__NAMEPT__pt;line-height:__NAMELH__pt;margin:0 0 4pt;letter-spacing:.01em;color:var(--accent)}
 .contact{margin:0 0 4pt;color:var(--ink2);font-size:10pt;line-height:14pt}
-h2{font-size:14pt;line-height:17pt;color:var(--accent);
- margin:12pt 0 4pt;padding-bottom:3pt;border-bottom:.6pt solid var(--rule)}
+h2{font-size:__H2__pt;line-height:__H2LH__pt;color:__H2COLOR__;font-weight:__H2W__;
+ margin:__GAP__pt 0 4pt;padding-bottom:__H2PAD__pt;border-bottom:__H2RULE__}
+h3.role>span:first-child{color:__TITLECOLOR__}
 h3{margin:7pt 0 2pt;font-size:10.5pt;line-height:13pt;display:flex;justify-content:space-between;gap:6mm;
  align-items:baseline}
 h3.emp{font-size:12pt;line-height:15pt;margin-top:2pt}
@@ -120,7 +138,16 @@ mark.ph{background:#FFE36E;color:inherit;padding:0}
  background:#FFF6CC;border:1px solid #E5C94A;border-radius:6px;padding:10px 14px}
 @media print{html{background:#fff}.sheet{margin:0;box-shadow:none;padding:0;width:auto;
  min-height:0}.banner{display:none}}
-""".replace("__NAME__", name.replace('"', "")).replace("__ACCENT__", a.accent)
+"""
+for k, v in {"__NAME__": name.replace('"', ""), "__ACCENT__": L["accent"], "__STACK__": STACK,
+             "__PT__": f'{L["pt"]:g}', "__LH__": f'{L["lh"]:g}', "__NAMEPT__": f'{L["name_size"]:g}',
+             "__NAMELH__": f'{L["name_size"] + 4:g}', "__H2__": f'{L["h2_size"]:g}',
+             "__H2LH__": f'{L["h2_size"] + 3:g}', "__H2COLOR__": L["h2_color"],
+             "__H2W__": str(L["h2_weight"]), "__GAP__": f'{L["gap"]:g}',
+             "__H2PAD__": "3" if L["rule"] else "0",
+             "__H2RULE__": ".6pt solid var(--rule)" if L["rule"] else "0",
+             "__TITLECOLOR__": L["title_color"] or "inherit"}.items():
+    CSS = CSS.replace(k, v)
 
 open(a.out, "w").write(
     f'<!doctype html><html lang="{a.lang}"><head><meta charset="utf-8">'

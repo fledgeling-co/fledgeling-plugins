@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Résumé Looks</title>
+<style>
+:root{
+  --bg:#E9EEE4; --card:#FFFDF8; --ink:#1B2333; --ink2:#384254; --muted:#5A6576; --line:#D2DBC6;
+  --accent:#2747D3; --accent-ink:#FFFFFF; --sunk:#DEE5D6; --warn:#9A560A; --warn-bg:#FBE9CF;
+  --paper-shadow:0 1px 2px rgba(27,35,51,.08),0 12px 32px -12px rgba(27,35,51,.28);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121821; --card:#1B2230; --ink:#EEF1F6; --ink2:#C9CFDA; --muted:#A0A9B8; --line:#2C3546;
+  --accent:#93A7FF; --accent-ink:#121821; --sunk:#222A39; --warn:#F0BC70; --warn-bg:#3A2A12;
+  --paper-shadow:0 1px 2px rgba(0,0,0,.4),0 16px 40px -16px rgba(0,0,0,.7);
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.bar{position:sticky;top:0;z-index:2;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1280px;margin:0 auto;padding:12px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.title{font-weight:700;font-size:15px;margin-right:auto}
+.tabs{display:flex;gap:4px;padding:4px;background:var(--sunk);border-radius:12px;overflow-x:auto;min-width:0;scrollbar-width:none}
+.tab{appearance:none;border:0;background:transparent;color:var(--ink2);font:600 14px/1 inherit;padding:0 14px;min-height:40px;border-radius:9px;cursor:pointer;white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.tab:focus-visible,.nav:focus-visible,.open:focus-visible,.lay:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.nav{appearance:none;border:1px solid var(--line);background:var(--card);color:var(--ink);min-width:44px;min-height:40px;border-radius:10px;cursor:pointer;font:600 18px/1 inherit}
+main{max-width:1280px;margin:0 auto;padding:20px 16px 64px}
+.head{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline;justify-content:space-between;margin:4px 0 18px}
+.head h1{margin:0;font-size:24px;letter-spacing:-.01em}
+.head p{margin:4px 0 0;color:var(--muted);max-width:72ch}
+/* Every look's description sits in one grid cell with only the current one visible, so the block
+   is as tall as the longest at any width and the pages never move when you switch. */
+.desc{display:grid;flex:1 1 32rem;min-width:0}
+.desc > div{grid-area:1 / 1;visibility:hidden}
+.desc > div.on{visibility:visible}
+.flag{display:inline-block;margin-top:6px;padding:2px 8px;border-radius:7px;background:var(--warn-bg);color:var(--warn);font-size:13px;font-weight:600}
+.count{color:var(--muted);font-size:14px;white-space:nowrap}
+.open{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none;font-size:14px}
+.pages{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.pages.col{grid-template-columns:minmax(0,820px);justify-content:center;gap:32px}
+.layout{display:flex;gap:4px;padding:4px;background:var(--sunk);border-radius:12px}
+.lay{appearance:none;border:0;background:transparent;color:var(--ink2);display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 10px;border-radius:9px;font:600 13px/1 inherit;cursor:pointer}
+.lay svg{fill:none;stroke:currentColor;stroke-width:1.5}
+.lay[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+figure{margin:0}
+figure img{display:block;width:100%;height:auto;background:#fff;border-radius:3px;box-shadow:var(--paper-shadow)}
+figcaption{margin-top:8px;text-align:center;color:var(--muted);font-size:13px}
+.hint{color:var(--muted);font-size:13px}
+@media (max-width:860px){
+  .pages{grid-template-columns:minmax(0,1fr)}
+  .layout{display:none}
+  .bar-in{flex-wrap:nowrap;gap:8px;padding:8px 12px}
+  .title{display:none}
+  .tabs{flex:1 1 auto}
+  .tab{padding:0 10px;font-size:13px}
+  .head h1{font-size:20px}
+}
+</style>
+</head>
+<body>
+<div class="bar"><div class="bar-in">
+  <span class="title">__TITLE__</span>
+  <button class="nav" id="prev" type="button" aria-label="Previous look">‹</button>
+  <div class="tabs" role="tablist" aria-label="Looks" id="tabs"></div>
+  <button class="nav" id="next" type="button" aria-label="Next look">›</button>
+</div></div>
+<main>
+  <div class="head">
+    <div class="desc" id="desc"></div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <div class="layout" role="group" aria-label="Page layout">
+        <button type="button" class="lay" data-lay="row" aria-pressed="true"><svg width="20" height="16" viewBox="0 0 20 16" aria-hidden="true"><rect x="1" y="1" width="8" height="14" rx="1.5"/><rect x="11" y="1" width="8" height="14" rx="1.5"/></svg><span>Side by side</span></button>
+        <button type="button" class="lay" data-lay="col" aria-pressed="false"><svg width="16" height="20" viewBox="0 0 16 20" aria-hidden="true"><rect x="2" y="1" width="12" height="8" rx="1.5"/><rect x="2" y="11" width="12" height="8" rx="1.5"/></svg><span>Stacked</span></button>
+      </div>
+      <span class="count" id="count"></span><a class="open" id="pdf" href="#" target="_blank" rel="noopener">Open the PDF</a>
+    </div>
+  </div>
+  <div class="pages" role="tabpanel" id="panel"></div>
+  <p class="hint">Use the tabs, the arrows beside them, or the ← and → keys. The words are the same in every look; only the typeface, accent, heading treatment and spacing change.</p>
+</main>
+<script>
+const LOOKS = __LOOKS__;
+const LIMIT = __PAGES__;
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const tabs = document.getElementById("tabs");
+document.getElementById("desc").innerHTML = LOOKS.map((l, i) => `<div data-i="${i}"${i ? ' aria-hidden="true"' : ""}><h1>${esc(l.name)}</h1><p>${esc(l.what)}</p>${l.over ? `<span class="flag">${l.pages} pages, ${l.pages - LIMIT} over the ${LIMIT}-page limit</span>` : ""}${l.fellBack ? `<span class="flag">The typeface did not embed; this PDF shows a fallback</span>` : ""}</div>`).join("");
+tabs.innerHTML = LOOKS.map((l, i) => `<button class="tab" role="tab" id="tab-${esc(l.id)}" aria-controls="panel" data-i="${i}" tabindex="-1">${esc(l.tab)}</button>`).join("");
+let cur = 0;
+function show(i, push = true) {
+  cur = (i + LOOKS.length) % LOOKS.length;
+  const l = LOOKS[cur];
+  document.querySelectorAll(".tab").forEach((t, k) => { t.setAttribute("aria-selected", k === cur); t.tabIndex = k === cur ? 0 : -1; });
+  document.getElementById("panel").setAttribute("aria-labelledby", `tab-${l.id}`);
+  document.querySelectorAll("#desc > div").forEach((d, k) => { d.classList.toggle("on", k === cur); d.toggleAttribute("aria-hidden", k !== cur); });
+  document.getElementById("count").textContent = `${cur + 1} of ${LOOKS.length}`;
+  document.getElementById("pdf").href = `${l.id}.pdf`;
+  document.getElementById("panel").innerHTML = Array.from({ length: l.pages }, (_, n) => `<figure><img src="big-${esc(l.id)}-${n + 1}.png" width="827" height="1170" alt="${esc(l.name)}, page ${n + 1}"><figcaption>Page ${n + 1}</figcaption></figure>`).join("");
+  document.title = `${l.name} · Résumé Looks`;
+  document.querySelectorAll(".tab")[cur].scrollIntoView({ block: "nearest", inline: "nearest" });
+  if (push) history.replaceState(null, "", `#${l.id}`);
+}
+tabs.addEventListener("click", (e) => { const t = e.target.closest(".tab"); if (t) show(Number(t.dataset.i)); });
+tabs.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); show(cur + (e.key === "ArrowRight" ? 1 : -1)); document.querySelectorAll(".tab")[cur].focus(); }
+  if (e.key === "Home") { e.preventDefault(); show(0); document.querySelectorAll(".tab")[0].focus(); }
+  if (e.key === "End") { e.preventDefault(); show(LOOKS.length - 1); document.querySelectorAll(".tab")[LOOKS.length - 1].focus(); }
+});
+document.getElementById("prev").addEventListener("click", () => show(cur - 1));
+document.getElementById("next").addEventListener("click", () => show(cur + 1));
+document.addEventListener("keydown", (e) => {
+  if (e.target.closest(".tabs") || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === "ArrowRight") show(cur + 1);
+  if (e.key === "ArrowLeft") show(cur - 1);
+});
+addEventListener("hashchange", () => { const k = LOOKS.findIndex((l) => `#${l.id}` === location.hash); if (k >= 0 && k !== cur) show(k, false); });
+function setLayout(mode) {
+  document.getElementById("panel").classList.toggle("col", mode === "col");
+  document.querySelectorAll(".lay").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lay === mode));
+  try { localStorage.setItem("looks-layout", mode); } catch (e) { /* storage unavailable */ }
+}
+document.querySelector(".layout").addEventListener("click", (e) => { const b = e.target.closest(".lay"); if (b) setLayout(b.dataset.lay); });
+let saved = "row";
+try { saved = localStorage.getItem("looks-layout") || "row"; } catch (e) { /* storage unavailable */ }
+setLayout(saved);
+const start = LOOKS.findIndex((l) => `#${l.id}` === location.hash);
+show(start >= 0 ? start : 0, false);
+</script>
+</body>
+</html>

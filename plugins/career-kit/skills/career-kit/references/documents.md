@@ -148,6 +148,41 @@ pdfinfo $C/resume.pdf | grep Pages                 # then delete $C
 soffice --headless --convert-to pdf resume.docx    # LibreOffice, where Word is absent
 ```
 
+## Offering looks
+
+When the person or their helper finds the page plain or ugly, offer looks rather than editing the
+stylesheet by hand. A look varies only what the research leaves open: the typeface, one accent,
+the heading treatment, the name size and the space above headings
+(`../resume-craft/references/structure.md`, Looks). `scripts/looks.py` holds seven named looks
+and refuses a value outside the research's ranges; both builders take `--look`:
+
+```bash
+python3 scripts/build_looks.py resume.md looks/ --name "Jane Doe" \
+  --looks classic,calibri-teal,aptos-clean,arial-roles \
+  --docx-python /tmp/dv/bin/python --title "Jane's résumé"
+open looks/viewer.html
+```
+
+`build_looks.py` builds every look from the same Markdown as HTML, PDF and Word, prints each
+look's page count and embedded fonts, and writes `viewer.html`: one look's pages at a time, side
+by side or stacked, with tabs, arrows and the arrow keys, and a description block that stays the
+same height for every look so the pages never jump. A look that runs past the page limit, or
+whose typeface fell back, is flagged on its own page rather than left out. Calibri and Aptos are
+not system fonts on macOS; the script reads them from Word's font folder by default (pass
+`--font-dir` elsewhere), and `pdffonts` must show the face actually embedded.
+
+Show four looks at most at a time: the four the source session built, or swap in `times-traditional`
+for a traditional reader and `mono-print` for a résumé that will be printed. Say in one line what
+every look shares (the words, two pages, one column, 11pt body, sentence-case headings, round
+bullets, no tables, icons or photo) and in one line what differs.
+
+When the person chooses, record it in the project record as a standing decision with the date,
+then rebuild every copy in that look: the internal and public PDFs and both Word files, and the
+website's download if there is one. Check each PDF's page count and fonts, and each Word file's
+page count in Word, because Word lays each typeface out itself and a look that holds two pages
+as a PDF needs its own count there. A copy left in the old look is a second
+document, so list any copy you did not rebuild.
+
 ## Reading the built page
 
 ```bash
